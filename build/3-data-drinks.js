@@ -89,25 +89,25 @@ const COCKTAILS = [
 
  {n:"Sunny Day",p:"$17",grp:"verify",base:"Reposado tequila",
   build:"El Charro Reposado, Cointreau, amaretto, lime juice, pineapple, cane simple syrup.",
-  glass:"—",garnish:"—",desc:"Older printed specialty.",note:"VERIFY in Toast or with the bar before pitching."},
+  glass:"—",garnish:"—",desc:"Archived printed specialty (confirmed off the menu 8/4).",note:"Retired from the printed menu — archived here. Ask the bar before promising one."},
  {n:"Tito's & Cran X Ten Again",p:"$13",grp:"verify",base:"Vodka",
   build:"Tito's Vodka, cranberry juice, orange juice, Sprite.",
-  glass:"—",garnish:"—",desc:"Older printed specialty.",note:"VERIFY before pitching."},
+  glass:"—",garnish:"—",desc:"Archived printed specialty (confirmed off the menu 8/4).",note:"Retired from the printed menu — archived here. Ask the bar before promising one."},
  {n:"Mo's Paper Plane",p:"$18",grp:"verify",base:"Bourbon",
   build:"Knob Creek Bourbon, Aperol, amaro, lemon juice, orange juice.",
-  glass:"—",garnish:"—",desc:"Older printed specialty.",note:"VERIFY before pitching."},
+  glass:"—",garnish:"—",desc:"Archived printed specialty (confirmed off the menu 8/4).",note:"Retired from the printed menu — archived here. Ask the bar before promising one."},
  {n:"Hugo Empress",p:"$19",grp:"verify",base:"Gin",
   build:"Empress Gin, St-Germain, lavender syrup, lemon juice, Prosecco.",
-  glass:"—",garnish:"—",desc:"Older printed specialty.",note:"VERIFY before pitching."},
+  glass:"—",garnish:"—",desc:"Archived printed specialty (confirmed off the menu 8/4).",note:"Retired from the printed menu — archived here. Ask the bar before promising one."},
  {n:"Cherry Blossom",p:"$18",grp:"verify",base:"Gin",
   build:"Roku Gin, Lychee Soju, Luxardo cherry liqueur, lemon juice, Luxardo cherry juice.",
-  glass:"—",garnish:"—",desc:"Older printed specialty.",note:"VERIFY before pitching."},
+  glass:"—",garnish:"—",desc:"Archived printed specialty (confirmed off the menu 8/4).",note:"Retired from the printed menu — archived here. Ask the bar before promising one."},
  {n:"Christian's Cucumber Kick",p:"$18",grp:"verify",base:"Blanco tequila",
   build:"Cucumber and jalapeno infused LALO Blanco Tequila, triple sec, sweet and sour, cane simple syrup.",
-  glass:"—",garnish:"—",desc:"Older printed specialty.",note:"VERIFY before pitching."}
+  glass:"—",garnish:"—",desc:"Archived printed specialty (confirmed off the menu 8/4).",note:"Retired from the printed menu — archived here. Ask the bar before promising one."}
 ];
 
-const COCKTAIL_GRPS = [["all","All drinks"],["specialty","Summer Specialty (active)"],["signature","Mo's Signatures"],["dessert","Dessert Cocktails"],["verify","Verify Before Pitching"]];
+const COCKTAIL_GRPS = [["all","All drinks"],["specialty","Summer Specialty (active)"],["signature","Mo's Signatures"],["dessert","Dessert Cocktails"],["verify","Archive — off the menu"]];
 
 const DRINK_PITCH = [
  ["Light and refreshing","Cactus Flower Mule, Lychee Icee, Lemon Bay"],
@@ -145,9 +145,9 @@ const SPIRITS = {
   ["Origin Series","$15","Entry Bardstown option"],
   ["\"The Prisoner\"","$40","Wine-finished style; dark fruit and oak"],
   ["Foursquare","$40","Rum crossover; rich, molasses, barrel spice"],
-  ["West Virginia Great Barrel","$35","Premium whiskey slot; verify exact bottle"],
-  ["Goose Island","$35","Barrel/beer-finish story; verify exact bottle"],
-  ["Prime 47 Blend","$30","House/special blend; verify current story"]],
+  ["West Virginia Great Barrel","$35","Bardstown collab with the WV Great Barrel Co. cooperage — rye blend finished in infrared-toasted cherry-oak barrels, 110 proof. The cooperage was built to help rebuild Greenbrier County, WV after the 2016 flood. Cherry, vanilla, rye spice."],
+  ["Goose Island","$35","Bardstown collab — bourbon finished in Goose Island Bourbon County Stout barrels, the beer that invented bourbon-barrel aging. Chocolate, vanilla, roast."],
+  ["Prime 47 Blend","$30","Bardstown single barrel picked by OUR people: the Prime 47 Carmel bar manager toured Bardstown, Kentucky, tasted at the source, and bought one exclusive barrel for our restaurants. You are pouring from a barrel our own team chose."]],
  "High-End Whiskey (1 oz unless marked)":[
   ["E.H. Taylor Small Batch","$25","Bottled-in-bond style, spice, caramel"],
   ["E.H. Taylor Single Barrel","$75","Collector single barrel, deeper oak"],

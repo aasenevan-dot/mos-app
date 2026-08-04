@@ -4,7 +4,7 @@
 const MENU = {
  "Starters & Lounge":[
   ["Crispy Ahi Tuna Bites","$18","Crispy sushi rice, avocado, ponzu sauce, cilantro, jalapeno. Remoulade or spicy citrus on the side if expected.","Test Q2 — this replaced the old seared blackened ahi appetizer"],
-  ["Seasonal Oysters","$25","On the half shell. Cocktail sauce, mignonette, Tabasco/hot sauce, raw horseradish. Setup: cocktail fork, tongs, oyster fold with crackers, hot water kettle.","Menu marks GF"],
+  ["Seasonal Oysters","$25","On the half shell. Cocktail sauce, mignonette, Tabasco/hot sauce, raw horseradish. Setup: oyster fork with Tabasco and Zesta crackers, cocktail forks, and hot water for the dry ice presentation — no tongs.","Menu marks GF"],
   ["Calamari","$17","Lightly breaded and flash-fried. Spicy citrus and kung pao sauces. Serve with tongs.",""],
   ["Shrimp Cocktail","$26","U-6 Vietnamese tiger shrimp with fiery cocktail sauce.","Know the U-6"],
   ["Goat Cheese Spread","$17","Apples, toasted points, pistachios, local honey.","Gluten + tree nuts"],
@@ -19,7 +19,7 @@ const MENU = {
   ["French Dip Egg Rolls","$15","Au jus marinated shaved steak, three-cheese blend, caramelized onions, creamy horseradish.","Lounge"],
   ["Chicken Parm Sandwich","$24","Fried chicken breast, provolone, tomato diavolo sauce, garlic toasted bun.","Lounge"],
   ["Tuna Poke","$29","Sushi rice, avocado, mango, seaweed, calamari salad, spicy citrus sauce, wontons.","Lounge"],
-  ["King Crab Legs","MP","Served with melted butter and cocktail sauce.",""]],
+  ["King Crab Legs","MP","Served with melted butter and cocktail sauce. Recently around $125 a pound — squarely in the current market band (roughly $85–165 retail) — but ALWAYS quote Toast, never memory.",""]],
 
  "Seafood Towers":[
   ["Iced Seafood Tower","$98","King crab legs, shrimp cocktail, lobster salad, oysters, blackened ahi tuna salad, wonton chips and brioche bread.","6 items — memorize"],
@@ -36,20 +36,18 @@ const MENU = {
   ["Chopped Wedge Salad","$15","Blue cheese, bacon, marinated tomatoes.",""]],
 
  "Prime 47 Cuts & Wagyu":[
-  ["Farbuckle Filet","6 oz $63 / 10 oz $87","Chef's sizzling butter served in a tableside skillet, beef tallow, rosemary salt.","Help run this one"],
+  ["Farbuckle Filet","6 oz $63 / 10 oz $87","Chef's sizzling butter served in a tableside skillet, beef tallow, rosemary salt. You can Farbuckle ANY cut for roughly a $9 upcharge — the difference between the 6 oz filet ($54) and the 6 oz Farbuckle ($63).","Help run this one"],
   ["Filet Mignon","6 oz $54 / 10 oz $79","Classic center-cut tender filet.","Price updated 7/3"],
-  ["TMP / Hand-Cut Filet","15 oz $115","Current menu photo shows TMP at 15 oz.","Off-menu / special"],
+  ["The PD — 15 oz Hand-Cut Filet","$115","On the printed menu — house calls it the PD. Confirmed on the published menu 8/4.",""],
   ["Filet Duo","$47","Two 3 oz end-cut medallions. Crab Oscar and horseradish bleu cheese crust.",""],
   ["Dry Aged New York Strip","14 oz $58","Dry-aged flavor. The meat hangs in a controlled room; moisture evaporates and enzymes tenderize, concentrating rich, nutty, beefy umami.","Dry aged"],
   ["Delmonico Ribeye","16 oz $80","Rich, marbled ribeye.",""],
   ["K.D.'s Tomahawk","32 oz $160","A ribeye that keeps the whole rib bone. Even more heavily marbled than the Delmonico. The bone lets marrow render during cooking, adding a butteriness you can only get by keeping the rib bone. The juiciest, most flavorful cut we offer besides the Japanese A5.","Largest oval plate"],
   ["Australian Wagyu Filet","6 oz $95 / 10 oz $135","More marbling and lower-rendering wagyu fat.","Price updated 7/3"],
-  ["Japanese A5 Wagyu","$25/oz","From Kagoshima Prefecture. Manager slices tableside.","Current note $25/oz — the older sheet said $32/oz"],
-  ["48 oz Wagyu Porterhouse","VERIFY","Board service. NY strip and filet in one steak; manager slices tableside.","Off-menu"],
-  ["Spinalis / Ribeye Cap","$14/oz, min 6 oz","Rivals filet tenderness while keeping ribeye richness.","Off-menu"],
-  ["45-Day Dry-Aged Bone-In Ribeye","VERIFY","Dry-aged, bone-in flavor concentration.","Off-menu, dry aged"],
-  ["14 oz Bone-In Filet","VERIFY availability","Bone marrow add-on +$25; sometimes served with roasted red potatoes.","Off-menu"],
-  ["Bonus specials","VERIFY","Heart of ribeye skewers; flank steak with chimichurri.","Off-menu"]],
+  ["Japanese A5 Wagyu","$25/oz","From Kagoshima Prefecture. Manager slices tableside.","Confirmed $25/oz 8/4 — matches the published menu (6 oz $150)"],
+  ["48 oz USDA Choice Porterhouse","$150 when it runs","NOT wagyu — USDA Choice. 48 oz total: about 15 oz NY strip + 8 oz filet + a 25 oz bone. Board service, manager slices tableside. The move: two people split it for a high-class manager-cut experience at a great value.","Off-menu special"],
+  ["Spinalis / Ribeye Cap","$14/oz, min 6 oz","Rivals filet tenderness while keeping ribeye richness.","Off-menu — $10/oz on Spinalis Sunday"],
+  ["45-Day Dry-Aged Bone-In Ribeye","VERIFY price + oz","Dry-aged, bone-in flavor concentration. Not on the public site — check the kitchen or @mosaplaceforsteaks_ on Instagram.","Off-menu, dry aged"]],
 
  "Surf & Turf":[
   ["Steak 47","$58","Filet topped with shrimp, scallop, lobster meat, asparagus, and hollandaise.","The Steak 47 topping upcharge is $25"],
@@ -66,7 +64,7 @@ const MENU = {
   ["Add 2 Scallops","$14","Two scallops added to any entree.",""],
   ["Brandy Peppercorn Sauce","$6","Demi-glace and brandy peppercorns.","Menu marks GF"],
   ["Black Truffle Butter","$6","Truffle butter steak finish.","Menu marks GF"],
-  ["Garlic Butter","$6","Verify it is active in Toast.",""],
+  ["Garlic Butter","$6","Steak enhancement — active in Toast, confirmed 8/4.",""],
   ["Roasted Mushrooms","$8","With compound butter.",""]],
 
  "Exclusives":[
@@ -102,7 +100,7 @@ const MENU = {
   ["Colossal Carrot Cake","$14","Eggs, milk, soy, tree nuts, gluten, pineapple.",""],
   ["Molten Lava Cake","$13","Menu marks GF / flourless — but it still has eggs, dairy, and soy.","GF-marked, NOT allergen-free"],
   ["Brown Butter Cake","$14","Eggs, milk, soy, gluten.",""],
-  ["Cotton Candy","$12","Menu marks GF. Verify the seasonal flavor and color.","Pairs with Ruffino Moscato"],
+  ["Cotton Candy","$12","Menu marks GF. Every color of the rainbow, all taste like sugar — tell the table 'pick your color.'","Pairs with Ruffino Moscato"],
   ["Bananas Foster","$12/person","Tableside dessert special. Dairy, alcohol, cinnamon.","Tableside"],
   ["Raspberry / Lemon Sorbet","varies","No dairy expected; verify current ingredients.",""],
   ["Pistachio Gelato","varies","Dairy and tree nuts.",""]],
@@ -141,26 +139,26 @@ const DRESSINGS = ["House Vinaigrette (the house dressing)","Orange Vinaigrette"
 /* [dish, price, flags[], note] */
 const ALLERGENS = [
  ["Goat Cheese Spread","$17",["dairy","gluten","tree nuts"],"Goat cheese, toasted points, pistachios."],
- ["Creamy Spicy Crab Dip","$22",["crab","shellfish","dairy","capsaicin","allium"],"Menu marks GF. Verify chips, sauce, and spice base for severe allergies."],
- ["Seared Blackened Scallops","$26",["shellfish","dairy","capsaicin"],"Menu marks GF. Truffle creamed corn carries dairy."],
+ ["Creamy Spicy Crab Dip","$22",["crab","shellfish","dairy","capsaicin","allium","cross-contact"],"Menu marks GF, but the house chips come out of the SHARED fryer — cross-contact confirmed. If the creamy base uses mayo that adds egg — ask the chef."],
+ ["Seared Blackened Scallops","$26",["shellfish","dairy","capsaicin","nightshade"],"Menu marks GF. Truffle creamed corn carries dairy. Blackening spice is paprika/cayenne — that is nightshade too."],
  ["Prime Meatballs","$16",["beef","dairy","gluten","egg","allium","nightshade"],"Binder not fully specified — verify egg and gluten."],
  ["Crab Cake","$18",["crab","shellfish","egg","gluten","capsaicin","allium"],"Light mayo/mustard and remoulade. Verify gluten."],
- ["Wagyu Tacos","$25",["beef","gluten","soy","allium"],"Wonton shell. Verify sauce and soy content."],
- ["Calamari","$17",["shellfish","gluten","soy","sesame","capsaicin"],"Lightly breaded and fried."],
+ ["Wagyu Tacos","$25",["beef","gluten","soy","allium","egg"],"Wonton shell — egg confirmed 8/4. Verify sauce and soy content."],
+ ["Calamari","$17",["shellfish","gluten","soy","sesame","capsaicin","cross-contact","legumes"],"Fried in the SHARED fryer — cross-contact confirmed 8/4. House rule on the kung pao: treat it like standard kung pao, which means peanuts — flag every peanut allergy. Ask about egg in the breading."],
  ["Shrimp Cocktail","$26",["shellfish","capsaicin","nightshade","allium"],"Fiery cocktail sauce."],
- ["Seasonal Oysters","$25",["shellfish","allium","nightshade","capsaicin"],"Menu marks GF. Cocktail sauce and mignonette add tomato, pepper, shallot."],
- ["Crispy Ahi Tuna Bites","$18",["fin fish","sesame","soy","egg","capsaicin"],"Formerly listed as Seared Blackened Tuna. Ponzu carries soy."],
+ ["Seasonal Oysters","$25",["shellfish","allium","nightshade","capsaicin"],"Menu marks GF. Cocktail sauce and mignonette add tomato, pepper, shallot. Zesta crackers ride on the setup — that is gluten next to the plate, pull them for a gluten allergy."],
+ ["Crispy Ahi Tuna Bites","$18",["fin fish","sesame","soy","egg","capsaicin","gluten"],"Formerly listed as Seared Blackened Tuna. Ponzu is soy-sauce based and soy sauce usually has wheat — do not promise GF without the chef."],
  ["King Crab Legs","MP",["crab","shellfish","dairy","nightshade","capsaicin"],"Melted butter and cocktail sauce."],
  ["Roasted Seafood Tower","$190",["crab","shellfish","dairy","egg","gluten","allium","nightshade","capsaicin"],"Pasta cooked tableside."],
  ["Iced Seafood Tower","$98",["crab","shellfish","fin fish","egg","dairy","allium","nightshade","capsaicin"],"Menu marks GF but verify crackers and sauces for gluten."],
  ["Soup of the Day","$7",["dairy","gluten","allium"],"Changes daily — verify the exact soup before answering."],
- ["Prime Beef Chili","$11",["beef","allium","capsaicin","nightshade","legumes","alcohol"],"Beer deglaze, veal stock."],
+ ["Prime Beef Chili","$11",["beef","allium","capsaicin","nightshade","legumes","alcohol","gluten"],"Beer deglaze, veal stock. Beer means gluten — the alcohol cooks off but the gluten stays."],
  ["Lobster Bisque","$13",["shellfish","gluten","alcohol","dairy"],"Roux, white wine, sherry vinegar."],
  ["Baked French Onion","$13",["dairy","allium","MSG","gluten","alcohol","beef"],"Beef stock, crouton, provolone."],
  ["House Salad","$7",["gluten","nightshade"],"Croutons and tomatoes. Dressing changes the allergens."],
  ["Roasted Pear Salad","$16",["dairy","tree nuts"],"Gorgonzola and walnuts, maple balsamic."],
  ["Caesar / Gem Caesar","$15",["dairy","egg","gluten","fin fish"],"Sous-vide egg dressing, anchovies, bonito."],
- ["Chopped Wedge Salad","$15",["dairy","pork","nightshade"],"Blue cheese, bacon, marinated tomatoes."],
+ ["Chopped Wedge Salad","$15",["dairy","pork","nightshade"],"Blue cheese, bacon, marinated tomatoes. Blue cheese dressing is usually mayo-based — that is egg, ask the chef."],
  ["Filet & Lobster","$105",["beef","shellfish","dairy"],"Menu marks GF. Butter service likely."],
  ["Ahi Tuna & Wagyu Beef","$68",["fin fish","beef","sesame","soy","dairy","allium","gluten"],"Hoisin, wasabi mashed, beurre blanc."],
  ["Steak 47","$58",["beef","shellfish","allium","dairy","egg"],"Filet, shrimp, scallop, lobster, hollandaise. Topping +$25."],
@@ -177,28 +175,29 @@ const ALLERGENS = [
  ["Crab Oscar","$14",["crab","shellfish","dairy","egg","allium"],"Menu marks GF."],
  ["Horseradish-Bleu Cheese Crust","$4",["dairy","allium"],""],
  ["Add 5 oz Lobster Tail","$50",["shellfish","dairy"],"Menu marks GF. Dairy if served with butter."],
- ["Brandy Peppercorn Sauce","$6",["alcohol","beef","allium","dairy"],"Menu marks GF. Verify dairy."],
+ ["Brandy Peppercorn Sauce","$6",["alcohol","beef","allium","dairy"],"Menu marks GF. Verify dairy, and ask if the demi starts with a flour roux before promising GF."],
  ["Black Truffle Butter","$6",["dairy"],"Menu marks GF."],
  ["Bearnaise Sauce","$2",["egg","dairy","allium","alcohol"],"Menu marks GF. Verify the vinegar/wine/shallot base."],
  ["Stuffed Chicken Breast","$38",["dairy","chicken","allium","alcohol"],"Halal option noted."],
  ["Primavera Pasta","$40",["gluten","dairy","allium","nightshade","tree nuts"],"Verify pesto nut content."],
- ["Miso Sea Bass","$46",["white fish","fin fish","soy","alcohol"],"Miso, mirin, sake, coconut risotto."],
+ ["Miso Sea Bass","$46",["white fish","fin fish","soy","alcohol","gluten"],"Miso, mirin, sake, coconut risotto. Miso and soy elements often carry wheat or barley — confirm before promising GF."],
  ["Short Rib Pasta","$52",["beef","gluten","dairy","alcohol","allium"],"Orecchiette, vermouth cream sauce."],
  ["Sea Scallops","$48",["shellfish","pork","dairy","allium"],"Menu marks GF. Prosciutto, mushrooms, squash puree."],
  ["Chilean Sea Bass","$46",["white fish","fin fish","dairy","alcohol","allium","nightshade"],"Menu marks GF. Lemon-caper white wine butter sauce."],
  ["Blackened Creole Salmon","$42",["fin fish","egg","capsaicin","nightshade","allium","dairy"],"Blackened spice, Holy Trinity relish, remoulade."],
  ["Twin South African Lobster Tails","$100",["shellfish","dairy","allium"],"Steamed with clarified garlic butter."],
- ["Chicken Parmesan","$39",["gluten","dairy","chicken","nightshade","egg"],"Not in the original allergen matrix — added from the gluten high-risk list. Verify with the kitchen."],
+ ["Chicken Parmesan (entree)","$39",["gluten","dairy","chicken","nightshade","egg","cross-contact"],"The 7/3 menu sheet lists it as new: hand-breaded fried chicken, linguine, diavolo, provolone, garlic bread. Evan didn't recognize it when asked 8/4 — confirm it's live in Toast before pitching."],
+ ["Chicken Parm Sandwich (lounge)","$24",["gluten","dairy","chicken","nightshade","egg","cross-contact"],"Fried breaded chicken out of the shared fryer, provolone, tomato diavolo, garlic toasted bun."],
  ["Grilled Asparagus","$15",["egg","dairy"],"Hollandaise. Menu marks GF."],
  ["Truffle Mashed / Cheddar Mashed","$12–15",["dairy"],"Butter, cream, white cheddar, truffle oil. Menu marks GF."],
  ["Roasted Green Beans","$14",["sesame","allium","nightshade"],"Sesame oil, red bell pepper, white onion. Menu marks GF."],
  ["Lobster Mac N' Cheese","$26",["shellfish","gluten","dairy","allium"],"Lobster stock, roux, pasta, cheese, panko."],
  ["Forest Mushrooms","$14",["dairy","allium"],"Garlic compound butter."],
- ["Jalapeno Potatoes Au Gratin","$15",["dairy","pork","allium","capsaicin","nightshade"],"Bacon is mixed in — it cannot be removed."],
+ ["Jalapeno Potatoes Au Gratin","$15",["dairy","pork","allium","capsaicin","nightshade"],"Bacon is mixed in — it cannot be removed. Ask if the cheese sauce starts with flour."],
  ["Creamed Corn","$12",["dairy","allium"],"Cream, dijon, horseradish, dill. Menu marks GF."],
- ["Brussels Sprouts","$15",["capsaicin","soy","cross-contact"],"Deep fried, sriracha hot honey. Verify fryer and sauce."],
- ["Creamy Risotto","$15",["dairy","pork","chicken","allium"],"Chicken stock and crispy prosciutto — not vegetarian."],
- ["Truffle Fries","$11",["gluten","dairy","cross-contact"],"Lightly breaded, fried item."],
+ ["Brussels Sprouts","$15",["capsaicin","soy","cross-contact"],"Deep fried in the SHARED fryer — cross-contact confirmed 8/4. Sriracha hot honey; verify the sauce for soy."],
+ ["Creamy Risotto","$15",["dairy","pork","chicken","allium"],"Chicken stock and crispy prosciutto — not vegetarian. Risotto is usually finished with wine — ask if alcohol matters to the guest."],
+ ["Truffle Fries","$11",["gluten","dairy","cross-contact"],"Lightly breaded, fried in the SHARED fryer — cross-contact confirmed 8/4."],
  ["Baked Potato","$11",["dairy"],"Butter and sour cream. Menu marks GF."],
  ["Bananas Foster","$12/person",["dairy","alcohol","cinnamon"],"Tableside."],
  ["Mo's Cookie","$10",["dairy","egg","gluten"],""],
@@ -208,9 +207,11 @@ const ALLERGENS = [
  ["Colossal Carrot Cake","$14",["egg","dairy","soy","tree nuts","gluten","pineapple"],""],
  ["Molten Lava Cake","$13",["egg","dairy","soy"],"Menu marks GF / flourless — still has egg, dairy, soy."],
  ["Brown Butter Cake","$14",["egg","dairy","soy","gluten"],""],
- ["Cotton Candy","$12",[],"Menu marks GF. Verify seasonal flavor and color."],
+ ["Cotton Candy","$12",[],"Menu marks GF. Flavors run every color of the rainbow and they all taste like sugar — just say 'pick your color.'"],
  ["Pistachio Gelato","varies",["dairy","tree nuts"],""],
- ["Kids Chicken Tenders","$10",["gluten","egg","dairy","cross-contact"],"Breaded and fried. Verify breading and fryer."],
+ ["Raspberry / Lemon Sorbet","varies",[],"No dairy expected — still verify the batch."],
+ ["Kids 4 oz Filet","$30",["beef","dairy"],"Verify cooking butter, same as the big steaks."],
+ ["Kids Chicken Tenders","$10",["gluten","egg","dairy","cross-contact"],"Breaded and fried in the SHARED fryer — cross-contact confirmed 8/4. Verify breading for egg."],
  ["Kids Buttered Noodles","$10",["gluten","dairy","egg"],"Verify pasta ingredients."],
  ["Kids Mac N Cheese","$10",["gluten","dairy"],""],
  ["Prime Beef Burger","$23",["beef","gluten","dairy","egg","soy","allium","nightshade"],"Bun and condiments drive most allergens."],
@@ -255,43 +256,45 @@ const DIET = [
 /* ============ SPECIALS, SOUP OF THE DAY, OFF-MENU — living lists. Updates come through Claude. ============ */
 /* Current per Evan 8/4/26: only these four cut specials are running. */
 const SPECIALS_ON=[
- ["48 oz Porterhouse","VERIFY price","NY strip and filet in one steak. Board service — a manager slices it tableside.","cut special"],
- ["Spinalis / Ribeye Cap","$14/oz — $10/oz on SUNDAYS","Minimum 6 oz. Rivals filet tenderness while keeping ribeye richness. The Sunday price is the easy upsell.","cut special"],
- ["Australian Wagyu Tomahawk","$180","VERIFY the ounces and plate details.","cut special"],
- ["45-Day Dry-Aged Bone-In Ribeye","VERIFY price + oz","Dry-aged, bone-in flavor concentration. Ounce count unknown — check with the kitchen.","cut special"]
+ ["48 oz USDA Choice Porterhouse","$150 when it runs","NOT wagyu — USDA Choice. 48 oz total: about 15 oz NY strip + 8 oz filet + a 25 oz bone. A manager slices it tableside off the board. The pitch: two people split it for a high-class manager-cut steak experience at a serious value.","cut special"],
+ ["Spinalis / Ribeye Cap","$14/oz — $10/oz on SUNDAYS","Minimum 6 oz. Rivals filet tenderness while keeping ribeye richness. Spinalis Sunday is on the restaurant's own weekly-features page — the easy upsell.","cut special"],
+ ["Australian Wagyu Tomahawk","$180","32 oz. Confirmed 8/4.","cut special"],
+ ["45-Day Dry-Aged Bone-In Ribeye","VERIFY price + oz","Dry-aged, bone-in flavor concentration. Not on the public site — check the kitchen or @mosaplaceforsteaks_ on Instagram.","cut special"]
 ];
 /* Rotating entree specials seen before — ask a manager if one is running tonight. */
 const SPECIALS_ROTATION=[
- ["Chicken Marsala","VERIFY","Chicken with a lot of au jus, cheddar mash, and asparagus. VERIFY the full build."],
- ["Bourbon-Glazed Salmon","VERIFY","Bourbon glaze — VERIFY the sides and build."],
- ["Cajun Butter Salmon","VERIFY","Came with vegetables — VERIFY the exact sides and build."],
- ["Fourth rotating special","VERIFY","There is usually a fourth — name it when it comes back around and it gets logged here."]
+ ["Chicken Marsala","VERIFY price","White cheddar mash and asparagus with an au jus gravy over the top of all of it. Build confirmed 8/4 — still needs a price."],
+ ["Bourbon-Glazed Salmon","VERIFY price","Same bourbon glaze as the ribeye skewers, served with vegetables. Needs the full build."],
+ ["Cajun Butter Salmon","VERIFY price","Cajun butter, served with vegetables. Needs the full build."]
 ];
 const SPECIALS_PAST=[
- ["Heart of Ribeye Skewers","was ~$45","Ran earlier this summer. Not on the current list.","not running"],
+ ["Tomahawk Tuesday","$180 package","The 32 oz Australian Wagyu Tomahawk plus two glasses of wine, two soups or salads, and a signature Brown Butter Cake to finish — a full night out for $180. Not running anymore, but worth knowing we did it.","not running"],
+ ["Heart of Ribeye Skewers","$45","Bourbon glaze mixed with onions and peppers. One of the most underrated things we ever ran.","not running"],
  ["Flank Steak with Chimichurri","was ~$35","Ran earlier this summer. Not on the current list.","not running"],
+ ["14 oz Bone-In Filet","past special","Bone marrow add-on was +$25; sometimes came with roasted red potatoes.","not running"],
+ ["Retired printed cocktails","see Drinks tab","Sunny Day, Tito's & Cran X Ten Again, Mo's Paper Plane, Hugo Empress, Cherry Blossom, Christian's Cucumber Kick — all archived in the Drinks tab under Archive.","archive"],
  ["Seared Blackened Ahi Tuna (appetizer)","$26","Replaced by Crispy Ahi Tuna Bites on the current menu — menu test Q2 changed with it.","ended 7/3/26"],
  ["Lisa's Delight","dessert cocktail","Removed from the dessert cocktail list in the July 11 update.","ended 7/11/26"],
  ["The Nutty Martinez","dessert cocktail","Removed from the dessert cocktail list in the July 11 update.","ended 7/11/26"]
 ];
 const SOUPS_STANDING=[
+ ["How soups run","one per day","Only one soup of the day at a time, and it trades out daily. Lobster bisque is on every single day regardless. Most soups get a parsley garnish for a little extra color and flavor. Certain soups tend to land on certain days — logging which as we learn them."],
  ["Baked French Onion","$13","Vidalia onions caramelized with butter, red wine deglaze, beef bone stock with mirepoix 48-72 hours. Brown crock, herb crouton, provolone, broiled."],
- ["Lobster Bisque","$13","Lobster stock, roux, white wine, sherry vinegar."],
+ ["Lobster Bisque","$13","Lobster stock, roux, white wine, sherry vinegar. Runs every day."],
  ["Prime Beef Chili","$11","Chili paste, tomato paste, onions and garlic, beer deglaze, veal stock. Sometimes also runs as the soup of the day."]
 ];
 /* soup-of-the-day archive: [logged, name, what is in it, notes] — every soup stays here forever */
 const SOTD=[
- ["8/4/26","Chicken Tortilla","Chicken tortilla soup. VERIFY full build with the kitchen.","likely nightshade + capsaicin + gluten (tortilla strips) — VERIFY"],
+ ["8/4/26","Chicken Tortilla","Chicken tortilla soup with crispy tortilla strips dropped in right before it goes out.","nightshade + capsaicin + gluten (strips) — VERIFY rest"],
  ["8/4/26","Chicken Pot Pie Soup","Creamy chicken pot pie in soup form. VERIFY full build with the kitchen.","VERIFY allergens"],
  ["8/4/26","Chicken Noodle","Classic chicken noodle. VERIFY build.","gluten (noodles) — VERIFY rest"],
  ["8/4/26","Clam Chowder","Clam chowder. VERIFY build.","shellfish + dairy — VERIFY rest"],
- ["8/4/26","Pasta e Fagioli","Beef, noodles, celery, carrot — Italian bean-and-pasta soup. VERIFY name spelling and build.","gluten + beef — VERIFY rest"],
+ ["8/4/26","Pasta e Fagioli","Beef, noodles, celery, carrot — Italian bean-and-pasta soup. House just calls it 'fagioli.'","gluten + beef — VERIFY rest"],
  ["8/4/26","Italian Wedding","Cream, sausage, and noodles. Very good — an easy sell.","gluten + dairy + pork — VERIFY rest"],
  ["8/4/26","Chicken Gnocchi","Creamy chicken with gnocchi — dumpling-style potato pasta.","gluten + dairy — VERIFY rest"],
  ["8/4/26","Poblano","Poblano pepper soup, served with croutons.","nightshade + gluten (croutons) — VERIFY rest"],
  ["8/4/26","Prime Beef Chili (as SOTD)","The standing chili sometimes runs as the soup of the day.","beef + nightshade + alcohol (beer deglaze)"]
 ];
 const OFFMENU=[
- ["TMP / Hand-Cut Filet","15 oz $115","Current menu photo shows TMP at 15 oz."],
- ["14 oz Bone-In Filet","VERIFY","Bone marrow add-on +$25; sometimes served with roasted red potatoes."]
+ ["Nothing hidden right now","—","The PD (15 oz hand-cut filet, $115) moved onto the printed menu, and the 14 oz bone-in filet is retired to the past-specials archive. The cut specials above are today's off-menu steaks."]
 ];

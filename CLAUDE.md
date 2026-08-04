@@ -32,10 +32,12 @@ Never edit `index.html` directly — it is generated. Edit the parts:
 
 All constants live in `SALES` in 5-data-quiz.js. The pipeline (`pipeMath` in 6-app.js):
 
-- Credit tips = real Toast tips if entered, else 20.8% of team net sales (banquets run 20%).
+- Credit tips = real Toast tips if entered, else 20.8% of team net sales. Banquets run a
+  23% auto-grat (guests can add more on top) — confirmed 8/4.
 - Toast withholds 2% of credit tips.
 - Tip-outs are percentages of TEAM NET SALES, each line rounded UP to a whole dollar:
-  bar 1%, busser 1.5%, expo 0.5%. Banquet nights add 3% (exact placement still VERIFY).
+  bar 1%, busser 1.5%, expo 0.5%. Banquets add 3% — that 3% is Lillian's cut as banquet
+  coordinator, so the team effectively keeps 20 points of the 23% before normal tip-outs.
 - Polisher is flat: $10 for a front/back team, $5 for a solo (solo = cocktailer job).
 - Earned = pool minus tip-outs, cents dropped (floor).
 - Split 50/50 front/back, whole dollars, the BACK takes the greater dollar when odd.
@@ -44,7 +46,7 @@ All constants live in `SALES` in 5-data-quiz.js. The pipeline (`pipeMath` in 6-a
 - Floor model: slices = teams + 0.7 per cocktailer. Avg $115 per person (Greenwood).
 - Evan's cut line is fixed at $200/person: under it, taking the cut is fine; over it, work.
 - Greenwood tax 8.96% ≈ 9% (7% Indiana + 1% Johnson County + 1% Greenwood food & beverage).
-- Banquet reference block: $3,871 sales derived from a real $774.18 auto-grat ÷ 20%.
+- Banquet reference block: $3,366 sales derived from a real $774.18 auto-grat ÷ 23%.
 
 `test.py` carries two golden checkouts asserting this math. If Evan changes a rule on purpose,
 recompute the goldens by hand before touching them.
@@ -78,15 +80,20 @@ The app is shared with coworkers and may sit in a PUBLIC repo. So:
 
 ## Open items (Evan is chasing these at work)
 
-- VERIFY tags in 4-data-food.js: tomahawk oz, 45-day dry-aged price/oz, porterhouse price,
-  Chicken Marsala / salmon builds, banquet 3% placement, Pasta e Fagioli spelling,
-  banquet minimums (ask Lillian). Clear tags as he confirms.
+- Big 8/4 verification round CLOSED: porterhouse ($150 USDA Choice, 15 oz strip + 8 oz
+  filet + 25 oz bone), tomahawk (32 oz $180), A5 $25/oz, PD on menu, Marsala build,
+  banquet 23%/Lillian 3%, shared fryer, wonton egg, kung pao = treat as peanuts,
+  Advice From John = Orin Swift (not Buehler). Tomahawk Tuesday + 14 oz bone-in filet +
+  six printed cocktails retired to archives.
+- STILL OPEN (see 2026-08-04-allergen-chef-check.md in the parent folder): ponzu and miso
+  soy-sauce wheat, blue cheese/crab dip mayo, demi and au gratin flour, calamari breading
+  egg, Chicken Parmesan $39 entree real or not, Marsala/salmon prices, 45-day dry-aged
+  price + oz, banquet minimums (ask Lillian).
 - Calibration: he'll bring Toast screens with guest counts and teams-per-night.
-- Publish to GitHub Pages on his account **aasenevan-dpt** (repo suggestion: `mos`):
-  `gh auth login`, then from this folder
-  `git init && git add . && git commit -m "Mo's Co-Work"`,
-  `gh repo create aasenevan-dpt/mos --public --source=. --push`,
-  enable Pages on main / root, confirm https://aasenevan-dpt.github.io/mos/ loads on his phone.
+- DONE 8/4/2026 — published from Claude Code. Public repo: https://github.com/aasenevan-dot/mos-app
+  Live app: https://aasenevan-dot.github.io/mos-app/ (his GitHub account is **aasenevan-dot**).
+  After any change: `python3 build.py && python3 test.py`, then
+  `git add -A && git commit -m "update" && git push` — the live link refreshes itself.
 
 ## Delivery ritual after any change
 

@@ -105,10 +105,10 @@ const SALES = {
  ],
  /* calibrated to the two logged Sundays */
  teamBase:1388.17,        // net per team on a normal Sunday (7/13 actual)
- banquetBlock:3871,       // 7/20 banquet net, derived: $774.18 auto-grat / 20% assumed banquet grat
- banquetGratRate:.20,     // assumption used to size the banquet block
+ banquetBlock:3366,       // 7/20 banquet net, derived: $774.18 auto-grat / 23% house banquet grat (confirmed 8/4; was 3871 under the old 20% assumption)
+ banquetGratRate:.23,     // house banquet auto-grat, confirmed 8/4: guests pay 23%, and 3% of banquet sales goes to Lillian
  tipNormal:.305,          // dining tips+grat as % of net, normal Sunday (7/13 actual)
- tipBanquetDay:.271,      // dining-portion tip rate observed on the banquet Sunday (7/20)
+ tipBanquetDay:.247,      // dining-portion tip rate observed on the banquet Sunday (7/20), recomputed with the 23% banquet block
  taxRate:.0896,           // 7/13 actual. Greenwood = 7% IN sales + 1% Johnson Co F&B + 1% Greenwood city F&B ≈ 9%
  checkHints:[["Lighter",95,"entree + shared side + one drink"],["Typical",115,"split app, entree, side split, 1-2 drinks"],["Wine table",140,"adds bottle share and dessert"]],
  bqHeadDefault:105,       // editable placeholder for banquet per-head until a real contract number is logged
@@ -133,14 +133,15 @@ const SALES = {
  banquetTipout:.03,       // extra 3% of sales when your team runs a banquet
  checkout523:{sales:1176,tips:244.10,withheld:4.88,pool:239.22,tipout:36,earned:203,guests:14,perGuest:84},
  log:["Date and day of week","Number of teams","Team #","Cocktailer on the schedule?","Dining cover count","Net sales","Gratuity","Toast tips","Tax","Deferred gift cards / other","Toast total","Occasion (holiday, graduation, event)","Weather","Colts / big TV game that day","Notes: big reservations, call-offs, patio"],
- read:"The July 20 jump was the banquet, not the fourth team. Strip out the banquet (about $3,871 of net, sized from its $774 auto-grat at 20%) and the dining room did roughly $1,315 per team — almost identical to a normal Sunday's $1,388. Banquets are now parked in their own tool below and kept out of the Sunday forecast completely. Covers x average check overrides everything once real cover counts get logged."
+ read:"The July 20 jump was the banquet, not the fourth team. Strip out the banquet (about $3,366 of net, sized from its $774 auto-grat at the house 23%) and the dining room did roughly $1,441 per team — close to a normal Sunday's $1,388. Banquets are now parked in their own tool below and kept out of the Sunday forecast completely. Covers x average check overrides everything once real cover counts get logged."
 };
 
 /* front/back split rules — CONFIRMED by the 5/23/26 checkout sheet */
 const SPLIT_RULES=[
  "Each team is a front server and a back server.",
  "Toast takes 2% of your credit tips off the top (tips withheld). What's left, plus any cash tips and gratuity, is your team pool.",
- "Tip out from TEAM NET SALES: bar gets 1%, busser gets 1.5%, expo gets 0.5% — each line rounds UP to the next whole dollar. Running a banquet adds 3%.",
+ "Tip out from TEAM NET SALES: bar gets 1%, busser gets 1.5%, expo gets 0.5% — each line rounds UP to the next whole dollar.",
+ "Banquets: guests pay a 23% auto-grat (they can tip more on top). The 3% banquet tip-out line is Lillian's cut as banquet coordinator — so the team effectively keeps 20 points before the normal tip-outs.",
  "The polisher is a flat tip-out, not a percent: $10 when your team is a front and a back, $5 when you solo. Almost always $10, because solo is really the cocktailer's world — Jenny or Taylor, primarily.",
  "Pool minus tip-outs is what the team earned. Drop the cents.",
  "Split earned 50/50 between front and back. When it lands odd, the back server takes the greater dollar.",

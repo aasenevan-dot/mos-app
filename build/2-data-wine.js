@@ -43,7 +43,7 @@ W("Silver Oak Alexander Valley 2020","cab","Better","$186","Alexander Valley —
 W("The Prisoner California 2023","cab","Good","$75","California red blend","Blackberry, raspberry, cherry, cocoa, vanilla spice","Med","Med","Full","Smooth, ripe, crowd-pleasing","Prime Meatballs, Short Rib Pasta, mixed steak table","Familiar, rich red blend; safe bottle when the whole table wants red."),
 
 /* ---- MERLOT ---- */
-W("Advice From John, Buehler Estate","merlot","Good","$60","Producer conflict in the vault: listed as Buehler Estate on the bottle list and \"By Orin Swift\" by the glass — verify","Black cherry, plum, soft cocoa, light spice","Low-Med","Med","Med-Full","Soft, smooth, easy","Filet, Steak 47, guest who finds Cab too dry","Soft Merlot lane; red wine with steak without Cabernet grip."),
+W("Advice From John, Orin Swift","merlot","Good","$60","California — Orin Swift (Dave Phinney). Conflict RESOLVED 8/4: the old 'Buehler' listing was a mix-up with the separate Buehler Chardonnay","Blackberry pie, black plum, sage, espresso finish","Low-Med","Med","Med-Full","Plush, soft, aromatic modern-California red (77% Merlot with Petite Sirah, Syrah, Grenache)","Filet, Steak 47, guest who finds Cab too dry","Fun story: the label is a real photo of bathroom-stall graffiti — the 'advice' comes from THE john. Phinney's project to make Merlot cool again."),
 W("Duckhorn Merlot 2022","merlot","Good","$65","Napa — Duckhorn family","Dark red berries, black cherry, plum, floral notes","Med","Med","Med-Full","Polished, supple, balanced","Filet, Dry Aged NY Strip, smooth-red guest","Classic Napa Merlot name; soft but structured enough for steak."),
 W("Duckhorn Paraduxx 2021","merlot","Good","$85","Napa red blend","Black cherry, plum, blackberry, cocoa, sweet spice","Med","Med","Full","Richer, rounder, red-blend finish","Filet, ribeye, Short Rib Pasta","Duckhorn-family richness if they like Merlot softness but want more body."),
 W("Emmolo Napa Valley Merlot 2022","merlot","Good","$60","Napa","Plum, black cherry, mocha, soft herbs","Low-Med","Med","Med-Full","Smooth, plush, friendly","Filet, Steak 47, Prime Meatballs","Smooth Napa Merlot at a friendly bottle price."),
@@ -96,7 +96,7 @@ W("Conundrum Red Blend","gred","Good","$16 / $50","California — bottle price u
 W("Turning Point Red Blend","gred","Good","$14 / $53","Sonoma, CA — by Goldschmidt Vineyards","Black cherry, plum, cocoa, soft spice","Med","Med","Med-Full","Smooth Sonoma value","Apps, filet, steak table on value","Good-value red blend: easy with steak or appetizers."),
 W("The Critic Cabernet Sauvignon","gred","Good","$17 / $62","Napa","Bing cherry, currant, caramel, spice","Med-High","Med","Full","Approachable Napa Cabernet","Ribeye, NY Strip, Steak 47","Approachable Napa Cabernet by the glass; dark fruit and spice without being too aggressive."),
 W("Caymus Cabernet Sauvignon","gred","Better","$32 / $155","Napa — price updated 7/3 (was 25/95)","Dark cherry, blackberry, cassis, cocoa, vanilla","Med","Low-Med","Full","Plush, rich, recognizable","Ribeye, NY Strip, Tomahawk","Recognizable premium Cabernet; rich, plush, and easy with steak."),
-W("Advice From John Merlot","gred","Good","$16 / $60","California — by Orin Swift","Plum, black cherry, mocha, soft spice","Low-Med","Med","Med-Full","Soft, smooth, lower-grip red","Filet, Steak 47, guest who says Cab is too dry","Softer than Cabernet, still red-wine enough for steak."),
+W("Advice From John Merlot","gred","Good","$16 / $60","California — by Orin Swift (confirmed 8/4)","Plum, black cherry, mocha, soft spice","Low-Med","Med","Med-Full","Soft, smooth, lower-grip red","Filet, Steak 47, guest who says Cab is too dry","Softer than Cabernet, still red-wine enough for steak. Table story: the label is real bathroom-wall graffiti — advice from THE john."),
 W("Ghost Pines Cabernet Sauvignon","gred","Good","$14 / $53","Napa / Sonoma, CA","Blackberry, dark cherry, vanilla, oak spice","Med-High","Med","Full","Value Cabernet finish","Ribeye, NY Strip, Cab value guest","Steak-friendly dark fruit without jumping into the higher-priced Napa bottles."),
 W("Pessimist Red Blend","gred","Good","$15 / $58","Paso Robles, CA — by Daou","Blackberry, blueberry, plum, cocoa, spice","Med","Med","Full","Bold, plush, fruit-forward","Ribeye, Short Rib Pasta, Prime Meatballs","Bolder Paso red blend; richer than Pinot, softer than serious Cab."),
 W("Dona Paula Malbec","gred","Good","$14 / $52","Mendoza, Argentina — added on the 7/3 sheet","Black plum, blueberry, violet, cocoa","Med","Med","Med-Full","Smooth, fruit-forward Malbec finish","Filet, NY Strip, Prime Meatballs","Easy red for guests who want smooth fruit without Cabernet grip."),
@@ -179,7 +179,7 @@ const PAIRINGS = [
 ];
 
 const WOTW = {
-  title:"Wine of the Week — Power vs Precision",
+  title:"Wine of the Week (paused — not running right now) — Power vs Precision",
   a:{n:"Caymus Special Selection Cabernet 2019",p:"$525",tag:"POWER",
      what:"Napa Valley Cabernet. The flagship from Caymus and the top expression of the Wagner family style. Only made when vineyard lots meet the winery's highest standards.",
      flavor:"Blackberry, cassis, dark cherry, cocoa, rich Napa fruit. With age it picks up cedar, tobacco, graphite, and baking spice.",

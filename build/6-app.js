@@ -298,7 +298,7 @@ function calcBQC(){
   const reg=pipeMath(rs,rt,SALES.guestTipRate,$("#scBq").value==="yes",+$("#scPolisher").value||0,+$("#scCash").value||0);
   $("#bqcOut").innerHTML=`<div class="receipt">
     <div class="rhead">MO'S — BANQUET CHECKOUT</div>
-    <div class="rsub">${tips>0?"real gratuity from the banquet sheet":"gratuity estimated at 20% until you type it"}</div>
+    <div class="rsub">${tips>0?"real gratuity from the banquet sheet":"gratuity estimated at the house 23% until you type it"}</div>
     <div class="rrow"><span>Banquet net sales</span><b>${$d(sales)}</b></div>
     <div class="rrow"><span>Gratuity${tips>0?"":" (est.)"}</span><b>${$d(r.credTips)}</b></div>
     <div class="rrow neg"><span>Tips withheld (2%)</span><span>&minus;${$d(r.withheld)}</span></div>
@@ -638,10 +638,10 @@ function build(){
     </div>
 
     ${acc("Banquet checkout — the second envelope","banquet nights run two checkouts; same math, separate sheet",`
-      <p class="sub" style="color:var(--dim2);font-size:12.5px;margin:4px 0 12px">A banquet gets its own checkout sheet and its own envelope, on top of the regular one. Same pipeline. Gratuity is usually pre-rung at 20% — type the real number off the banquet sheet when you have it.</p>
+      <p class="sub" style="color:var(--dim2);font-size:12.5px;margin:4px 0 12px">A banquet gets its own checkout sheet and its own envelope, on top of the regular one. Same pipeline. Guests pay a 23% auto-grat (they can add more on top) — type the real number off the banquet sheet when you have it. The 3% line below is Lillian’s cut as banquet coordinator, so the team keeps about 20 points before normal tip-outs.</p>
       <div class="frow">
         <div class="f"><label>Banquet net sales $</label><input type="number" inputmode="decimal" id="bqcSales" placeholder="from the banquet sheet" min="0"></div>
-        <div class="f"><label>Gratuity $ (optional)</label><input type="number" inputmode="decimal" id="bqcTips" placeholder="blank = 20% est." min="0"></div>
+        <div class="f"><label>Gratuity $ (optional)</label><input type="number" inputmode="decimal" id="bqcTips" placeholder="blank = 23% est." min="0"></div>
         <div class="f"><label>Banquet tip-out (3%)?</label><select id="bqcThree"><option value="yes" selected>Yes — VERIFY</option><option value="no">No</option></select></div>
       </div>
       <div class="out" id="bqcOut"></div>`)}
@@ -674,14 +674,14 @@ function build(){
       <div class="sechead"><h2>Backtest against real Toast data</h2><span>every rule proven against an actual day</span></div>
       ${tbl(["Day","Model says","Toast actual","Miss"],[
         ["<b>7/13</b> — 3 teams, normal","3 x $1,388 = <b>$4,165</b>","$4,164.51",'<span style="color:#1E6B3A">0.0% (calibration day)</span>'],
-        ["<b>7/20</b> — 4 teams + banquet","4 x $1,388 + $3,871 = <b>$9,424</b>","$9,129.50",'<span style="color:#1E6B3A">+3.2%</span>'],
-        ["<b>7/20</b> tips check",".271 x dining + .20 x banquet = <b>$2,199</b>","$2,198.93",'<span style="color:#1E6B3A">0.0%</span>'],
+        ["<b>7/20</b> — 4 teams + banquet","4 x $1,388 + $3,366 = <b>$8,919</b>","$9,129.50",'<span style="color:#1E6B3A">-2.3%</span>'],
+        ["<b>7/20</b> tips check",".247 x dining + .23 x banquet = <b>$2,199</b>","$2,198.93",'<span style="color:#1E6B3A">0.0%</span>'],
         ["<b>Tip pipeline</b>","withheld &rarr; tip-outs &rarr; split, run against a real graded house checkout","matched the handwritten sheet",'<span style="color:#1E6B3A">exact, to the dollar</span>'],
         ["<b>Tax check</b>","9% of net (7% IN + 1% county + 1% city)","matches Toast",'<span style="color:#1E6B3A">exact</span>']])}
       <div class="sechead"><h2>What the covers probably were</h2><span>implied from net sales at each check size</span></div>
       ${tbl(["Day","Dining net","@ $95/person","@ $115/person","@ $140/person"],[
         ["<b>7/13</b> (all dining)","$4,165",...SALES.impliedChecks.map(c=>"~"+Math.round(4164.51/c)+" covers")],
-        ["<b>7/20</b> (minus banquet block)","$5,258",...SALES.impliedChecks.map(c=>"~"+Math.round(5258/c)+" covers")]])}
+        ["<b>7/20</b> (minus banquet block)","$5,763",...SALES.impliedChecks.map(c=>"~"+Math.round(5763.5/c)+" covers")]])}
       <div class="sechead"><h2>Greenwood demand calendar</h2><span>what moves a fine-dining Sunday here</span></div>
       ${tbl(["Occasion","Suggested x","Why"],SALES.occasions.filter(o=>o[1]!==1||/Colts/.test(o[0])).map(o=>[`<b>${esc(o[0])}</b>`,"x"+o[1].toFixed(2),`<span style="color:var(--dim)">${esc(o[2])}</span>`]))}
       <div class="note" style="margin-top:10px">Mother's Day is the busiest restaurant day of the year nationally, Valentine's second. Greenwood's spikes: Freedom Festival late June, WAMMfest mid-August, both Saturdays. Colts 1pm games — direction unknown for the south side, log it for a season.</div>

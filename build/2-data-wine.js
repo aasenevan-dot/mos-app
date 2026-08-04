@@ -108,14 +108,14 @@ W("Chateau de Campuget Rose","gwhite","Good","$12 / $45","Rhone, France — dry 
 W("Beviamo Pinot Grigio","gwhite","Good","$13 / $49","Venezia, Italy","Lemon, pear, green apple, light floral","None","Med-High","Light","Crisp, clean, simple","Salads, oysters, lighter starters","Lightest, cleanest dry white; safest crisp choice before dinner."),
 W("Kim Crawford Sauvignon Blanc","gwhite","Good","$13 / $49","Marlborough, NZ","Grapefruit, lime, green melon, passion fruit, grass","None","High","Light-Med","Zesty, citrusy, refreshing","Oysters, Seafood Tower, Caesar, shellfish","Bright New Zealand Sauvignon Blanc: citrusy, crisp, refreshing."),
 W("Auntsfield Single Vineyard Sauvignon Blanc","gwhite","Better","$14 / $53","Marlborough, NZ — single-vineyard step up","Grapefruit, lime, tropical fruit, herbs, minerality","None","High","Light-Med","More refined Sauvignon Blanc finish","Seafood Tower, oysters, scallops, sea bass","The elevated single-vineyard Sauvignon Blanc if they like Kim Crawford but want the nicer version."),
-W("Mer Soleil Chardonnay","gwhite","Good","$15 / $57","Santa Barbara, CA — MISSING from the 7/3 sheet, verify it is still poured","Apple, pear, tropical fruit, vanilla, toast","None","Med","Med-Full","Round, richer California Chardonnay","Lobster tail, scallops, stuffed chicken, creamy dishes","Fuller California Chardonnay; rounder and richer than Sauvignon Blanc."),
+W("Mer Soleil Chardonnay","gwhite","Good","$15 / $57","OFF THE LIST — not on the printed menu (photo-confirmed 8/4). Do NOT pitch it; kept here for history.","Apple, pear, tropical fruit, vanilla, toast","None","Med","Med-Full","Round, richer California Chardonnay","Lobster tail, scallops, stuffed chicken, creamy dishes","Fuller California Chardonnay; rounder and richer than Sauvignon Blanc."),
 W("Buehler Chardonnay","gwhite","Good","$13 / $50","Russian River Valley, CA","Ripe apple, pear, citrus, light vanilla, toasted oak","None","Med","Med","Smooth, balanced, lightly oaked","Sea bass, scallops, stuffed chicken","Middle-ground Chardonnay: ripe fruit, light vanilla, smooth but balanced."),
 W("Post & Beam Chardonnay","gwhite","Better","$20 / $78","Napa, CA — by Far Niente","Golden apple, pear, lemon curd, vanilla, polished oak","None","Med","Med-Full","Polished premium Napa Chardonnay","Lobster, scallops, sea bass, chicken","By Far Niente; the premium polished Chardonnay by the glass.")
 ];
 
 const WINE_CATS = [
   ["all","Everything"],["cab","Cabernet & Red Blends"],["merlot","Merlot"],["pinot","Pinot Noir"],
-  ["old","Old World"],["champ","Champagne"],["gred","By the Glass — Red"],["gwhite","By the Glass — White"]
+  ["old","Old World"],["champ","Champagne"],["gred","By the Glass — Red (photo-confirmed 8/4)"],["gwhite","By the Glass — White (photo-confirmed 8/4)"]
 ];
 
 /* PAIRING FINDER — dish -> {line, picks:[Good, Better, Best]} */

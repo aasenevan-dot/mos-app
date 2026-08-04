@@ -39,6 +39,10 @@ All constants live in `SALES` in 5-data-quiz.js. The pipeline (`pipeMath` in 6-a
   bar 1%, busser 1.5%, expo 0.5%. Banquets add 3% — that 3% is Lillian's cut as banquet
   coordinator, so the team effectively keeps 20 points of the 23% before normal tip-outs.
 - Polisher is flat: $10 for a front/back team, $5 for a solo (solo = cocktailer job).
+  Most nights there is NO polisher — busiest nights only, usually just one (confirmed 8/4).
+- No expo scheduled = no expo tip-out line that night (confirmed 8/4; the Sales Calculator
+  has an Expo working? toggle). Bussers are essentially always on. Banquet sales tip out
+  bar/busser/expo like all other sales, plus Lillian's 3%.
 - Earned = pool minus tip-outs, cents dropped (floor).
 - Split 50/50 front/back, whole dollars, the BACK takes the greater dollar when odd.
 - A banquet is its own checkout sheet and envelope, same math, then the night combines.
@@ -88,7 +92,20 @@ The app is shared with coworkers and may sit in a PUBLIC repo. So:
 - STILL OPEN (see 2026-08-04-allergen-chef-check.md in the parent folder): ponzu and miso
   soy-sauce wheat, blue cheese/crab dip mayo, demi and au gratin flour, calamari breading
   egg, Chicken Parmesan $39 entree real or not, Marsala/salmon prices, 45-day dry-aged
-  price + oz, banquet minimums (ask Lillian).
+  price + oz, banquet minimums (ask Lillian). Newer opens: do comps/voids come off team
+  net sales before tip-outs (Evan wants this chased); identity of the SECOND draft line
+  (was a Transfusion, maybe cucumber vodka now — and is Sweet & Salty on draft or not);
+  wine decanting threshold ($250+ = Bordeaux glasses is known, decant rule is not);
+  photos owed: wine BTG, dessert menu, straight tequila, cut specials board.
+- Evan will dictate his back-server SIDE WORK list and the manager CLOSING TASKS —
+  side work goes under the More group, not a main tab (his call, 8/4).
+- Service facts locked 8/4: pre-shift 4:15 daily (MOD runs it); busser waters, front
+  greets/drinks/apps, BACK drops soup-salad and introduces themselves; bread ALWAYS with
+  soups and salads; offer cracked pepper every soup/salad drop; course order apps →
+  soup/salad → entree; MANAGERS open and pour all wine bottles; only TWO draft lines;
+  checkout is hand math (Toast only totals non-cash); Chef Miguel G runs the kitchen;
+  A5 show = manager cut, Hanzo knife, butcher's block, torch + rosemary salt, Kobe Hanzo
+  steak knife presets; staffing floats 2-7 teams by covers, most days 3-4.
 - Calibration: he'll bring Toast screens with guest counts and teams-per-night.
 - DONE 8/4/2026 — published from Claude Code. Public repo: https://github.com/aasenevan-dot/mos-app
   Live app: https://aasenevan-dot.github.io/mos-app/ (his GitHub account is **aasenevan-dot**).

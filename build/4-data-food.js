@@ -43,8 +43,8 @@ const MENU = {
   ["Dry Aged New York Strip","14 oz $58","Dry-aged flavor. The meat hangs in a controlled room; moisture evaporates and enzymes tenderize, concentrating rich, nutty, beefy umami.","Dry aged"],
   ["Delmonico Ribeye","16 oz $80","Rich, marbled ribeye.",""],
   ["K.D.'s Tomahawk","32 oz $160","A ribeye that keeps the whole rib bone. Even more heavily marbled than the Delmonico. The bone lets marrow render during cooking, adding a butteriness you can only get by keeping the rib bone. The juiciest, most flavorful cut we offer besides the Japanese A5.","Largest oval plate"],
-  ["Australian Wagyu Filet","6 oz $95 / 10 oz $135","More marbling and lower-rendering wagyu fat.","Price updated 7/3"],
-  ["Japanese A5 Wagyu","$25/oz","From Kagoshima Prefecture. Manager slices tableside.","Confirmed $25/oz 8/4 — matches the published menu (6 oz $150)"],
+  ["Australian Wagyu Filet","6 oz $95 / 10 oz $135","More marbling and lower-rendering wagyu fat. Serve rare to med-rare — nudge, don't argue.","Price updated 7/3"],
+  ["Japanese A5 Wagyu","$25/oz","From Kagoshima Prefecture. The show: a manager cut, sliced with a Hanzo steel knife on a butcher's block, torch-finished with rosemary salt at the table. Preset the guests with the special Kobe Hanzo steak knives. House serves wagyu RARE to MED-RARE — nudge gently, never argue.","Confirmed $25/oz 8/4 — matches the published menu (6 oz $150)"],
   ["48 oz USDA Choice Porterhouse","$150 when it runs","NOT wagyu — USDA Choice. 48 oz total: about 15 oz NY strip + 8 oz filet + a 25 oz bone. Board service, manager slices tableside. The move: two people split it for a high-class manager-cut experience at a great value.","Off-menu special"],
   ["Spinalis / Ribeye Cap","$14/oz, min 6 oz","Rivals filet tenderness while keeping ribeye richness.","Off-menu — $10/oz on Spinalis Sunday"],
   ["45-Day Dry-Aged Bone-In Ribeye","VERIFY price + oz","Dry-aged, bone-in flavor concentration. Not on the public site — check the kitchen or @mosaplaceforsteaks_ on Instagram.","Off-menu, dry aged"]],
@@ -59,7 +59,7 @@ const MENU = {
   ["Crab Oscar","$14","Snow crab, asparagus, hollandaise.","Menu marks GF"],
   ["Steak 47 topping","$25","Shrimp, scallop, lobster meat, asparagus, hollandaise.","The $25 answer"],
   ["Horseradish-Bleu Cheese Crust","$4","Melted bleu cheese crumbles, horseradish, herbs.",""],
-  ["Bearnaise Sauce","$2","Egg and butter sauce with a tarragon and shallot reduction. Herbier than hollandaise.","Bearnaise has tarragon + shallot; hollandaise does not"],
+  ["Bearnaise Sauce","$2","Egg and butter sauce with a tarragon and shallot reduction. Herbier than hollandaise. Yes — really $2, confirmed.","Bearnaise has tarragon + shallot; hollandaise does not"],
   ["Add 5 oz Lobster Tail","$50","Add to any entree.","Menu marks GF"],
   ["Add 2 Scallops","$14","Two scallops added to any entree.",""],
   ["Brandy Peppercorn Sauce","$6","Demi-glace and brandy peppercorns.","Menu marks GF"],
@@ -79,6 +79,7 @@ const MENU = {
   ["Twin South African Lobster Tails","$100","Two 5 oz tails, 10 oz total. Cold-water tails, which are sweeter and more tender.","Cold water — know why"]],
 
  "Accessories / Sides":[
+  ["Every side shares","feeds 2-3","Every single side is built to share — comfortably feeds 2 to 3 people. Say it proudly when tables ask.","Confirmed 8/4"],
   ["Grilled Asparagus","$15","With hollandaise.","Menu marks GF"],
   ["Creamed Corn","$12","Cream, dijon, horseradish, dill.","Menu marks GF"],
   ["Creamed Spinach with Roasted Butternut Squash","$16","Check the gluten symbol and current thickener.",""],
@@ -93,20 +94,22 @@ const MENU = {
   ["Forest Mushrooms","$14","Garlic compound butter.",""]],
 
  "Desserts":[
-  ["Mo's Cookie / Prime Cookie","$10","Dairy, egg, gluten.",""],
-  ["Celebration Sundae / Kristen Sundae","$15","Egg, dairy, alcohol, gluten.","Celebration play"],
-  ["NY Style Cheesecake","$10","Dairy, egg, gluten.",""],
-  ["Bailey's Creme Brulee","$10","Alcohol, egg, dairy.",""],
-  ["Colossal Carrot Cake","$14","Eggs, milk, soy, tree nuts, gluten, pineapple.",""],
-  ["Molten Lava Cake","$13","Menu marks GF / flourless — but it still has eggs, dairy, and soy.","GF-marked, NOT allergen-free"],
-  ["Brown Butter Cake","$14","Eggs, milk, soy, gluten.",""],
+  ["Mo's Cookie / Prime Cookie","$10","Half-baked chocolate chip cookie served with vanilla ice cream and Hershey's syrup.","Dairy, egg, gluten"],
+  ["Celebration Cake","$14","Five layers of technicolor vanilla cake layered with white chocolate mousse, served with a strawberry drizzle and gummi bears.","Celebration play — menu photo 8/4"],
+  ["The Mo's Sundae","$15","Chocolate chip cookie dough, ice cream, Hershey's syrup, Meyer's dark rum caramel, strawberry sauce, fresh whipped cream.","Old sheets called it the Kristen Sundae"],
+  ["Celebration Sundae","comp — VERIFY","Not the cake and not the Mo's Sundae — this is the little sundae we drop on celebrating tables. VERIFY the exact build and the comp rules.","The celebration drop"],
+  ["NY Style Cheesecake","$10","Served with fresh whipped cream and strawberry sauce.","Dairy, egg, gluten"],
+  ["Bailey's Creme Brulee","$10","Topped with fresh whipped cream and berries.","Alcohol, egg, dairy"],
+  ["Colossal Carrot Cake","$14","Layered high with moist carrot cake and cream cheese icing.","Eggs, milk, soy, tree nuts, gluten, pineapple"],
+  ["Molten Lava Cake","$13","Chocolate dome filled with chocolate cake, strawberries, and ice cream, topped with Hershey's chocolate syrup. Menu marks GF / flourless — but it still has eggs, dairy, and soy.","GF-marked, NOT allergen-free"],
+  ["Brown Butter Cake","$14","Vanilla ice cream, caramel sauce, and Granny Smith apples.","Eggs, milk, soy, gluten"],
   ["Cotton Candy","$12","Menu marks GF. Every color of the rainbow, all taste like sugar — tell the table 'pick your color.'","Pairs with Ruffino Moscato"],
-  ["Bananas Foster","$12/person","Tableside dessert special. Dairy, alcohol, cinnamon.","Tableside"],
+  ["Bananas Foster","$12/person — minimum 2 people","THE BACK SERVER RUNS THIS SHOW. Per person: 1 scoop brown butter + half a banana, and half an orange per two bananas (going over is fine). Bring: cinnamon, 99 Oranges liqueur, Nilla wafers, caramel, burner, pan. The show: melt the brown butter, breaking it up with the spatula. Coat the bananas evenly in it. Add the orange citrus so nothing burns. Pour 99 Oranges over the top and light it — big flame. Sprinkle cinnamon into the fire and it sparks up (cinnamon is made of wood, so it burns) — a fantastic show. Pour it all over bowls of ice cream with the caramel and Nilla wafers, serve with spoons. Great upsell: get the whole table in on it.","Back server's show"],
   ["Raspberry / Lemon Sorbet","varies","No dairy expected; verify current ingredients.",""],
   ["Pistachio Gelato","varies","Dairy and tree nuts.",""]],
 
  "Kids Menu":[
-  ["4 oz Filet Mignon","$30","Verify cooking butter for a strict dairy allergy.",""],
+  ["4 oz Filet Mignon","$30","Verify cooking butter for a strict dairy allergy.","Whole kids menu photo-confirmed 8/4 — all 6 items, all prices"],
   ["Chicken Tenders with Fries","$10","Breaded and fried. Verify breading and fryer.",""],
   ["Buttered Noodles","$10","Pasta plus butter.",""],
   ["Mac N Cheese","$10","Pasta and cheese sauce.",""],
@@ -199,9 +202,11 @@ const ALLERGENS = [
  ["Creamy Risotto","$15",["dairy","pork","chicken","allium"],"Chicken stock and crispy prosciutto — not vegetarian. Risotto is usually finished with wine — ask if alcohol matters to the guest."],
  ["Truffle Fries","$11",["gluten","dairy","cross-contact"],"Lightly breaded, fried in the SHARED fryer — cross-contact confirmed 8/4."],
  ["Baked Potato","$11",["dairy"],"Butter and sour cream. Menu marks GF."],
- ["Bananas Foster","$12/person",["dairy","alcohol","cinnamon"],"Tableside."],
+ ["Bananas Foster","$12/person",["dairy","alcohol","cinnamon"],"Tableside, minimum 2 people. The back server runs the show."],
  ["Mo's Cookie","$10",["dairy","egg","gluten"],""],
- ["Celebration Sundae","$15",["egg","dairy","alcohol","gluten"],""],
+ ["Celebration Cake","$14",["egg","dairy","gluten"],"Vanilla cake, white chocolate mousse, strawberry drizzle, gummi bears — gelatin, worth flagging for vegetarians."],
+ ["The Mo's Sundae","$15",["dairy","egg","gluten","alcohol"],"Cookie dough, ice cream, Hershey's syrup, Meyer's DARK RUM caramel (that's the alcohol), strawberry sauce, whipped cream."],
+ ["Celebration Sundae (comp drop)","house",["dairy"],"The treat dropped on celebrating tables. Dairy for sure — VERIFY the full build before answering an allergy."],
  ["NY Style Cheesecake","$10",["dairy","egg","gluten"],""],
  ["Bailey's Creme Brulee","$10",["alcohol","egg","dairy"],""],
  ["Colossal Carrot Cake","$14",["egg","dairy","soy","tree nuts","gluten","pineapple"],""],
@@ -246,7 +251,7 @@ const PROTOCOL = [
 ];
 
 const DIET = [
- ["Gluten — high risk","Goat cheese spread, crab cake, calamari, prime meatballs, wagyu tacos, roasted tower pasta, iced tower wonton and brioche, lobster bisque, French onion crouton, house and Caesar croutons, chicken parmesan, primavera, short rib pasta, lobster mac, truffle fries, kids pasta/tenders/burger, lounge sliders/egg rolls/chicken parm/tuna poke wontons, most cakes, cookies, and cheesecake. Verify fryer and sauces."],
+ ["Gluten — high risk","Goat cheese spread, crab cake, calamari, prime meatballs, wagyu tacos, roasted tower pasta, iced tower wonton and brioche, lobster bisque, French onion crouton, house and Caesar croutons, chicken parmesan, primavera, short rib pasta, lobster mac, truffle fries, kids pasta/tenders/burger, lounge sliders/egg rolls/chicken parm/tuna poke wontons, most cakes, cookies, and cheesecake. Shared fryer confirmed. NO gluten-free bread or crackers in house as of 8/4."],
  ["Halal","Filet-family cuts and chicken are halal: filet mignon, filet duo/end cuts, Farbuckle filet, Australian Wagyu filet, Japanese A5. Do not promise non-filet steaks as halal without manager confirmation. Watch bacon and prosciutto sides."],
  ["Vegetarian","Primavera Pasta is the main vegetarian-style entree. Risotto is NOT vegetarian — chicken stock and crispy prosciutto. Baked potato, cheddar mashed, asparagus, cauliflower, creamed corn and spinach can often be adjusted, but verify butter, stock, and bacon."],
  ["Vegan","Very limited. A custom salad or vegetable with oil and vinegar only, after chef confirmation. Butter, cheese, honey, stock, and fryer contact are everywhere."],
@@ -256,10 +261,12 @@ const DIET = [
 /* ============ SPECIALS, SOUP OF THE DAY, OFF-MENU — living lists. Updates come through Claude. ============ */
 /* Current per Evan 8/4/26: only these four cut specials are running. */
 const SPECIALS_ON=[
- ["48 oz USDA Choice Porterhouse","$150 when it runs","NOT wagyu — USDA Choice. 48 oz total: about 15 oz NY strip + 8 oz filet + a 25 oz bone. A manager slices it tableside off the board. The pitch: two people split it for a high-class manager-cut steak experience at a serious value.","cut special"],
+ ["48 oz USDA Choice Porterhouse","$150 when it runs","NOT wagyu — USDA Choice. 48 oz total: about 15 oz NY strip + 8 oz filet + a 25 oz bone. A manager slices it tableside off the board. The pitch: two people split it for a high-class manager-cut steak experience at a serious value — and there's no split-plate charge.","cut special"],
  ["Spinalis / Ribeye Cap","$14/oz — $10/oz on SUNDAYS","Minimum 6 oz. Rivals filet tenderness while keeping ribeye richness. Spinalis Sunday is on the restaurant's own weekly-features page — the easy upsell.","cut special"],
- ["Australian Wagyu Tomahawk","$180","32 oz. Confirmed 8/4.","cut special"],
- ["45-Day Dry-Aged Bone-In Ribeye","VERIFY price + oz","Dry-aged, bone-in flavor concentration. Not on the public site — check the kitchen or @mosaplaceforsteaks_ on Instagram.","cut special"]
+ ["Australian Wagyu Tomahawk","$180","32 oz. Confirmed 8/4. Wagyu rule: serve rare to med-rare — nudge, don't argue.","cut special"],
+ ["45-Day Dry-Aged Bone-In Ribeye","VERIFY price + oz","Dry-aged, bone-in flavor concentration. Not on the public site — check the kitchen or @mosaplaceforsteaks_ on Instagram.","cut special"],
+ ["Ladies Night — every Thursday","$10 martinis + \u00bd-off apps","Ladies get $10 martinis and half-price appetizers in the lounge, every Thursday night.","weekly feature"],
+ ["House events coming up","dates TBD","Sundresses & Sangria, the Surf & Turf Cup (golf outing), and a Prisoner Wine Dinner are on the books — the site doesn't publish dates, so ask a manager. Wine dinners mean banquet money.","events"]
 ];
 /* Rotating entree specials seen before — ask a manager if one is running tonight. */
 const SPECIALS_ROTATION=[

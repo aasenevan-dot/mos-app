@@ -505,14 +505,14 @@ W("Chateau de Campuget Rose","gwhite","Good","$12 / $45","Rhone, France — dry 
 W("Beviamo Pinot Grigio","gwhite","Good","$13 / $49","Venezia, Italy","Lemon, pear, green apple, light floral","None","Med-High","Light","Crisp, clean, simple","Salads, oysters, lighter starters","Lightest, cleanest dry white; safest crisp choice before dinner."),
 W("Kim Crawford Sauvignon Blanc","gwhite","Good","$13 / $49","Marlborough, NZ","Grapefruit, lime, green melon, passion fruit, grass","None","High","Light-Med","Zesty, citrusy, refreshing","Oysters, Seafood Tower, Caesar, shellfish","Bright New Zealand Sauvignon Blanc: citrusy, crisp, refreshing."),
 W("Auntsfield Single Vineyard Sauvignon Blanc","gwhite","Better","$14 / $53","Marlborough, NZ — single-vineyard step up","Grapefruit, lime, tropical fruit, herbs, minerality","None","High","Light-Med","More refined Sauvignon Blanc finish","Seafood Tower, oysters, scallops, sea bass","The elevated single-vineyard Sauvignon Blanc if they like Kim Crawford but want the nicer version."),
-W("Mer Soleil Chardonnay","gwhite","Good","$15 / $57","Santa Barbara, CA — MISSING from the 7/3 sheet, verify it is still poured","Apple, pear, tropical fruit, vanilla, toast","None","Med","Med-Full","Round, richer California Chardonnay","Lobster tail, scallops, stuffed chicken, creamy dishes","Fuller California Chardonnay; rounder and richer than Sauvignon Blanc."),
+W("Mer Soleil Chardonnay","gwhite","Good","$15 / $57","OFF THE LIST — not on the printed menu (photo-confirmed 8/4). Do NOT pitch it; kept here for history.","Apple, pear, tropical fruit, vanilla, toast","None","Med","Med-Full","Round, richer California Chardonnay","Lobster tail, scallops, stuffed chicken, creamy dishes","Fuller California Chardonnay; rounder and richer than Sauvignon Blanc."),
 W("Buehler Chardonnay","gwhite","Good","$13 / $50","Russian River Valley, CA","Ripe apple, pear, citrus, light vanilla, toasted oak","None","Med","Med","Smooth, balanced, lightly oaked","Sea bass, scallops, stuffed chicken","Middle-ground Chardonnay: ripe fruit, light vanilla, smooth but balanced."),
 W("Post & Beam Chardonnay","gwhite","Better","$20 / $78","Napa, CA — by Far Niente","Golden apple, pear, lemon curd, vanilla, polished oak","None","Med","Med-Full","Polished premium Napa Chardonnay","Lobster, scallops, sea bass, chicken","By Far Niente; the premium polished Chardonnay by the glass.")
 ];
 
 const WINE_CATS = [
   ["all","Everything"],["cab","Cabernet & Red Blends"],["merlot","Merlot"],["pinot","Pinot Noir"],
-  ["old","Old World"],["champ","Champagne"],["gred","By the Glass — Red"],["gwhite","By the Glass — White"]
+  ["old","Old World"],["champ","Champagne"],["gred","By the Glass — Red (photo-confirmed 8/4)"],["gwhite","By the Glass — White (photo-confirmed 8/4)"]
 ];
 
 /* PAIRING FINDER — dish -> {line, picks:[Good, Better, Best]} */
@@ -698,7 +698,7 @@ const COCKTAILS = [
  {n:"Mo's Make-A-Mocktail",p:"$12",grp:"signature",base:"Non-alcoholic",
   build:"Custom mocktail built to the guest's flavor lane.",
   glass:"Guest-dependent",garnish:"Garnish cleanly, match the flavor lane",
-  desc:"Non-alcoholic, flexible, guest-led.",note:"Ask the guest which lane: citrus, berry, tropical, herbal."},
+  desc:"Non-alcoholic, flexible, guest-led.",note:"Confirmed $12 (8/4). Might not be printed on the menu anymore — we still make it. Ask the guest which lane: citrus, berry, tropical, herbal."},
 
  {n:"Coco Caramel Carajillo",p:"$20",grp:"dessert",base:"Rum / coffee",
   build:"Werther's caramel-infused Hard Truth toasted coconut rum, Licor 43 Vanilla, espresso.",
@@ -767,7 +767,7 @@ const SPIRITS = {
   ["Maker's Mark","$12","Wheated, soft, sweet"],
   ["Woodford Reserve","$14","Polished, brown sugar, spice"],
   ["Woodford Reserve Double Oak","$18","Upsell: sweeter oak, vanilla, toasted finish"]],
- "Bardstown & Specialty":[
+ "Bardstown & Specialty (all prices photo-confirmed 8/4)":[
   ["Discovery Series","$30","Premium Bardstown blend; rich and layered"],
   ["Founders Finish","$35","Finished bourbon; deeper dessert notes"],
   ["Origin Series","$15","Entry Bardstown option"],
@@ -838,6 +838,20 @@ const SPIRITS = {
 };
 
 /* ============ BEER ============ */
+SPIRITS["On Draft — only two lines"]=[
+ ["Smoked Draft Old Fashioned","$17","Signature — full build up in the cocktail list."],
+ ["Second draft line","VERIFY","Used to be a Transfusion, changed since — maybe a cucumber-infused vodka drink now. Our sheet also calls Sweet & Salty a draft cocktail. Get the straight answer from the bar."]
+];
+
+SPIRITS["Coffee, Tea & Water (no booze)"]=[
+ ["Hubbard & Cravens Coffee","reg / decaf","Local Indianapolis roaster. Bring a cream and sugar caddy with it."],
+ ["Iced Tea","unsweet","Unsweet by default — sweet tea can be made on request."],
+ ["Filtered Water","free","The busser carries it — default for every table."],
+ ["Aquafina","bottle","Bottled still water if the guest wants it — price in Toast."],
+ ["Sparkling Water","bottle","Bottled sparkling if the guest wants it — price in Toast."],
+ ["Coffee cocktails","see Dessert Cocktails","Espresso martinis and friends live up in the cocktail list, dessert group."]
+];
+
 const BEER = [
  ["Bud Zero","0.0%","Non-alcoholic lager","Light malt, no alcohol"],
  ["Bud Light","4.2%","Light lager","Clean, light, easy domestic"],
@@ -902,8 +916,8 @@ const MENU = {
   ["Dry Aged New York Strip","14 oz $58","Dry-aged flavor. The meat hangs in a controlled room; moisture evaporates and enzymes tenderize, concentrating rich, nutty, beefy umami.","Dry aged"],
   ["Delmonico Ribeye","16 oz $80","Rich, marbled ribeye.",""],
   ["K.D.'s Tomahawk","32 oz $160","A ribeye that keeps the whole rib bone. Even more heavily marbled than the Delmonico. The bone lets marrow render during cooking, adding a butteriness you can only get by keeping the rib bone. The juiciest, most flavorful cut we offer besides the Japanese A5.","Largest oval plate"],
-  ["Australian Wagyu Filet","6 oz $95 / 10 oz $135","More marbling and lower-rendering wagyu fat.","Price updated 7/3"],
-  ["Japanese A5 Wagyu","$25/oz","From Kagoshima Prefecture. Manager slices tableside.","Confirmed $25/oz 8/4 — matches the published menu (6 oz $150)"],
+  ["Australian Wagyu Filet","6 oz $95 / 10 oz $135","More marbling and lower-rendering wagyu fat. Serve rare to med-rare — nudge, don't argue.","Price updated 7/3"],
+  ["Japanese A5 Wagyu","$25/oz","From Kagoshima Prefecture. The show: a manager cut, sliced with a Hanzo steel knife on a butcher's block, torch-finished with rosemary salt at the table. Preset the guests with the special Kobe Hanzo steak knives. House serves wagyu RARE to MED-RARE — nudge gently, never argue.","Confirmed $25/oz 8/4 — matches the published menu (6 oz $150)"],
   ["48 oz USDA Choice Porterhouse","$150 when it runs","NOT wagyu — USDA Choice. 48 oz total: about 15 oz NY strip + 8 oz filet + a 25 oz bone. Board service, manager slices tableside. The move: two people split it for a high-class manager-cut experience at a great value.","Off-menu special"],
   ["Spinalis / Ribeye Cap","$14/oz, min 6 oz","Rivals filet tenderness while keeping ribeye richness.","Off-menu — $10/oz on Spinalis Sunday"],
   ["45-Day Dry-Aged Bone-In Ribeye","VERIFY price + oz","Dry-aged, bone-in flavor concentration. Not on the public site — check the kitchen or @mosaplaceforsteaks_ on Instagram.","Off-menu, dry aged"]],
@@ -918,7 +932,7 @@ const MENU = {
   ["Crab Oscar","$14","Snow crab, asparagus, hollandaise.","Menu marks GF"],
   ["Steak 47 topping","$25","Shrimp, scallop, lobster meat, asparagus, hollandaise.","The $25 answer"],
   ["Horseradish-Bleu Cheese Crust","$4","Melted bleu cheese crumbles, horseradish, herbs.",""],
-  ["Bearnaise Sauce","$2","Egg and butter sauce with a tarragon and shallot reduction. Herbier than hollandaise.","Bearnaise has tarragon + shallot; hollandaise does not"],
+  ["Bearnaise Sauce","$2","Egg and butter sauce with a tarragon and shallot reduction. Herbier than hollandaise. Yes — really $2, confirmed.","Bearnaise has tarragon + shallot; hollandaise does not"],
   ["Add 5 oz Lobster Tail","$50","Add to any entree.","Menu marks GF"],
   ["Add 2 Scallops","$14","Two scallops added to any entree.",""],
   ["Brandy Peppercorn Sauce","$6","Demi-glace and brandy peppercorns.","Menu marks GF"],
@@ -938,6 +952,7 @@ const MENU = {
   ["Twin South African Lobster Tails","$100","Two 5 oz tails, 10 oz total. Cold-water tails, which are sweeter and more tender.","Cold water — know why"]],
 
  "Accessories / Sides":[
+  ["Every side shares","feeds 2-3","Every single side is built to share — comfortably feeds 2 to 3 people. Say it proudly when tables ask.","Confirmed 8/4"],
   ["Grilled Asparagus","$15","With hollandaise.","Menu marks GF"],
   ["Creamed Corn","$12","Cream, dijon, horseradish, dill.","Menu marks GF"],
   ["Creamed Spinach with Roasted Butternut Squash","$16","Check the gluten symbol and current thickener.",""],
@@ -952,20 +967,22 @@ const MENU = {
   ["Forest Mushrooms","$14","Garlic compound butter.",""]],
 
  "Desserts":[
-  ["Mo's Cookie / Prime Cookie","$10","Dairy, egg, gluten.",""],
-  ["Celebration Sundae / Kristen Sundae","$15","Egg, dairy, alcohol, gluten.","Celebration play"],
-  ["NY Style Cheesecake","$10","Dairy, egg, gluten.",""],
-  ["Bailey's Creme Brulee","$10","Alcohol, egg, dairy.",""],
-  ["Colossal Carrot Cake","$14","Eggs, milk, soy, tree nuts, gluten, pineapple.",""],
-  ["Molten Lava Cake","$13","Menu marks GF / flourless — but it still has eggs, dairy, and soy.","GF-marked, NOT allergen-free"],
-  ["Brown Butter Cake","$14","Eggs, milk, soy, gluten.",""],
+  ["Mo's Cookie / Prime Cookie","$10","Half-baked chocolate chip cookie served with vanilla ice cream and Hershey's syrup.","Dairy, egg, gluten"],
+  ["Celebration Cake","$14","Five layers of technicolor vanilla cake layered with white chocolate mousse, served with a strawberry drizzle and gummi bears.","Celebration play — menu photo 8/4"],
+  ["The Mo's Sundae","$15","Chocolate chip cookie dough, ice cream, Hershey's syrup, Meyer's dark rum caramel, strawberry sauce, fresh whipped cream.","Old sheets called it the Kristen Sundae"],
+  ["Celebration Sundae","comp — VERIFY","Not the cake and not the Mo's Sundae — this is the little sundae we drop on celebrating tables. VERIFY the exact build and the comp rules.","The celebration drop"],
+  ["NY Style Cheesecake","$10","Served with fresh whipped cream and strawberry sauce.","Dairy, egg, gluten"],
+  ["Bailey's Creme Brulee","$10","Topped with fresh whipped cream and berries.","Alcohol, egg, dairy"],
+  ["Colossal Carrot Cake","$14","Layered high with moist carrot cake and cream cheese icing.","Eggs, milk, soy, tree nuts, gluten, pineapple"],
+  ["Molten Lava Cake","$13","Chocolate dome filled with chocolate cake, strawberries, and ice cream, topped with Hershey's chocolate syrup. Menu marks GF / flourless — but it still has eggs, dairy, and soy.","GF-marked, NOT allergen-free"],
+  ["Brown Butter Cake","$14","Vanilla ice cream, caramel sauce, and Granny Smith apples.","Eggs, milk, soy, gluten"],
   ["Cotton Candy","$12","Menu marks GF. Every color of the rainbow, all taste like sugar — tell the table 'pick your color.'","Pairs with Ruffino Moscato"],
-  ["Bananas Foster","$12/person","Tableside dessert special. Dairy, alcohol, cinnamon.","Tableside"],
+  ["Bananas Foster","$12/person — minimum 2 people","THE BACK SERVER RUNS THIS SHOW. Per person: 1 scoop brown butter + half a banana, and half an orange per two bananas (going over is fine). Bring: cinnamon, 99 Oranges liqueur, Nilla wafers, caramel, burner, pan. The show: melt the brown butter, breaking it up with the spatula. Coat the bananas evenly in it. Add the orange citrus so nothing burns. Pour 99 Oranges over the top and light it — big flame. Sprinkle cinnamon into the fire and it sparks up (cinnamon is made of wood, so it burns) — a fantastic show. Pour it all over bowls of ice cream with the caramel and Nilla wafers, serve with spoons. Great upsell: get the whole table in on it.","Back server's show"],
   ["Raspberry / Lemon Sorbet","varies","No dairy expected; verify current ingredients.",""],
   ["Pistachio Gelato","varies","Dairy and tree nuts.",""]],
 
  "Kids Menu":[
-  ["4 oz Filet Mignon","$30","Verify cooking butter for a strict dairy allergy.",""],
+  ["4 oz Filet Mignon","$30","Verify cooking butter for a strict dairy allergy.","Whole kids menu photo-confirmed 8/4 — all 6 items, all prices"],
   ["Chicken Tenders with Fries","$10","Breaded and fried. Verify breading and fryer.",""],
   ["Buttered Noodles","$10","Pasta plus butter.",""],
   ["Mac N Cheese","$10","Pasta and cheese sauce.",""],
@@ -1058,9 +1075,11 @@ const ALLERGENS = [
  ["Creamy Risotto","$15",["dairy","pork","chicken","allium"],"Chicken stock and crispy prosciutto — not vegetarian. Risotto is usually finished with wine — ask if alcohol matters to the guest."],
  ["Truffle Fries","$11",["gluten","dairy","cross-contact"],"Lightly breaded, fried in the SHARED fryer — cross-contact confirmed 8/4."],
  ["Baked Potato","$11",["dairy"],"Butter and sour cream. Menu marks GF."],
- ["Bananas Foster","$12/person",["dairy","alcohol","cinnamon"],"Tableside."],
+ ["Bananas Foster","$12/person",["dairy","alcohol","cinnamon"],"Tableside, minimum 2 people. The back server runs the show."],
  ["Mo's Cookie","$10",["dairy","egg","gluten"],""],
- ["Celebration Sundae","$15",["egg","dairy","alcohol","gluten"],""],
+ ["Celebration Cake","$14",["egg","dairy","gluten"],"Vanilla cake, white chocolate mousse, strawberry drizzle, gummi bears — gelatin, worth flagging for vegetarians."],
+ ["The Mo's Sundae","$15",["dairy","egg","gluten","alcohol"],"Cookie dough, ice cream, Hershey's syrup, Meyer's DARK RUM caramel (that's the alcohol), strawberry sauce, whipped cream."],
+ ["Celebration Sundae (comp drop)","house",["dairy"],"The treat dropped on celebrating tables. Dairy for sure — VERIFY the full build before answering an allergy."],
  ["NY Style Cheesecake","$10",["dairy","egg","gluten"],""],
  ["Bailey's Creme Brulee","$10",["alcohol","egg","dairy"],""],
  ["Colossal Carrot Cake","$14",["egg","dairy","soy","tree nuts","gluten","pineapple"],""],
@@ -1105,7 +1124,7 @@ const PROTOCOL = [
 ];
 
 const DIET = [
- ["Gluten — high risk","Goat cheese spread, crab cake, calamari, prime meatballs, wagyu tacos, roasted tower pasta, iced tower wonton and brioche, lobster bisque, French onion crouton, house and Caesar croutons, chicken parmesan, primavera, short rib pasta, lobster mac, truffle fries, kids pasta/tenders/burger, lounge sliders/egg rolls/chicken parm/tuna poke wontons, most cakes, cookies, and cheesecake. Verify fryer and sauces."],
+ ["Gluten — high risk","Goat cheese spread, crab cake, calamari, prime meatballs, wagyu tacos, roasted tower pasta, iced tower wonton and brioche, lobster bisque, French onion crouton, house and Caesar croutons, chicken parmesan, primavera, short rib pasta, lobster mac, truffle fries, kids pasta/tenders/burger, lounge sliders/egg rolls/chicken parm/tuna poke wontons, most cakes, cookies, and cheesecake. Shared fryer confirmed. NO gluten-free bread or crackers in house as of 8/4."],
  ["Halal","Filet-family cuts and chicken are halal: filet mignon, filet duo/end cuts, Farbuckle filet, Australian Wagyu filet, Japanese A5. Do not promise non-filet steaks as halal without manager confirmation. Watch bacon and prosciutto sides."],
  ["Vegetarian","Primavera Pasta is the main vegetarian-style entree. Risotto is NOT vegetarian — chicken stock and crispy prosciutto. Baked potato, cheddar mashed, asparagus, cauliflower, creamed corn and spinach can often be adjusted, but verify butter, stock, and bacon."],
  ["Vegan","Very limited. A custom salad or vegetable with oil and vinegar only, after chef confirmation. Butter, cheese, honey, stock, and fryer contact are everywhere."],
@@ -1115,10 +1134,12 @@ const DIET = [
 /* ============ SPECIALS, SOUP OF THE DAY, OFF-MENU — living lists. Updates come through Claude. ============ */
 /* Current per Evan 8/4/26: only these four cut specials are running. */
 const SPECIALS_ON=[
- ["48 oz USDA Choice Porterhouse","$150 when it runs","NOT wagyu — USDA Choice. 48 oz total: about 15 oz NY strip + 8 oz filet + a 25 oz bone. A manager slices it tableside off the board. The pitch: two people split it for a high-class manager-cut steak experience at a serious value.","cut special"],
+ ["48 oz USDA Choice Porterhouse","$150 when it runs","NOT wagyu — USDA Choice. 48 oz total: about 15 oz NY strip + 8 oz filet + a 25 oz bone. A manager slices it tableside off the board. The pitch: two people split it for a high-class manager-cut steak experience at a serious value — and there's no split-plate charge.","cut special"],
  ["Spinalis / Ribeye Cap","$14/oz — $10/oz on SUNDAYS","Minimum 6 oz. Rivals filet tenderness while keeping ribeye richness. Spinalis Sunday is on the restaurant's own weekly-features page — the easy upsell.","cut special"],
- ["Australian Wagyu Tomahawk","$180","32 oz. Confirmed 8/4.","cut special"],
- ["45-Day Dry-Aged Bone-In Ribeye","VERIFY price + oz","Dry-aged, bone-in flavor concentration. Not on the public site — check the kitchen or @mosaplaceforsteaks_ on Instagram.","cut special"]
+ ["Australian Wagyu Tomahawk","$180","32 oz. Confirmed 8/4. Wagyu rule: serve rare to med-rare — nudge, don't argue.","cut special"],
+ ["45-Day Dry-Aged Bone-In Ribeye","VERIFY price + oz","Dry-aged, bone-in flavor concentration. Not on the public site — check the kitchen or @mosaplaceforsteaks_ on Instagram.","cut special"],
+ ["Ladies Night — every Thursday","$10 martinis + \u00bd-off apps","Ladies get $10 martinis and half-price appetizers in the lounge, every Thursday night.","weekly feature"],
+ ["House events coming up","dates TBD","Sundresses & Sangria, the Surf & Turf Cup (golf outing), and a Prisoner Wine Dinner are on the books — the site doesn't publish dates, so ask a manager. Wine dinners mean banquet money.","events"]
 ];
 /* Rotating entree specials seen before — ask a manager if one is running tonight. */
 const SPECIALS_ROTATION=[
@@ -1239,20 +1260,21 @@ const OPEN = [
 
 /* ============ OPS ============ */
 const FLOW = [
- ["Before you walk up",["Know soup of the day, oysters, 86'd items, Chef's Corner, specials, and big features.","Know the cocktail menu well enough to give 2 easy recommendations.","Know allergy protocol: ask the allergy, ring it in, tell back server, expo and chef, and a manager.","Know timing: soups, salads, and desserts 5-7 minutes (10 max); entrees 22-27 minutes."]],
+ ["Before you walk up",["Pre-shift lineup runs about 4:15 every day — the MOD covers teams, floor plan, need-to-knows, soup, today's specials, and recent reviews.","Know soup of the day, oysters, 86'd items, cut specials, and big features.","Know the cocktail menu well enough to give 2 easy recommendations.","Know allergy protocol: ask the allergy, ring it in, tell back server, expo and chef, and a manager.","Know timing: soups, salads, and desserts 5-7 minutes (10 max); entrees 22-27 minutes.","The kitchen is Chef Miguel G's — use the name when you pitch."]],
  ["Greet",["Introduce yourself and your back server.","Ask first time, celebration, allergies, and whether they want the wine list.","Point them to cocktails, beer, wine, and whiskey.","Keep it warm and short."]],
- ["Drinks first",["Get drinks started quickly.","If they are unsure, give two simple choices — light and refreshing: Cactus Flower Mule or Lychee Icee. Sweet and fruity: Ruby & Jade or Golden Hour. Whiskey: Pittsburghed Peach Old Fashioned.","If they order a wine bottle over $250, let a manager know and use big Bordeaux glasses."]],
+ ["Drinks first",["Get drinks started quickly.","If they are unsure, give two simple choices — light and refreshing: Cactus Flower Mule or Lychee Icee. Sweet and fruity: Ruby & Jade or Golden Hour. Whiskey: Pittsburghed Peach Old Fashioned.","Wine bottles: the front server sets the glasses, and a MANAGER opens and pours the bottle at the table — every time.","If they order a wine bottle over $250, let a manager know and use big Bordeaux glasses."]],
  ["Appetizers",["After drinks, ask about apps.","Recommend 2-3 confidently: shrimp cocktail, calamari, crispy ahi tuna bites, oysters, or a seafood tower.","Send apps quickly and tell the back server.","Apps buy you time, but do not forget to course the rest."]],
+ ["Soup, salad & bread",["How a table starts: busser greets with water, front server greets and gets drinks plus apps and soup/salad, then the BACK server drops the soup or salad and introduces themselves right there.","Bread ALWAYS comes with soups and salads.","Offer freshly cracked pepper EVERY time after dropping a soup or salad.","Course order never changes: appetizers (skippable), then soups/salads, then entrees."]],
  ["Menu wrap / order",["Hit the key items, not a speech.","Mention soup and salad protocol if needed.","Mention steak temps and that well-done filets should be butterflied.","Ask sides and enhancements: Oscar, Steak 47, lobster tail, scallops, truffle butter, mushrooms.","Any special request must be confirmed with the chef."]],
  ["Course checkbacks",["Check apps and salads after they land.","After salad or soup clears, ask about another round or a second bottle.","Entree checkback is 2-5 minutes after entrees hit: \"Is everything tasting perfect for us?\"","If the answer sounds weak, fix it immediately."]],
  ["Work with your back server",["You are the table lead; the back server keeps the table moving.","Write the dinner ticket neatly.","Let the back server reset, but help if they are buried.","For large tables, Farbuckle, A5, towers, or tableside items, help run and drop food."]],
- ["Dessert and close",["Ask about dessert, after-dinner drinks, port, espresso martini style drinks, or cocktails.","On busy nights have the check ready with dessert.","If something went wrong, fix it before dessert and the check.","Last impression matters — thank them by name when you can."]]
+ ["Dessert and close",["Ask about dessert, after-dinner drinks, port, espresso martini style drinks, or cocktails.","On busy nights have the check ready with dessert.","To-go boxing station is back-left in the kitchen — cleaned and swept every night, restocked every morning.","If something went wrong, fix it before dessert and the check.","Last impression matters — thank them by name when you can."]]
 ];
 
 const ANCHORS = [
  ["Mission","Leave people better than you found them."],
  ["Front server role","Table leader, relationship builder, order and ring authority, pacing owner, beverage and menu seller, check-average driver."],
- ["Always hit","First time, celebration, wine list, allergies, features, soup, oysters, Chef's Corner, 86'd items, and wine/app suggestions."],
+ ["Always hit","First time, celebration, wine list, allergies, features, soup, oysters, cut specials, 86'd items, and wine/app suggestions."],
  ["The wine move","Ask whether they are leaning lighter and smoother or bigger and richer, then give two confident choices."],
  ["One-liner","Lead the table, sell confidently, keep pacing clean, communicate with your back server, and fix problems before the guest has to ask twice."]
 ];
@@ -1299,10 +1321,11 @@ const SALES = {
 const SPLIT_RULES=[
  "Each team is a front server and a back server.",
  "Toast takes 2% of your credit tips off the top (tips withheld). What's left, plus any cash tips and gratuity, is your team pool.",
- "Tip out from TEAM NET SALES: bar gets 1%, busser gets 1.5%, expo gets 0.5% — each line rounds UP to the next whole dollar.",
- "Banquets: guests pay a 23% auto-grat (they can tip more on top). The 3% banquet tip-out line is Lillian's cut as banquet coordinator — so the team effectively keeps 20 points before the normal tip-outs.",
- "The polisher is a flat tip-out, not a percent: $10 when your team is a front and a back, $5 when you solo. Almost always $10, because solo is really the cocktailer's world — Jenny or Taylor, primarily.",
+ "Tip out from TEAM NET SALES: bar gets 1%, busser gets 1.5%, expo gets 0.5% — each line rounds UP to the next whole dollar. If no expo is scheduled that night, the expo line does not come out of you.",
+ "Banquets: guests pay a 23% auto-grat (they can tip more on top). The 3% banquet tip-out line is Lillian's cut as banquet coordinator. Banquet sales ALSO tip out bar, busser, and expo like all other sales — confirmed 8/4.",
+ "The polisher is a flat tip-out, not a percent: $10 for a team, $5 solo. But most nights there is NO polisher at all — they only show up on the busiest nights, and then usually just one.",
  "Pool minus tip-outs is what the team earned. Drop the cents.",
+ "The checkout sheet is HAND math — Toast only totals the non-cash side. That is exactly why this calculator exists.",
  "Split earned 50/50 between front and back. When it lands odd, the back server takes the greater dollar.",
  "Every rule here was proven to the dollar against real graded house checkouts."
 ];
@@ -1345,7 +1368,7 @@ const CONFLICTS = [
  ["Calamari","$14 (6/20)","$17 (7/3)","Use $17"],
  ["Seasonal Oysters","$26 (6/20)","$25 (7/3)","Use $25"],
  ["Seared Blackened Tuna","$26 app (6/20)","Now Crispy Ahi Bites $18 (7/3)","Item changed — Q2 on the test"],
- ["Mer Soleil Chardonnay","On the 6/20 list","Missing from the 7/3 sheet","Verify it is still poured"],
+ ["Mer Soleil Chardonnay","On the 6/20 list","NOT on the printed menu — photo-confirmed 8/4","RESOLVED: off the list, do not pitch"],
  ["Dona Paula Malbec","Not on 6/20","$14 / $52 on 7/3","New by-the-glass add"],
  ["Advice From John producer","Buehler Estate on the bottle list","\"By Orin Swift\" by the glass","Verify with a manager"]
 ];
@@ -1558,7 +1581,9 @@ function calcSC(){
   const credTips = realTips>0 ? realTips : sales*SALES.guestTipRate;
   const withheld = credTips*SALES.withheldRate;
   const pool = credTips - withheld + cash;
-  const lines = SALES.tipouts.map(t=>[t[0]+" ("+(t[1]*100)+"% of sales)",Math.ceil(t[1]*sales)]);
+  const expoOn=($("#scExpo")&&$("#scExpo").value)!=="no";
+  const lines = SALES.tipouts.filter(t=>expoOn||t[0]!=="Expo").map(t=>[t[0]+" ("+(t[1]*100)+"% of sales)",Math.ceil(t[1]*sales)]);
+  if(!expoOn) lines.push(["Expo (none scheduled)",0]);
   if(bqOn) lines.push(["Banquet (3% of sales)",Math.ceil(SALES.banquetTipout*sales)]);
   if(polisher>0) lines.push([`Polisher (flat $${polisher})`,Math.round(polisher)]);
   const tipOut=lines.reduce((a,l)=>a+l[1],0);
@@ -1792,7 +1817,7 @@ function build(){
       <div class="kpi"><div class="k">Entree checkback</div><div class="v">2–5 min</div><div class="s">after entrees hit the table</div></div>
       <div class="kpi"><div class="k">Manager alert</div><div class="v">$250+</div><div class="s">wine bottle · big Bordeaux glasses</div></div>
     </div>
-    <div class="note gold"><b>Always hit:</b> first time, celebration, wine list, allergies, features, soup, oysters, Chef's Corner, 86'd items, and a wine or app suggestion.</div>
+    <div class="note gold"><b>Always hit:</b> first time, celebration, wine list, allergies, features, soup, oysters, cut specials, 86'd items, and a wine or app suggestion.</div>
     <div class="grid wide" style="margin-top:14px">
       <div class="card"><div class="cname">Two drink calls that always work</div>
         <div class="cbody">${DRINK_PITCH.slice(0,4).map(p=>`<div style="padding:4px 0"><b>${esc(p[0])}:</b> ${esc(p[1])}</div>`).join("")}</div></div>
@@ -1961,7 +1986,7 @@ function build(){
         <div class="f"><label>Team net sales $</label><input type="number" inputmode="decimal" id="scSales" placeholder="from Toast" min="0"></div>
         <div class="f"><label>Credit tips $ (optional)</label><input type="number" inputmode="decimal" id="scTips" placeholder="blank = 20.8% est." min="0"></div>
         <div class="f"><label>Ran a banquet?</label><select id="scBq"><option value="no">No</option><option value="yes">Yes (+3% tip-out)</option></select></div>
-        <div class="f"><label>Polisher scheduled?</label><select id="scPolisher"><option value="0">No</option><option value="10">Yes — team night ($10)</option><option value="5">Yes — I'm solo ($5)</option></select></div>
+        <div class="f"><label>Polisher scheduled?</label><select id="scPolisher"><option value="0">No — the usual</option><option value="10">Yes — team ($10, busiest nights)</option><option value="5">Yes — I'm solo ($5)</option></select></div><div class="f"><label>Expo working?</label><select id="scExpo"><option value="yes">Yes</option><option value="no">No — skip expo line</option></select></div>
         <div class="f"><label>Cash tips $</label><input type="number" inputmode="decimal" id="scCash" placeholder="—" min="0"></div>
       </div>
       <div class="out" id="scOut"></div>
@@ -2001,7 +2026,7 @@ function build(){
     <ol class="steps">${SPLIT_RULES.map(r=>`<li><b>${esc(r.split(".")[0])}.</b>${esc(r.split(".").slice(1).join(".").trim())}</li>`).join("")}</ol>
 
     ${acc("Night forecast — books + walk-ins","how many people are actually coming in",`
-      <p class="sub" style="color:var(--dim2);font-size:12.5px;margin:4px 0 12px">Covers on the books (SevenRooms) plus a walk-in guess equals the people coming in. Walk-ins lately: weekends 30–70 (call it 50), weekdays 15–30. No covers entered falls back to teams &times; $1,388.</p>
+      <p class="sub" style="color:var(--dim2);font-size:12.5px;margin:4px 0 12px">Covers on the books (SevenRooms) plus a walk-in guess equals the people coming in. Walk-ins lately: weekends 30–70 (call it 50), weekdays 15–30. No covers entered falls back to teams &times; $1,388. Staffing reality: most days run 3-4 teams, slow days 2, big days 5-7 — the manager sets it by covers and it changes every week.</p>
       <div class="frow">
         <div class="f"><label>Teams</label><input type="number" inputmode="decimal" id="fcTeams" value="3" min="1" max="12"></div>
         <div class="f"><label>On the books</label><input type="number" inputmode="decimal" id="fcBooks" placeholder="from SevenRooms" min="0"></div>
@@ -2093,7 +2118,7 @@ function build(){
 
   $("#scPresets").onclick=e=>{const b=e.target.closest("button");if(!b)return;
     $("#scSales").value=b.dataset.v; $("#scTips").value=""; calcSC(); calcBQC();};
-  ["scSales","scTips","scBq","scPolisher","scCash"].forEach(id=>{
+  ["scSales","scTips","scBq","scPolisher","scExpo","scCash"].forEach(id=>{
     const n=$("#"+id); n.oninput=()=>{calcSC();calcBQC();}; n.onchange=()=>{calcSC();calcBQC();}; n.onkeyup=()=>{calcSC();calcBQC();};});
   ["bqcSales","bqcTips","bqcThree"].forEach(id=>{
     const n=$("#"+id); n.oninput=calcBQC; n.onchange=calcBQC; n.onkeyup=calcBQC;});

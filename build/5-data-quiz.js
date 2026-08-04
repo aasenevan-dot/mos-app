@@ -80,20 +80,21 @@ const OPEN = [
 
 /* ============ OPS ============ */
 const FLOW = [
- ["Before you walk up",["Know soup of the day, oysters, 86'd items, Chef's Corner, specials, and big features.","Know the cocktail menu well enough to give 2 easy recommendations.","Know allergy protocol: ask the allergy, ring it in, tell back server, expo and chef, and a manager.","Know timing: soups, salads, and desserts 5-7 minutes (10 max); entrees 22-27 minutes."]],
+ ["Before you walk up",["Pre-shift lineup runs about 4:15 every day — the MOD covers teams, floor plan, need-to-knows, soup, today's specials, and recent reviews.","Know soup of the day, oysters, 86'd items, cut specials, and big features.","Know the cocktail menu well enough to give 2 easy recommendations.","Know allergy protocol: ask the allergy, ring it in, tell back server, expo and chef, and a manager.","Know timing: soups, salads, and desserts 5-7 minutes (10 max); entrees 22-27 minutes.","The kitchen is Chef Miguel G's — use the name when you pitch."]],
  ["Greet",["Introduce yourself and your back server.","Ask first time, celebration, allergies, and whether they want the wine list.","Point them to cocktails, beer, wine, and whiskey.","Keep it warm and short."]],
- ["Drinks first",["Get drinks started quickly.","If they are unsure, give two simple choices — light and refreshing: Cactus Flower Mule or Lychee Icee. Sweet and fruity: Ruby & Jade or Golden Hour. Whiskey: Pittsburghed Peach Old Fashioned.","If they order a wine bottle over $250, let a manager know and use big Bordeaux glasses."]],
+ ["Drinks first",["Get drinks started quickly.","If they are unsure, give two simple choices — light and refreshing: Cactus Flower Mule or Lychee Icee. Sweet and fruity: Ruby & Jade or Golden Hour. Whiskey: Pittsburghed Peach Old Fashioned.","Wine bottles: the front server sets the glasses, and a MANAGER opens and pours the bottle at the table — every time.","If they order a wine bottle over $250, let a manager know and use big Bordeaux glasses."]],
  ["Appetizers",["After drinks, ask about apps.","Recommend 2-3 confidently: shrimp cocktail, calamari, crispy ahi tuna bites, oysters, or a seafood tower.","Send apps quickly and tell the back server.","Apps buy you time, but do not forget to course the rest."]],
+ ["Soup, salad & bread",["How a table starts: busser greets with water, front server greets and gets drinks plus apps and soup/salad, then the BACK server drops the soup or salad and introduces themselves right there.","Bread ALWAYS comes with soups and salads.","Offer freshly cracked pepper EVERY time after dropping a soup or salad.","Course order never changes: appetizers (skippable), then soups/salads, then entrees."]],
  ["Menu wrap / order",["Hit the key items, not a speech.","Mention soup and salad protocol if needed.","Mention steak temps and that well-done filets should be butterflied.","Ask sides and enhancements: Oscar, Steak 47, lobster tail, scallops, truffle butter, mushrooms.","Any special request must be confirmed with the chef."]],
  ["Course checkbacks",["Check apps and salads after they land.","After salad or soup clears, ask about another round or a second bottle.","Entree checkback is 2-5 minutes after entrees hit: \"Is everything tasting perfect for us?\"","If the answer sounds weak, fix it immediately."]],
  ["Work with your back server",["You are the table lead; the back server keeps the table moving.","Write the dinner ticket neatly.","Let the back server reset, but help if they are buried.","For large tables, Farbuckle, A5, towers, or tableside items, help run and drop food."]],
- ["Dessert and close",["Ask about dessert, after-dinner drinks, port, espresso martini style drinks, or cocktails.","On busy nights have the check ready with dessert.","If something went wrong, fix it before dessert and the check.","Last impression matters — thank them by name when you can."]]
+ ["Dessert and close",["Ask about dessert, after-dinner drinks, port, espresso martini style drinks, or cocktails.","On busy nights have the check ready with dessert.","To-go boxing station is back-left in the kitchen — cleaned and swept every night, restocked every morning.","If something went wrong, fix it before dessert and the check.","Last impression matters — thank them by name when you can."]]
 ];
 
 const ANCHORS = [
  ["Mission","Leave people better than you found them."],
  ["Front server role","Table leader, relationship builder, order and ring authority, pacing owner, beverage and menu seller, check-average driver."],
- ["Always hit","First time, celebration, wine list, allergies, features, soup, oysters, Chef's Corner, 86'd items, and wine/app suggestions."],
+ ["Always hit","First time, celebration, wine list, allergies, features, soup, oysters, cut specials, 86'd items, and wine/app suggestions."],
  ["The wine move","Ask whether they are leaning lighter and smoother or bigger and richer, then give two confident choices."],
  ["One-liner","Lead the table, sell confidently, keep pacing clean, communicate with your back server, and fix problems before the guest has to ask twice."]
 ];
@@ -140,10 +141,11 @@ const SALES = {
 const SPLIT_RULES=[
  "Each team is a front server and a back server.",
  "Toast takes 2% of your credit tips off the top (tips withheld). What's left, plus any cash tips and gratuity, is your team pool.",
- "Tip out from TEAM NET SALES: bar gets 1%, busser gets 1.5%, expo gets 0.5% — each line rounds UP to the next whole dollar.",
- "Banquets: guests pay a 23% auto-grat (they can tip more on top). The 3% banquet tip-out line is Lillian's cut as banquet coordinator — so the team effectively keeps 20 points before the normal tip-outs.",
- "The polisher is a flat tip-out, not a percent: $10 when your team is a front and a back, $5 when you solo. Almost always $10, because solo is really the cocktailer's world — Jenny or Taylor, primarily.",
+ "Tip out from TEAM NET SALES: bar gets 1%, busser gets 1.5%, expo gets 0.5% — each line rounds UP to the next whole dollar. If no expo is scheduled that night, the expo line does not come out of you.",
+ "Banquets: guests pay a 23% auto-grat (they can tip more on top). The 3% banquet tip-out line is Lillian's cut as banquet coordinator. Banquet sales ALSO tip out bar, busser, and expo like all other sales — confirmed 8/4.",
+ "The polisher is a flat tip-out, not a percent: $10 for a team, $5 solo. But most nights there is NO polisher at all — they only show up on the busiest nights, and then usually just one.",
  "Pool minus tip-outs is what the team earned. Drop the cents.",
+ "The checkout sheet is HAND math — Toast only totals the non-cash side. That is exactly why this calculator exists.",
  "Split earned 50/50 between front and back. When it lands odd, the back server takes the greater dollar.",
  "Every rule here was proven to the dollar against real graded house checkouts."
 ];
@@ -186,7 +188,7 @@ const CONFLICTS = [
  ["Calamari","$14 (6/20)","$17 (7/3)","Use $17"],
  ["Seasonal Oysters","$26 (6/20)","$25 (7/3)","Use $25"],
  ["Seared Blackened Tuna","$26 app (6/20)","Now Crispy Ahi Bites $18 (7/3)","Item changed — Q2 on the test"],
- ["Mer Soleil Chardonnay","On the 6/20 list","Missing from the 7/3 sheet","Verify it is still poured"],
+ ["Mer Soleil Chardonnay","On the 6/20 list","NOT on the printed menu — photo-confirmed 8/4","RESOLVED: off the list, do not pitch"],
  ["Dona Paula Malbec","Not on 6/20","$14 / $52 on 7/3","New by-the-glass add"],
  ["Advice From John producer","Buehler Estate on the bottle list","\"By Orin Swift\" by the glass","Verify with a manager"]
 ];

@@ -207,7 +207,9 @@ function calcSC(){
   const credTips = realTips>0 ? realTips : sales*SALES.guestTipRate;
   const withheld = credTips*SALES.withheldRate;
   const pool = credTips - withheld + cash;
-  const lines = SALES.tipouts.map(t=>[t[0]+" ("+(t[1]*100)+"% of sales)",Math.ceil(t[1]*sales)]);
+  const expoOn=($("#scExpo")&&$("#scExpo").value)!=="no";
+  const lines = SALES.tipouts.filter(t=>expoOn||t[0]!=="Expo").map(t=>[t[0]+" ("+(t[1]*100)+"% of sales)",Math.ceil(t[1]*sales)]);
+  if(!expoOn) lines.push(["Expo (none scheduled)",0]);
   if(bqOn) lines.push(["Banquet (3% of sales)",Math.ceil(SALES.banquetTipout*sales)]);
   if(polisher>0) lines.push([`Polisher (flat $${polisher})`,Math.round(polisher)]);
   const tipOut=lines.reduce((a,l)=>a+l[1],0);
@@ -441,7 +443,7 @@ function build(){
       <div class="kpi"><div class="k">Entree checkback</div><div class="v">2–5 min</div><div class="s">after entrees hit the table</div></div>
       <div class="kpi"><div class="k">Manager alert</div><div class="v">$250+</div><div class="s">wine bottle · big Bordeaux glasses</div></div>
     </div>
-    <div class="note gold"><b>Always hit:</b> first time, celebration, wine list, allergies, features, soup, oysters, Chef's Corner, 86'd items, and a wine or app suggestion.</div>
+    <div class="note gold"><b>Always hit:</b> first time, celebration, wine list, allergies, features, soup, oysters, cut specials, 86'd items, and a wine or app suggestion.</div>
     <div class="grid wide" style="margin-top:14px">
       <div class="card"><div class="cname">Two drink calls that always work</div>
         <div class="cbody">${DRINK_PITCH.slice(0,4).map(p=>`<div style="padding:4px 0"><b>${esc(p[0])}:</b> ${esc(p[1])}</div>`).join("")}</div></div>
@@ -610,7 +612,7 @@ function build(){
         <div class="f"><label>Team net sales $</label><input type="number" inputmode="decimal" id="scSales" placeholder="from Toast" min="0"></div>
         <div class="f"><label>Credit tips $ (optional)</label><input type="number" inputmode="decimal" id="scTips" placeholder="blank = 20.8% est." min="0"></div>
         <div class="f"><label>Ran a banquet?</label><select id="scBq"><option value="no">No</option><option value="yes">Yes (+3% tip-out)</option></select></div>
-        <div class="f"><label>Polisher scheduled?</label><select id="scPolisher"><option value="0">No</option><option value="10">Yes — team night ($10)</option><option value="5">Yes — I'm solo ($5)</option></select></div>
+        <div class="f"><label>Polisher scheduled?</label><select id="scPolisher"><option value="0">No — the usual</option><option value="10">Yes — team ($10, busiest nights)</option><option value="5">Yes — I'm solo ($5)</option></select></div><div class="f"><label>Expo working?</label><select id="scExpo"><option value="yes">Yes</option><option value="no">No — skip expo line</option></select></div>
         <div class="f"><label>Cash tips $</label><input type="number" inputmode="decimal" id="scCash" placeholder="—" min="0"></div>
       </div>
       <div class="out" id="scOut"></div>
@@ -650,7 +652,7 @@ function build(){
     <ol class="steps">${SPLIT_RULES.map(r=>`<li><b>${esc(r.split(".")[0])}.</b>${esc(r.split(".").slice(1).join(".").trim())}</li>`).join("")}</ol>
 
     ${acc("Night forecast — books + walk-ins","how many people are actually coming in",`
-      <p class="sub" style="color:var(--dim2);font-size:12.5px;margin:4px 0 12px">Covers on the books (SevenRooms) plus a walk-in guess equals the people coming in. Walk-ins lately: weekends 30–70 (call it 50), weekdays 15–30. No covers entered falls back to teams &times; $1,388.</p>
+      <p class="sub" style="color:var(--dim2);font-size:12.5px;margin:4px 0 12px">Covers on the books (SevenRooms) plus a walk-in guess equals the people coming in. Walk-ins lately: weekends 30–70 (call it 50), weekdays 15–30. No covers entered falls back to teams &times; $1,388. Staffing reality: most days run 3-4 teams, slow days 2, big days 5-7 — the manager sets it by covers and it changes every week.</p>
       <div class="frow">
         <div class="f"><label>Teams</label><input type="number" inputmode="decimal" id="fcTeams" value="3" min="1" max="12"></div>
         <div class="f"><label>On the books</label><input type="number" inputmode="decimal" id="fcBooks" placeholder="from SevenRooms" min="0"></div>
@@ -742,7 +744,7 @@ function build(){
 
   $("#scPresets").onclick=e=>{const b=e.target.closest("button");if(!b)return;
     $("#scSales").value=b.dataset.v; $("#scTips").value=""; calcSC(); calcBQC();};
-  ["scSales","scTips","scBq","scPolisher","scCash"].forEach(id=>{
+  ["scSales","scTips","scBq","scPolisher","scExpo","scCash"].forEach(id=>{
     const n=$("#"+id); n.oninput=()=>{calcSC();calcBQC();}; n.onchange=()=>{calcSC();calcBQC();}; n.onkeyup=()=>{calcSC();calcBQC();};});
   ["bqcSales","bqcTips","bqcThree"].forEach(id=>{
     const n=$("#"+id); n.oninput=calcBQC; n.onchange=calcBQC; n.onkeyup=calcBQC;});

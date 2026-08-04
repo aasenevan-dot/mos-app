@@ -70,7 +70,7 @@ const COCKTAILS = [
  {n:"Mo's Make-A-Mocktail",p:"$12",grp:"signature",base:"Non-alcoholic",
   build:"Custom mocktail built to the guest's flavor lane.",
   glass:"Guest-dependent",garnish:"Garnish cleanly, match the flavor lane",
-  desc:"Non-alcoholic, flexible, guest-led.",note:"Ask the guest which lane: citrus, berry, tropical, herbal."},
+  desc:"Non-alcoholic, flexible, guest-led.",note:"Confirmed $12 (8/4). Might not be printed on the menu anymore — we still make it. Ask the guest which lane: citrus, berry, tropical, herbal."},
 
  {n:"Coco Caramel Carajillo",p:"$20",grp:"dessert",base:"Rum / coffee",
   build:"Werther's caramel-infused Hard Truth toasted coconut rum, Licor 43 Vanilla, espresso.",
@@ -139,7 +139,7 @@ const SPIRITS = {
   ["Maker's Mark","$12","Wheated, soft, sweet"],
   ["Woodford Reserve","$14","Polished, brown sugar, spice"],
   ["Woodford Reserve Double Oak","$18","Upsell: sweeter oak, vanilla, toasted finish"]],
- "Bardstown & Specialty":[
+ "Bardstown & Specialty (all prices photo-confirmed 8/4)":[
   ["Discovery Series","$30","Premium Bardstown blend; rich and layered"],
   ["Founders Finish","$35","Finished bourbon; deeper dessert notes"],
   ["Origin Series","$15","Entry Bardstown option"],
@@ -210,6 +210,20 @@ const SPIRITS = {
 };
 
 /* ============ BEER ============ */
+SPIRITS["On Draft — only two lines"]=[
+ ["Smoked Draft Old Fashioned","$17","Signature — full build up in the cocktail list."],
+ ["Second draft line","VERIFY","Used to be a Transfusion, changed since — maybe a cucumber-infused vodka drink now. Our sheet also calls Sweet & Salty a draft cocktail. Get the straight answer from the bar."]
+];
+
+SPIRITS["Coffee, Tea & Water (no booze)"]=[
+ ["Hubbard & Cravens Coffee","reg / decaf","Local Indianapolis roaster. Bring a cream and sugar caddy with it."],
+ ["Iced Tea","unsweet","Unsweet by default — sweet tea can be made on request."],
+ ["Filtered Water","free","The busser carries it — default for every table."],
+ ["Aquafina","bottle","Bottled still water if the guest wants it — price in Toast."],
+ ["Sparkling Water","bottle","Bottled sparkling if the guest wants it — price in Toast."],
+ ["Coffee cocktails","see Dessert Cocktails","Espresso martinis and friends live up in the cocktail list, dessert group."]
+];
+
 const BEER = [
  ["Bud Zero","0.0%","Non-alcoholic lager","Light malt, no alcohol"],
  ["Bud Light","4.2%","Light lager","Clean, light, easy domestic"],

@@ -1,0 +1,5 @@
+*.xlsx
+*.numbers
+private/
+.DS_Store
+test-rebuild.html

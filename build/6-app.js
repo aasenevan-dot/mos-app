@@ -1,0 +1,775 @@
+
+/* ============================================================
+   APP — team edition
+   ============================================================ */
+const $ = s=>document.querySelector(s);
+const esc = s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const $d=n=>"$"+Math.round(n).toLocaleString();
+
+const TABS = [
+  ["shift","Home"],["wine","Wine"],["cocktails","Drinks & Garnish"],["menu","Food Menu"],
+  ["specials","Specials & Soups"],
+  ["allergens","Allergens"],["bar","Spirits & Beer"],["study","Study & Quiz"],["ops","Money"]
+];
+const ICONS={
+ home:'<svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>',
+ wine:'<svg viewBox="0 0 24 24"><path d="M8 3h8l-.8 6.5a3.5 3.5 0 01-6.4 0z"/><path d="M12 13v7M8 21h8"/></svg>',
+ drinks:'<svg viewBox="0 0 24 24"><path d="M4 4h16l-8 9z"/><path d="M12 13v7M8 21h8"/></svg>',
+ money:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M15 9.5c0-1.4-1.3-2.5-3-2.5s-3 1-3 2.2c0 3 6 1.6 6 4.6 0 1.2-1.3 2.2-3 2.2s-3-1.1-3-2.5"/></svg>',
+ more:'<svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg>',
+ star:'<svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 5.9L12 16.4 6.7 19.3l1.2-5.9L3.4 9.3l6-.7z"/></svg>'
+};
+const BOTTOM=[["shift","Home","home"],["wine","Wine","wine"],["cocktails","Drinks","drinks"],["specials","Specials","star"],["ops","Money","money"],["__more","More","more"]];
+
+let TAB = "shift";
+
+function buildNav(){
+  $("#nav").innerHTML = TABS.map(([k,l])=>`<button data-t="${k}"${k===TAB?' class="on"':''}>${l}</button>`).join("");
+  $("#nav").onclick = e=>{const b=e.target.closest("button"); if(b) go(b.dataset.t);};
+  $("#bbar").innerHTML = BOTTOM.map(([k,l,i])=>`<button data-t="${k}">${ICONS[i]}<span>${l}</span></button>`).join("");
+  $("#bbar").onclick = e=>{const b=e.target.closest("button"); if(!b)return;
+    if(b.dataset.t==="__more"){openSheet();return;} go(b.dataset.t);};
+  syncBars();
+}
+function syncBars(){
+  document.querySelectorAll("#nav button").forEach(b=>b.classList.toggle("on",b.dataset.t===TAB));
+  const inBar=BOTTOM.some(x=>x[0]===TAB);
+  document.querySelectorAll("#bbar button").forEach(b=>
+    b.classList.toggle("on", b.dataset.t===TAB || (b.dataset.t==="__more" && !inBar)));
+}
+function go(t,sel){
+  TAB=t; closeSheet();
+  document.querySelectorAll(".panel").forEach(p=>p.classList.toggle("on",p.id==="p-"+t));
+  syncBars();
+  if(sel){setTimeout(()=>{const el=document.querySelector(sel); if(el)el.scrollIntoView({behavior:"smooth"});},80);}
+  else window.scrollTo({top:0,behavior:"instant"});
+}
+function openSheet(){
+  $("#sheetin").innerHTML=`
+    <h3>All sections</h3>
+    <div class="row">${TABS.map(([k,l])=>`<button class="item${k===TAB?" on":""}" data-t="${k}">${l}</button>`).join("")}</div>
+    <h3>Tools</h3>
+    <div class="row">
+      <button class="item" id="shBig">${document.body.classList.contains("big")?"Normal text":"Bigger text"}</button>
+      <button class="item" id="shPrint">Print this tab</button>
+    </div>`;
+  $("#sheet").classList.add("open");
+  $("#sheetin").querySelectorAll("button.item[data-t]").forEach(b=>b.onclick=()=>go(b.dataset.t));
+  $("#shBig").onclick=()=>{document.body.classList.toggle("big");closeSheet();};
+  $("#shPrint").onclick=()=>{closeSheet();setTimeout(()=>window.print(),150);};
+}
+function closeSheet(){$("#sheet").classList.remove("open");}
+
+/* ---------- WINE ---------- */
+function winePrice(w){const n=(w.p.match(/\d+/g)||[]).map(Number);return n[n.length-1]||0;}
+function wineColor(w){
+  if(w.c==="champ")return "bubbles";
+  if(w.c==="gwhite")return "white";
+  return /Chablis|Macon|Chardonnay|Rose\b|Riesling|Grigio|Moscato|Sauvignon/i.test(w.n)?"white":"red";
+}
+const BUDGETS=[["all","Any price"],["0-75","Under $75"],["75-125","$75–125"],["125-200","$125–200"],["200-350","$200–350"],["350-9999","$350+"]];
+function wineCard(w){
+  return `<div class="card">
+    <div class="crow"><div><div class="cname">${esc(w.n)}</div><div class="csub">${esc(w.r)}</div></div><div class="cprice">${esc(w.p)}</div></div>
+    <div class="cbody"><b>Tastes like:</b> ${esc(w.f)}<br><b>Structure:</b> tannin ${esc(w.T)} &middot; acid ${esc(w.A)} &middot; body ${esc(w.B)}<br><b>Finish:</b> ${esc(w.fin)}<br><b>Pair with:</b> ${esc(w.pair)}</div>
+    <div class="pitch">&ldquo;${esc(w.pitch)}&rdquo;</div>
+    <div class="tags"><span class="tag ${w.t.toLowerCase()}">${w.t}</span><span class="tag">${(WINE_CATS.find(c=>c[0]===w.c)||[,w.c])[1]}</span></div>
+  </div>`;
+}
+let wineFilter={cat:"all",tier:"all",q:"",price:"all",color:"all"};
+function renderWines(){
+  const q=wineFilter.q.toLowerCase();
+  let [lo,hi]=[0,1e9];
+  if(wineFilter.price!=="all"){const p=wineFilter.price.split("-");lo=+p[0];hi=+p[1];}
+  const list=WINES.filter(w=>
+    (wineFilter.cat==="all"||w.c===wineFilter.cat)&&
+    (wineFilter.tier==="all"||w.t===wineFilter.tier)&&
+    (wineFilter.color==="all"||wineColor(w)===wineFilter.color)&&
+    (wineFilter.price==="all"||(winePrice(w)>=lo&&winePrice(w)<=hi))&&
+    (!q||(w.n+w.r+w.f+w.pair+w.pitch).toLowerCase().includes(q)));
+  $("#wineCount").textContent = list.length+" match"+(list.length===1?"":"es");
+  $("#wineGrid").innerHTML = list.length?list.map(wineCard).join(""):'<div class="empty">Nothing in that lane. Widen the price or color.</div>';
+}
+function pairingOut(i){
+  const p=PAIRINGS[i];
+  const lane=(label,arr,cls)=>`<div style="margin-bottom:10px"><span class="tag ${cls}">${label}</span><div style="margin-top:5px;font-size:13.5px">${arr.map(n=>{
+    const w=WINES.find(x=>x.n.indexOf(n)===0||x.n===n);
+    return `<div style="padding:3px 0"><b>${esc(n)}</b>${w?` <span style="color:var(--gold2)">${esc(w.p)}</span>`:""}</div>`;}).join("")}</div></div>`;
+  $("#pairOut").innerHTML = `<div class="note gold" style="margin-top:0"><b>Say this:</b> &ldquo;${esc(p.line)}&rdquo;</div>
+    ${lane("GOOD",p.good,"good")}${lane("BETTER",p.better,"better")}${lane("BEST",p.best,"best")}`;
+}
+
+/* ---------- COCKTAILS ---------- */
+function drinkCard(c){
+  return `<div class="card">
+    <div class="crow"><div><div class="cname">${esc(c.n)}</div><div class="csub">${esc(c.base)}${c.glass&&c.glass!=="—"?" &middot; "+esc(c.glass):""}</div></div><div class="cprice">${esc(c.p)}</div></div>
+    <div class="cbody"><b>Build:</b> ${esc(c.build)}<br><b>Tastes like:</b> ${esc(c.desc)}</div>
+    ${c.garnish&&c.garnish!=="—"?`<div class="garnish"><b>Garnish:</b> ${esc(c.garnish)}</div>`:""}
+    ${c.note?`<div class="tags"><span class="tag ${c.grp==="verify"?"warn":""}">${esc(c.note)}</span></div>`:""}
+  </div>`;
+}
+let drinkFilter={grp:"all",q:""};
+function renderDrinks(){
+  const q=drinkFilter.q.toLowerCase();
+  const list=COCKTAILS.filter(c=>(drinkFilter.grp==="all"||c.grp===drinkFilter.grp)&&(!q||(c.n+c.build+c.garnish+c.desc+c.base).toLowerCase().includes(q)));
+  $("#drinkGrid").innerHTML=list.length?list.map(drinkCard).join(""):'<div class="empty">No drinks match.</div>';
+}
+
+/* ---------- ALLERGENS ---------- */
+let allergySel=new Set();
+function renderAllergens(){
+  const q=($("#allergyQ")?.value||"").toLowerCase();
+  const rows=ALLERGENS.filter(r=>!q||r[0].toLowerCase().includes(q)||r[2].join(" ").includes(q));
+  const flagged=r=>[...allergySel].some(a=>r[2].includes(a));
+  const shown = rows.map(r=>[r,allergySel.size?flagged(r):false]);
+  $("#allergyTable").innerHTML=`<table><thead><tr><th>Dish</th><th>Price</th><th>Contains</th><th>Note</th></tr></thead><tbody>${
+    shown.map(([r,hit])=>`<tr${hit?' style="background:rgba(163,60,53,.09)"':''}>
+      <td><b>${esc(r[0])}</b>${hit?' <span class="tag warn">FLAGGED</span>':''}</td>
+      <td class="n">${esc(r[1])}</td>
+      <td>${r[2].length?r[2].map(a=>`<span class="tag${allergySel.has(a)?" warn":""}">${esc(a)}</span>`).join(" "):'<span style="color:var(--dim2)">none listed</span>'}</td>
+      <td style="color:var(--dim);font-size:12.6px">${esc(r[3])}</td></tr>`).join("")}</tbody></table>`;
+  const n=shown.filter(x=>x[1]).length;
+  $("#allergySummary").innerHTML = allergySel.size
+    ? `<div class="note warn"><b>${n} of ${shown.length} dishes flagged</b> for ${[...allergySel].map(esc).join(", ")}. Everything not flagged still needs a kitchen check — never guarantee from this sheet.</div>`
+    : `<div class="note">Tap an allergen below to flag every dish that contains it. ${ALLERGENS.length} dishes in the matrix.</div>`;
+}
+
+/* ---------- QUIZ ---------- */
+let quiz={i:0,score:0,answered:0,order:[],opts:[],missed:[],topics:{}};
+function startQuiz(subset){
+  const src = subset && subset.length ? subset : MC.map((_,i)=>i);
+  quiz.order=[...src].sort(()=>Math.random()-.5);
+  quiz.opts=quiz.order.map(i=>MC[i].o.map((txt,k)=>({txt,ok:k===0})).sort(()=>Math.random()-.5));
+  quiz.i=0;quiz.score=0;quiz.answered=0;quiz.missed=[];quiz.topics={};
+  renderQuiz();
+}
+function renderQuiz(){
+  const box=$("#quizBox");
+  if(quiz.i>=quiz.order.length){
+    const pct=quiz.order.length?Math.round(quiz.score/quiz.order.length*100):0;
+    const topics=Object.entries(quiz.topics).map(([t,v])=>`<span class="tag${v.ok===v.n?" good":v.ok/v.n<.7?" warn":""}" style="font-size:12px;padding:4px 9px">${t}: ${v.ok}/${v.n}</span>`).join(" ");
+    box.innerHTML=`<div class="q" style="text-align:center;padding:28px">
+      <div style="font-size:40px;font-weight:800;color:${pct>=90?"#1E6B3A":pct>=70?"var(--gold2)":"#A33C35"}">${pct}%</div>
+      <div style="margin:6px 0 12px;color:var(--dim)">${quiz.score} of ${quiz.order.length} correct</div>
+      <div class="tags" style="justify-content:center;margin-bottom:16px">${topics}</div>
+      <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+        <button class="btn" onclick="startQuiz()">New quiz</button>
+        ${quiz.missed.length?`<button class="btn sec" onclick="startQuiz(quiz.missed.slice())">Review the ${quiz.missed.length} missed</button>`:""}
+      </div></div>`;
+    $("#quizScore").innerHTML=`<b>${pct}%</b> final`;
+    return;
+  }
+  const qi=quiz.order[quiz.i], m=MC[qi], opts=quiz.opts[quiz.i];
+  $("#quizScore").innerHTML=`<b>${quiz.score}</b> / ${quiz.answered} &nbsp;·&nbsp; question ${quiz.i+1} of ${quiz.order.length}`;
+  box.innerHTML=`<div class="q">
+    <div class="qq"><span>${quiz.i+1}.</span>${esc(m.q)} <span class="tag" style="margin-left:6px">${m.t}</span></div>
+    ${opts.map((o,k)=>`<button class="opt" data-k="${k}">${esc(o.txt)}</button>`).join("")}
+    <div id="qfb"></div></div>`;
+  box.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{
+    const k=+b.dataset.k, ok=opts[k].ok;
+    quiz.answered++; if(ok)quiz.score++; else quiz.missed.push(qi);
+    (quiz.topics[m.t]=quiz.topics[m.t]||{ok:0,n:0}).n++; if(ok)quiz.topics[m.t].ok++;
+    box.querySelectorAll(".opt").forEach((x,j)=>{x.disabled=true;if(opts[j].ok)x.classList.add("right");});
+    if(!ok)b.classList.add("wrong");
+    $("#qfb").innerHTML=`<div style="margin-top:11px;display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+      <span style="color:${ok?'#1E6B3A':'#A33C35'};font-weight:650;font-size:13.5px">${ok?'Correct':'Not quite'}</span>
+      <button class="btn sec" id="qnext">${quiz.i+1>=quiz.order.length?"Finish":"Next question"}</button></div>`;
+    $("#qnext").onclick=()=>{quiz.i++;renderQuiz();};
+    $("#quizScore").innerHTML=`<b>${quiz.score}</b> / ${quiz.answered} &nbsp;·&nbsp; question ${quiz.i+1} of ${quiz.order.length}`;
+  });
+}
+
+/* shared checkout pipeline — one envelope */
+function pipeMath(sales, realTips, estRate, bqOn, polisher, cash){
+  if(!sales) return null;
+  const credTips = realTips>0 ? realTips : sales*estRate;
+  const withheld = credTips*SALES.withheldRate;
+  const pool = credTips - withheld + (cash||0);
+  const lines = SALES.tipouts.map(t=>[t[0]+" ("+(t[1]*100)+"% of sales)",Math.ceil(t[1]*sales)]);
+  if(bqOn) lines.push(["Banquet (3% of sales)",Math.ceil(SALES.banquetTipout*sales)]);
+  if(polisher>0) lines.push(["Polisher (flat $"+polisher+")",Math.round(polisher)]);
+  const tipOut=lines.reduce((a,l)=>a+l[1],0);
+  const earned=Math.max(0,Math.floor(pool-tipOut));
+  const back=Math.ceil(earned/2);
+  return {credTips,withheld,pool,lines,tipOut,earned,back,front:earned-back};
+}
+
+/* ---------- SALES CALCULATOR (the real checkout pipeline) ---------- */
+function calcSC(){
+  const sales=+$("#scSales").value||0;
+  const realTips=+$("#scTips").value||0;
+  const bqOn=$("#scBq").value==="yes";
+  const polisher=+$("#scPolisher").value||0;
+  const cash=+$("#scCash").value||0;
+
+  if(!sales){$("#scOut").innerHTML=`<div class="empty" style="padding:14px">Type your team's net sales (or tap a preset) and the whole checkout prints itself.</div>`;return;}
+
+  const credTips = realTips>0 ? realTips : sales*SALES.guestTipRate;
+  const withheld = credTips*SALES.withheldRate;
+  const pool = credTips - withheld + cash;
+  const lines = SALES.tipouts.map(t=>[t[0]+" ("+(t[1]*100)+"% of sales)",Math.ceil(t[1]*sales)]);
+  if(bqOn) lines.push(["Banquet (3% of sales)",Math.ceil(SALES.banquetTipout*sales)]);
+  if(polisher>0) lines.push([`Polisher (flat $${polisher})`,Math.round(polisher)]);
+  const tipOut=lines.reduce((a,l)=>a+l[1],0);
+  const earned=Math.max(0,Math.floor(pool-tipOut));
+  const back=Math.ceil(earned/2), front=earned-back;
+
+  $("#scOut").innerHTML=`<div class="receipt">
+    <div class="rhead">MO'S — TEAM CHECKOUT</div>
+    <div class="rsub">${realTips>0?"real tips from Toast":"tips estimated at 20.8% of sales"}${bqOn?" · banquet night":""}</div>
+    <div class="rrow"><span>Team net sales</span><b>${$d(sales)}</b></div>
+    <div class="rrow"><span>Credit tips${realTips>0?"":" (est.)"}</span><b>${$d(credTips)}</b></div>
+    <div class="rrow neg"><span>Tips withheld (2%)</span><span>&minus;${$d(withheld)}</span></div>
+    ${cash>0?`<div class="rrow"><span>Cash tips</span><b>+${$d(cash)}</b></div>`:""}
+    <div class="rrow sum"><span>Team pool</span><b>${$d(pool)}</b></div>
+    ${lines.map(l=>`<div class="rrow neg"><span>Tip out — ${esc(l[0])}</span><span>&minus;$${l[1].toLocaleString()}</span></div>`).join("")}
+    <div class="rrow neg sum"><span>Total tip out</span><span>&minus;$${tipOut.toLocaleString()}</span></div>
+    <div class="rrow sum big"><span>EARNED (after tip out)</span><span>${$d(earned)}</span></div>
+    <div class="rrow big"><span>FRONT</span><span>${$d(front)}</span></div>
+    <div class="rrow big"><span>BACK</span><span>${$d(back)}</span></div>
+    <div class="rfoot">50/50 split &middot; back takes the greater dollar &middot; whole dollars only<br>every tip-out line rounds UP &middot; earned drops the cents</div>
+  </div>
+  <div class="note" style="max-width:440px"><b>Rule of thumb:</b> a team keeps about 17% of its net sales — roughly $${Math.round(sales*.1738).toLocaleString()} on this night, call it 8–9 cents per sales dollar for each of you. Sell the bottle.</div>`;
+}
+
+/* ---------- INCOME PREDICTOR — should I take the cut? ---------- */
+function ipTake(covers,chk,teams,nCk,pol){
+  const slices = teams + CKTAIL_WEIGHT*nCk;          // each cocktailer takes ~0.7 of a team's slice
+  const teamSales = covers*chk/slices;
+  const pool = teamSales*SALES.guestTipRate*(1-SALES.withheldRate);
+  const tipout = SALES.tipouts.reduce((a,t)=>a+Math.ceil(t[1]*teamSales),0)+pol;
+  const earned = Math.max(0,Math.floor(pool-tipout));
+  return {take:Math.ceil(earned/2),earned,teamSales:Math.round(teamSales),tipout,share:Math.round(100/slices)};
+}
+function calcIP(){
+  const day=$("#ipDay").value;
+  const dp=DAYPRE[day];
+  const teams=Math.max(1,Math.round(+$("#ipTeams").value||dp.teams));
+  const nCk=Math.max(0,+$("#ipCk").value||0);
+  const books=+$("#ipBooks").value||0;
+  const walk=+$("#ipWalk").value||0;
+  const chk=+$("#ipCheck").value||CHECK_CAL;
+  const pol=+$("#ipPol").value||0;
+  const covers=books+walk;
+
+  // walk-in suggestion from Evan's rules ("60 books -> 30-35 walk-ins" on Sunday)
+  const sugg = dp.wkRule==="half" ? (books>0?Math.round(books*.55):30) : dp.wkRule;
+  const suggHTML = walk===0
+    ? `Your rule for ${dp.label}${dp.wkRule==="half"?" (60 books &rarr; 30–35 walk-ins)":""}: <b>~${sugg} walk-ins</b> <button class="textbtn" id="ipUse" data-s="${sugg}" style="margin-left:6px">use it</button>`
+    : `Walk-in guess in. It is a gut number — nudge it for weather, events, or the time of year.`;
+  // only touch the DOM when the text actually changes — a blur re-render mid-tap eats the first tap otherwise
+  if(window.__ipSugg!==suggHTML){window.__ipSugg=suggHTML;$("#ipSugg").innerHTML=suggHTML;}
+
+  if(!covers){$("#ipOut").innerHTML=`<div class="empty" style="padding:14px">Type what's on the books and this predicts your pocket for the night.</div>`;return;}
+
+  const mid=ipTake(covers,chk,teams,nCk,pol);
+  const loR=ipTake(Math.round(covers*.85),chk,teams,nCk,pol);
+  const hiR=ipTake(Math.round(covers*1.15),chk,teams,nCk,pol);
+  const each=Math.round(mid.earned/2), loE=Math.round(loR.earned/2), hiE=Math.round(hiR.earned/2);
+  const verdict = loE>=200
+    ? {cls:"gold",head:"WORK IT",body:`Even the slow end clears $200 each.`}
+    : hiE<200
+    ? {cls:"warn",head:"CUT TERRITORY",body:`Even a hot night stays under $200 each. If the cut is offered, the math says take it.`}
+    : {cls:"",head:"COIN FLIP",body:`Straddles the $200 line — walk-ins decide this one. Watch the book by late afternoon.`};
+
+  $("#ipOut").innerHTML=`
+  <div class="note ${verdict.cls}" style="margin:0 0 12px">
+    <div style="font-size:19px;font-weight:800;letter-spacing:.02em">${verdict.head} — about ${$d(each)} each <span style="font-weight:600;font-size:13px;color:var(--dim)">(${$d(loE)}–${$d(hiE)})</span></div>
+    <div style="margin-top:4px">${verdict.body}</div>
+  </div>
+  <div class="kpis">
+    <div class="kpi"><div class="k">People coming in</div><div class="v">${covers}</div><div class="s">${books} books + ${walk||0} walk-ins</div></div>
+    <div class="kpi"><div class="k">Your team's sales</div><div class="v">${$d(mid.teamSales)}</div><div class="s">~${mid.share}% of the floor · ${teams} teams${nCk?" + "+nCk+" cocktailer"+(nCk>1?"s":""):""}</div></div>
+    <div class="kpi"><div class="k">Team earned</div><div class="v">${$d(mid.earned)}</div><div class="s">after 2% withheld + $${mid.tipout} tip-out</div></div>
+    <div class="kpi" style="border-color:var(--gold)"><div class="k">The two of you</div><div class="v" style="font-size:16.5px;line-height:1.5">Front ${$d(mid.earned-mid.take)}<br>Back ${$d(mid.take)}</div><div class="s">two-man team — back takes the greater dollar</div></div>
+  </div>
+  <p class="sub" style="margin:10px 0 0;color:var(--dim2);font-size:12px">Calibrated against real Toast checkouts: at $115 a person with the cocktailer slice, the model lands within a few dollars of actual nights. Team share here is ~${mid.share}% of the floor, inside the house's usual 23–30%. A model, not a promise.</p>`;
+}
+
+
+/* ---------- BANQUET CHECKOUT — the second envelope, same math ---------- */
+function calcBQC(){
+  const sales=+$("#bqcSales").value||0;
+  const tips=+$("#bqcTips").value||0;
+  const bq3=$("#bqcThree").value==="yes";
+  const r=pipeMath(sales,tips,SALES.banquetGratRate,bq3,0,0);
+  if(!r){$("#bqcOut").innerHTML='<div class="empty" style="padding:14px">Type the banquet sheet\u2019s net sales and this prints the second envelope.</div>';return;}
+  const rs=+$("#scSales").value||0, rt=+$("#scTips").value||0;
+  const reg=pipeMath(rs,rt,SALES.guestTipRate,$("#scBq").value==="yes",+$("#scPolisher").value||0,+$("#scCash").value||0);
+  $("#bqcOut").innerHTML=`<div class="receipt">
+    <div class="rhead">MO'S — BANQUET CHECKOUT</div>
+    <div class="rsub">${tips>0?"real gratuity from the banquet sheet":"gratuity estimated at 20% until you type it"}</div>
+    <div class="rrow"><span>Banquet net sales</span><b>${$d(sales)}</b></div>
+    <div class="rrow"><span>Gratuity${tips>0?"":" (est.)"}</span><b>${$d(r.credTips)}</b></div>
+    <div class="rrow neg"><span>Tips withheld (2%)</span><span>&minus;${$d(r.withheld)}</span></div>
+    <div class="rrow sum"><span>Envelope pool</span><b>${$d(r.pool)}</b></div>
+    ${r.lines.map(l=>`<div class="rrow neg"><span>Tip out — ${esc(l[0])}</span><span>&minus;$${l[1].toLocaleString()}</span></div>`).join("")}
+    <div class="rrow neg sum"><span>Total tip out</span><span>&minus;$${r.tipOut.toLocaleString()}</span></div>
+    <div class="rrow sum big"><span>EARNED (banquet envelope)</span><span>${$d(r.earned)}</span></div>
+    <div class="rrow big"><span>FRONT</span><span>${$d(r.front)}</span></div>
+    <div class="rrow big"><span>BACK</span><span>${$d(r.back)}</span></div>
+    <div class="rfoot">same rules as the regular envelope &middot; split per envelope, back takes the greater dollar</div>
+  </div>
+  ${reg?`<div class="note gold" style="max-width:440px"><b>Both envelopes tonight:</b> regular ${$d(reg.earned)} + banquet ${$d(r.earned)} = <b>${$d(reg.earned+r.earned)}</b> team total. Your pockets: front ${$d(reg.front+r.front)}, back ${$d(reg.back+r.back)}.</div>`
+       :`<div class="note" style="max-width:440px">Fill the regular Sales Calculator above too and this shows the full two-envelope night total.</div>`}`;
+}
+
+/* ---------- NIGHT FORECAST — covers on the books + walk-ins ---------- */
+function calcFC(){
+  const teams=Math.max(1,Math.round(+$("#fcTeams").value||0));
+  const books=+$("#fcBooks").value||0;
+  const walk=+$("#fcWalk").value||0;
+  const chk=+$("#fcCheck").value||115;
+  const tipMult=+$("#fcOcc").value||1;
+  const covers=books+walk;
+  const coversMode=covers>0&&chk>0;
+  const mult=tipMult;
+  const net=Math.round((coversMode?covers*chk:teams*SALES.teamBase)*mult);
+  const team=Math.round(net/teams);
+  const tax=Math.round(net*SALES.taxRate);
+  // 65% rough hint — only when books entered but no walk-in guess yet
+  const hint = books>0&&walk===0
+    ? `<div class="note" style="margin:10px 0 0"><b>Rough check:</b> books usually run ~65% of the night, which would put the full night near <b>~${Math.round(books/WALKINS.booksShare)} covers</b> (${books} books + ~${Math.round(books/WALKINS.booksShare)-books} walk-ins). Your words: don't lean on that number — add a real walk-in guess. Weekends run ${WALKINS.weekend[0]}–${WALKINS.weekend[1]} walk-ins (call it ${WALKINS.weekend[2]}), weekdays ${WALKINS.weekday[0]}–${WALKINS.weekday[1]}.</div>`
+    : "";
+  $("#fcOut").innerHTML=`<div class="kpis">
+    <div class="kpi"><div class="k">People coming in</div><div class="v">${covers||"—"}</div><div class="s">${books} on the books + ${walk} walk-ins</div></div>
+    <div class="kpi"><div class="k">Restaurant net</div><div class="v">${$d(net)}</div><div class="s">${coversMode?covers+" covers x $"+chk:teams+" teams x $1,388 (no covers entered)"}${mult!==1?" x "+mult.toFixed(2):""} · band ${$d(net*.85)}–${$d(net*1.15)}</div></div>
+    <div class="kpi"><div class="k">Your team's share</div><div class="v">${$d(team)}</div><div class="s">restaurant ÷ ${teams} teams${coversMode?" · ~"+Math.round(covers/teams)+" covers/team":""}</div></div>
+    <div class="kpi" style="border-color:var(--gold)"><div class="k">Each of you (est.)</div><div class="v">${(function(){const r=pipeMath(net/(teams+CKTAIL_WEIGHT),0,SALES.guestTipRate,false,0,0);return r?$d(r.earned/2):"—";})()}</div><div class="s">front & back, after the pipeline — assumes a cocktailer on</div></div>
+    <div class="kpi"><div class="k">Tax (~9%)</div><div class="v">${$d(tax)}</div><div class="s">7% IN + 1% county + 1% city</div></div>
+  </div>${hint}
+  <div style="margin-top:12px"><button class="btn" id="fcApply">Send ${$d(team)} to the Sales Calculator</button></div>`;
+  $("#fcApply").onclick=()=>{
+    $("#scSales").value=team; $("#scTips").value=""; calcSC(); calcBQC();
+    document.querySelector("#sec-checkout").scrollIntoView({behavior:"smooth"});
+  };
+}
+
+/* ---------- BANQUET MINI-TOOL ---------- */
+function calcBq(){
+  const heads=+$("#bqHeads").value||0;
+  const perHead=+$("#bqPerHead").value||0;
+  const min=+$("#bqMin").value||0;
+  const gratPct=(+$("#bqGrat").value||0)/100;
+  const byHeads=heads*perHead;
+  const net=Math.round(Math.max(byHeads,min));
+  const grat=Math.round(net*gratPct);
+  const minWins=min>0&&min>byHeads;
+  $("#bqOut").innerHTML=`<div class="kpis">
+    <div class="kpi"><div class="k">Event net</div><div class="v">${$d(net)}</div><div class="s">${minWins?"the minimum wins over "+$d(byHeads)+" by heads":heads+" heads x $"+perHead+(min>0?" (beats the "+$d(min)+" minimum)":"")}</div></div>
+    <div class="kpi"><div class="k">Auto-grat</div><div class="v">${$d(grat)}</div><div class="s">${(gratPct*100).toFixed(0)}% — VERIFY with Lillian</div></div>
+    <div class="kpi"><div class="k">Grat split if one team runs it</div><div class="v">Front ${$d(Math.floor(grat/2))} · Back ${$d(Math.ceil(grat/2))}</div><div class="s">before tip-out, back takes the greater dollar</div></div>
+  </div>`;
+}
+
+/* ---------- GLOBAL SEARCH ---------- */
+function search(q){
+  q=q.trim().toLowerCase(); if(q.length<2)return [];
+  const hits=[];
+  const add=(w,t,d,tab)=>hits.push({w,t,d,tab});
+  WINES.forEach(x=>{if((x.n+x.r+x.f+x.pair+x.pitch+x.p).toLowerCase().includes(q))add("Wine",x.n+" — "+x.p,x.pitch,"wine");});
+  COCKTAILS.forEach(x=>{if((x.n+x.build+x.garnish+x.desc+x.p).toLowerCase().includes(q))add("Cocktail",x.n+" — "+x.p,"Garnish: "+x.garnish+" · "+x.build,"cocktails");});
+  Object.entries(MENU).forEach(([sec,items])=>items.forEach(i=>{if((i[0]+i[1]+i[2]+i[3]).toLowerCase().includes(q))add(sec,i[0]+" — "+i[1],i[2],"menu");}));
+  ALLERGENS.forEach(r=>{if((r[0]+r[2].join(" ")).toLowerCase().includes(q))add("Allergens",r[0],"Contains: "+(r[2].join(", ")||"none listed")+". "+r[3],"allergens");});
+  Object.entries(SPIRITS).forEach(([sec,rows])=>rows.forEach(r=>{if((r[0]+r[2]).toLowerCase().includes(q))add(sec,r[0]+" — "+r[1],r[2],"bar");}));
+  BEER.forEach(b=>{if((b[0]+b[2]+b[3]).toLowerCase().includes(q))add("Beer",b[0]+" — "+b[1],b[2]+". "+b[3],"bar");});
+  OPEN.forEach(o=>{if((o[0]+o[1]).toLowerCase().includes(q))add("Test answer",o[0],o[1],"study");});
+  SPECIALS_ON.forEach(s=>{if((s[0]+s[2]).toLowerCase().includes(q))add("Ongoing special",s[0]+" — "+s[1],s[2],"specials");});
+  SPECIALS_ROTATION.forEach(s=>{if((s[0]+s[2]).toLowerCase().includes(q))add("Rotating special",s[0],s[2],"specials");});
+  SPECIALS_PAST.forEach(s=>{if((s[0]+s[2]).toLowerCase().includes(q))add("Past special",s[0]+" ("+s[3]+")",s[2],"specials");});
+  SOTD.forEach(s=>{if((s[1]+s[2]).toLowerCase().includes(q))add("Soup of the day",s[1]+" — first seen "+s[0],s[2],"specials");});
+  SOUPS_STANDING.forEach(s=>{if((s[0]+s[2]).toLowerCase().includes(q))add("Standing soup",s[0]+" — "+s[1],s[2],"specials");});
+  OFFMENU.forEach(s=>{if((s[0]+s[2]).toLowerCase().includes(q))add("Off-menu",s[0]+" — "+s[1],s[2],"specials");});
+  return hits.slice(0,40);
+}
+function renderSearch(q){
+  const box=$("#searchPanel"), hits=search(q);
+  if(q.trim().length<2){box.style.display="none";document.querySelectorAll(".panel").forEach(p=>p.classList.toggle("on",p.id==="p-"+TAB));return;}
+  document.querySelectorAll(".panel").forEach(p=>p.classList.remove("on"));
+  box.style.display="block";
+  box.innerHTML=`<div class="sechead"><h2>${hits.length} result${hits.length===1?"":"s"} for &ldquo;${esc(q)}&rdquo;</h2><span>clear the box to go back</span></div>
+  <div class="hits">${hits.length?hits.map(h=>`<div class="hit" onclick="$('#gsearch').value='';renderSearch('');go('${h.tab}')" style="cursor:pointer">
+    <div class="w">${esc(h.w)}</div><div class="t">${esc(h.t)}</div><div class="d">${esc(h.d)}</div></div>`).join(""):'<div class="empty">Nothing found. Try a shorter word.</div>'}</div>`;
+}
+
+/* ============================================================
+   BUILD PANELS
+   ============================================================ */
+function tbl(head,rows,cls){
+  return `<div class="tw"><table><thead><tr>${head.map(h=>`<th>${h}</th>`).join("")}</tr></thead>
+  <tbody>${rows.map(r=>`<tr>${r.map((c,i)=>`<td${cls&&cls[i]?' class="'+cls[i]+'"':''}>${c}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
+}
+const acc=(title,hint,body,open)=>`<details class="acc"${open?" open":""}><summary>${title}<span class="hint">${hint}</span></summary><div class="accbody">${body}</div></details>`;
+
+function addJumps(key){
+  const p=$("#p-"+key);
+  const heads=[...p.querySelectorAll(".sechead h2")].filter(h=>!h.closest("details"));
+  if(heads.length<3)return;
+  const bar=document.createElement("div"); bar.className="jumper";
+  heads.slice(0,10).forEach(h=>{
+    const b=document.createElement("button");
+    b.textContent=h.textContent.split("—")[0].trim().slice(0,26);
+    b.onclick=()=>h.closest(".sechead").scrollIntoView({behavior:"smooth"});
+    bar.appendChild(b);
+  });
+  p.prepend(bar);
+}
+
+function build(){
+  const M=$("#main");
+  M.innerHTML = `<div id="searchPanel" style="display:none"></div>` + TABS.map(([k])=>`<section class="panel${k===TAB?" on":""}" id="p-${k}"></section>`).join("");
+
+  /* ---------- HOME ---------- */
+  $("#p-shift").innerHTML=`
+    <div class="sechead"><h2>What do you need?</h2><span>one tap</span></div>
+    <div class="qa">
+      <button data-qa="cocktails|#sec-garnish"><div class="t">Garnish check</div><div class="s">Every drink's garnish and glass, one table</div></button>
+      <button data-qa="allergens|#sec-allergy"><div class="t">Allergy check</div><div class="s">Flag any allergen across 75 dishes</div></button>
+      <button data-qa="wine|#sec-bottles"><div class="t">Wine by budget</div><div class="s">Bottles at their price, pitch included</div></button>
+      <button data-qa="wine|#sec-pair"><div class="t">Pair their order</div><div class="s">They ordered X — here's what you say</div></button>
+      <button data-qa="ops|#sec-checkout"><div class="t">Sales Calculator</div><div class="s">Sales in — your front/back split out</div></button>
+      <button data-qa="ops|#sec-income"><div class="t">Should I take the cut?</div><div class="s">Books + walk-ins — your pocket, called</div></button>
+      <button data-qa="study|#sec-quiz"><div class="t">Take a quiz</div><div class="s">Fresh shuffle every time + the real 30</div></button>
+      <button data-qa="menu|"><div class="t">Food menu</div><div class="s">Prices, builds, temps, the A5 pitch</div></button>
+      <button data-qa="__search|"><div class="t">Search everything</div><div class="s">Wine, garnish, allergen, price</div></button>
+    </div>
+
+    <div class="sechead"><h2>Before you walk up</h2><span>the 60-second version</span></div>
+    <div class="kpis" style="margin-bottom:16px">
+      <div class="kpi"><div class="k">Soups · salads · desserts</div><div class="v">5–7 min</div><div class="s">10 minutes max</div></div>
+      <div class="kpi"><div class="k">Entrees</div><div class="v">22–27 min</div><div class="s">course it, do not stack it</div></div>
+      <div class="kpi"><div class="k">Entree checkback</div><div class="v">2–5 min</div><div class="s">after entrees hit the table</div></div>
+      <div class="kpi"><div class="k">Manager alert</div><div class="v">$250+</div><div class="s">wine bottle · big Bordeaux glasses</div></div>
+    </div>
+    <div class="note gold"><b>Always hit:</b> first time, celebration, wine list, allergies, features, soup, oysters, Chef's Corner, 86'd items, and a wine or app suggestion.</div>
+    <div class="grid wide" style="margin-top:14px">
+      <div class="card"><div class="cname">Two drink calls that always work</div>
+        <div class="cbody">${DRINK_PITCH.slice(0,4).map(p=>`<div style="padding:4px 0"><b>${esc(p[0])}:</b> ${esc(p[1])}</div>`).join("")}</div></div>
+      <div class="card"><div class="cname">The wine move</div>
+        <div class="cbody">Ask whether they are leaning <b>lighter and smoother</b> or <b>bigger and richer</b>, then give two confident choices. Never open the list and go quiet.</div>
+        <div class="pitch">&ldquo;For four glasses, a bottle is usually the better value.&rdquo;</div></div>
+      <div class="card"><div class="cname">Allergy protocol, in order</div>
+        <div class="cbody">${PROTOCOL.map((p,i)=>`<div style="padding:3px 0"><b>${i+1}.</b> ${esc(p)}</div>`).join("")}</div></div>
+      <div class="card"><div class="cname">Three answers people miss</div>
+        <div class="cbody"><b>Risotto is not vegetarian</b> — chicken stock and prosciutto.<br><b>Au gratin bacon cannot come out</b> — mixed in every morning.<br><b>Well-done filets get butterflied.</b></div></div>
+    </div>
+
+    <div class="sechead"><h2>Steps of service</h2><span>front server flow, top to bottom</span></div>
+    <ol class="steps">${FLOW.map(([t,items])=>`<li><b>${esc(t)}</b><ul>${items.map(i=>`<li>${esc(i)}</li>`).join("")}</ul></li>`).join("")}</ol>
+
+    <div class="sechead"><h2>Training anchors</h2></div>
+    ${tbl(["","Anchor"],ANCHORS.map(a=>[`<b>${esc(a[0])}</b>`,esc(a[1])]))}`;
+
+  /* ---------- WINE ---------- */
+  $("#p-wine").innerHTML=`
+    <div class="sechead" id="sec-pair"><h2>Pairing finder</h2><span>pick what they ordered</span></div>
+    <div class="tool">
+      <div class="frow"><div class="f" style="flex:1 1 320px"><label>They ordered</label>
+        <select id="pairSel" style="width:100%">${PAIRINGS.map((p,i)=>`<option value="${i}">${esc(p.d)}</option>`).join("")}</select></div></div>
+      <div class="out" id="pairOut"></div>
+    </div>
+
+    <div class="sechead" id="sec-bottles"><h2>Every bottle and pour</h2><span id="wineCount"></span></div>
+    <p class="lede">Filter by price and color when a guest gives you a budget. Good / Better / Best is a selling lane, not a judgment of quality.</p>
+    <input class="fsearch" id="wineQ" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="search" placeholder="Search wine, region, flavor, or dish...">
+    <div class="filters" id="wineBudget">${BUDGETS.map(b=>`<button data-p="${b[0]}"${b[0]==="all"?' class="on"':''}>${b[1]}</button>`).join("")}</div>
+    <div class="filters" id="wineColor">${[["all","Red + White"],["red","Red"],["white","White / Rose"],["bubbles","Bubbles"]].map(c=>`<button data-c="${c[0]}"${c[0]==="all"?' class="on"':''}>${c[1]}</button>`).join("")}</div>
+    <div class="filters" id="wineCats">${WINE_CATS.map(c=>`<button data-c="${c[0]}"${c[0]==="all"?' class="on"':''}>${c[1]}</button>`).join("")}</div>
+    <div class="filters" id="wineTiers">${["all","Good","Better","Best"].map(t=>`<button data-t="${t}"${t==="all"?' class="on"':''}>${t==="all"?"All tiers":t}</button>`).join("")}</div>
+    <div class="grid wide" id="wineGrid"></div>
+
+    <div class="sechead"><h2>${WOTW.title}</h2><span>the current feature</span></div>
+    <div class="grid wide">${[WOTW.a,WOTW.b].map(w=>`<div class="card hl">
+      <div class="crow"><div><div class="cname">${esc(w.n)}</div><div class="csub">${w.tag}</div></div><div class="cprice">${w.p}</div></div>
+      <div class="cbody"><b>What it is:</b> ${esc(w.what)}<br><b>Flavor:</b> ${esc(w.flavor)}<br><b>Structure:</b> ${esc(w.structure)}<br><b>Why the price:</b> ${esc(w.why)}<br><b>Pair with:</b> ${esc(w.pair)}</div>
+      <div class="pitch">&ldquo;${esc(w.pitch)}&rdquo;</div></div>`).join("")}</div>
+    <div style="margin-top:12px">${tbl(["Guest wants","Recommend","Why"],WOTW.contrast.map(c=>[esc(c[0]),`<b>${esc(c[1])}</b>`,`<span style="color:var(--dim)">${esc(c[2])}</span>`]))}</div>
+
+    <div class="sechead"><h2>Fast guest answers</h2><span>when they ask you to pick</span></div>
+    ${tbl(["Question","Answer","Why"],FASTANSWERS.map(f=>[esc(f[0]),`<b>${esc(f[1])}</b>`,`<span style="color:var(--dim)">${esc(f[2])}</span>`]))}
+
+    <div class="sechead"><h2>Region footnotes for the table</h2></div>
+    ${tbl(["Region","Why it matters","Say this"],REGIONS.map(r=>[`<b>${esc(r[0])}</b>`,esc(r[1]),`<span style="color:var(--dim)">${esc(r[2])}</span>`]))}`;
+
+  /* ---------- COCKTAILS ---------- */
+  $("#p-cocktails").innerHTML=`
+    <div class="sechead" id="sec-garnish"><h2>Garnish cheat sheet</h2><span>the fastest thing to get wrong</span></div>
+    ${tbl(["Drink","Garnish","Glass"],COCKTAILS.filter(c=>c.garnish&&c.garnish!=="—").map(c=>[`<b>${esc(c.n)}</b>`,`<span style="color:#1E6B3A">${esc(c.garnish)}</span>`,esc(c.glass)]))}
+
+    <div class="sechead"><h2>Guest says / you say</h2></div>
+    ${tbl(["Guest asks for","Send them to"],DRINK_PITCH.map(p=>[esc(p[0]),`<b>${esc(p[1])}</b>`]))}
+
+    <div class="sechead"><h2>Every drink</h2><span>build, glass, garnish, descriptor</span></div>
+    <input class="fsearch" id="drinkQ" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="search" placeholder="Search drink, spirit, or garnish...">
+    <div class="filters" id="drinkGrps">${COCKTAIL_GRPS.map(g=>`<button data-g="${g[0]}"${g[0]==="all"?' class="on"':''}>${g[1]}</button>`).join("")}</div>
+    <div class="note warn"><b>July 11 update:</b> Lemon Bae is now Lemon Bay, same recipe. Lisa's Delight and The Nutty Martinez are gone. Coco Caramel Carajillo moved to desserts. Esso Affo was added. The six drinks marked <b>verify</b> were on older printed menus — do not pitch them unless Toast or the bar confirms.</div>
+    <div class="grid wide" id="drinkGrid"></div>`;
+
+  /* ---------- MENU ---------- */
+  $("#p-menu").innerHTML=`
+    <div class="sechead"><h2>Steak temperatures</h2></div>
+    ${tbl(["Temp","Center"],TEMPS.map(t=>[`<b>${esc(t[0])}</b>`,esc(t[1])]))}
+    <div class="note warn" style="margin-top:10px"><b>Well done:</b> butterfly well-done filets so they cook evenly.</div>
+
+    <div class="sechead"><h2>The A5 pitch</h2><span>say it in your own words, hit these beats</span></div>
+    <div class="card"><div class="crow"><div class="cname">Japanese A5 Wagyu &mdash; Kagoshima Prefecture</div><div class="cprice">$25/oz</div></div>
+      <div class="cbody">${A5PITCH.map(p=>`<div style="padding:5px 0;border-top:1px solid var(--line)">${esc(p)}</div>`).join("")}</div></div>
+
+    ${Object.entries(MENU).map(([sec,items])=>`
+      <div class="sechead"><h2>${esc(sec)}</h2><span>${items.length} items</span></div>
+      <div class="grid wide">${items.map(i=>`<div class="card">
+        <div class="crow"><div class="cname">${esc(i[0])}</div><div class="cprice">${esc(i[1])}</div></div>
+        <div class="cbody">${esc(i[2])}</div>
+        ${i[3]?`<div class="tags"><span class="tag${/verify|cannot|NOT|updated/i.test(i[3])?" warn":""}">${esc(i[3])}</span></div>`:""}
+      </div>`).join("")}</div>`).join("")}
+
+    <div class="sechead"><h2>Salad dressings</h2><span>11 total, only one ranch</span></div>
+    <div class="card"><div class="cbody">${DRESSINGS.map(d=>`<div style="padding:3px 0">${/house dressing/i.test(d)?`<b style="color:var(--gold2)">${esc(d)}</b>`:esc(d)}</div>`).join("")}</div></div>`;
+
+  /* ---------- SPECIALS & SOUPS ---------- */
+  $("#p-specials").innerHTML=`
+    <div class="note gold"><b>This is a living list.</b> Specials and soups rotate constantly — tell your Claude things like "new special: swordfish, $52, mango salsa" or "the skewers are done" or "tonight's soup is chicken tortilla with..." and this page updates: ongoing flips to past, soups get archived forever.</div>
+
+    <div class="sechead" id="sec-specials"><h2>Ongoing specials</h2><span>running right now</span></div>
+    <div class="grid wide">${SPECIALS_ON.length?SPECIALS_ON.map(s=>`<div class="card hl">
+      <div class="crow"><div class="cname">${esc(s[0])}</div><div class="cprice">${esc(s[1])}</div></div>
+      <div class="cbody">${esc(s[2])}</div>
+      ${s[3]?`<div class="tags"><span class="tag">${esc(s[3])}</span></div>`:""}
+    </div>`).join(""):'<div class="empty">Nothing running — tell your Claude the new special.</div>'}</div>
+
+    <div class="sechead"><h2>Rotating entree specials</h2><span>seen before — ask a manager if one is running tonight</span></div>
+    <div class="grid wide">${SPECIALS_ROTATION.map(s=>`<div class="card">
+      <div class="crow"><div class="cname">${esc(s[0])}</div><div class="cprice">${esc(s[1])}</div></div>
+      <div class="cbody">${esc(s[2])}</div>
+    </div>`).join("")}</div>
+
+    <div class="sechead"><h2>Soup of the day — archive</h2><span>$7 · changes daily · every one we log lives here</span></div>
+    ${SOTD.length
+      ? tbl(["First seen","Soup","What's in it","Allergen notes"],SOTD.map(s=>[`<b>${esc(s[0])}</b>`,`<b>${esc(s[1])}</b>`,esc(s[2]),`<span style="color:var(--dim)">${esc(s[3])}</span>`]))
+      : `<div class="empty">No soups logged yet. Tell your Claude tonight's soup and what's in it — the archive starts there, and every soup stays searchable forever.</div>`}
+    <div class="note warn" style="margin-top:10px"><b>Allergen rule:</b> soup of the day allergens change with the soup. Never answer from memory — check this archive, then verify with the kitchen.</div>
+
+    <div class="sechead"><h2>Soups always on the menu</h2><span>not rotating — the standing three</span></div>
+    ${tbl(["Soup","Price","Build"],SOUPS_STANDING.map(s=>[`<b>${esc(s[0])}</b>`,s[1],esc(s[2])]))}
+
+    <div class="sechead"><h2>Off-menu cuts</h2><span>ask a manager before promising any of these</span></div>
+    ${tbl(["Cut","Price","The pitch"],OFFMENU.map(s=>[`<b>${esc(s[0])}</b>`,esc(s[1]),`<span style="color:var(--dim)">${esc(s[2])}</span>`]))}
+
+    <div class="sechead"><h2>Past specials</h2><span>not running anymore — do not pitch</span></div>
+    <div class="grid wide">${SPECIALS_PAST.map(s=>`<div class="card">
+      <div class="crow"><div class="cname">${esc(s[0])}</div><div class="cprice">${esc(s[1])}</div></div>
+      <div class="cbody">${esc(s[2])}</div>
+      <div class="tags"><span class="tag warn">${esc(s[3])}</span></div>
+    </div>`).join("")}</div>`;
+
+  /* ---------- ALLERGENS ---------- */
+  $("#p-allergens").innerHTML=`
+    <div class="note warn"><b>This is a study tool, not a guarantee.</b> Several flags in the source are inferred from ingredients. For any real allergy: ask what kind, ring it in Toast, tell your back server, tell expo and the chef, and tell a manager.</div>
+
+    <div class="sechead" id="sec-allergy"><h2>Allergen finder</h2><span>tap allergens to flag every dish that has them</span></div>
+    <div class="filters" id="allergyChips">${ALLERGEN_LIST.map(a=>`<button data-a="${a}">${a}</button>`).join("")}
+      <button data-a="__clear" style="border-color:var(--line)">clear all</button></div>
+    <input class="fsearch" id="allergyQ" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="search" placeholder="Search a dish...">
+    <div id="allergySummary"></div>
+    <div id="allergyTable" class="tw"></div>
+
+    <div class="sechead"><h2>Diet questions</h2></div>
+    <div class="grid wide">${DIET.map(d=>`<div class="card"><div class="cname">${esc(d[0])}</div><div class="cbody">${esc(d[1])}</div></div>`).join("")}</div>
+
+    <div class="sechead"><h2>What the terms mean</h2><span>test question 20</span></div>
+    ${tbl(["Term","What it includes"],ALLERGEN_MEANING.map(a=>[`<b>${esc(a[0])}</b>`,esc(a[1])]))}`;
+
+  /* ---------- BAR ---------- */
+  $("#p-bar").innerHTML=`
+    ${Object.entries(SPIRITS).map(([sec,rows])=>`
+      <div class="sechead"><h2>${esc(sec)}</h2><span>${rows.length} bottles</span></div>
+      ${tbl(["Bottle","Price","Say this"],rows.map(r=>[`<b>${esc(r[0])}</b>`,esc(r[1]),`<span style="color:var(--dim)">${esc(r[2])}</span>`]),[,"n",])}`).join("")}
+    <div class="sechead"><h2>Beer &amp; seltzer</h2><span>ranked by ABV — prices verify in Toast</span></div>
+    ${tbl(["Beer","ABV","Type","Say this"],BEER.map(b=>[`<b>${esc(b[0])}</b>`,`<span class="mono">${esc(b[1])}</span>`,esc(b[2]),`<span style="color:var(--dim)">${esc(b[3])}</span>`]))}
+    <div class="note"><b>Two easy calls:</b> the strongest beer is Elysian Space Dust at 8.2%. The only zero-proof beer is Bud Zero. Austin Eastciders Original Dry is the gluten-free-style option.</div>`;
+
+  /* ---------- STUDY ---------- */
+  $("#p-study").innerHTML=`
+    <div class="sechead" id="sec-quiz"><h2>Generate a quiz</h2><span>${MC.length} questions in the bank — fresh shuffle every run</span></div>
+    <p class="lede">Question order and answer order shuffle every time, so nobody can memorize positions. Miss questions and you get a review round of just those.</p>
+    <div class="qbar"><button class="btn" id="quizStart">Generate quiz</button><div class="score" id="quizScore">ready when you are</div></div>
+    <div id="quizBox"><div class="empty">Hit generate. Food, steak, wine, cocktail, allergen, and ops questions, all mixed.</div></div>
+
+    <div class="sechead"><h2>The real menu test</h2><span>all 30 questions with the graded, corrected answers</span></div>
+    <div class="qbar"><button class="btn sec" id="ansToggle">Show all answers</button><div class="score">say each answer out loud before revealing</div></div>
+    <div class="anslist" id="ansList">${OPEN.map((o,i)=>`<div class="q"><div class="qq"><span>${i+1}.</span>${esc(o[0])}</div><div class="ans">${esc(o[1])}</div></div>`).join("")}</div>`;
+
+  /* ---------- SALES CALCULATOR ---------- */
+  $("#p-ops").innerHTML=`
+    <div class="sechead" id="sec-checkout"><h2>Sales Calculator</h2><span>sales in — your money out</span></div>
+    <div class="tool">
+      <h3>Type your team's net sales. That's it.</h3>
+      <p class="sub">Tips estimate at 20.8% of sales (the observed house rate) until you type the actual tips from Toast. The math below is the exact house checkout — proven to the dollar against a real graded sheet.</p>
+      <div class="filters" id="scPresets">${[800,1200,1600,2000,2500].map(v=>`<button data-v="${v}">$${v.toLocaleString()}</button>`).join("")}</div>
+      <div class="frow">
+        <div class="f"><label>Team net sales $</label><input type="number" inputmode="decimal" id="scSales" placeholder="from Toast" min="0"></div>
+        <div class="f"><label>Credit tips $ (optional)</label><input type="number" inputmode="decimal" id="scTips" placeholder="blank = 20.8% est." min="0"></div>
+        <div class="f"><label>Ran a banquet?</label><select id="scBq"><option value="no">No</option><option value="yes">Yes (+3% tip-out)</option></select></div>
+        <div class="f"><label>Polisher scheduled?</label><select id="scPolisher"><option value="0">No</option><option value="10">Yes — team night ($10)</option><option value="5">Yes — I'm solo ($5)</option></select></div>
+        <div class="f"><label>Cash tips $</label><input type="number" inputmode="decimal" id="scCash" placeholder="—" min="0"></div>
+      </div>
+      <div class="out" id="scOut"></div>
+    </div>
+
+    <div class="sechead" id="sec-income"><h2>Income Predictor</h2><span>should I take the cut?</span></div>
+    <div class="tool">
+      <h3>Books in — your pocket out</h3>
+      <p class="sub">Type what's on the books (adjust any time — it moves all day), guess your walk-ins, and it shows what the front AND the back each walk with. The call is made against the $200 line: under $200 each is cut territory, over $200 is work it.</p>
+      <div class="frow">
+        <div class="f"><label>Day</label><select id="ipDay">${Object.entries(DAYPRE).map(([k,v])=>`<option value="${k}"${k==="sun"?" selected":""}>${v.label}</option>`).join("")}</select></div>
+        <div class="f"><label>On the books</label><input type="number" inputmode="decimal" id="ipBooks" placeholder="e.g. 60" min="0"></div>
+        <div class="f"><label>Walk-ins guess</label><input type="number" inputmode="decimal" id="ipWalk" placeholder="—" min="0"></div>
+      </div>
+      <p class="sub" id="ipSugg" style="margin:0 0 12px"></p>
+      <div class="frow">
+        <div class="f"><label>Teams</label><input type="number" inputmode="decimal" id="ipTeams" value="3" min="1" max="12"></div>
+        <div class="f"><label>Cocktailers on</label><select id="ipCk"><option value="0">None</option><option value="1" selected>1</option><option value="2">2</option><option value="3">3</option></select></div>
+        <div class="f"><label>Avg $ per person</label><input type="number" inputmode="decimal" id="ipCheck" value="115" min="0"></div>
+        <div class="f"><label>Polisher?</label><select id="ipPol"><option value="0">No</option><option value="10">Yes ($10)</option></select></div>
+        
+      </div>
+      <p class="sub" style="margin:0 0 10px"><b>Avg $ per person</b> means what ONE guest spends on food and drinks — not the table's whole check. A check usually covers 2, 8, even 15 people; this number is per person. Toast calls it "average spend per guest." $115 is the preset for a typical steak-dinner night — adjust it when you know better.</p>
+      <div class="out" id="ipOut"></div>
+    </div>
+
+    ${acc("Banquet checkout — the second envelope","banquet nights run two checkouts; same math, separate sheet",`
+      <p class="sub" style="color:var(--dim2);font-size:12.5px;margin:4px 0 12px">A banquet gets its own checkout sheet and its own envelope, on top of the regular one. Same pipeline. Gratuity is usually pre-rung at 20% — type the real number off the banquet sheet when you have it.</p>
+      <div class="frow">
+        <div class="f"><label>Banquet net sales $</label><input type="number" inputmode="decimal" id="bqcSales" placeholder="from the banquet sheet" min="0"></div>
+        <div class="f"><label>Gratuity $ (optional)</label><input type="number" inputmode="decimal" id="bqcTips" placeholder="blank = 20% est." min="0"></div>
+        <div class="f"><label>Banquet tip-out (3%)?</label><select id="bqcThree"><option value="yes" selected>Yes — VERIFY</option><option value="no">No</option></select></div>
+      </div>
+      <div class="out" id="bqcOut"></div>`)}
+
+    <div class="sechead"><h2>How the split works</h2><span>the house rules</span></div>
+    <ol class="steps">${SPLIT_RULES.map(r=>`<li><b>${esc(r.split(".")[0])}.</b>${esc(r.split(".").slice(1).join(".").trim())}</li>`).join("")}</ol>
+
+    ${acc("Night forecast — books + walk-ins","how many people are actually coming in",`
+      <p class="sub" style="color:var(--dim2);font-size:12.5px;margin:4px 0 12px">Covers on the books (SevenRooms) plus a walk-in guess equals the people coming in. Walk-ins lately: weekends 30–70 (call it 50), weekdays 15–30. No covers entered falls back to teams &times; $1,388.</p>
+      <div class="frow">
+        <div class="f"><label>Teams</label><input type="number" inputmode="decimal" id="fcTeams" value="3" min="1" max="12"></div>
+        <div class="f"><label>On the books</label><input type="number" inputmode="decimal" id="fcBooks" placeholder="from SevenRooms" min="0"></div>
+        <div class="f"><label>Walk-ins guess</label><input type="number" inputmode="decimal" id="fcWalk" placeholder="—" min="0"></div>
+        <div class="f"><label>Avg $ per person</label><input type="number" inputmode="decimal" id="fcCheck" value="115" min="0"></div>
+      </div>
+      <div class="filters" id="fcWalkChips">
+        <button data-w="50">Weekend walk-ins (~50)</button>
+        <button data-w="22">Weekday walk-ins (~22)</button>
+        <button data-w="0">No walk-ins</button>
+      </div>
+      <div class="frow">
+        <div class="f"><label>Tip multiplier</label><select id="fcOcc">${[0.80,0.85,0.90,0.95,1.00,1.10,1.20,1.30,1.40,1.50,1.75].map(m=>`<option value="${m}"${m===1?" selected":""}>x${m.toFixed(2)}</option>`).join("")}</select></div>
+        
+      </div>
+      <div class="out" id="fcOut"></div>
+      <p class="sub" style="color:var(--dim2);font-size:12px;margin:10px 0 0">Per-person anchors (what ONE guest spends, not the table's check): $95 lighter · $115 typical (prefilled) · $140 wine table. Typical nights: Sundays ~110 people, Fridays ~200, Saturdays ~230.</p>`)}
+
+    ${acc("Forecasting lab","backtest · implied covers · demand calendar",`
+      <div class="note"><b>How the model got smarter:</b> ${esc(SALES.read)}</div>
+      <div class="sechead"><h2>Backtest against real Toast data</h2><span>every rule proven against an actual day</span></div>
+      ${tbl(["Day","Model says","Toast actual","Miss"],[
+        ["<b>7/13</b> — 3 teams, normal","3 x $1,388 = <b>$4,165</b>","$4,164.51",'<span style="color:#1E6B3A">0.0% (calibration day)</span>'],
+        ["<b>7/20</b> — 4 teams + banquet","4 x $1,388 + $3,871 = <b>$9,424</b>","$9,129.50",'<span style="color:#1E6B3A">+3.2%</span>'],
+        ["<b>7/20</b> tips check",".271 x dining + .20 x banquet = <b>$2,199</b>","$2,198.93",'<span style="color:#1E6B3A">0.0%</span>'],
+        ["<b>Tip pipeline</b>","withheld &rarr; tip-outs &rarr; split, run against a real graded house checkout","matched the handwritten sheet",'<span style="color:#1E6B3A">exact, to the dollar</span>'],
+        ["<b>Tax check</b>","9% of net (7% IN + 1% county + 1% city)","matches Toast",'<span style="color:#1E6B3A">exact</span>']])}
+      <div class="sechead"><h2>What the covers probably were</h2><span>implied from net sales at each check size</span></div>
+      ${tbl(["Day","Dining net","@ $95/person","@ $115/person","@ $140/person"],[
+        ["<b>7/13</b> (all dining)","$4,165",...SALES.impliedChecks.map(c=>"~"+Math.round(4164.51/c)+" covers")],
+        ["<b>7/20</b> (minus banquet block)","$5,258",...SALES.impliedChecks.map(c=>"~"+Math.round(5258/c)+" covers")]])}
+      <div class="sechead"><h2>Greenwood demand calendar</h2><span>what moves a fine-dining Sunday here</span></div>
+      ${tbl(["Occasion","Suggested x","Why"],SALES.occasions.filter(o=>o[1]!==1||/Colts/.test(o[0])).map(o=>[`<b>${esc(o[0])}</b>`,"x"+o[1].toFixed(2),`<span style="color:var(--dim)">${esc(o[2])}</span>`]))}
+      <div class="note" style="margin-top:10px">Mother's Day is the busiest restaurant day of the year nationally, Valentine's second. Greenwood's spikes: Freedom Festival late June, WAMMfest mid-August, both Saturdays. Colts 1pm games — direction unknown for the south side, log it for a season.</div>
+      <div class="note gold" style="margin-top:12px"><b>Log every Sunday:</b> ${SALES.log.join(" · ")}.</div>
+      ${tbl(["Date","Teams","Banquet","Net sales","Tips + grat","Tax","Toast total"],SALES.rows.map(r=>[
+        `<b>${r.d}</b>`,r.teams,r.bq,`$${r.net.toLocaleString()}`,`$${r.tt.toLocaleString()}`,`$${r.tax.toLocaleString()}`,`$${r.total.toLocaleString()}`]))}
+      <div class="sechead"><h2>Where the files disagree</h2><span>newest date wins</span></div>
+      ${tbl(["Item","Older file","Newer file","Use this"],CONFLICTS.map(c=>[`<b>${esc(c[0])}</b>`,`<span style="color:var(--dim2)">${esc(c[1])}</span>`,esc(c[2]),`<span style="color:var(--gold2)">${esc(c[3])}</span>`]))}`)}
+
+    
+
+    ${acc("Banquet quick math","parked on purpose — dollars are placeholders",`
+      <div class="frow" style="margin-top:8px">
+        <div class="f"><label>Party size</label><input type="number" inputmode="decimal" id="bqHeads" value="20" min="0"></div>
+        <div class="f"><label>Est. $ / head</label><input type="number" inputmode="decimal" id="bqPerHead" value="105" min="0"></div>
+        <div class="f"><label>F&amp;B minimum $</label><input type="number" inputmode="decimal" id="bqMin" value="3000" min="0"></div>
+        <div class="f"><label>Auto-grat %</label><input type="number" inputmode="decimal" id="bqGrat" value="20" min="0" max="30"></div>
+      </div>
+      <div class="out" id="bqOut"></div>
+      <p class="sub" style="color:var(--dim2);font-size:12px;margin:10px 0 0">Rooms: ${ROOMS.map(r=>`<b>${esc(r[0])}</b> — ${esc(r[1])}`).join(" · ")}. Booking through Lillian Speedy, Director of Sales.</p>`)}
+
+    
+
+    `;
+
+  /* ---------- WIRE UP ---------- */
+  renderWines(); renderDrinks(); renderAllergens(); pairingOut(0); calcSC(); calcBQC(); calcIP(); calcFC(); calcBq();
+
+  $("#p-shift").querySelector(".qa").onclick=e=>{
+    const b=e.target.closest("button[data-qa]"); if(!b)return;
+    const [tab,sel]=b.dataset.qa.split("|");
+    if(tab==="__search"){window.scrollTo({top:0,behavior:"smooth"});setTimeout(()=>$("#gsearch").focus(),250);return;}
+    go(tab,sel||null);
+  };
+
+  $("#wineQ").oninput=e=>{wineFilter.q=e.target.value;renderWines();};
+  const chip=(id,key,attr)=>{$(id).onclick=e=>{const b=e.target.closest("button");if(!b)return;
+    $(id).querySelectorAll("button").forEach(x=>x.classList.toggle("on",x===b));wineFilter[key]=b.dataset[attr];renderWines();};};
+  chip("#wineBudget","price","p"); chip("#wineColor","color","c"); chip("#wineCats","cat","c"); chip("#wineTiers","tier","t");
+  $("#pairSel").onchange=e=>pairingOut(+e.target.value);
+
+  $("#drinkQ").oninput=e=>{drinkFilter.q=e.target.value;renderDrinks();};
+  $("#drinkGrps").onclick=e=>{const b=e.target.closest("button");if(!b)return;
+    $("#drinkGrps").querySelectorAll("button").forEach(x=>x.classList.toggle("on",x===b));drinkFilter.grp=b.dataset.g;renderDrinks();};
+
+  $("#allergyChips").onclick=e=>{const b=e.target.closest("button");if(!b)return;
+    const a=b.dataset.a;
+    if(a==="__clear"){allergySel.clear();$("#allergyChips").querySelectorAll("button").forEach(x=>x.classList.remove("on"));}
+    else{allergySel.has(a)?allergySel.delete(a):allergySel.add(a);b.classList.toggle("on");}
+    renderAllergens();};
+  $("#allergyQ").oninput=renderAllergens;
+
+  $("#quizStart").onclick=()=>startQuiz();
+  $("#ansToggle").onclick=()=>{
+    const on=$("#ansList").classList.toggle("show");
+    $("#ansToggle").textContent=on?"Hide all answers":"Show all answers";
+  };
+
+  $("#scPresets").onclick=e=>{const b=e.target.closest("button");if(!b)return;
+    $("#scSales").value=b.dataset.v; $("#scTips").value=""; calcSC(); calcBQC();};
+  ["scSales","scTips","scBq","scPolisher","scCash"].forEach(id=>{
+    const n=$("#"+id); n.oninput=()=>{calcSC();calcBQC();}; n.onchange=()=>{calcSC();calcBQC();}; n.onkeyup=()=>{calcSC();calcBQC();};});
+  ["bqcSales","bqcTips","bqcThree"].forEach(id=>{
+    const n=$("#"+id); n.oninput=calcBQC; n.onchange=calcBQC; n.onkeyup=calcBQC;});
+  ["ipBooks","ipWalk","ipTeams","ipCk","ipCheck","ipPol"].forEach(id=>{
+    const n=$("#"+id); n.oninput=calcIP; n.onchange=calcIP; n.onkeyup=calcIP;});
+  $("#ipDay").onchange=()=>{const dp=DAYPRE[$("#ipDay").value];$("#ipTeams").value=dp.teams;calcIP();};
+  $("#ipSugg").onclick=e=>{const b=e.target.closest("#ipUse");if(!b)return;
+    $("#ipWalk").value=+b.dataset.s||0; calcIP();};
+  ["fcTeams","fcBooks","fcWalk","fcCheck","fcOcc"].forEach(id=>{
+    const n=$("#"+id); n.oninput=calcFC; n.onchange=calcFC; n.onkeyup=calcFC;});
+  $("#fcWalkChips").onclick=e=>{const b=e.target.closest("button");if(!b)return;
+    $("#fcWalk").value=b.dataset.w; calcFC();};
+  ["bqHeads","bqPerHead","bqMin","bqGrat"].forEach(id=>{
+    const n=$("#"+id); n.oninput=calcBq; n.onchange=calcBq; n.onkeyup=calcBq;});
+
+  ["wine","menu","bar","ops","allergens","specials"].forEach(addJumps);
+}
+
+/* ---------- BOOT ---------- */
+buildNav(); build();
+(function(){var d=document.getElementById("bootMsg"); if(d) d.remove();})();
+$("#gsearch").addEventListener("input",e=>renderSearch(e.target.value));
+$("#gsearch").addEventListener("keydown",e=>{if(e.key==="Escape"){e.target.value="";renderSearch("");}});
+$("#sheet").addEventListener("click",e=>{if(e.target.id==="sheet")closeSheet();});
+$("#bigA").onclick=()=>{
+  const on=document.body.classList.toggle("big");
+  $("#bigA").textContent=on?"A−":"A+";
+};
+$("#totop").onclick=()=>window.scrollTo({top:0,behavior:"smooth"});
+addEventListener("scroll",()=>{$("#totop").classList.toggle("show",scrollY>700);},{passive:true});

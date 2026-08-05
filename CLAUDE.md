@@ -13,6 +13,23 @@ anything conflicting with what he said in chat LOSES to the chat. When unsure if
 is old, ask him. Only use the web when he asks. He updates the app by talking. You edit the
 data files, rebuild, retest, and hand the file back.
 
+## Two-way sync — whoever edits second pulls first
+
+This app now has TWO editors: this Claude Code session (Evan's Mac) and Evan's Cowork
+session (cloud container). Each has silently clobbered the other's work before. The loop
+that stops it:
+
+- **Claude Code: run `git pull` at the START of every session**, before any edit.
+- **Cowork: before any edit round, fetch current repo HEAD** from
+  https://github.com/aasenevan-dot/mos-app (public — read-only clone needs no
+  credentials) and adopt any files that differ; the Mac side ships its own features
+  (fuzzy search, jump bar, drink fixes). Never blind-extract a sync zip over mos-app/.
+- **Before extracting any Cowork sync zip into mos-app/**, snapshot first:
+  `git add -A && git commit -m "pre-Cowork-sync snapshot"` — then nothing is ever
+  silently lost, only diffed.
+- After merging a Cowork sync, re-run `python3 build.py && python3 test.py && python3
+  test-sched.py` before pushing.
+
 ## Build and test
 
 ```

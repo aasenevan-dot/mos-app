@@ -5,7 +5,12 @@ Built with Evan (back server there) in a Claude Cowork session, Aug 2–4 2026. 
 handoff so any Claude session can pick up where that one left off.
 
 The one golden rule: **the newest thing Evan tells you always wins** over anything in the data
-files, this doc, or the original training vault. He updates the app by talking. You edit the
+files, this doc, the original training vault, his old photos, or the restaurant's website.
+Evan is the PRIMARY source — he works there and knows more than any document. The photo
+archive ("Mo's Picture total from phone", 187 files) is MOSTLY OUTDATED — mine it for
+things he has not spoken about (Points of Passion, side work posts, spec sheets), but
+anything conflicting with what he said in chat LOSES to the chat. When unsure if a photo
+is old, ask him. Only use the web when he asks. He updates the app by talking. You edit the
 data files, rebuild, retest, and hand the file back.
 
 ## Build and test
@@ -26,6 +31,7 @@ Never edit `index.html` directly — it is generated. Edit the parts:
 | build/3-data-drinks.js | cocktails (verified against spec sheets), spirits, beer |
 | build/4-data-food.js | menu, allergens (75 dishes), specials + soups living lists |
 | build/5-data-quiz.js | quiz banks, SALES constants (every tip-math number) |
+| build/5b-data-sched.js | posted weekly SCHEDULE + 37-week SCHEDULE_HISTORY |
 | build/6-app.js | every screen: tabs, search, quiz, all calculators |
 
 ## The money math (proven to the dollar against real graded checkouts)
@@ -97,6 +103,21 @@ The app is shared with coworkers and may sit in a PUBLIC repo. So:
   (was a Transfusion, maybe cucumber vodka now — and is Sweet & Salty on draft or not);
   wine decanting threshold ($250+ = Bordeaux glasses is known, decant rule is not);
   photos owed: wine BTG, dessert menu, straight tequila, cut specials board.
+- Facts locked 8/4 round 4: every steak is buttered by default but CAN be made fully
+  butter-free on request; soup of the day is COMP with entrees ($4 upcharge to bisque or
+  French onion); chili is off the menu for now; kung pao has peanuts; ponzu = regular soy
+  sauce (not GF); iced tower CAN go GF (crackers/brioche/wontons ride separate); crab cake
+  95% crab with breadcrumbs; meatballs = steak trim + breadcrumbs; brussels = balsamic
+  glaze now; Marsala $35 / Bourbon Salmon $45 / Cajun Salmon $35; Chicken Parm $39 entree
+  is real; celebration drop = free Sundae or comp cookie; sorbets off-menu; banquet
+  minimums negotiated per event by Lillian; only one tap line (Smoked Draft OF).
+- PHOTO ARCHIVE MINED 8/4 (all 187 read; catalog at ../archive/photo-catalog.md). New
+  "How We Work" tab (key: house) under More holds: mission, 16 Points of Passion,
+  Isaac's 11 Non-Negotiables, back + front server steps of service, expo side work,
+  tableside mise en place master list, uniform + house facts. Enrichments: Farbuckle
+  full show, tower pasta procedure, king crab setup, house salad build, ranch recipe
+  flags, oyster warm/cold, K.D. + Kristen trivia, Nutty Martinez build, Buffalo Trace
+  Dinner archived, premium-wine selling lines, +8 quiz questions (65 MC total).
 - Evan will dictate his back-server SIDE WORK list and the manager CLOSING TASKS —
   side work goes under the More group, not a main tab (his call, 8/4).
 - Service facts locked 8/4: pre-shift 4:15 daily (MOD runs it); busser waters, front
@@ -111,6 +132,31 @@ The app is shared with coworkers and may sit in a PUBLIC repo. So:
   Live app: https://aasenevan-dot.github.io/mos-app/ (his GitHub account is **aasenevan-dot**).
   After any change: `python3 build.py && python3 test.py`, then
   `git add -A && git commit -m "update" && git push` — the live link refreshes itself.
+
+## Schedule tab (added 8/5, history added same day)
+
+All schedule data lives in build/5b-data-sched.js: `SCHEDULE` (current posted week) and
+`SCHEDULE_HISTORY` (37 weeks, 11/19/2025 - 7/29/2026, no gaps — every sheet since opening,
+transcribed from 44 photos in Evan's "Schedules 11:25-7:26" folder by an agent team).
+Cells are verbatim: blank = not scheduled, OFF = blacked-out box, RO/ro = requested off,
+numbers = start times as written (345 = 3:45), trailing ? = hard-to-read photo. History is
+AS POSTED — trades/call-offs/cuts happened after, and the tab says so. Weeks that existed
+as two photos (5/20, 5/6, 4/29, 4/1, 3/25) kept the revised/fuller printing, noted in the
+entry. 12/17 was stitched from a torn two-page sheet.
+
+The tab renders: today's roster (re-checks the clock every minute, flips at midnight),
+the current grid, then a history week picker with tap-a-day rosters. When Evan sends a
+new week's photo: transcribe into a new SCHEDULE object, push the old one onto the FRONT
+of SCHEDULE_HISTORY, rebuild. `test-sched.py` covers the roster, the midnight flip (real
+62s wait), the off-week message, and the history browser — run it after any schedule change.
+
+The master Excel (../2026-08-05-mos-schedule-history.xlsx — parent folder, NEVER in this
+repo) mirrors the same data: stacked grids, a filterable every-shift sheet, and a week
+index. NOTE: real first names + shifts are in the app file and this repo is public —
+Evan explicitly authorized pushing the schedule with names on 8/5/2026 ("I give you
+permission to push everything the way it is as well, including names"). Don't re-ask
+for routine schedule updates; do flag it again if anything beyond first names + posted
+shifts (phone numbers, last names, pay, notes about people) ever heads for the repo.
 
 ## Delivery ritual after any change
 

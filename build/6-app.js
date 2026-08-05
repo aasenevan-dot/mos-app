@@ -7,9 +7,10 @@ const esc = s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;
 const $d=n=>"$"+Math.round(n).toLocaleString();
 
 const TABS = [
-  ["shift","Home"],["wine","Wine"],["cocktails","Drinks & Garnish"],["menu","Food Menu"],
+  ["shift","Home"],["sched","Schedule"],["wine","Wine"],["cocktails","Drinks & Garnish"],["menu","Food Menu"],
   ["specials","Specials & Soups"],
-  ["allergens","Allergens"],["bar","Spirits & Beer"],["study","Study & Quiz"],["ops","Money"]
+  ["allergens","Allergens"],["bar","Spirits & Beer"],["study","Study & Quiz"],["ops","Money"],
+  ["house","How We Work"]
 ];
 const ICONS={
  home:'<svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>',
@@ -335,7 +336,7 @@ function calcFC(){
     : "";
   $("#fcOut").innerHTML=`<div class="kpis">
     <div class="kpi"><div class="k">People coming in</div><div class="v">${covers||"—"}</div><div class="s">${books} on the books + ${walk} walk-ins</div></div>
-    <div class="kpi"><div class="k">Restaurant net</div><div class="v">${$d(net)}</div><div class="s">${coversMode?covers+" covers x $"+chk:teams+" teams x $1,388 (no covers entered)"}${mult!==1?" x "+mult.toFixed(2):""} · band ${$d(net*.85)}–${$d(net*1.15)}</div></div>
+    <div class="kpi"><div class="k">Restaurant net</div><div class="v">${$d(net)}</div><div class="s">${coversMode?covers+" covers x $"+chk:teams+" teams x $1,381.50 (no covers entered)"}${mult!==1?" x "+mult.toFixed(2):""} · band ${$d(net*.85)}–${$d(net*1.15)}</div></div>
     <div class="kpi"><div class="k">Your team's share</div><div class="v">${$d(team)}</div><div class="s">restaurant ÷ ${teams} teams${coversMode?" · ~"+Math.round(covers/teams)+" covers/team":""}</div></div>
     <div class="kpi" style="border-color:var(--gold)"><div class="k">Each of you (est.)</div><div class="v">${(function(){const r=pipeMath(net/(teams+CKTAIL_WEIGHT),0,SALES.guestTipRate,false,0,0);return r?$d(r.earned/2):"—";})()}</div><div class="s">front & back, after the pipeline — assumes a cocktailer on</div></div>
     <div class="kpi"><div class="k">Tax (~9%)</div><div class="v">${$d(tax)}</div><div class="s">7% IN + 1% county + 1% city</div></div>
@@ -463,6 +464,7 @@ function build(){
   $("#p-shift").innerHTML=`
     <div class="sechead"><h2>What do you need?</h2><span>one tap</span></div>
     <div class="qa">
+      <button data-qa="sched|"><div class="t">Schedule</div><div class="s">Who works today + the whole posted week</div></button>
       <button data-qa="cocktails|#sec-garnish"><div class="t">Garnish check</div><div class="s">Every drink's garnish and glass, one table</div></button>
       <button data-qa="allergens|#sec-allergy"><div class="t">Allergy check</div><div class="s">Flag any allergen across 75 dishes</div></button>
       <button data-qa="wine|#sec-bottles"><div class="t">Wine by budget</div><div class="s">Bottles at their price, pitch included</div></button>
@@ -640,6 +642,24 @@ function build(){
     <div class="anslist" id="ansList">${OPEN.map((o,i)=>`<div class="q"><div class="qq"><span>${i+1}.</span>${esc(o[0])}</div><div class="ans">${esc(o[1])}</div></div>`).join("")}</div>`;
 
   /* ---------- SALES CALCULATOR ---------- */
+  $("#p-house").innerHTML=`
+    <div class="sechead"><h2>How we work</h2><span>Points of Passion, steps of service, and the house playbook — from the real training handouts</span></div>
+    <div class="note gold"><b>Mission:</b> ${esc(HOUSE.mission)}</div>
+    ${acc("Points of Passion — the 16","the Mo's service philosophy, word for word where it counts",`<ol class="steps">${HOUSE.points.map(([t,d])=>`<li><b>${esc(t)}.</b> ${esc(d)}</li>`).join("")}</ol>`)}
+    ${acc("Isaac's Non-Negotiables — the 11","the standards that never bend",`<ol class="steps">${HOUSE.isaacs.map(d=>`<li>${esc(d)}</li>`).join("")}</ol>`)}
+    ${acc("Back server steps of service","your role, from the official handout",`<ul class="steps">${HOUSE.back.map(d=>`<li>${esc(d)}</li>`).join("")}</ul>`)}
+    ${acc("Front server steps of service","what your front is juggling — know their job too",`<ul class="steps">${HOUSE.front.map(d=>`<li>${esc(d)}</li>`).join("")}</ul>`)}
+    ${acc("Expo / runner side work","opening, mid-shift, closing",`
+      <p class="sub" style="margin:4px 0"><b>Opening</b></p><ul class="steps">${HOUSE.expo.open.map(d=>`<li>${esc(d)}</li>`).join("")}</ul>
+      <p class="sub" style="margin:10px 0 4px"><b>Mid-shift</b></p><ul class="steps">${HOUSE.expo.mid.map(d=>`<li>${esc(d)}</li>`).join("")}</ul>
+      <p class="sub" style="margin:10px 0 4px"><b>Closing</b></p><ul class="steps">${HOUSE.expo.close.map(d=>`<li>${esc(d)}</li>`).join("")}</ul>`)}
+    ${acc("Tableside shows + mise en place","every setup, every show, one list",`<ul class="steps">${HOUSE.tableside.map(([t,d])=>`<li><b>${esc(t)}:</b> ${esc(d)}</li>`).join("")}</ul>`)}
+    ${acc("Back server closing tasks","the full close-down, from the official checklist",`<ul class="steps">${HOUSE.backclose.map(d=>`<li>${esc(d)}</li>`).join("")}</ul>`)}
+    ${acc("Closing side work — front, back, closer","the posted sheet with slow-night and busy-night quantities",`<ul class="steps">${HOUSE.closesheet.map(d=>`<li>${esc(d)}</li>`).join("")}</ul>`)}
+    ${acc("Bar steps + timing standards","the 20-step bar bible — the timing rules apply everywhere",`<ul class="steps">${HOUSE.barsteps.map(d=>`<li>${esc(d)}</li>`).join("")}</ul>`)}
+    ${acc("House facts","uniform, trivia, and the little rules",`<ul class="steps">${HOUSE.facts.map(([t,d])=>`<li><b>${esc(t)}:</b> ${esc(d)}</li>`).join("")}</ul>`)}
+    <div class="note" style="margin-top:12px">Mined from the real Greenwood training handouts in Evan's photo archive. Where a handout disagrees with something newer Evan has said, the newer word wins.</div>`;
+
   $("#p-ops").innerHTML=`
     <div class="sechead" id="sec-checkout"><h2>Sales Calculator</h2><span>sales in — your money out</span></div>
     <div class="tool">
@@ -690,7 +710,7 @@ function build(){
     <ol class="steps">${SPLIT_RULES.map(r=>`<li><b>${esc(r.split(".")[0])}.</b>${esc(r.split(".").slice(1).join(".").trim())}</li>`).join("")}</ol>
 
     ${acc("Night forecast — books + walk-ins","how many people are actually coming in",`
-      <p class="sub" style="color:var(--dim2);font-size:12.5px;margin:4px 0 12px">Covers on the books (SevenRooms) plus a walk-in guess equals the people coming in. Walk-ins lately: weekends 30–70 (call it 50), weekdays 15–30. No covers entered falls back to teams &times; $1,388. Staffing reality: most days run 3-4 teams, slow days 2, big days 5-7 — the manager sets it by covers and it changes every week.</p>
+      <p class="sub" style="color:var(--dim2);font-size:12.5px;margin:4px 0 12px">Covers on the books (SevenRooms) plus a walk-in guess equals the people coming in. Walk-ins lately: weekends 30–70 (call it 50), weekdays 15–30. No covers entered falls back to teams &times; $1,381.50. Staffing reality: most days run 3-4 teams, slow days 2, big days 5-7 — the manager sets it by covers and it changes every week.</p>
       <div class="frow">
         <div class="f"><label>Teams</label><input type="number" inputmode="decimal" id="fcTeams" value="3" min="1" max="12"></div>
         <div class="f"><label>On the books</label><input type="number" inputmode="decimal" id="fcBooks" placeholder="from SevenRooms" min="0"></div>
@@ -713,14 +733,16 @@ function build(){
       <div class="note"><b>How the model got smarter:</b> ${esc(SALES.read)}</div>
       <div class="sechead"><h2>Backtest against real Toast data</h2><span>every rule proven against an actual day</span></div>
       ${tbl(["Day","Model says","Toast actual","Miss"],[
-        ["<b>7/13</b> — 3 teams, normal","3 x $1,388 = <b>$4,165</b>","$4,164.51",'<span style="color:#1E6B3A">0.0% (calibration day)</span>'],
-        ["<b>7/20</b> — 4 teams + banquet","4 x $1,388 + $3,366 = <b>$8,919</b>","$9,129.50",'<span style="color:#1E6B3A">-2.3%</span>'],
+        ["<b>7/13</b> — 3 teams, normal","3 x $1,381.50 = <b>$4,144.50</b>","$4,144.51",'<span style="color:#1E6B3A">0.0% — exact (calibration day)</span>'],
+        ["<b>7/20</b> — 4 teams + banquet","4 x $1,381.50 + $3,366 = <b>$8,892</b>","$9,129.50",'<span style="color:#1E6B3A">-2.6%</span>'],
+        ["<b>12/26/25</b> — holiday Friday","biggest reference night on file","$26,886.50 net",'—'],
+        ["<b>Week of 7/13</b>","Toast itself projected the week","$51,418 net",'—'],
         ["<b>7/20</b> tips check",".247 x dining + .23 x banquet = <b>$2,199</b>","$2,198.93",'<span style="color:#1E6B3A">0.0%</span>'],
         ["<b>Tip pipeline</b>","withheld &rarr; tip-outs &rarr; split, run against a real graded house checkout","matched the handwritten sheet",'<span style="color:#1E6B3A">exact, to the dollar</span>'],
-        ["<b>Tax check</b>","9% of net (7% IN + 1% county + 1% city)","matches Toast",'<span style="color:#1E6B3A">exact</span>']])}
+        ["<b>Tax check</b>","9% of net (7% IN + 1% county + 1% city)","exact on BOTH verified Toast screens",'<span style="color:#1E6B3A">exact</span>']])}
       <div class="sechead"><h2>What the covers probably were</h2><span>implied from net sales at each check size</span></div>
       ${tbl(["Day","Dining net","@ $95/person","@ $115/person","@ $140/person"],[
-        ["<b>7/13</b> (all dining)","$4,165",...SALES.impliedChecks.map(c=>"~"+Math.round(4164.51/c)+" covers")],
+        ["<b>7/13</b> (all dining)","$4,145",...SALES.impliedChecks.map(c=>"~"+Math.round(4144.51/c)+" covers")],
         ["<b>7/20</b> (minus banquet block)","$5,763",...SALES.impliedChecks.map(c=>"~"+Math.round(5763.5/c)+" covers")]])}
       <div class="sechead"><h2>Greenwood demand calendar</h2><span>what moves a fine-dining Sunday here</span></div>
       ${tbl(["Occasion","Suggested x","Why"],SALES.occasions.filter(o=>o[1]!==1||/Colts/.test(o[0])).map(o=>[`<b>${esc(o[0])}</b>`,"x"+o[1].toFixed(2),`<span style="color:var(--dim)">${esc(o[2])}</span>`]))}
@@ -748,7 +770,7 @@ function build(){
     `;
 
   /* ---------- WIRE UP ---------- */
-  renderWines(); renderDrinks(); renderAllergens(); pairingOut(0); calcSC(); calcBQC(); calcIP(); calcFC(); calcBq();
+  renderWines(); renderDrinks(); renderAllergens(); pairingOut(0); calcSC(); calcBQC(); calcIP(); calcFC(); calcBq(); fillSched();
 
   $("#p-shift").querySelector(".qa").onclick=e=>{
     const b=e.target.closest("button[data-qa]"); if(!b)return;
@@ -813,3 +835,77 @@ $("#bigA").onclick=()=>{
 };
 $("#totop").onclick=()=>window.scrollTo({top:0,behavior:"smooth"});
 addEventListener("scroll",()=>{$("#totop").classList.toggle("show",scrollY>700);},{passive:true});
+
+/* ============================================================
+   SCHEDULE — the posted week, a roster that flips itself at
+   midnight, and every past week since we opened
+   ============================================================ */
+var SCHED_DAY, SCHED_SEL;
+function schedToday(){const t=new Date();return (t.getMonth()+1)+"/"+t.getDate()+"/"+t.getFullYear();}
+function schedTime(c){
+  c=String(c).trim();
+  const m=c.match(/^(\d{1,2})(\d{2})$/);
+  if(m)return m[1]+":"+m[2];
+  if(/^\d{1,2}$/.test(c))return c+":00";
+  return c;
+}
+function schedCls(c){c=String(c).trim();if(/^off\??$/i.test(c))return "off";if(/^ro\??$/i.test(c))return "ro";return "";}
+function schedGrid(S,ti){
+  const head=`<tr><th class="nm">Name</th>${S.days.map((d,i)=>`<th${i===ti?' class="tdy"':''}><span class="dw">${d[1]}</span>${d[0]}</th>`).join("")}</tr>`;
+  const body=S.sections.map(sec=>{
+    const name=sec[0],rows=sec[1],nums=sec[2];
+    const lab=nums?`<tr class="secrow"><td class="nm">${esc(name)}</td>${nums.map(n=>`<td>${esc(n)}</td>`).join("")}</tr>`
+                  :`<tr class="secrow"><td colspan="8">${esc(name)}</td></tr>`;
+    return lab+rows.map(r=>`<tr><td class="nm">${esc(r[0])}</td>${r.slice(1).map((c,i)=>{
+      const cls=[schedCls(c),i===ti?"tdy":""].filter(Boolean).join(" ");
+      return `<td${cls?` class="${cls}"`:""}>${esc(c)}</td>`;}).join("")}</tr>`).join("");
+  }).join("");
+  return `<div class="tw schedwrap"><table><thead>${head}</thead><tbody>${body}</tbody></table></div>`;
+}
+function rosterFor(S,idx){
+  return S.sections.map(sec=>{
+    const on=sec[1].map(r=>({n:r[0],c:r[idx+1]}))
+      .filter(x=>x.c && x.c!=="?" && !/^off\??$/i.test(x.c) && !/^ro\??$/i.test(x.c));
+    if(!on.length)return "";
+    return `<div class="rosec"><b>${esc(sec[0])}</b><div class="who">${on.map(x=>`${esc(x.n)} <i>${esc(schedTime(x.c))}</i>`).join(" &nbsp;\u00b7&nbsp; ")}</div></div>`;
+  }).join("");
+}
+function fillSched(){
+  const p=$("#p-sched"); if(!p)return;
+  SCHED_DAY=schedToday();
+  if(SCHED_SEL==null||!SCHEDULE_HISTORY[SCHED_SEL])SCHED_SEL=0;
+  const t=new Date(), todayStr=(t.getMonth()+1)+"/"+t.getDate();
+  const idx=(t.getFullYear()===SCHEDULE.year)?SCHEDULE.days.findIndex(d=>d[0]===todayStr):-1;
+  const DAYFULL={We:"Wednesday",Th:"Thursday",Fr:"Friday",Sa:"Saturday",Su:"Sunday",Mo:"Monday",Tu:"Tuesday"};
+  let roster;
+  if(idx>=0){
+    const d=SCHEDULE.days[idx];
+    const blocks=rosterFor(SCHEDULE,idx);
+    roster=`<div class="sechead"><h2>Today \u2014 ${DAYFULL[d[1]]} ${d[0]}</h2><span>flips itself at midnight</span></div>
+      ${blocks||'<div class="note">Nobody on the sheet for today.</div>'}`;
+  }else{
+    roster=`<div class="sechead"><h2>Today</h2><span>daily roster</span></div>
+      <div class="note"><b>Today (${todayStr}) isn't on the posted week.</b> This grid covers the ${esc(SCHEDULE.week)}. When the new sheet goes up, send a photo \u2014 it slides in here and this one drops into History below.</div>`;
+  }
+  p.innerHTML=`${roster}
+    <div class="sechead"><h2>${esc(SCHEDULE.week)}</h2><span>exactly as posted</span></div>
+    ${schedGrid(SCHEDULE,idx)}
+    <div class="note" style="margin-top:10px"><b>Reading it:</b> numbers are start times exactly as written \u2014 345 means 3:45. A dark box is OFF. <b>RO</b> is a requested day off. Blank means not scheduled that day. The numbers on the yellow Fronts bar are straight off the sheet. A trailing ? means the photo was hard to read.</div>
+    <div class="sechead"><h2>Schedule history</h2><span>${SCHEDULE_HISTORY.length} weeks \u2014 every sheet since we opened</span></div>
+    <div class="note">These are the sheets <b>as posted</b>. Trades, call-offs, cuts and sick days happened after \u2014 so a history week shows the plan, not always who actually worked.</div>
+    <div class="frow" style="margin-top:8px"><div class="f"><label>Pick a week</label><select id="schedWeek">${SCHEDULE_HISTORY.map((w,i)=>`<option value="${i}"${i===SCHED_SEL?" selected":""}>${esc(w.week)}</option>`).join("")}</select></div></div>
+    <div id="schedHist"></div>`;
+  renderSchedHist();
+  $("#schedWeek").onchange=e=>{SCHED_SEL=+e.target.value;renderSchedHist();};
+}
+function renderSchedHist(day){
+  const w=SCHEDULE_HISTORY[SCHED_SEL], el=$("#schedHist"); if(!w||!el)return;
+  const chips=`<div class="filters" style="margin:8px 0 10px">${w.days.map((d,i)=>`<button data-d="${i}"${day===i?' class="on"':''}>${d[1]} ${d[0]}</button>`).join("")}</div>`;
+  el.innerHTML=`${chips}
+    ${day!=null?(rosterFor(w,day)||'<div class="note">Nobody readable on the sheet that day.</div>'):'<div class="note" style="margin:6px 0 10px">Tap a day to see who was on \u2014 tap again to close it.</div>'}
+    ${schedGrid(w,day!=null?day:-1)}
+    ${w.note?`<div class="note" style="margin-top:8px">${esc(w.note)}</div>`:""}`;
+  el.querySelector(".filters").onclick=e=>{const b=e.target.closest("button");if(!b)return;
+    const d2=+b.dataset.d; renderSchedHist(d2===day?null:d2);};
+}
+setInterval(()=>{ if(SCHED_DAY && schedToday()!==SCHED_DAY) fillSched(); },60000);

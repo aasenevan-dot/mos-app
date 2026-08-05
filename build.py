@@ -10,6 +10,7 @@ Parts, in order:
   build/3-data-drinks.js cocktails, spirits, beer
   build/4-data-food.js   menu, allergens, specials + soups living lists
   build/5-data-quiz.js   quiz banks + SALES constants (all the tip math numbers)
+  build/5b-data-sched.js weekly schedule + full schedule history
   build/6-app.js         every screen and calculator
 Then the script/body/html tags get closed.
 
@@ -33,7 +34,7 @@ assert "__" not in head.split("sha384")[0] or True
 
 parts = [head]
 for f in ["2-data-wine.js", "3-data-drinks.js", "4-data-food.js",
-          "5-data-quiz.js", "6-app.js"]:
+          "5-data-quiz.js", "5b-data-sched.js", "6-app.js"]:
     parts.append((B / f).read_text())
 
 html = "\n".join(p.rstrip("\n") for p in parts) + "\n\n</script>\n</body>\n</html>\n"

@@ -1,5 +1,6 @@
 *.xlsx
 *.numbers
+*.zip
 private/
 .DS_Store
 test-rebuild.html

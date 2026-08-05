@@ -345,6 +345,21 @@ body.big{zoom:1.15}
   details.acc>.accbody{display:block}
   .panel.on::after{content:"Mo's — updated __BUILDDATE__ — study copy, verify in Toast";display:block;margin-top:16px;padding-top:8px;border-top:1px solid #999;font-size:10px;color:#444}
 }
+/* schedule */
+.schedwrap table{min-width:680px}
+.schedwrap th,.schedwrap td{padding:6px 7px;font-size:12px;white-space:nowrap;text-align:center}
+.schedwrap th{font-size:11px}
+.schedwrap th .dw{display:block;font-size:10px;color:var(--dim2);letter-spacing:.08em;text-transform:uppercase}
+.schedwrap td.nm{position:sticky;left:0;z-index:2;background:var(--card);text-align:left;font-weight:700;border-right:1.5px solid var(--line2);max-width:104px;overflow:hidden;text-overflow:ellipsis}
+.schedwrap tr.secrow td{background:var(--gold);color:var(--cream);text-align:left;font-weight:700;letter-spacing:.05em;font-size:11px;text-transform:uppercase}
+.schedwrap td.off{background:#2E1512;color:#8A6157;font-size:10px;letter-spacing:.08em}
+.schedwrap td.ro{background:#E9D9B4;color:#6E5716;font-weight:700}
+.schedwrap th.tdy,.schedwrap td.tdy{background:#EFE0C2}
+.schedwrap td.off.tdy{background:#3A1B16}
+.rosec{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-bottom:8px}
+.rosec b{color:var(--gold2)}
+.rosec .who{margin-top:3px;line-height:1.6;font-size:13.5px}
+.rosec .who i{color:var(--dim2);font-style:normal;font-size:12px}
 /* bigger touch targets on phones/tablets */
 @media(pointer:coarse){
   .opt{padding:12px 13px;margin-bottom:7px}

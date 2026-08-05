@@ -21,7 +21,7 @@ const COCKTAILS = [
  {n:"Pittsburghed Peach OF",p:"$17",grp:"specialty",base:"Whiskey",
   build:"2 oz High West Campfire, 1 oz lemon, 1 oz peach puree, 0.5 oz cane syrup, 2 dashes orange bitters.",
   glass:"Rocks glass",garnish:"Large cube and orange twist",
-  desc:"Lightly sweet, smoky, peachy, refreshing whiskey drink.",note:"Can be smoked tableside for +$3."},
+  desc:"Lightly sweet, smoky, peachy, refreshing whiskey drink.",note:"Can be smoked for +$3 — same drill: bartender builds, you smoke it under the lid on the tray, lift the lid at the table."},
  {n:"Street Treat Spritz",p:"$18",grp:"specialty",base:"Vodka / cordial / bubbles",
   build:"1 oz watermelon vodka, 1 oz limoncello, 1 oz lemon, 1 oz watermelon puree, top with Prosecco.",
   glass:"Wine glass over ice",garnish:"Tajin dusting and lemon wheel",
@@ -44,9 +44,9 @@ const COCKTAILS = [
   glass:"Rocks glass",garnish:"Large cube, cherry and orange",
   desc:"Classic, spirit-forward, orange-spice.",note:""},
  {n:"Smoked Draft Old Fashioned",p:"$17",grp:"signature",base:"Bourbon",
-  build:"Buffalo Trace Bourbon, vanilla, orange bitters.",
+  build:"Buffalo Trace Bourbon, a little vanilla extract, bitters, and smoked water on draft — refreshing with slight bubbles.",
   glass:"Rocks glass, large cube",garnish:"Orange twist and large cube",
-  desc:"Vanilla, oak, smoke, citrus.",note:"Smoked tableside for +$3."},
+  desc:"Vanilla, oak, smoke, citrus.",note:"Smoked for +$3: bartender builds it and hands everything off at the station — you smoke it under the lid on your tray, then lift the lid at the table for the show."},
  {n:"Mo's Manifest Manhattan",p:"$21",grp:"signature",base:"Rye",
   build:"Angel's Envy Rye, sweet vermouth, Angostura bitters, Luxardo cherry juice.",
   glass:"Coupe",garnish:"Two Luxardo cherries",
@@ -79,7 +79,7 @@ const COCKTAILS = [
  {n:"Esso Affo",p:"$18",grp:"dessert",base:"Espresso martini style",
   build:"Espresso martini style with no simple syrup, plus 1 scoop of vanilla ice cream.",
   glass:"Martini glass",garnish:"Coffee sea salt",
-  desc:"Affogato meets espresso martini. Coffee, cream, and vanilla.",note:"NEW on the July 11 update. Shaken by the bartender but POURED TABLESIDE."},
+  desc:"Affogato meets espresso martini. Coffee, cream, and vanilla.",note:"NEW on the July 11 update. Shaken by the bartender but POURED TABLESIDE — probably by the front server or the bartender (Evan wasn't sure, 8/4)."},
  {n:"Espresso Martini",p:"$17",grp:"dessert",base:"Vodka / coffee",
   build:"Coffee, vodka, sweet.",glass:"Martini",garnish:"—",
   desc:"Classic after-dinner coffee cocktail.",note:""},
@@ -149,6 +149,13 @@ const SPIRITS = {
   ["Goose Island","$35","Bardstown collab — bourbon finished in Goose Island Bourbon County Stout barrels, the beer that invented bourbon-barrel aging. Chocolate, vanilla, roast."],
   ["Prime 47 Blend","$30","Bardstown single barrel picked by OUR people: the Prime 47 Carmel bar manager toured Bardstown, Kentucky, tasted at the source, and bought one exclusive barrel for our restaurants. You are pouring from a barrel our own team chose."]],
  "High-End Whiskey (1 oz unless marked)":[
+  ["Pappy Van Winkle 10","$100/oz","The unicorn shelf — per-ounce pricing"],
+  ["Pappy Van Winkle 12","$125/oz","Per-ounce pricing"],
+  ["Pappy 13 Rye","$200/oz","Per-ounce pricing"],
+  ["Pappy Van Winkle 15","$175/oz","Per-ounce pricing"],
+  ["Louis XIII Cognac","$250/oz","The most expensive pour in the building"],
+  ["Macallan 25","$150/oz","1 oz pours only"],
+  ["Thomas Handy Sazerac","$150","Antique Collection rye"],
   ["E.H. Taylor Small Batch","$25","Bottled-in-bond style, spice, caramel"],
   ["E.H. Taylor Single Barrel","$75","Collector single barrel, deeper oak"],
   ["E.H. Taylor Barrel Strength","$75","High proof, intense, rare"],
@@ -212,12 +219,19 @@ const SPIRITS = {
 /* ============ BEER ============ */
 SPIRITS["On Draft — only two lines"]=[
  ["Smoked Draft Old Fashioned","$17","Signature — full build up in the cocktail list."],
- ["Second draft line","VERIFY","Used to be a Transfusion, changed since — maybe a cucumber-infused vodka drink now. Our sheet also calls Sweet & Salty a draft cocktail. Get the straight answer from the bar."]
+ ["Anything else on tap?","probably not","We barely have anything on tap — the Smoked Draft OF is the only confirmed line (8/4). Sweet & Salty probably does NOT pour from a tap despite the old sheet. If a second line exists, nobody knows what it is."]
+];
+
+SPIRITS["Cordials on the rail (after-dinner asks)"]=[
+ ["A through C","rail","Amaretto, Apple Schnapps, B&B, Baileys, Benedictine, Blue Curacao, Butterscotch Schnapps, Campari, Chambord, Cocoa Dark, Cocoa White, Cointreau, Creme de Banana, Creme de Cassis"],
+ ["D through L","rail","Disaronno, Drambuie, Dry Vermouth, Frangelico, Galliano, Guavaberry, Green Creme de Menthe, Kahlua, Licor 43, Limoncello"],
+ ["P through W","rail","Pama Pomegranate, Peach Schnapps, Peppermint Schnapps, Razzmatazz, RumChata, Rumple Minze, Sambuca (regular + black), St-Germain, Triple Sec, Vermouth dry + sweet, White Creme de Menthe"]
 ];
 
 SPIRITS["Coffee, Tea & Water (no booze)"]=[
  ["Hubbard & Cravens Coffee","reg / decaf","Local Indianapolis roaster. Bring a cream and sugar caddy with it."],
- ["Iced Tea","unsweet","Unsweet by default — sweet tea can be made on request."],
+ ["Espresso","$ VERIFY","We DO pour straight espresso — no cappuccino. Evan guesses $8+; get the real price off Toast."],
+ ["Iced Tea","unsweet","Suncoast iced tea blend. Unsweet by default — sweet tea can be made on request."],
  ["Filtered Water","free","The busser carries it — default for every table."],
  ["Aquafina","bottle","Bottled still water if the guest wants it — price in Toast."],
  ["Sparkling Water","bottle","Bottled sparkling if the guest wants it — price in Toast."],

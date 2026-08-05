@@ -408,7 +408,7 @@ function addJumps(key){
   const heads=[...p.querySelectorAll(".sechead h2")].filter(h=>!h.closest("details"));
   if(heads.length<3)return;
   const bar=document.createElement("div"); bar.className="jumper";
-  heads.slice(0,10).forEach(h=>{
+  heads.forEach(h=>{
     const b=document.createElement("button");
     b.textContent=h.textContent.split("—")[0].trim().slice(0,26);
     b.onclick=()=>h.closest(".sechead").scrollIntoView({behavior:"smooth"});

@@ -365,24 +365,62 @@ function calcBq(){
 }
 
 /* ---------- GLOBAL SEARCH ---------- */
+/* Ask it questions: words match in any order, filler words are ignored,
+   common floor terms map to menu vocabulary, and small typos still hit. */
+const SEARCH_STOP=new Set("what whats is in the a an on of for to do does did we have has had any with and or are it its how much many me my show tell about can could i you your price prices cost costs".split(" "));
+const SEARCH_SYN={mocktail:"non-alcoholic",virgin:"non-alcoholic",children:"kids",child:"kids",app:"starters",apps:"starters",appetizer:"starters",appetizers:"starters",sparkling:"champagne",bubbly:"champagne",bubbles:"champagne",veggie:"vegetable",veggies:"vegetable",glutenfree:"gf",sweets:"desserts",bday:"celebration",birthday:"celebration",anniversary:"celebration"};
+function nearWord(a,b){
+  if(a===b)return true;
+  const la=a.length,lb=b.length;
+  if(Math.abs(la-lb)>1)return false;
+  let i=0,j=0,edits=0;
+  while(i<la&&j<lb){
+    if(a[i]===b[j]){i++;j++;continue;}
+    if(++edits>1)return false;
+    if(la===lb){i++;j++;}else if(la>lb)i++;else j++;
+  }
+  return edits+(la-i)+(lb-j)<=1;
+}
 function search(q){
-  q=q.trim().toLowerCase(); if(q.length<2)return [];
+  q=q.trim().toLowerCase().replace(/[’']/g,"");
+  if(q.length<2)return [];
+  let toks=q.split(/[^a-z0-9$&%]+/).filter(Boolean);
+  const kept=toks.filter(t=>!SEARCH_STOP.has(t));
+  if(kept.length)toks=kept;
+  if(!toks.length)return [];
+  const tokenIn=(hay,words,t)=>{
+    if(hay.includes(t))return true;
+    const syn=SEARCH_SYN[t];
+    if(syn&&hay.includes(syn))return true;
+    if(t.length>=4&&t.endsWith("s")&&hay.includes(t.slice(0,-1)))return true;
+    if(t.length>=5)return words().some(w=>w[0]===t[0]&&nearWord(w,t));
+    return false;
+  };
+  const matches=fields=>{
+    const hay=fields.filter(Boolean).join(" ").toLowerCase().replace(/[’']/g,"");
+    let words=null;
+    const getWords=()=>words||(words=hay.split(/[^a-z0-9$&%]+/).filter(Boolean));
+    return toks.every(t=>tokenIn(hay,getWords,t));
+  };
   const hits=[];
-  const add=(w,t,d,tab)=>hits.push({w,t,d,tab});
-  WINES.forEach(x=>{if((x.n+x.r+x.f+x.pair+x.pitch+x.p).toLowerCase().includes(q))add("Wine",x.n+" — "+x.p,x.pitch,"wine");});
-  COCKTAILS.forEach(x=>{if((x.n+x.build+x.garnish+x.desc+x.p).toLowerCase().includes(q))add("Cocktail",x.n+" — "+x.p,"Garnish: "+x.garnish+" · "+x.build,"cocktails");});
-  Object.entries(MENU).forEach(([sec,items])=>items.forEach(i=>{if((i[0]+i[1]+i[2]+i[3]).toLowerCase().includes(q))add(sec,i[0]+" — "+i[1],i[2],"menu");}));
-  ALLERGENS.forEach(r=>{if((r[0]+r[2].join(" ")).toLowerCase().includes(q))add("Allergens",r[0],"Contains: "+(r[2].join(", ")||"none listed")+". "+r[3],"allergens");});
-  Object.entries(SPIRITS).forEach(([sec,rows])=>rows.forEach(r=>{if((r[0]+r[2]).toLowerCase().includes(q))add(sec,r[0]+" — "+r[1],r[2],"bar");}));
-  BEER.forEach(b=>{if((b[0]+b[2]+b[3]).toLowerCase().includes(q))add("Beer",b[0]+" — "+b[1],b[2]+". "+b[3],"bar");});
-  OPEN.forEach(o=>{if((o[0]+o[1]).toLowerCase().includes(q))add("Test answer",o[0],o[1],"study");});
-  SPECIALS_ON.forEach(s=>{if((s[0]+s[2]).toLowerCase().includes(q))add("Ongoing special",s[0]+" — "+s[1],s[2],"specials");});
-  SPECIALS_ROTATION.forEach(s=>{if((s[0]+s[2]).toLowerCase().includes(q))add("Rotating special",s[0],s[2],"specials");});
-  SPECIALS_PAST.forEach(s=>{if((s[0]+s[2]).toLowerCase().includes(q))add("Past special",s[0]+" ("+s[3]+")",s[2],"specials");});
-  SOTD.forEach(s=>{if((s[1]+s[2]).toLowerCase().includes(q))add("Soup of the day",s[1]+" — first seen "+s[0],s[2],"specials");});
-  SOUPS_STANDING.forEach(s=>{if((s[0]+s[2]).toLowerCase().includes(q))add("Standing soup",s[0]+" — "+s[1],s[2],"specials");});
-  OFFMENU.forEach(s=>{if((s[0]+s[2]).toLowerCase().includes(q))add("Off-menu",s[0]+" — "+s[1],s[2],"specials");});
-  return hits.slice(0,40);
+  const add=(w,t,d,tab)=>{
+    const name=(w+" "+t).toLowerCase();
+    hits.push({w,t,d,tab,score:toks.filter(x=>name.includes(x)).length});
+  };
+  WINES.forEach(x=>{if(matches([x.n,x.r,x.f,x.pair,x.pitch,x.p]))add("Wine",x.n+" — "+x.p,x.pitch,"wine");});
+  COCKTAILS.forEach(x=>{if(matches([x.n,x.build,x.garnish,x.desc,x.p,x.grp]))add("Cocktail",x.n+" — "+x.p,"Garnish: "+x.garnish+" · "+x.build,"cocktails");});
+  Object.entries(MENU).forEach(([sec,items])=>items.forEach(i=>{if(matches([sec,i[0],i[1],i[2],i[3]]))add(sec,i[0]+" — "+i[1],i[2],"menu");}));
+  ALLERGENS.forEach(r=>{if(matches([r[0],r[2].join(" "),r[3]]))add("Allergens",r[0],"Contains: "+(r[2].join(", ")||"none listed")+". "+r[3],"allergens");});
+  Object.entries(SPIRITS).forEach(([sec,rows])=>rows.forEach(r=>{if(matches([sec,r[0],r[2]]))add(sec,r[0]+" — "+r[1],r[2],"bar");}));
+  BEER.forEach(b=>{if(matches([b[0],b[2],b[3]]))add("Beer",b[0]+" — "+b[1],b[2]+". "+b[3],"bar");});
+  OPEN.forEach(o=>{if(matches([o[0],o[1]]))add("Test answer",o[0],o[1],"study");});
+  SPECIALS_ON.forEach(s=>{if(matches([s[0],s[2]]))add("Ongoing special",s[0]+" — "+s[1],s[2],"specials");});
+  SPECIALS_ROTATION.forEach(s=>{if(matches([s[0],s[2]]))add("Rotating special",s[0],s[2],"specials");});
+  SPECIALS_PAST.forEach(s=>{if(matches([s[0],s[2]]))add("Past special",s[0]+" ("+s[3]+")",s[2],"specials");});
+  SOTD.forEach(s=>{if(matches([s[1],s[2]]))add("Soup of the day",s[1]+" — first seen "+s[0],s[2],"specials");});
+  SOUPS_STANDING.forEach(s=>{if(matches([s[0],s[2]]))add("Standing soup",s[0]+" — "+s[1],s[2],"specials");});
+  OFFMENU.forEach(s=>{if(matches([s[0],s[2]]))add("Off-menu",s[0]+" — "+s[1],s[2],"specials");});
+  return hits.sort((a,b)=>b.score-a.score).slice(0,40);
 }
 function renderSearch(q){
   const box=$("#searchPanel"), hits=search(q);
@@ -391,7 +429,7 @@ function renderSearch(q){
   box.style.display="block";
   box.innerHTML=`<div class="sechead"><h2>${hits.length} result${hits.length===1?"":"s"} for &ldquo;${esc(q)}&rdquo;</h2><span>clear the box to go back</span></div>
   <div class="hits">${hits.length?hits.map(h=>`<div class="hit" onclick="$('#gsearch').value='';renderSearch('');go('${h.tab}')" style="cursor:pointer">
-    <div class="w">${esc(h.w)}</div><div class="t">${esc(h.t)}</div><div class="d">${esc(h.d)}</div></div>`).join(""):'<div class="empty">Nothing found. Try a shorter word.</div>'}</div>`;
+    <div class="w">${esc(h.w)}</div><div class="t">${esc(h.t)}</div><div class="d">${esc(h.d)}</div></div>`).join(""):'<div class="empty">Nothing found. Try fewer or different words.</div>'}</div>`;
 }
 
 /* ============================================================

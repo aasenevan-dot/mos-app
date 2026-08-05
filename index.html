@@ -356,6 +356,8 @@ body.big{zoom:1.15}
 .schedwrap td.ro{background:#E9D9B4;color:#6E5716;font-weight:700}
 .schedwrap th.tdy,.schedwrap td.tdy{background:#EFE0C2}
 .schedwrap td.off.tdy{background:#3A1B16}
+.schedwrap tr.covrow td{background:var(--card2);color:var(--gold);font-weight:700}
+.schedwrap tr.covrow td.nm{font-size:10.5px;background:var(--card2)}
 .rosec{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-bottom:8px}
 .rosec b{color:var(--gold2)}
 .rosec .who{margin-top:3px;line-height:1.6;font-size:13.5px}
@@ -411,13 +413,13 @@ window.addEventListener("error",function(e){
 </footer>
 <script>
 /* ============================================================
-   MO'S CO-WORK — DATA
-   Sources: MoS-Training-Transfer-2026-08-02 vault.
-   Newest file wins on conflicts (noted inline where they exist).
-   ============================================================ */
+ MO'S CO-WORK — DATA
+ Sources: MoS-Training-Transfer-2026-08-02 vault.
+ Newest file wins on conflicts (noted inline where they exist).
+ ============================================================ */
 
 /* WINE — [name, cat, tier, price, region/story, flavors, tannin, acid, body, finish, pairing, pitch]
-   cat: cab | merlot | pinot | old | champ | gred | gwhite      tier: Good | Better | Best     */
+ cat: cab | merlot | pinot | old | champ | gred | gwhite tier: Good | Better | Best */
 const W = (n,c,t,p,r,f,T,A,B,fin,pair,pitch)=>({n,c,t,p,r,f,T,A,B,fin,pair,pitch});
 
 const WINES = [
@@ -508,7 +510,7 @@ W("Conundrum Red Blend","gred","Good","$16 / $50","California — bottle price u
 W("Turning Point Red Blend","gred","Good","$14 / $53","Sonoma, CA — by Goldschmidt Vineyards","Black cherry, plum, cocoa, soft spice","Med","Med","Med-Full","Smooth Sonoma value","Apps, filet, steak table on value","Good-value red blend: easy with steak or appetizers."),
 W("The Critic Cabernet Sauvignon","gred","Good","$17 / $62","Napa","Bing cherry, currant, caramel, spice","Med-High","Med","Full","Approachable Napa Cabernet","Ribeye, NY Strip, Steak 47","Approachable Napa Cabernet by the glass; dark fruit and spice without being too aggressive."),
 W("Caymus Cabernet Sauvignon","gred","Better","$32 / $155","Napa — price updated 7/3 (was 25/95)","Dark cherry, blackberry, cassis, cocoa, vanilla","Med","Low-Med","Full","Plush, rich, recognizable","Ribeye, NY Strip, Tomahawk","Recognizable premium Cabernet; rich, plush, and easy with steak."),
-W("Advice From John Merlot","gred","Good","$16 / $60","California — by Orin Swift (confirmed 8/4)","Plum, black cherry, mocha, soft spice","Low-Med","Med","Med-Full","Soft, smooth, lower-grip red","Filet, Steak 47, guest who says Cab is too dry","Softer than Cabernet, still red-wine enough for steak. Table story: the label is real bathroom-wall graffiti — advice from THE john."),
+W("Advice From John Merlot","gred","Good","$16 / $60","California — by Orin Swift","Plum, black cherry, mocha, soft spice","Low-Med","Med","Med-Full","Soft, smooth, lower-grip red","Filet, Steak 47, guest who says Cab is too dry","Softer than Cabernet, still red-wine enough for steak. Table story: the label is real bathroom-wall graffiti — advice from THE john."),
 W("Ghost Pines Cabernet Sauvignon","gred","Good","$14 / $53","Napa / Sonoma, CA","Blackberry, dark cherry, vanilla, oak spice","Med-High","Med","Full","Value Cabernet finish","Ribeye, NY Strip, Cab value guest","Steak-friendly dark fruit without jumping into the higher-priced Napa bottles."),
 W("Pessimist Red Blend","gred","Good","$15 / $58","Paso Robles, CA — by Daou","Blackberry, blueberry, plum, cocoa, spice","Med","Med","Full","Bold, plush, fruit-forward","Ribeye, Short Rib Pasta, Prime Meatballs","Bolder Paso red blend; richer than Pinot, softer than serious Cab."),
 W("Dona Paula Malbec","gred","Good","$14 / $52","Mendoza, Argentina — added on the 7/3 sheet","Black plum, blueberry, violet, cocoa","Med","Med","Med-Full","Smooth, fruit-forward Malbec finish","Filet, NY Strip, Prime Meatballs","Easy red for guests who want smooth fruit without Cabernet grip."),
@@ -520,103 +522,103 @@ W("Chateau de Campuget Rose","gwhite","Good","$12 / $45","Rhone, France — dry 
 W("Beviamo Pinot Grigio","gwhite","Good","$13 / $49","Venezia, Italy","Lemon, pear, green apple, light floral","None","Med-High","Light","Crisp, clean, simple","Salads, oysters, lighter starters","Lightest, cleanest dry white; safest crisp choice before dinner."),
 W("Kim Crawford Sauvignon Blanc","gwhite","Good","$13 / $49","Marlborough, NZ","Grapefruit, lime, green melon, passion fruit, grass","None","High","Light-Med","Zesty, citrusy, refreshing","Oysters, Seafood Tower, Caesar, shellfish","Bright New Zealand Sauvignon Blanc: citrusy, crisp, refreshing."),
 W("Auntsfield Single Vineyard Sauvignon Blanc","gwhite","Better","$14 / $53","Marlborough, NZ — single-vineyard step up","Grapefruit, lime, tropical fruit, herbs, minerality","None","High","Light-Med","More refined Sauvignon Blanc finish","Seafood Tower, oysters, scallops, sea bass","The elevated single-vineyard Sauvignon Blanc if they like Kim Crawford but want the nicer version."),
-W("Mer Soleil Chardonnay","gwhite","Good","$15 / $57","OFF THE LIST — not on the printed menu (photo-confirmed 8/4). Do NOT pitch it; kept here for history.","Apple, pear, tropical fruit, vanilla, toast","None","Med","Med-Full","Round, richer California Chardonnay","Lobster tail, scallops, stuffed chicken, creamy dishes","Fuller California Chardonnay; rounder and richer than Sauvignon Blanc."),
+W("Mer Soleil Chardonnay","gwhite","Good","$15 / $57","OFF THE LIST — not on the printed menu. Do NOT pitch it; kept here for history.","Apple, pear, tropical fruit, vanilla, toast","None","Med","Med-Full","Round, richer California Chardonnay","Lobster tail, scallops, stuffed chicken, creamy dishes","Fuller California Chardonnay; rounder and richer than Sauvignon Blanc."),
 W("Buehler Chardonnay","gwhite","Good","$13 / $50","Russian River Valley, CA","Ripe apple, pear, citrus, light vanilla, toasted oak","None","Med","Med","Smooth, balanced, lightly oaked","Sea bass, scallops, stuffed chicken","Middle-ground Chardonnay: ripe fruit, light vanilla, smooth but balanced."),
-W("Freixenet Cava Blanc de Blanc","gwhite","Good","$12 / $45","Spain — bubbles by the glass (from the 5/31 menu print; confirm in Toast)","Green apple, citrus, toasted bread, clean bubbles","None","High","Light","Crisp, dry, celebratory","Oysters, towers, any toast","Dry Spanish bubbles at an easy price — the default celebration glass."),
-W("La Marca Prosecco","gwhite","Good","$13 gl — verify bottle","Italy — bubbles by the glass (5/31 print; confirm in Toast)","Peach, green apple, honeysuckle, soft bubbles","None","Med-High","Light","Softer, fruitier bubbles","Celebrations, spritz drinkers, dessert","The friendly Prosecco — softer and fruitier than the Cava."),
-W("Mionetto Rose","gwhite","Good","$14 gl — verify bottle","Italy — pink bubbles by the glass (5/31 print; confirm in Toast)","Strawberry, raspberry, floral, crisp finish","None","Med-High","Light","Pink, pretty, dry-ish","Celebrations, rose drinkers, light desserts","Pink bubbles for the table that wants the pretty glass."),
+W("Freixenet Cava Blanc de Blanc","gwhite","Good","$12 / $45","Spain — bubbles by the glass (confirm in Toast)","Green apple, citrus, toasted bread, clean bubbles","None","High","Light","Crisp, dry, celebratory","Oysters, towers, any toast","Dry Spanish bubbles at an easy price — the default celebration glass."),
+W("La Marca Prosecco","gwhite","Good","$13 gl — verify bottle","Italy — bubbles by the glass (confirm in Toast)","Peach, green apple, honeysuckle, soft bubbles","None","Med-High","Light","Softer, fruitier bubbles","Celebrations, spritz drinkers, dessert","The friendly Prosecco — softer and fruitier than the Cava."),
+W("Mionetto Rose","gwhite","Good","$14 gl — verify bottle","Italy — pink bubbles by the glass (confirm in Toast)","Strawberry, raspberry, floral, crisp finish","None","Med-High","Light","Pink, pretty, dry-ish","Celebrations, rose drinkers, light desserts","Pink bubbles for the table that wants the pretty glass."),
 W("Post & Beam Chardonnay","gwhite","Better","$20 / $78","Napa, CA — by Far Niente","Golden apple, pear, lemon curd, vanilla, polished oak","None","Med","Med-Full","Polished premium Napa Chardonnay","Lobster, scallops, sea bass, chicken","By Far Niente; the premium polished Chardonnay by the glass.")
 ];
 
 const WINE_CATS = [
-  ["all","Everything"],["cab","Cabernet & Red Blends"],["merlot","Merlot"],["pinot","Pinot Noir"],
-  ["old","Old World"],["champ","Champagne"],["gred","By the Glass — Red (photo-confirmed 8/4)"],["gwhite","By the Glass — White (photo-confirmed 8/4)"]
+ ["all","Everything"],["cab","Cabernet & Red Blends"],["merlot","Merlot"],["pinot","Pinot Noir"],
+ ["old","Old World"],["champ","Champagne"],["gred","By the Glass — Red"],["gwhite","By the Glass — White"]
 ];
 
 /* PAIRING FINDER — dish -> {line, picks:[Good, Better, Best]} */
 const PAIRINGS = [
  {d:"Filet Mignon / Farbuckle Filet", line:"Pinot Noir is lighter than Cabernet and complements the tenderness.",
-  good:["Landmark \"Overlook\" Pinot Noir","Belle Glos \"Dairyman\"","Duckhorn Merlot","Emmolo Napa Valley Merlot"],
-  better:["Domaine Drouhin \"Dundee Hills\"","Gary Farrell Russian River Valley","Chateau L'eyzer Pomerol"],
-  best:["Sea Smoke Estate \"TEN\"","Joseph Drouhin Gevry-Chambertin","Cain 5 \"Spring Mountain\""]},
+ good:["Landmark \"Overlook\" Pinot Noir","Belle Glos \"Dairyman\"","Duckhorn Merlot","Emmolo Napa Valley Merlot"],
+ better:["Domaine Drouhin \"Dundee Hills\"","Gary Farrell Russian River Valley","Chateau L'eyzer Pomerol"],
+ best:["Sea Smoke Estate \"TEN\"","Joseph Drouhin Gevry-Chambertin","Cain 5 \"Spring Mountain\""]},
  {d:"Delmonico Ribeye / K.D.'s Tomahawk", line:"Cabernet cuts through the marbling and fat.",
-  good:["Buehler Estate Cabernet","Faust Napa Valley","Caymus \"California\""],
-  better:["Cade Estate Howell Mountain","Groth Oakville Estate","Mt. Veeder Napa Valley"],
-  best:["Opus One","\"Halo\" Trefethen","Patrimony by Daou","Caymus Special Select"]},
+ good:["Buehler Estate Cabernet","Faust Napa Valley","Caymus \"California\""],
+ better:["Cade Estate Howell Mountain","Groth Oakville Estate","Mt. Veeder Napa Valley"],
+ best:["Opus One","\"Halo\" Trefethen","Patrimony by Daou","Caymus Special Select"]},
  {d:"Dry Aged NY Strip", line:"Dry age is savory and nutty — savory Old World reds and structured Napa both work.",
-  good:["Buehler Estate Cabernet","Bodegas Muga Reserva Rioja","Chateau Laffitte-Laujac Medoc"],
-  better:["Cakebread Cellars","Silver Oak Napa Valley","Ca'marcanda Tuscany"],
-  best:["Cain 5 \"Spring Mountain\"","Silver Oak \"Timeless\"","Quintessa Napa Valley"]},
+ good:["Buehler Estate Cabernet","Bodegas Muga Reserva Rioja","Chateau Laffitte-Laujac Medoc"],
+ better:["Cakebread Cellars","Silver Oak Napa Valley","Ca'marcanda Tuscany"],
+ best:["Cain 5 \"Spring Mountain\"","Silver Oak \"Timeless\"","Quintessa Napa Valley"]},
  {d:"48 oz Porterhouse (board service)", line:"Big shared cut wants a big shared bottle — go structured or large format.",
-  good:["Bodegas Penafiel Ribera del Duero"],
-  better:["Mt. Veeder Napa Valley","Cade Estate Howell Mountain","Orin Swift \"Palermo\""],
-  best:["Le Serre Nuove \"Ornellaia\" 3L","\"Halo\" Trefethen","PlumpJack Oakville Estate"]},
+ good:["Bodegas Penafiel Ribera del Duero"],
+ better:["Mt. Veeder Napa Valley","Cade Estate Howell Mountain","Orin Swift \"Palermo\""],
+ best:["Le Serre Nuove \"Ornellaia\" 3L","\"Halo\" Trefethen","PlumpJack Oakville Estate"]},
  {d:"Japanese A5 Wagyu / A5 Nigiri", line:"Champagne for celebration, or polished power. The fat is the whole story — acid or polish both work.",
-  good:["Moet Imperial Brut"],
-  better:["Taittinger Brut","Veuve Clicquot","Domaine Drouhin \"Dundee Hills\""],
-  best:["Louis Roederer Cristal","Opus One","Quintessa Napa Valley","Ornellaia Super Tuscan"]},
+ good:["Moet Imperial Brut"],
+ better:["Taittinger Brut","Veuve Clicquot","Domaine Drouhin \"Dundee Hills\""],
+ best:["Louis Roederer Cristal","Opus One","Quintessa Napa Valley","Ornellaia Super Tuscan"]},
  {d:"Seafood Tower / Oysters", line:"Champagne works beautifully here — the acidity and bubbles keep everything fresh.",
-  good:["Joseph Drouhin Macon-Villages","Drouhin-Vaudon Chablis","Kim Crawford Sauvignon Blanc","Moet Imperial Brut"],
-  better:["Auntsfield Single Vineyard Sauvignon Blanc","Taittinger Brut","Veuve Clicquot"],
-  best:["Louis Roederer Cristal"]},
+ good:["Joseph Drouhin Macon-Villages","Drouhin-Vaudon Chablis","Kim Crawford Sauvignon Blanc","Moet Imperial Brut"],
+ better:["Auntsfield Single Vineyard Sauvignon Blanc","Taittinger Brut","Veuve Clicquot"],
+ best:["Louis Roederer Cristal"]},
  {d:"Miso Seabass / Chilean Sea Bass / Scallops", line:"Stay crisp unless they want a richer Chardonnay.",
-  good:["Drouhin-Vaudon Chablis","Buehler Chardonnay","Chateau de Campuget Rose"],
-  better:["Post & Beam Chardonnay","Auntsfield Sauvignon Blanc","Domaine Drouhin \"Dundee Hills\""],
-  best:["Joseph Drouhin Gevry-Chambertin","Louis Roederer Cristal"]},
+ good:["Drouhin-Vaudon Chablis","Buehler Chardonnay","Chateau de Campuget Rose"],
+ better:["Post & Beam Chardonnay","Auntsfield Sauvignon Blanc","Domaine Drouhin \"Dundee Hills\""],
+ best:["Joseph Drouhin Gevry-Chambertin","Louis Roederer Cristal"]},
  {d:"Blackened Creole Salmon", line:"Blackened spice likes bright acid or a lighter red.",
-  good:["Dr. L Riesling","Cloudline Pinot Noir","Chateau de Campuget Rose"],
-  better:["Gary Farrell Russian River Valley","Belle Glos \"Las Alturas\""],
-  best:["Sea Smoke Estate \"TEN\""]},
+ good:["Dr. L Riesling","Cloudline Pinot Noir","Chateau de Campuget Rose"],
+ better:["Gary Farrell Russian River Valley","Belle Glos \"Las Alturas\""],
+ best:["Sea Smoke Estate \"TEN\""]},
  {d:"Short Rib Pasta / Prime Meatballs / Chicken Parm", line:"Savory tomato and cream sauces want acid and spice, not jam.",
-  good:["Borsao Garnacha","El Coto Rioja Crianza","The Prisoner","Domaine de la Solitude Cotes du Rhone"],
-  better:["Ca'marcanda Tuscany","Marquis de Riscal Reserva","Domaine du Pegau Chateauneuf-du-Pape","Shafer \"Relentless\""],
-  best:["Ornellaia Super Tuscan","Le Serre Nuove \"Ornellaia\" 3L"]},
+ good:["Borsao Garnacha","El Coto Rioja Crianza","The Prisoner","Domaine de la Solitude Cotes du Rhone"],
+ better:["Ca'marcanda Tuscany","Marquis de Riscal Reserva","Domaine du Pegau Chateauneuf-du-Pape","Shafer \"Relentless\""],
+ best:["Ornellaia Super Tuscan","Le Serre Nuove \"Ornellaia\" 3L"]},
  {d:"Stuffed Chicken / Primavera Pasta", line:"Lighter red or a rounder white — nothing that flattens the dish.",
-  good:["Landmark \"Overlook\" Pinot Noir","Buehler Chardonnay","Beviamo Pinot Grigio"],
-  better:["Gary Farrell Russian River Valley","Post & Beam Chardonnay"],
-  best:["Joseph Drouhin Gevry-Chambertin"]},
+ good:["Landmark \"Overlook\" Pinot Noir","Buehler Chardonnay","Beviamo Pinot Grigio"],
+ better:["Gary Farrell Russian River Valley","Post & Beam Chardonnay"],
+ best:["Joseph Drouhin Gevry-Chambertin"]},
  {d:"Guest says Cabernet is too dry", line:"Merlot gives you the red-wine feel with a softer finish.",
-  good:["Advice From John Merlot","Emmolo Napa Valley Merlot","Duckhorn Merlot","Conundrum Red Blend"],
-  better:["Duckhorn Paraduxx","Chateau Plince Pomerol","Caymus Napa Valley"],
-  best:["Caymus Special Select"]},
+ good:["Advice From John Merlot","Emmolo Napa Valley Merlot","Duckhorn Merlot","Conundrum Red Blend"],
+ better:["Duckhorn Paraduxx","Chateau Plince Pomerol","Caymus Napa Valley"],
+ best:["Caymus Special Select"]},
  {d:"Old World guest — less fruity", line:"Drier, earthier, more restrained than Napa.",
-  good:["Bodegas Muga Reserva Rioja","Domaine de la Solitude Cotes du Rhone","Chateau Laffitte-Laujac Medoc"],
-  better:["Chateau L'eyzer Pomerol","Domaine du Pegau Chateauneuf-du-Pape","L'Ecole \"Apogee\""],
-  best:["Ornellaia Super Tuscan","Joseph Drouhin Gevry-Chambertin","Le Serre Nuove \"Ornellaia\" 3L"]},
+ good:["Bodegas Muga Reserva Rioja","Domaine de la Solitude Cotes du Rhone","Chateau Laffitte-Laujac Medoc"],
+ better:["Chateau L'eyzer Pomerol","Domaine du Pegau Chateauneuf-du-Pape","L'Ecole \"Apogee\""],
+ best:["Ornellaia Super Tuscan","Joseph Drouhin Gevry-Chambertin","Le Serre Nuove \"Ornellaia\" 3L"]},
  {d:"Celebration / anniversary", line:"Bubbles first, then the trophy bottle.",
-  good:["Moet Imperial Brut","Beau Joie"],
-  better:["Taittinger Brut","Veuve Clicquot","Far Niente Napa Valley"],
-  best:["Louis Roederer Cristal","Opus One","Caymus Special Select","Quintessa Napa Valley"]},
+ good:["Moet Imperial Brut","Beau Joie"],
+ better:["Taittinger Brut","Veuve Clicquot","Far Niente Napa Valley"],
+ best:["Louis Roederer Cristal","Opus One","Caymus Special Select","Quintessa Napa Valley"]},
  {d:"Four people ordering glasses", line:"For four glasses, a bottle is usually the better value. Move them up the ladder.",
-  good:["The Prisoner","Faust Napa Valley","Caymus \"California\"","Far Niente \"Bella Union\""],
-  better:["Groth Oakville Estate","Cakebread Cellars","Silver Oak Alexander Valley"],
-  best:["Opus \"Overture\"","PlumpJack Oakville Estate","Quintessa Napa Valley"]}
+ good:["The Prisoner","Faust Napa Valley","Caymus \"California\"","Far Niente \"Bella Union\""],
+ better:["Groth Oakville Estate","Cakebread Cellars","Silver Oak Alexander Valley"],
+ best:["Opus \"Overture\"","PlumpJack Oakville Estate","Quintessa Napa Valley"]}
 ];
 
 const WOTW = {
-  title:"Wine of the Week (paused — not running right now) — Power vs Precision",
-  a:{n:"Caymus Special Selection Cabernet 2019",p:"$525",tag:"POWER",
-     what:"Napa Valley Cabernet. The flagship from Caymus and the top expression of the Wagner family style. Only made when vineyard lots meet the winery's highest standards.",
-     flavor:"Blackberry, cassis, dark cherry, cocoa, rich Napa fruit. With age it picks up cedar, tobacco, graphite, and baking spice.",
-     structure:"Full-bodied, rich, plush texture, polished tannins, long finish. Power without harshness.",
-     why:"Flagship status, limited production, vineyard and barrel selection, aging potential, brand prestige. It is the only wine ever named Wine Spectator's Wine of the Year twice.",
-     pair:"Filet, ribeye, Miso Seabass, mushroom dishes, steak enhancements.",
-     pitch:"If you want the bigger, richer side of the feature, Caymus Special Selection is the power bottle. It is plush, concentrated, and polished, with dark fruit, cocoa, soft tannin, and a long finish."},
-  b:{n:"Gary Farrell Russian River Valley Pinot Noir 2022",p:"$120",tag:"PRECISION",
-     what:"Russian River Valley Pinot Noir. A benchmark name for cool-climate Russian River Pinot. The sell is balance, elegance, and vineyard expression, not size.",
-     flavor:"Layered red fruit, bright aromatics, freshness, subtle earthy detail.",
-     structure:"Medium-bodied, silky, vibrant acidity, elegant structure, long finish. Refined and detailed instead of heavy.",
-     why:"Russian River terroir, cool-climate farming, craftsmanship, balance. Morning fog from the Pacific slows ripening and extends the growing season, so the fruit keeps acidity while building flavor.",
-     pair:"Seabass, salmon, meatballs, mushroom dishes, filet mignon.",
-     pitch:"If you want the more elegant side of the feature, Gary Farrell is the precision bottle. It is silky, bright, aromatic, and food friendly, with more finesse than weight."},
-  contrast:[
-    ["Big, rich, luxury red","Caymus Special Selection","Full body, plush fruit, polished tannin, prestige."],
-    ["Steakhouse statement bottle","Caymus Special Selection","Flagship Napa Cab with ageability and collectability."],
-    ["Elegant red that will not overpower food","Gary Farrell","Silky, bright, balanced, versatile."],
-    ["Red wine with seafood or lighter entrees","Gary Farrell","Higher acidity and lighter body work with fish, salmon, mushrooms."],
-    ["Power","Caymus Special Selection","Concentration, richness, long finish."],
-    ["Precision","Gary Farrell","Balance, aromatics, texture, vineyard expression."]
-  ]
+ title:"Wine of the Week (paused — not running right now) — Power vs Precision",
+ a:{n:"Caymus Special Selection Cabernet 2019",p:"$525",tag:"POWER",
+ what:"Napa Valley Cabernet. The flagship from Caymus and the top expression of the Wagner family style. Only made when vineyard lots meet the winery's highest standards.",
+ flavor:"Blackberry, cassis, dark cherry, cocoa, rich Napa fruit. With age it picks up cedar, tobacco, graphite, and baking spice.",
+ structure:"Full-bodied, rich, plush texture, polished tannins, long finish. Power without harshness.",
+ why:"Flagship status, limited production, vineyard and barrel selection, aging potential, brand prestige. It is the only wine ever named Wine Spectator's Wine of the Year twice.",
+ pair:"Filet, ribeye, Miso Seabass, mushroom dishes, steak enhancements.",
+ pitch:"If you want the bigger, richer side of the feature, Caymus Special Selection is the power bottle. It is plush, concentrated, and polished, with dark fruit, cocoa, soft tannin, and a long finish."},
+ b:{n:"Gary Farrell Russian River Valley Pinot Noir 2022",p:"$120",tag:"PRECISION",
+ what:"Russian River Valley Pinot Noir. A benchmark name for cool-climate Russian River Pinot. The sell is balance, elegance, and vineyard expression, not size.",
+ flavor:"Layered red fruit, bright aromatics, freshness, subtle earthy detail.",
+ structure:"Medium-bodied, silky, vibrant acidity, elegant structure, long finish. Refined and detailed instead of heavy.",
+ why:"Russian River terroir, cool-climate farming, craftsmanship, balance. Morning fog from the Pacific slows ripening and extends the growing season, so the fruit keeps acidity while building flavor.",
+ pair:"Seabass, salmon, meatballs, mushroom dishes, filet mignon.",
+ pitch:"If you want the more elegant side of the feature, Gary Farrell is the precision bottle. It is silky, bright, aromatic, and food friendly, with more finesse than weight."},
+ contrast:[
+ ["Big, rich, luxury red","Caymus Special Selection","Full body, plush fruit, polished tannin, prestige."],
+ ["Steakhouse statement bottle","Caymus Special Selection","Flagship Napa Cab with ageability and collectability."],
+ ["Elegant red that will not overpower food","Gary Farrell","Silky, bright, balanced, versatile."],
+ ["Red wine with seafood or lighter entrees","Gary Farrell","Higher acidity and lighter body work with fish, salmon, mushrooms."],
+ ["Power","Caymus Special Selection","Concentration, richness, long finish."],
+ ["Precision","Gary Farrell","Balance, aromatics, texture, vineyard expression."]
+ ]
 };
 
 const REGIONS = [
@@ -648,109 +650,109 @@ const FASTANSWERS = [
 /* ============ COCKTAILS ============ */
 const COCKTAILS = [
  {n:"Lemon Bay",p:"$15",grp:"specialty",base:"Vodka / herbal",
-  build:"New Amsterdam Lemon Vodka, Font Bonne Herbal Liqueur, lemon juice, simple syrup.",
-  glass:"Coupe glass",garnish:"Basil oil drip",
-  desc:"Light, tart, herbal, lemon-forward, slightly sweet.",
-  note:"Formerly Lemon Bae. Name changed, recipe did not."},
+ build:"New Amsterdam Lemon Vodka, Font Bonne Herbal Liqueur, lemon juice, simple syrup.",
+ glass:"Coupe glass",garnish:"Basil oil drip",
+ desc:"Light, tart, herbal, lemon-forward, slightly sweet.",
+ note:"Formerly Lemon Bae. Name changed, recipe did not."},
  {n:"Cactus Flower Mule",p:"$13",grp:"specialty",base:"Vodka",
-  build:"1.5 oz prickly pear vodka, 0.75 oz lime, 1 oz prickly pear puree, top with ginger beer.",
-  glass:"Tall copper mule mug",garnish:"Lime wheel and mint bundle",
-  desc:"Light, refreshing, fruity and floral. Prickly pear can taste like watermelon, kiwi, strawberry, or bubble gum.",note:""},
+ build:"1.5 oz prickly pear vodka, 0.75 oz lime, 1 oz prickly pear puree, top with ginger beer.",
+ glass:"Tall copper mule mug",garnish:"Lime wheel and mint bundle",
+ desc:"Light, refreshing, fruity and floral. Prickly pear can taste like watermelon, kiwi, strawberry, or bubble gum.",note:""},
  {n:"Ruby & Jade",p:"$15",grp:"specialty",base:"Blanco tequila",
-  build:"2 oz strawberry-and-kiwi infused LALO Blanco, 0.5 oz strawberry puree, 0.25 oz kiwi puree, 2 oz sweet and sour, 1 muddled kiwi slice.",
-  glass:"Collins glass",garnish:"Candied kiwi",
-  desc:"Candy vibe, sweet and tart, bright fruit.",note:""},
+ build:"2 oz strawberry-and-kiwi infused LALO Blanco, 0.5 oz strawberry puree, 0.25 oz kiwi puree, 2 oz sweet and sour, 1 muddled kiwi slice.",
+ glass:"Collins glass",garnish:"Candied kiwi",
+ desc:"Candy vibe, sweet and tart, bright fruit.",note:""},
  {n:"Chilean Sea Breeze",p:"$15",grp:"specialty",base:"Reposado tequila",
-  build:"1.5 oz El Charro Reposado, 0.75 oz Ancho Reyes Chile Liqueur, 2 oz pineapple, 1 oz sweet and sour, 1 oz cane syrup. Shake hard.",
-  glass:"Martini glass",garnish:"Dried pineapple",
-  desc:"Sweet, spicy, sour, lightly acidic. The stronger tequila drink for someone who wants to taste the alcohol.",note:""},
+ build:"1.5 oz El Charro Reposado, 0.75 oz Ancho Reyes Chile Liqueur, 2 oz pineapple, 1 oz sweet and sour, 1 oz cane syrup. Shake hard.",
+ glass:"Martini glass",garnish:"Dried pineapple",
+ desc:"Sweet, spicy, sour, lightly acidic. The stronger tequila drink for someone who wants to taste the alcohol.",note:""},
  {n:"Pittsburghed Peach OF",p:"$17",grp:"specialty",base:"Whiskey",
-  build:"2 oz High West Campfire, 1 oz lemon, 1 oz peach puree, 0.5 oz cane syrup, 2 dashes orange bitters.",
-  glass:"Rocks glass",garnish:"Large cube and orange twist",
-  desc:"Lightly sweet, smoky, peachy, refreshing whiskey drink.",note:"Can be smoked for +$3 — same drill: bartender builds, you smoke it under the lid on the tray, lift the lid at the table."},
+ build:"2 oz High West Campfire, 1 oz lemon, 1 oz peach puree, 0.5 oz cane syrup, 2 dashes orange bitters.",
+ glass:"Rocks glass",garnish:"Large cube and orange twist",
+ desc:"Lightly sweet, smoky, peachy, refreshing whiskey drink.",note:"Can be smoked for +$3 — same drill: bartender builds, you smoke it under the lid on the tray, lift the lid at the table."},
  {n:"Street Treat Spritz",p:"$18",grp:"specialty",base:"Vodka / cordial / bubbles",
-  build:"1 oz watermelon vodka, 1 oz limoncello, 1 oz lemon, 1 oz watermelon puree, top with Prosecco.",
-  glass:"Wine glass over ice",garnish:"Tajin dusting and lemon wheel",
-  desc:"Watermelon-forward, fresh, vibrant, bubbly, not overly sweet.",note:""},
+ build:"1 oz watermelon vodka, 1 oz limoncello, 1 oz lemon, 1 oz watermelon puree, top with Prosecco.",
+ glass:"Wine glass over ice",garnish:"Tajin dusting and lemon wheel",
+ desc:"Watermelon-forward, fresh, vibrant, bubbly, not overly sweet.",note:""},
  {n:"Golden Hour",p:"$15",grp:"specialty",base:"Rum",
-  build:"1.5 oz Bacardi Limon, 0.5 oz passionfruit puree, 0.5 oz mango puree, 1 oz lemon, orange bitters mist.",
-  glass:"Coupe glass",garnish:"Dried orange wheel and Luxardo cherry in the bottom of the glass",
-  desc:"Tropical, fun, sweet but balanced, citrusy finish.",note:""},
+ build:"1.5 oz Bacardi Limon, 0.5 oz passionfruit puree, 0.5 oz mango puree, 1 oz lemon, orange bitters mist.",
+ glass:"Coupe glass",garnish:"Dried orange wheel and Luxardo cherry in the bottom of the glass",
+ desc:"Tropical, fun, sweet but balanced, citrusy finish.",note:""},
  {n:"Sweet & Salty",p:"$13",grp:"specialty",base:"Draft vodka cocktail",
-  build:"Tito's, triple sec, grapefruit, 0.25 oz lime, Sprite topper.",
-  glass:"Highball glass",garnish:"Half-salt rim and orange slice",
-  desc:"Tart, slightly bitter, easy-drinking draft cocktail.",note:""},
+ build:"Tito's, triple sec, grapefruit, 0.25 oz lime, Sprite topper.",
+ glass:"Highball glass",garnish:"Half-salt rim and orange slice",
+ desc:"Tart, slightly bitter, easy-drinking draft cocktail.",note:""},
  {n:"Lychee Icee",p:"$15",grp:"specialty",base:"Gin",
-  build:"1.5 oz Bombay Sapphire, 0.25 oz St-Germain, 0.25 oz simple, top with tonic.",
-  glass:"Rocks glass",garnish:"Frozen lychee juice big rock, lime wedge, lychee fruit",
-  desc:"Light, floral, drier cocktail. Lychee reads like pear and grape with citrus, strawberry, and rose.",note:""},
+ build:"1.5 oz Bombay Sapphire, 0.25 oz St-Germain, 0.25 oz simple, top with tonic.",
+ glass:"Rocks glass",garnish:"Frozen lychee juice big rock, lime wedge, lychee fruit",
+ desc:"Light, floral, drier cocktail. Lychee reads like pear and grape with citrus, strawberry, and rose.",note:""},
 
  {n:"Mo's Signature OF",p:"$16",grp:"signature",base:"Bourbon",
-  build:"Knob Creek, Angostura and orange bitters, simple syrup, muddled cherry and orange.",
-  glass:"Rocks glass",garnish:"Large cube, cherry and orange",
-  desc:"Classic, spirit-forward, orange-spice.",note:""},
+ build:"Knob Creek, Angostura and orange bitters, simple syrup, muddled cherry and orange.",
+ glass:"Rocks glass",garnish:"Large cube, cherry and orange",
+ desc:"Classic, spirit-forward, orange-spice.",note:""},
  {n:"Smoked Draft Old Fashioned",p:"$17",grp:"signature",base:"Bourbon",
-  build:"Buffalo Trace Bourbon, a little vanilla extract, bitters, and smoked water on draft — refreshing with slight bubbles.",
-  glass:"Rocks glass, large cube",garnish:"Orange twist and large cube",
-  desc:"Vanilla, oak, smoke, citrus.",note:"Smoked for +$3: bartender builds it and hands everything off at the station — you smoke it under the lid on your tray, then lift the lid at the table for the show."},
+ build:"Buffalo Trace Bourbon, a little vanilla extract, bitters, and smoked water on draft — refreshing with slight bubbles.",
+ glass:"Rocks glass, large cube",garnish:"Orange twist and large cube",
+ desc:"Vanilla, oak, smoke, citrus.",note:"Smoked for +$3: bartender builds it and hands everything off at the station — you smoke it under the lid on your tray, then lift the lid at the table for the show."},
  {n:"Mo's Manifest Manhattan",p:"$21",grp:"signature",base:"Rye",
-  build:"Angel's Envy Rye, sweet vermouth, Angostura bitters, Luxardo cherry juice.",
-  glass:"Coupe",garnish:"Two Luxardo cherries",
-  desc:"Boozy, cherry, rye spice, polished.",note:""},
+ build:"Angel's Envy Rye, sweet vermouth, Angostura bitters, Luxardo cherry juice.",
+ glass:"Coupe",garnish:"Two Luxardo cherries",
+ desc:"Boozy, cherry, rye spice, polished.",note:""},
  {n:"Mo's Cosmo",p:"$15",grp:"signature",base:"Vodka",
-  build:"360 Lemon Vodka, triple sec, sweet and sour, splash of cranberry.",
-  glass:"Martini glass",garnish:"Orange twist",
-  desc:"Citrus, cranberry, tart-sweet.",note:""},
+ build:"360 Lemon Vodka, triple sec, sweet and sour, splash of cranberry.",
+ glass:"Martini glass",garnish:"Orange twist",
+ desc:"Citrus, cranberry, tart-sweet.",note:""},
  {n:"Mo's-jito",p:"$15",grp:"signature",base:"Rum",
-  build:"Bacardi Rum, sweet and sour, cane syrup, fresh lime, mint.",
-  glass:"Collins",garnish:"Fresh lime and mint",
-  desc:"Limey, minty, refreshing.",note:""},
+ build:"Bacardi Rum, sweet and sour, cane syrup, fresh lime, mint.",
+ glass:"Collins",garnish:"Fresh lime and mint",
+ desc:"Limey, minty, refreshing.",note:""},
  {n:"Mo Berry",p:"$15",grp:"signature",base:"Rum",
-  build:"Diplomatico Rum, Licor 43, berry puree, lemon and lime juice, topped with vanilla cold foam.",
-  glass:"Martini",garnish:"Vanilla cold foam, crushed vanilla wafer if stocked",
-  desc:"Berry, vanilla, creamy dessert-fruit.",note:""},
+ build:"Diplomatico Rum, Licor 43, berry puree, lemon and lime juice, topped with vanilla cold foam.",
+ glass:"Martini",garnish:"Vanilla cold foam, crushed vanilla wafer if stocked",
+ desc:"Berry, vanilla, creamy dessert-fruit.",note:""},
  {n:"HMFIC",p:"$40",grp:"signature",base:"Rye",
-  build:"Basil Hayden Rye, Peychaud's bitters, absinthe rinse, simple.",
-  glass:"Rocks glass, large cube",garnish:"Lemon twist",
-  desc:"High-end, rye spice, anise, smoke.",note:"Smoked tableside Sazerac. The most expensive cocktail on the list."},
+ build:"Basil Hayden Rye, Peychaud's bitters, absinthe rinse, simple.",
+ glass:"Rocks glass, large cube",garnish:"Lemon twist",
+ desc:"High-end, rye spice, anise, smoke.",note:"Smoked tableside Sazerac. The most expensive cocktail on the list."},
  {n:"Mo's Make-A-Mocktail",p:"$12",grp:"signature",base:"Non-alcoholic",
-  build:"Custom mocktail built to the guest's flavor lane.",
-  glass:"Guest-dependent",garnish:"Garnish cleanly, match the flavor lane",
-  desc:"Non-alcoholic, flexible, guest-led.",note:"Confirmed $12 (8/4). Might not be printed on the menu anymore — we still make it. Ask the guest which lane: citrus, berry, tropical, herbal."},
+ build:"Custom mocktail built to the guest's flavor lane.",
+ glass:"Guest-dependent",garnish:"Garnish cleanly, match the flavor lane",
+ desc:"Non-alcoholic, flexible, guest-led.",note:"$12. Might not be printed on the menu anymore — we still make it. Ask the guest which lane: citrus, berry, tropical, herbal."},
 
  {n:"Coco Caramel Carajillo",p:"$20",grp:"dessert",base:"Rum / coffee",
-  build:"Werther's caramel-infused Hard Truth toasted coconut rum, Licor 43 Vanilla, espresso.",
-  glass:"Highball",garnish:"Salted vanilla cold foam, coconut flakes",
-  desc:"Caramel, coconut, coffee. Rich after-dinner drink.",note:"Moved from specialty cocktails to desserts in the July 11 update."},
+ build:"Werther's caramel-infused Hard Truth toasted coconut rum, Licor 43 Vanilla, espresso.",
+ glass:"Highball",garnish:"Salted vanilla cold foam, coconut flakes",
+ desc:"Caramel, coconut, coffee. Rich after-dinner drink.",note:""},
  {n:"Esso Affo",p:"$18",grp:"dessert",base:"Espresso martini style",
-  build:"Espresso martini style with no simple syrup, plus 1 scoop of vanilla ice cream.",
-  glass:"Martini glass",garnish:"Coffee sea salt",
-  desc:"Affogato meets espresso martini. Coffee, cream, and vanilla.",note:"NEW on the July 11 update. Shaken by the bartender but POURED TABLESIDE — probably by the front server or the bartender (Evan wasn't sure, 8/4)."},
+ build:"Espresso martini style with no simple syrup, plus 1 scoop of vanilla ice cream.",
+ glass:"Martini glass",garnish:"Coffee sea salt",
+ desc:"Affogato meets espresso martini. Coffee, cream, and vanilla. Shaken by the bartender, poured tableside — usually the front server or the bartender pours.",note:""},
  {n:"Espresso Martini",p:"$17",grp:"dessert",base:"Vodka / coffee",
-  build:"Coffee, vodka, sweet.",glass:"Martini",garnish:"—",
-  desc:"Classic after-dinner coffee cocktail.",note:""},
+ build:"Coffee, vodka, sweet.",glass:"Martini",garnish:"—",
+ desc:"Classic after-dinner coffee cocktail.",note:""},
  {n:"DDB Chocolate Espresso Martini",p:"$17",grp:"dessert",base:"Vodka / coffee",
-  build:"Chocolate espresso martini.",glass:"Martini",garnish:"—",
-  desc:"Chocolate version of the espresso martini.",note:""},
+ build:"Chocolate espresso martini.",glass:"Martini",garnish:"—",
+ desc:"Chocolate version of the espresso martini.",note:""},
 
  {n:"Sunny Day",p:"$17",grp:"verify",base:"Reposado tequila",
-  build:"El Charro Reposado, Cointreau, amaretto, lime juice, pineapple, cane simple syrup.",
-  glass:"—",garnish:"—",desc:"Archived printed specialty (confirmed off the menu 8/4).",note:"Retired from the printed menu — archived here. Ask the bar before promising one."},
+ build:"El Charro Reposado, Cointreau, amaretto, lime juice, pineapple, cane simple syrup.",
+ glass:"—",garnish:"—",desc:"Archived printed specialty — off the menu.",note:"Retired from the printed menu — archived here. Ask the bar before promising one."},
  {n:"Tito's & Cran X Ten Again",p:"$13",grp:"verify",base:"Vodka",
-  build:"Tito's Vodka, cranberry juice, orange juice, Sprite.",
-  glass:"—",garnish:"—",desc:"Archived printed specialty (confirmed off the menu 8/4).",note:"Retired from the printed menu — archived here. Ask the bar before promising one."},
+ build:"Tito's Vodka, cranberry juice, orange juice, Sprite.",
+ glass:"—",garnish:"—",desc:"Archived printed specialty — off the menu.",note:"Retired from the printed menu — archived here. Ask the bar before promising one."},
  {n:"Mo's Paper Plane",p:"$18",grp:"verify",base:"Bourbon",
-  build:"Knob Creek Bourbon, Aperol, amaro, lemon juice, orange juice.",
-  glass:"—",garnish:"—",desc:"Archived printed specialty (confirmed off the menu 8/4).",note:"Retired from the printed menu — archived here. Ask the bar before promising one."},
+ build:"Knob Creek Bourbon, Aperol, amaro, lemon juice, orange juice.",
+ glass:"—",garnish:"—",desc:"Archived printed specialty — off the menu.",note:"Retired from the printed menu — archived here. Ask the bar before promising one."},
  {n:"Hugo Empress",p:"$19",grp:"verify",base:"Gin",
-  build:"Empress Gin, St-Germain, lavender syrup, lemon juice, Prosecco.",
-  glass:"—",garnish:"—",desc:"Archived printed specialty (confirmed off the menu 8/4).",note:"Retired from the printed menu — archived here. Ask the bar before promising one."},
+ build:"Empress Gin, St-Germain, lavender syrup, lemon juice, Prosecco.",
+ glass:"—",garnish:"—",desc:"Archived printed specialty — off the menu.",note:"Retired from the printed menu — archived here. Ask the bar before promising one."},
  {n:"Cherry Blossom",p:"$18",grp:"verify",base:"Gin",
-  build:"Roku Gin, Lychee Soju, Luxardo cherry liqueur, lemon juice, Luxardo cherry juice.",
-  glass:"—",garnish:"—",desc:"Archived printed specialty (confirmed off the menu 8/4).",note:"Retired from the printed menu — archived here. Ask the bar before promising one."},
+ build:"Roku Gin, Lychee Soju, Luxardo cherry liqueur, lemon juice, Luxardo cherry juice.",
+ glass:"—",garnish:"—",desc:"Archived printed specialty — off the menu.",note:"Retired from the printed menu — archived here. Ask the bar before promising one."},
  {n:"Christian's Cucumber Kick",p:"$18",grp:"verify",base:"Blanco tequila",
-  build:"Cucumber and jalapeno infused LALO Blanco Tequila, triple sec, sweet and sour, cane simple syrup.",
-  glass:"—",garnish:"—",desc:"Archived printed specialty (confirmed off the menu 8/4).",note:"Retired from the printed menu — archived here. Ask the bar before promising one."}
+ build:"Cucumber and jalapeno infused LALO Blanco Tequila, triple sec, sweet and sour, cane simple syrup.",
+ glass:"—",garnish:"—",desc:"Archived printed specialty — off the menu.",note:"Retired from the printed menu — archived here. Ask the bar before promising one."}
 ];
 
 const COCKTAIL_GRPS = [["all","All drinks"],["specialty","Summer Specialty (active)"],["signature","Mo's Signatures"],["dessert","Dessert Cocktails"],["verify","Archive — off the menu"]];
@@ -770,102 +772,102 @@ const DRINK_PITCH = [
 /* ============ SPIRITS ============ */
 const SPIRITS = {
  "Bourbon (2 oz unless noted)":[
-  ["Angel's Envy","$16","Port-finished bourbon; round, vanilla, dried fruit"],
-  ["Basil Hayden's","$15","Light, easy, softer bourbon"],
-  ["Buffalo Trace","$13","Classic house bourbon; caramel, oak, spice"],
-  ["Bulleit","$12","High-rye style; spice and orange peel"],
-  ["Elijah Craig Barrel Proof","$25","Big proof, oak, heat, caramel"],
-  ["Elijah Craig Small Batch","$12","Oak, vanilla, balanced"],
-  ["Four Roses Single Barrel","$15","More concentration, spice, fruit"],
-  ["Four Roses Small Batch","$12","Soft, balanced, approachable"],
-  ["Jefferson's Ocean","$25","Rounded, salted-caramel story"],
-  ["Jefferson's Reserve","$19","Smooth, richer oak"],
-  ["Jim Beam","$11","Entry bourbon, light oak and vanilla"],
-  ["Maker's 46","$15","Richer Maker's, more vanilla and oak"],
-  ["Maker's Mark","$12","Wheated, soft, sweet"],
-  ["Woodford Reserve","$14","Polished, brown sugar, spice"],
-  ["Woodford Reserve Double Oak","$18","Upsell: sweeter oak, vanilla, toasted finish"]],
- "Bardstown & Specialty (all prices photo-confirmed 8/4)":[
-  ["Discovery Series","$30","Premium Bardstown blend; rich and layered"],
-  ["Founders Finish","$35","Finished bourbon; deeper dessert notes"],
-  ["Origin Series","$15","Entry Bardstown option"],
-  ["\"The Prisoner\"","$40","Wine-finished style; dark fruit and oak"],
-  ["Foursquare","$40","Rum crossover; rich, molasses, barrel spice"],
-  ["West Virginia Great Barrel","$35","Bardstown collab with the WV Great Barrel Co. cooperage — rye blend finished in infrared-toasted cherry-oak barrels, 110 proof. The cooperage was built to help rebuild Greenbrier County, WV after the 2016 flood. Cherry, vanilla, rye spice."],
-  ["Goose Island","$35","Bardstown collab — bourbon finished in Goose Island Bourbon County Stout barrels, the beer that invented bourbon-barrel aging. Chocolate, vanilla, roast."],
-  ["Prime 47 Blend","$30","Bardstown single barrel picked by OUR people: the Prime 47 Carmel bar manager toured Bardstown, Kentucky, tasted at the source, and bought one exclusive barrel for our restaurants. You are pouring from a barrel our own team chose."]],
+ ["Angel's Envy","$16","Port-finished bourbon; round, vanilla, dried fruit"],
+ ["Basil Hayden's","$15","Light, easy, softer bourbon"],
+ ["Buffalo Trace","$13","Classic house bourbon; caramel, oak, spice"],
+ ["Bulleit","$12","High-rye style; spice and orange peel"],
+ ["Elijah Craig Barrel Proof","$25","Big proof, oak, heat, caramel"],
+ ["Elijah Craig Small Batch","$12","Oak, vanilla, balanced"],
+ ["Four Roses Single Barrel","$15","More concentration, spice, fruit"],
+ ["Four Roses Small Batch","$12","Soft, balanced, approachable"],
+ ["Jefferson's Ocean","$25","Rounded, salted-caramel story"],
+ ["Jefferson's Reserve","$19","Smooth, richer oak"],
+ ["Jim Beam","$11","Entry bourbon, light oak and vanilla"],
+ ["Maker's 46","$15","Richer Maker's, more vanilla and oak"],
+ ["Maker's Mark","$12","Wheated, soft, sweet"],
+ ["Woodford Reserve","$14","Polished, brown sugar, spice"],
+ ["Woodford Reserve Double Oak","$18","Upsell: sweeter oak, vanilla, toasted finish"]],
+ "Bardstown & Specialty":[
+ ["Discovery Series","$30","Premium Bardstown blend; rich and layered"],
+ ["Founders Finish","$35","Finished bourbon; deeper dessert notes"],
+ ["Origin Series","$15","Entry Bardstown option"],
+ ["\"The Prisoner\"","$40","Wine-finished style; dark fruit and oak"],
+ ["Foursquare","$40","Rum crossover; rich, molasses, barrel spice"],
+ ["West Virginia Great Barrel","$35","Bardstown collab with the WV Great Barrel Co. cooperage — rye blend finished in infrared-toasted cherry-oak barrels, 110 proof. The cooperage was built to help rebuild Greenbrier County, WV after the 2016 flood. Cherry, vanilla, rye spice."],
+ ["Goose Island","$35","Bardstown collab — bourbon finished in Goose Island Bourbon County Stout barrels, the beer that invented bourbon-barrel aging. Chocolate, vanilla, roast."],
+ ["Prime 47 Blend","$30","Bardstown single barrel picked by OUR people: the Prime 47 Carmel bar manager toured Bardstown, Kentucky, tasted at the source, and bought one exclusive barrel for our restaurants. You are pouring from a barrel our own team chose."]],
  "High-End Whiskey (1 oz unless marked)":[
-  ["Pappy Van Winkle 10","$100/oz","The unicorn shelf — per-ounce pricing"],
-  ["Pappy Van Winkle 12","$125/oz","Per-ounce pricing"],
-  ["Pappy 13 Rye","$200/oz","Per-ounce pricing"],
-  ["Pappy Van Winkle 15","$175/oz","Per-ounce pricing"],
-  ["Louis XIII Cognac","$250/oz","The most expensive pour in the building"],
-  ["Macallan 25","$150/oz","1 oz pours only"],
-  ["Thomas Handy Sazerac","$150","Antique Collection rye"],
-  ["E.H. Taylor Small Batch","$25","Bottled-in-bond style, spice, caramel"],
-  ["E.H. Taylor Single Barrel","$75","Collector single barrel, deeper oak"],
-  ["E.H. Taylor Barrel Strength","$75","High proof, intense, rare"],
-  ["Elmer T. Lee","$30","Soft, collectible, honey and oak"],
-  ["Weller Special Reserve","$40","Wheated bourbon, softer profile"],
-  ["Blanton's","$30","Single barrel, collectible, smooth spice"],
-  ["Blanton's Gold","$75","Higher-proof Blanton's, richer"],
-  ["Blanton's SFTB","$100","Straight from the barrel, high proof"],
-  ["Wild Turkey Masters Keep","$80","Premium Turkey, oak and spice"],
-  ["Midwinter Night's Dram","$50","Rye, port-finished, baking spice"]],
+ ["Pappy Van Winkle 10","$100/oz","The unicorn shelf — per-ounce pricing"],
+ ["Pappy Van Winkle 12","$125/oz","Per-ounce pricing"],
+ ["Pappy 13 Rye","$200/oz","Per-ounce pricing"],
+ ["Pappy Van Winkle 15","$175/oz","Per-ounce pricing"],
+ ["Louis XIII Cognac","$250/oz","The most expensive pour in the building"],
+ ["Macallan 25","$150/oz","1 oz pours only"],
+ ["Thomas Handy Sazerac","$150","Antique Collection rye"],
+ ["E.H. Taylor Small Batch","$25","Bottled-in-bond style, spice, caramel"],
+ ["E.H. Taylor Single Barrel","$75","Collector single barrel, deeper oak"],
+ ["E.H. Taylor Barrel Strength","$75","High proof, intense, rare"],
+ ["Elmer T. Lee","$30","Soft, collectible, honey and oak"],
+ ["Weller Special Reserve","$40","Wheated bourbon, softer profile"],
+ ["Blanton's","$30","Single barrel, collectible, smooth spice"],
+ ["Blanton's Gold","$75","Higher-proof Blanton's, richer"],
+ ["Blanton's SFTB","$100","Straight from the barrel, high proof"],
+ ["Wild Turkey Masters Keep","$80","Premium Turkey, oak and spice"],
+ ["Midwinter Night's Dram","$50","Rye, port-finished, baking spice"]],
  "Tennessee, Canadian & Irish":[
-  ["Gentleman Jack","$15","Smooth Tennessee whiskey"],
-  ["George Dickel Rye","$14","Rye spice, dry finish"],
-  ["Jack Daniel's","$11","Classic Tennessee whiskey"],
-  ["Jack Daniel's Single Barrel","$20","Richer Jack, single barrel"],
-  ["Canadian Club","$9.50","Light Canadian whisky"],
-  ["Crown Royal","$11","Smooth Canadian blend"],
-  ["Jameson Irish","$11","Irish whiskey, smooth and light"],
-  ["Seagram's 7","$9","Light blended whiskey"],
-  ["Seagram's VO","$10","Canadian blend"]],
+ ["Gentleman Jack","$15","Smooth Tennessee whiskey"],
+ ["George Dickel Rye","$14","Rye spice, dry finish"],
+ ["Jack Daniel's","$11","Classic Tennessee whiskey"],
+ ["Jack Daniel's Single Barrel","$20","Richer Jack, single barrel"],
+ ["Canadian Club","$9.50","Light Canadian whisky"],
+ ["Crown Royal","$11","Smooth Canadian blend"],
+ ["Jameson Irish","$11","Irish whiskey, smooth and light"],
+ ["Seagram's 7","$9","Light blended whiskey"],
+ ["Seagram's VO","$10","Canadian blend"]],
  "Scotch":[
-  ["Aberlour A'bunadh","$26","Sherry cask, rich, powerful"],
-  ["Balvenie 12 Doublewood","$21","Honey, vanilla, sherry roundness"],
-  ["Dalmore Cigar Malt","$35","Rich, chocolate, orange, cigar-pairing style"],
-  ["Dalwhinnie 15","$26","Highland, honey, heather"],
-  ["Glenfiddich 12","$15","Light pear, easy single malt"],
-  ["Glenfiddich 18","$34","Richer oak, dried fruit"],
-  ["Glenfiddich 21","$44","Rum-cask style richness"],
-  ["Glenmorangie 12","$21","Soft Highland malt, citrus and vanilla"],
-  ["Glenmorangie 14","$19","Richer, port-cask style"],
-  ["Lagavulin 16","$22","Islay smoke, peat, savory"],
-  ["Laphroaig 10","$22","Big peat, iodine, smoke"],
-  ["Macallan 12","$25","Sherry, dried fruit, smooth"],
-  ["Oban 14","$25","Coastal Highland, malt, light smoke"],
-  ["Chivas Regal 12","$12","Smooth blended Scotch"],
-  ["Dewar's White Label","$11","Light blended Scotch"],
-  ["Dewar's 18","$20","Richer blended Scotch"],
-  ["Famous Grouse","$10","Entry blended Scotch"],
-  ["J & B","$11","Light blend"],
-  ["Johnnie Walker Red","$11","Entry blend, smoke and spice"],
-  ["Johnnie Walker Black","$15","More smoke and depth"],
-  ["Johnnie Walker Blue","$60","Luxury blend, smooth, polished"]],
+ ["Aberlour A'bunadh","$26","Sherry cask, rich, powerful"],
+ ["Balvenie 12 Doublewood","$21","Honey, vanilla, sherry roundness"],
+ ["Dalmore Cigar Malt","$35","Rich, chocolate, orange, cigar-pairing style"],
+ ["Dalwhinnie 15","$26","Highland, honey, heather"],
+ ["Glenfiddich 12","$15","Light pear, easy single malt"],
+ ["Glenfiddich 18","$34","Richer oak, dried fruit"],
+ ["Glenfiddich 21","$44","Rum-cask style richness"],
+ ["Glenmorangie 12","$21","Soft Highland malt, citrus and vanilla"],
+ ["Glenmorangie 14","$19","Richer, port-cask style"],
+ ["Lagavulin 16","$22","Islay smoke, peat, savory"],
+ ["Laphroaig 10","$22","Big peat, iodine, smoke"],
+ ["Macallan 12","$25","Sherry, dried fruit, smooth"],
+ ["Oban 14","$25","Coastal Highland, malt, light smoke"],
+ ["Chivas Regal 12","$12","Smooth blended Scotch"],
+ ["Dewar's White Label","$11","Light blended Scotch"],
+ ["Dewar's 18","$20","Richer blended Scotch"],
+ ["Famous Grouse","$10","Entry blended Scotch"],
+ ["J & B","$11","Light blend"],
+ ["Johnnie Walker Red","$11","Entry blend, smoke and spice"],
+ ["Johnnie Walker Black","$15","More smoke and depth"],
+ ["Johnnie Walker Blue","$60","Luxury blend, smooth, polished"]],
  "Cognac & Port":[
-  ["Quinta do Noval Black Reserve Port","$16","Sweet fortified red; black fruit, chocolate"],
-  ["Smith Woodhouse 10yr Tawny Port","$20","Nutty, caramel, dried fruit"],
-  ["Quinta do Noval 20yr Tawny Port","$38","Richer tawny; walnut, caramel, orange peel"],
-  ["Courvoisier VS","$15/oz","Young cognac, fruit and oak"],
-  ["Courvoisier VSOP","$15/oz","Smoother cognac"],
-  ["Hennessy VS","$15/oz","Classic cognac"],
-  ["Hennessy VSOP","$18/oz","Smoother and richer Hennessy"],
-  ["Hennessy XO","$40/oz","Deep dried fruit and oak"],
-  ["Remy VSOP","$15/oz","Soft cognac, vanilla and fruit"],
-  ["Remy XO","$30/oz","Rich XO cognac"],
-  ["Louis XIII","$250/oz","Ultra-premium cognac"]],
+ ["Quinta do Noval Black Reserve Port","$16","Sweet fortified red; black fruit, chocolate"],
+ ["Smith Woodhouse 10yr Tawny Port","$20","Nutty, caramel, dried fruit"],
+ ["Quinta do Noval 20yr Tawny Port","$38","Richer tawny; walnut, caramel, orange peel"],
+ ["Courvoisier VS","$15/oz","Young cognac, fruit and oak"],
+ ["Courvoisier VSOP","$15/oz","Smoother cognac"],
+ ["Hennessy VS","$15/oz","Classic cognac"],
+ ["Hennessy VSOP","$18/oz","Smoother and richer Hennessy"],
+ ["Hennessy XO","$40/oz","Deep dried fruit and oak"],
+ ["Remy VSOP","$15/oz","Soft cognac, vanilla and fruit"],
+ ["Remy XO","$30/oz","Rich XO cognac"],
+ ["Louis XIII","$250/oz","Ultra-premium cognac"]],
  "Tequila":[
-  ["Straight tequila list","VERIFY","Not captured in the vault photos. Pull the current list from Toast."],
-  ["El Charro Reposado","cocktail use","Reposado: light oak, vanilla, cooked agave"],
-  ["LALO / El Charro Blanco","cocktail use","Blanco: clean agave, pepper, citrus"]]
+ ["Straight tequila list","VERIFY","Not captured in the vault photos. Pull the current list from Toast."],
+ ["El Charro Reposado","cocktail use","Reposado: light oak, vanilla, cooked agave"],
+ ["LALO / El Charro Blanco","cocktail use","Blanco: clean agave, pepper, citrus"]]
 };
 
 /* ============ BEER ============ */
 SPIRITS["On Draft — only two lines"]=[
  ["Smoked Draft Old Fashioned","$17","Signature — full build up in the cocktail list."],
- ["Anything else on tap?","probably not","We barely have anything on tap — the Smoked Draft OF is the only confirmed line (8/4). Sweet & Salty probably does NOT pour from a tap despite the old sheet. If a second line exists, nobody knows what it is."]
+ ["Anything else on tap?","probably not","We barely have anything on tap — the Smoked Draft OF is the only line we know for sure. Sweet & Salty probably does NOT pour from a tap despite the old sheet. If a second line exists, nobody knows what it is."]
 ];
 
 SPIRITS["Cordials on the rail (after-dinner asks)"]=[
@@ -876,7 +878,7 @@ SPIRITS["Cordials on the rail (after-dinner asks)"]=[
 
 SPIRITS["Coffee, Tea & Water (no booze)"]=[
  ["Hubbard & Cravens Coffee","reg / decaf","Local Indianapolis roaster. Bring a cream and sugar caddy with it."],
- ["Espresso","$ VERIFY","We DO pour straight espresso — no cappuccino. Evan guesses $8+; get the real price off Toast."],
+ ["Espresso","$ VERIFY","We DO pour straight espresso — no cappuccino. probably $8+; get the real price off Toast."],
  ["Iced Tea","unsweet","Suncoast iced tea blend. Unsweet by default — sweet tea can be made on request."],
  ["Filtered Water","free","The busser carries it — default for every table."],
  ["Aquafina","bottle","Bottled still water if the guest wants it — price in Toast."],
@@ -908,118 +910,118 @@ const BEER = [
 /* [name, price, description, tag] */
 const MENU = {
  "Starters & Lounge":[
-  ["Crispy Ahi Tuna Bites","$18","Crispy sushi rice, avocado, ponzu sauce, cilantro, jalapeno. Remoulade or spicy citrus on the side if expected. Served with metal Japanese chopsticks (added 8/4).","Test Q2 — this replaced the old seared blackened ahi appetizer"],
-  ["Seasonal Oysters","$25","On the half shell. Cocktail sauce, mignonette, Tabasco/hot sauce, raw horseradish. Setup: oyster fork with Tabasco and Zesta crackers, cocktail forks, and hot water for the dry ice presentation — no tongs. Know it: warm-water oysters run larger, sweeter, more tender; cold-water run smaller, brinier, firmer.","Menu marks GF"],
-  ["Calamari","$17","Lightly breaded and flash-fried. Spicy citrus and kung pao sauces. Serve with tongs.",""],
-  ["Shrimp Cocktail","$26","U-6 Vietnamese tiger shrimp with fiery cocktail sauce.","Know the U-6"],
-  ["Goat Cheese Spread","$17","Apples, toasted points, pistachios, local honey.","Gluten + tree nuts"],
-  ["Crab Cake","$18","95% crab, 5% filler — breadcrumbs and (typically) mayo. Maryland style, served with remoulade. Great selling point: it is almost all crab.","95% crab — confirmed 8/4"],
-  ["Creamy Spicy Crab Dip","$22","House-made tortilla chips.","Menu marks GF"],
-  ["Prime Meatballs","$16","Made from our filet, ribeye, and NY strip trim with a breadcrumb binder. House marinara and three-cheese blend.","Trim + breadcrumbs — confirmed 8/4"],
-  ["Wagyu Tacos","$25","Chimichurri and wonton shell, caramelized onions, balsamic pearls. The sauce is a balsamic glaze.",""],
-  ["A5 Nigiri","$35","Torched sushi rice, balsamic pearls, Asian pear wine reduction, crispy leeks. Served with two metal Japanese chopsticks.","$35 confirmed 8/4"],
-  ["Filet Sliders (2)","$18","Provolone, smoked garlic aioli, crispy onion strings, pretzel bun, house-made chips.","Lounge"],
-  ["Carne Asada Nachos","$25","Marinated steak, cheese, pico de gallo, avocado, cilantro sour cream.","Lounge"],
-  ["Prime Beef Burger","$23","Bacon, cheddar, lettuce, tomato, onions, aioli, French fries.","Lounge"],
-  ["French Dip Egg Rolls","$15","Au jus marinated shaved steak, three-cheese blend, caramelized onions, creamy horseradish.","Lounge"],
-  ["Chicken Parm Sandwich","$24","Fried chicken breast, provolone, tomato diavolo sauce, garlic toasted bun.","Lounge"],
-  ["Tuna Poke","$29","Sushi rice, avocado, mango, seaweed, calamari salad, spicy citrus sauce, wontons.","Lounge"],
-  ["King Crab Legs","MP","Served with melted butter and cocktail sauce. Setup: cocktail forks, tongs, butter warmer with clarified butter. Recently around $125 a pound — but ALWAYS quote Toast, never memory.",""]],
+ ["Crispy Ahi Tuna Bites","$18","Crispy sushi rice, avocado, ponzu sauce, cilantro, jalapeno. Remoulade or spicy citrus on the side if expected. Served with metal Japanese chopsticks (added 8/4).","Test Q2 — this replaced the old seared blackened ahi appetizer"],
+ ["Seasonal Oysters","$25","On the half shell. Cocktail sauce, mignonette, Tabasco/hot sauce, raw horseradish. Setup: oyster fork with Tabasco and Zesta crackers, cocktail forks, and hot water for the dry ice presentation — no tongs. Know it: warm-water oysters run larger, sweeter, more tender; cold-water run smaller, brinier, firmer.","Menu marks GF"],
+ ["Calamari","$17","Lightly breaded and flash-fried. Spicy citrus and kung pao sauces. Serve with tongs.",""],
+ ["Shrimp Cocktail","$26","U-6 Vietnamese tiger shrimp with fiery cocktail sauce.","Know the U-6"],
+ ["Goat Cheese Spread","$17","Apples, toasted points, pistachios, local honey.","Gluten + tree nuts"],
+ ["Crab Cake","$18","95% crab, 5% filler — breadcrumbs and (typically) mayo. Maryland style, served with remoulade. Great selling point: it is almost all crab.","95% crab"],
+ ["Creamy Spicy Crab Dip","$22","House-made tortilla chips.","Menu marks GF"],
+ ["Prime Meatballs","$16","Made from our filet, ribeye, and NY strip trim with a breadcrumb binder. House marinara and three-cheese blend.","Trim + breadcrumbs"],
+ ["Wagyu Tacos","$25","Chimichurri and wonton shell, caramelized onions, balsamic pearls. The sauce is a balsamic glaze.",""],
+ ["A5 Nigiri","$35","Torched sushi rice, balsamic pearls, Asian pear wine reduction, crispy leeks. Served with two metal Japanese chopsticks.","$35"],
+ ["Filet Sliders (2)","$18","Provolone, smoked garlic aioli, crispy onion strings, pretzel bun, house-made chips.","Lounge"],
+ ["Carne Asada Nachos","$25","Marinated steak, cheese, pico de gallo, avocado, cilantro sour cream.","Lounge"],
+ ["Prime Beef Burger","$23","Bacon, cheddar, lettuce, tomato, onions, aioli, French fries.","Lounge"],
+ ["French Dip Egg Rolls","$15","Au jus marinated shaved steak, three-cheese blend, caramelized onions, creamy horseradish.","Lounge"],
+ ["Chicken Parm Sandwich","$24","Fried chicken breast, provolone, tomato diavolo sauce, garlic toasted bun.","Lounge"],
+ ["Tuna Poke","$29","Sushi rice, avocado, mango, seaweed, calamari salad, spicy citrus sauce, wontons.","Lounge"],
+ ["King Crab Legs","MP","Served with melted butter and cocktail sauce. Setup: cocktail forks, tongs, butter warmer with clarified butter. Recently around $125 a pound — but ALWAYS quote Toast, never memory.",""]],
 
  "Seafood Towers":[
-  ["Iced Seafood Tower","$98","King crab legs, shrimp cocktail, lobster salad, oysters, blackened ahi tuna salad, wonton chips and brioche bread.","6 items — memorize"],
-  ["Roasted Seafood Tower","$190","King crab legs, scallops, lobster meat, shrimp, mussels, tossed in diavolo sauce. SERVICE: stacking rack in the base, stack at the table over a black linen, cocktail forks preset, butter warmer with a tealight. HALFWAY through, clear shells and stir the pasta setup into the remaining seafood-butter sauce — the tableside pasta is the value moment, do NOT skip it.","Bechamel is the base sauce (Mornay-style once cheese is in). We stir our bechamel cheese-sauce pasta into the tower sauce and the house calls the result CAPAVETTI PASTA — per Evan, that is exactly how we say it."]],
+ ["Iced Seafood Tower","$98","King crab legs, shrimp cocktail, lobster salad, oysters, blackened ahi tuna salad, wonton chips and brioche bread.","6 items — memorize"],
+ ["Roasted Seafood Tower","$190","King crab legs, scallops, lobster meat, shrimp, mussels, tossed in diavolo sauce. SERVICE: stacking rack in the base, stack at the table over a black linen, cocktail forks preset, butter warmer with a tealight. HALFWAY through, clear shells and stir the pasta setup into the remaining seafood-butter sauce — the tableside pasta is the value moment, do NOT skip it.","Bechamel is the base sauce (Mornay-style once cheese is in). We stir our bechamel cheese-sauce pasta into the tower sauce and the house calls the result CAPAVETTI PASTA — that is exactly how we say it."]],
 
  "Soup & Salad":[
-  ["Soup of the Day","$7 printed / comp with entrees","One soup of the day per shift. It comes COMPLIMENTARY with entrees — or the guest can upcharge $4 to lobster bisque or baked French onion. Verify the exact soup before answering any allergen question.","New comp system — Evan 8/4"],
-  ["Prime Beef Chili","OFF the menu right now","Chili paste, tomato paste, onions and garlic, beer deglaze, veal stock. Currently pulled — comes back sometimes as the soup of the day or a bonus $4 soup; probably returns for winter.","Off menu 8/4"],
-  ["Lobster Bisque","$11","Lobster stock, roux, white wine, sherry vinegar. Also the $4 soup-course upcharge from the comp soup of the day. ($11 on the current print — the old sheet said $13.)",""],
-  ["Baked French Onion","$13","Vidalia onions caramelized with butter, deglazed with red wine, in beef bone stock with mirepoix and herbs 48–72 hours. Brown ceramic crock, herb crouton, provolone melted in the broiler, parsley.","Mirepoix = meer-PWAH = onion, carrot, celery"],
-  ["House Salad","$7","Romaine mix with carrots, cucumbers, cherry tomatoes, red cabbage (in the mix — cannot be removed), and croutons. House ranch and house dressing are made IN-HOUSE (the ranch runs mayo + buttermilk — that is egg and dairy — plus a touch of MSG). Other dressings: check before promising labels.",""],
-  ["Roasted Pear Salad","$16","Arugula base, roasted pear, Gorgonzola, candied walnuts, dried cherries, maple balsamic.","Dairy + tree nuts"],
-  ["Caesar / Gem Caesar","$15","Parmesan, croutons, sous-vide egg dressing, white anchovies and bonito.",""],
-  ["Chopped Wedge Salad","$15","Blue cheese, bacon, marinated tomatoes.",""]],
+ ["Soup of the Day","$7 printed / comp with entrees","One soup of the day per shift. It comes COMPLIMENTARY with entrees — or the guest can upcharge $4 to lobster bisque or baked French onion. Verify the exact soup before answering any allergen question.","New comp system — Evan 8/4"],
+ ["Prime Beef Chili","OFF the menu right now","Chili paste, tomato paste, onions and garlic, beer deglaze, veal stock. Currently pulled — comes back sometimes as the soup of the day or a bonus $4 soup; probably returns for winter.","Off menu 8/4"],
+ ["Lobster Bisque","$11","Lobster stock, roux, white wine, sherry vinegar. Also the $4 soup-course upcharge from the comp soup of the day. ($11 on the current print — the old sheet said $13.)",""],
+ ["Baked French Onion","$13","Vidalia onions caramelized with butter, deglazed with red wine, in beef bone stock with mirepoix and herbs 48–72 hours. Brown ceramic crock, herb crouton, provolone melted in the broiler, parsley.","Mirepoix = meer-PWAH = onion, carrot, celery"],
+ ["House Salad","$7","Romaine mix with carrots, cucumbers, cherry tomatoes, red cabbage (in the mix — cannot be removed), and croutons. House ranch and house dressing are made IN-HOUSE (the ranch runs mayo + buttermilk — that is egg and dairy — plus a touch of MSG). Other dressings: check before promising labels.",""],
+ ["Roasted Pear Salad","$16","Arugula base, roasted pear, Gorgonzola, candied walnuts, dried cherries, maple balsamic.","Dairy + tree nuts"],
+ ["Caesar / Gem Caesar","$15","Parmesan, croutons, sous-vide egg dressing, white anchovies and bonito.",""],
+ ["Chopped Wedge Salad","$15","Blue cheese, bacon, marinated tomatoes.",""]],
 
  "Prime 47 Cuts & Wagyu":[
-  ["Farbuckle Filet","6 oz $63 / 10 oz $87","THE SHOW (from the graded tests): ring at the guest's temp, bring a sizzling skillet + tongs + gloves + tray + rosemary salt + beef tallow + warm butter. Steaks in, butter while they cook, beef tallow before pulling, finish with rosemary salt, serve. You can Farbuckle ANY cut for roughly a $9 upcharge (the $63 minus $54 difference).","Help run this one"],
-  ["Filet Mignon","6 oz $54 / 10 oz $79","Classic center-cut tender filet. Cooked with butter by default — but the kitchen CAN cook any steak fully butter-free for a dairy allergy, the guest just has to ask. Confirmed 8/4.","Price updated 7/3"],
-  ["The PD — 15 oz Hand-Cut Filet","$115","On the printed menu — house calls it the PD. Confirmed on the published menu 8/4.",""],
-  ["Filet Duo","$47","Two 3 oz end-cut medallions. Crab Oscar and horseradish bleu cheese crust.",""],
-  ["Dry Aged New York Strip","14 oz $58","Dry-aged flavor. The meat hangs in a controlled room; moisture evaporates and enzymes tenderize, concentrating rich, nutty, beefy umami.","Dry aged"],
-  ["Delmonico Ribeye","16 oz $80","Rich, marbled ribeye.",""],
-  ["K.D.'s Tomahawk","32 oz $160","A ribeye that keeps the whole rib bone. Even more heavily marbled than the Delmonico. The bone lets marrow render during cooking, adding a butteriness you can only get by keeping the rib bone. The juiciest, most flavorful cut we offer besides the Japanese A5.","K.D. = Kevin Dickey, former owner · largest oval plate"],
-  ["Australian Wagyu Filet","6 oz $95 / 10 oz $135","More marbling and lower-rendering wagyu fat. Serve rare to med-rare — nudge, don't argue.","Price updated 7/3"],
-  ["Japanese A5 Wagyu","$25/oz","From Kagoshima Prefecture. The show: a manager cut, sliced with a Hanzo steel knife on a butcher's block, torch-finished with rosemary salt at the table. Preset the guests with the special Kobe Hanzo steak knives. House serves wagyu RARE to MED-RARE — nudge gently, never argue.","Confirmed $25/oz 8/4 — matches the published menu (6 oz $150)"],
-  ["48 oz USDA Choice Porterhouse","$150 when it runs","NOT wagyu — USDA Choice. 48 oz total: about 15 oz NY strip + 8 oz filet + a 25 oz bone. Board service, manager slices tableside. The move: two people split it for a high-class manager-cut experience at a great value.","Off-menu special"],
-  ["Spinalis / Ribeye Cap","$14/oz, min 6 oz","Rivals filet tenderness while keeping ribeye richness.","Off-menu — $10/oz on Spinalis Sunday"],
-  ["45-Day Dry-Aged Bone-In Ribeye","22 oz — $120? VERIFY price","22 oz per the graded test answer key; aged a full 45 days. Evan thinks $120 — price still needs verified.","Off-menu, dry aged"]],
+ ["Farbuckle Filet","6 oz $63 / 10 oz $87","THE SHOW (from the graded tests): ring at the guest's temp, bring a sizzling skillet + tongs + gloves + tray + rosemary salt + beef tallow + warm butter. Steaks in, butter while they cook, beef tallow before pulling, finish with rosemary salt, serve. You can Farbuckle ANY cut for roughly a $9 upcharge (the $63 minus $54 difference).","Help run this one"],
+ ["Filet Mignon","6 oz $54 / 10 oz $79","Classic center-cut tender filet. Cooked with butter by default — but the kitchen CAN cook any steak fully butter-free for a dairy allergy, the guest just has to ask.","Price updated 7/3"],
+ ["The PD — 15 oz Hand-Cut Filet","$115","On the printed menu — house calls it the PD.",""],
+ ["Filet Duo","$47","Two 3 oz end-cut medallions. Crab Oscar and horseradish bleu cheese crust.",""],
+ ["Dry Aged New York Strip","14 oz $58","Dry-aged flavor. The meat hangs in a controlled room; moisture evaporates and enzymes tenderize, concentrating rich, nutty, beefy umami.","Dry aged"],
+ ["Delmonico Ribeye","16 oz $80","Rich, marbled ribeye.",""],
+ ["K.D.'s Tomahawk","32 oz $160","A ribeye that keeps the whole rib bone. Even more heavily marbled than the Delmonico. The bone lets marrow render during cooking, adding a butteriness you can only get by keeping the rib bone. The juiciest, most flavorful cut we offer besides the Japanese A5.","K.D. = Kevin Dickey, former owner · largest oval plate"],
+ ["Australian Wagyu Filet","6 oz $95 / 10 oz $135","More marbling and lower-rendering wagyu fat. Serve rare to med-rare — nudge, don't argue.","Price updated 7/3"],
+ ["Japanese A5 Wagyu","$25/oz","From Kagoshima Prefecture. The show: a manager cut, sliced with a Hanzo steel knife on a butcher's block, torch-finished with rosemary salt at the table. Preset the guests with the special Kobe Hanzo steak knives. House serves wagyu RARE to MED-RARE — nudge gently, never argue.","Confirmed $25/oz 8/4 — matches the published menu (6 oz $150)"],
+ ["48 oz USDA Choice Porterhouse","$150 when it runs","NOT wagyu — USDA Choice. 48 oz total: about 15 oz NY strip + 8 oz filet + a 25 oz bone. Board service, manager slices tableside. The move: two people split it for a high-class manager-cut experience at a great value.","Off-menu special"],
+ ["Spinalis / Ribeye Cap","$14/oz, min 6 oz","Rivals filet tenderness while keeping ribeye richness.","Off-menu — $10/oz on Spinalis Sunday"],
+ ["45-Day Dry-Aged Bone-In Ribeye","22 oz — $120? VERIFY price","22 oz per the graded test answer key; aged a full 45 days. Evan thinks $120 — price still needs verified.","Off-menu, dry aged"]],
 
  "Surf & Turf":[
-  ["Steak 47","$58","Filet topped with shrimp, scallop, lobster meat, asparagus, and hollandaise.","The Steak 47 topping upcharge is $25"],
-  ["Filet & Lobster","$105","Filet plus lobster tail.","Menu marks GF"],
-  ["Filet & Scallops","$82","Prosciutto-wrapped scallops.",""],
-  ["Ahi Tuna & Wagyu Beef","$68","Ahi with sesame, hoisin, wasabi mashed potatoes, beurre blanc.",""]],
+ ["Steak 47","$58","Filet topped with shrimp, scallop, lobster meat, asparagus, and hollandaise.","The Steak 47 topping upcharge is $25"],
+ ["Filet & Lobster","$105","Filet plus lobster tail.","Menu marks GF"],
+ ["Filet & Scallops","$82","Prosciutto-wrapped scallops.",""],
+ ["Ahi Tuna & Wagyu Beef","$68","Ahi with sesame, hoisin, wasabi mashed potatoes, beurre blanc.",""]],
 
  "Enhancements":[
-  ["Crab Oscar","$14","Snow crab, asparagus, hollandaise.","Menu marks GF"],
-  ["Steak 47 topping","$25","Shrimp, scallop, lobster meat, asparagus, hollandaise.","The $25 answer"],
-  ["Horseradish-Bleu Cheese Crust","$4","Melted bleu cheese crumbles, horseradish, herbs.",""],
-  ["Bearnaise Sauce","$2","Egg and butter sauce with a tarragon and shallot reduction. Herbier than hollandaise. Yes — really $2, confirmed.","Bearnaise has tarragon + shallot; hollandaise does not"],
-  ["Add 5 oz Lobster Tail","$50","Add to any entree.","Menu marks GF"],
-  ["Add 2 Scallops","$14","Two scallops added to any entree.",""],
-  ["Brandy Peppercorn Sauce","$6","Demi-glace and brandy peppercorns.","Menu marks GF"],
-  ["Black Truffle Butter","$6","Truffle butter steak finish.","Menu marks GF"],
-  ["Garlic Butter","$6","Steak enhancement — active in Toast, confirmed 8/4.",""],
-  ["Roasted Mushrooms","$8","Comes in a small soup bowl with a big spoon — confirm with the guest, then scoop it over their steak. Confirmed current 8/4.",""]],
+ ["Crab Oscar","$14","Snow crab, asparagus, hollandaise.","Menu marks GF"],
+ ["Steak 47 topping","$25","Shrimp, scallop, lobster meat, asparagus, hollandaise.","The $25 answer"],
+ ["Horseradish-Bleu Cheese Crust","$4","Melted bleu cheese crumbles, horseradish, herbs.",""],
+ ["Bearnaise Sauce","$2","Egg and butter sauce with a tarragon and shallot reduction. Herbier than hollandaise. Yes — really $2.","Bearnaise has tarragon + shallot; hollandaise does not"],
+ ["Add 5 oz Lobster Tail","$50","Add to any entree.","Menu marks GF"],
+ ["Add 2 Scallops","$14","Two scallops added to any entree.",""],
+ ["Brandy Peppercorn Sauce","$6","Demi-glace and brandy peppercorns.","Menu marks GF"],
+ ["Black Truffle Butter","$6","Truffle butter steak finish.","Menu marks GF"],
+ ["Garlic Butter","$6","Steak enhancement — active in Toast.",""],
+ ["Roasted Mushrooms","$8","Comes in a small soup bowl with a big spoon — confirm with the guest, then scoop it over their steak.",""]],
 
  "Exclusives":[
-  ["Chicken Parmesan","$39","Hand-breaded fried chicken breast, linguine, tomato diavolo sauce, melted provolone, garlic bread.","New on the menu"],
-  ["Primavera Pasta","$40","Linguine, wild mushrooms, spinach, peeled tomatoes, pesto cream sauce. Add-ons available: chicken, salmon, steak, shrimp (2 scallops are $14 per the enhancements). Add-on PRICES still need a Toast check — do not quote from memory.","Main vegetarian-style entree"],
-  ["Miso Seabass","$46","Patagonian toothfish vacuum-sealed with white miso paste, mirin, and sake for 48–72 hours, pan seared and finished in the broiler. Coconut risotto with Brussels sprouts sprinkled over the top.","Evan says 48–72 hrs; the old test key said 24–72 — go with the kitchen"],
-  ["Sea Scallops","$48","U-10 scallops pan seared for a golden crust. Butternut squash puree, prosciutto, wild mushrooms.","Menu marks GF"],
-  ["Chilean Sea Bass","$46","Asparagus, spinach, tomato, creamy lemon-caper sauce.","Menu marks GF"],
-  ["Blackened Creole Salmon","$42","Faroe Island salmon, blackened. Sweet potato puree, Holy Trinity relish, remoulade.","Holy Trinity = bell pepper, onion, celery"],
-  ["Short Rib Pasta","$52","Orecchiette, vermouth cream sauce, braised short rib.",""],
-  ["Stuffed Chicken Breast","$38","Cream cheese, goat, parmesan, white cheddar; beurre blanc-style sauce.","Halal option noted"],
-  ["Twin South African Lobster Tails","$100","Two 5 oz tails, 10 oz total. Cold-water tails, which are sweeter and more tender.","Cold water — know why"]],
+ ["Chicken Parmesan","$39","Hand-breaded fried chicken breast, linguine, tomato diavolo sauce, melted provolone, garlic bread.","New on the menu"],
+ ["Primavera Pasta","$40","Linguine, wild mushrooms, spinach, peeled tomatoes, pesto cream sauce. Add-ons available: chicken, salmon, steak, shrimp (2 scallops are $14 per the enhancements). Add-on PRICES still need a Toast check — do not quote from memory.","Main vegetarian-style entree"],
+ ["Miso Seabass","$46","Patagonian toothfish vacuum-sealed with white miso paste, mirin, and sake for 48–72 hours, pan seared and finished in the broiler. Coconut risotto with Brussels sprouts sprinkled over the top.","48–72 hrs — the old test key said 24–72; go with the kitchen"],
+ ["Sea Scallops","$48","U-10 scallops pan seared for a golden crust. Butternut squash puree, prosciutto, wild mushrooms.","Menu marks GF"],
+ ["Chilean Sea Bass","$46","Asparagus, spinach, tomato, creamy lemon-caper sauce.","Menu marks GF"],
+ ["Blackened Creole Salmon","$42","Faroe Island salmon, blackened. Sweet potato puree, Holy Trinity relish, remoulade.","Holy Trinity = bell pepper, onion, celery"],
+ ["Short Rib Pasta","$52","Orecchiette, vermouth cream sauce, braised short rib.",""],
+ ["Stuffed Chicken Breast","$38","Cream cheese, goat, parmesan, white cheddar; beurre blanc-style sauce.","Halal option noted"],
+ ["Twin South African Lobster Tails","$100","Two 5 oz tails, 10 oz total. Cold-water tails, which are sweeter and more tender.","Cold water — know why"]],
 
  "Accessories / Sides":[
-  ["Every side shares","feeds 2-3","Every single side is built to share — comfortably feeds 2 to 3 people. Rule of thumb from the tests: suggest 3-4 sides for a table of six.","Confirmed 8/4"],
-  ["Grilled Asparagus","$15","With hollandaise.","Menu marks GF"],
-  ["Creamed Corn","$12","Cream, dijon, horseradish, dill.","Menu marks GF"],
-  ["Creamed Spinach with Roasted Butternut Squash","$16","Sauteed spinach in a cream sauce over roasted butternut squash. Marked g on the current menu — it CONTAINS gluten.",""],
-  ["Creamy Risotto","$15","Crispy prosciutto and sundried tomatoes. Cooked in chicken stock.","NOT vegetarian — chicken stock + prosciutto"],
-  ["Baked Potato","$11","Base: butter and sour cream, served with a bread knife. LOADED upgrade — chives, bacon, cheese — for an upcharge (price VERIFY). Loaded adds pork.","Menu marks GF (base)"],
-  ["White Cheddar Mashed Potatoes","$12","Butter, cream, white cheddar. Add truffle $3 or wasabi $3 — confirmed 8/4.","Menu marks GF · upsell the $3 add"],
-  ["Truffle Cauliflower","$14","Pan-seared with shallots, mixed with Alfredo and truffle oil, topped with Parmesan and parsley.","Newer side — confirmed current 8/4"],
-  ["Lobster Mac N' Cheese","$26","Lobster stock, roux, pasta, cheese, panko. Premium share side.","Biggest side upsell"],
-  ["Jalapeno Potatoes Au Gratin","$15","Jalapeno, bacon, green onion, cheese, garlic.","Bacon is mixed in each morning — cannot be removed"],
-  ["Brussels Sprouts","$15","Deep fried with a balsamic glaze over the top (the old sheet said sriracha hot honey — Evan corrected 8/4). If both sauces float around, ask which is on tonight.",""],
-  ["Truffle Fries","$11","Lightly breaded, shaved parmesan. Gluten and fryer check.",""],
-  ["Forest Mushrooms","$14","Garlic compound butter. ARCHIVED — off the menu as of 8/4. The $8 Roasted Mushrooms enhancement is the current mushroom play.","Archived side"]],
+ ["Every side shares","feeds 2-3","Every single side is built to share — comfortably feeds 2 to 3 people. Rule of thumb from the tests: suggest 3-4 sides for a table of six.",""],
+ ["Grilled Asparagus","$15","With hollandaise.","Menu marks GF"],
+ ["Creamed Corn","$12","Cream, dijon, horseradish, dill.","Menu marks GF"],
+ ["Creamed Spinach with Roasted Butternut Squash","$16","Sauteed spinach in a cream sauce over roasted butternut squash. Marked g on the current menu — it CONTAINS gluten.",""],
+ ["Creamy Risotto","$15","Crispy prosciutto and sundried tomatoes. Cooked in chicken stock.","NOT vegetarian — chicken stock + prosciutto"],
+ ["Baked Potato","$11","Base: butter and sour cream, served with a bread knife. LOADED upgrade — chives, bacon, cheese — for an upcharge (price VERIFY). Loaded adds pork.","Menu marks GF (base)"],
+ ["White Cheddar Mashed Potatoes","$12","Butter, cream, white cheddar. Add truffle $3 or wasabi $3.","Menu marks GF · upsell the $3 add"],
+ ["Truffle Cauliflower","$14","Pan-seared with shallots, mixed with Alfredo and truffle oil, topped with Parmesan and parsley.","Newer side — confirmed current 8/4"],
+ ["Lobster Mac N' Cheese","$26","Lobster stock, roux, pasta, cheese, panko. Premium share side.","Biggest side upsell"],
+ ["Jalapeno Potatoes Au Gratin","$15","Jalapeno, bacon, green onion, cheese, garlic.","Bacon is mixed in each morning — cannot be removed"],
+ ["Brussels Sprouts","$15","Deep fried with a balsamic glaze over the top (the old sheet said sriracha hot honey — Evan corrected 8/4). If both sauces float around, ask which is on tonight.",""],
+ ["Truffle Fries","$11","Lightly breaded, shaved parmesan. Gluten and fryer check.",""],
+ ["Forest Mushrooms","$14","Garlic compound butter. ARCHIVED — off the menu. The $8 Roasted Mushrooms enhancement is the current mushroom play.","Archived side"]],
 
  "Desserts":[
-  ["Mo's Cookie / Prime Cookie","$10","Half-baked chocolate chip cookie served with vanilla ice cream and Hershey's syrup.","Dairy, egg, gluten"],
-  ["Celebration Cake","$14","Five layers of technicolor vanilla cake layered with white chocolate mousse, served with a strawberry drizzle and gummi bears.","Celebration play — menu photo 8/4"],
-  ["The Mo's Sundae","$15","Chocolate chip cookie dough, ice cream, Hershey's syrup, Meyer's dark rum caramel, strawberry sauce, fresh whipped cream.","Name history: Kristen Sundae, then printed as the Celebration Sundae, now the Mo's Sundae — Kristen was a former owner's wife"],
-  ["Celebration drop (free)","comp with any celebration","Every celebrating table gets a free treat — their pick: the CELEBRATION SUNDAE (bowl of ice cream in a large soup bowl with chocolate and caramel, a sprinkle or two for fun) or a COMP MO'S COOKIE (half-baked cookie dough, scoop of vanilla bean ice cream, chocolate drizzle poured on BY THE SERVER at the table). We do NOT sing — we light a SPARKLER with it and make the table feel special. Sing only if you want to.","Confirmed 8/4"],
-  ["NY Style Cheesecake","$10","Served with fresh whipped cream and strawberry sauce.","Dairy, egg, gluten"],
-  ["Bailey's Creme Brulee","$10","Topped with fresh whipped cream and berries.","Alcohol, egg, dairy"],
-  ["Colossal Carrot Cake","$14","Layered high with moist carrot cake and cream cheese icing.","Eggs, milk, soy, tree nuts, gluten, pineapple"],
-  ["Molten Lava Cake","$13","Chocolate dome filled with chocolate cake, strawberries, and ice cream, topped with Hershey's chocolate syrup. Menu marks GF / flourless — but it still has eggs, dairy, and soy.","GF-marked, NOT allergen-free"],
-  ["Brown Butter Cake","$14","Vanilla ice cream, caramel sauce, and Granny Smith apples.","Eggs, milk, soy, gluten"],
-  ["Cotton Candy","$12","Menu marks GF. Every color of the rainbow, all taste like sugar — tell the table 'pick your color.'","Pairs with Ruffino Moscato"],
-  ["Bananas Foster","$12/person — minimum 2 people","THE BACK SERVER RUNS THIS SHOW. Per person: 1 scoop brown butter + half a banana, and half an orange per two bananas (going over is fine). Bring: cinnamon, 99 Oranges liqueur, Nilla wafers, caramel, burner, pan. The show: melt the brown butter, breaking it up with the spatula. Coat the bananas evenly in it. Add the orange citrus so nothing burns. Pour 99 Oranges over the top and light it — big flame. Sprinkle cinnamon into the fire and it sparks up (cinnamon is made of wood, so it burns) — a fantastic show. Pour it all over bowls of ice cream with the caramel and Nilla wafers, serve with spoons. Great upsell: get the whole table in on it.","Back server's show"],
-  ["Sorbets (not really sold)","in the freezer","Lemon (and maybe pistachio) sorbet live in the freezer, dairy-free — but they are off the menu and we do not really sell them. Archive item.","Not sold — 8/4"],
-  ["Pistachio Gelato","varies","Dairy and tree nuts.",""]],
+ ["Mo's Cookie / Prime Cookie","$10","Half-baked chocolate chip cookie served with vanilla ice cream and Hershey's syrup.","Dairy, egg, gluten"],
+ ["Celebration Cake","$14","Five layers of technicolor vanilla cake layered with white chocolate mousse, served with a strawberry drizzle and gummi bears.","Celebration play — menu photo 8/4"],
+ ["The Mo's Sundae","$15","Chocolate chip cookie dough, ice cream, Hershey's syrup, Meyer's dark rum caramel, strawberry sauce, fresh whipped cream.","Name history: Kristen Sundae, then printed as the Celebration Sundae, now the Mo's Sundae — Kristen was a former owner's wife"],
+ ["Celebration drop (free)","comp with any celebration","Every celebrating table gets a free treat — their pick: the CELEBRATION SUNDAE (bowl of ice cream in a large soup bowl with chocolate and caramel, a sprinkle or two for fun) or a COMP MO'S COOKIE (half-baked cookie dough, scoop of vanilla bean ice cream, chocolate drizzle poured on BY THE SERVER at the table). We do NOT sing — we light a SPARKLER with it and make the table feel special. Sing only if you want to.",""],
+ ["NY Style Cheesecake","$10","Served with fresh whipped cream and strawberry sauce.","Dairy, egg, gluten"],
+ ["Bailey's Creme Brulee","$10","Topped with fresh whipped cream and berries.","Alcohol, egg, dairy"],
+ ["Colossal Carrot Cake","$14","Layered high with moist carrot cake and cream cheese icing.","Eggs, milk, soy, tree nuts, gluten, pineapple"],
+ ["Molten Lava Cake","$13","Chocolate dome filled with chocolate cake, strawberries, and ice cream, topped with Hershey's chocolate syrup. Menu marks GF / flourless — but it still has eggs, dairy, and soy.","GF-marked, NOT allergen-free"],
+ ["Brown Butter Cake","$14","Vanilla ice cream, caramel sauce, and Granny Smith apples.","Eggs, milk, soy, gluten"],
+ ["Cotton Candy","$12","Menu marks GF. Every color of the rainbow, all taste like sugar — tell the table 'pick your color.'","Pairs with Ruffino Moscato"],
+ ["Bananas Foster","$12/person — minimum 2 people","THE BACK SERVER RUNS THIS SHOW. Per person: 1 scoop brown butter + half a banana, and half an orange per two bananas (going over is fine). Bring: cinnamon, 99 Oranges liqueur, Nilla wafers, caramel, burner, pan. The show: melt the brown butter, breaking it up with the spatula. Coat the bananas evenly in it. Add the orange citrus so nothing burns. Pour 99 Oranges over the top and light it — big flame. Sprinkle cinnamon into the fire and it sparks up (cinnamon is made of wood, so it burns) — a fantastic show. Pour it all over bowls of ice cream with the caramel and Nilla wafers, serve with spoons. Great upsell: get the whole table in on it.","Back server's show"],
+ ["Sorbets (not really sold)","in the freezer","Lemon (and maybe pistachio) sorbet live in the freezer, dairy-free — but they are off the menu and we do not really sell them. Archive item.","Not sold — 8/4"],
+ ["Pistachio Gelato","varies","Dairy and tree nuts.",""]],
 
  "Kids Menu":[
-  ["4 oz Filet Mignon","$30","Cooked with butter by default — but the kitchen CAN cook any steak fully butter-free for a dairy allergy, the guest just has to ask. Confirmed 8/4.","Whole kids menu photo-confirmed 8/4 — all 6 items, all prices"],
-  ["Chicken Tenders with Fries","$10","Breaded and fried in the shared fryer. Standard breading assumed — flags stay until the kitchen says otherwise.",""],
-  ["Buttered Noodles","$10","Pasta plus butter.",""],
-  ["Mac N Cheese","$10","Pasta and cheese sauce.",""],
-  ["Prime Beef Burger","$23","Bun and condiments drive most allergens.",""],
-  ["Chicken Teriyaki","$15","The sauce has soy and wheat — confirmed 8/4.",""]]
+ ["4 oz Filet Mignon","$30","Cooked with butter by default — but the kitchen CAN cook any steak fully butter-free for a dairy allergy, the guest just has to ask.","All 6 items and prices match the printed kids menu"],
+ ["Chicken Tenders with Fries","$10","Breaded and fried in the shared fryer. Standard breading assumed — flags stay until the kitchen says otherwise.",""],
+ ["Buttered Noodles","$10","Pasta plus butter.",""],
+ ["Mac N Cheese","$10","Pasta and cheese sauce.",""],
+ ["Prime Beef Burger","$23","Bun and condiments drive most allergens.",""],
+ ["Chicken Teriyaki","$15","The sauce has soy and wheat.",""]]
 };
 
 const TEMPS = [
@@ -1047,18 +1049,18 @@ const DRESSINGS = ["House Vinaigrette (the house dressing)","Orange Vinaigrette"
 /* [dish, price, flags[], note] */
 const ALLERGENS = [
  ["Goat Cheese Spread","$17",["dairy","gluten","tree nuts"],"Goat cheese, toasted points, pistachios."],
- ["Creamy Spicy Crab Dip","$22",["crab","shellfish","dairy","capsaicin","allium","cross-contact"],"Menu marks GF, but the house chips come out of the SHARED fryer — cross-contact confirmed. If the creamy base uses mayo that adds egg — ask the chef."],
+ ["Creamy Spicy Crab Dip","$22",["crab","shellfish","dairy","capsaicin","allium","cross-contact"],"Menu marks GF, but the house chips come out of the SHARED fryer. If the creamy base uses mayo that adds egg — ask the chef."],
  ["Seared Blackened Scallops","$26",["shellfish","dairy","capsaicin","nightshade"],"Menu marks GF. Truffle creamed corn carries dairy. Blackening spice is paprika/cayenne — that is nightshade too."],
- ["Prime Meatballs","$16",["beef","dairy","gluten","egg","allium","nightshade"],"Breadcrumb binder — gluten CONFIRMED 8/4. Made from steak trim. Egg still unconfirmed."],
- ["Crab Cake","$18",["crab","shellfish","egg","gluten","capsaicin","allium"],"95% crab, 5% filler — breadcrumbs CONFIRMED (gluten), mayo typical (egg). Remoulade on the side."],
- ["Wagyu Tacos","$25",["beef","gluten","soy","allium","egg"],"Wonton shell — egg confirmed. Sauce is a balsamic glaze; soy still unconfirmed, keep the flag."],
- ["Calamari","$17",["shellfish","gluten","soy","sesame","capsaicin","cross-contact","legumes"],"Fried in the SHARED fryer — cross-contact confirmed. Kung pao HAS peanuts (Evan, 8/4) — flag every peanut allergy. Egg in the breading still unconfirmed."],
+ ["Prime Meatballs","$16",["beef","dairy","gluten","egg","allium","nightshade"],"Breadcrumb binder — gluten. Made from steak trim. Egg still unconfirmed."],
+ ["Crab Cake","$18",["crab","shellfish","egg","gluten","capsaicin","allium"],"95% crab, 5% filler — breadcrumbs (gluten), mayo typical (egg). Remoulade on the side."],
+ ["Wagyu Tacos","$25",["beef","gluten","soy","allium","egg"],"Wonton shell has egg. Sauce is a balsamic glaze; soy still unconfirmed, keep the flag."],
+ ["Calamari","$17",["shellfish","gluten","soy","sesame","capsaicin","cross-contact","legumes"],"Fried in the SHARED fryer. Kung pao HAS peanuts — flag every peanut allergy. Egg in the breading still unconfirmed."],
  ["Shrimp Cocktail","$26",["shellfish","capsaicin","nightshade","allium"],"Fiery cocktail sauce."],
  ["Seasonal Oysters","$25",["shellfish","allium","nightshade","capsaicin"],"Menu marks GF. Cocktail sauce and mignonette add tomato, pepper, shallot. Zesta crackers ride on the setup — that is gluten next to the plate, pull them for a gluten allergy."],
- ["Crispy Ahi Tuna Bites","$18",["fin fish","sesame","soy","egg","capsaicin","gluten"],"Formerly listed as Seared Blackened Tuna. Ponzu is made with REGULAR soy sauce — NOT gluten-free, confirmed 8/4."],
+ ["Crispy Ahi Tuna Bites","$18",["fin fish","sesame","soy","egg","capsaicin","gluten"],"Formerly listed as Seared Blackened Tuna. Ponzu is made with REGULAR soy sauce — NOT gluten-free."],
  ["King Crab Legs","MP",["crab","shellfish","dairy","nightshade","capsaicin"],"Melted butter and cocktail sauce."],
  ["Roasted Seafood Tower","$190",["crab","shellfish","dairy","egg","gluten","allium","nightshade","capsaicin"],"Pasta cooked tableside."],
- ["Iced Seafood Tower","$98",["crab","shellfish","fin fish","egg","dairy","allium","nightshade","capsaicin"],"CAN go gluten-free, confirmed 8/4: the Zesta crackers, brioche, and wonton chips all ride on the side — hold those three and the tower itself is GF."],
+ ["Iced Seafood Tower","$98",["crab","shellfish","fin fish","egg","dairy","allium","nightshade","capsaicin"],"CAN go gluten-free: the Zesta crackers, brioche, and wonton chips all ride on the side — hold those three and the tower itself is GF."],
  ["Soup of the Day","$7",["dairy","gluten","allium"],"Changes daily — verify the exact soup before answering."],
  ["Prime Beef Chili","off menu",["beef","allium","capsaicin","nightshade","legumes","alcohol","gluten"],"Currently OFF the menu (8/4) — reappears as a SOTD or bonus $4 soup. Beer deglaze means gluten — alcohol cooks off, gluten stays."],
  ["Lobster Bisque","$11",["shellfish","gluten","alcohol","dairy"],"Roux, white wine, sherry vinegar."],
@@ -1067,18 +1069,18 @@ const ALLERGENS = [
  ["Roasted Pear Salad","$16",["dairy","tree nuts"],"Gorgonzola and walnuts, maple balsamic."],
  ["Caesar / Gem Caesar","$15",["dairy","egg","gluten","fin fish"],"Sous-vide egg dressing, anchovies, bonito."],
  ["Chopped Wedge Salad","$15",["dairy","pork","nightshade"],"Blue cheese, bacon, marinated tomatoes. Blue cheese dressing is usually mayo-based — that is egg, ask the chef."],
- ["Filet & Lobster","$105",["beef","shellfish","dairy"],"Menu marks GF. Cooked with butter by default — but the kitchen CAN cook any steak fully butter-free for a dairy allergy, the guest just has to ask. Confirmed 8/4."],
+ ["Filet & Lobster","$105",["beef","shellfish","dairy"],"Menu marks GF. Cooked with butter by default — but the kitchen CAN cook any steak fully butter-free for a dairy allergy, the guest just has to ask."],
  ["Ahi Tuna & Wagyu Beef","$68",["fin fish","beef","sesame","soy","dairy","allium","gluten"],"Hoisin, wasabi mashed, beurre blanc."],
  ["Steak 47","$58",["beef","shellfish","allium","dairy","egg"],"Filet, shrimp, scallop, lobster, hollandaise. Topping +$25."],
  ["Filet & Scallops","$82",["beef","shellfish","pork","dairy"],"Prosciutto-wrapped scallops."],
  ["Filet Duo","$47",["beef","crab","shellfish","dairy","egg","allium"],"Crab Oscar and horseradish bleu cheese crust."],
  ["Farbuckle Filet","6/10 oz",["beef","dairy"],"Chef sizzling butter, beef tallow, rosemary salt."],
- ["Filet Mignon","6 oz $54 / 10 oz $79",["beef","dairy"],"Plain steak allergen is beef. Cooked with butter by default — but the kitchen CAN cook any steak fully butter-free for a dairy allergy, the guest just has to ask. Confirmed 8/4."],
- ["K.D.'s Tomahawk","$160",["beef","dairy"],"Cooked with butter by default — but the kitchen CAN cook any steak fully butter-free for a dairy allergy, the guest just has to ask. Confirmed 8/4."],
- ["Dry Aged NY Strip","$58",["beef","dairy"],"Cooked with butter by default — but the kitchen CAN cook any steak fully butter-free for a dairy allergy, the guest just has to ask. Confirmed 8/4."],
- ["Delmonico Ribeye","$80",["beef","dairy"],"Cooked with butter by default — but the kitchen CAN cook any steak fully butter-free for a dairy allergy, the guest just has to ask. Confirmed 8/4."],
- ["Australian Wagyu Filet","6 oz $95 / 10 oz $135",["beef","dairy"],"Cooked with butter by default — but the kitchen CAN cook any steak fully butter-free for a dairy allergy, the guest just has to ask. Confirmed 8/4."],
- ["Japanese A5 Wagyu","$25/oz",["beef","dairy"],"Manager slices tableside. Cooked with butter by default — but the kitchen CAN cook any steak fully butter-free for a dairy allergy, the guest just has to ask. Confirmed 8/4."],
+ ["Filet Mignon","6 oz $54 / 10 oz $79",["beef","dairy"],"Plain steak allergen is beef. Cooked with butter by default — but the kitchen CAN cook any steak fully butter-free for a dairy allergy, the guest just has to ask."],
+ ["K.D.'s Tomahawk","$160",["beef","dairy"],"Cooked with butter by default — but the kitchen CAN cook any steak fully butter-free for a dairy allergy, the guest just has to ask."],
+ ["Dry Aged NY Strip","$58",["beef","dairy"],"Cooked with butter by default — but the kitchen CAN cook any steak fully butter-free for a dairy allergy, the guest just has to ask."],
+ ["Delmonico Ribeye","$80",["beef","dairy"],"Cooked with butter by default — but the kitchen CAN cook any steak fully butter-free for a dairy allergy, the guest just has to ask."],
+ ["Australian Wagyu Filet","6 oz $95 / 10 oz $135",["beef","dairy"],"Cooked with butter by default — but the kitchen CAN cook any steak fully butter-free for a dairy allergy, the guest just has to ask."],
+ ["Japanese A5 Wagyu","$25/oz",["beef","dairy"],"Manager slices tableside. Cooked with butter by default — but the kitchen CAN cook any steak fully butter-free for a dairy allergy, the guest just has to ask."],
  ["48 oz Wagyu Porterhouse","$180",["beef","dairy"],"Board service, manager slices."],
  ["Crab Oscar","$14",["crab","shellfish","dairy","egg","allium"],"Menu marks GF."],
  ["Horseradish-Bleu Cheese Crust","$4",["dairy","allium"],""],
@@ -1094,7 +1096,7 @@ const ALLERGENS = [
  ["Chilean Sea Bass","$46",["white fish","fin fish","dairy","alcohol","allium","nightshade"],"Menu marks GF. Lemon-caper white wine butter sauce."],
  ["Blackened Creole Salmon","$42",["fin fish","egg","capsaicin","nightshade","allium","dairy"],"Blackened spice, Holy Trinity relish, remoulade."],
  ["Twin South African Lobster Tails","$100",["shellfish","dairy","allium"],"Steamed with clarified garlic butter."],
- ["Chicken Parmesan (entree)","$39",["gluten","dairy","chicken","nightshade","egg","cross-contact"],"REAL — newly added on the updated menu, confirmed by Evan 8/4. Hand-breaded fried chicken, linguine, diavolo, provolone, garlic bread."],
+ ["Chicken Parmesan (entree)","$39",["gluten","dairy","chicken","nightshade","egg","cross-contact"],"REAL — newly added on the updated menu, Hand-breaded fried chicken, linguine, diavolo, provolone, garlic bread."],
  ["Chicken Parm Sandwich (lounge)","$24",["gluten","dairy","chicken","nightshade","egg","cross-contact"],"Fried breaded chicken out of the shared fryer, provolone, tomato diavolo, garlic toasted bun."],
  ["Filet Sliders (lounge)","$18",["beef","gluten","dairy","egg","allium","cross-contact"],"Pretzel bun and crispy onion strings (gluten), provolone, smoked garlic aioli (egg), house chips from the shared fryer. Standard assumed — Evan OK'd 8/4."],
  ["Carne Asada Nachos (lounge)","$25",["beef","dairy","nightshade","allium","capsaicin","cross-contact"],"Fried chips (shared fryer), cheese, pico de gallo, cilantro sour cream. Standard assumed."],
@@ -1102,7 +1104,7 @@ const ALLERGENS = [
  ["Tuna Poke (lounge)","$29",["fin fish","shellfish","soy","sesame","gluten","egg","cross-contact"],"Ahi plus CALAMARI SALAD — that is shellfish. Sushi rice, seaweed, spicy citrus sauce (mayo-style, egg), wontons (gluten). Standard assumed."],
  ["A5 Nigiri","$35",["beef","alcohol","cross-contact"],"Torched rice, balsamic pearls, Asian pear WINE reduction (trace alcohol), crispy leeks likely from the shared fryer. Standard assumed."],
  ["Grilled Asparagus","$15",["egg","dairy"],"Hollandaise. Menu marks GF."],
- ["Truffle Mashed / Cheddar Mashed","$12 + $3 add",["dairy"],"Butter, cream, white cheddar. $12 base, +$3 truffle or wasabi — confirmed 8/4. Menu marks GF."],
+ ["Truffle Mashed / Cheddar Mashed","$12 + $3 add",["dairy"],"Butter, cream, white cheddar. $12 base, +$3 truffle or wasabi. Menu marks GF."],
  ["Truffle Cauliflower","$14",["dairy","allium"],"Alfredo, truffle oil, Parmesan, shallots. Newer side — confirmed current 8/4."],
  ["Creamed Spinach w/ Butternut Squash","$16",["dairy","gluten"],"Cream sauce over roasted butternut squash. Marked g on the current menu — contains gluten."],
  ["Roasted Green Beans","$14",["sesame","allium","nightshade"],"Sesame oil, red bell pepper, white onion. Menu marks GF."],
@@ -1110,9 +1112,9 @@ const ALLERGENS = [
  ["Forest Mushrooms","$14",["dairy","allium"],"ARCHIVED — off the menu 8/4. The $8 Roasted Mushrooms enhancement replaced it in spirit."],
  ["Jalapeno Potatoes Au Gratin","$15",["dairy","pork","allium","capsaicin","nightshade"],"Bacon is mixed in — it cannot be removed. Ask if the cheese sauce starts with flour."],
  ["Creamed Corn","$12",["dairy","allium"],"Cream, dijon, horseradish, dill. Menu marks GF."],
- ["Brussels Sprouts","$15",["capsaicin","soy","cross-contact"],"Deep fried in the SHARED fryer — cross-contact confirmed 8/4. Sriracha hot honey; verify the sauce for soy."],
+ ["Brussels Sprouts","$15",["capsaicin","soy","cross-contact"],"Deep fried in the SHARED fryer — cross-contact. Sriracha hot honey; verify the sauce for soy."],
  ["Creamy Risotto","$15",["dairy","pork","chicken","allium"],"Chicken stock and crispy prosciutto — not vegetarian. Risotto is usually finished with wine — ask if alcohol matters to the guest."],
- ["Truffle Fries","$11",["gluten","dairy","cross-contact"],"Lightly breaded, fried in the SHARED fryer — cross-contact confirmed 8/4."],
+ ["Truffle Fries","$11",["gluten","dairy","cross-contact"],"Lightly breaded, fried in the SHARED fryer — cross-contact."],
  ["Baked Potato","$11",["dairy"],"Base is butter + sour cream (GF-marked). The LOADED upgrade adds chives, bacon, cheese — that adds PORK. Upcharge price VERIFY."],
  ["Bananas Foster","$12/person",["dairy","alcohol","cinnamon"],"Tableside, minimum 2 people. The back server runs the show."],
  ["Mo's Cookie","$10",["dairy","egg","gluten"],""],
@@ -1126,13 +1128,13 @@ const ALLERGENS = [
  ["Brown Butter Cake","$14",["egg","dairy","soy","gluten"],""],
  ["Cotton Candy","$12",[],"Menu marks GF. Flavors run every color of the rainbow and they all taste like sugar — just say 'pick your color.'"],
  ["Pistachio Gelato","varies",["dairy","tree nuts"],""],
- ["Sorbets (off menu)","freezer",[],"Dairy-free, confirmed 8/4 — lemon (and maybe pistachio) in the freezer, but off the menu and not really sold."],
- ["Kids 4 oz Filet","$30",["beef","dairy"],"Cooked with butter by default — but the kitchen CAN cook any steak fully butter-free for a dairy allergy, the guest just has to ask. Confirmed 8/4."],
+ ["Sorbets (off menu)","freezer",[],"Dairy-free — lemon (and maybe pistachio) in the freezer, but off the menu and not really sold."],
+ ["Kids 4 oz Filet","$30",["beef","dairy"],"Cooked with butter by default — but the kitchen CAN cook any steak fully butter-free for a dairy allergy, the guest just has to ask."],
  ["Kids Chicken Tenders","$10",["gluten","egg","dairy","cross-contact"],"Breaded and fried in the SHARED fryer. Standard breading assumed — egg flag stays."],
  ["Kids Buttered Noodles","$10",["gluten","dairy","egg"],"Standard pasta assumed — egg flag stays until the kitchen says otherwise."],
  ["Kids Mac N Cheese","$10",["gluten","dairy"],""],
  ["Prime Beef Burger","$23",["beef","gluten","dairy","egg","soy","allium","nightshade"],"Bun and condiments drive most allergens."],
- ["Chicken Teriyaki","$15",["soy","gluten","sesame","allium"],"Soy and wheat confirmed 8/4."]
+ ["Chicken Teriyaki","$15",["soy","gluten","sesame","allium"],"Soy and wheat."]
 ];
 
 const ALLERGEN_LIST = ["allium","gluten","dairy","egg","soy","sesame","tree nuts","nightshade","crab","shellfish","fin fish","white fish","legumes","capsaicin","pineapple","alcohol","pork","beef","chicken","MSG","cross-contact","cinnamon"];
@@ -1163,28 +1165,28 @@ const PROTOCOL = [
 ];
 
 const DIET = [
- ["Gluten — high risk","Goat cheese spread, crab cake, calamari, prime meatballs, wagyu tacos, roasted tower pasta, iced tower wonton and brioche, lobster bisque, French onion crouton, house and Caesar croutons, chicken parmesan, primavera, short rib pasta, lobster mac, truffle fries, kids pasta/tenders/burger, lounge sliders/egg rolls/chicken parm/tuna poke wontons, most cakes, cookies, and cheesecake. Shared fryer confirmed. NO gluten-free bread or crackers in house as of 8/4. LEGEND CHANGE: the current printed menu marks gluten-CONTAINING items with a small g — older menus marked GF instead, so never mix the two up."],
+ ["Gluten — high risk","Goat cheese spread, crab cake, calamari, prime meatballs, wagyu tacos, roasted tower pasta, iced tower wonton and brioche, lobster bisque, French onion crouton, house and Caesar croutons, chicken parmesan, primavera, short rib pasta, lobster mac, truffle fries, kids pasta/tenders/burger, lounge sliders/egg rolls/chicken parm/tuna poke wontons, most cakes, cookies, and cheesecake. Shared fryer. NO gluten-free bread or crackers in house. LEGEND CHANGE: the current printed menu marks gluten-CONTAINING items with a small g — older menus marked GF instead, so never mix the two up."],
  ["Halal","Filet-family cuts and chicken are halal: filet mignon, filet duo/end cuts, Farbuckle filet, Australian Wagyu filet, Japanese A5. Do not promise non-filet steaks as halal without manager confirmation. Watch bacon and prosciutto sides."],
  ["Vegetarian","Primavera Pasta is the main vegetarian-style entree. Risotto is NOT vegetarian — chicken stock and crispy prosciutto. Baked potato, cheddar mashed, asparagus, cauliflower, creamed corn and spinach can often be adjusted, but verify butter, stock, and bacon."],
  ["Vegan","Very limited. A custom salad or vegetable with oil and vinegar only, after chef confirmation. Butter, cheese, honey, stock, and fryer contact are everywhere."],
- ["Seed-oil-free","Steaks and chicken are seed-oil-free. Mo's cooks with beef tallow, olive oil, avocado oil, and butter. The shared FRYER runs avocado oil (per Evan 8/4) — not tallow — so fried items stay vegetarian on the oil itself. Cross-contact flags still apply."]
+ ["Seed-oil-free","Steaks and chicken are seed-oil-free. Mo's cooks with beef tallow, olive oil, avocado oil, and butter. The shared FRYER runs avocado oil — not tallow — so fried items stay vegetarian on the oil itself. Cross-contact flags still apply."]
 ];
 
 /* ============ SPECIALS, SOUP OF THE DAY, OFF-MENU — living lists. Updates come through Claude. ============ */
-/* Current per Evan 8/4/26: only these four cut specials are running. */
+/* Current 8/4/26: only these four cut specials are running. */
 const SPECIALS_ON=[
  ["48 oz USDA Choice Porterhouse","$150 when it runs","NOT wagyu — USDA Choice. 48 oz total: about 15 oz NY strip + 8 oz filet + a 25 oz bone. A manager slices it tableside off the board. The pitch: two people split it for a high-class manager-cut steak experience at a serious value — and there's no split-plate charge.","cut special"],
  ["Spinalis / Ribeye Cap","$14/oz — $10/oz on SUNDAYS","Minimum 6 oz. Rivals filet tenderness while keeping ribeye richness. Spinalis Sunday is on the restaurant's own weekly-features page — the easy upsell.","cut special"],
- ["Australian Wagyu Tomahawk","$180","32 oz. Confirmed 8/4. Wagyu rule: serve rare to med-rare — nudge, don't argue.","cut special"],
+ ["Australian Wagyu Tomahawk","$180","32 oz. Wagyu rule: serve rare to med-rare — nudge, don't argue.","cut special"],
  ["45-Day Dry-Aged Bone-In Ribeye","22 oz — $120? VERIFY price","22 oz, confirmed by the graded test answer key. Evan thinks $120 — price still needs verified. All four cut specials (porterhouse, spinalis, tomahawk, 45-day) typically ALWAYS run.","cut special"],
  ["Ladies Night — every Thursday","$10 martinis + \u00bd-off apps","Ladies get $10 martinis and half-price appetizers in the lounge, every Thursday night.","weekly feature"],
  ["House events coming up","dates TBD","Sundresses & Sangria, the Surf & Turf Cup (golf outing), and a Prisoner Wine Dinner are on the books — the site doesn't publish dates, so ask a manager. Wine dinners mean banquet money.","events"]
 ];
 /* Rotating entree specials seen before — ask a manager if one is running tonight. */
 const SPECIALS_ROTATION=[
- ["Chicken Marsala","$35 when it runs","White cheddar mash and asparagus with an au jus gravy over the top of all of it. Confirmed 8/4."],
- ["Bourbon-Glazed Salmon","$45 when it runs","Same bourbon glaze as the ribeye skewers, served with vegetables. Price confirmed 8/4."],
- ["Cajun Butter Salmon","$35 when it runs","Cajun butter, served with vegetables. Price confirmed 8/4."]
+ ["Chicken Marsala","$35 when it runs","White cheddar mash and asparagus with an au jus gravy over the top of all of it."],
+ ["Bourbon-Glazed Salmon","$45 when it runs","Same bourbon glaze as the ribeye skewers, served with vegetables. Price."],
+ ["Cajun Butter Salmon","$35 when it runs","Cajun butter, served with vegetables. Price."]
 ];
 const SPECIALS_PAST=[
  ["Tomahawk Tuesday","$180 package","The 32 oz Australian Wagyu Tomahawk plus two glasses of wine, two soups or salads, and a signature Brown Butter Cake to finish — a full night out for $180. Not running anymore, but worth knowing we did it.","not running"],
@@ -1348,37 +1350,37 @@ const ANCHORS = [
 
 const SALES = {
  rows:[
-  {d:"2026-07-13",teams:3,bq:"No / normal Sunday-style Monday",net:4144.51,grat:54.50,tips:1236.60,tt:1291.10,tax:373.11,gc:0,total:5808.72}, /* re-verified digit by digit from the Toast screen photo 8/4 */
-  {d:"2026-07-20",teams:4,bq:"Yes / banquet-heavy",net:9129.50,grat:774.18,tips:1424.75,tt:2198.93,tax:821.69,gc:550,total:12700.12} /* tax + deferred re-verified from the Toast screen photo 8/4: $200 gift cards + $350 other */
+ {d:"2026-07-13",teams:3,bq:"No / normal Sunday-style Monday",net:4144.51,grat:54.50,tips:1236.60,tt:1291.10,tax:373.11,gc:0,total:5808.72}, /* re-verified digit by digit from the Toast screen photo 8/4 */
+ {d:"2026-07-20",teams:4,bq:"Yes / banquet-heavy",net:9129.50,grat:774.18,tips:1424.75,tt:2198.93,tax:821.69,gc:550,total:12700.12} /* tax + deferred re-verified from the Toast screen photo 8/4: $200 gift cards + $350 other */
  ],
  /* calibrated to the two logged Sundays */
- teamBase:1381.50,        // net per team on the 7/13 calibration night — re-verified from the Toast screen photo 8/4 (was 1388.17 off a misread)
- banquetBlock:3366,       // 7/20 banquet net, derived: $774.18 auto-grat / 23% house banquet grat (confirmed 8/4; was 3871 under the old 20% assumption)
- banquetGratRate:.23,     // house banquet auto-grat, confirmed 8/4: guests pay 23%, and 3% of banquet sales goes to Lillian
- tipNormal:.3115,         // dining tips+grat as % of net on 7/13 (1291.10 / 4144.51), re-verified 8/4
- tipBanquetDay:.247,      // dining-portion tip rate observed on the banquet Sunday (7/20), recomputed with the 23% banquet block
- taxRate:.09,             // EXACTLY 9.0% on both verified Toast screens. Greenwood = 7% IN + 1% Johnson Co F&B + 1% Greenwood city F&B
+ teamBase:1381.50, // net per team on the 7/13 calibration night — re-verified from the Toast screen photo 8/4 (was 1388.17 off a misread)
+ banquetBlock:3366, // 7/20 banquet net, derived: $774.18 auto-grat / 23% house banquet grat (confirmed 8/4; was 3871 under the old 20% assumption)
+ banquetGratRate:.23, // house banquet auto-grat: guests pay 23%, and 3% of banquet sales goes to Lillian
+ tipNormal:.3115, // dining tips+grat as % of net on 7/13 (1291.10 / 4144.51), re-verified 8/4
+ tipBanquetDay:.247, // dining-portion tip rate observed on the banquet Sunday (7/20), recomputed with the 23% banquet block
+ taxRate:.09, // EXACTLY 9.0% on both verified Toast screens. Greenwood = 7% IN + 1% Johnson Co F&B + 1% Greenwood city F&B
  checkHints:[["Lighter",95,"entree + shared side + one drink"],["Typical",115,"split app, entree, side split, 1-2 drinks"],["Wine table",140,"adds bottle share and dessert"]],
- bqHeadDefault:105,       // editable placeholder for banquet per-head until a real contract number is logged
+ bqHeadDefault:105, // editable placeholder for banquet per-head until a real contract number is logged
  occasions:[
-  ["Regular Sunday",1.00,"baseline"],
-  ["Mother's Day",1.75,"busiest restaurant day of the year — treat as a sellout test"],
-  ["Valentine's weekend",1.50,"second-busiest day nationally"],
-  ["Father's Day",1.50,"steakhouse holiday"],
-  ["Easter",1.35,"brunch-to-dinner holiday"],
-  ["Graduation weekend (May)",1.30,"Center Grove / Greenwood / Whiteland parties"],
-  ["December party season",1.25,"holiday dinners and gift cards"],
-  ["Local event spillover",1.10,"Freedom Festival (late June), WAMMfest (mid-Aug), mall events"],
-  ["Holiday travel weekend",0.85,"July 4th week, Labor Day — regulars out of town"],
-  ["Colts 1pm home game",1.00,"direction unknown for the south side — log it and find out"]
+ ["Regular Sunday",1.00,"baseline"],
+ ["Mother's Day",1.75,"busiest restaurant day of the year — treat as a sellout test"],
+ ["Valentine's weekend",1.50,"second-busiest day nationally"],
+ ["Father's Day",1.50,"steakhouse holiday"],
+ ["Easter",1.35,"brunch-to-dinner holiday"],
+ ["Graduation weekend (May)",1.30,"Center Grove / Greenwood / Whiteland parties"],
+ ["December party season",1.25,"holiday dinners and gift cards"],
+ ["Local event spillover",1.10,"Freedom Festival (late June), WAMMfest (mid-Aug), mall events"],
+ ["Holiday travel weekend",0.85,"July 4th week, Labor Day — regulars out of town"],
+ ["Colts 1pm home game",1.00,"direction unknown for the south side — log it and find out"]
  ],
  weather:[["Clear",1.00],["Rain",0.95],["Storm / snow",0.80]],
  impliedChecks:[95,115,140],
  /* REAL tip rules — decoded from Evan's 5/23/26 solo checkout (Server Checkout Summary + Toast Shift Review) */
- guestTipRate:.208,       // credit tips ran 20.8% of team net sales on 5/23
- withheldRate:.02,        // Toast withholds 2% of credit tips before payout
- tipouts:[["Bar",.01],["Busser",.015],["Expo",.005]],   // % of TEAM NET SALES, each rounded UP to next dollar
- banquetTipout:.03,       // extra 3% of sales when your team runs a banquet
+ guestTipRate:.208, // credit tips ran 20.8% of team net sales on 5/23
+ withheldRate:.02, // Toast withholds 2% of credit tips before payout
+ tipouts:[["Bar",.01],["Busser",.015],["Expo",.005]], // % of TEAM NET SALES, each rounded UP to next dollar
+ banquetTipout:.03, // extra 3% of sales when your team runs a banquet
  checkout523:{sales:1176,tips:244.10,withheld:4.88,pool:239.22,tipout:36,earned:203,guests:14,perGuest:84},
  log:["Date and day of week","Number of teams","Team #","Cocktailer on the schedule?","Dining cover count","Net sales","Gratuity","Toast tips","Tax","Deferred gift cards / other","Toast total","Occasion (holiday, graduation, event)","Weather","Colts / big TV game that day","Notes: big reservations, call-offs, patio"],
  read:"The July 20 jump was the banquet, not the fourth team. Strip out the banquet (about $3,366 of net, sized from its $774 auto-grat at the house 23%) and the dining room did roughly $1,441 per team — close to a normal calibration night's $1,381.50. Banquets are now parked in their own tool below and kept out of the Sunday forecast completely. Covers x average check overrides everything once real cover counts get logged."
@@ -1389,7 +1391,7 @@ const SPLIT_RULES=[
  "Each team is a front server and a back server.",
  "Toast takes 2% of your credit tips off the top (tips withheld). What's left, plus any cash tips and gratuity, is your team pool.",
  "Tip out from TEAM NET SALES: bar gets 1%, busser gets 1.5%, expo gets 0.5% — each line rounds UP to the next whole dollar. If no expo is scheduled that night, the expo line does not come out of you.",
- "Banquets: guests pay a 23% auto-grat (they can tip more on top). The 3% banquet tip-out line is Lillian's cut as banquet coordinator. Banquet sales ALSO tip out bar, busser, and expo like all other sales — confirmed 8/4.",
+ "Banquets: guests pay a 23% auto-grat (they can tip more on top). The 3% banquet tip-out line is Lillian's cut as banquet coordinator. Banquet sales ALSO tip out bar, busser, and expo like all other sales.",
  "The polisher is a flat tip-out, not a percent: $10 for a team, $5 solo. But most nights there is NO polisher at all — they only show up on the busiest nights, and then usually just one.",
  "Pool minus tip-outs is what the team earned. Drop the cents.",
  "The checkout sheet is HAND math — Toast only totals the non-cash side. That is exactly why this calculator exists.",
@@ -1404,20 +1406,20 @@ const SPLIT_RULES=[
 const WALKINS={weekend:[30,70,50], weekday:[15,30,22], booksShare:.65};
 
 /* income predictor day presets — restaurant week runs WEDNESDAY through TUESDAY, like the schedules.
-   teams from the schedule patterns, walk-ins from Evan's gut rules. All editable. */
+ teams from the schedule patterns, walk-ins from Evan's gut rules. All editable. */
 const DAYPRE={
  wed:{label:"Wednesday",teams:4,wkRule:22},
  thu:{label:"Thursday",teams:5,wkRule:22},
  fri:{label:"Friday",teams:8,wkRule:50},
  sat:{label:"Saturday",teams:7,wkRule:50},
- sun:{label:"Sunday",teams:3,wkRule:"half"},   // "60 books -> I'd guess 30 walk-ins"
+ sun:{label:"Sunday",teams:3,wkRule:"half"}, // "60 books -> I'd guess 30 walk-ins"
  mon:{label:"Monday",teams:3,wkRule:15},
  tue:{label:"Tuesday",teams:4,wkRule:15}
 };
-const CHECK_CAL=115;   // menu-math check, per Evan's preset
+const CHECK_CAL=115; // menu-math check,'s preset
 const CKTAIL_WEIGHT=.7; // the cocktailer takes ~0.7 of a team's slice — with 3 teams + cktail each team gets ~27%, matching Evan's stated 23–30%
 
-/* private dining minimums are NEGOTIATED PER EVENT by Lillian — headcount and minimum set in each contract. Confirmed 8/4. */
+/* private dining minimums are NEGOTIATED PER EVENT by Lillian — headcount and minimum set in each contract. */
 const ROOMS=[
  ["The Smockton","70 seated / 125 cocktail-style"],
  ["The Curry (semi-private)","72 seated / 125 cocktail-style"],
@@ -1436,7 +1438,7 @@ const CONFLICTS = [
  ["Calamari","$14 (6/20)","$17 (7/3)","Use $17"],
  ["Seasonal Oysters","$26 (6/20)","$25 (7/3)","Use $25"],
  ["Seared Blackened Tuna","$26 app (6/20)","Now Crispy Ahi Bites $18 (7/3)","Item changed — Q2 on the test"],
- ["Mer Soleil Chardonnay","On the 6/20 list","NOT on the printed menu — photo-confirmed 8/4","RESOLVED: off the list, do not pitch"],
+ ["Mer Soleil Chardonnay","On the 6/20 list","NOT on the printed menu","RESOLVED: off the list, do not pitch"],
  ["Dona Paula Malbec","Not on 6/20","$14 / $52 on 7/3","New by-the-glass add"],
  ["Advice From John producer","Buehler Estate on the bottle list","\"By Orin Swift\" by the glass","Verify with a manager"]
 ];
@@ -1514,7 +1516,7 @@ tableside:[
 ["Roasted Tower service","Black stacking rack goes in the base when it hits the window — stack at the table over a black linen so nothing slides. Cocktail forks preset. Butter warmer with a tealight. HALFWAY through: clear shells, move the rest down, add the pasta setup to the remaining seafood-butter sauce, stir it together, and serve everyone the pasta. It creates a TON of value — do NOT skip it."],
 ["Iced Tower service","Same rack + linen + cocktail forks + butter warmer. Top bowl cleared away when finished to free space. Crackers, brioche, and wontons ride separate — that is why it can go GF."],
 ["King Crab setup","Cocktail forks, tongs, butter warmer with clarified butter."],
-["Appetizer utensils","Calamari + tacos + tuna: tongs. Scallops + crab cake: spatula. Meatballs + crab dip: serving spoon. Goat cheese: spreading knife (bread + honey). Shrimp cocktail: cocktail fork + hot water kettle. Oysters: Evan's setup — oyster fork, Tabasco, Zesta crackers, cocktail forks, hot water, NO tongs."],
+["Appetizer utensils","Calamari + tacos + tuna: tongs. Scallops + crab cake: spatula. Meatballs + crab dip: serving spoon. Goat cheese: spreading knife (bread + honey). Shrimp cocktail: cocktail fork + hot water kettle. Oysters: oyster fork, Tabasco, Zesta crackers, cocktail forks, hot water, NO tongs."],
 ["Side utensils","Serving spoon: both mashes, risotto, corn, mac, au gratin, brussels, mushrooms. Tongs: asparagus (with hollandaise), green beans, fries (with ketchup). Baked potato: knife + butter + sour cream."],
 ["Oyster knowledge","Warm water: larger, sweeter, more tender. Cold water: smaller, brinier, firmer."]],
 backclose:[
@@ -4744,7 +4746,6 @@ function build(){
     <div class="sechead"><h2>Every drink</h2><span>build, glass, garnish, descriptor</span></div>
     <input class="fsearch" id="drinkQ" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="search" placeholder="Search drink, spirit, or garnish...">
     <div class="filters" id="drinkGrps">${COCKTAIL_GRPS.map(g=>`<button data-g="${g[0]}"${g[0]==="all"?' class="on"':''}>${g[1]}</button>`).join("")}</div>
-    <div class="note warn"><b>July 11 update:</b> Lemon Bae is now Lemon Bay, same recipe. Lisa's Delight and The Nutty Martinez are gone. Coco Caramel Carajillo moved to desserts. Esso Affo was added. The six drinks marked <b>verify</b> were on older printed menus — do not pitch them unless Toast or the bar confirms.</div>
     <div class="grid wide" id="drinkGrid"></div>`;
 
   /* ---------- MENU ---------- */
@@ -4858,7 +4859,7 @@ function build(){
     ${acc("Closing side work — front, back, closer","the posted sheet with slow-night and busy-night quantities",`<ul class="steps">${HOUSE.closesheet.map(d=>`<li>${esc(d)}</li>`).join("")}</ul>`)}
     ${acc("Bar steps + timing standards","the 20-step bar bible — the timing rules apply everywhere",`<ul class="steps">${HOUSE.barsteps.map(d=>`<li>${esc(d)}</li>`).join("")}</ul>`)}
     ${acc("House facts","uniform, trivia, and the little rules",`<ul class="steps">${HOUSE.facts.map(([t,d])=>`<li><b>${esc(t)}:</b> ${esc(d)}</li>`).join("")}</ul>`)}
-    <div class="note" style="margin-top:12px">Mined from the real Greenwood training handouts in Evan's photo archive. Where a handout disagrees with something newer Evan has said, the newer word wins.</div>`;
+    <div class="note" style="margin-top:12px">Mined from the real Greenwood training handouts. Where a handout disagrees with something newer, the newer word wins.</div>`;
 
   $("#p-ops").innerHTML=`
     <div class="sechead" id="sec-checkout"><h2>Sales Calculator</h2><span>sales in — your money out</span></div>
@@ -5050,21 +5051,38 @@ function schedTime(c){
   return c;
 }
 function schedCls(c){c=String(c).trim();if(/^off\??$/i.test(c))return "off";if(/^ro\??$/i.test(c))return "ro";return "";}
-function schedGrid(S,ti){
+/* Evan's rules for the CURRENT week (history stays exactly as posted):
+   - Jeremiah and Gavin never show on the grid.
+   - Anyone whose whole week is blank/OFF availability is off the grid too.
+   - A week of RO days still shows — that person asked off, they're still here. */
+function schedGone(r){
+  if(["jeremiah","gavin"].includes(String(r[0]).trim().toLowerCase()))return true;
+  return r.slice(1).every(c=>!String(c).trim()||/^off\??$/i.test(c));
+}
+function schedSunday(S){const mp=S.days[0][0].split("/");const dt=new Date(S.year,+mp[0]-1,+mp[1]);dt.setDate(dt.getDate()-3);return (dt.getMonth()+1)+"/"+dt.getDate();}
+function schedGrid(S,ti,cur){
   const head=`<tr><th class="nm">Name</th>${S.days.map((d,i)=>`<th${i===ti?' class="tdy"':''}><span class="dw">${d[1]}</span>${d[0]}</th>`).join("")}</tr>`;
   const body=S.sections.map(sec=>{
-    const name=sec[0],rows=sec[1],nums=sec[2];
-    const lab=nums?`<tr class="secrow"><td class="nm">${esc(name)}</td>${nums.map(n=>`<td>${esc(n)}</td>`).join("")}</tr>`
-                  :`<tr class="secrow"><td colspan="8">${esc(name)}</td></tr>`;
+    const name=sec[0],nums=sec[2];
+    const rows=cur?sec[1].filter(r=>!schedGone(r)):sec[1];
+    /* Fronts numbers = covers already booked when the sheet printed — give them their own labeled row */
+    let lab;
+    if(nums&&/^fronts$/i.test(name)){
+      lab=`<tr class="covrow"><td class="nm">Covers \u00b7 Sun ${schedSunday(S)}</td>${nums.map(n=>`<td>${esc(n)}</td>`).join("")}</tr><tr class="secrow"><td colspan="8">${esc(name)}</td></tr>`;
+    }else if(nums){
+      lab=`<tr class="secrow"><td class="nm">${esc(name)}</td>${nums.map(n=>`<td>${esc(n)}</td>`).join("")}</tr>`;
+    }else{
+      lab=`<tr class="secrow"><td colspan="8">${esc(name)}</td></tr>`;
+    }
     return lab+rows.map(r=>`<tr><td class="nm">${esc(r[0])}</td>${r.slice(1).map((c,i)=>{
       const cls=[schedCls(c),i===ti?"tdy":""].filter(Boolean).join(" ");
       return `<td${cls?` class="${cls}"`:""}>${esc(c)}</td>`;}).join("")}</tr>`).join("");
   }).join("");
   return `<div class="tw schedwrap"><table><thead>${head}</thead><tbody>${body}</tbody></table></div>`;
 }
-function rosterFor(S,idx){
+function rosterFor(S,idx,cur){
   return S.sections.map(sec=>{
-    const on=sec[1].map(r=>({n:r[0],c:r[idx+1]}))
+    const on=(cur?sec[1].filter(r=>!schedGone(r)):sec[1]).map(r=>({n:r[0],c:r[idx+1]}))
       .filter(x=>x.c && x.c!=="?" && !/^off\??$/i.test(x.c) && !/^ro\??$/i.test(x.c));
     if(!on.length)return "";
     return `<div class="rosec"><b>${esc(sec[0])}</b><div class="who">${on.map(x=>`${esc(x.n)} <i>${esc(schedTime(x.c))}</i>`).join(" &nbsp;\u00b7&nbsp; ")}</div></div>`;
@@ -5080,7 +5098,7 @@ function fillSched(){
   let roster;
   if(idx>=0){
     const d=SCHEDULE.days[idx];
-    const blocks=rosterFor(SCHEDULE,idx);
+    const blocks=rosterFor(SCHEDULE,idx,true);
     roster=`<div class="sechead"><h2>Today \u2014 ${DAYFULL[d[1]]} ${d[0]}</h2><span>flips itself at midnight</span></div>
       ${blocks||'<div class="note">Nobody on the sheet for today.</div>'}`;
   }else{
@@ -5089,8 +5107,10 @@ function fillSched(){
   }
   p.innerHTML=`${roster}
     <div class="sechead"><h2>${esc(SCHEDULE.week)}</h2><span>exactly as posted</span></div>
-    ${schedGrid(SCHEDULE,idx)}
-    <div class="note" style="margin-top:10px"><b>Reading it:</b> numbers are start times exactly as written \u2014 345 means 3:45. A dark box is OFF. <b>RO</b> is a requested day off. Blank means not scheduled that day. The numbers on the yellow Fronts bar are straight off the sheet. A trailing ? means the photo was hard to read.</div>
+    ${schedGrid(SCHEDULE,idx,true)}
+    ${(()=>{const gone=[];SCHEDULE.sections.forEach(sec=>sec[1].forEach(r=>{if(schedGone(r))gone.push(r[0]);}));
+      return gone.length?`<div class="note" style="margin-top:8px"><b>Not on this week:</b> ${gone.map(esc).join(", ")} \u2014 off or not scheduled all seven days, so they're off the grid. They come back the week they're back.</div>`:"";})()}
+    <div class="note" style="margin-top:10px"><b>Reading it:</b> numbers are start times exactly as written \u2014 345 means 3:45. A dark box is OFF. <b>RO</b> is a requested day off. Blank means not scheduled that day. <b>Covers row:</b> dinners already on the books for each day when this schedule printed \u2014 the Sunday-night count from ${schedSunday(SCHEDULE)}. Numbers on the yellow <b>BQTs</b> bar are the banquet headcount for that day. A trailing ? means the photo was hard to read.</div>
     <div class="sechead"><h2>Schedule history</h2><span>${SCHEDULE_HISTORY.length} weeks \u2014 every sheet since we opened</span></div>
     <div class="note">These are the sheets <b>as posted</b>. Trades, call-offs, cuts and sick days happened after \u2014 so a history week shows the plan, not always who actually worked.</div>
     <div class="frow" style="margin-top:8px"><div class="f"><label>Pick a week</label><select id="schedWeek">${SCHEDULE_HISTORY.map((w,i)=>`<option value="${i}"${i===SCHED_SEL?" selected":""}>${esc(w.week)}</option>`).join("")}</select></div></div>

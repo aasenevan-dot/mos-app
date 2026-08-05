@@ -127,37 +127,37 @@ const ANCHORS = [
 
 const SALES = {
  rows:[
-  {d:"2026-07-13",teams:3,bq:"No / normal Sunday-style Monday",net:4144.51,grat:54.50,tips:1236.60,tt:1291.10,tax:373.11,gc:0,total:5808.72}, /* re-verified digit by digit from the Toast screen photo 8/4 */
-  {d:"2026-07-20",teams:4,bq:"Yes / banquet-heavy",net:9129.50,grat:774.18,tips:1424.75,tt:2198.93,tax:821.69,gc:550,total:12700.12} /* tax + deferred re-verified from the Toast screen photo 8/4: $200 gift cards + $350 other */
+ {d:"2026-07-13",teams:3,bq:"No / normal Sunday-style Monday",net:4144.51,grat:54.50,tips:1236.60,tt:1291.10,tax:373.11,gc:0,total:5808.72}, /* re-verified digit by digit from the Toast screen photo 8/4 */
+ {d:"2026-07-20",teams:4,bq:"Yes / banquet-heavy",net:9129.50,grat:774.18,tips:1424.75,tt:2198.93,tax:821.69,gc:550,total:12700.12} /* tax + deferred re-verified from the Toast screen photo 8/4: $200 gift cards + $350 other */
  ],
  /* calibrated to the two logged Sundays */
- teamBase:1381.50,        // net per team on the 7/13 calibration night — re-verified from the Toast screen photo 8/4 (was 1388.17 off a misread)
- banquetBlock:3366,       // 7/20 banquet net, derived: $774.18 auto-grat / 23% house banquet grat (confirmed 8/4; was 3871 under the old 20% assumption)
- banquetGratRate:.23,     // house banquet auto-grat, confirmed 8/4: guests pay 23%, and 3% of banquet sales goes to Lillian
- tipNormal:.3115,         // dining tips+grat as % of net on 7/13 (1291.10 / 4144.51), re-verified 8/4
- tipBanquetDay:.247,      // dining-portion tip rate observed on the banquet Sunday (7/20), recomputed with the 23% banquet block
- taxRate:.09,             // EXACTLY 9.0% on both verified Toast screens. Greenwood = 7% IN + 1% Johnson Co F&B + 1% Greenwood city F&B
+ teamBase:1381.50, // net per team on the 7/13 calibration night — re-verified from the Toast screen photo 8/4 (was 1388.17 off a misread)
+ banquetBlock:3366, // 7/20 banquet net, derived: $774.18 auto-grat / 23% house banquet grat (confirmed 8/4; was 3871 under the old 20% assumption)
+ banquetGratRate:.23, // house banquet auto-grat: guests pay 23%, and 3% of banquet sales goes to Lillian
+ tipNormal:.3115, // dining tips+grat as % of net on 7/13 (1291.10 / 4144.51), re-verified 8/4
+ tipBanquetDay:.247, // dining-portion tip rate observed on the banquet Sunday (7/20), recomputed with the 23% banquet block
+ taxRate:.09, // EXACTLY 9.0% on both verified Toast screens. Greenwood = 7% IN + 1% Johnson Co F&B + 1% Greenwood city F&B
  checkHints:[["Lighter",95,"entree + shared side + one drink"],["Typical",115,"split app, entree, side split, 1-2 drinks"],["Wine table",140,"adds bottle share and dessert"]],
- bqHeadDefault:105,       // editable placeholder for banquet per-head until a real contract number is logged
+ bqHeadDefault:105, // editable placeholder for banquet per-head until a real contract number is logged
  occasions:[
-  ["Regular Sunday",1.00,"baseline"],
-  ["Mother's Day",1.75,"busiest restaurant day of the year — treat as a sellout test"],
-  ["Valentine's weekend",1.50,"second-busiest day nationally"],
-  ["Father's Day",1.50,"steakhouse holiday"],
-  ["Easter",1.35,"brunch-to-dinner holiday"],
-  ["Graduation weekend (May)",1.30,"Center Grove / Greenwood / Whiteland parties"],
-  ["December party season",1.25,"holiday dinners and gift cards"],
-  ["Local event spillover",1.10,"Freedom Festival (late June), WAMMfest (mid-Aug), mall events"],
-  ["Holiday travel weekend",0.85,"July 4th week, Labor Day — regulars out of town"],
-  ["Colts 1pm home game",1.00,"direction unknown for the south side — log it and find out"]
+ ["Regular Sunday",1.00,"baseline"],
+ ["Mother's Day",1.75,"busiest restaurant day of the year — treat as a sellout test"],
+ ["Valentine's weekend",1.50,"second-busiest day nationally"],
+ ["Father's Day",1.50,"steakhouse holiday"],
+ ["Easter",1.35,"brunch-to-dinner holiday"],
+ ["Graduation weekend (May)",1.30,"Center Grove / Greenwood / Whiteland parties"],
+ ["December party season",1.25,"holiday dinners and gift cards"],
+ ["Local event spillover",1.10,"Freedom Festival (late June), WAMMfest (mid-Aug), mall events"],
+ ["Holiday travel weekend",0.85,"July 4th week, Labor Day — regulars out of town"],
+ ["Colts 1pm home game",1.00,"direction unknown for the south side — log it and find out"]
  ],
  weather:[["Clear",1.00],["Rain",0.95],["Storm / snow",0.80]],
  impliedChecks:[95,115,140],
  /* REAL tip rules — decoded from Evan's 5/23/26 solo checkout (Server Checkout Summary + Toast Shift Review) */
- guestTipRate:.208,       // credit tips ran 20.8% of team net sales on 5/23
- withheldRate:.02,        // Toast withholds 2% of credit tips before payout
- tipouts:[["Bar",.01],["Busser",.015],["Expo",.005]],   // % of TEAM NET SALES, each rounded UP to next dollar
- banquetTipout:.03,       // extra 3% of sales when your team runs a banquet
+ guestTipRate:.208, // credit tips ran 20.8% of team net sales on 5/23
+ withheldRate:.02, // Toast withholds 2% of credit tips before payout
+ tipouts:[["Bar",.01],["Busser",.015],["Expo",.005]], // % of TEAM NET SALES, each rounded UP to next dollar
+ banquetTipout:.03, // extra 3% of sales when your team runs a banquet
  checkout523:{sales:1176,tips:244.10,withheld:4.88,pool:239.22,tipout:36,earned:203,guests:14,perGuest:84},
  log:["Date and day of week","Number of teams","Team #","Cocktailer on the schedule?","Dining cover count","Net sales","Gratuity","Toast tips","Tax","Deferred gift cards / other","Toast total","Occasion (holiday, graduation, event)","Weather","Colts / big TV game that day","Notes: big reservations, call-offs, patio"],
  read:"The July 20 jump was the banquet, not the fourth team. Strip out the banquet (about $3,366 of net, sized from its $774 auto-grat at the house 23%) and the dining room did roughly $1,441 per team — close to a normal calibration night's $1,381.50. Banquets are now parked in their own tool below and kept out of the Sunday forecast completely. Covers x average check overrides everything once real cover counts get logged."
@@ -168,7 +168,7 @@ const SPLIT_RULES=[
  "Each team is a front server and a back server.",
  "Toast takes 2% of your credit tips off the top (tips withheld). What's left, plus any cash tips and gratuity, is your team pool.",
  "Tip out from TEAM NET SALES: bar gets 1%, busser gets 1.5%, expo gets 0.5% — each line rounds UP to the next whole dollar. If no expo is scheduled that night, the expo line does not come out of you.",
- "Banquets: guests pay a 23% auto-grat (they can tip more on top). The 3% banquet tip-out line is Lillian's cut as banquet coordinator. Banquet sales ALSO tip out bar, busser, and expo like all other sales — confirmed 8/4.",
+ "Banquets: guests pay a 23% auto-grat (they can tip more on top). The 3% banquet tip-out line is Lillian's cut as banquet coordinator. Banquet sales ALSO tip out bar, busser, and expo like all other sales.",
  "The polisher is a flat tip-out, not a percent: $10 for a team, $5 solo. But most nights there is NO polisher at all — they only show up on the busiest nights, and then usually just one.",
  "Pool minus tip-outs is what the team earned. Drop the cents.",
  "The checkout sheet is HAND math — Toast only totals the non-cash side. That is exactly why this calculator exists.",
@@ -183,20 +183,20 @@ const SPLIT_RULES=[
 const WALKINS={weekend:[30,70,50], weekday:[15,30,22], booksShare:.65};
 
 /* income predictor day presets — restaurant week runs WEDNESDAY through TUESDAY, like the schedules.
-   teams from the schedule patterns, walk-ins from Evan's gut rules. All editable. */
+ teams from the schedule patterns, walk-ins from Evan's gut rules. All editable. */
 const DAYPRE={
  wed:{label:"Wednesday",teams:4,wkRule:22},
  thu:{label:"Thursday",teams:5,wkRule:22},
  fri:{label:"Friday",teams:8,wkRule:50},
  sat:{label:"Saturday",teams:7,wkRule:50},
- sun:{label:"Sunday",teams:3,wkRule:"half"},   // "60 books -> I'd guess 30 walk-ins"
+ sun:{label:"Sunday",teams:3,wkRule:"half"}, // "60 books -> I'd guess 30 walk-ins"
  mon:{label:"Monday",teams:3,wkRule:15},
  tue:{label:"Tuesday",teams:4,wkRule:15}
 };
-const CHECK_CAL=115;   // menu-math check, per Evan's preset
+const CHECK_CAL=115; // menu-math check,'s preset
 const CKTAIL_WEIGHT=.7; // the cocktailer takes ~0.7 of a team's slice — with 3 teams + cktail each team gets ~27%, matching Evan's stated 23–30%
 
-/* private dining minimums are NEGOTIATED PER EVENT by Lillian — headcount and minimum set in each contract. Confirmed 8/4. */
+/* private dining minimums are NEGOTIATED PER EVENT by Lillian — headcount and minimum set in each contract. */
 const ROOMS=[
  ["The Smockton","70 seated / 125 cocktail-style"],
  ["The Curry (semi-private)","72 seated / 125 cocktail-style"],
@@ -215,7 +215,7 @@ const CONFLICTS = [
  ["Calamari","$14 (6/20)","$17 (7/3)","Use $17"],
  ["Seasonal Oysters","$26 (6/20)","$25 (7/3)","Use $25"],
  ["Seared Blackened Tuna","$26 app (6/20)","Now Crispy Ahi Bites $18 (7/3)","Item changed — Q2 on the test"],
- ["Mer Soleil Chardonnay","On the 6/20 list","NOT on the printed menu — photo-confirmed 8/4","RESOLVED: off the list, do not pitch"],
+ ["Mer Soleil Chardonnay","On the 6/20 list","NOT on the printed menu","RESOLVED: off the list, do not pitch"],
  ["Dona Paula Malbec","Not on 6/20","$14 / $52 on 7/3","New by-the-glass add"],
  ["Advice From John producer","Buehler Estate on the bottle list","\"By Orin Swift\" by the glass","Verify with a manager"]
 ];
@@ -293,7 +293,7 @@ tableside:[
 ["Roasted Tower service","Black stacking rack goes in the base when it hits the window — stack at the table over a black linen so nothing slides. Cocktail forks preset. Butter warmer with a tealight. HALFWAY through: clear shells, move the rest down, add the pasta setup to the remaining seafood-butter sauce, stir it together, and serve everyone the pasta. It creates a TON of value — do NOT skip it."],
 ["Iced Tower service","Same rack + linen + cocktail forks + butter warmer. Top bowl cleared away when finished to free space. Crackers, brioche, and wontons ride separate — that is why it can go GF."],
 ["King Crab setup","Cocktail forks, tongs, butter warmer with clarified butter."],
-["Appetizer utensils","Calamari + tacos + tuna: tongs. Scallops + crab cake: spatula. Meatballs + crab dip: serving spoon. Goat cheese: spreading knife (bread + honey). Shrimp cocktail: cocktail fork + hot water kettle. Oysters: Evan's setup — oyster fork, Tabasco, Zesta crackers, cocktail forks, hot water, NO tongs."],
+["Appetizer utensils","Calamari + tacos + tuna: tongs. Scallops + crab cake: spatula. Meatballs + crab dip: serving spoon. Goat cheese: spreading knife (bread + honey). Shrimp cocktail: cocktail fork + hot water kettle. Oysters: oyster fork, Tabasco, Zesta crackers, cocktail forks, hot water, NO tongs."],
 ["Side utensils","Serving spoon: both mashes, risotto, corn, mac, au gratin, brussels, mushrooms. Tongs: asparagus (with hollandaise), green beans, fries (with ketchup). Baked potato: knife + butter + sour cream."],
 ["Oyster knowledge","Warm water: larger, sweeter, more tender. Cold water: smaller, brinier, firmer."]],
 backclose:[

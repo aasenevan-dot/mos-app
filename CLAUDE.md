@@ -78,6 +78,21 @@ recompute the goldens by hand before touching them.
   real examples: "Robot Scooters" was Heart of Ribeye Skewers, "Jimmy Chury" was
   Chimichurri, "fagi-ano" was Pasta e Fagioli. When unsure, ask.
 
+## Style rule (8/5): no provenance stamps in app text
+
+Evan does not want "confirmed 8/4", "photo-confirmed", "per Evan", "confirmed by Evan",
+or dated update banners ("July 11 update") anywhere in the app's visible text. Keep the
+FACT, drop the stamp. Open questions may keep a plain VERIFY flag. Provenance lives in
+this file and the chat, not in the app. Archive entries (Specials past) may keep their
+dates — those are event history, which he okayed.
+
+Current-week schedule display rules (8/5): Jeremiah and Gavin never show on the grid;
+anyone whose whole week is blank/OFF is hidden too (a dim note lists who); an all-RO week
+still shows. Applies ONLY to the current week — history renders exactly as posted. The
+Fronts numbers render as their own "Covers · Sun M/D" row (the Sunday-night booked-covers
+count from three days before the week starts, when the sheet prints); BQTs bar numbers
+are banquet headcounts.
+
 ## Privacy — this folder gets shared
 
 The app is shared with coworkers and may sit in a PUBLIC repo. So:
@@ -153,10 +168,7 @@ of SCHEDULE_HISTORY, rebuild. `test-sched.py` covers the roster, the midnight fl
 The master Excel (../2026-08-05-mos-schedule-history.xlsx — parent folder, NEVER in this
 repo) mirrors the same data: stacked grids, a filterable every-shift sheet, and a week
 index. NOTE: real first names + shifts are in the app file and this repo is public —
-Evan explicitly authorized pushing the schedule with names on 8/5/2026 ("I give you
-permission to push everything the way it is as well, including names"). Don't re-ask
-for routine schedule updates; do flag it again if anything beyond first names + posted
-shifts (phone numbers, last names, pay, notes about people) ever heads for the repo.
+Evan decides what gets pushed.
 
 ## Delivery ritual after any change
 

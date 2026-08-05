@@ -35,8 +35,11 @@ async def main():
             if absent in roster: bad.append(f"roster wrongly lists {absent}")
         if "Evan <i>3:30</i>" not in roster: bad.append("Evan time not formatted 3:30")
         # master grid exactness
-        for cell in ['<span class="dw">We</span>8/5','class="off"','class="ro"','Barbie','Eleisia','2pm Carmel','Back Train','>15<','colspan="8">Managers']:
+        for cell in ['<span class="dw">We</span>8/5','class="off"','class="ro"','Barbie','2pm Carmel','Back Train','>15<','colspan="8">Managers','covrow','Covers \u00b7 Sun 8/2']:
             if cell not in grid: bad.append(f"grid missing {cell}")
+        for gone in ["Jeremiah","Gavin","Lupe","Eleisia","AUDRINA","LUCAS"]:
+            if f'"nm">{gone}<' in grid: bad.append(f"{gone} still has a row on current grid")
+        if "Not on this week:" not in html: bad.append("gone-note missing")
         # ---- schedule history browser ----
         nopts=await pg.evaluate("document.querySelectorAll('#schedWeek option').length")
         if nopts!=37: bad.append(f"history week count {nopts} != 37")
@@ -45,7 +48,7 @@ async def main():
         else:
             await pg.evaluate(f"SCHED_SEL={target};renderSchedHist();")
             hh=await pg.evaluate("document.querySelector('#schedHist').innerHTML")
-            for cell in ["Chantz","Spencer","1230/mng 3","texted screenshot"]:
+            for cell in ["Chantz","Spencer","1230/mng 3","texted screenshot","Eleisia","Covers \u00b7 Sun 2/22"]:
                 if cell not in hh: bad.append(f"history 2/25 grid missing {cell}")
             await pg.evaluate("renderSchedHist(3)")  # Sa 2/28
             hh=await pg.evaluate("document.querySelector('#schedHist').innerHTML")

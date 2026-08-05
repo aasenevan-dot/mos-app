@@ -1,11 +1,11 @@
 /* ============================================================
-   MO'S CO-WORK — DATA
-   Sources: MoS-Training-Transfer-2026-08-02 vault.
-   Newest file wins on conflicts (noted inline where they exist).
-   ============================================================ */
+ MO'S CO-WORK — DATA
+ Sources: MoS-Training-Transfer-2026-08-02 vault.
+ Newest file wins on conflicts (noted inline where they exist).
+ ============================================================ */
 
 /* WINE — [name, cat, tier, price, region/story, flavors, tannin, acid, body, finish, pairing, pitch]
-   cat: cab | merlot | pinot | old | champ | gred | gwhite      tier: Good | Better | Best     */
+ cat: cab | merlot | pinot | old | champ | gred | gwhite tier: Good | Better | Best */
 const W = (n,c,t,p,r,f,T,A,B,fin,pair,pitch)=>({n,c,t,p,r,f,T,A,B,fin,pair,pitch});
 
 const WINES = [
@@ -96,7 +96,7 @@ W("Conundrum Red Blend","gred","Good","$16 / $50","California — bottle price u
 W("Turning Point Red Blend","gred","Good","$14 / $53","Sonoma, CA — by Goldschmidt Vineyards","Black cherry, plum, cocoa, soft spice","Med","Med","Med-Full","Smooth Sonoma value","Apps, filet, steak table on value","Good-value red blend: easy with steak or appetizers."),
 W("The Critic Cabernet Sauvignon","gred","Good","$17 / $62","Napa","Bing cherry, currant, caramel, spice","Med-High","Med","Full","Approachable Napa Cabernet","Ribeye, NY Strip, Steak 47","Approachable Napa Cabernet by the glass; dark fruit and spice without being too aggressive."),
 W("Caymus Cabernet Sauvignon","gred","Better","$32 / $155","Napa — price updated 7/3 (was 25/95)","Dark cherry, blackberry, cassis, cocoa, vanilla","Med","Low-Med","Full","Plush, rich, recognizable","Ribeye, NY Strip, Tomahawk","Recognizable premium Cabernet; rich, plush, and easy with steak."),
-W("Advice From John Merlot","gred","Good","$16 / $60","California — by Orin Swift (confirmed 8/4)","Plum, black cherry, mocha, soft spice","Low-Med","Med","Med-Full","Soft, smooth, lower-grip red","Filet, Steak 47, guest who says Cab is too dry","Softer than Cabernet, still red-wine enough for steak. Table story: the label is real bathroom-wall graffiti — advice from THE john."),
+W("Advice From John Merlot","gred","Good","$16 / $60","California — by Orin Swift","Plum, black cherry, mocha, soft spice","Low-Med","Med","Med-Full","Soft, smooth, lower-grip red","Filet, Steak 47, guest who says Cab is too dry","Softer than Cabernet, still red-wine enough for steak. Table story: the label is real bathroom-wall graffiti — advice from THE john."),
 W("Ghost Pines Cabernet Sauvignon","gred","Good","$14 / $53","Napa / Sonoma, CA","Blackberry, dark cherry, vanilla, oak spice","Med-High","Med","Full","Value Cabernet finish","Ribeye, NY Strip, Cab value guest","Steak-friendly dark fruit without jumping into the higher-priced Napa bottles."),
 W("Pessimist Red Blend","gred","Good","$15 / $58","Paso Robles, CA — by Daou","Blackberry, blueberry, plum, cocoa, spice","Med","Med","Full","Bold, plush, fruit-forward","Ribeye, Short Rib Pasta, Prime Meatballs","Bolder Paso red blend; richer than Pinot, softer than serious Cab."),
 W("Dona Paula Malbec","gred","Good","$14 / $52","Mendoza, Argentina — added on the 7/3 sheet","Black plum, blueberry, violet, cocoa","Med","Med","Med-Full","Smooth, fruit-forward Malbec finish","Filet, NY Strip, Prime Meatballs","Easy red for guests who want smooth fruit without Cabernet grip."),
@@ -108,103 +108,103 @@ W("Chateau de Campuget Rose","gwhite","Good","$12 / $45","Rhone, France — dry 
 W("Beviamo Pinot Grigio","gwhite","Good","$13 / $49","Venezia, Italy","Lemon, pear, green apple, light floral","None","Med-High","Light","Crisp, clean, simple","Salads, oysters, lighter starters","Lightest, cleanest dry white; safest crisp choice before dinner."),
 W("Kim Crawford Sauvignon Blanc","gwhite","Good","$13 / $49","Marlborough, NZ","Grapefruit, lime, green melon, passion fruit, grass","None","High","Light-Med","Zesty, citrusy, refreshing","Oysters, Seafood Tower, Caesar, shellfish","Bright New Zealand Sauvignon Blanc: citrusy, crisp, refreshing."),
 W("Auntsfield Single Vineyard Sauvignon Blanc","gwhite","Better","$14 / $53","Marlborough, NZ — single-vineyard step up","Grapefruit, lime, tropical fruit, herbs, minerality","None","High","Light-Med","More refined Sauvignon Blanc finish","Seafood Tower, oysters, scallops, sea bass","The elevated single-vineyard Sauvignon Blanc if they like Kim Crawford but want the nicer version."),
-W("Mer Soleil Chardonnay","gwhite","Good","$15 / $57","OFF THE LIST — not on the printed menu (photo-confirmed 8/4). Do NOT pitch it; kept here for history.","Apple, pear, tropical fruit, vanilla, toast","None","Med","Med-Full","Round, richer California Chardonnay","Lobster tail, scallops, stuffed chicken, creamy dishes","Fuller California Chardonnay; rounder and richer than Sauvignon Blanc."),
+W("Mer Soleil Chardonnay","gwhite","Good","$15 / $57","OFF THE LIST — not on the printed menu. Do NOT pitch it; kept here for history.","Apple, pear, tropical fruit, vanilla, toast","None","Med","Med-Full","Round, richer California Chardonnay","Lobster tail, scallops, stuffed chicken, creamy dishes","Fuller California Chardonnay; rounder and richer than Sauvignon Blanc."),
 W("Buehler Chardonnay","gwhite","Good","$13 / $50","Russian River Valley, CA","Ripe apple, pear, citrus, light vanilla, toasted oak","None","Med","Med","Smooth, balanced, lightly oaked","Sea bass, scallops, stuffed chicken","Middle-ground Chardonnay: ripe fruit, light vanilla, smooth but balanced."),
-W("Freixenet Cava Blanc de Blanc","gwhite","Good","$12 / $45","Spain — bubbles by the glass (from the 5/31 menu print; confirm in Toast)","Green apple, citrus, toasted bread, clean bubbles","None","High","Light","Crisp, dry, celebratory","Oysters, towers, any toast","Dry Spanish bubbles at an easy price — the default celebration glass."),
-W("La Marca Prosecco","gwhite","Good","$13 gl — verify bottle","Italy — bubbles by the glass (5/31 print; confirm in Toast)","Peach, green apple, honeysuckle, soft bubbles","None","Med-High","Light","Softer, fruitier bubbles","Celebrations, spritz drinkers, dessert","The friendly Prosecco — softer and fruitier than the Cava."),
-W("Mionetto Rose","gwhite","Good","$14 gl — verify bottle","Italy — pink bubbles by the glass (5/31 print; confirm in Toast)","Strawberry, raspberry, floral, crisp finish","None","Med-High","Light","Pink, pretty, dry-ish","Celebrations, rose drinkers, light desserts","Pink bubbles for the table that wants the pretty glass."),
+W("Freixenet Cava Blanc de Blanc","gwhite","Good","$12 / $45","Spain — bubbles by the glass (confirm in Toast)","Green apple, citrus, toasted bread, clean bubbles","None","High","Light","Crisp, dry, celebratory","Oysters, towers, any toast","Dry Spanish bubbles at an easy price — the default celebration glass."),
+W("La Marca Prosecco","gwhite","Good","$13 gl — verify bottle","Italy — bubbles by the glass (confirm in Toast)","Peach, green apple, honeysuckle, soft bubbles","None","Med-High","Light","Softer, fruitier bubbles","Celebrations, spritz drinkers, dessert","The friendly Prosecco — softer and fruitier than the Cava."),
+W("Mionetto Rose","gwhite","Good","$14 gl — verify bottle","Italy — pink bubbles by the glass (confirm in Toast)","Strawberry, raspberry, floral, crisp finish","None","Med-High","Light","Pink, pretty, dry-ish","Celebrations, rose drinkers, light desserts","Pink bubbles for the table that wants the pretty glass."),
 W("Post & Beam Chardonnay","gwhite","Better","$20 / $78","Napa, CA — by Far Niente","Golden apple, pear, lemon curd, vanilla, polished oak","None","Med","Med-Full","Polished premium Napa Chardonnay","Lobster, scallops, sea bass, chicken","By Far Niente; the premium polished Chardonnay by the glass.")
 ];
 
 const WINE_CATS = [
-  ["all","Everything"],["cab","Cabernet & Red Blends"],["merlot","Merlot"],["pinot","Pinot Noir"],
-  ["old","Old World"],["champ","Champagne"],["gred","By the Glass — Red (photo-confirmed 8/4)"],["gwhite","By the Glass — White (photo-confirmed 8/4)"]
+ ["all","Everything"],["cab","Cabernet & Red Blends"],["merlot","Merlot"],["pinot","Pinot Noir"],
+ ["old","Old World"],["champ","Champagne"],["gred","By the Glass — Red"],["gwhite","By the Glass — White"]
 ];
 
 /* PAIRING FINDER — dish -> {line, picks:[Good, Better, Best]} */
 const PAIRINGS = [
  {d:"Filet Mignon / Farbuckle Filet", line:"Pinot Noir is lighter than Cabernet and complements the tenderness.",
-  good:["Landmark \"Overlook\" Pinot Noir","Belle Glos \"Dairyman\"","Duckhorn Merlot","Emmolo Napa Valley Merlot"],
-  better:["Domaine Drouhin \"Dundee Hills\"","Gary Farrell Russian River Valley","Chateau L'eyzer Pomerol"],
-  best:["Sea Smoke Estate \"TEN\"","Joseph Drouhin Gevry-Chambertin","Cain 5 \"Spring Mountain\""]},
+ good:["Landmark \"Overlook\" Pinot Noir","Belle Glos \"Dairyman\"","Duckhorn Merlot","Emmolo Napa Valley Merlot"],
+ better:["Domaine Drouhin \"Dundee Hills\"","Gary Farrell Russian River Valley","Chateau L'eyzer Pomerol"],
+ best:["Sea Smoke Estate \"TEN\"","Joseph Drouhin Gevry-Chambertin","Cain 5 \"Spring Mountain\""]},
  {d:"Delmonico Ribeye / K.D.'s Tomahawk", line:"Cabernet cuts through the marbling and fat.",
-  good:["Buehler Estate Cabernet","Faust Napa Valley","Caymus \"California\""],
-  better:["Cade Estate Howell Mountain","Groth Oakville Estate","Mt. Veeder Napa Valley"],
-  best:["Opus One","\"Halo\" Trefethen","Patrimony by Daou","Caymus Special Select"]},
+ good:["Buehler Estate Cabernet","Faust Napa Valley","Caymus \"California\""],
+ better:["Cade Estate Howell Mountain","Groth Oakville Estate","Mt. Veeder Napa Valley"],
+ best:["Opus One","\"Halo\" Trefethen","Patrimony by Daou","Caymus Special Select"]},
  {d:"Dry Aged NY Strip", line:"Dry age is savory and nutty — savory Old World reds and structured Napa both work.",
-  good:["Buehler Estate Cabernet","Bodegas Muga Reserva Rioja","Chateau Laffitte-Laujac Medoc"],
-  better:["Cakebread Cellars","Silver Oak Napa Valley","Ca'marcanda Tuscany"],
-  best:["Cain 5 \"Spring Mountain\"","Silver Oak \"Timeless\"","Quintessa Napa Valley"]},
+ good:["Buehler Estate Cabernet","Bodegas Muga Reserva Rioja","Chateau Laffitte-Laujac Medoc"],
+ better:["Cakebread Cellars","Silver Oak Napa Valley","Ca'marcanda Tuscany"],
+ best:["Cain 5 \"Spring Mountain\"","Silver Oak \"Timeless\"","Quintessa Napa Valley"]},
  {d:"48 oz Porterhouse (board service)", line:"Big shared cut wants a big shared bottle — go structured or large format.",
-  good:["Bodegas Penafiel Ribera del Duero"],
-  better:["Mt. Veeder Napa Valley","Cade Estate Howell Mountain","Orin Swift \"Palermo\""],
-  best:["Le Serre Nuove \"Ornellaia\" 3L","\"Halo\" Trefethen","PlumpJack Oakville Estate"]},
+ good:["Bodegas Penafiel Ribera del Duero"],
+ better:["Mt. Veeder Napa Valley","Cade Estate Howell Mountain","Orin Swift \"Palermo\""],
+ best:["Le Serre Nuove \"Ornellaia\" 3L","\"Halo\" Trefethen","PlumpJack Oakville Estate"]},
  {d:"Japanese A5 Wagyu / A5 Nigiri", line:"Champagne for celebration, or polished power. The fat is the whole story — acid or polish both work.",
-  good:["Moet Imperial Brut"],
-  better:["Taittinger Brut","Veuve Clicquot","Domaine Drouhin \"Dundee Hills\""],
-  best:["Louis Roederer Cristal","Opus One","Quintessa Napa Valley","Ornellaia Super Tuscan"]},
+ good:["Moet Imperial Brut"],
+ better:["Taittinger Brut","Veuve Clicquot","Domaine Drouhin \"Dundee Hills\""],
+ best:["Louis Roederer Cristal","Opus One","Quintessa Napa Valley","Ornellaia Super Tuscan"]},
  {d:"Seafood Tower / Oysters", line:"Champagne works beautifully here — the acidity and bubbles keep everything fresh.",
-  good:["Joseph Drouhin Macon-Villages","Drouhin-Vaudon Chablis","Kim Crawford Sauvignon Blanc","Moet Imperial Brut"],
-  better:["Auntsfield Single Vineyard Sauvignon Blanc","Taittinger Brut","Veuve Clicquot"],
-  best:["Louis Roederer Cristal"]},
+ good:["Joseph Drouhin Macon-Villages","Drouhin-Vaudon Chablis","Kim Crawford Sauvignon Blanc","Moet Imperial Brut"],
+ better:["Auntsfield Single Vineyard Sauvignon Blanc","Taittinger Brut","Veuve Clicquot"],
+ best:["Louis Roederer Cristal"]},
  {d:"Miso Seabass / Chilean Sea Bass / Scallops", line:"Stay crisp unless they want a richer Chardonnay.",
-  good:["Drouhin-Vaudon Chablis","Buehler Chardonnay","Chateau de Campuget Rose"],
-  better:["Post & Beam Chardonnay","Auntsfield Sauvignon Blanc","Domaine Drouhin \"Dundee Hills\""],
-  best:["Joseph Drouhin Gevry-Chambertin","Louis Roederer Cristal"]},
+ good:["Drouhin-Vaudon Chablis","Buehler Chardonnay","Chateau de Campuget Rose"],
+ better:["Post & Beam Chardonnay","Auntsfield Sauvignon Blanc","Domaine Drouhin \"Dundee Hills\""],
+ best:["Joseph Drouhin Gevry-Chambertin","Louis Roederer Cristal"]},
  {d:"Blackened Creole Salmon", line:"Blackened spice likes bright acid or a lighter red.",
-  good:["Dr. L Riesling","Cloudline Pinot Noir","Chateau de Campuget Rose"],
-  better:["Gary Farrell Russian River Valley","Belle Glos \"Las Alturas\""],
-  best:["Sea Smoke Estate \"TEN\""]},
+ good:["Dr. L Riesling","Cloudline Pinot Noir","Chateau de Campuget Rose"],
+ better:["Gary Farrell Russian River Valley","Belle Glos \"Las Alturas\""],
+ best:["Sea Smoke Estate \"TEN\""]},
  {d:"Short Rib Pasta / Prime Meatballs / Chicken Parm", line:"Savory tomato and cream sauces want acid and spice, not jam.",
-  good:["Borsao Garnacha","El Coto Rioja Crianza","The Prisoner","Domaine de la Solitude Cotes du Rhone"],
-  better:["Ca'marcanda Tuscany","Marquis de Riscal Reserva","Domaine du Pegau Chateauneuf-du-Pape","Shafer \"Relentless\""],
-  best:["Ornellaia Super Tuscan","Le Serre Nuove \"Ornellaia\" 3L"]},
+ good:["Borsao Garnacha","El Coto Rioja Crianza","The Prisoner","Domaine de la Solitude Cotes du Rhone"],
+ better:["Ca'marcanda Tuscany","Marquis de Riscal Reserva","Domaine du Pegau Chateauneuf-du-Pape","Shafer \"Relentless\""],
+ best:["Ornellaia Super Tuscan","Le Serre Nuove \"Ornellaia\" 3L"]},
  {d:"Stuffed Chicken / Primavera Pasta", line:"Lighter red or a rounder white — nothing that flattens the dish.",
-  good:["Landmark \"Overlook\" Pinot Noir","Buehler Chardonnay","Beviamo Pinot Grigio"],
-  better:["Gary Farrell Russian River Valley","Post & Beam Chardonnay"],
-  best:["Joseph Drouhin Gevry-Chambertin"]},
+ good:["Landmark \"Overlook\" Pinot Noir","Buehler Chardonnay","Beviamo Pinot Grigio"],
+ better:["Gary Farrell Russian River Valley","Post & Beam Chardonnay"],
+ best:["Joseph Drouhin Gevry-Chambertin"]},
  {d:"Guest says Cabernet is too dry", line:"Merlot gives you the red-wine feel with a softer finish.",
-  good:["Advice From John Merlot","Emmolo Napa Valley Merlot","Duckhorn Merlot","Conundrum Red Blend"],
-  better:["Duckhorn Paraduxx","Chateau Plince Pomerol","Caymus Napa Valley"],
-  best:["Caymus Special Select"]},
+ good:["Advice From John Merlot","Emmolo Napa Valley Merlot","Duckhorn Merlot","Conundrum Red Blend"],
+ better:["Duckhorn Paraduxx","Chateau Plince Pomerol","Caymus Napa Valley"],
+ best:["Caymus Special Select"]},
  {d:"Old World guest — less fruity", line:"Drier, earthier, more restrained than Napa.",
-  good:["Bodegas Muga Reserva Rioja","Domaine de la Solitude Cotes du Rhone","Chateau Laffitte-Laujac Medoc"],
-  better:["Chateau L'eyzer Pomerol","Domaine du Pegau Chateauneuf-du-Pape","L'Ecole \"Apogee\""],
-  best:["Ornellaia Super Tuscan","Joseph Drouhin Gevry-Chambertin","Le Serre Nuove \"Ornellaia\" 3L"]},
+ good:["Bodegas Muga Reserva Rioja","Domaine de la Solitude Cotes du Rhone","Chateau Laffitte-Laujac Medoc"],
+ better:["Chateau L'eyzer Pomerol","Domaine du Pegau Chateauneuf-du-Pape","L'Ecole \"Apogee\""],
+ best:["Ornellaia Super Tuscan","Joseph Drouhin Gevry-Chambertin","Le Serre Nuove \"Ornellaia\" 3L"]},
  {d:"Celebration / anniversary", line:"Bubbles first, then the trophy bottle.",
-  good:["Moet Imperial Brut","Beau Joie"],
-  better:["Taittinger Brut","Veuve Clicquot","Far Niente Napa Valley"],
-  best:["Louis Roederer Cristal","Opus One","Caymus Special Select","Quintessa Napa Valley"]},
+ good:["Moet Imperial Brut","Beau Joie"],
+ better:["Taittinger Brut","Veuve Clicquot","Far Niente Napa Valley"],
+ best:["Louis Roederer Cristal","Opus One","Caymus Special Select","Quintessa Napa Valley"]},
  {d:"Four people ordering glasses", line:"For four glasses, a bottle is usually the better value. Move them up the ladder.",
-  good:["The Prisoner","Faust Napa Valley","Caymus \"California\"","Far Niente \"Bella Union\""],
-  better:["Groth Oakville Estate","Cakebread Cellars","Silver Oak Alexander Valley"],
-  best:["Opus \"Overture\"","PlumpJack Oakville Estate","Quintessa Napa Valley"]}
+ good:["The Prisoner","Faust Napa Valley","Caymus \"California\"","Far Niente \"Bella Union\""],
+ better:["Groth Oakville Estate","Cakebread Cellars","Silver Oak Alexander Valley"],
+ best:["Opus \"Overture\"","PlumpJack Oakville Estate","Quintessa Napa Valley"]}
 ];
 
 const WOTW = {
-  title:"Wine of the Week (paused — not running right now) — Power vs Precision",
-  a:{n:"Caymus Special Selection Cabernet 2019",p:"$525",tag:"POWER",
-     what:"Napa Valley Cabernet. The flagship from Caymus and the top expression of the Wagner family style. Only made when vineyard lots meet the winery's highest standards.",
-     flavor:"Blackberry, cassis, dark cherry, cocoa, rich Napa fruit. With age it picks up cedar, tobacco, graphite, and baking spice.",
-     structure:"Full-bodied, rich, plush texture, polished tannins, long finish. Power without harshness.",
-     why:"Flagship status, limited production, vineyard and barrel selection, aging potential, brand prestige. It is the only wine ever named Wine Spectator's Wine of the Year twice.",
-     pair:"Filet, ribeye, Miso Seabass, mushroom dishes, steak enhancements.",
-     pitch:"If you want the bigger, richer side of the feature, Caymus Special Selection is the power bottle. It is plush, concentrated, and polished, with dark fruit, cocoa, soft tannin, and a long finish."},
-  b:{n:"Gary Farrell Russian River Valley Pinot Noir 2022",p:"$120",tag:"PRECISION",
-     what:"Russian River Valley Pinot Noir. A benchmark name for cool-climate Russian River Pinot. The sell is balance, elegance, and vineyard expression, not size.",
-     flavor:"Layered red fruit, bright aromatics, freshness, subtle earthy detail.",
-     structure:"Medium-bodied, silky, vibrant acidity, elegant structure, long finish. Refined and detailed instead of heavy.",
-     why:"Russian River terroir, cool-climate farming, craftsmanship, balance. Morning fog from the Pacific slows ripening and extends the growing season, so the fruit keeps acidity while building flavor.",
-     pair:"Seabass, salmon, meatballs, mushroom dishes, filet mignon.",
-     pitch:"If you want the more elegant side of the feature, Gary Farrell is the precision bottle. It is silky, bright, aromatic, and food friendly, with more finesse than weight."},
-  contrast:[
-    ["Big, rich, luxury red","Caymus Special Selection","Full body, plush fruit, polished tannin, prestige."],
-    ["Steakhouse statement bottle","Caymus Special Selection","Flagship Napa Cab with ageability and collectability."],
-    ["Elegant red that will not overpower food","Gary Farrell","Silky, bright, balanced, versatile."],
-    ["Red wine with seafood or lighter entrees","Gary Farrell","Higher acidity and lighter body work with fish, salmon, mushrooms."],
-    ["Power","Caymus Special Selection","Concentration, richness, long finish."],
-    ["Precision","Gary Farrell","Balance, aromatics, texture, vineyard expression."]
-  ]
+ title:"Wine of the Week (paused — not running right now) — Power vs Precision",
+ a:{n:"Caymus Special Selection Cabernet 2019",p:"$525",tag:"POWER",
+ what:"Napa Valley Cabernet. The flagship from Caymus and the top expression of the Wagner family style. Only made when vineyard lots meet the winery's highest standards.",
+ flavor:"Blackberry, cassis, dark cherry, cocoa, rich Napa fruit. With age it picks up cedar, tobacco, graphite, and baking spice.",
+ structure:"Full-bodied, rich, plush texture, polished tannins, long finish. Power without harshness.",
+ why:"Flagship status, limited production, vineyard and barrel selection, aging potential, brand prestige. It is the only wine ever named Wine Spectator's Wine of the Year twice.",
+ pair:"Filet, ribeye, Miso Seabass, mushroom dishes, steak enhancements.",
+ pitch:"If you want the bigger, richer side of the feature, Caymus Special Selection is the power bottle. It is plush, concentrated, and polished, with dark fruit, cocoa, soft tannin, and a long finish."},
+ b:{n:"Gary Farrell Russian River Valley Pinot Noir 2022",p:"$120",tag:"PRECISION",
+ what:"Russian River Valley Pinot Noir. A benchmark name for cool-climate Russian River Pinot. The sell is balance, elegance, and vineyard expression, not size.",
+ flavor:"Layered red fruit, bright aromatics, freshness, subtle earthy detail.",
+ structure:"Medium-bodied, silky, vibrant acidity, elegant structure, long finish. Refined and detailed instead of heavy.",
+ why:"Russian River terroir, cool-climate farming, craftsmanship, balance. Morning fog from the Pacific slows ripening and extends the growing season, so the fruit keeps acidity while building flavor.",
+ pair:"Seabass, salmon, meatballs, mushroom dishes, filet mignon.",
+ pitch:"If you want the more elegant side of the feature, Gary Farrell is the precision bottle. It is silky, bright, aromatic, and food friendly, with more finesse than weight."},
+ contrast:[
+ ["Big, rich, luxury red","Caymus Special Selection","Full body, plush fruit, polished tannin, prestige."],
+ ["Steakhouse statement bottle","Caymus Special Selection","Flagship Napa Cab with ageability and collectability."],
+ ["Elegant red that will not overpower food","Gary Farrell","Silky, bright, balanced, versatile."],
+ ["Red wine with seafood or lighter entrees","Gary Farrell","Higher acidity and lighter body work with fish, salmon, mushrooms."],
+ ["Power","Caymus Special Selection","Concentration, richness, long finish."],
+ ["Precision","Gary Farrell","Balance, aromatics, texture, vineyard expression."]
+ ]
 };
 
 const REGIONS = [

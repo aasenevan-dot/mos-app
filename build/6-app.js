@@ -544,7 +544,6 @@ function build(){
     <div class="sechead"><h2>Every drink</h2><span>build, glass, garnish, descriptor</span></div>
     <input class="fsearch" id="drinkQ" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="search" placeholder="Search drink, spirit, or garnish...">
     <div class="filters" id="drinkGrps">${COCKTAIL_GRPS.map(g=>`<button data-g="${g[0]}"${g[0]==="all"?' class="on"':''}>${g[1]}</button>`).join("")}</div>
-    <div class="note warn"><b>July 11 update:</b> Lemon Bae is now Lemon Bay, same recipe. Lisa's Delight and The Nutty Martinez are gone. Coco Caramel Carajillo moved to desserts. Esso Affo was added. The six drinks marked <b>verify</b> were on older printed menus — do not pitch them unless Toast or the bar confirms.</div>
     <div class="grid wide" id="drinkGrid"></div>`;
 
   /* ---------- MENU ---------- */
@@ -658,7 +657,7 @@ function build(){
     ${acc("Closing side work — front, back, closer","the posted sheet with slow-night and busy-night quantities",`<ul class="steps">${HOUSE.closesheet.map(d=>`<li>${esc(d)}</li>`).join("")}</ul>`)}
     ${acc("Bar steps + timing standards","the 20-step bar bible — the timing rules apply everywhere",`<ul class="steps">${HOUSE.barsteps.map(d=>`<li>${esc(d)}</li>`).join("")}</ul>`)}
     ${acc("House facts","uniform, trivia, and the little rules",`<ul class="steps">${HOUSE.facts.map(([t,d])=>`<li><b>${esc(t)}:</b> ${esc(d)}</li>`).join("")}</ul>`)}
-    <div class="note" style="margin-top:12px">Mined from the real Greenwood training handouts in Evan's photo archive. Where a handout disagrees with something newer Evan has said, the newer word wins.</div>`;
+    <div class="note" style="margin-top:12px">Mined from the real Greenwood training handouts. Where a handout disagrees with something newer, the newer word wins.</div>`;
 
   $("#p-ops").innerHTML=`
     <div class="sechead" id="sec-checkout"><h2>Sales Calculator</h2><span>sales in — your money out</span></div>
@@ -850,21 +849,38 @@ function schedTime(c){
   return c;
 }
 function schedCls(c){c=String(c).trim();if(/^off\??$/i.test(c))return "off";if(/^ro\??$/i.test(c))return "ro";return "";}
-function schedGrid(S,ti){
+/* Evan's rules for the CURRENT week (history stays exactly as posted):
+   - Jeremiah and Gavin never show on the grid.
+   - Anyone whose whole week is blank/OFF availability is off the grid too.
+   - A week of RO days still shows — that person asked off, they're still here. */
+function schedGone(r){
+  if(["jeremiah","gavin"].includes(String(r[0]).trim().toLowerCase()))return true;
+  return r.slice(1).every(c=>!String(c).trim()||/^off\??$/i.test(c));
+}
+function schedSunday(S){const mp=S.days[0][0].split("/");const dt=new Date(S.year,+mp[0]-1,+mp[1]);dt.setDate(dt.getDate()-3);return (dt.getMonth()+1)+"/"+dt.getDate();}
+function schedGrid(S,ti,cur){
   const head=`<tr><th class="nm">Name</th>${S.days.map((d,i)=>`<th${i===ti?' class="tdy"':''}><span class="dw">${d[1]}</span>${d[0]}</th>`).join("")}</tr>`;
   const body=S.sections.map(sec=>{
-    const name=sec[0],rows=sec[1],nums=sec[2];
-    const lab=nums?`<tr class="secrow"><td class="nm">${esc(name)}</td>${nums.map(n=>`<td>${esc(n)}</td>`).join("")}</tr>`
-                  :`<tr class="secrow"><td colspan="8">${esc(name)}</td></tr>`;
+    const name=sec[0],nums=sec[2];
+    const rows=cur?sec[1].filter(r=>!schedGone(r)):sec[1];
+    /* Fronts numbers = covers already booked when the sheet printed — give them their own labeled row */
+    let lab;
+    if(nums&&/^fronts$/i.test(name)){
+      lab=`<tr class="covrow"><td class="nm">Covers \u00b7 Sun ${schedSunday(S)}</td>${nums.map(n=>`<td>${esc(n)}</td>`).join("")}</tr><tr class="secrow"><td colspan="8">${esc(name)}</td></tr>`;
+    }else if(nums){
+      lab=`<tr class="secrow"><td class="nm">${esc(name)}</td>${nums.map(n=>`<td>${esc(n)}</td>`).join("")}</tr>`;
+    }else{
+      lab=`<tr class="secrow"><td colspan="8">${esc(name)}</td></tr>`;
+    }
     return lab+rows.map(r=>`<tr><td class="nm">${esc(r[0])}</td>${r.slice(1).map((c,i)=>{
       const cls=[schedCls(c),i===ti?"tdy":""].filter(Boolean).join(" ");
       return `<td${cls?` class="${cls}"`:""}>${esc(c)}</td>`;}).join("")}</tr>`).join("");
   }).join("");
   return `<div class="tw schedwrap"><table><thead>${head}</thead><tbody>${body}</tbody></table></div>`;
 }
-function rosterFor(S,idx){
+function rosterFor(S,idx,cur){
   return S.sections.map(sec=>{
-    const on=sec[1].map(r=>({n:r[0],c:r[idx+1]}))
+    const on=(cur?sec[1].filter(r=>!schedGone(r)):sec[1]).map(r=>({n:r[0],c:r[idx+1]}))
       .filter(x=>x.c && x.c!=="?" && !/^off\??$/i.test(x.c) && !/^ro\??$/i.test(x.c));
     if(!on.length)return "";
     return `<div class="rosec"><b>${esc(sec[0])}</b><div class="who">${on.map(x=>`${esc(x.n)} <i>${esc(schedTime(x.c))}</i>`).join(" &nbsp;\u00b7&nbsp; ")}</div></div>`;
@@ -880,7 +896,7 @@ function fillSched(){
   let roster;
   if(idx>=0){
     const d=SCHEDULE.days[idx];
-    const blocks=rosterFor(SCHEDULE,idx);
+    const blocks=rosterFor(SCHEDULE,idx,true);
     roster=`<div class="sechead"><h2>Today \u2014 ${DAYFULL[d[1]]} ${d[0]}</h2><span>flips itself at midnight</span></div>
       ${blocks||'<div class="note">Nobody on the sheet for today.</div>'}`;
   }else{
@@ -889,8 +905,10 @@ function fillSched(){
   }
   p.innerHTML=`${roster}
     <div class="sechead"><h2>${esc(SCHEDULE.week)}</h2><span>exactly as posted</span></div>
-    ${schedGrid(SCHEDULE,idx)}
-    <div class="note" style="margin-top:10px"><b>Reading it:</b> numbers are start times exactly as written \u2014 345 means 3:45. A dark box is OFF. <b>RO</b> is a requested day off. Blank means not scheduled that day. The numbers on the yellow Fronts bar are straight off the sheet. A trailing ? means the photo was hard to read.</div>
+    ${schedGrid(SCHEDULE,idx,true)}
+    ${(()=>{const gone=[];SCHEDULE.sections.forEach(sec=>sec[1].forEach(r=>{if(schedGone(r))gone.push(r[0]);}));
+      return gone.length?`<div class="note" style="margin-top:8px"><b>Not on this week:</b> ${gone.map(esc).join(", ")} \u2014 off or not scheduled all seven days, so they're off the grid. They come back the week they're back.</div>`:"";})()}
+    <div class="note" style="margin-top:10px"><b>Reading it:</b> numbers are start times exactly as written \u2014 345 means 3:45. A dark box is OFF. <b>RO</b> is a requested day off. Blank means not scheduled that day. <b>Covers row:</b> dinners already on the books for each day when this schedule printed \u2014 the Sunday-night count from ${schedSunday(SCHEDULE)}. Numbers on the yellow <b>BQTs</b> bar are the banquet headcount for that day. A trailing ? means the photo was hard to read.</div>
     <div class="sechead"><h2>Schedule history</h2><span>${SCHEDULE_HISTORY.length} weeks \u2014 every sheet since we opened</span></div>
     <div class="note">These are the sheets <b>as posted</b>. Trades, call-offs, cuts and sick days happened after \u2014 so a history week shows the plan, not always who actually worked.</div>
     <div class="frow" style="margin-top:8px"><div class="f"><label>Pick a week</label><select id="schedWeek">${SCHEDULE_HISTORY.map((w,i)=>`<option value="${i}"${i===SCHED_SEL?" selected":""}>${esc(w.week)}</option>`).join("")}</select></div></div>

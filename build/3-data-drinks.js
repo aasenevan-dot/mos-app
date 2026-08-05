@@ -74,7 +74,7 @@ const COCKTAILS = [
 
  {n:"Coco Caramel Carajillo",p:"$20",grp:"dessert",base:"Rum / coffee",
   build:"Werther's caramel-infused Hard Truth toasted coconut rum, Licor 43 Vanilla, espresso.",
-  glass:"—",garnish:"Salted vanilla cold foam, coconut flakes",
+  glass:"Highball",garnish:"Salted vanilla cold foam, coconut flakes",
   desc:"Caramel, coconut, coffee. Rich after-dinner drink.",note:"Moved from specialty cocktails to desserts in the July 11 update."},
  {n:"Esso Affo",p:"$18",grp:"dessert",base:"Espresso martini style",
   build:"Espresso martini style with no simple syrup, plus 1 scoop of vanilla ice cream.",

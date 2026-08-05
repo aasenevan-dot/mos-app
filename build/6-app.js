@@ -502,13 +502,6 @@ function build(){
 
   /* ---------- WINE ---------- */
   $("#p-wine").innerHTML=`
-    <div class="sechead" id="sec-pair"><h2>Pairing finder</h2><span>pick what they ordered</span></div>
-    <div class="tool">
-      <div class="frow"><div class="f" style="flex:1 1 320px"><label>They ordered</label>
-        <select id="pairSel" style="width:100%">${PAIRINGS.map((p,i)=>`<option value="${i}">${esc(p.d)}</option>`).join("")}</select></div></div>
-      <div class="out" id="pairOut"></div>
-    </div>
-
     <div class="sechead" id="sec-bottles"><h2>Every bottle and pour</h2><span id="wineCount"></span></div>
     <p class="lede">Filter by price and color when a guest gives you a budget. Good / Better / Best is a selling lane, not a judgment of quality.</p>
     <input class="fsearch" id="wineQ" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="search" placeholder="Search wine, region, flavor, or dish...">
@@ -517,6 +510,13 @@ function build(){
     <div class="filters" id="wineCats">${WINE_CATS.map(c=>`<button data-c="${c[0]}"${c[0]==="all"?' class="on"':''}>${c[1]}</button>`).join("")}</div>
     <div class="filters" id="wineTiers">${["all","Good","Better","Best"].map(t=>`<button data-t="${t}"${t==="all"?' class="on"':''}>${t==="all"?"All tiers":t}</button>`).join("")}</div>
     <div class="grid wide" id="wineGrid"></div>
+
+    <div class="sechead" id="sec-pair"><h2>Pairing finder</h2><span>pick what they ordered</span></div>
+    <div class="tool">
+      <div class="frow"><div class="f" style="flex:1 1 320px"><label>They ordered</label>
+        <select id="pairSel" style="width:100%">${PAIRINGS.map((p,i)=>`<option value="${i}">${esc(p.d)}</option>`).join("")}</select></div></div>
+      <div class="out" id="pairOut"></div>
+    </div>
 
     <div class="sechead"><h2>${WOTW.title}</h2><span>the current feature</span></div>
     <div class="grid wide">${[WOTW.a,WOTW.b].map(w=>`<div class="card hl">

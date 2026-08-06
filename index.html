@@ -294,7 +294,6 @@ details.acc>.accbody .sechead{margin-top:18px}
 .opt{background:#FFFDF6}
 footer{color:var(--dim2)}
 footer b{color:var(--dim)}
-body.big{zoom:1.15}
 .bottombar{display:none}
 .sheet{display:none}
 
@@ -4548,12 +4547,16 @@ function openSheet(){
     <div class="row">${TABS.map(([k,l])=>`<button class="item${k===TAB?" on":""}" data-t="${k}">${l}</button>`).join("")}</div>
     <h3>Tools</h3>
     <div class="row">
-      <button class="item" id="shBig">${document.body.classList.contains("big")?"Normal text":"Bigger text"}</button>
+      <button class="item" id="shSzDn">A− Smaller text</button>
+      <button class="item" id="shSzUp">A+ Bigger text</button>
+      <button class="item" id="shDark">${document.documentElement.classList.contains("dark")?"Light mode":"Dark mode"}</button>
       <button class="item" id="shPrint">Print this tab</button>
     </div>`;
   $("#sheet").classList.add("open");
   $("#sheetin").querySelectorAll("button.item[data-t]").forEach(b=>b.onclick=()=>go(b.dataset.t));
-  $("#shBig").onclick=()=>{document.body.classList.toggle("big");closeSheet();};
+  $("#shSzDn").onclick=()=>$("#szDn").click();
+  $("#shSzUp").onclick=()=>$("#szUp").click();
+  $("#shDark").onclick=()=>{$("#darkT").click();closeSheet();};
   $("#shPrint").onclick=()=>{closeSheet();setTimeout(()=>window.print(),150);};
 }
 function closeSheet(){$("#sheet").classList.remove("open");}
@@ -5237,11 +5240,10 @@ function build(){
       <p class="sub" style="margin:0 0 10px"><b>Avg $ per person</b> means what ONE guest spends on food and drinks — not the table's whole check. A check usually covers 2, 8, even 15 people; this number is per person. Toast calls it "average spend per guest." $115 is the preset for a typical steak-dinner night. The multiplier scales the whole-night projection for a big occasion — numbers only, your call.</p>
       <div class="out" id="ipOut"></div>
       ${acc("Everybody's night — net sales + tip % in, every position out","what everybody makes, top to bottom",`
-      <p class="sub" style="color:var(--dim2);font-size:12.5px;margin:4px 0 12px">Type the floor's combined net sales — teams and cocktailers together, skip big banquets — and the night's tip percentage. Teams, cocktailers, and polisher come from the controls above; the counts below start at the posted schedule for the day you picked. The floor splits into slices (a cocktailer's section rides as 0.7 of a team), every slice runs the exact house pipeline, and the tip-out pools land where they really land.</p>
+      <p class="sub" style="color:var(--dim2);font-size:12.5px;margin:4px 0 12px">Type the floor's combined net sales — teams and cocktailers together, skip big banquets — and the night's tip percentage. Teams and cocktailers come from the controls above; the counts below start at the posted schedule for the day you picked. The floor splits into slices (a cocktailer's section rides as 0.7 of a team), and each tip-out pool splits evenly across however many are on that role — fewer bussers on a busy night means each one takes home more.</p>
       <div class="frow">
         <div class="f"><label>Floor net sales $</label><input type="number" inputmode="decimal" id="exNet" placeholder="teams + cocktailers" min="0"></div>
         <div class="f"><label>Tip %</label><input type="number" inputmode="decimal" id="exPct" value="20.8" min="0" max="35" step="0.1"></div>
-        <div class="f"><label>Hourly crew hours</label><input type="number" inputmode="decimal" id="exHrs" value="6" min="0" max="12" step="0.5"></div>
       </div>
       <div class="frow">
         <div class="f"><label>Bussers on</label><input type="number" inputmode="decimal" id="exBus" value="2" min="0" max="6"></div>
@@ -5319,7 +5321,7 @@ function build(){
     const n=$("#"+id); n.oninput=calcBQC; n.onchange=calcBQC; n.onkeyup=calcBQC;});
   ["ipBooks","ipWalk","ipTeams","ipCk","ipCheck","ipPol","ipOcc"].forEach(id=>{
     const n=$("#"+id); const f=()=>{calcIP();calcEX();}; n.oninput=f; n.onchange=f; n.onkeyup=f;});
-  ["exNet","exPct"].forEach(id=>{
+  ["exNet","exPct","exBus","exExpo","exBar"].forEach(id=>{
     const n=$("#"+id); n.oninput=calcEX; n.onchange=calcEX; n.onkeyup=calcEX;});
   $("#ipDay").onchange=()=>{ipPrefill();calcIP();calcEX();};
   $("#ipSugg").onclick=e=>{const b=e.target.closest("#ipUse");if(!b)return;
@@ -5350,53 +5352,51 @@ $("#darkT").onclick=()=>{
 $("#totop").onclick=()=>window.scrollTo({top:0,behavior:"smooth"});
 addEventListener("scroll",()=>{$("#totop").classList.toggle("show",scrollY>700);},{passive:true});
 
-/* ---------- EVERYBODY'S NIGHT — real net + tip %, every position's money ---------- */
+/* ---------- EVERYBODY'S NIGHT — real net + tip %, team + tip-outs ----------
+   Per Evan 8/5: no polisher (too rare to model — ignore that labor entirely)
+   and no hourly wages/hours (doesn't matter for this view). Just team sales,
+   what the front and back earn, and the three real tip-out lines — bar 1%,
+   busser 1.5%, expo 0.5% — split across whoever's on that role tonight. */
 function calcEX(){
   const el=$("#exOut"); if(!el)return;
   const net=+$("#exNet").value||0;
   const pct=(+$("#exPct").value||0)/100;
   const teams=Math.max(1,Math.round(+$("#ipTeams").value||3));
   const nCk=Math.max(0,+$("#ipCk").value||0);
-  const pol=+$("#ipPol").value||0;
-  const hrs=+$("#exHrs").value||0;
   const nBus=Math.max(0,Math.round(+$("#exBus").value||0));
   const nExpo=Math.max(0,Math.round(+$("#exExpo").value||0));
   const nBar=Math.max(0,Math.round(+$("#exBar").value||0));
-  if(!net){el.innerHTML='<div class="empty" style="padding:14px">Type the floor net and the tip % — this prints everybody\'s night, top to bottom.</div>';return;}
+  if(!net){el.innerHTML='<div class="empty" style="padding:14px">Type the floor net and the tip % \u2014 this prints team sales, front/back, and the busser/expo/bar tip-outs.</div>';return;}
   const slices=teams+CKTAIL_WEIGHT*nCk;
   const teamSales=net/slices, ckSales=teamSales*CKTAIL_WEIGHT;
   const expoOn=nExpo>0;
-  const cut=(sales,polLine)=>{
+  const cut=sales=>{
     const bar=Math.ceil(.01*sales), bus=Math.ceil(.015*sales), ex=expoOn?Math.ceil(.005*sales):0;
     const tips=sales*pct, pool=tips*(1-SALES.withheldRate);
-    return {bar,bus,ex,polLine,earned:Math.max(0,Math.floor(pool-bar-bus-ex-polLine))};
+    return {bar,bus,ex,earned:Math.max(0,Math.floor(pool-bar-bus-ex))};
   };
-  const T=cut(teamSales,pol>0?10:0);
-  const C=cut(ckSales,pol>0?5:0);
+  const T=cut(teamSales);
+  const C=nCk?cut(ckSales):{bar:0,bus:0,ex:0,earned:0};
   const back=Math.ceil(T.earned/2), front=T.earned-back;
-  const ckEach=Math.round(T.earned*.5);
   const barPool=teams*T.bar+nCk*C.bar;
   const busPool=teams*T.bus+nCk*C.bus;
   const expoPool=expoOn?teams*T.ex+nCk*C.ex:0;
-  const polPool=pol>0?10*teams+5*nCk:0;
   const share=(pool,n)=>n>0?Math.round(pool/n):0;
   const money=v=>"$"+Math.round(v).toLocaleString();
-  const rows=[
-    [`<b>Teams — front + back</b>`,String(teams),`slice ${money(teamSales)} \u2192 team earns ${money(T.earned)} after tip-outs`,`<b>Front ${money(front)} \u00b7 Back ${money(back)}</b>`],
-    [`<b>Cocktailers</b>`,String(nCk),`50% of one team \u2014 same as one server`,nCk?`<b>${money(ckEach)}</b>`:"—"],
-    [`<b>Bar</b>`,String(nBar),`1% pool ${money(barPool)} \u00f7 ${nBar||"—"} + tipped wage $${WAGES.barTipped.toFixed(2)}/hr \u00d7 ${hrs}h \u2014 bar-top tips ride on top`,nBar?`<b>${money(share(barPool,nBar)+WAGES.barTipped*hrs)}</b> + bar tips`:"—"],
-    [`<b>Bussers</b>`,String(nBus),`1.5% pool ${money(busPool)} \u00f7 ${nBus||"—"} + $${WAGES.busser}/hr \u00d7 ${hrs}h (${money(WAGES.busser*hrs)})`,nBus?`<b>${money(share(busPool,nBus)+WAGES.busser*hrs)}</b>`:"—"],
-    [`<b>Expo / food run</b>`,String(nExpo),expoOn?`0.5% pool ${money(expoPool)} \u00f7 ${nExpo} + $${WAGES.expo}/hr \u00d7 ${hrs}h (${money(WAGES.expo*hrs)})`:`none on \u2014 teams keep the expo line tonight`,expoOn?`<b>${money(share(expoPool,nExpo)+WAGES.expo*hrs)}</b>`:"—"],
-    [`<b>Polisher</b>`,pol>0?"1":"0",pol>0?`flat $10 a team + $5 a cocktailer`:`no polisher tonight`,pol>0?`<b>${money(polPool)}</b>`:"—"]
-  ];
+  const tile=(k,v,s,hl)=>`<div class="kpi"${hl?' style="border-color:var(--gold)"':''}><div class="k">${k}</div><div class="v">${v}</div><div class="s">${s}</div></div>`;
   el.innerHTML=`
   <div class="kpis" style="margin-bottom:10px">
-    <div class="kpi"><div class="k">The floor</div><div class="v">${money(net)}</div><div class="s">${slices.toFixed(1)} slices \u00b7 tips at ${(pct*100).toFixed(1)}%</div></div>
-    <div class="kpi"><div class="k">One team's slice</div><div class="v">${money(teamSales)}</div><div class="s">a cocktailer's section \u2248 ${money(ckSales)}</div></div>
-    <div class="kpi" style="border-color:var(--gold)"><div class="k">Each server</div><div class="v">${money(back)}</div><div class="s">front ${money(front)} \u00b7 back takes the greater dollar</div></div>
+    ${tile("Team sales",money(teamSales),`${slices.toFixed(1)} slices off ${money(net)} at ${(pct*100).toFixed(1)}% tips`)}
+    ${tile("Team earned",money(T.earned),"after bar/busser/expo tip-outs")}
+    ${tile("Front",money(front),"the smaller half",true)}
+    ${tile("Back",money(back),"takes the greater dollar",true)}
   </div>
-  ${tbl(["Position","On","How it's figured","Each walks with"],rows)}
-  <p class="sub" style="margin:8px 0 0;color:var(--dim2);font-size:12px">Team and cocktailer math is the exact house pipeline (2% withheld, tip-outs rounded up per checkout). Pools are what the slices actually pay out. Bar wage is the tipped minimum \u2014 check the real rate \u2014 and the bar's own guest tips aren't modeled, so bar is a floor, not a ceiling. Hours are one shared guess; nudge them.</p>`;
+  <div class="kpis">
+    ${tile("Bussers",nBus?money(share(busPool,nBus)):"\u2014",nBus?`each, from a ${money(busPool)} pool \u00f7 ${nBus} on (1.5%)`:"none on tonight")}
+    ${tile("Expo / food run",expoOn?money(share(expoPool,nExpo)):"\u2014",expoOn?`each, from a ${money(expoPool)} pool \u00f7 ${nExpo} on (0.5%)`:"none on \u2014 teams keep the line")}
+    ${tile("Bar",nBar?money(share(barPool,nBar)):"\u2014",nBar?`each, from a ${money(barPool)} pool \u00f7 ${nBar} on (1%) \u2014 plus their own bar-top tips`:"none on tonight")}
+  </div>
+  <p class="sub" style="margin:8px 0 0;color:var(--dim2);font-size:12px">Team and cocktailer math is the exact house pipeline (2% withheld, tip-outs rounded up per checkout). Each tip-out pool splits evenly across whoever's on that role \u2014 fewer people on it, more each one takes.</p>`;
 }
 
 /* ============================================================

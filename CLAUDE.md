@@ -124,6 +124,23 @@ recomputing goldens. staffLadder bands are v1 guesses anchored to real nights (3
 ~$4.1k, 4+banquet ~$8.9k) — Evan will dictate acceptable staffing per night type; tune
 the bands from his words, not from theory. Banquet quick math auto-grat defaults 23.
 
+**Everybody's night, simplified (8/5 evening, on Evan's correction):** the calculator
+had drifted into hourly-wage/hours/polisher clutter he never asked for and didn't
+understand. Cut back to what he actually wants: Team sales, Team earned, Front, Back
+as one row of squares, then Bussers / Expo / Bar tip-out $ (each person's share of
+their 1.5% / 0.5% / 1% pool) as a second row. No hours input, no polisher line —
+polishers are rare enough (140+ covers before it's worth a thought, real staffing
+concern only 180+) that this calculator ignores that labor entirely. WAGES
+(busser/expo/foodrun/barTipped) stays in 5-data-quiz.js as back-knowledge, unused —
+Evan floated maybe wanting a SEPARATE total-restaurant-labor-cost view someday; don't
+build that unprompted, WAGES is there if/when he asks. exBus/exExpo/exBar now trigger
+a live recalc like exNet/exPct always did (was a gap before, not something he flagged
+but the squares should update live). Also: the mobile "More" sheet's text-size button
+was still wired to a dead single-toggle system from before the A−/A+/Dark redesign —
+the header controls are hidden below 768px, so mobile users never saw the new
+controls. Fixed: the sheet's Tools row now proxies clicks to the real header buttons
+(#szDn/#szUp/#darkT) so mobile gets the same five-step zoom + dark toggle desktop has.
+
 ## Handbook + Vocabulary (added 8/5)
 
 Evan transcribed the official Employee Handbook; it lives as `HANDBOOK` (14 accordion

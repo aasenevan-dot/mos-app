@@ -180,7 +180,14 @@ function renderAllergens(){
 
 /* ---------- QUIZ ---------- */
 let quiz={i:0,score:0,answered:0,order:[],opts:[],missed:[],topics:{}};
-var QBANK=null, QTOPIC="all";
+var QBANK=null, QTOPIC="all", QLEN=10, QMODE="";
+var QTIME=null;
+function clearQTimer(){if(QTIME){clearInterval(QTIME.iv);QTIME=null;}}
+/* seeded shuffle so "Today's 10" is the SAME ten for the whole team all day */
+function mulberry(seed){return function(){seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+function seededPick(n,count,seed){const r=mulberry(seed),a=[...Array(n).keys()];
+  for(let i=a.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[a[i],a[j]]=[a[j],a[i]];}
+  return a.slice(0,count);}
 /* Fisher-Yates. sort(()=>Math.random()-.5) looks like a shuffle but is badly biased —
    it left the correct answer in slot 1 about 36% of the time instead of 25%, so always
    guessing "A" beat guessing at random. The whole point of shuffling is that nobody can
@@ -191,9 +198,12 @@ function shuffled(arr){
   return a;
 }
 function startQuiz(subset,bank){
+  clearQTimer(); QMODE=bank?QMODE:"";
   QBANK=bank||MC;
-  const src = subset && subset.length ? subset : QBANK.map((_,i)=>i);
-  quiz.order=shuffled(src);
+  let src = subset && subset.length ? subset : QBANK.map((_,i)=>i);
+  src=shuffled(src);
+  if(!bank&&QLEN>0&&src.length>QLEN)src=src.slice(0,QLEN);
+  quiz.order=src;
   quiz.opts=quiz.order.map(i=>shuffled(QBANK[i].o.map((txt,k)=>({txt,ok:k===0}))));
   quiz.i=0;quiz.score=0;quiz.answered=0;quiz.missed=[];quiz.topics={};
   renderQuiz();
@@ -201,11 +211,15 @@ function startQuiz(subset,bank){
 function renderQuiz(){
   const box=$("#quizBox");
   if(quiz.i>=quiz.order.length){
-    const pct=quiz.order.length?Math.round(quiz.score/quiz.order.length*100):0;
+    clearQTimer();
+    const denom=QMODE==="blitz"?Math.max(quiz.answered,1):quiz.order.length;
+    const pct=denom?Math.round(quiz.score/denom*100):0;
+    const grade=pct===100?"Perfect run — floor royalty":pct>=90?"Floor ready":pct>=75?"Close — run the review round":pct>=50?"Getting there":"Rookie numbers — run it again";
     const topics=Object.entries(quiz.topics).map(([t,v])=>`<span class="tag${v.ok===v.n?" good":v.ok/v.n<.7?" warn":""}" style="font-size:12px;padding:4px 9px">${t}: ${v.ok}/${v.n}</span>`).join(" ");
     box.innerHTML=`<div class="q" style="text-align:center;padding:28px">
       <div style="font-size:40px;font-weight:800;color:${pct>=90?"#1E6B3A":pct>=70?"var(--gold2)":"#A33C35"}">${pct}%</div>
-      <div style="margin:6px 0 12px;color:var(--dim)">${quiz.score} of ${quiz.order.length} correct</div>
+      <div style="margin:2px 0 4px;font-weight:700;color:var(--gold)">${grade}</div>
+      <div style="margin:0 0 12px;color:var(--dim)">${quiz.score} of ${QMODE==="blitz"?quiz.answered+" answered in the minute":quiz.order.length+" correct"}${QMODE==="daily"?" · Today's 10 — same ten for everyone, compare at pre-shift":""}</div>
       <div class="tags" style="justify-content:center;margin-bottom:16px">${topics}</div>
       <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
         <button class="btn" onclick="startQuiz()">New quiz</button>
@@ -217,6 +231,7 @@ function renderQuiz(){
   const qi=quiz.order[quiz.i], m=QBANK[qi], opts=quiz.opts[quiz.i];
   $("#quizScore").innerHTML=`<b>${quiz.score}</b> / ${quiz.answered} &nbsp;·&nbsp; question ${quiz.i+1} of ${quiz.order.length}`;
   box.innerHTML=`<div class="q">
+    <div class="qprog"><i style="width:${Math.round(quiz.i/quiz.order.length*100)}%"></i></div>
     <div class="qq"><span>${quiz.i+1}.</span>${esc(m.q)} <span class="tag" style="margin-left:6px">${m.t}</span></div>
     ${opts.map((o,k)=>`<button class="opt" data-k="${k}">${esc(o.txt)}</button>`).join("")}
     <div id="qfb"></div></div>`;
@@ -243,6 +258,31 @@ function vocabQuiz(){
   });
   startQuiz(qs.map((_,i)=>i),qs);
 }
+function todaysTen(){
+  const t=new Date(), seed=t.getFullYear()*10000+(t.getMonth()+1)*100+t.getDate();
+  QMODE="daily";
+  startQuiz(seededPick(MC.length,10,seed),MC);
+  QMODE="daily";
+}
+function garnishMatch(){
+  const pool=COCKTAILS.filter(c=>c.grp!=="verify"&&c.garnish&&c.garnish!=="\u2014"&&c.garnish!=="-");
+  const gs=[...new Set(pool.map(c=>c.garnish))];
+  const qs=shuffled(pool).slice(0,10).map(c=>{
+    const wrong=shuffled(gs.filter(g=>g!==c.garnish)).slice(0,3);
+    return {q:`The garnish on the ${c.n} is\u2026`,o:[c.garnish,...wrong],t:"garnish"};
+  });
+  QMODE="game"; startQuiz(qs.map((_,i)=>i),qs);
+}
+function nameBottle(){
+  const pool=WINES.filter(w=>w.pitch&&w.pitch.length>30);
+  const qs=shuffled(pool).slice(0,10).map(w=>{
+    let peers=pool.filter(x=>x.n!==w.n&&x.v===w.v);
+    if(peers.length<3)peers=pool.filter(x=>x.n!==w.n);
+    const wrong=shuffled(peers).slice(0,3).map(x=>x.n);
+    return {q:`Which bottle is this pitch selling? \u201c${w.pitch}\u201d`,o:[w.n,...wrong],t:"wine"};
+  });
+  QMODE="game"; startQuiz(qs.map((_,i)=>i),qs);
+}
 function priceBlitz(){
   const pool=[];
   Object.entries(MENU).forEach(([sec,items])=>items.forEach(i=>{
@@ -259,13 +299,26 @@ function priceBlitz(){
     let bump=3; while(near.length<3){const v=it.p+bump; if(v!==it.p&&!near.includes(v))near.push(v); bump+=4;}
     return {q:`What does ${it.n} run?`,o:["$"+it.p,...near.map(v=>"$"+v)],t:"price"};
   });
+  QMODE="blitz";
   startQuiz(qs.map((_,i)=>i),qs);
+  QTIME={left:60,iv:setInterval(()=>{
+    if(!QTIME)return; QTIME.left--;
+    if(QTIME.left<=0){clearQTimer();quiz.i=quiz.order.length;renderQuiz();return;}
+    const sc=$("#quizScore"); if(sc&&quiz.i<quiz.order.length)sc.innerHTML=`<b>${quiz.score}</b> / ${quiz.answered} \u00b7 0:${String(QTIME.left).padStart(2,"0")} left`;
+  },1000)};
 }
 const GREET_STEPS=["Busser drops the waters","Front greets \u2014 drinks and apps","BACK drops soup-salad and introduces themselves","Entr\u00e9es land \u2014 coursed, never stacked","Checkback, 2\u20135 minutes after entr\u00e9es"];
-function orderGame(){
+const ORDER_SEQS={
+  greet:{title:"Tap the greet flow in the right order",steps:GREET_STEPS,recap:"Waters \u2192 greet \u2192 soup-salad \u2192 entr\u00e9es \u2192 checkback. That rhythm is the job."},
+  allergy:{title:"Tap the allergy protocol in the right order",steps:PROTOCOL,recap:"Ask \u2192 ring it \u2192 tell your team \u2192 tell expo + chef \u2192 tell a manager \u2192 never guarantee. Every time."}
+};
+function orderGame(key){
+  key=ORDER_SEQS[key]?key:"greet";
+  const SEQ=ORDER_SEQS[key];
   const box=$("#quizBox"); let next=0, miss=0;
-  const order=shuffled(GREET_STEPS.map((st,i)=>({st,i})));
-  box.innerHTML=`<div class="q"><div class="qq"><span>1\u21925</span>Tap the greet flow in the right order</div>
+  clearQTimer(); QMODE="order";
+  const order=shuffled(SEQ.steps.map((st,i)=>({st,i})));
+  box.innerHTML=`<div class="q"><div class="qq"><span>1\u2192${SEQ.steps.length}</span>${SEQ.title}</div>
     <div id="ogDone" style="margin:6px 0"></div>
     ${order.map(o=>`<button class="opt" data-i="${o.i}">${esc(o.st)}</button>`).join("")}
     <div id="ogFb" style="margin-top:8px"></div></div>`;
@@ -273,8 +326,8 @@ function orderGame(){
   box.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{
     const i=+b.dataset.i;
     if(i===next){b.classList.add("right");b.disabled=true;next++;
-      $("#ogDone").innerHTML=GREET_STEPS.slice(0,next).map((st,k)=>`<div style="font-size:12.5px;color:var(--green);font-weight:600">${k+1}. ${esc(st)}</div>`).join("");
-      if(next>=GREET_STEPS.length)$("#ogFb").innerHTML=`<div class="note ${miss?"":"gold"}"><b>${miss===0?"Perfect run \u2014 ":"Done \u2014 "}${miss} wrong tap${miss===1?"":"s"}.</b> Waters \u2192 greet \u2192 soup-salad \u2192 entr\u00e9es \u2192 checkback. That rhythm is the job.</div><button class="btn sec" onclick="orderGame()">Run it again</button>`;
+      $("#ogDone").innerHTML=SEQ.steps.slice(0,next).map((st,k)=>`<div style="font-size:12.5px;color:var(--green);font-weight:600">${k+1}. ${esc(st)}</div>`).join("");
+      if(next>=SEQ.steps.length)$("#ogFb").innerHTML=`<div class="note ${miss?"":"gold"}"><b>${miss===0?"Perfect run \u2014 ":"Done \u2014 "}${miss} wrong tap${miss===1?"":"s"}.</b> ${SEQ.recap}</div><button class="btn sec" onclick="orderGame('${key}')">Run it again</button>`;
     }else{miss++;b.classList.add("wrong");setTimeout(()=>b.classList.remove("wrong"),450);}
   });
 }
@@ -832,14 +885,20 @@ function build(){
     <div class="sechead" id="sec-quiz"><h2>Generate a quiz</h2><span>${MC.length} questions in the bank — fresh shuffle every run</span></div>
     <p class="lede">Pick a lane or take everything. Question and answer order shuffle every time, so nobody can memorize positions — and missed questions come back as a review round.</p>
     <div class="filters" id="quizTopics">${QT.map(([k,l])=>`<button data-t="${k}"${k==="all"?' class="on"':''}>${l} (${qtCount(k)})</button>`).join("")}</div>
-    <div class="qbar"><button class="btn" id="quizStart">Generate quiz</button><div class="score" id="quizScore">ready when you are</div></div>
-    <div class="filters" style="margin-top:2px">
-      <button id="gVocab">Vocab quiz — 10</button>
-      <button id="gPrice">Price blitz — 10</button>
-      <button id="gOrder">Order the greet</button>
+    <div class="filters" id="quizLens"><button data-n="10" class="on">10 questions</button><button data-n="25">25</button><button data-n="0">The whole bank</button></div>
+    <div class="qbar"><button class="btn" id="quizStart">Generate quiz</button><button class="btn sec" id="quizDaily">Today's 10</button><div class="score" id="quizScore">ready when you are</div></div>
+    <p class="sub" style="margin:2px 0 12px;color:var(--dim2);font-size:12px">Today's 10 is the SAME ten questions for everyone all day — compare scores at pre-shift.</p>
+    <div id="quizBox"><div class="empty">Hit generate, take Today's 10, or grab a game below.</div></div>
+
+    <div class="sechead"><h2>Games</h2><span>they build themselves from the live data — always current</span></div>
+    <div class="qa">
+      <button id="gVocab"><div class="t">Vocab quiz</div><div class="s">10 terms — the wrong answers are other real definitions</div></button>
+      <button id="gPrice"><div class="t">Price blitz</div><div class="s">10 prices, 60 seconds on the clock</div></button>
+      <button id="gGarnish"><div class="t">Garnish match</div><div class="s">10 drinks — pick the right garnish</div></button>
+      <button id="gBottle"><div class="t">Name that bottle</div><div class="s">Hear the pitch, name the wine</div></button>
+      <button id="gOrder"><div class="t">Order the greet</div><div class="s">Tap the 5 service steps in sequence</div></button>
+      <button id="gAllergy"><div class="t">Order the allergy protocol</div><div class="s">The 6 steps, in the only acceptable order</div></button>
     </div>
-    <p class="sub" style="margin:2px 0 10px;color:var(--dim2);font-size:12px">The games build themselves fresh from the live menu, drink, and vocabulary data — prices in the blitz are always current.</p>
-    <div id="quizBox"><div class="empty">Hit generate — or grab a game.</div></div>
 
     <div class="sechead"><h2>The real menu test</h2><span>all 30 questions with the corrected answers</span></div>
     <div class="qbar"><button class="btn sec" id="ansToggle">Show all answers</button><div class="score">say each answer out loud before revealing</div></div>
@@ -983,7 +1042,14 @@ function build(){
   $("#quizTopics").onclick=e=>{const b=e.target.closest("button");if(!b)return;
     $("#quizTopics").querySelectorAll("button").forEach(x=>x.classList.toggle("on",x===b));
     QTOPIC=b.dataset.t;};
-  $("#gVocab").onclick=vocabQuiz; $("#gPrice").onclick=priceBlitz; $("#gOrder").onclick=orderGame;
+  $("#quizLens").onclick=e=>{const b=e.target.closest("button");if(!b)return;
+    $("#quizLens").querySelectorAll("button").forEach(x=>x.classList.toggle("on",x===b));
+    QLEN=+b.dataset.n;};
+  $("#quizDaily").onclick=todaysTen;
+  const toArena=f=>()=>{f();document.querySelector("#quizBox").scrollIntoView({behavior:"smooth",block:"start"});};
+  $("#gVocab").onclick=toArena(vocabQuiz); $("#gPrice").onclick=toArena(priceBlitz);
+  $("#gGarnish").onclick=toArena(garnishMatch); $("#gBottle").onclick=toArena(nameBottle);
+  $("#gOrder").onclick=toArena(()=>orderGame("greet")); $("#gAllergy").onclick=toArena(()=>orderGame("allergy"));
   $("#ansToggle").onclick=()=>{
     const on=$("#ansList").classList.toggle("show");
     $("#ansToggle").textContent=on?"Hide all answers":"Show all answers";

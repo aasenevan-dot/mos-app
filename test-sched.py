@@ -112,25 +112,30 @@ async def main():
         if nq<145: bad.append(f"MC bank too small: {nq}")
         badq=await pg.evaluate("MC.filter(m=>!(m.q&&m.o&&m.o.length===4&&new Set(m.o).size===4&&m.t)).length")
         if badq: bad.append(f"{badq} malformed quiz questions")
-        if await pg.evaluate("HOUSE.points.length")!=16: bad.append("Points of Passion count changed — quiz Q wrong")
-        if await pg.evaluate("HOUSE.isaacs.length")!=11: bad.append("Isaac count changed — quiz Q wrong")
-        nch=await pg.evaluate("document.querySelectorAll('#quizTopics button').length")
-        if nch!=10: bad.append(f"topic chips {nch} != 10")
-        # topic-filtered quiz only serves that topic
-        ok=await pg.evaluate("(function(){QTOPIC='money';document.querySelector('#quizStart').click();return quiz.order.every(i=>QBANK[i].t==='money')&&quiz.order.length>=15;})()")
-        if not ok: bad.append("money-lane quiz leaked other topics")
-        # vocab quiz generates 10 x 4
+        if await pg.evaluate("HOUSE.points.length")!=16: bad.append("Points count changed - quiz Q wrong")
+        if await pg.evaluate("HOUSE.isaacs.length")!=11: bad.append("Isaac count changed - quiz Q wrong")
+        nch=await pg.evaluate("[document.querySelectorAll('#quizTopics button').length,document.querySelectorAll('#quizLens button').length]")
+        if nch!=[10,3]: bad.append(f"chip rows wrong: {nch}")
+        ok=await pg.evaluate("(function(){QTOPIC='money';document.querySelector('#quizStart').click();return quiz.order.every(i=>QBANK[i].t==='money')&&quiz.order.length===10;})()")
+        if not ok: bad.append("money-lane quiz wrong (leak or length)")
+        ok=await pg.evaluate("(function(){QTOPIC='all';QLEN=0;document.querySelector('#quizStart').click();const n=quiz.order.length;QLEN=10;return n===QBANK.length&&n>=145;})()")
+        if not ok: bad.append("whole-bank length option broken")
+        same=await pg.evaluate("(function(){todaysTen();const a=[...quiz.order].sort((x,y)=>x-y).join();todaysTen();const b=[...quiz.order].sort((x,y)=>x-y).join();return a===b&&quiz.order.length===10&&QMODE==='daily';})()")
+        if not same: bad.append("Todays 10 not deterministic")
         ok=await pg.evaluate("(function(){vocabQuiz();return quiz.order.length===10&&quiz.order.every(i=>QBANK[i].o.length===4&&QBANK[i].t==='vocab');})()")
         if not ok: bad.append("vocab quiz malformed")
-        # price blitz: 10 questions, correct price is a real one, options unique
-        ok=await pg.evaluate("(function(){priceBlitz();return quiz.order.length===10&&quiz.order.every(i=>{const q=QBANK[i];return q.o.length===4&&new Set(q.o).size===4&&q.o[0].startsWith('$');});})()")
-        if not ok: bad.append("price blitz malformed")
-        # order game renders 5 tappable steps and completes
-        ok=await pg.evaluate("""(function(){orderGame();const b=[...document.querySelectorAll('#quizBox .opt')];
-          if(b.length!==5)return false;
-          for(let n=0;n<5;n++){const t=[...document.querySelectorAll('#quizBox .opt')].find(x=>+x.dataset.i===n);t.click();}
-          return document.querySelector('#ogFb').innerHTML.includes('0 wrong taps');})()""")
-        if not ok: bad.append("order game broken")
+        ok=await pg.evaluate("(function(){garnishMatch();return quiz.order.length===10&&quiz.order.every(i=>{const q=QBANK[i];return q.o.length===4&&new Set(q.o).size===4;});})()")
+        if not ok: bad.append("garnish match malformed")
+        ok=await pg.evaluate("(function(){nameBottle();return quiz.order.length===10&&quiz.order.every(i=>{const q=QBANK[i];return q.o.length===4&&new Set(q.o).size===4&&q.q.includes('pitch');});})()")
+        if not ok: bad.append("name-that-bottle malformed")
+        ok=await pg.evaluate("(function(){priceBlitz();const armed=QTIME!==null&&QTIME.left===60&&QMODE==='blitz';const shape=quiz.order.length===10&&quiz.order.every(i=>{const q=QBANK[i];return q.o.length===4&&new Set(q.o).size===4&&q.o[0].startsWith('$');});clearQTimer();return armed&&shape;})()")
+        if not ok: bad.append("price blitz or its timer malformed")
+        for key,n in [("greet",5),("allergy",6)]:
+            js="(function(){orderGame('"+key+"');const b=[...document.querySelectorAll('#quizBox .opt')];if(b.length!=="+str(n)+")return false;for(let x=0;x<"+str(n)+";x++){const t=[...document.querySelectorAll('#quizBox .opt')].find(e=>+e.dataset.i===x);t.click();}return document.querySelector('#ogFb').innerHTML.includes('0 wrong taps');})()"
+            ok=await pg.evaluate(js)
+            if not ok: bad.append(f"order game {key} broken")
+        prog=await pg.evaluate("(function(){startQuiz();return document.querySelector('#quizBox .qprog')!==null;})()")
+        if not prog: bad.append("progress bar missing")
         await pg.evaluate("startQuiz()")
         # ---- handbook + vocabulary ----
         house=await pg.evaluate("document.querySelector('#p-house').innerHTML")

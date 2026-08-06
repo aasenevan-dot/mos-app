@@ -221,8 +221,17 @@ runs on a swappable QBANK so games feed it generated questions: vocabQuiz() (10 
 VOCAB, wrong answers are other real definitions) and priceBlitz() (10 from live
 MENU/COCKTAILS/BTG prices — distractors are neighboring real prices, so the game stays
 current automatically). orderGame() is a tap-in-order greet-flow game (GREET_STEPS).
-test-sched.py validates bank size/shape, lane purity, both generators, and a perfect
-order-game run. Home tile says "Quiz & games."
+Perfection round same day: length chips (10/25/whole bank, QLEN),
+TODAY'S 10 (date-seeded via mulberry32 — the same ten for the whole team all day, order
+still shuffled per person), a progress bar (.qprog), grade lines on the results screen,
+a real 60-second countdown on Price Blitz (QTIME, cleared by startQuiz/finish), two more
+auto-games (garnishMatch from live garnishes, nameBottle from live wine pitches with
+same-varietal distractors), and orderGame is generic (ORDER_SEQS: greet 5 steps,
+allergy protocol 6 steps). Games are .qa cards under their own Games header. One dupe
+removed (6+ grat — the original keeps it, now with the must-tell-the-guest clause).
+test-sched.py validates bank shape, lane purity + lengths, daily determinism, every
+generator, the armed blitz timer, both order games run perfect, and the progress bar.
+Home tile says "Quiz & games."
 
 ## Privacy — this folder gets shared
 
@@ -307,3 +316,28 @@ Build, run test.py, then give Evan the fresh `index.html` (it also replaces
 `Restaurant/index.html` and the dated html in the parent folder, and the "mos-cowork"
 desktop artifact when working through Cowork). If the GitHub Pages repo exists, commit
 and push so the live link updates too.
+
+## Menu-bible enrichment round (8/6)
+
+Evan supplied a 61-page transcription of the old training "menu bible" (Prime 47-era —
+same company, merged; leave the old branding in the past). We mined it for prep detail,
+ingredient builds, pitch logic, and service cues and rewrote most food descriptions with
+it. RULES USED, keep following them: chat-locked facts ALWAYS beat the manual (brussels =
+balsamic, ponzu not GF, kung pao HAS peanuts, porterhouse = USDA Choice $150, miso cure
+48-72h, A5 $25/oz, bisque $11, current prices beat manual prices everywhere); manual
+allergens are UNRELIABLE (it missed egg on crab cake, fin fish on salmon, gluten on
+primavera linguini) so allergen changes were ADD-ONLY (added: egg on crab dip + au gratin,
+fin fish on shrimp-cocktail Worcestershire, nightshade on bisque tomato, capsaicin on goat
+cheese cayenne, tree-nut caution on kung pao); never cite the manual in app text.
+Evan verified the open items same day: kung pao = treat as BOTH peanut and tree nut
+(which one exactly is a chef question); crab dip = corn tortilla chips with cajun dusting;
+miso seabass keeps brussels + coconut risotto; Caesar anchovies are an OPTIONAL
+no-upcharge side and bonito flakes are in the dressing (bonito = confirm with chef);
+lava-cake tableside flambe is REAL (alcohol flag added); brown-butter dry-ice show is
+REAL (hot water over dry ice in the bowl); goat-cheese tableside honey REAL;
+Filet & Lobster $105 / Twin Tails $100 CORRECT as-is; green beans + seared blackened
+scallops ARCHIVED (allergen rows marked, past-specials entries added); Steak 47 = 4 oz
+filet base, upgrades price as filet price + the $25 topping (6 oz $79, 10 oz $104) —
+the shrimp/scallop U-sizes are unconfirmed (old sheet U-10/U-12, Evan remembers U-5).
+Still out from the bible on purpose: blackened-tuna starter, bone-in center-cut ribeye,
+truffle mash as its own side — old dishes, not current.

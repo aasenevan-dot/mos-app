@@ -620,7 +620,7 @@ function search(q){
   SPECIALS_ON.forEach(s=>{if(matches([s[0],s[2]]))add("Ongoing special",s[0]+" — "+s[1],s[2],"specials");});
   SPECIALS_ROTATION.forEach(s=>{if(matches([s[0],s[2]]))add("Rotating special",s[0],s[2],"specials");});
   SPECIALS_PAST.forEach(s=>{if(matches([s[0],s[2]]))add("Past special",s[0]+" ("+s[3]+")",s[2],"specials");});
-  SOTD.forEach(s=>{if(matches([s[1],s[2]]))add("Soup of the day",s[1]+" — first seen "+s[0],s[2],"specials");});
+  SOTD.forEach(s=>{if(matches([s[0],s[1]]))add("Soup of the day",s[0],s[1],"specials");});
   SOUPS_STANDING.forEach(s=>{if(matches([s[0],s[2]]))add("Standing soup",s[0]+" — "+s[1],s[2],"specials");});
   OFFMENU.forEach(s=>{if(matches([s[0],s[2]]))add("Off-menu",s[0]+" — "+s[1],s[2],"specials");});
   VOCAB.forEach(g=>g[1].forEach(r=>{if(matches([g[0],r[0],r[1]]))add("Vocabulary",r[0],r[1],"vocab");}));
@@ -835,7 +835,7 @@ function build(){
 
     <div class="sechead"><h2>Soup of the day — archive</h2><span>$7 · changes daily · every one we log lives here</span></div>
     ${SOTD.length
-      ? tbl(["First seen","Soup","What's in it","Allergen notes"],SOTD.map(s=>[`<b>${esc(s[0])}</b>`,`<b>${esc(s[1])}</b>`,esc(s[2]),`<span style="color:var(--dim)">${esc(s[3])}</span>`]))
+      ? tbl(["Soup","What's in it","Allergen notes"],SOTD.map(s=>[`<b>${esc(s[0])}</b>`,esc(s[1]),`<span style="color:var(--dim)">${esc(s[2])}</span>`]))
       : `<div class="empty">No soups logged yet. Tell your Claude tonight's soup and what's in it — the archive starts there, and every soup stays searchable forever.</div>`}
     <div class="note warn" style="margin-top:10px"><b>Allergen rule:</b> soup of the day allergens change with the soup. Never answer from memory — check this archive, then verify with the kitchen.</div>
 

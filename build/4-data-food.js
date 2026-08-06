@@ -26,9 +26,9 @@ const MENU = {
  ["Roasted Seafood Tower","$190","King crab legs, scallops, lobster meat, shrimp, mussels, tossed in diavolo sauce. The seafood-butter sauce pooling at the bottom — garlic butter, lobster stock, parsley, a touch of house marinara — is the good stuff. SERVICE: stacking rack in the base, stack at the table over a black linen, cocktail forks preset, butter warmer with a tealight. HALFWAY through, clear shells and stir the pasta setup into that remaining sauce — the tableside pasta is the value moment, do NOT skip it.","Bechamel is the base sauce (Mornay-style once cheese is in). We stir our bechamel cheese-sauce pasta into the tower sauce and the house calls the result CAPAVETTI PASTA — that is exactly how we say it."]],
 
  "Soup & Salad":[
- ["Soup of the Day","$7 printed / comp with entrees","One soup of the day per shift. It comes COMPLIMENTARY with entrees — or the guest can upcharge $4 to lobster bisque or baked French onion. Verify the exact soup before answering any allergen question.","New comp system"],
+ ["Soup of the Day","$7 printed / comp with entrees","One soup of the day per shift. It comes COMPLIMENTARY with entrees — or the guest can upcharge $4 to lobster bisque or baked French onion. Verify the exact soup before answering any allergen question.",""],
  ["Prime Beef Chili","OFF the menu right now","Prime trim ground in house, browned with onion and garlic, deglazed with beer. The house chili paste is guajillo, ancho, and chipotle peppers, built up with veal stock and tomato until rich and thick. Currently pulled — comes back sometimes as the soup of the day or a bonus $4 soup; probably returns for winter.","Off menu"],
- ["Lobster Bisque","$11","Lobster stock built into a roux with tomato, white wine, and sherry vinegar. Also the $4 soup-course upcharge from the comp soup of the day. ($11 on the current print — the old sheet said $13.)",""],
+ ["Lobster Bisque","$11","Lobster stock built into a roux with tomato, white wine, and sherry vinegar. Also the $4 soup-course upcharge from the comp soup of the day.",""],
  ["Baked French Onion","$13","Vidalia onions caramelized with butter, deglazed with red wine, in beef bone stock with mirepoix and herbs 48–72 hours. Brown ceramic crock, herb crouton, provolone melted in the broiler, parsley.","Mirepoix = meer-PWAH = onion, carrot, celery"],
  ["House Salad","$7","Romaine mix with carrots, cucumbers, cherry tomatoes, red cabbage (in the mix — cannot be removed), and croutons. House ranch and house dressing are made IN-HOUSE (the ranch runs mayo + buttermilk — that is egg and dairy — plus a touch of MSG). Other dressings: check before promising labels.",""],
  ["Roasted Pear Salad","$16","Arugula base, roasted pear, Gorgonzola, candied walnuts, dried cherries, maple balsamic.","Dairy + tree nuts"],
@@ -86,7 +86,7 @@ const MENU = {
  ["Creamy Risotto","$15","Crispy prosciutto and sundried tomatoes. Cooked in chicken stock.","NOT vegetarian — chicken stock + prosciutto"],
  ["Baked Potato","$11","Salt-crusted russet, par-baked and finished to order so it comes out light and fluffy. Cut it open and press it apart at the plate to show off the steam, and leave the little knife in the potato. Base: butter and sour cream. LOADED upgrade — chives, bacon, cheese — about +$3 (best guess, verify). Loaded adds pork.","Menu marks GF (base)"],
  ["White Cheddar Mashed Potatoes","$12","Mashed with nearly equal parts butter — that is the secret — plus cream and white cheddar. Add truffle $3 or wasabi $3.","Menu marks GF · upsell the $3 add"],
- ["Truffle Cauliflower","$14","Pan-seared with shallots, mixed with Alfredo and truffle oil, topped with Parmesan and parsley.","Newer side on the current menu"],
+ ["Truffle Cauliflower","$14","Pan-seared with shallots, mixed with Alfredo and truffle oil, topped with Parmesan and parsley.",""],
  ["Lobster Mac N' Cheese","$26","A roux built on lobster stock with onion and garlic, white cheddar and Parmesan, broiled with panko and more cheese on top. Premium share side.","Biggest side upsell"],
  ["Jalapeno Potatoes Au Gratin","$15","Seedless jalapenos — flavor without much burn — with diced russets, bacon, white cheddar, garlic, and green onion, baked in its own ceramic boat.","Bacon is mixed in each morning — cannot be removed"],
  ["Brussels Sprouts","$15","Trimmed, halved, oven roasted, then flash-fried so the outside goes crispy. Balsamic glaze over the top (an older sheet said sriracha hot honey — if both float around, ask which is on tonight). Serving spoon rides in the bowl.",""],
@@ -202,7 +202,7 @@ const ALLERGENS = [
  ["A5 Nigiri","$35",["beef","alcohol","cross-contact"],"Torched rice, balsamic pearls, Asian pear WINE reduction (trace alcohol), crispy leeks likely from the shared fryer. Standard assumed."],
  ["Grilled Asparagus","$15",["egg","dairy"],"Hollandaise. Menu marks GF."],
  ["Truffle Mashed / Cheddar Mashed","$12 + $3 add",["dairy"],"Butter, cream, white cheddar. $12 base, +$3 truffle or wasabi. Menu marks GF."],
- ["Truffle Cauliflower","$14",["dairy","allium"],"Alfredo, truffle oil, Parmesan, shallots. Newer side on the current menu."],
+ ["Truffle Cauliflower","$14",["dairy","allium"],"Alfredo, truffle oil, Parmesan, shallots."],
  ["Creamed Spinach w/ Butternut Squash","$16",["dairy","gluten"],"Cream sauce over roasted butternut squash. Marked g on the current menu — contains gluten."],
  ["Roasted Green Beans","$14",["sesame","allium","nightshade"],"ARCHIVED — off the menu. Sesame oil, red bell pepper, white onion."],
  ["Lobster Mac N' Cheese","$26",["shellfish","gluten","dairy","allium"],"Lobster stock, roux, pasta, cheese, panko."],
@@ -310,20 +310,20 @@ const SOUPS_STANDING=[
  ["How soups run","one per day","One soup of the day per shift, trading daily — and it comes COMPLIMENTARY with entrees. Guests can upcharge $4 to lobster bisque or baked French onion. Bisque is on every day. Most soups get a parsley garnish. Chili is off the menu right now and floats back in as a SOTD or bonus soup."],
  ["Soups seen in the rotation","varies","Jalapeño beer cheese, tomato basil bisque, buffalo chicken, loaded baked potato, cream of mushroom, cream of broccoli, potato leek, roasted poblano, corn chowder — all of these have run as the soup of the day before."],
  ["Baked French Onion","$13","Vidalia onions caramelized with butter, red wine deglaze, beef bone stock with mirepoix 48-72 hours. Brown crock, herb crouton, provolone, broiled."],
- ["Lobster Bisque","$11","Lobster stock, roux, white wine, sherry vinegar. Runs every day. ($11 on the current print.)"],
+ ["Lobster Bisque","$11","Lobster stock, roux, white wine, sherry vinegar. Runs every day."],
  ["Prime Beef Chili","OFF the menu","Pulled from the printed menu for now. Comes back sometimes as the soup of the day or a bonus $4 soup — probably returns for winter."]
 ];
 /* soup-of-the-day archive: [logged, name, what is in it, notes] — every soup stays here forever */
 const SOTD=[
- ["8/4/26","Chicken Tortilla","Chicken tortilla soup with crispy tortilla strips dropped in right before it goes out.","nightshade + capsaicin + gluten (strips) — VERIFY rest"],
- ["8/4/26","Chicken Pot Pie Soup","Creamy chicken pot pie in soup form. VERIFY full build with the kitchen.","VERIFY allergens"],
- ["8/4/26","Chicken Noodle","Classic chicken noodle. VERIFY build.","gluten (noodles) — VERIFY rest"],
- ["8/4/26","Clam Chowder","Clam chowder. VERIFY build.","shellfish + dairy — VERIFY rest"],
- ["8/4/26","Pasta e Fagioli","Beef, noodles, celery, carrot — Italian bean-and-pasta soup. House just calls it 'fagioli.'","gluten + beef — VERIFY rest"],
- ["8/4/26","Italian Wedding","Cream, sausage, and noodles. Very good — an easy sell.","gluten + dairy + pork — VERIFY rest"],
- ["8/4/26","Chicken Gnocchi","Creamy chicken with gnocchi — dumpling-style potato pasta.","gluten + dairy — VERIFY rest"],
- ["8/4/26","Poblano","Poblano pepper soup, served with croutons.","nightshade + gluten (croutons) — VERIFY rest"],
- ["8/4/26","Prime Beef Chili (as SOTD)","The standing chili sometimes runs as the soup of the day.","beef + nightshade + alcohol (beer deglaze)"]
+ ["Chicken Tortilla","Chicken tortilla soup with crispy tortilla strips dropped in right before it goes out.","nightshade + capsaicin + gluten (strips) — VERIFY rest"],
+ ["Chicken Pot Pie Soup","Creamy chicken pot pie in soup form. VERIFY full build with the kitchen.","VERIFY allergens"],
+ ["Chicken Noodle","Classic chicken noodle. VERIFY build.","gluten (noodles) — VERIFY rest"],
+ ["Clam Chowder","Clam chowder. VERIFY build.","shellfish + dairy — VERIFY rest"],
+ ["Pasta e Fagioli","Beef, noodles, celery, carrot — Italian bean-and-pasta soup. House just calls it 'fagioli.'","gluten + beef — VERIFY rest"],
+ ["Italian Wedding","Cream, sausage, and noodles. Very good — an easy sell.","gluten + dairy + pork — VERIFY rest"],
+ ["Chicken Gnocchi","Creamy chicken with gnocchi — dumpling-style potato pasta.","gluten + dairy — VERIFY rest"],
+ ["Poblano","Poblano pepper soup, served with croutons.","nightshade + gluten (croutons) — VERIFY rest"],
+ ["Prime Beef Chili (as SOTD)","The standing chili sometimes runs as the soup of the day.","beef + nightshade + alcohol (beer deglaze)"]
 ];
 const OFFMENU=[
  ["Nothing hidden right now","—","The PD (15 oz hand-cut filet, $115) moved onto the printed menu, and the 14 oz bone-in filet is retired to the past-specials archive. The cut specials above are today's off-menu steaks."]

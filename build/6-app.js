@@ -26,6 +26,33 @@ const ICONS={
 };
 const BOTTOM=[["shift","Home","home"],["wine","Wine","wine"],["cocktails","Drinks","drinks"],["specials","Specials","star"],["ops","Money","money"],["__more","More","more"]];
 
+/* One symbol per quick-action tile, keyed by the tile's data-qa. Same 24x24 stroke style
+   as the bottom bar so the app still looks like one thing. Sits in the top-right corner
+   rather than beside the title: these tiles get down to ~160px on a phone and an inline
+   icon would squeeze the text into more lines. */
+const QAICONS={
+ /* calendar */
+ "sched|":'<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2.5"/><path d="M3 10h18M8 2.8v4M16 2.8v4"/></svg>',
+ /* martini with an olive on a pick — the garnish IS the point */
+ "cocktails|#sec-garnish":'<svg viewBox="0 0 24 24"><path d="M4 5.5h16l-8 8z"/><path d="M12 13.5v6M8.5 19.5h7"/><path d="M14.6 4.1l-2.4 2.4"/><circle cx="15.6" cy="3.1" r="1.5"/></svg>',
+ /* peanut — the universal allergen symbol, per Evan */
+ "allergens|#sec-allergy":'<svg viewBox="0 0 24 24"><circle cx="12" cy="7.4" r="4.3"/><circle cx="12" cy="16.2" r="4.3"/><path d="M9.6 11.1c1.6.9 3.2.9 4.8 0"/></svg>',
+ /* the wine glass proper — this is the tab servers reach for, so it reads as wine first */
+ "wine|#sec-bottles":'<svg viewBox="0 0 24 24"><path d="M6.6 2.6h10.8l-1.1 7.6a4.4 4.4 0 01-8.6 0z"/><path d="M12 14.6v5.8M8 20.6h8"/></svg>',
+ /* a glass AND a four-prong fork — the pairing is wine plus the food */
+ "wine|#sec-pair":'<svg viewBox="0 0 24 24"><path d="M2 3h5.8l-.6 4.4a2.3 2.3 0 01-4.6 0z"/><path d="M4.9 9.7v8.9M3.1 18.6h3.6"/><path d="M12.6 2.4v4.6a4.4 4.4 0 008.8 0V2.4"/><path d="M15.5 2.4v4.6M18.5 2.4v4.6"/><path d="M17 11.4v10"/></svg>',
+ /* calculator */
+ "ops|#sec-checkout":'<svg viewBox="0 0 24 24"><rect x="4.5" y="2.5" width="15" height="19" rx="2.5"/><path d="M7.8 6.6h8.4"/><path d="M8.2 11.2h.01M12 11.2h.01M15.8 11.2h.01M8.2 14.6h.01M12 14.6h.01M15.8 14.6h.01M8.2 18h.01M12 18h.01M15.8 18h.01"/></svg>',
+ /* crescent moon — calling the night before it happens */
+ "ops|#sec-income":'<svg viewBox="0 0 24 24"><path d="M20.5 14.6A8.6 8.6 0 019.4 3.5a8.6 8.6 0 1011.1 11.1z"/></svg>',
+ /* question mark */
+ "study|#sec-quiz":'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.2"/><path d="M9.3 9.3a2.8 2.8 0 015.4.8c0 1.9-2.7 2.4-2.7 4"/><path d="M12 17.7h.01"/></svg>',
+ /* fork and spoon — four prongs, like a real dinner fork */
+ "menu|":'<svg viewBox="0 0 24 24"><path d="M1.6 2.4v4.6a4.4 4.4 0 008.8 0V2.4"/><path d="M4.5 2.4v4.6M7.5 2.4v4.6"/><path d="M6 11.4v10"/><ellipse cx="18.2" cy="6.4" rx="3" ry="3.9"/><path d="M18.2 10.4v11"/></svg>',
+ /* magnifier */
+ "__search|":'<svg viewBox="0 0 24 24"><circle cx="10.6" cy="10.6" r="6.6"/><path d="M20 20l-4.7-4.7"/></svg>'
+};
+
 let TAB = "shift";
 
 function buildNav(){
@@ -542,16 +569,16 @@ function build(){
   $("#p-shift").innerHTML=`
     <div class="sechead"><h2>What do you need?</h2><span>one tap</span></div>
     <div class="qa">
-      <button data-qa="sched|"><div class="t">Schedule</div><div class="s">Who works today + the whole posted week</div></button>
-      <button data-qa="cocktails|#sec-garnish"><div class="t">Garnish check</div><div class="s">Every drink's garnish and glass, one table</div></button>
-      <button data-qa="allergens|#sec-allergy"><div class="t">Allergy check</div><div class="s">Tap an allergen — see only what has it</div></button>
-      <button data-qa="wine|#sec-bottles"><div class="t">Wine by budget</div><div class="s">Bottles at their price, pitch included</div></button>
-      <button data-qa="wine|#sec-pair"><div class="t">Pair their order</div><div class="s">They ordered X — here's what you say</div></button>
-      <button data-qa="ops|#sec-checkout"><div class="t">Sales Calculator</div><div class="s">Sales in — your front/back split out</div></button>
-      <button data-qa="ops|#sec-income"><div class="t">Night Forecast</div><div class="s">Who's on, the covers, and the cut — called early</div></button>
-      <button data-qa="study|#sec-quiz"><div class="t">Take a quiz</div><div class="s">Fresh shuffle every time + the real 30</div></button>
-      <button data-qa="menu|"><div class="t">Food menu</div><div class="s">Prices, builds, temps, the A5 pitch</div></button>
-      <button data-qa="__search|"><div class="t">Search everything</div><div class="s">Wine, garnish, allergen, price</div></button>
+      <button data-qa="sched|">${QAICONS["sched|"]||""}<div class="t">Schedule</div><div class="s">Who works today + the whole posted week</div></button>
+      <button data-qa="cocktails|#sec-garnish">${QAICONS["cocktails|#sec-garnish"]||""}<div class="t">Garnish check</div><div class="s">Every drink's garnish and glass, one table</div></button>
+      <button data-qa="allergens|#sec-allergy">${QAICONS["allergens|#sec-allergy"]||""}<div class="t">Allergy check</div><div class="s">Tap an allergen — see only what has it</div></button>
+      <button data-qa="wine|#sec-bottles">${QAICONS["wine|#sec-bottles"]||""}<div class="t">Wine by budget</div><div class="s">Bottles at their price, pitch included</div></button>
+      <button data-qa="wine|#sec-pair">${QAICONS["wine|#sec-pair"]||""}<div class="t">Pair their order</div><div class="s">They ordered X — here's what you say</div></button>
+      <button data-qa="ops|#sec-checkout">${QAICONS["ops|#sec-checkout"]||""}<div class="t">Sales Calculator</div><div class="s">Sales in — your front/back split out</div></button>
+      <button data-qa="ops|#sec-income">${QAICONS["ops|#sec-income"]||""}<div class="t">Night Forecast</div><div class="s">Who's on, the covers, and the cut — called early</div></button>
+      <button data-qa="study|#sec-quiz">${QAICONS["study|#sec-quiz"]||""}<div class="t">Take a quiz</div><div class="s">Fresh shuffle every time + the real 30</div></button>
+      <button data-qa="menu|">${QAICONS["menu|"]||""}<div class="t">Food menu</div><div class="s">Prices, builds, temps, the A5 pitch</div></button>
+      <button data-qa="__search|">${QAICONS["__search|"]||""}<div class="t">Search everything</div><div class="s">Wine, garnish, allergen, price</div></button>
     </div>
 
     <div class="sechead"><h2>Before you walk up</h2><span>the 60-second version</span></div>

@@ -248,9 +248,18 @@ footer{
 .qa button{
   background:linear-gradient(160deg,var(--card2),var(--card));border:1px solid var(--line2);
   border-radius:16px;padding:14px 13px;text-align:left;color:var(--txt);cursor:pointer;
+  position:relative;
 }
 .qa button:hover{border-color:var(--gold);transform:translateY(-1px)}
-.qa .t{font-weight:700;font-size:14.5px;color:var(--gold2)}
+/* the tile symbol — corner-set so it never squeezes the text column on a narrow phone.
+   Absolute, so it costs the layout nothing; the title just reserves room beside it. */
+.qa button>svg{
+  position:absolute;top:12px;right:11px;width:22px;height:22px;
+  stroke:var(--gold2);fill:none;stroke-width:1.45;stroke-linecap:round;stroke-linejoin:round;
+  opacity:.7;pointer-events:none;
+}
+.qa button:hover>svg{opacity:1}
+.qa .t{font-weight:700;font-size:14.5px;color:var(--gold2);padding-right:27px}
 .qa .s{font-size:11.5px;color:var(--dim);margin-top:3px;line-height:1.35}
 .jumper{display:flex;gap:6px;overflow-x:auto;padding:2px 0 12px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .jumper::-webkit-scrollbar{display:none}

@@ -5,6 +5,10 @@
 const $ = s=>document.querySelector(s);
 const esc = s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const $d=n=>"$"+Math.round(n).toLocaleString();
+/* money and headcount fields can never be negative. The inputs carry min="0", but that
+   only stops the spinner arrows — a typed or pasted "-" still got through and printed
+   nonsense like "−$-21" on the checkout. Read every one of them through this. */
+const $n=s=>Math.max(0,+$(s).value||0);
 
 const TABS = [
   ["shift","Home"],["sched","Schedule"],["wine","Wine"],["cocktails","Drinks & Garnish"],["menu","Food Menu"],
@@ -149,10 +153,19 @@ function renderAllergens(){
 
 /* ---------- QUIZ ---------- */
 let quiz={i:0,score:0,answered:0,order:[],opts:[],missed:[],topics:{}};
+/* Fisher-Yates. sort(()=>Math.random()-.5) looks like a shuffle but is badly biased —
+   it left the correct answer in slot 1 about 36% of the time instead of 25%, so always
+   guessing "A" beat guessing at random. The whole point of shuffling is that nobody can
+   memorize positions, so it has to be even. */
+function shuffled(arr){
+  const a=[...arr];
+  for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}
+  return a;
+}
 function startQuiz(subset){
   const src = subset && subset.length ? subset : MC.map((_,i)=>i);
-  quiz.order=[...src].sort(()=>Math.random()-.5);
-  quiz.opts=quiz.order.map(i=>MC[i].o.map((txt,k)=>({txt,ok:k===0})).sort(()=>Math.random()-.5));
+  quiz.order=shuffled(src);
+  quiz.opts=quiz.order.map(i=>shuffled(MC[i].o.map((txt,k)=>({txt,ok:k===0}))));
   quiz.i=0;quiz.score=0;quiz.answered=0;quiz.missed=[];quiz.topics={};
   renderQuiz();
 }
@@ -209,11 +222,11 @@ function pipeMath(sales, realTips, estRate, bqOn, polisher, cash){
 
 /* ---------- SALES CALCULATOR (the real checkout pipeline) ---------- */
 function calcSC(){
-  const sales=+$("#scSales").value||0;
-  const realTips=+$("#scTips").value||0;
+  const sales=$n("#scSales");
+  const realTips=$n("#scTips");
   const bqOn=$("#scBq").value==="yes";
   const polisher=+$("#scPolisher").value||0;
-  const cash=+$("#scCash").value||0;
+  const cash=$n("#scCash");
 
   if(!sales){$("#scOut").innerHTML=`<div class="empty" style="padding:14px">Type your team's net sales (or tap a preset) and the whole checkout prints itself.</div>`;return;}
 
@@ -314,12 +327,12 @@ function calcIP(){
   const dp=DAYPRE[IP_WD[d[1]]]||DAYPRE.sun;
   const teams=Math.max(1,Math.round(+$("#ipTeams").value||dp.teams));
   const nCk=Math.max(0,+$("#ipCk").value||0);
-  const books=+$("#ipBooks").value||0;
-  const walk=+$("#ipWalk").value||0;
+  const books=$n("#ipBooks");
+  const walk=$n("#ipWalk");
   const chk=+$("#ipCheck").value||CHECK_CAL;
   const pct=((+$("#ipPct").value||20.8))/100;
   const pol=+$("#ipPol").value||0;
-  const manual=+$("#ipNet").value||0;
+  const manual=$n("#ipNet");
   const nBus=Math.max(0,Math.round(+$("#ipBus").value||0));
   const nExpo=Math.max(0,Math.round(+$("#ipExpo").value||0));
   const nBar=Math.max(0,Math.round(+$("#ipBar").value||0));
@@ -385,13 +398,13 @@ function calcIP(){
 
 /* ---------- BANQUET CHECKOUT — the second envelope, same math ---------- */
 function calcBQC(){
-  const sales=+$("#bqcSales").value||0;
-  const tips=+$("#bqcTips").value||0;
+  const sales=$n("#bqcSales");
+  const tips=$n("#bqcTips");
   const bq3=$("#bqcThree").value==="yes";
   const r=pipeMath(sales,tips,SALES.banquetGratRate,bq3,0,0);
   if(!r){$("#bqcOut").innerHTML='<div class="empty" style="padding:14px">Type the banquet sheet\u2019s net sales and this prints the second envelope.</div>';return;}
-  const rs=+$("#scSales").value||0, rt=+$("#scTips").value||0;
-  const reg=pipeMath(rs,rt,SALES.guestTipRate,$("#scBq").value==="yes",+$("#scPolisher").value||0,+$("#scCash").value||0);
+  const rs=$n("#scSales"), rt=$n("#scTips");
+  const reg=pipeMath(rs,rt,SALES.guestTipRate,$("#scBq").value==="yes",+$("#scPolisher").value||0,$n("#scCash"));
   $("#bqcOut").innerHTML=`<div class="receipt">
     <div class="rhead">MO'S — BANQUET CHECKOUT</div>
     <div class="rsub">${tips>0?"real gratuity from the banquet sheet":"gratuity estimated at the house 23% until you type it"}</div>
@@ -412,9 +425,9 @@ function calcBQC(){
 
 /* ---------- BANQUET MINI-TOOL ---------- */
 function calcBq(){
-  const heads=+$("#bqHeads").value||0;
-  const perHead=+$("#bqPerHead").value||0;
-  const min=+$("#bqMin").value||0;
+  const heads=$n("#bqHeads");
+  const perHead=$n("#bqPerHead");
+  const min=$n("#bqMin");
   const gratPct=(+$("#bqGrat").value||0)/100;
   const byHeads=heads*perHead;
   const net=Math.round(Math.max(byHeads,min));
@@ -863,6 +876,23 @@ function build(){
 
 /* ---------- BOOT ---------- */
 buildNav(); build();
+/* Every calculator field is markup like <div class="f"><label>Teams</label><input id=...>.
+   The label was never tied to its input, so a screen reader read the boxes as unlabeled
+   — you'd hear "edit text, blank" instead of "Teams". Wire them up once at boot rather
+   than hand-editing thirty-odd fields; anything added later gets picked up for free.
+   Search boxes carry their own aria-label since their placeholder is the only cue. */
+(function labelUp(){
+  document.querySelectorAll(".f").forEach(f=>{
+    const lab=f.querySelector("label"), field=f.querySelector("input,select,textarea");
+    if(!lab||!field||lab.getAttribute("for"))return;
+    if(!field.id)field.id="f_"+Math.random().toString(36).slice(2,9);
+    lab.setAttribute("for",field.id);
+  });
+  [["#gsearch","Search the whole app"],["#wineQ","Search wine"],["#drinkQ","Search drinks"],
+   ["#allergyQ","Search dishes by name"]].forEach(([sel,name])=>{
+    const el=$(sel); if(el&&!el.getAttribute("aria-label"))el.setAttribute("aria-label",name);
+  });
+})();
 (function(){var d=document.getElementById("bootMsg"); if(d) d.remove();})();
 $("#gsearch").addEventListener("input",e=>renderSearch(e.target.value));
 $("#gsearch").addEventListener("keydown",e=>{if(e.key==="Escape"){e.target.value="";renderSearch("");}});

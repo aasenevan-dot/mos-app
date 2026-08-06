@@ -46,7 +46,7 @@ Never edit `index.html` directly — it is generated. Edit the parts:
 | build/1-head.html | all CSS, header, noscript + bootMsg fallbacks, nav skeleton |
 | build/2-data-wine.js | wine list with Evan's verbatim table pitches |
 | build/3-data-drinks.js | cocktails (verified against spec sheets), spirits, beer |
-| build/4-data-food.js | menu, allergens (75 dishes), specials + soups living lists |
+| build/4-data-food.js | menu, allergens (87 rows), specials + soups living lists |
 | build/5-data-quiz.js | quiz banks, SALES constants (every tip-math number) |
 | build/5b-data-sched.js | posted weekly SCHEDULE + 37-week SCHEDULE_HISTORY |
 | build/6-app.js | every screen: tabs, search, quiz, all calculators |

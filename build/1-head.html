@@ -386,14 +386,55 @@ html.dark{
   --bg:#1B1210; --bg2:#221714; --card:#261A16; --card2:#2D201A;
   --line:#3E2C23; --line2:#57392C;
   --txt:#EFE4D2; --dim:#BFAD96; --dim2:#93816C;
-  --gold:#7A2E26; --gold2:#E5A582; --wine:#7A2E26; --wine2:#9C4033;
+  /* accents have to LIFT in the dark, not just sit there. The old --gold (#7A2E26) was
+     the light-mode oxblood, which measured 1.7–2.0 contrast on these backgrounds —
+     section headings and Best tags were deep red on deep red, basically unreadable.
+     Same brand hue, raised until it clears 4.5 against bg, card and card2 alike. */
+  --gold:#C97B5A; --gold2:#E5A582; --wine:#C97B5A; --wine2:#9C4033;
   --green:#5FBF83; --blue:#84ACCB; --red:#E58A80;
 }
 html.dark .schedwrap td.off{background:#0F0907;color:#6E4A3E}
 html.dark .schedwrap th.tdy,html.dark .schedwrap td.tdy{background:#3A2A16}
 html.dark .schedwrap td.off.tdy{background:#241009}
 html.dark .schedwrap td.ro{background:#4A3B1C;color:#E8CF8F}
-html.dark .pitch{background:#2D201A}
+/* the one spot --gold is a FILL instead of text — hold it dark so cream still reads on it */
+html.dark .schedwrap tr.secrow td{background:var(--brand2);color:var(--cream)}
+/* the quote block kept its light-mode ink (#4A2723) over a dark card: 1.2 contrast */
+html.dark .pitch{background:#2D201A;color:#EBD9C4}
+/* .opt and .receipt hard-code near-white backgrounds further down the sheet. In the dark
+   that left cream-on-white — the quiz answers measured 1.24 and could not be read at all. */
+/* every text field hard-codes #FFFDF6 further down. In the dark that put cream type on a
+   near-white box — 1.24 contrast, so the numbers a server typed into their own checkout
+   were invisible. Same story for the quiz answers. */
+html.dark .f select,html.dark .f input,html.dark .fsearch{background:var(--bg2);color:var(--txt)}
+html.dark .f input::placeholder,html.dark .fsearch::placeholder{color:var(--dim2)}
+html.dark .opt{background:var(--bg2);color:var(--txt)}
+html.dark .opt:hover:not(:disabled){background:var(--card2)}
+html.dark .opt.right{background:rgba(95,191,131,.16);border-color:var(--green);color:#BFEBCF}
+html.dark .opt.wrong{background:rgba(229,138,128,.15);border-color:var(--red);color:#F3C4BF}
+html.dark .receipt{background:#241812;color:var(--txt);border-color:var(--line2);box-shadow:0 4px 16px rgba(0,0,0,.45)}
+html.dark .garnish{background:rgba(95,191,131,.08);border-color:rgba(95,191,131,.3)}
+html.dark .garnish b{color:#8FD6A8}
+/* the chrome follows the theme instead of staying cream */
+html.dark .navbar{background:rgba(34,23,20,.93)}
+html.dark .bottombar{background:rgba(34,23,20,.97)}
+html.dark .sheetin{background:var(--card)}
+html.dark .qa button{background:var(--card)}
+/* the outline button draws itself in --brand, which stays the light-mode oxblood — that
+   left "Show all answers" and "Review the missed" at 1.44 on a near-black page */
+html.dark .btn.sec{color:var(--gold2);border-color:var(--gold2)}
+html.dark .btn.sec:hover{background:rgba(229,165,130,.12)}
+/* the receipt prints its labels in light-mode ink (#4a4133, #6b5f4c) — on the dark
+   receipt those landed at 1.7–2.8, and this is the thing a server reads every close */
+html.dark .receipt .rrow span:first-child{color:#CBB79C}
+html.dark .receipt .rsub,html.dark .receipt .rfoot{color:#AD9C84}
+html.dark .receipt .rfoot{border-top-color:#5A4A38}
+html.dark .receipt .rrow.neg span:last-child{color:#F0958C}
+/* warn flags mark the things you must NOT get wrong (verify, NOT, cannot) — they were
+   the least readable text on the page in dark at ~2.1 */
+html.dark .tag.warn{color:#F0A79E;border-color:rgba(240,167,158,.45);background:rgba(163,60,53,.16)}
+html.dark .note.warn b{color:#F0A79E}
+html.dark .totop{background:var(--brand2);color:var(--cream)}
 /* bigger touch targets on phones/tablets */
 @media(pointer:coarse){
   .opt{padding:12px 13px;margin-bottom:7px}

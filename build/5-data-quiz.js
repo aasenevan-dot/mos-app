@@ -156,7 +156,7 @@ const SALES = {
  /* REAL tip rules — decoded from Evan's 5/23/26 solo checkout (Server Checkout Summary + Toast Shift Review) */
  guestTipRate:.208, // credit tips ran 20.8% of team net sales on 5/23
  withheldRate:.02, // Toast withholds 2% of credit tips before payout
- tipouts:[["Bar",.01],["Busser",.015],["Expo",.005]], // % of TEAM NET SALES, each rounded UP to next dollar. Bar is 1% -- the 8/5 drop to 0.1% was a mistake, reverted back same day.
+ tipouts:[["Bar",.01],["Busser",.015],["Expo",.005]], // % of TEAM NET SALES, each rounded UP to next dollar. Bar is 1% — double-checked 8/5.
  banquetTipout:.03, // extra 3% of sales when your team runs a banquet
  checkout523:{sales:1176,tips:244.10,withheld:4.88,pool:239.22,tipout:36,earned:203,guests:14,perGuest:84},
  log:["Date and day of week","Number of teams","Team #","Cocktailer on the schedule?","Dining cover count","Net sales","Gratuity","Toast tips","Tax","Deferred gift cards / other","Toast total","Occasion (holiday, graduation, event)","Weather","Colts / big TV game that day","Notes: big reservations, call-offs, patio"],

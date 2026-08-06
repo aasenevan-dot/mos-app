@@ -59,9 +59,7 @@ All constants live in `SALES` in 5-data-quiz.js. The pipeline (`pipeMath` in 6-a
   23% auto-grat (guests can add more on top) — confirmed 8/4.
 - Toast withholds 2% of credit tips.
 - Tip-outs are percentages of TEAM NET SALES, each line rounded UP to a whole dollar:
-  bar 1%, busser 1.5%, expo 0.5% (Evan dropped bar to 0.1% on 8/5, then caught it and
-  put it back to 1% same day — 0.1% was a mistake, not a real change; goldens recomputed
-  both times, this is the correct final number). Banquets add 3% — that 3% is Lillian's cut as banquet
+  bar 1% (briefly flipped to 0.1% on 8/5, then Evan corrected it back — it IS 1%, matching the graded sheet), busser 1.5%, expo 0.5%. Banquets add 3% — that 3% is Lillian's cut as banquet
   coordinator, so the team effectively keeps 20 points of the 23% before normal tip-outs.
 - Polisher is flat: $10 for a front/back team, $5 for a solo (solo = cocktailer job).
   Most nights there is NO polisher — busiest nights only, usually just one (confirmed 8/4).
@@ -84,7 +82,7 @@ recompute the goldens by hand before touching them.
 
 - Weeks start WEDNESDAY. Any day-of-week list runs Wed → Tue.
 - Normal fonts only. No cursive, ever. Brand: maroon #59201C, cream #F7EFE4, squared corners.
-- Ticket times: entrées 22–27 min. Soups, salads, desserts 5–7 min, 10 max.
+- Ticket times: starters 5–12 min (15 max). Entrées 22–27 min. Soups, salads, desserts 5–7 min, 10 max. Home grid order: Starters first (Evan, 8/5). The old Manager-alert tile is gone — the $250+/Bordeaux fact lives in the wine-move card.
 - Spelling: "Pittsburghed" (with the h). Books come from SevenRooms, not OpenTable.
 - Cocktailer control is a plain dropdown None/1/2/3 — no employee names on it.
 - Say "Avg $ per person" (with its plain definition), never "average check".
@@ -126,25 +124,27 @@ recomputing goldens. staffLadder bands are v1 guesses anchored to real nights (3
 ~$4.1k, 4+banquet ~$8.9k) — Evan will dictate acceptable staffing per night type; tune
 the bands from his words, not from theory. Banquet quick math auto-grat defaults 23.
 
-**Everybody's night, simplified (8/5 evening, on Evan's correction — restored 8/5
-night after a sync round reverted it):** the calculator had drifted into hourly-wage/
-hours/polisher clutter he never asked for and didn't understand. Cut back to what he
-actually wants: Team sales, Team earned, Front, Back as one row of squares, then
-Bussers / Expo / Bar tip-out $ (each person's share of their 1.5% / 0.5% / 1% pool —
-bar rate tracks whatever `SALES.tipouts` says, currently 1%) as a second row. No
-hours input, no polisher line — polishers are rare enough (140+ covers before it's
-worth a thought, real staffing concern only 180+) that this calculator ignores that
-labor entirely. WAGES (busser/expo/foodrun/barTipped) stays in 5-data-quiz.js as
-back-knowledge, unused — Evan floated maybe wanting a SEPARATE total-restaurant-
-labor-cost view someday; don't build that unprompted, WAGES is there if/when he asks.
-exBus/exExpo/exBar trigger a live recalc like exNet/exPct always did. Also: the mobile
-"More" sheet's text-size button was still wired to a dead single-toggle system from
-before the A−/A+/Dark redesign — the header controls are hidden below 768px, so
-mobile users never saw the new controls. Fixed: the sheet's Tools row proxies clicks
-to the real header buttons (#szDn/#szUp/#darkT) so mobile gets the same five-step zoom
-+ dark toggle desktop has. **If this section is ever gone from CLAUDE.md again, the
-code drifted back too** — check calcEX() and openSheet() in 6-app.js before assuming
-either is still simplified/fixed.
+**Everybody's night, simplified (8/5 evening, on Evan's correction — this keeps getting
+reverted by sync rounds built from a stale base; restored again 8/5 night, third time):**
+the calculator had drifted into hourly-wage/hours/polisher clutter he never asked for
+and didn't understand. Cut back to what he actually wants: Team sales, Team earned,
+Front, Back as one row of squares, then Bussers / Expo / Bar tip-out $ (each person's
+share of their 1.5% / 0.5% / 1% pool — bar rate tracks whatever `SALES.tipouts` says,
+currently 1%) as a second row. No hours input, no polisher line — polishers are rare
+enough (140+ covers before it's worth a thought, real staffing concern only 180+) that
+this calculator ignores that labor entirely. WAGES (busser/expo/foodrun/barTipped)
+stays in 5-data-quiz.js as back-knowledge, unused — Evan floated maybe wanting a
+SEPARATE total-restaurant-labor-cost view someday; don't build that unprompted, WAGES
+is there if/when he asks. exBus/exExpo/exBar trigger a live recalc like exNet/exPct
+always did. Also: the mobile "More" sheet's text-size button was still wired to a dead
+single-toggle system from before the A−/A+/Dark redesign — the header controls are
+hidden below 768px, so mobile users never saw the new controls. Fixed: the sheet's
+Tools row proxies clicks to the real header buttons (#szDn/#szUp/#darkT) so mobile
+gets the same five-step zoom + dark toggle desktop has. **If this section is ever gone
+from CLAUDE.md again, the code drifted back too** — check calcEX() and openSheet() in
+6-app.js before assuming either is still simplified/fixed. This is now a recurring
+pattern, not a one-off — if it keeps happening, the fix is upstream in how Cowork
+syncs, not another restore here.
 
 ## Handbook + Vocabulary (added 8/5)
 
@@ -182,6 +182,18 @@ floor net + tip % + hours and prints every position; busser/expo/bar counts pref
 the posted schedule day. Also 8/5: the porterhouse was NEVER wagyu — "Australian Wagyu
 Porterhouse" renamed USDA Choice Porterhouse everywhere, old name archived in Specials
 past ($150, not $180).
+
+## Home grid + wine types (Evan, 8/5 late)
+
+Before-you-walk-up grid: STARTERS FIRST (5-12 min, 15 max), then soups/salads/desserts,
+entrees, checkback. The Manager-alert tile is gone — he hated the square; the $250+/
+Bordeaux-glasses fact lives in "The wine move" card. Wine tab: every wine carries `v`
+(varietal, WINE_V map in 2-data-wine.js) and `btg`. The category chip row is replaced by
+a Serve row (all/glass/bottle) + a Type row (Cabernet, Red Blends, Pinot Noir, Merlot,
+Other Reds, Chardonnay, Sauv Blanc, Pinot Grigio, Riesling & Moscato, Rosé, Bubbles) —
+type filters cross bottles AND by-the-glass, which was the whole point. Pomerols count
+as Merlot, white Burgundy as Chardonnay. New wines added later MUST get a WINE_V entry
+(they'll fail the test if the type is missing).
 
 ## Privacy — this folder gets shared
 

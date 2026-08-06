@@ -57,6 +57,22 @@ async def main():
         who=await pg.evaluate("document.querySelector('#ipWho').innerHTML")
         if "Who's on Friday 8/7" not in who: bad.append("who's-on roster missing")
         if "Barbie" not in who: bad.append("roster names missing in forecast")
+        # ---- wine type filter ----
+        if not await pg.evaluate("WINES.every(w=>w.v&&WINE_TYPES.some(t=>t[0]===w.v))"): bad.append("wine missing type mapping")
+        nb=await pg.evaluate("[document.querySelectorAll('#wineType button').length,document.querySelectorAll('#wineServe button').length,document.querySelectorAll('#wineCats').length]")
+        if nb!=[12,3,0]: bad.append(f"wine chip rows wrong: {nb}")
+        wg=await pg.evaluate("wineFilter.v='chard';renderWines();document.querySelector('#wineGrid').innerHTML")
+        if "Chablis" not in wg or "Mer Soleil" not in wg: bad.append("chardonnay filter misses bottle+glass")
+        if "Caymus" in wg: bad.append("chardonnay filter leaking reds")
+        wg=await pg.evaluate("wineFilter.v='cab';wineFilter.serve='glass';renderWines();document.querySelector('#wineGrid').innerHTML")
+        if "Ghost Pines" not in wg or "Silver Oak" in wg: bad.append("glass+cab combo wrong")
+        await pg.evaluate("wineFilter.v='all';wineFilter.serve='all';renderWines()")
+        # ---- home before-you-walk-up grid ----
+        home=await pg.evaluate("document.querySelector('#p-shift').innerHTML")
+        if "Starters" not in home or "5–12 min" not in home: bad.append("Starters tile missing")
+        if "Manager alert" in home: bad.append("Manager alert tile still on home")
+        if "$250+ bottles get the big Bordeaux glasses" not in home: bad.append("Bordeaux fact lost")
+        if home.find("Starters")>home.find("Soups"): bad.append("Starters not first in grid")
         # ---- dark mode, text size, exact night ----
         if "Mined from the real Greenwood" in await pg.evaluate("document.querySelector('#p-house').innerHTML"):
             bad.append("mined-note still present")
@@ -76,7 +92,7 @@ async def main():
         if await pg.evaluate("!!document.querySelector('#exHrs')"): bad.append("exHrs input still present (Evan 8/5: no hourly wages/hours in this calc)")
         await pg.evaluate("document.querySelector('#exNet').value='8000';document.querySelector('#exPct').value='20.8';calcEX()")
         exo=await pg.evaluate("document.querySelector('#exOut').innerHTML")
-        # net 8000, teams 7, cocktailers 2, bussers 2, expo 2, bar 3 (schedule prefill) -> slices 8.4, team earned 164, front 82 / back 82 (bar back to 1% on 8/5)
+        # net 8000, teams 7, cocktailers 2, bussers 2, expo 2, bar 3 (schedule prefill) -> slices 8.4, team earned 164, front 82 / back 82, bar 1%
         for cell in ["8.4 slices", '>Team earned</div><div class="v">$164<', '>Front</div><div class="v">$82<',
                      '>Back</div><div class="v">$82<', '>Bussers</div><div class="v">$63<', "pool ÷ 2 on (1.5%)",
                      '>Expo / food run</div><div class="v">$22<', "pool ÷ 2 on (0.5%)",

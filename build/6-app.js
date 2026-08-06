@@ -78,22 +78,23 @@ function wineCard(w){
     <div class="crow"><div><div class="cname">${esc(w.n)}</div><div class="csub">${esc(w.r)}</div></div><div class="cprice">${esc(w.p)}</div></div>
     <div class="cbody"><b>Tastes like:</b> ${esc(w.f)}<br><b>Structure:</b> tannin ${esc(w.T)} &middot; acid ${esc(w.A)} &middot; body ${esc(w.B)}<br><b>Finish:</b> ${esc(w.fin)}<br><b>Pair with:</b> ${esc(w.pair)}</div>
     <div class="pitch">&ldquo;${esc(w.pitch)}&rdquo;</div>
-    <div class="tags"><span class="tag ${w.t.toLowerCase()}">${w.t}</span><span class="tag">${(WINE_CATS.find(c=>c[0]===w.c)||[,w.c])[1]}</span></div>
+    <div class="tags"><span class="tag ${w.t.toLowerCase()}">${w.t}</span><span class="tag">${(WINE_TYPES.find(c=>c[0]===w.v)||[,w.v])[1]}</span>${w.btg?`<span class="tag good">BY THE GLASS</span>`:""}${w.c==="old"?`<span class="tag">Old World</span>`:""}</div>
   </div>`;
 }
-let wineFilter={cat:"all",tier:"all",q:"",price:"all",color:"all"};
+let wineFilter={v:"all",serve:"all",tier:"all",q:"",price:"all",color:"all"};
 function renderWines(){
   const q=wineFilter.q.toLowerCase();
   let [lo,hi]=[0,1e9];
   if(wineFilter.price!=="all"){const p=wineFilter.price.split("-");lo=+p[0];hi=+p[1];}
   const list=WINES.filter(w=>
-    (wineFilter.cat==="all"||w.c===wineFilter.cat)&&
+    (wineFilter.v==="all"||w.v===wineFilter.v)&&
+    (wineFilter.serve==="all"||(wineFilter.serve==="glass"?w.btg:!w.btg))&&
     (wineFilter.tier==="all"||w.t===wineFilter.tier)&&
     (wineFilter.color==="all"||wineColor(w)===wineFilter.color)&&
     (wineFilter.price==="all"||(winePrice(w)>=lo&&winePrice(w)<=hi))&&
     (!q||(w.n+w.r+w.f+w.pair+w.pitch).toLowerCase().includes(q)));
   $("#wineCount").textContent = list.length+" match"+(list.length===1?"":"es");
-  $("#wineGrid").innerHTML = list.length?list.map(wineCard).join(""):'<div class="empty">Nothing in that lane. Widen the price or color.</div>';
+  $("#wineGrid").innerHTML = list.length?list.map(wineCard).join(""):'<div class="empty">Nothing in that lane. Widen the price, the type, or the glass filter.</div>';
 }
 function pairingOut(i){
   const p=PAIRINGS[i];
@@ -516,17 +517,17 @@ function build(){
 
     <div class="sechead"><h2>Before you walk up</h2><span>the 60-second version</span></div>
     <div class="kpis" style="margin-bottom:16px">
+      <div class="kpi"><div class="k">Starters</div><div class="v">5–12 min</div><div class="s">15 minutes max</div></div>
       <div class="kpi"><div class="k">Soups · salads · desserts</div><div class="v">5–7 min</div><div class="s">10 minutes max</div></div>
       <div class="kpi"><div class="k">Entrees</div><div class="v">22–27 min</div><div class="s">course it, do not stack it</div></div>
       <div class="kpi"><div class="k">Entree checkback</div><div class="v">2–5 min</div><div class="s">after entrees hit the table</div></div>
-      <div class="kpi"><div class="k">Manager alert</div><div class="v">$250+</div><div class="s">wine bottle · big Bordeaux glasses</div></div>
     </div>
     <div class="note gold"><b>Always hit:</b> first time, celebration, wine list, allergies, features, soup, oysters, cut specials, 86'd items, and a wine or app suggestion.</div>
     <div class="grid wide" style="margin-top:14px">
       <div class="card"><div class="cname">Two drink calls that always work</div>
         <div class="cbody">${DRINK_PITCH.slice(0,4).map(p=>`<div style="padding:4px 0"><b>${esc(p[0])}:</b> ${esc(p[1])}</div>`).join("")}</div></div>
       <div class="card"><div class="cname">The wine move</div>
-        <div class="cbody">Ask whether they are leaning <b>lighter and smoother</b> or <b>bigger and richer</b>, then give two confident choices. Never open the list and go quiet.</div>
+        <div class="cbody">Ask whether they are leaning <b>lighter and smoother</b> or <b>bigger and richer</b>, then give two confident choices. Never open the list and go quiet. A manager opens and pours every bottle — $250+ bottles get the big Bordeaux glasses.</div>
         <div class="pitch">&ldquo;For four glasses, a bottle is usually the better value.&rdquo;</div></div>
       <div class="card"><div class="cname">Allergy protocol, in order</div>
         <div class="cbody">${PROTOCOL.map((p,i)=>`<div style="padding:3px 0"><b>${i+1}.</b> ${esc(p)}</div>`).join("")}</div></div>
@@ -547,7 +548,8 @@ function build(){
     <input class="fsearch" id="wineQ" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="search" placeholder="Search wine, region, flavor, or dish...">
     <div class="filters" id="wineBudget">${BUDGETS.map(b=>`<button data-p="${b[0]}"${b[0]==="all"?' class="on"':''}>${b[1]}</button>`).join("")}</div>
     <div class="filters" id="wineColor">${[["all","Red + White"],["red","Red"],["white","White / Rose"],["bubbles","Bubbles"]].map(c=>`<button data-c="${c[0]}"${c[0]==="all"?' class="on"':''}>${c[1]}</button>`).join("")}</div>
-    <div class="filters" id="wineCats">${WINE_CATS.map(c=>`<button data-c="${c[0]}"${c[0]==="all"?' class="on"':''}>${c[1]}</button>`).join("")}</div>
+    <div class="filters" id="wineServe"><button data-s="all" class="on">Bottles &amp; glasses</button><button data-s="glass">By the glass</button><button data-s="bottle">Bottle only</button></div>
+    <div class="filters" id="wineType">${WINE_TYPES.map(c=>`<button data-v="${c[0]}"${c[0]==="all"?' class="on"':''}>${c[1]}</button>`).join("")}</div>
     <div class="filters" id="wineTiers">${["all","Good","Better","Best"].map(t=>`<button data-t="${t}"${t==="all"?' class="on"':''}>${t==="all"?"All tiers":t}</button>`).join("")}</div>
     <div class="grid wide" id="wineGrid"></div>
 
@@ -798,7 +800,7 @@ function build(){
   $("#wineQ").oninput=e=>{wineFilter.q=e.target.value;renderWines();};
   const chip=(id,key,attr)=>{$(id).onclick=e=>{const b=e.target.closest("button");if(!b)return;
     $(id).querySelectorAll("button").forEach(x=>x.classList.toggle("on",x===b));wineFilter[key]=b.dataset[attr];renderWines();};};
-  chip("#wineBudget","price","p"); chip("#wineColor","color","c"); chip("#wineCats","cat","c"); chip("#wineTiers","tier","t");
+  chip("#wineBudget","price","p"); chip("#wineColor","color","c"); chip("#wineServe","serve","s"); chip("#wineType","v","v"); chip("#wineTiers","tier","t");
   $("#pairSel").onchange=e=>pairingOut(+e.target.value);
 
   $("#drinkQ").oninput=e=>{drinkFilter.q=e.target.value;renderDrinks();};

@@ -84,6 +84,9 @@ recompute the goldens by hand before touching them.
 - Normal fonts only. No cursive, ever. Brand: maroon #59201C, cream #F7EFE4. ROUNDED corners as of 8/6 (Evan: "Apple aesthetics") — cards/tools 16px, kpis/notes 14, chips stay pills; the old squared-corners flattener in 1-head.html is deliberately gone. Round it, don't restyle it.
 - Ticket times: starters 5–12 min (15 max). Entrées 22–27 min. Soups, salads, desserts 5–7 min, 10 max. Home grid order: Starters first (Evan, 8/5). The old Manager-alert tile is gone — the $250+/Bordeaux fact lives in the wine-move card.
 - Spelling: "Pittsburghed" (with the h). Books come from SevenRooms, not OpenTable.
+- Leadership, off the restaurant's public team page (8/6): Head Chef **Miguel Garatachea**
+  (was written as "Chef Miguel G"), GM **Mike Pavey**, AGM **Craig DeVaney**, plus Lillian
+  Speedy on HR/banquets. They live in HOUSE.facts "Who runs the building" and are searchable.
 - Cocktailer control is a plain dropdown None/1/2/3 — no employee names on it.
 - Say "Avg $ per person" (with its plain definition), never "average check".
 - Tip multiplier is numeric only — no occasion names attached.

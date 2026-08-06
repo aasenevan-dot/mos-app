@@ -1511,7 +1511,7 @@ const OPEN = [
 
 /* ============ OPS ============ */
 const FLOW = [
- ["Before you walk up",["Pre-shift lineup runs about 4:15 every day — the MOD covers teams, floor plan, need-to-knows, soup, today's specials, and recent reviews.","Know soup of the day, oysters, 86'd items, cut specials, and big features.","Know the cocktail menu well enough to give 2 easy recommendations.","Know allergy protocol: ask the allergy, ring it in, tell back server, expo and chef, and a manager.","Know timing: soups, salads, and desserts 5-7 minutes (10 max); entrees 22-27 minutes.","The kitchen is Chef Miguel G's — use the name when you pitch."]],
+ ["Before you walk up",["Pre-shift lineup runs about 4:15 every day — the MOD covers teams, floor plan, need-to-knows, soup, today's specials, and recent reviews.","Know soup of the day, oysters, 86'd items, cut specials, and big features.","Know the cocktail menu well enough to give 2 easy recommendations.","Know allergy protocol: ask the allergy, ring it in, tell back server, expo and chef, and a manager.","Know timing: soups, salads, and desserts 5-7 minutes (10 max); entrees 22-27 minutes.","The kitchen is Chef Miguel Garatachea's — use the name when you pitch."]],
  ["Greet",["Introduce yourself and your back server.","Ask first time, celebration, allergies, and whether they want the wine list.","Point them to cocktails, beer, wine, and whiskey.","Keep it warm and short."]],
  ["Drinks first",["Get drinks started quickly.","If they are unsure, give two simple choices — light and refreshing: Cactus Flower Mule or Lychee Icee. Sweet and fruity: Ruby & Jade or Golden Hour. Whiskey: Pittsburghed Peach Old Fashioned.","Wine bottles: the front server sets the glasses, and a MANAGER opens and pours the bottle at the table — every time.","If they order a wine bottle over $250, let a manager know and use big Bordeaux glasses."]],
  ["Appetizers",["After drinks, ask about apps.","Recommend 2-3 confidently: shrimp cocktail, calamari, crispy ahi tuna bites, oysters, or a seafood tower.","Send apps quickly and tell the back server.","Apps buy you time, but do not forget to course the rest."]],
@@ -1740,8 +1740,9 @@ facts:[
 ["Uniform","Men: black vest, black tie, long white shirt, black pants, black shoes. Women: black shirt, black pants, black shoes."],
 ["Suggest sides","3-4 shared sides for a table of six. Every side feeds 2-3."],
 ["Wine math","One $90 bottle a night at 20% grat is $18. Ten tables a night, five nights a week — bottle sales are a five-figure raise. That is why the wine tab exists."],
-["House trivia","K.D.'s Tomahawk = Kevin Dickey, former owner. The old Kristen Sundae = named for a former owner's wife. Chef Miguel G runs this kitchen."],
-["The rooms","Boxing station: kitchen back-left, cleaned nightly, stocked mornings. Gift cards: at the BAR TOP, not the host stand. Pre-shift: 4:15 daily with the MOD."]]
+["House trivia","K.D.'s Tomahawk = Kevin Dickey, former owner. The old Kristen Sundae = named for a former owner's wife. Chef Miguel Garatachea runs this kitchen."],
+["The rooms","Boxing station: kitchen back-left, cleaned nightly, stocked mornings. Gift cards: at the BAR TOP, not the host stand. Pre-shift: 4:15 daily with the MOD."],
+ ["Who runs the building","Head Chef Miguel Garatachea. General Manager Mike Pavey — shift switches are approved by the GM only. Assistant General Manager Craig DeVaney. Lillian Speedy handles HR and books the banquets."]]
 };
 
 /* ============ EMPLOYEE HANDBOOK (transcribed by Evan 8/5) + VOCABULARY SHEETS ============ */
@@ -5193,6 +5194,21 @@ function search(q){
   VOCAB.forEach(g=>g[1].forEach(r=>{if(matches([g[0],r[0],r[1]]))add("Vocabulary",r[0],r[1],"vocab");}));
   HANDBOOK.forEach(h=>{const txt=h[2].replace(/<[^>]+>/g," ");
     if(matches([h[0],h[1],txt]))add("Handbook",h[0],txt.trim().slice(0,140)+"…","house");});
+  /* How We Work was never indexed — the mission, the Points of Passion, the
+     non-negotiables, every steps-of-service list, the side work and the house facts
+     were all invisible to search. "uniform", "boxing station", the chef's name: nothing. */
+  if(matches(["Mission",HOUSE.mission]))add("How we work","Mission",HOUSE.mission,"house");
+  Object.entries({points:"Points of Passion",facts:"House facts",tableside:"Tableside show"})
+    .forEach(([k,label])=>(HOUSE[k]||[]).forEach(r=>{
+      if(matches([label,r[0],r[1]]))add(label,r[0],r[1],"house");}));
+  Object.entries({isaacs:"Non-negotiables",back:"Back server steps",front:"Front server steps",
+                  expo:"Expo side work",backclose:"Back-of-house close",closesheet:"Close sheet",
+                  barsteps:"Bar steps"})
+    .forEach(([k,label])=>{
+      const v=HOUSE[k]; if(!v)return;
+      const flat=(Array.isArray(v)?v:Object.values(v)).flat(Infinity);
+      flat.forEach(t=>{if(typeof t==="string"&&matches([label,t]))add(label,label,t,"house");});
+    });
   return hits.sort((a,b)=>b.score-a.score).slice(0,40);
 }
 function renderSearch(q){

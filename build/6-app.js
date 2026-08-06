@@ -526,6 +526,21 @@ function search(q){
   VOCAB.forEach(g=>g[1].forEach(r=>{if(matches([g[0],r[0],r[1]]))add("Vocabulary",r[0],r[1],"vocab");}));
   HANDBOOK.forEach(h=>{const txt=h[2].replace(/<[^>]+>/g," ");
     if(matches([h[0],h[1],txt]))add("Handbook",h[0],txt.trim().slice(0,140)+"…","house");});
+  /* How We Work was never indexed — the mission, the Points of Passion, the
+     non-negotiables, every steps-of-service list, the side work and the house facts
+     were all invisible to search. "uniform", "boxing station", the chef's name: nothing. */
+  if(matches(["Mission",HOUSE.mission]))add("How we work","Mission",HOUSE.mission,"house");
+  Object.entries({points:"Points of Passion",facts:"House facts",tableside:"Tableside show"})
+    .forEach(([k,label])=>(HOUSE[k]||[]).forEach(r=>{
+      if(matches([label,r[0],r[1]]))add(label,r[0],r[1],"house");}));
+  Object.entries({isaacs:"Non-negotiables",back:"Back server steps",front:"Front server steps",
+                  expo:"Expo side work",backclose:"Back-of-house close",closesheet:"Close sheet",
+                  barsteps:"Bar steps"})
+    .forEach(([k,label])=>{
+      const v=HOUSE[k]; if(!v)return;
+      const flat=(Array.isArray(v)?v:Object.values(v)).flat(Infinity);
+      flat.forEach(t=>{if(typeof t==="string"&&matches([label,t]))add(label,label,t,"house");});
+    });
   return hits.sort((a,b)=>b.score-a.score).slice(0,40);
 }
 function renderSearch(q){

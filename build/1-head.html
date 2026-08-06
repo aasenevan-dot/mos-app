@@ -38,6 +38,7 @@ button,.flip,.opt,select,input{touch-action:manipulation}
 h1,h2,h3,h4{margin:0;font-weight:650;letter-spacing:-.01em}
 a{color:var(--gold2)}
 button{font-family:inherit}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px;border-radius:6px}
 
 /* ---------- header — deep green like the site's logo field ---------- */
 header{
@@ -66,13 +67,18 @@ header{
 #gsearch::placeholder{color:#C7A9A0}
 #gsearch:focus{border-color:var(--cream);background:rgba(247,239,228,.16)}
 .searchwrap svg{position:absolute;left:11px;top:12px;opacity:.7}
-nav{display:flex;gap:2px;overflow-x:auto;padding:6px 0 0;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+nav{
+  display:flex;gap:2px;overflow-x:auto;padding:6px 0 0;scrollbar-width:none;-webkit-overflow-scrolling:touch;
+  scroll-behavior:smooth;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 18px,#000 calc(100% - 18px),transparent);
+  mask-image:linear-gradient(90deg,transparent,#000 18px,#000 calc(100% - 18px),transparent);
+}
 nav::-webkit-scrollbar{display:none}
 nav button{
   background:none;border:0;color:var(--dim);padding:10px 13px 12px;font-size:13px;
   font-weight:650;cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;
-  text-transform:uppercase;letter-spacing:.05em;
-;border-radius:11px}
+  text-transform:uppercase;letter-spacing:.05em;border-radius:11px;
+}
 nav button:hover{color:var(--txt)}
 nav button.on{color:var(--gold);border-bottom-color:var(--gold)}
 
@@ -294,7 +300,26 @@ details.acc>.accbody .sechead{margin-top:18px}
 .opt{background:#FFFDF6}
 footer{color:var(--dim2)}
 footer b{color:var(--dim)}
-.bottombar{display:none}
+/* bottom tab bar — the good nav, Evan's pick (8/6): on at every width, not just phones */
+.bottombar{
+  display:flex;position:fixed;left:0;right:0;bottom:0;z-index:70;
+  background:rgba(251,246,235,.97);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+  border-top:1px solid var(--line2);padding:6px 4px calc(7px + env(safe-area-inset-bottom,0px));
+}
+.bottombar button{flex:1;background:none;border:0;color:var(--dim2);font-size:10.5px;font-weight:650;cursor:pointer;padding:4px 2px;display:flex;flex-direction:column;align-items:center;gap:3px;touch-action:manipulation;border-radius:12px}
+.bottombar button svg{width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.bottombar button:hover{color:var(--dim)}
+.bottombar button.on{color:var(--gold)}
+body{padding-bottom:calc(88px + env(safe-area-inset-bottom,0px))}
+.totop{bottom:calc(78px + env(safe-area-inset-bottom,0px))}
+footer{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
+.sheet.open{display:block;position:fixed;inset:0;z-index:80;background:rgba(41,37,37,.5)}
+.sheetin{position:absolute;left:0;right:0;bottom:0;background:var(--bg2);border-radius:20px 20px 0 0;border-top:1px solid var(--line2);padding:16px 14px calc(22px + env(safe-area-inset-bottom,0px));max-height:78vh;overflow:auto}
+.sheetin h3{font-size:12px;color:var(--dim2);text-transform:uppercase;letter-spacing:.06em;margin:12px 2px 8px}
+.sheetin .row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.sheetin button.item{background:var(--card);border:1px solid var(--line2);border-radius:12px;color:var(--txt);padding:13px 12px;font-size:13.5px;font-weight:600;cursor:pointer;text-align:left;touch-action:manipulation}
+.sheetin button.item:hover{border-color:var(--dim2)}
+.sheetin button.item.on{border-color:var(--gold);color:var(--gold2)}
 .sheet{display:none}
 
 @media(max-width:640px){
@@ -307,23 +332,18 @@ footer b{color:var(--dim)}
 }
 @media(max-width:768px){
   .navbar{display:none}
-  .bottombar{
-    display:flex;position:fixed;left:0;right:0;bottom:0;z-index:70;
-    background:rgba(251,246,235,.97);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
-    border-top:1px solid var(--line2);padding:6px 4px calc(7px + env(safe-area-inset-bottom,0px));
-  }
-  .bottombar button{flex:1;background:none;border:0;color:var(--dim2);font-size:10.5px;font-weight:650;cursor:pointer;padding:4px 2px;display:flex;flex-direction:column;align-items:center;gap:3px;touch-action:manipulation}
-  .bottombar button svg{width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
-  .bottombar button.on{color:var(--gold)}
-  body{padding-bottom:calc(88px + env(safe-area-inset-bottom,0px))}
-  .totop{bottom:calc(78px + env(safe-area-inset-bottom,0px))}
-  footer{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
-  .sheet.open{display:block;position:fixed;inset:0;z-index:80;background:rgba(41,37,37,.5)}
-  .sheetin{position:absolute;left:0;right:0;bottom:0;background:var(--bg2);border-radius:20px 20px 0 0;border-top:1px solid var(--line2);padding:16px 14px calc(22px + env(safe-area-inset-bottom,0px));max-height:78vh;overflow:auto}
-  .sheetin h3{font-size:12px;color:var(--dim2);text-transform:uppercase;letter-spacing:.06em;margin:12px 2px 8px}
-  .sheetin .row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-  .sheetin button.item{background:var(--card);border:1px solid var(--line2);border-radius:12px;color:var(--txt);padding:13px 12px;font-size:13.5px;font-weight:600;cursor:pointer;text-align:left;touch-action:manipulation}
-  .sheetin button.item.on{border-color:var(--gold);color:var(--gold2)}
+}
+/* wider than a phone: the top tab row stays too, and the bottom bar floats as
+   its own rounded pill instead of the edge-to-edge phone treatment */
+@media(min-width:769px){
+  .bottombar{left:50%;right:auto;transform:translateX(-50%);bottom:18px;max-width:560px;width:calc(100% - 48px);
+    border:1px solid var(--line2);border-radius:20px;padding:7px 10px;box-shadow:0 10px 30px rgba(41,37,37,.18);}
+  body{padding-bottom:96px}
+  .totop{bottom:96px}
+  footer{padding-bottom:96px}
+  .sheetin{left:50%;right:auto;transform:translateX(-50%);bottom:18px;max-width:520px;width:calc(100% - 48px);
+    border-radius:20px;box-shadow:0 10px 30px rgba(41,37,37,.22);}
+  .sheet.open{background:rgba(41,37,37,.35)}
 }
 @media print{
   header,.navbar,.bottombar,.sheet,.totop,.filters,.fsearch,.qbar,.jumper,.qa,button.btn{display:none !important}

@@ -37,6 +37,12 @@ function syncBars(){
   const inBar=BOTTOM.some(x=>x[0]===TAB);
   document.querySelectorAll("#bbar button").forEach(b=>
     b.classList.toggle("on", b.dataset.t===TAB || (b.dataset.t==="__more" && !inBar)));
+  /* the top row is a slider — keep the active tab centered in view as it changes.
+     rAF so this measures/scrolls after the panel-switch reflow above has settled. */
+  requestAnimationFrame(()=>{
+    const onBtn=$("#nav button.on");
+    if(onBtn)onBtn.scrollIntoView({behavior:"smooth",inline:"center",block:"nearest"});
+  });
 }
 function go(t,sel){
   TAB=t; closeSheet();

@@ -107,6 +107,31 @@ async def main():
         opsv=await pg.evaluate("document.querySelector('#p-ops').innerHTML")
         if "COMPS come OFF" not in opsv: bad.append("comps rule missing from split rules")
         if "Booked through Lillian?" not in opsv: bad.append("banquet toggle not relabeled")
+        # ---- quiz build-out ----
+        nq=await pg.evaluate("MC.length")
+        if nq<145: bad.append(f"MC bank too small: {nq}")
+        badq=await pg.evaluate("MC.filter(m=>!(m.q&&m.o&&m.o.length===4&&new Set(m.o).size===4&&m.t)).length")
+        if badq: bad.append(f"{badq} malformed quiz questions")
+        if await pg.evaluate("HOUSE.points.length")!=16: bad.append("Points of Passion count changed — quiz Q wrong")
+        if await pg.evaluate("HOUSE.isaacs.length")!=11: bad.append("Isaac count changed — quiz Q wrong")
+        nch=await pg.evaluate("document.querySelectorAll('#quizTopics button').length")
+        if nch!=10: bad.append(f"topic chips {nch} != 10")
+        # topic-filtered quiz only serves that topic
+        ok=await pg.evaluate("(function(){QTOPIC='money';document.querySelector('#quizStart').click();return quiz.order.every(i=>QBANK[i].t==='money')&&quiz.order.length>=15;})()")
+        if not ok: bad.append("money-lane quiz leaked other topics")
+        # vocab quiz generates 10 x 4
+        ok=await pg.evaluate("(function(){vocabQuiz();return quiz.order.length===10&&quiz.order.every(i=>QBANK[i].o.length===4&&QBANK[i].t==='vocab');})()")
+        if not ok: bad.append("vocab quiz malformed")
+        # price blitz: 10 questions, correct price is a real one, options unique
+        ok=await pg.evaluate("(function(){priceBlitz();return quiz.order.length===10&&quiz.order.every(i=>{const q=QBANK[i];return q.o.length===4&&new Set(q.o).size===4&&q.o[0].startsWith('$');});})()")
+        if not ok: bad.append("price blitz malformed")
+        # order game renders 5 tappable steps and completes
+        ok=await pg.evaluate("""(function(){orderGame();const b=[...document.querySelectorAll('#quizBox .opt')];
+          if(b.length!==5)return false;
+          for(let n=0;n<5;n++){const t=[...document.querySelectorAll('#quizBox .opt')].find(x=>+x.dataset.i===n);t.click();}
+          return document.querySelector('#ogFb').innerHTML.includes('0 wrong taps');})()""")
+        if not ok: bad.append("order game broken")
+        await pg.evaluate("startQuiz()")
         # ---- handbook + vocabulary ----
         house=await pg.evaluate("document.querySelector('#p-house').innerHTML")
         for cell in ["Employee Handbook","Lillian Speedy","Gum chewing","120 day","BEHIND YOU"]:

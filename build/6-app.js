@@ -180,6 +180,7 @@ function renderAllergens(){
 
 /* ---------- QUIZ ---------- */
 let quiz={i:0,score:0,answered:0,order:[],opts:[],missed:[],topics:{}};
+var QBANK=null, QTOPIC="all";
 /* Fisher-Yates. sort(()=>Math.random()-.5) looks like a shuffle but is badly biased —
    it left the correct answer in slot 1 about 36% of the time instead of 25%, so always
    guessing "A" beat guessing at random. The whole point of shuffling is that nobody can
@@ -189,10 +190,11 @@ function shuffled(arr){
   for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}
   return a;
 }
-function startQuiz(subset){
-  const src = subset && subset.length ? subset : MC.map((_,i)=>i);
+function startQuiz(subset,bank){
+  QBANK=bank||MC;
+  const src = subset && subset.length ? subset : QBANK.map((_,i)=>i);
   quiz.order=shuffled(src);
-  quiz.opts=quiz.order.map(i=>shuffled(MC[i].o.map((txt,k)=>({txt,ok:k===0}))));
+  quiz.opts=quiz.order.map(i=>shuffled(QBANK[i].o.map((txt,k)=>({txt,ok:k===0}))));
   quiz.i=0;quiz.score=0;quiz.answered=0;quiz.missed=[];quiz.topics={};
   renderQuiz();
 }
@@ -212,7 +214,7 @@ function renderQuiz(){
     $("#quizScore").innerHTML=`<b>${pct}%</b> final`;
     return;
   }
-  const qi=quiz.order[quiz.i], m=MC[qi], opts=quiz.opts[quiz.i];
+  const qi=quiz.order[quiz.i], m=QBANK[qi], opts=quiz.opts[quiz.i];
   $("#quizScore").innerHTML=`<b>${quiz.score}</b> / ${quiz.answered} &nbsp;·&nbsp; question ${quiz.i+1} of ${quiz.order.length}`;
   box.innerHTML=`<div class="q">
     <div class="qq"><span>${quiz.i+1}.</span>${esc(m.q)} <span class="tag" style="margin-left:6px">${m.t}</span></div>
@@ -229,6 +231,51 @@ function renderQuiz(){
       <button class="btn sec" id="qnext">${quiz.i+1>=quiz.order.length?"Finish":"Next question"}</button></div>`;
     $("#qnext").onclick=()=>{quiz.i++;renderQuiz();};
     $("#quizScore").innerHTML=`<b>${quiz.score}</b> / ${quiz.answered} &nbsp;·&nbsp; question ${quiz.i+1} of ${quiz.order.length}`;
+  });
+}
+
+/* ---------- QUIZ GAMES — generated fresh from live app data every run ---------- */
+function vocabQuiz(){
+  const all=VOCAB.flatMap(g=>g[1]);
+  const qs=shuffled(all).slice(0,10).map(t=>{
+    const wrong=shuffled(all.filter(x=>x[0]!==t[0])).slice(0,3).map(x=>x[1]);
+    return {q:`\u201c${t[0]}\u201d means\u2026`,o:[t[1],...wrong],t:"vocab"};
+  });
+  startQuiz(qs.map((_,i)=>i),qs);
+}
+function priceBlitz(){
+  const pool=[];
+  Object.entries(MENU).forEach(([sec,items])=>items.forEach(i=>{
+    const raw=String(i[1]); const m=raw.match(/^\$(\d+)/);
+    if(m&&!raw.includes("/")&&+m[1]>=5)pool.push({n:i[0],p:+m[1]});}));
+  COCKTAILS.forEach(c=>{const m=String(c.p).match(/^\$(\d+)$/);if(m)pool.push({n:c.n,p:+m[1]});});
+  WINES.filter(w=>w.btg).forEach(w=>{const m=String(w.p).match(/^\$(\d+)/);if(m)pool.push({n:w.n+" (glass)",p:+m[1]});});
+  const prices=[...new Set(pool.map(x=>x.p))].sort((a,b)=>a-b);
+  const qs=shuffled(pool).slice(0,10).map(it=>{
+    const i=prices.indexOf(it.p);
+    let near=[prices[i-1],prices[i+1],prices[i-2],prices[i+2],prices[i+3],prices[i-3]]
+      .filter(v=>v!=null&&v!==it.p);
+    near=[...new Set(near)].slice(0,3);
+    let bump=3; while(near.length<3){const v=it.p+bump; if(v!==it.p&&!near.includes(v))near.push(v); bump+=4;}
+    return {q:`What does ${it.n} run?`,o:["$"+it.p,...near.map(v=>"$"+v)],t:"price"};
+  });
+  startQuiz(qs.map((_,i)=>i),qs);
+}
+const GREET_STEPS=["Busser drops the waters","Front greets \u2014 drinks and apps","BACK drops soup-salad and introduces themselves","Entr\u00e9es land \u2014 coursed, never stacked","Checkback, 2\u20135 minutes after entr\u00e9es"];
+function orderGame(){
+  const box=$("#quizBox"); let next=0, miss=0;
+  const order=shuffled(GREET_STEPS.map((st,i)=>({st,i})));
+  box.innerHTML=`<div class="q"><div class="qq"><span>1\u21925</span>Tap the greet flow in the right order</div>
+    <div id="ogDone" style="margin:6px 0"></div>
+    ${order.map(o=>`<button class="opt" data-i="${o.i}">${esc(o.st)}</button>`).join("")}
+    <div id="ogFb" style="margin-top:8px"></div></div>`;
+  $("#quizScore").innerHTML="tap them in order";
+  box.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{
+    const i=+b.dataset.i;
+    if(i===next){b.classList.add("right");b.disabled=true;next++;
+      $("#ogDone").innerHTML=GREET_STEPS.slice(0,next).map((st,k)=>`<div style="font-size:12.5px;color:var(--green);font-weight:600">${k+1}. ${esc(st)}</div>`).join("");
+      if(next>=GREET_STEPS.length)$("#ogFb").innerHTML=`<div class="note ${miss?"":"gold"}"><b>${miss===0?"Perfect run \u2014 ":"Done \u2014 "}${miss} wrong tap${miss===1?"":"s"}.</b> Waters \u2192 greet \u2192 soup-salad \u2192 entr\u00e9es \u2192 checkback. That rhythm is the job.</div><button class="btn sec" onclick="orderGame()">Run it again</button>`;
+    }else{miss++;b.classList.add("wrong");setTimeout(()=>b.classList.remove("wrong"),450);}
   });
 }
 
@@ -619,7 +666,7 @@ function build(){
       <button data-qa="wine|#sec-pair">${QAICONS["wine|#sec-pair"]||""}<div class="t">Pair their order</div><div class="s">They ordered X — here's what you say</div></button>
       <button data-qa="ops|#sec-checkout">${QAICONS["ops|#sec-checkout"]||""}<div class="t">Sales Calculator</div><div class="s">Sales in — your front/back split out</div></button>
       <button data-qa="ops|#sec-income">${QAICONS["ops|#sec-income"]||""}<div class="t">Night Forecast</div><div class="s">Who's on, the covers, and the cut — called early</div></button>
-      <button data-qa="study|#sec-quiz">${QAICONS["study|#sec-quiz"]||""}<div class="t">Take a quiz</div><div class="s">Fresh shuffle every time + the real 30</div></button>
+      <button data-qa="study|#sec-quiz">${QAICONS["study|#sec-quiz"]||""}<div class="t">Quiz &amp; games</div><div class="s">${MC.length} questions by topic + the real 30</div></button>
       <button data-qa="menu|">${QAICONS["menu|"]||""}<div class="t">Food menu</div><div class="s">Prices, builds, temps, the A5 pitch</div></button>
       <button data-qa="__search|">${QAICONS["__search|"]||""}<div class="t">Search everything</div><div class="s">Wine, garnish, allergen, price</div></button>
     </div>
@@ -779,11 +826,20 @@ function build(){
     <div class="note"><b>Two easy calls:</b> the strongest beer is Elysian Space Dust at 8.2%. The only zero-proof beer is Bud Zero. Austin Eastciders Original Dry is the gluten-free-style option.</div>`;
 
   /* ---------- STUDY ---------- */
+  const QT=[["all","Everything"],["steak","Steaks"],["food","Food"],["wine","Wine"],["cocktail","Cocktails"],["allergen","Allergens"],["service","Service"],["money","Money"],["house","The House"],["ops","Ops"]];
+  const qtCount=t=>t==="all"?MC.length:MC.filter(m=>m.t===t).length;
   $("#p-study").innerHTML=`
     <div class="sechead" id="sec-quiz"><h2>Generate a quiz</h2><span>${MC.length} questions in the bank — fresh shuffle every run</span></div>
-    <p class="lede">Question order and answer order shuffle every time, so nobody can memorize positions. Miss questions and you get a review round of just those.</p>
+    <p class="lede">Pick a lane or take everything. Question and answer order shuffle every time, so nobody can memorize positions — and missed questions come back as a review round.</p>
+    <div class="filters" id="quizTopics">${QT.map(([k,l])=>`<button data-t="${k}"${k==="all"?' class="on"':''}>${l} (${qtCount(k)})</button>`).join("")}</div>
     <div class="qbar"><button class="btn" id="quizStart">Generate quiz</button><div class="score" id="quizScore">ready when you are</div></div>
-    <div id="quizBox"><div class="empty">Hit generate. Food, steak, wine, cocktail, allergen, and ops questions, all mixed.</div></div>
+    <div class="filters" style="margin-top:2px">
+      <button id="gVocab">Vocab quiz — 10</button>
+      <button id="gPrice">Price blitz — 10</button>
+      <button id="gOrder">Order the greet</button>
+    </div>
+    <p class="sub" style="margin:2px 0 10px;color:var(--dim2);font-size:12px">The games build themselves fresh from the live menu, drink, and vocabulary data — prices in the blitz are always current.</p>
+    <div id="quizBox"><div class="empty">Hit generate — or grab a game.</div></div>
 
     <div class="sechead"><h2>The real menu test</h2><span>all 30 questions with the corrected answers</span></div>
     <div class="qbar"><button class="btn sec" id="ansToggle">Show all answers</button><div class="score">say each answer out loud before revealing</div></div>
@@ -920,7 +976,14 @@ function build(){
     renderAllergens();};
   $("#allergyQ").oninput=renderAllergens;
 
-  $("#quizStart").onclick=()=>startQuiz();
+  $("#quizStart").onclick=()=>{
+    const sub=QTOPIC==="all"?null:MC.map((m,i)=>m.t===QTOPIC?i:-1).filter(i=>i>=0);
+    startQuiz(sub&&sub.length?sub:null);
+  };
+  $("#quizTopics").onclick=e=>{const b=e.target.closest("button");if(!b)return;
+    $("#quizTopics").querySelectorAll("button").forEach(x=>x.classList.toggle("on",x===b));
+    QTOPIC=b.dataset.t;};
+  $("#gVocab").onclick=vocabQuiz; $("#gPrice").onclick=priceBlitz; $("#gOrder").onclick=orderGame;
   $("#ansToggle").onclick=()=>{
     const on=$("#ansList").classList.toggle("show");
     $("#ansToggle").textContent=on?"Hide all answers":"Show all answers";

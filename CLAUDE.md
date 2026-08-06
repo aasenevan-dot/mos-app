@@ -211,6 +211,19 @@ tequila-page photo, the 13 chef questions (printable PDF made for Chef Miguel), 
 bands (Evan owes numbers), hosting decision (repo is public — Evan choosing between
 keeping it, private+file-sharing, or private+Cloudflare Pages).
 
+## Study tab build-out (8/6, for distribution)
+
+MC bank is now 151 questions (was 65) across topics: steak, food, wine, cocktail,
+allergen, service, money, house, ops. HARD RULE for new questions: locked facts only —
+never quiz an unverified price (no 45-day $120, no espresso $8 guess). o[0] is always
+the correct answer; engine shuffles. Topic chips filter the bank (QTOPIC); the engine
+runs on a swappable QBANK so games feed it generated questions: vocabQuiz() (10 from
+VOCAB, wrong answers are other real definitions) and priceBlitz() (10 from live
+MENU/COCKTAILS/BTG prices — distractors are neighboring real prices, so the game stays
+current automatically). orderGame() is a tap-in-order greet-flow game (GREET_STEPS).
+test-sched.py validates bank size/shape, lane purity, both generators, and a perfect
+order-game run. Home tile says "Quiz & games."
+
 ## Privacy — this folder gets shared
 
 The app is shared with coworkers and may sit in a PUBLIC repo. So:

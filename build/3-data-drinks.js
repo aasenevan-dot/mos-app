@@ -79,7 +79,7 @@ const COCKTAILS = [
  {n:"Esso Affo",p:"$18",grp:"dessert",base:"Espresso martini style",
  build:"Espresso martini style with no simple syrup, plus 1 scoop of vanilla ice cream.",
  glass:"Martini glass",garnish:"Coffee sea salt",
- desc:"Affogato meets espresso martini. Coffee, cream, and vanilla. Shaken by the bartender, poured tableside — usually the front server or the bartender pours.",note:""},
+ desc:"Affogato meets espresso martini. Coffee, cream, and vanilla. Shaken by the bartender — the FRONT SERVER pours it tableside.",note:""},
  {n:"Espresso Martini",p:"$17",grp:"dessert",base:"Vodka / coffee",
  build:"Coffee, vodka, sweet.",glass:"Martini",garnish:"—",
  desc:"Classic after-dinner coffee cocktail.",note:""},
@@ -219,7 +219,7 @@ const SPIRITS = {
 /* ============ BEER ============ */
 SPIRITS["On Draft — only two lines"]=[
  ["Smoked Draft Old Fashioned","$17","Signature — full build up in the cocktail list."],
- ["Anything else on tap?","probably not","We barely have anything on tap — the Smoked Draft OF is the only line we know for sure. Sweet & Salty probably does NOT pour from a tap despite the old sheet. If a second line exists, nobody knows what it is."]
+ ["Anything else on tap?","probably not","We barely have anything on tap — the Smoked Draft OF is the only line we know for sure. Sweet & Salty is CONFIRMED not on tap. If a second line exists, nobody has figured out what it is yet."]
 ];
 
 SPIRITS["Cordials on the rail (after-dinner asks)"]=[
@@ -230,7 +230,7 @@ SPIRITS["Cordials on the rail (after-dinner asks)"]=[
 
 SPIRITS["Coffee, Tea & Water (no booze)"]=[
  ["Hubbard & Cravens Coffee","reg / decaf","Local Indianapolis roaster. Bring a cream and sugar caddy with it."],
- ["Espresso","$ VERIFY","We DO pour straight espresso — no cappuccino. probably $8+; get the real price off Toast."],
+ ["Espresso","$8 — best guess","We DO pour straight espresso — no cappuccino. $8 is the working guess; verify the real price in Toast."],
  ["Iced Tea","unsweet","Suncoast iced tea blend. Unsweet by default — sweet tea can be made on request."],
  ["Filtered Water","free","The busser carries it — default for every table."],
  ["Aquafina","bottle","Bottled still water if the guest wants it — price in Toast."],

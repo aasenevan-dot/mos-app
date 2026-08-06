@@ -60,7 +60,7 @@ header{
 @media(max-width:640px){.brand .logoimg{height:36px}}
 .searchwrap{margin-left:auto;position:relative;flex:1 1 260px;max-width:380px}
 #gsearch{
-  width:100%;padding:9px 12px 9px 34px;
+  width:100%;padding:9px 12px 9px 34px;border-radius:12px;
   border:1px solid rgba(247,239,228,.45);background:rgba(247,239,228,.1);color:var(--cream);font-size:16px;outline:none;
 }
 #gsearch::placeholder{color:#C7A9A0}
@@ -72,7 +72,7 @@ nav button{
   background:none;border:0;color:var(--dim);padding:10px 13px 12px;font-size:13px;
   font-weight:650;cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;
   text-transform:uppercase;letter-spacing:.05em;
-}
+;border-radius:11px}
 nav button:hover{color:var(--txt)}
 nav button.on{color:var(--gold);border-bottom-color:var(--gold)}
 
@@ -92,7 +92,7 @@ main{max-width:1180px;margin:0 auto;padding:20px 16px 40px;overflow-x:clip}
 .grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(290px,1fr))}
 .grid.wide{grid-template-columns:repeat(auto-fill,minmax(340px,1fr))}
 .card{
-  background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;
+  background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;
 }
 .card.hl{border-color:var(--gold);box-shadow:0 0 0 1px rgba(212,162,76,.2)}
 .crow{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
@@ -114,7 +114,7 @@ main{max-width:1180px;margin:0 auto;padding:20px 16px 40px;overflow-x:clip}
 /* ---------- chips / tags ---------- */
 .tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:9px}
 .tag{
-  font-size:10.5px;padding:2.5px 7px;border-radius:5px;background:var(--card2);
+  font-size:10.5px;padding:2.5px 7px;border-radius:7px;background:var(--card2);
   color:var(--dim);border:1px solid var(--line2);letter-spacing:.02em;
 }
 .tag.good{color:var(--green);border-color:rgba(30,107,58,.4)}
@@ -135,7 +135,7 @@ main{max-width:1180px;margin:0 auto;padding:20px 16px 40px;overflow-x:clip}
 .fsearch:focus{border-color:var(--gold)}
 
 /* ---------- tables ---------- */
-.tw{overflow-x:auto;border:1px solid var(--line);border-radius:11px;background:var(--card);-webkit-overflow-scrolling:touch}
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--card);-webkit-overflow-scrolling:touch}
 table{width:100%;border-collapse:collapse;font-size:13.2px}
 th{
   text-align:left;padding:9px 12px;background:var(--brand);color:var(--cream);
@@ -148,7 +148,7 @@ tr:hover td{background:rgba(255,255,255,.017)}
 
 /* ---------- callouts ---------- */
 .note{
-  border-radius:10px;padding:12px 14px;font-size:13.2px;margin:12px 0;border:1px solid var(--line2);
+  border-radius:14px;padding:12px 14px;font-size:13.2px;margin:12px 0;border:1px solid var(--line2);
   background:var(--card);
 }
 .note.warn{border-color:rgba(163,60,53,.45);background:rgba(163,60,53,.06)}
@@ -168,19 +168,19 @@ tr:hover td{background:rgba(255,255,255,.017)}
 .btn:hover{background:var(--brand2)}
 .btn.sec{background:transparent;color:var(--brand);border:1.4px solid var(--brand)}
 .btn.sec:hover{background:rgba(0,54,34,.07)}
-.q{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:15px;margin-bottom:11px}
+.q{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:15px;margin-bottom:11px}
 .qq{font-weight:600;font-size:14.5px;margin-bottom:11px}
 .qq span{color:var(--dim2);font-weight:600;margin-right:7px}
 .opt{
   display:block;width:100%;text-align:left;background:var(--bg2);border:1px solid var(--line2);
-  color:var(--txt);padding:9px 12px;border-radius:8px;margin-bottom:6px;font-size:13.3px;cursor:pointer;
+  color:var(--txt);padding:9px 12px;border-radius:12px;margin-bottom:6px;font-size:13.3px;cursor:pointer;
 }
 .opt:hover:not(:disabled){border-color:var(--dim2);background:var(--card2)}
 .opt:disabled{cursor:default}
 .opt.right{background:rgba(30,107,58,.1);border-color:var(--green);color:#14502A}
 .opt.wrong{background:rgba(163,60,53,.09);border-color:var(--red);color:#7C2A24}
 .flip{
-  background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;
+  background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;
   cursor:pointer;min-height:112px;display:flex;flex-direction:column;justify-content:center;
   -webkit-user-select:none;user-select:none;
 }
@@ -192,20 +192,20 @@ tr:hover td{background:rgba(255,255,255,.017)}
 .flip.open{border-color:var(--gold)}
 
 /* ---------- tools ---------- */
-.tool{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:14px}
+.tool{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:14px}
 .tool h3{font-size:15px;margin-bottom:4px}
 .tool p.sub{color:var(--dim2);font-size:12.5px;margin:0 0 13px}
 .frow{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end;margin-bottom:12px}
 .f{display:flex;flex-direction:column;gap:4px}
 .f label{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--dim2);font-weight:650}
 .f select,.f input{
-  padding:8px 10px;border-radius:8px;border:1px solid var(--line2);background:var(--bg2);
+  padding:8px 10px;border-radius:12px;border:1px solid var(--line2);background:var(--bg2);
   color:var(--txt);font-size:16px;outline:none;min-width:150px;
 }
 .f select:focus,.f input:focus{border-color:var(--gold)}
 .out{border-top:1px solid var(--line);padding-top:12px;margin-top:2px}
 .kpis{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}
-.kpi{background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:11px 13px}
+.kpi{background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:11px 13px}
 .kpi .k{font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--dim2);font-weight:650}
 .kpi .v{font-size:20px;font-weight:700;color:var(--gold2);margin-top:3px;font-variant-numeric:tabular-nums}
 .kpi .s{font-size:11.5px;color:var(--dim2);margin-top:1px}
@@ -227,7 +227,7 @@ tr:hover td{background:rgba(255,255,255,.017)}
 .steps li li::before{display:none}
 .hits{margin-top:6px}
 .hit{
-  background:var(--card);border:1px solid var(--line);border-radius:10px;padding:11px 13px;margin-bottom:8px;
+  background:var(--card);border:1px solid var(--line);border-radius:14px;padding:11px 13px;margin-bottom:8px;
 }
 .hit .w{font-size:11px;color:var(--gold);text-transform:uppercase;letter-spacing:.06em;font-weight:650}
 .hit .t{font-weight:600;margin-top:2px}
@@ -241,7 +241,7 @@ footer{
 .qa{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));margin-bottom:20px}
 .qa button{
   background:linear-gradient(160deg,var(--card2),var(--card));border:1px solid var(--line2);
-  border-radius:13px;padding:14px 13px;text-align:left;color:var(--txt);cursor:pointer;
+  border-radius:16px;padding:14px 13px;text-align:left;color:var(--txt);cursor:pointer;
 }
 .qa button:hover{border-color:var(--gold);transform:translateY(-1px)}
 .qa .t{font-weight:700;font-size:14.5px;color:var(--gold2)}
@@ -251,7 +251,7 @@ footer{
 .jumper button{flex:0 0 auto;background:var(--card);border:1px solid var(--line2);color:var(--dim);padding:6px 12px;border-radius:20px;font-size:12px;cursor:pointer;white-space:nowrap}
 .jumper button:hover{color:var(--gold2);border-color:var(--gold)}
 .sechead{scroll-margin-top:64px}
-details.acc{background:var(--card);border:1px solid var(--line);border-radius:12px;margin:14px 0;overflow:hidden}
+details.acc{background:var(--card);border:1px solid var(--line);border-radius:16px;margin:14px 0;overflow:hidden}
 details.acc>summary{list-style:none;cursor:pointer;padding:14px 16px;font-weight:650;font-size:15.5px;display:flex;justify-content:space-between;align-items:center;gap:10px}
 details.acc>summary::-webkit-details-marker{display:none}
 details.acc>summary .hint{font-size:11.5px;color:var(--dim2);font-weight:500;text-align:right}
@@ -264,7 +264,7 @@ details.acc>.accbody .sechead{margin-top:18px}
 .textbtn{background:var(--card);border:1px solid var(--line2);color:var(--dim);border-radius:9px;padding:7px 11px;font-size:12.5px;font-weight:700;cursor:pointer;white-space:nowrap}
 .textbtn:hover{color:var(--gold2);border-color:var(--gold)}
 .receipt{
-  background:#f2ead9;color:#241d14;border-radius:12px;padding:18px;max-width:440px;
+  background:#f2ead9;color:#241d14;border-radius:16px;padding:18px;max-width:440px;
   font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13.5px;
   box-shadow:0 6px 22px rgba(0,0,0,.4);
 }
@@ -282,7 +282,7 @@ details.acc>.accbody .sechead{margin-top:18px}
 .anslist .q{margin-bottom:9px;padding:13px 15px}
 .anslist .q .qq{margin-bottom:0;font-size:14px}
 /* brand: squared corners everywhere, like the site */
-.card,.tool,.kpi,.note,.q,.opt,.btn,.textbtn,.fsearch,.f select,.f input,#gsearch,.tw,.hit,.filters button,.jumper button,.qa button,.tag,details.acc,.receipt,.garnish{border-radius:0}
+/* rounded corners app-wide — Evan 8/6 ("Apple aesthetics"). The old squared-corners flattener lived here. */
 .qa button{background:var(--card)}
 .receipt{background:#FFFDF6;border:1px solid var(--line2);box-shadow:0 4px 16px rgba(41,37,37,.12)}
 .receipt .rhead{font-family:var(--serif);letter-spacing:.12em}
@@ -319,10 +319,10 @@ footer b{color:var(--dim)}
   .totop{bottom:calc(78px + env(safe-area-inset-bottom,0px))}
   footer{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
   .sheet.open{display:block;position:fixed;inset:0;z-index:80;background:rgba(41,37,37,.5)}
-  .sheetin{position:absolute;left:0;right:0;bottom:0;background:var(--bg2);border-radius:16px 16px 0 0;border-top:1px solid var(--line2);padding:16px 14px calc(22px + env(safe-area-inset-bottom,0px));max-height:78vh;overflow:auto}
+  .sheetin{position:absolute;left:0;right:0;bottom:0;background:var(--bg2);border-radius:20px 20px 0 0;border-top:1px solid var(--line2);padding:16px 14px calc(22px + env(safe-area-inset-bottom,0px));max-height:78vh;overflow:auto}
   .sheetin h3{font-size:12px;color:var(--dim2);text-transform:uppercase;letter-spacing:.06em;margin:12px 2px 8px}
   .sheetin .row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-  .sheetin button.item{background:var(--card);border:1px solid var(--line2);border-radius:10px;color:var(--txt);padding:13px 12px;font-size:13.5px;font-weight:600;cursor:pointer;text-align:left;touch-action:manipulation}
+  .sheetin button.item{background:var(--card);border:1px solid var(--line2);border-radius:12px;color:var(--txt);padding:13px 12px;font-size:13.5px;font-weight:600;cursor:pointer;text-align:left;touch-action:manipulation}
   .sheetin button.item.on{border-color:var(--gold);color:var(--gold2)}
 }
 @media print{
@@ -342,7 +342,7 @@ footer b{color:var(--dim)}
   .flip .back{display:block}
   details.acc{display:block}
   details.acc>.accbody{display:block}
-  .panel.on::after{content:"Mo's — updated 8/5/2026 — study copy, verify in Toast";display:block;margin-top:16px;padding-top:8px;border-top:1px solid #999;font-size:10px;color:#444}
+  .panel.on::after{content:"Mo's — updated 8/6/2026 — study copy, verify in Toast";display:block;margin-top:16px;padding-top:8px;border-top:1px solid #999;font-size:10px;color:#444}
 }
 /* schedule */
 .schedwrap table{min-width:680px}
@@ -357,7 +357,7 @@ footer b{color:var(--dim)}
 .schedwrap td.off.tdy{background:#3A1B16}
 .schedwrap tr.covrow td{background:var(--card2);color:var(--gold);font-weight:700}
 .schedwrap tr.covrow td.nm{font-size:10.5px;background:var(--card2)}
-.rosec{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-bottom:8px}
+.rosec{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 12px;margin-bottom:8px}
 .rosec b{color:var(--gold2)}
 .rosec .who{margin-top:3px;line-height:1.6;font-size:13.5px}
 .rosec .who i{color:var(--dim2);font-style:normal;font-size:12px}
@@ -420,7 +420,7 @@ window.addEventListener("error",function(e){
 <button class="totop" id="totop" aria-label="Back to top">&uarr;</button>
 <main id="main"></main>
 <footer>
-  Updated 8/5/2026 &middot; built from the Mo's training vault plus live corrections — newest info always wins.
+  Updated 8/6/2026 &middot; built from the Mo's training vault plus live corrections — newest info always wins.
   <b>This is a study tool, not a live price or allergy guarantee</b> — verify in Toast, the wine book, or with a manager before quoting a guest.
 </footer>
 <script>
@@ -837,7 +837,7 @@ const COCKTAILS = [
  {n:"Esso Affo",p:"$18",grp:"dessert",base:"Espresso martini style",
  build:"Espresso martini style with no simple syrup, plus 1 scoop of vanilla ice cream.",
  glass:"Martini glass",garnish:"Coffee sea salt",
- desc:"Affogato meets espresso martini. Coffee, cream, and vanilla. Shaken by the bartender, poured tableside — usually the front server or the bartender pours.",note:""},
+ desc:"Affogato meets espresso martini. Coffee, cream, and vanilla. Shaken by the bartender — the FRONT SERVER pours it tableside.",note:""},
  {n:"Espresso Martini",p:"$17",grp:"dessert",base:"Vodka / coffee",
  build:"Coffee, vodka, sweet.",glass:"Martini",garnish:"—",
  desc:"Classic after-dinner coffee cocktail.",note:""},
@@ -977,7 +977,7 @@ const SPIRITS = {
 /* ============ BEER ============ */
 SPIRITS["On Draft — only two lines"]=[
  ["Smoked Draft Old Fashioned","$17","Signature — full build up in the cocktail list."],
- ["Anything else on tap?","probably not","We barely have anything on tap — the Smoked Draft OF is the only line we know for sure. Sweet & Salty probably does NOT pour from a tap despite the old sheet. If a second line exists, nobody knows what it is."]
+ ["Anything else on tap?","probably not","We barely have anything on tap — the Smoked Draft OF is the only line we know for sure. Sweet & Salty is CONFIRMED not on tap. If a second line exists, nobody has figured out what it is yet."]
 ];
 
 SPIRITS["Cordials on the rail (after-dinner asks)"]=[
@@ -988,7 +988,7 @@ SPIRITS["Cordials on the rail (after-dinner asks)"]=[
 
 SPIRITS["Coffee, Tea & Water (no booze)"]=[
  ["Hubbard & Cravens Coffee","reg / decaf","Local Indianapolis roaster. Bring a cream and sugar caddy with it."],
- ["Espresso","$ VERIFY","We DO pour straight espresso — no cappuccino. probably $8+; get the real price off Toast."],
+ ["Espresso","$8 — best guess","We DO pour straight espresso — no cappuccino. $8 is the working guess; verify the real price in Toast."],
  ["Iced Tea","unsweet","Suncoast iced tea blend. Unsweet by default — sweet tea can be made on request."],
  ["Filtered Water","free","The busser carries it — default for every table."],
  ["Aquafina","bottle","Bottled still water if the guest wants it — price in Toast."],
@@ -1101,7 +1101,7 @@ const MENU = {
  ["Creamed Corn","$12","Cream, dijon, horseradish, dill.","Menu marks GF"],
  ["Creamed Spinach with Roasted Butternut Squash","$16","Sauteed spinach in a cream sauce over roasted butternut squash. Marked g on the current menu — it CONTAINS gluten.",""],
  ["Creamy Risotto","$15","Crispy prosciutto and sundried tomatoes. Cooked in chicken stock.","NOT vegetarian — chicken stock + prosciutto"],
- ["Baked Potato","$11","Base: butter and sour cream, served with a bread knife. LOADED upgrade — chives, bacon, cheese — for an upcharge (price VERIFY). Loaded adds pork.","Menu marks GF (base)"],
+ ["Baked Potato","$11","Base: butter and sour cream, served with a bread knife. LOADED upgrade — chives, bacon, cheese — about +$3 (best guess, verify). Loaded adds pork.","Menu marks GF (base)"],
  ["White Cheddar Mashed Potatoes","$12","Butter, cream, white cheddar. Add truffle $3 or wasabi $3.","Menu marks GF · upsell the $3 add"],
  ["Truffle Cauliflower","$14","Pan-seared with shallots, mixed with Alfredo and truffle oil, topped with Parmesan and parsley.","Newer side — confirmed current 8/4"],
  ["Lobster Mac N' Cheese","$26","Lobster stock, roux, pasta, cheese, panko. Premium share side.","Biggest side upsell"],
@@ -1225,7 +1225,7 @@ const ALLERGENS = [
  ["Brussels Sprouts","$15",["capsaicin","soy","cross-contact"],"Deep fried in the SHARED fryer — cross-contact. Sriracha hot honey; verify the sauce for soy."],
  ["Creamy Risotto","$15",["dairy","pork","chicken","allium"],"Chicken stock and crispy prosciutto — not vegetarian. Risotto is usually finished with wine — ask if alcohol matters to the guest."],
  ["Truffle Fries","$11",["gluten","dairy","cross-contact"],"Lightly breaded, fried in the SHARED fryer — cross-contact."],
- ["Baked Potato","$11",["dairy"],"Base is butter + sour cream (GF-marked). The LOADED upgrade adds chives, bacon, cheese — that adds PORK. Upcharge price VERIFY."],
+ ["Baked Potato","$11",["dairy"],"Base is butter + sour cream (GF-marked). The LOADED upgrade adds chives, bacon, cheese — that adds PORK. About +$3 (best guess, verify)."],
  ["Bananas Foster","$12/person",["dairy","alcohol","cinnamon"],"Tableside, minimum 2 people. The back server runs the show."],
  ["Mo's Cookie","$10",["dairy","egg","gluten"],""],
  ["Celebration Cake","$14",["egg","dairy","gluten"],"Vanilla cake, white chocolate mousse, strawberry drizzle, gummi bears — gelatin, worth flagging for vegetarians."],
@@ -1290,7 +1290,9 @@ const SPECIALS_ON=[
  ["Australian Wagyu Tomahawk","$180","32 oz. Wagyu rule: serve rare to med-rare — nudge, don't argue.","cut special"],
  ["45-Day Dry-Aged Bone-In Ribeye","22 oz — $120? VERIFY price","22 oz, confirmed by the graded test answer key. Evan thinks $120 — price still needs verified. All four cut specials (porterhouse, spinalis, tomahawk, 45-day) typically ALWAYS run.","cut special"],
  ["Ladies Night — every Thursday","$10 martinis + \u00bd-off apps","Ladies get $10 martinis and half-price appetizers in the lounge, every Thursday night.","weekly feature"],
- ["House events coming up","dates TBD","Sundresses & Sangria, the Surf & Turf Cup (golf outing), and a Prisoner Wine Dinner are on the books — the site doesn't publish dates, so ask a manager. Wine dinners mean banquet money.","events"]
+ ["Sundresses & Sangria","Thu 8/13 · 5–10 pm · the Lounge","One more summer girls' night out — slip into your favorite sundress and join us in the lounge. Sangria flowing 5 to 10.","event"],
+ ["Surf & Turf Cup — Golf Outing Scramble","Tue 9/8 · Sagamore Golf Club","$3,000 per foursome. Breakfast, 18 holes, lunch and drinks, contests and prizes, and a surf & turf dinner by Prime 47. Registration 9:00 am. A day of golf, food, fun, and fellowship.","event"],
+ ["The Prisoner Wine Dinner","Thu 9/17 · 6:30 pm · $150/person","Five-course wine dinner presented by The Prisoner Wine Company. RSVP: Lillian@mosgreenwood.com. Wine dinners mean banquet money.","event"]
 ];
 /* Rotating entree specials seen before — ask a manager if one is running tonight. */
 const SPECIALS_ROTATION=[
@@ -1467,7 +1469,7 @@ const SALES = {
  /* calibrated to the two logged Sundays */
  teamBase:1381.50, // net per team on the 7/13 calibration night — re-verified from the Toast screen photo 8/4 (was 1388.17 off a misread)
  banquetBlock:3366, // 7/20 banquet net, derived: $774.18 auto-grat / 23% house banquet grat (confirmed 8/4; was 3871 under the old 20% assumption)
- banquetGratRate:.23, // house banquet auto-grat: guests pay 23%, and 3% of banquet sales goes to Lillian
+ banquetGratRate:.23, // Lillian-booked banquets: 23% auto-grat (20 + her 3). Walk-in big parties are NOT banquets — no 3%.
  tipNormal:.3115, // dining tips+grat as % of net on 7/13 (1291.10 / 4144.51), re-verified 8/4
  tipBanquetDay:.247, // dining-portion tip rate observed on the banquet Sunday (7/20), recomputed with the 23% banquet block
  taxRate:.09, // EXACTLY 9.0% on both verified Toast screens. Greenwood = 7% IN + 1% Johnson Co F&B + 1% Greenwood city F&B
@@ -1502,9 +1504,10 @@ const SPLIT_RULES=[
  "Each team is a front server and a back server.",
  "Toast takes 2% of your credit tips off the top (tips withheld). What's left, plus any cash tips and gratuity, is your team pool.",
  "Tip out from TEAM NET SALES: bar gets 1%, busser gets 1.5%, expo gets 0.5% — each line rounds UP to the next whole dollar. If no expo is scheduled that night, the expo line does not come out of you.",
- "Banquets: guests pay a 23% auto-grat (they can tip more on top). The 3% banquet tip-out line is Lillian's cut as banquet coordinator. Banquet sales ALSO tip out bar, busser, and expo like all other sales.",
+ "Banquets BOOKED THROUGH LILLIAN: guests pay a 23% auto-grat instead of 20 — the extra 3 points ARE Lillian's cut as banquet coordinator. A big party that just walks in on the regular menu is NOT a banquet: no 3%, normal rules. Banquet sales still tip out bar, busser, and expo like all other sales.",
  "The polisher is a flat tip-out, not a percent: $10 for a team, $5 solo. But most nights there is NO polisher at all — they only show up on the busiest nights, and then usually just one.",
  "Pool minus tip-outs is what the team earned. Drop the cents.",
+ "COMPS come OFF team net sales before tip-outs. PROMOS do NOT come off. Gift cards DO count in net sales. (Voids — still chasing the answer.)",
  "The checkout sheet is HAND math — Toast only totals the non-cash side. That is exactly why this calculator exists.",
  "Parties of 6 or more can take a 20% auto-gratuity — the server decides whether to add it. When you do, it lands as real tips on your checkout.",
  "Split earned 50/50 between front and back. When it lands odd, the back server takes the greater dollar.",
@@ -1528,7 +1531,7 @@ const DAYPRE={
  tue:{label:"Tuesday",teams:4,wkRule:15}
 };
 /* hourly wages, per Evan 8/5: busser $5, expo $10, food runner $10.
-   Bar gets tipped-minimum wage (put $2.13 — check the real rate) + the 1% tip-out pool + their own bar-top tips.
+   Bar wage $2.13/hr CONFIRMED + the 1% tip-out pool + their own bar-top tips.
    Cocktailer PAY = 50% of one team = same as one server (the 0.7 below is only how the FLOOR SALES slice up). */
 const WAGES={busser:5, expo:10, foodrun:10, barTipped:2.13};
 const CHECK_CAL=115; // menu-math check,'s preset
@@ -1691,7 +1694,7 @@ const HANDBOOK=[
 [
 "Complaints, open door + grievances",
 "we can't fix what we don't know",
-"<p>Anyone who witnesses or is subject to inappropriate conduct can complain to ANY member of management — and a Manager who hears of it must notify Human Resources immediately. Serious complaints get a complete, impartial investigation, handled as confidentially as possible, with corrective action if appropriate. <b>No retaliation</b> against anyone who complains in good faith or helps an investigation — if you feel punished for speaking up, report that immediately too.</p><p><b>Open door:</b> if something about your job is bothering you — question, concern, idea, problem — bring it to Management as soon as possible, or straight to HR if that feels more comfortable.</p><p><b>Grievances:</b> anything peer-to-peer talk can't resolve goes to Lillian Speedy, our Director of Human Resources — 817-889-1155 or darlarmc@yahoo.com (the old HR line and inbox; both forward to her). Oral or written, your choice; writing is encouraged because it focuses your thoughts. HR responds within seven days.</p>"
+"<p>Anyone who witnesses or is subject to inappropriate conduct can complain to ANY member of management — and a Manager who hears of it must notify Human Resources immediately. Serious complaints get a complete, impartial investigation, handled as confidentially as possible, with corrective action if appropriate. <b>No retaliation</b> against anyone who complains in good faith or helps an investigation — if you feel punished for speaking up, report that immediately too.</p><p><b>Open door:</b> if something about your job is bothering you — question, concern, idea, problem — bring it to Management as soon as possible, or straight to HR if that feels more comfortable.</p><p><b>Grievances:</b> anything peer-to-peer talk can't resolve goes to Lillian Speedy, our Director of Human Resources — Lillian@mosgreenwood.com, or 817-889-1155 (the old HR line; it still forwards to her). Oral or written, your choice; writing is encouraged because it focuses your thoughts. HR responds within seven days.</p>"
 ],
 [
 "Probation + discipline",
@@ -5010,7 +5013,7 @@ function calcBq(){
   const minWins=min>0&&min>byHeads;
   $("#bqOut").innerHTML=`<div class="kpis">
     <div class="kpi"><div class="k">Event net</div><div class="v">${$d(net)}</div><div class="s">${minWins?"the minimum wins over "+$d(byHeads)+" by heads":heads+" heads x $"+perHead+(min>0?" (beats the "+$d(min)+" minimum)":"")}</div></div>
-    <div class="kpi"><div class="k">Auto-grat</div><div class="v">${$d(grat)}</div><div class="s">${(gratPct*100).toFixed(0)}% — VERIFY with Lillian</div></div>
+    <div class="kpi"><div class="k">Auto-grat</div><div class="v">${$d(grat)}</div><div class="s">${(gratPct*100).toFixed(0)}% — Lillian bookings run 23</div></div>
     <div class="kpi"><div class="k">Grat split if one team runs it</div><div class="v">Front ${$d(Math.floor(grat/2))} · Back ${$d(Math.ceil(grat/2))}</div><div class="s">before tip-out, back takes the greater dollar</div></div>
   </div>`;
 }
@@ -5313,7 +5316,10 @@ function build(){
     ${acc("House facts","uniform, trivia, and the little rules",`<ul class="steps">${HOUSE.facts.map(([t,d])=>`<li><b>${esc(t)}:</b> ${esc(d)}</li>`).join("")}</ul>`)}
     <div class="sechead"><h2>Employee Handbook</h2><span>the official policies, every section</span></div>
     <p class="lede">The house handbook, section by section. General guidelines — not a contract. Questions go to Management.</p>
-    ${HANDBOOK.map(h=>acc(h[0],h[1],h[2])).join("")}`;
+    ${HANDBOOK.map(h=>acc(h[0],h[1],h[2])).join("")}
+
+    <div class="sechead"><h2>About this app</h2><span>read once</span></div>
+    <div class="note">Mo's Server Command Center — built by Evan (back server) as a training and money tool for the team. It is a STUDY COPY, not official house policy: menus, prices, and rules change, so when a dollar matters, verify in Toast or with a manager. The checkout math is proven against real graded checkouts. Spot something wrong or outdated? Tell Evan — corrections go in same-day. Updated <b>8/6/2026</b>.</div>`;
 
   /* ---------- VOCABULARY ---------- */
   $("#p-vocab").innerHTML=`
@@ -5334,7 +5340,7 @@ function build(){
       <div class="frow">
         <div class="f"><label>Team net sales $</label><input type="number" inputmode="decimal" id="scSales" placeholder="from Toast" min="0"></div>
         <div class="f"><label>Credit tips $ (optional)</label><input type="number" inputmode="decimal" id="scTips" placeholder="blank = 20.8% est." min="0"></div>
-        <div class="f"><label>Ran a banquet?</label><select id="scBq"><option value="no">No</option><option value="yes">Yes (+3% tip-out)</option></select></div>
+        <div class="f"><label>Lillian banquet tonight?</label><select id="scBq"><option value="no">No</option><option value="yes">Yes (+3% to Lillian)</option></select></div>
         <div class="f"><label>Polisher scheduled?</label><select id="scPolisher"><option value="0">No — the usual</option><option value="10">Yes — team ($10, busiest nights)</option><option value="5">Yes — I'm solo ($5)</option></select></div><div class="f"><label>Expo working?</label><select id="scExpo"><option value="yes">Yes</option><option value="no">No — skip expo line</option></select></div>
         <div class="f"><label>Cash tips $</label><input type="number" inputmode="decimal" id="scCash" placeholder="—" min="0"></div>
       </div>
@@ -5370,11 +5376,11 @@ function build(){
     </div>
 
     ${acc("Banquet checkout — the second envelope","banquet nights run two checkouts; same math, separate sheet",`
-      <p class="sub" style="color:var(--dim2);font-size:12.5px;margin:4px 0 12px">A banquet gets its own checkout sheet and its own envelope, on top of the regular one. Same pipeline. Guests pay a 23% auto-grat (they can add more on top) — type the real number off the banquet sheet when you have it. The 3% line below is Lillian’s cut as banquet coordinator, so the team keeps about 20 points before normal tip-outs.</p>
+      <p class="sub" style="color:var(--dim2);font-size:12.5px;margin:4px 0 12px">A banquet BOOKED THROUGH LILLIAN gets its own checkout sheet and envelope, on top of the regular one. Same pipeline. Guests pay 23% auto-grat instead of 20 — the extra 3 points are Lillian's cut, and that's the 3% line below. A big party that walks in on the regular menu is NOT a banquet: no 3%, no second envelope. Type the real gratuity off the banquet sheet when you have it.</p>
       <div class="frow">
         <div class="f"><label>Banquet net sales $</label><input type="number" inputmode="decimal" id="bqcSales" placeholder="from the banquet sheet" min="0"></div>
         <div class="f"><label>Gratuity $ (optional)</label><input type="number" inputmode="decimal" id="bqcTips" placeholder="blank = 23% est." min="0"></div>
-        <div class="f"><label>Banquet tip-out (3%)?</label><select id="bqcThree"><option value="yes" selected>Yes — VERIFY</option><option value="no">No</option></select></div>
+        <div class="f"><label>Booked through Lillian?</label><select id="bqcThree"><option value="yes" selected>Yes — her 3% comes out</option><option value="no">No — no 3%</option></select></div>
       </div>
       <div class="out" id="bqcOut"></div>`)}
 
@@ -5389,7 +5395,7 @@ function build(){
         <div class="f"><label>Auto-grat %</label><input type="number" inputmode="decimal" id="bqGrat" value="23" min="0" max="30"></div>
       </div>
       <div class="out" id="bqOut"></div>
-      <p class="sub" style="color:var(--dim2);font-size:12px;margin:10px 0 0">Rooms: ${ROOMS.map(r=>`<b>${esc(r[0])}</b> — ${esc(r[1])}`).join(" · ")}. Booking through Lillian Speedy, Director of Sales.</p>`)}
+      <p class="sub" style="color:var(--dim2);font-size:12px;margin:10px 0 0">Rooms: ${ROOMS.map(r=>`<b>${esc(r[0])}</b> — ${esc(r[1])}`).join(" · ")}. Booking through Lillian Speedy, Director of Sales \u2014 Lillian@mosgreenwood.com.</p>`)}
 
     
 

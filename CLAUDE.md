@@ -81,7 +81,7 @@ recompute the goldens by hand before touching them.
 ## Standing rules from Evan (do not re-ask, do not undo)
 
 - Weeks start WEDNESDAY. Any day-of-week list runs Wed → Tue.
-- Normal fonts only. No cursive, ever. Brand: maroon #59201C, cream #F7EFE4, squared corners.
+- Normal fonts only. No cursive, ever. Brand: maroon #59201C, cream #F7EFE4. ROUNDED corners as of 8/6 (Evan: "Apple aesthetics") — cards/tools 16px, kpis/notes 14, chips stay pills; the old squared-corners flattener in 1-head.html is deliberately gone. Round it, don't restyle it.
 - Ticket times: starters 5–12 min (15 max). Entrées 22–27 min. Soups, salads, desserts 5–7 min, 10 max. Home grid order: Starters first (Evan, 8/5). The old Manager-alert tile is gone — the $250+/Bordeaux fact lives in the wine-move card.
 - Spelling: "Pittsburghed" (with the h). Books come from SevenRooms, not OpenTable.
 - Cocktailer control is a plain dropdown None/1/2/3 — no employee names on it.
@@ -191,6 +191,21 @@ Other Reds, Chardonnay, Sauv Blanc, Pinot Grigio, Riesling & Moscato, Rosé, Bub
 type filters cross bottles AND by-the-glass, which was the whole point. Pomerols count
 as Merlot, white Burgundy as Chardonnay. New wines added later MUST get a WINE_V entry
 (they'll fail the test if the type is missing).
+
+## Locked 8/6 + distribution state
+
+Comps come OFF team net before tip-outs; promos do NOT; gift cards DO hit net sales;
+voids still open. Banquet 3% is ONLY for banquets booked through Lillian (23 = 20 + her
+3) — walk-in big parties are NOT banquets. Esso Affo: FRONT server pours tableside.
+Bartender wage $2.13 confirmed. Sweet & Salty confirmed NOT on tap; second line still a
+mystery. Espresso $8 and loaded-potato +$3 are BEST GUESSES — keep the verify tags until
+Toast confirms. Events are dated in Specials (8/13 Sangria, 9/8 golf, 9/17 Prisoner
+dinner, RSVP Lillian@mosgreenwood.com — her real email, used app-wide now). "About this
+app" note lives at the end of How We Work. STILL OPEN for distribution: voids, 45-day
+$120?, espresso/potato confirms, primavera add-on prices, La Marca/Mionetto bottles,
+tequila-page photo, the 13 chef questions (printable PDF made for Chef Miguel), staffing
+bands (Evan owes numbers), hosting decision (repo is public — Evan choosing between
+keeping it, private+file-sharing, or private+Cloudflare Pages).
 
 ## Privacy — this folder gets shared
 

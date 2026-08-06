@@ -416,7 +416,7 @@ function calcBq(){
   const minWins=min>0&&min>byHeads;
   $("#bqOut").innerHTML=`<div class="kpis">
     <div class="kpi"><div class="k">Event net</div><div class="v">${$d(net)}</div><div class="s">${minWins?"the minimum wins over "+$d(byHeads)+" by heads":heads+" heads x $"+perHead+(min>0?" (beats the "+$d(min)+" minimum)":"")}</div></div>
-    <div class="kpi"><div class="k">Auto-grat</div><div class="v">${$d(grat)}</div><div class="s">${(gratPct*100).toFixed(0)}% — VERIFY with Lillian</div></div>
+    <div class="kpi"><div class="k">Auto-grat</div><div class="v">${$d(grat)}</div><div class="s">${(gratPct*100).toFixed(0)}% — Lillian bookings run 23</div></div>
     <div class="kpi"><div class="k">Grat split if one team runs it</div><div class="v">Front ${$d(Math.floor(grat/2))} · Back ${$d(Math.ceil(grat/2))}</div><div class="s">before tip-out, back takes the greater dollar</div></div>
   </div>`;
 }
@@ -719,7 +719,10 @@ function build(){
     ${acc("House facts","uniform, trivia, and the little rules",`<ul class="steps">${HOUSE.facts.map(([t,d])=>`<li><b>${esc(t)}:</b> ${esc(d)}</li>`).join("")}</ul>`)}
     <div class="sechead"><h2>Employee Handbook</h2><span>the official policies, every section</span></div>
     <p class="lede">The house handbook, section by section. General guidelines — not a contract. Questions go to Management.</p>
-    ${HANDBOOK.map(h=>acc(h[0],h[1],h[2])).join("")}`;
+    ${HANDBOOK.map(h=>acc(h[0],h[1],h[2])).join("")}
+
+    <div class="sechead"><h2>About this app</h2><span>read once</span></div>
+    <div class="note">Mo's Server Command Center — built by Evan (back server) as a training and money tool for the team. It is a STUDY COPY, not official house policy: menus, prices, and rules change, so when a dollar matters, verify in Toast or with a manager. The checkout math is proven against real graded checkouts. Spot something wrong or outdated? Tell Evan — corrections go in same-day. Updated <b>__BUILDDATE__</b>.</div>`;
 
   /* ---------- VOCABULARY ---------- */
   $("#p-vocab").innerHTML=`
@@ -740,7 +743,7 @@ function build(){
       <div class="frow">
         <div class="f"><label>Team net sales $</label><input type="number" inputmode="decimal" id="scSales" placeholder="from Toast" min="0"></div>
         <div class="f"><label>Credit tips $ (optional)</label><input type="number" inputmode="decimal" id="scTips" placeholder="blank = 20.8% est." min="0"></div>
-        <div class="f"><label>Ran a banquet?</label><select id="scBq"><option value="no">No</option><option value="yes">Yes (+3% tip-out)</option></select></div>
+        <div class="f"><label>Lillian banquet tonight?</label><select id="scBq"><option value="no">No</option><option value="yes">Yes (+3% to Lillian)</option></select></div>
         <div class="f"><label>Polisher scheduled?</label><select id="scPolisher"><option value="0">No — the usual</option><option value="10">Yes — team ($10, busiest nights)</option><option value="5">Yes — I'm solo ($5)</option></select></div><div class="f"><label>Expo working?</label><select id="scExpo"><option value="yes">Yes</option><option value="no">No — skip expo line</option></select></div>
         <div class="f"><label>Cash tips $</label><input type="number" inputmode="decimal" id="scCash" placeholder="—" min="0"></div>
       </div>
@@ -776,11 +779,11 @@ function build(){
     </div>
 
     ${acc("Banquet checkout — the second envelope","banquet nights run two checkouts; same math, separate sheet",`
-      <p class="sub" style="color:var(--dim2);font-size:12.5px;margin:4px 0 12px">A banquet gets its own checkout sheet and its own envelope, on top of the regular one. Same pipeline. Guests pay a 23% auto-grat (they can add more on top) — type the real number off the banquet sheet when you have it. The 3% line below is Lillian’s cut as banquet coordinator, so the team keeps about 20 points before normal tip-outs.</p>
+      <p class="sub" style="color:var(--dim2);font-size:12.5px;margin:4px 0 12px">A banquet BOOKED THROUGH LILLIAN gets its own checkout sheet and envelope, on top of the regular one. Same pipeline. Guests pay 23% auto-grat instead of 20 — the extra 3 points are Lillian's cut, and that's the 3% line below. A big party that walks in on the regular menu is NOT a banquet: no 3%, no second envelope. Type the real gratuity off the banquet sheet when you have it.</p>
       <div class="frow">
         <div class="f"><label>Banquet net sales $</label><input type="number" inputmode="decimal" id="bqcSales" placeholder="from the banquet sheet" min="0"></div>
         <div class="f"><label>Gratuity $ (optional)</label><input type="number" inputmode="decimal" id="bqcTips" placeholder="blank = 23% est." min="0"></div>
-        <div class="f"><label>Banquet tip-out (3%)?</label><select id="bqcThree"><option value="yes" selected>Yes — VERIFY</option><option value="no">No</option></select></div>
+        <div class="f"><label>Booked through Lillian?</label><select id="bqcThree"><option value="yes" selected>Yes — her 3% comes out</option><option value="no">No — no 3%</option></select></div>
       </div>
       <div class="out" id="bqcOut"></div>`)}
 
@@ -795,7 +798,7 @@ function build(){
         <div class="f"><label>Auto-grat %</label><input type="number" inputmode="decimal" id="bqGrat" value="23" min="0" max="30"></div>
       </div>
       <div class="out" id="bqOut"></div>
-      <p class="sub" style="color:var(--dim2);font-size:12px;margin:10px 0 0">Rooms: ${ROOMS.map(r=>`<b>${esc(r[0])}</b> — ${esc(r[1])}`).join(" · ")}. Booking through Lillian Speedy, Director of Sales.</p>`)}
+      <p class="sub" style="color:var(--dim2);font-size:12px;margin:10px 0 0">Rooms: ${ROOMS.map(r=>`<b>${esc(r[0])}</b> — ${esc(r[1])}`).join(" · ")}. Booking through Lillian Speedy, Director of Sales \u2014 Lillian@mosgreenwood.com.</p>`)}
 
     
 

@@ -84,7 +84,7 @@ const MENU = {
  ["Creamed Corn","$12","Cream, dijon, horseradish, dill.","Menu marks GF"],
  ["Creamed Spinach with Roasted Butternut Squash","$16","Sauteed spinach in a cream sauce over roasted butternut squash. Marked g on the current menu — it CONTAINS gluten.",""],
  ["Creamy Risotto","$15","Crispy prosciutto and sundried tomatoes. Cooked in chicken stock.","NOT vegetarian — chicken stock + prosciutto"],
- ["Baked Potato","$11","Base: butter and sour cream, served with a bread knife. LOADED upgrade — chives, bacon, cheese — for an upcharge (price VERIFY). Loaded adds pork.","Menu marks GF (base)"],
+ ["Baked Potato","$11","Base: butter and sour cream, served with a bread knife. LOADED upgrade — chives, bacon, cheese — about +$3 (best guess, verify). Loaded adds pork.","Menu marks GF (base)"],
  ["White Cheddar Mashed Potatoes","$12","Butter, cream, white cheddar. Add truffle $3 or wasabi $3.","Menu marks GF · upsell the $3 add"],
  ["Truffle Cauliflower","$14","Pan-seared with shallots, mixed with Alfredo and truffle oil, topped with Parmesan and parsley.","Newer side — confirmed current 8/4"],
  ["Lobster Mac N' Cheese","$26","Lobster stock, roux, pasta, cheese, panko. Premium share side.","Biggest side upsell"],
@@ -208,7 +208,7 @@ const ALLERGENS = [
  ["Brussels Sprouts","$15",["capsaicin","soy","cross-contact"],"Deep fried in the SHARED fryer — cross-contact. Sriracha hot honey; verify the sauce for soy."],
  ["Creamy Risotto","$15",["dairy","pork","chicken","allium"],"Chicken stock and crispy prosciutto — not vegetarian. Risotto is usually finished with wine — ask if alcohol matters to the guest."],
  ["Truffle Fries","$11",["gluten","dairy","cross-contact"],"Lightly breaded, fried in the SHARED fryer — cross-contact."],
- ["Baked Potato","$11",["dairy"],"Base is butter + sour cream (GF-marked). The LOADED upgrade adds chives, bacon, cheese — that adds PORK. Upcharge price VERIFY."],
+ ["Baked Potato","$11",["dairy"],"Base is butter + sour cream (GF-marked). The LOADED upgrade adds chives, bacon, cheese — that adds PORK. About +$3 (best guess, verify)."],
  ["Bananas Foster","$12/person",["dairy","alcohol","cinnamon"],"Tableside, minimum 2 people. The back server runs the show."],
  ["Mo's Cookie","$10",["dairy","egg","gluten"],""],
  ["Celebration Cake","$14",["egg","dairy","gluten"],"Vanilla cake, white chocolate mousse, strawberry drizzle, gummi bears — gelatin, worth flagging for vegetarians."],
@@ -273,7 +273,9 @@ const SPECIALS_ON=[
  ["Australian Wagyu Tomahawk","$180","32 oz. Wagyu rule: serve rare to med-rare — nudge, don't argue.","cut special"],
  ["45-Day Dry-Aged Bone-In Ribeye","22 oz — $120? VERIFY price","22 oz, confirmed by the graded test answer key. Evan thinks $120 — price still needs verified. All four cut specials (porterhouse, spinalis, tomahawk, 45-day) typically ALWAYS run.","cut special"],
  ["Ladies Night — every Thursday","$10 martinis + \u00bd-off apps","Ladies get $10 martinis and half-price appetizers in the lounge, every Thursday night.","weekly feature"],
- ["House events coming up","dates TBD","Sundresses & Sangria, the Surf & Turf Cup (golf outing), and a Prisoner Wine Dinner are on the books — the site doesn't publish dates, so ask a manager. Wine dinners mean banquet money.","events"]
+ ["Sundresses & Sangria","Thu 8/13 · 5–10 pm · the Lounge","One more summer girls' night out — slip into your favorite sundress and join us in the lounge. Sangria flowing 5 to 10.","event"],
+ ["Surf & Turf Cup — Golf Outing Scramble","Tue 9/8 · Sagamore Golf Club","$3,000 per foursome. Breakfast, 18 holes, lunch and drinks, contests and prizes, and a surf & turf dinner by Prime 47. Registration 9:00 am. A day of golf, food, fun, and fellowship.","event"],
+ ["The Prisoner Wine Dinner","Thu 9/17 · 6:30 pm · $150/person","Five-course wine dinner presented by The Prisoner Wine Company. RSVP: Lillian@mosgreenwood.com. Wine dinners mean banquet money.","event"]
 ];
 /* Rotating entree specials seen before — ask a manager if one is running tonight. */
 const SPECIALS_ROTATION=[

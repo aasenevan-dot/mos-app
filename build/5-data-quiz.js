@@ -133,7 +133,7 @@ const SALES = {
  /* calibrated to the two logged Sundays */
  teamBase:1381.50, // net per team on the 7/13 calibration night — re-verified from the Toast screen photo 8/4 (was 1388.17 off a misread)
  banquetBlock:3366, // 7/20 banquet net, derived: $774.18 auto-grat / 23% house banquet grat (confirmed 8/4; was 3871 under the old 20% assumption)
- banquetGratRate:.23, // house banquet auto-grat: guests pay 23%, and 3% of banquet sales goes to Lillian
+ banquetGratRate:.23, // Lillian-booked banquets: 23% auto-grat (20 + her 3). Walk-in big parties are NOT banquets — no 3%.
  tipNormal:.3115, // dining tips+grat as % of net on 7/13 (1291.10 / 4144.51), re-verified 8/4
  tipBanquetDay:.247, // dining-portion tip rate observed on the banquet Sunday (7/20), recomputed with the 23% banquet block
  taxRate:.09, // EXACTLY 9.0% on both verified Toast screens. Greenwood = 7% IN + 1% Johnson Co F&B + 1% Greenwood city F&B
@@ -168,9 +168,10 @@ const SPLIT_RULES=[
  "Each team is a front server and a back server.",
  "Toast takes 2% of your credit tips off the top (tips withheld). What's left, plus any cash tips and gratuity, is your team pool.",
  "Tip out from TEAM NET SALES: bar gets 1%, busser gets 1.5%, expo gets 0.5% — each line rounds UP to the next whole dollar. If no expo is scheduled that night, the expo line does not come out of you.",
- "Banquets: guests pay a 23% auto-grat (they can tip more on top). The 3% banquet tip-out line is Lillian's cut as banquet coordinator. Banquet sales ALSO tip out bar, busser, and expo like all other sales.",
+ "Banquets BOOKED THROUGH LILLIAN: guests pay a 23% auto-grat instead of 20 — the extra 3 points ARE Lillian's cut as banquet coordinator. A big party that just walks in on the regular menu is NOT a banquet: no 3%, normal rules. Banquet sales still tip out bar, busser, and expo like all other sales.",
  "The polisher is a flat tip-out, not a percent: $10 for a team, $5 solo. But most nights there is NO polisher at all — they only show up on the busiest nights, and then usually just one.",
  "Pool minus tip-outs is what the team earned. Drop the cents.",
+ "COMPS come OFF team net sales before tip-outs. PROMOS do NOT come off. Gift cards DO count in net sales. (Voids — still chasing the answer.)",
  "The checkout sheet is HAND math — Toast only totals the non-cash side. That is exactly why this calculator exists.",
  "Parties of 6 or more can take a 20% auto-gratuity — the server decides whether to add it. When you do, it lands as real tips on your checkout.",
  "Split earned 50/50 between front and back. When it lands odd, the back server takes the greater dollar.",
@@ -194,7 +195,7 @@ const DAYPRE={
  tue:{label:"Tuesday",teams:4,wkRule:15}
 };
 /* hourly wages, per Evan 8/5: busser $5, expo $10, food runner $10.
-   Bar gets tipped-minimum wage (put $2.13 — check the real rate) + the 1% tip-out pool + their own bar-top tips.
+   Bar wage $2.13/hr CONFIRMED + the 1% tip-out pool + their own bar-top tips.
    Cocktailer PAY = 50% of one team = same as one server (the 0.7 below is only how the FLOOR SALES slice up). */
 const WAGES={busser:5, expo:10, foodrun:10, barTipped:2.13};
 const CHECK_CAL=115; // menu-math check,'s preset
@@ -357,7 +358,7 @@ const HANDBOOK=[
 [
 "Complaints, open door + grievances",
 "we can't fix what we don't know",
-"<p>Anyone who witnesses or is subject to inappropriate conduct can complain to ANY member of management — and a Manager who hears of it must notify Human Resources immediately. Serious complaints get a complete, impartial investigation, handled as confidentially as possible, with corrective action if appropriate. <b>No retaliation</b> against anyone who complains in good faith or helps an investigation — if you feel punished for speaking up, report that immediately too.</p><p><b>Open door:</b> if something about your job is bothering you — question, concern, idea, problem — bring it to Management as soon as possible, or straight to HR if that feels more comfortable.</p><p><b>Grievances:</b> anything peer-to-peer talk can't resolve goes to Lillian Speedy, our Director of Human Resources — 817-889-1155 or darlarmc@yahoo.com (the old HR line and inbox; both forward to her). Oral or written, your choice; writing is encouraged because it focuses your thoughts. HR responds within seven days.</p>"
+"<p>Anyone who witnesses or is subject to inappropriate conduct can complain to ANY member of management — and a Manager who hears of it must notify Human Resources immediately. Serious complaints get a complete, impartial investigation, handled as confidentially as possible, with corrective action if appropriate. <b>No retaliation</b> against anyone who complains in good faith or helps an investigation — if you feel punished for speaking up, report that immediately too.</p><p><b>Open door:</b> if something about your job is bothering you — question, concern, idea, problem — bring it to Management as soon as possible, or straight to HR if that feels more comfortable.</p><p><b>Grievances:</b> anything peer-to-peer talk can't resolve goes to Lillian Speedy, our Director of Human Resources — Lillian@mosgreenwood.com, or 817-889-1155 (the old HR line; it still forwards to her). Oral or written, your choice; writing is encouraged because it focuses your thoughts. HR responds within seven days.</p>"
 ],
 [
 "Probation + discipline",

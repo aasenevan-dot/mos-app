@@ -97,6 +97,16 @@ async def main():
         z=await pg.evaluate("document.body.style.zoom")
         if str(z)!="0.925": bad.append(f"szDn zoom wrong: {z}")
         await pg.evaluate("document.querySelector('#szUp').click()")
+        # ---- distribution round: about + events + lillian email ----
+        h2v=await pg.evaluate("document.querySelector('#p-house').innerHTML")
+        if "About this app" not in h2v: bad.append("About section missing")
+        if "Lillian@mosgreenwood.com" not in h2v: bad.append("Lillian email missing from handbook")
+        spv=await pg.evaluate("document.querySelector('#p-specials').innerHTML")
+        for cell in ["Sundresses &amp; Sangria","Surf &amp; Turf Cup","Prisoner Wine Dinner","Lillian@mosgreenwood.com"]:
+            if cell not in spv: bad.append(f"events missing {cell}")
+        opsv=await pg.evaluate("document.querySelector('#p-ops').innerHTML")
+        if "COMPS come OFF" not in opsv: bad.append("comps rule missing from split rules")
+        if "Booked through Lillian?" not in opsv: bad.append("banquet toggle not relabeled")
         # ---- handbook + vocabulary ----
         house=await pg.evaluate("document.querySelector('#p-house').innerHTML")
         for cell in ["Employee Handbook","Lillian Speedy","Gum chewing","120 day","BEHIND YOU"]:

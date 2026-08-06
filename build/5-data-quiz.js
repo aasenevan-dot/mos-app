@@ -332,3 +332,280 @@ facts:[
 ["House trivia","K.D.'s Tomahawk = Kevin Dickey, former owner. The old Kristen Sundae = named for a former owner's wife. Chef Miguel G runs this kitchen."],
 ["The rooms","Boxing station: kitchen back-left, cleaned nightly, stocked mornings. Gift cards: at the BAR TOP, not the host stand. Pre-shift: 4:15 daily with the MOD."]]
 };
+
+/* ============ EMPLOYEE HANDBOOK (transcribed by Evan 8/5) + VOCABULARY SHEETS ============ */
+const HANDBOOK=[
+[
+"What this handbook is + at-will employment",
+"read this first",
+"<p>The handbook is general information and guidelines — not a complete manual, not a contract, and not a guarantee of employment. Policies and benefits can change at any time, and you'll be told when they do. The material is confidential — treat it that way. If you don't understand something, ask Management.</p><p><b>The philosophy:</b> everything we do affects how a guest sees us. One simple concept — service and products <b>above and beyond the guest's expectations</b>. Every employee, chef to coat check, takes pride in every action so each guest leaves with a positive memory of the Mo's Experience. Restaurants that project the million-dollar image make better profits and stand up to the finest competition.</p><p><b>At-will employment:</b> you're free to quit at any time for any reason, and the Company is free to end employment at any time, with or without cause or notice. Only the Owner can change that, and only in a written contract signed by both the Owner and the employee.</p>"
+],
+[
+"Getting hired — I-9 + new-hire reporting",
+"the paperwork",
+"<p>Within three business days of your first day you must complete Federal Form I-9 and show documents proving identity and eligibility to work in the U.S. — federal law. Rehires only redo it if it's been more than three years or the old form is no longer valid. If you didn't get a blank I-9 at orientation, tell your Manager immediately.</p><p>Federal and state law also require reporting basic new-hire info (name, address, Social Security number) to the State Directory of New Hires, used to enforce child support orders. If the state says you owe support, the Company must withhold it from your check.</p>"
+],
+[
+"Equal opportunity + harassment — zero tolerance",
+"everyone works free of it",
+"<p>Employment at Mo's is based on capability and qualifications — no discrimination on race, color, religion, sex, sexual orientation or identity, age, national origin, disability, or any other protected characteristic. Applies to hiring, pay, benefits, termination, everything. Willful violations bring discipline up to termination.</p><p><b>Sexual harassment</b> is illegal and comes in two legal forms: <b>quid pro quo</b> (submitting to unwelcome sexual conduct is made a condition of your job or of job decisions) and <b>hostile environment</b> (unwelcome sexual conduct that unreasonably interferes with work or creates an intimidating, hostile, or offensive workplace). It includes requests for favors, innuendo and suggestive jokes, propositions or threats, suggestive objects or pictures, leering, whistling, obscene gestures, physical aggression or intimidation, and unequal treatment based on sex. Harassment over ANY protected characteristic — yours or your friends' and relatives' — is just as prohibited. This covers work hours, work events on or off premises, and business travel.</p><p><b>If it happens to you:</b></p><ul><li>Make your disapproval directly and immediately known to the harasser.</li><li>Write down the date, time, nature of the incident, and any witnesses.</li><li>Report it to your Manager — every incident, no matter how serious it seems.</li></ul><p>Employees can raise immigration-law questions or complaints without fear of reprisal.</p>"
+],
+[
+"Complaints, open door + grievances",
+"we can't fix what we don't know",
+"<p>Anyone who witnesses or is subject to inappropriate conduct can complain to ANY member of management — and a Manager who hears of it must notify Human Resources immediately. Serious complaints get a complete, impartial investigation, handled as confidentially as possible, with corrective action if appropriate. <b>No retaliation</b> against anyone who complains in good faith or helps an investigation — if you feel punished for speaking up, report that immediately too.</p><p><b>Open door:</b> if something about your job is bothering you — question, concern, idea, problem — bring it to Management as soon as possible, or straight to HR if that feels more comfortable.</p><p><b>Grievances:</b> anything peer-to-peer talk can't resolve goes to Lillian Speedy, our Director of Human Resources — 817-889-1155 or darlarmc@yahoo.com (the old HR line and inbox; both forward to her). Oral or written, your choice; writing is encouraged because it focuses your thoughts. HR responds within seven days.</p>"
+],
+[
+"Probation + discipline",
+"the 120 days and the three steps",
+"<p>Everyone's first <b>120 days</b> are probationary — either side can end the relationship for any reason during that window, and a probationary employee can be let go for a single rule violation.</p><p>After that, most problems run the progressive schedule: <b>first violation</b> — verbal (or written) warning · <b>second</b> — written warning · <b>third</b> — termination. Serious offenses can skip steps; sometimes a step gets repeated. Violations stay on your record for six months.</p><p><b>Immediate termination, no notice:</b></p><ul><li>Theft, or attempting to remove company, employee, or guest property</li><li>Striking or fighting another person</li><li>Being under the influence of alcohol or drugs on company time or premises</li><li>Committing an illegal or criminal act</li><li>Possession of marijuana or any other illegal drugs</li></ul>"
+],
+[
+"Hours, the schedule + the clock",
+"be on the floor at your in-time",
+"<p>Your scheduled time is the time you're <b>on the floor, in uniform, ready to work</b> — arrive early enough to change, and plan for traffic. Tardiness is not tolerated.</p><p>You own every shift you're scheduled for. Requests off go in as far ahead as possible. The schedule posts by Wednesday for the following week. <b>Shift switches are approved by the General Manager ONLY.</b></p><p>Clock in and out every shift, and check with Management before clocking out so your work gets checked. Accurate clocking is how you get paid correctly — chasing missing punches costs the company real administrative time.</p>"
+],
+[
+"Getting paid",
+"every other Wednesday",
+"<p>Paychecks come every other week; the pay period runs Wednesday through Tuesday, and checks are ready for pickup on Wednesday. A discrepancy? Tell Management immediately so the next check fixes it. Someone else can pick up your check only with a signed note from you and their ID.</p><p><b>Deductions:</b> mandatory ones are the law — federal income tax, Social Security (FICA), state taxes. Voluntary ones are what you authorized — insurance, savings, 401k. To change your W-4, see your Manager.</p><p><b>Garnishments:</b> if a court or agency orders wages withheld (child support, taxes, student loans, judgments), the Company must comply and will notify you at once. Disputes go to the court or agency that issued the order, not to the restaurant.</p>"
+],
+[
+"Benefits + leave",
+"disability, workers' comp, FMLA, jury duty",
+"<p><b>We're hospitality — we work holidays.</b> The restaurant closes for certain ones, always subject to change.</p><p><b>State disability insurance</b> can pay part of your wages when a NON-work illness or injury keeps you out; all employees are covered through paycheck deductions. <b>Workers' compensation</b> covers WORK-related illness or injury — medical care and lost wages. Report any work injury to your Manager immediately, no matter how minor: an Accident Investigation Report must be completed and the state reporting clock is seven days.</p><p><b>Family and Medical Leave (FMLA):</b> after 12 months and 1,250 hours worked you can take unpaid leave for your own serious health condition, to care for a spouse, child, or parent with one, or for a new baby, adoption, or foster placement. Give 30 days' notice when the need is foreseeable — otherwise as much as you can. You return to your job or an equivalent one, with two exceptions: a position eliminated for unrelated reasons, and the key-employee rule (top-paid 10%, where holding the job would cause substantial harm — you'd be told when you request leave). Not coming back at the end without an extension counts as quitting. Expect to provide a doctor's certification, possibly re-certifications, and a fitness-for-duty note before returning. Intermittent leave (a day or two at a time) is allowed for health conditions — the Company may temporarily move you to an equivalent-pay position that fits the schedule.</p><p><b>Personal leave</b> (after probation): written request to the Owner, as much notice as possible — granted or denied based on the reason, business needs, and your record. Keep insurance by paying the weekly premium. Not returning on time without approval = voluntary termination.</p><p><b>Military leave</b> follows state and federal law including the Indiana Military Family Leave Act — written notice with active-duty papers when available, benefits continue at your own expense, and you generally return to the same or an equivalent position.</p><p><b>Jury duty:</b> you're entitled to the time. Tell your Manager the moment the summons arrives, say how long the trial should last if you're seated, and check in during service so we know when to expect you back.</p>"
+],
+[
+"House rules",
+"meals, the bar, gratuity, gum",
+"<p><b>Company property:</b> treat it with care, use it as intended, and report anything broken or unsafe immediately. When employment ends, everything comes back clean and in good repair — handbook, manuals, keys, equipment, all of it.</p><p><b>Phones:</b> house phones are business-only; personal calls need a Manager's permission. Incoming calls only for emergencies, routed through Management.</p><p><b>Employee meals:</b> a limited menu at 50% off after your shift, soda and coffee available. Off duty, you and up to four guests get 25% off the food portion, Monday through Thursday. Enjoy your own restaurant.</p><p><b>Gum chewing: NOT ALLOWED, PERIOD.</b></p><p><b>The bar:</b> no alcohol while working, and no sitting at the bar on the day of your shift. On your night off, drink responsibly — it's still your place of employment, and the house can refuse service to anyone visibly intoxicated.</p><p><b>Gratuity on big parties:</b> the printed handbook gives the option of adding 18% on parties of 6+, at your discretion — you MUST tell the guest and use the gratuity-included stamp. Double-tipping without the guest's knowledge is never allowed, and the privilege disappears if it's used dishonestly. <i>Today's floor practice runs this at 20% — newest word wins; same rules about telling the guest.</i></p><p><b>Guest problems:</b> if a guest might be unhappy with anything, you are EMPOWERED to see they leave happy — bring it to the Manager on duty immediately and fix it under their direction.</p><p><b>Meetings</b> are held as needed and are mandatory. <b>Smoking and vaping are prohibited</b> on company property — there are no smoke breaks.</p>"
+],
+[
+"Look the part — conduct + dress code",
+"the image is the experience",
+"<p>Act professionally anywhere you're on company property, on company business, or representing Mo's: follow the rules, no rude or outrageous behavior, no ridicule or hostile jokes, treat coworkers, guests, and vendors with patience and respect, be courteous and helpful.</p><p><b>Kitchen:</b> provided hat and t-shirt, slip-resistant shoes, kitchen pants or jeans, hat or hair net with shoulder-length hair pulled back. <b>Wait staff:</b> provided white oxford, black vest, black tie; you buy black pants, socks, black non-slip shoes (no tennis shoes); checked before every shift with your crumber — no exceptions. <b>Host:</b> full uniform, polished and professional — no midriff or super-low tops, no jeans or denim anything, no khakis or cargos, no t-shirts, tennis shoes, flip flops, or open toes. <b>Bar and cocktail:</b> provided black oxford, bistro apron, two crumbers, two black pens; you bring black pants, belt, socks, shoes (no gym shoes or heels); hair pulled back while carrying trays; men may wear a white, black, or red undershirt. <b>Bussers and expo:</b> provided long black bistro apron and black neck tie, worn properly; you bring black pants, belt, shoes, socks; no open tops or rolled sleeves.</p><p><b>Grooming:</b> neat and clean, always — body, teeth, hair, nails. Never fix hair in front of guests; use the restroom, brush your shoulders, wash your hands. Hair off the shoulders, never falling forward over food, styles and colors subject to management approval. Beards and mustaches trimmed and neat — otherwise clean-shaven daily, and health code caps beards at one inch.</p><p><b>Jewelry:</b> basic, not extravagant — one ring per hand, up to three bracelets, earrings in ears only, no other visible piercings, no pins on vests, necklaces inside the shirt. <b>Nails:</b> clean, kept, under an inch — no chips, no trendy or bright polish; natural colors and French manicures only. <b>Makeup</b> reads business. <b>Hygiene:</b> stay ahead of perspiration and breath; light, refreshing fragrance only.</p>"
+],
+[
+"Safety — the nine rules",
+"protect yourself, your crew, your guests",
+"<ul><li>Never operate equipment you haven't been trained on. Under 18 may not run the slicer, mixer, grinder, or chopper, drive a company vehicle, or work scaffolding and high ladders — federal law.</li><li>Report EVERY accident or injury immediately, guest or employee, no matter how small.</li><li>Clean up spills and dropped food the moment you see them.</li><li>No horseplay, ever. Accidents are caused, not random.</li><li>Slip-resistant closed-toe shoes only. Never run in the dining room or kitchen.</li><li>Hot pad for anything hot. Carry food the way you were trained. Never pour hot drinks over the table — pour tableside, out of the guests' reach. Guests talk with their hands.</li><li>Say “BEHIND YOU.” Every time. Communicate when you're moving with full trays or glassware.</li><li>Watch what goes on the floor. Lift with your legs, not your back.</li><li>NEVER walk to your car alone. Tell Management you're leaving and take the escort.</li></ul><p><b>In an emergency</b> — fire, tornado, serious accident — your own safety comes first. For serious injury, dial 9-1-1 immediately.</p>"
+],
+[
+"Privacy, tech + your records",
+"what's private and what isn't",
+"<p><b>Workspaces aren't private.</b> The Company can search its own property at any time — lockers, desks, storage, workspaces — to enforce safety, harassment, theft, and drug policies. If you put a lock on company property, Management gets a copy of the key or combination.</p><p><b>Devices:</b> personal phones and devices stay away during working hours except infrequent, necessary use that interferes with nothing. Anything the Company provides — phone, laptop, internet — is company property, can be monitored without notice, and carries no expectation of privacy, passwords or not. Sexually explicit or otherwise objectionable material is never to be accessed, stored, or sent on anything of the company's, and nothing company-owned gets used for anything illegal. No downloads or new software without the President's written approval — that's how viruses arrive.</p><p><b>Your records:</b> the personnel file exists to serve you — emergency contacts, tax withholding, insurance. It's kept as confidential as possible; reference checks get only your name, dates, and employment status unless you sign a release. Medical records and work-eligibility forms live separately, locked. Tell your Manager whenever your name, address, phone, dependents, withholding, marital status, emergency contact, or license restrictions change.</p>"
+],
+[
+"Drugs + alcohol",
+"clean at work, no exceptions",
+"<p>Mo's is committed to a safe, comfortable, productive workplace. Employees will not be involved in the unlawful use, possession, sale, or transfer of drugs in any manner — and that includes misusing legal prescription and over-the-counter medication, not just street drugs. Showing up under the influence harms you and everyone around you.</p><p>The Company reserves the right to inspect employees, their possessions, and their workspaces to enforce this policy.</p>"
+],
+[
+"Trade secrets + conflicts of interest",
+"what you learn here stays here",
+"<p>Working here you'll learn sensitive things — recipes, numbers, plans, procedures, manuals. All of it is Confidential Information, it stays confidential during your employment and AFTER you leave, and disclosing it brings discipline up to termination while you're here and legal action after. When employment ends, every copy comes back — nothing gets taken, deleted, destroyed, or disparaged.</p><p><b>Conflicts of interest:</b> your energy and loyalty belong to this company. Not allowed: working for a competitor, customer, or vendor in any capacity; owning an interest in one; using company resources for personal gain; using your position for personal gain. Not sure whether something crosses the line? Ask the Owner first.</p>"
+]
+];
+const VOCAB=[
+[
+"Service & Etiquette",
+[
+[
+"Mise en place",
+"“Everything in its place” — preparing and organizing before service."
+],
+[
+"Course",
+"One part of a multi-dish meal — appetizer, main, dessert."
+],
+[
+"Crumber / Crumbing down",
+"Removing crumbs from the table between courses."
+],
+[
+"Marking the table",
+"Setting the flatware and glassware the next course needs."
+],
+[
+"Clearing",
+"Removing dishes in a specific order — from the right side."
+],
+[
+"Pivot point system",
+"Seat numbering system to track guest orders accurately."
+],
+[
+"Silent service",
+"Non-intrusive serving style — discretion and minimal noise."
+],
+[
+"Coursing",
+"Timing dishes so guests receive each course in sync."
+],
+[
+"Refire",
+"Re-cooking or remaking a dish that was incorrect or returned."
+]
+]
+],
+[
+"Beverage Service",
+[
+[
+"Sommelier",
+"Wine steward — expert in wine pairing and service."
+],
+[
+"Decanting",
+"Pouring wine into a decanter to aerate it and separate sediment."
+],
+[
+"Varietal",
+"The type of grape used in a wine — Merlot, Chardonnay."
+],
+[
+"Vintage",
+"The year the grapes were harvested."
+],
+[
+"Body",
+"The weight or fullness of a wine — light, medium, full."
+],
+[
+"Finish",
+"The lingering taste after swallowing."
+],
+[
+"Aperitif",
+"Drink served before a meal to stimulate appetite."
+],
+[
+"Digestif",
+"Drink served after a meal to aid digestion."
+],
+[
+"Neat / Up / On the rocks",
+"How spirits are served — no ice, chilled and strained, over ice."
+],
+[
+"Flight",
+"A selection of wines or spirits served together for tasting."
+],
+[
+"Corkage fee",
+"Fee for opening a bottle a guest brought in."
+]
+]
+],
+[
+"Kitchen & Culinary",
+[
+[
+"Sous chef / Chef de partie / Garde manger",
+"Key kitchen roles — second in command, station chef, cold-station chef."
+],
+[
+"À la carte",
+"Ordering individual dishes from the menu."
+],
+[
+"Prix fixe",
+"Fixed-price menu with set courses."
+],
+[
+"Degustation / Tasting menu",
+"Multi-course meal showcasing the chef's specialties."
+],
+[
+"Reduction",
+"Concentrating a liquid by simmering to intensify flavor."
+],
+[
+"Emulsion",
+"A mix of two unblendable liquids — vinaigrette, hollandaise."
+],
+[
+"Sous vide",
+"Cooking food in vacuum-sealed bags at precise low temperatures."
+],
+[
+"Blanch / Sear / Poach / Braise",
+"Common fine-dining cooking methods."
+],
+[
+"Roux",
+"Butter and flour mixture used as a thickener."
+],
+[
+"Umami",
+"The “fifth taste” — savory, rich flavor."
+]
+]
+],
+[
+"Hospitality & Guest Experience",
+[
+[
+"Guest recovery",
+"Handling and correcting service mistakes gracefully."
+],
+[
+"Anticipatory service",
+"Seeing what the guest needs before they ask."
+],
+[
+"Upselling",
+"Suggesting higher-end or complementary items without being pushy."
+],
+[
+"Table maintenance",
+"Keeping the table neat and resetting quietly between courses."
+],
+[
+"Body language awareness",
+"Reading and mirroring guest cues."
+],
+[
+"Fine dining cadence",
+"The rhythm and pacing of meal service."
+],
+[
+"VIP / Regular guest handling",
+"Special procedures for repeat or high-value guests."
+]
+]
+],
+[
+"Common Restaurant Terms",
+[
+[
+"Brigade",
+"The structured hierarchy of kitchen and service staff."
+],
+[
+"Front of house (FOH)",
+"Front servers, back servers, hosts, bartenders, bussers — guest-facing staff."
+],
+[
+"Back of house (BOH)",
+"Kitchen and support staff."
+],
+[
+"86'd",
+"Out of stock or unavailable."
+],
+[
+"Fire / Pick up / Hands",
+"Kitchen calls — start a dish, it's ready, someone run it."
+],
+[
+"Expo (Expediter)",
+"The person coordinating orders between kitchen and servers."
+],
+[
+"Check back / Two-bite rule",
+"Return within two bites to check the guest is happy."
+]
+]
+]
+];

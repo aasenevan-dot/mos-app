@@ -40,6 +40,36 @@ async def main():
         for gone in ["Jeremiah","Gavin","Lupe","Eleisia","AUDRINA","LUCAS"]:
             if f'"nm">{gone}<' in grid: bad.append(f"{gone} still has a row on current grid")
         if "Not on this week:" not in html: bad.append("gone-note missing")
+        # ---- night forecast pulls from the schedule ----
+        ops=await pg.evaluate("document.querySelector('#p-ops').innerHTML")
+        if "Forecasting lab" in ops: bad.append("Forecasting lab still in Money tab")
+        if "Night forecast — books" in ops: bad.append("old fc accordion still present")
+        if "Night Forecast" not in ops: bad.append("Night Forecast section missing")
+        vals=await pg.evaluate("({d:document.querySelector('#ipDay').value,b:document.querySelector('#ipBooks').value,t:document.querySelector('#ipTeams').value,c:document.querySelector('#ipCk').value,g:document.querySelector('#bqGrat').value})")
+        if vals["d"]!="2": bad.append(f"ipDay not defaulted to Friday idx2: {vals}")
+        if vals["b"]!="39": bad.append(f"ipBooks not prefilled 39 from covers row: {vals}")
+        if vals["t"]!="7": bad.append(f"ipTeams not 7 from schedule: {vals}")
+        if vals["c"]!="2": bad.append(f"ipCk not 2 from schedule: {vals}")
+        if vals["g"]!="23": bad.append(f"bqGrat default not 23: {vals}")
+        ipout=await pg.evaluate("document.querySelector('#ipOut').innerHTML")
+        for cell in ["Staffing this night","room to cut","Scheduled Fr 8/7","Restaurant net"]:
+            if cell not in ipout: bad.append(f"forecast output missing {cell}")
+        who=await pg.evaluate("document.querySelector('#ipWho').innerHTML")
+        if "Who's on Friday 8/7" not in who: bad.append("who's-on roster missing")
+        if "Barbie" not in who: bad.append("roster names missing in forecast")
+        # ---- handbook + vocabulary ----
+        house=await pg.evaluate("document.querySelector('#p-house').innerHTML")
+        for cell in ["Employee Handbook","Lillian Speedy","Gum chewing","120 day","BEHIND YOU"]:
+            if cell not in house: bad.append(f"handbook missing {cell}")
+        voc=await pg.evaluate("document.querySelector('#p-vocab').innerHTML")
+        for cell in ["Mise en place","Corkage fee","Pivot point","Two-bite"]:
+            if cell not in voc: bad.append(f"vocab missing {cell}")
+        s1=await pg.evaluate("search('mise en place').map(h=>h.w+':'+h.t).join('|')")
+        if "Vocabulary" not in s1: bad.append(f"search miss mise: {s1[:80]}")
+        s2=await pg.evaluate("search('can i chew gum').map(h=>h.w).join('|')")
+        if "Handbook" not in s2: bad.append(f"search miss gum: {s2[:80]}")
+        s3=await pg.evaluate("search('jury duty').map(h=>h.w).join('|')")
+        if "Handbook" not in s3: bad.append(f"search miss jury: {s3[:80]}")
         # ---- schedule history browser ----
         nopts=await pg.evaluate("document.querySelectorAll('#schedWeek option').length")
         if nopts!=37: bad.append(f"history week count {nopts} != 37")

@@ -10,7 +10,7 @@ const TABS = [
   ["shift","Home"],["sched","Schedule"],["wine","Wine"],["cocktails","Drinks & Garnish"],["menu","Food Menu"],
   ["specials","Specials & Soups"],
   ["allergens","Allergens"],["bar","Spirits & Beer"],["study","Study & Quiz"],["ops","Money"],
-  ["house","How We Work"]
+  ["house","How We Work"],["vocab","Vocabulary"]
 ];
 const ICONS={
  home:'<svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>',
@@ -244,26 +244,67 @@ function ipTake(covers,chk,teams,nCk,pol){
   const earned = Math.max(0,Math.floor(pool-tipout));
   return {take:Math.ceil(earned/2),earned,teamSales:Math.round(teamSales),tipout,share:Math.round(100/slices)};
 }
+function schedDayInfo(i){
+  const map={fronts:"fronts",backs:"backs",cktail:"cktail",expo:"expo",busser:"busser"};
+  const cnt={fronts:0,backs:0,cktail:0,expo:0,busser:0};
+  let covers=null;
+  SCHEDULE.sections.forEach(sec=>{
+    const key=String(sec[0]).trim().toLowerCase();
+    if(key==="fronts"&&sec[2]){const n=parseInt(sec[2][i],10); if(!isNaN(n))covers=n;}
+    if(!(key in map))return;
+    cnt[map[key]]=sec[1].filter(r=>!schedGone(r)).filter(r=>{const c=String(r[i+1]||"").trim();
+      return c&&c!=="?"&&!/^off\??$/i.test(c)&&!/^ro\??$/i.test(c);}).length;
+  });
+  return {covers,cnt};
+}
+/* staffing bands v1 — anchored to real nights (3 teams ~ $4.1k, 4 teams + banquet ~ $8.9k).
+   Evan tunes these as he tells us what's acceptable on each kind of night. */
+function staffLadder(net){
+  return {
+    teams: Math.min(7,Math.max(2,Math.ceil(net/SALES.teamBase))),
+    cktail: net<6000?1:net<12000?2:3,
+    busser: net<3000?1:net<8000?2:3,
+    expo: net<4000?0:net<8000?1:2,
+    polisher: net>=8000?1:0
+  };
+}
+function ipPrefill(){
+  const di=+$("#ipDay").value||0;
+  const inf=schedDayInfo(di);
+  if(inf.covers!=null)$("#ipBooks").value=inf.covers;
+  const t=Math.min(inf.cnt.fronts,inf.cnt.backs);
+  if(t>0)$("#ipTeams").value=t;
+  $("#ipCk").value=String(Math.min(3,inf.cnt.cktail));
+  window.__ipSugg="";
+}
 function calcIP(){
-  const day=$("#ipDay").value;
-  const dp=DAYPRE[day];
+  const IP_WD={We:"wed",Th:"thu",Fr:"fri",Sa:"sat",Su:"sun",Mo:"mon",Tu:"tue"};
+  const di=+$("#ipDay").value||0;
+  const d=SCHEDULE.days[di]||SCHEDULE.days[0];
+  const dp=DAYPRE[IP_WD[d[1]]]||DAYPRE.sun;
   const teams=Math.max(1,Math.round(+$("#ipTeams").value||dp.teams));
   const nCk=Math.max(0,+$("#ipCk").value||0);
   const books=+$("#ipBooks").value||0;
   const walk=+$("#ipWalk").value||0;
   const chk=+$("#ipCheck").value||CHECK_CAL;
   const pol=+$("#ipPol").value||0;
+  const mult=+$("#ipOcc").value||1;
   const covers=books+walk;
+  const inf=schedDayInfo(di);
 
-  // walk-in suggestion from Evan's rules ("60 books -> 30-35 walk-ins" on Sunday)
+  // walk-in suggestion rules, by day
   const sugg = dp.wkRule==="half" ? (books>0?Math.round(books*.55):30) : dp.wkRule;
   const suggHTML = walk===0
-    ? `Your rule for ${dp.label}${dp.wkRule==="half"?" (60 books &rarr; 30–35 walk-ins)":""}: <b>~${sugg} walk-ins</b> <button class="textbtn" id="ipUse" data-s="${sugg}" style="margin-left:6px">use it</button>`
+    ? `Walk-in rule for ${dp.label}${dp.wkRule==="half"?" (60 books &rarr; 30–35 walk-ins)":""}: <b>~${sugg} walk-ins</b> <button class="textbtn" id="ipUse" data-s="${sugg}" style="margin-left:6px">use it</button>`
     : `Walk-in guess in. It is a gut number — nudge it for weather, events, or the time of year.`;
-  // only touch the DOM when the text actually changes — a blur re-render mid-tap eats the first tap otherwise
   if(window.__ipSugg!==suggHTML){window.__ipSugg=suggHTML;$("#ipSugg").innerHTML=suggHTML;}
 
-  if(!covers){$("#ipOut").innerHTML=`<div class="empty" style="padding:14px">Type what's on the books and this predicts your pocket for the night.</div>`;return;}
+  /* who's on that day — pick your night knowing who you'd work with */
+  $("#ipWho").innerHTML=`
+    <div class="sechead"><h2>Who's on ${dp.label} ${d[0]}</h2><span>from the posted schedule</span></div>
+    ${rosterFor(SCHEDULE,di,true)||'<div class="note">Nobody on the sheet for that day.</div>'}`;
+
+  if(!covers){$("#ipOut").innerHTML=`<div class="empty" style="padding:14px">Type what's on the books and this calls the whole night — your pocket, the restaurant, and the staffing.</div>`;return;}
 
   const mid=ipTake(covers,chk,teams,nCk,pol);
   const loR=ipTake(Math.round(covers*.85),chk,teams,nCk,pol);
@@ -275,6 +316,15 @@ function calcIP(){
     ? {cls:"warn",head:"CUT TERRITORY",body:`Even a hot night stays under $200 each. If the cut is offered, the math says take it.`}
     : {cls:"",head:"COIN FLIP",body:`Straddles the $200 line — walk-ins decide this one. Watch the book by late afternoon.`};
 
+  const net=Math.round(covers*chk*mult);
+  const tax=Math.round(net*SALES.taxRate);
+  const lad=staffLadder(net);
+  const schedTeams=Math.min(inf.cnt.fronts,inf.cnt.backs);
+  const callFor=(model,sched)=>sched==null?`<span style="color:var(--dim2)">manager's call</span>`
+    :sched>model?`<span style="color:var(--gold2)">room to cut ${sched-model}</span>`
+    :sched<model?`<span style="color:var(--red)">short ${model-sched}</span>`
+    :`<span style="color:var(--green)">matches</span>`;
+
   $("#ipOut").innerHTML=`
   <div class="note ${verdict.cls}" style="margin:0 0 12px">
     <div style="font-size:19px;font-weight:800;letter-spacing:.02em">${verdict.head} — about ${$d(each)} each <span style="font-weight:600;font-size:13px;color:var(--dim)">(${$d(loE)}–${$d(hiE)})</span></div>
@@ -282,13 +332,21 @@ function calcIP(){
   </div>
   <div class="kpis">
     <div class="kpi"><div class="k">People coming in</div><div class="v">${covers}</div><div class="s">${books} books + ${walk||0} walk-ins</div></div>
+    <div class="kpi"><div class="k">Restaurant net (est.)</div><div class="v">${$d(net)}</div><div class="s">${covers} covers x $${chk}${mult!==1?" x "+mult.toFixed(2):""} · tax ~${$d(tax)}</div></div>
     <div class="kpi"><div class="k">Your team's sales</div><div class="v">${$d(mid.teamSales)}</div><div class="s">~${mid.share}% of the floor · ${teams} teams${nCk?" + "+nCk+" cocktailer"+(nCk>1?"s":""):""}</div></div>
     <div class="kpi"><div class="k">Team earned</div><div class="v">${$d(mid.earned)}</div><div class="s">after 2% withheld + $${mid.tipout} tip-out</div></div>
     <div class="kpi" style="border-color:var(--gold)"><div class="k">The two of you</div><div class="v" style="font-size:16.5px;line-height:1.5">Front ${$d(mid.earned-mid.take)}<br>Back ${$d(mid.take)}</div><div class="s">two-man team — back takes the greater dollar</div></div>
   </div>
-  <p class="sub" style="margin:10px 0 0;color:var(--dim2);font-size:12px">Calibrated against real Toast checkouts: at $115 a person with the cocktailer slice, the model lands within a few dollars of actual nights. Team share here is ~${mid.share}% of the floor, inside the house's usual 23–30%. A model, not a promise.</p>`;
+  <div class="sechead" style="margin-top:16px"><h2>Staffing this night</h2><span>model vs the posted schedule — for the manager's cut calls</span></div>
+  ${tbl(["Position","Model says",`Scheduled ${d[1]} ${d[0]}`,"Call"],[
+    ["<b>Teams (front + back)</b>",String(lad.teams),String(schedTeams||0),callFor(lad.teams,schedTeams||0)],
+    ["<b>Cocktailers</b>",String(lad.cktail),String(inf.cnt.cktail),callFor(lad.cktail,inf.cnt.cktail)],
+    ["<b>Bussers</b>",String(lad.busser),String(inf.cnt.busser),callFor(lad.busser,inf.cnt.busser)],
+    ["<b>Expo / food run</b>",String(lad.expo),String(inf.cnt.expo),callFor(lad.expo,inf.cnt.expo)],
+    ["<b>Polisher</b>",String(lad.polisher),"—",callFor(lad.polisher,null)]])}
+  <p class="sub" style="margin:8px 0 0;color:var(--dim2);font-size:12px">Skip big banquets in this net — a banquet brings its own staffing. First pass at the bands, anchored to real nights (3 teams &asymp; $4.1k, 4 teams + a banquet &asymp; $8.9k, over $10k is all hands). Say what's acceptable on each kind of night and these bands get tuned.</p>
+  <p class="sub" style="margin:8px 0 0;color:var(--dim2);font-size:12px">Cut math is calibrated against real Toast checkouts — lands within a few dollars of actual nights. A model, not a promise.</p>`;
 }
-
 
 /* ---------- BANQUET CHECKOUT — the second envelope, same math ---------- */
 function calcBQC(){
@@ -315,37 +373,6 @@ function calcBQC(){
   </div>
   ${reg?`<div class="note gold" style="max-width:440px"><b>Both envelopes tonight:</b> regular ${$d(reg.earned)} + banquet ${$d(r.earned)} = <b>${$d(reg.earned+r.earned)}</b> team total. Your pockets: front ${$d(reg.front+r.front)}, back ${$d(reg.back+r.back)}.</div>`
        :`<div class="note" style="max-width:440px">Fill the regular Sales Calculator above too and this shows the full two-envelope night total.</div>`}`;
-}
-
-/* ---------- NIGHT FORECAST — covers on the books + walk-ins ---------- */
-function calcFC(){
-  const teams=Math.max(1,Math.round(+$("#fcTeams").value||0));
-  const books=+$("#fcBooks").value||0;
-  const walk=+$("#fcWalk").value||0;
-  const chk=+$("#fcCheck").value||115;
-  const tipMult=+$("#fcOcc").value||1;
-  const covers=books+walk;
-  const coversMode=covers>0&&chk>0;
-  const mult=tipMult;
-  const net=Math.round((coversMode?covers*chk:teams*SALES.teamBase)*mult);
-  const team=Math.round(net/teams);
-  const tax=Math.round(net*SALES.taxRate);
-  // 65% rough hint — only when books entered but no walk-in guess yet
-  const hint = books>0&&walk===0
-    ? `<div class="note" style="margin:10px 0 0"><b>Rough check:</b> books usually run ~65% of the night, which would put the full night near <b>~${Math.round(books/WALKINS.booksShare)} covers</b> (${books} books + ~${Math.round(books/WALKINS.booksShare)-books} walk-ins). Your words: don't lean on that number — add a real walk-in guess. Weekends run ${WALKINS.weekend[0]}–${WALKINS.weekend[1]} walk-ins (call it ${WALKINS.weekend[2]}), weekdays ${WALKINS.weekday[0]}–${WALKINS.weekday[1]}.</div>`
-    : "";
-  $("#fcOut").innerHTML=`<div class="kpis">
-    <div class="kpi"><div class="k">People coming in</div><div class="v">${covers||"—"}</div><div class="s">${books} on the books + ${walk} walk-ins</div></div>
-    <div class="kpi"><div class="k">Restaurant net</div><div class="v">${$d(net)}</div><div class="s">${coversMode?covers+" covers x $"+chk:teams+" teams x $1,381.50 (no covers entered)"}${mult!==1?" x "+mult.toFixed(2):""} · band ${$d(net*.85)}–${$d(net*1.15)}</div></div>
-    <div class="kpi"><div class="k">Your team's share</div><div class="v">${$d(team)}</div><div class="s">restaurant ÷ ${teams} teams${coversMode?" · ~"+Math.round(covers/teams)+" covers/team":""}</div></div>
-    <div class="kpi" style="border-color:var(--gold)"><div class="k">Each of you (est.)</div><div class="v">${(function(){const r=pipeMath(net/(teams+CKTAIL_WEIGHT),0,SALES.guestTipRate,false,0,0);return r?$d(r.earned/2):"—";})()}</div><div class="s">front & back, after the pipeline — assumes a cocktailer on</div></div>
-    <div class="kpi"><div class="k">Tax (~9%)</div><div class="v">${$d(tax)}</div><div class="s">7% IN + 1% county + 1% city</div></div>
-  </div>${hint}
-  <div style="margin-top:12px"><button class="btn" id="fcApply">Send ${$d(team)} to the Sales Calculator</button></div>`;
-  $("#fcApply").onclick=()=>{
-    $("#scSales").value=team; $("#scTips").value=""; calcSC(); calcBQC();
-    document.querySelector("#sec-checkout").scrollIntoView({behavior:"smooth"});
-  };
 }
 
 /* ---------- BANQUET MINI-TOOL ---------- */
@@ -421,6 +448,9 @@ function search(q){
   SOTD.forEach(s=>{if(matches([s[1],s[2]]))add("Soup of the day",s[1]+" — first seen "+s[0],s[2],"specials");});
   SOUPS_STANDING.forEach(s=>{if(matches([s[0],s[2]]))add("Standing soup",s[0]+" — "+s[1],s[2],"specials");});
   OFFMENU.forEach(s=>{if(matches([s[0],s[2]]))add("Off-menu",s[0]+" — "+s[1],s[2],"specials");});
+  VOCAB.forEach(g=>g[1].forEach(r=>{if(matches([g[0],r[0],r[1]]))add("Vocabulary",r[0],r[1],"vocab");}));
+  HANDBOOK.forEach(h=>{const txt=h[2].replace(/<[^>]+>/g," ");
+    if(matches([h[0],h[1],txt]))add("Handbook",h[0],txt.trim().slice(0,140)+"…","house");});
   return hits.sort((a,b)=>b.score-a.score).slice(0,40);
 }
 function renderSearch(q){
@@ -470,7 +500,7 @@ function build(){
       <button data-qa="wine|#sec-bottles"><div class="t">Wine by budget</div><div class="s">Bottles at their price, pitch included</div></button>
       <button data-qa="wine|#sec-pair"><div class="t">Pair their order</div><div class="s">They ordered X — here's what you say</div></button>
       <button data-qa="ops|#sec-checkout"><div class="t">Sales Calculator</div><div class="s">Sales in — your front/back split out</div></button>
-      <button data-qa="ops|#sec-income"><div class="t">Should I take the cut?</div><div class="s">Books + walk-ins — your pocket, called</div></button>
+      <button data-qa="ops|#sec-income"><div class="t">Night Forecast</div><div class="s">Who's on, the covers, and the cut — called early</div></button>
       <button data-qa="study|#sec-quiz"><div class="t">Take a quiz</div><div class="s">Fresh shuffle every time + the real 30</div></button>
       <button data-qa="menu|"><div class="t">Food menu</div><div class="s">Prices, builds, temps, the A5 pitch</div></button>
       <button data-qa="__search|"><div class="t">Search everything</div><div class="s">Wine, garnish, allergen, price</div></button>
@@ -657,8 +687,22 @@ function build(){
     ${acc("Closing side work — front, back, closer","the posted sheet with slow-night and busy-night quantities",`<ul class="steps">${HOUSE.closesheet.map(d=>`<li>${esc(d)}</li>`).join("")}</ul>`)}
     ${acc("Bar steps + timing standards","the 20-step bar bible — the timing rules apply everywhere",`<ul class="steps">${HOUSE.barsteps.map(d=>`<li>${esc(d)}</li>`).join("")}</ul>`)}
     ${acc("House facts","uniform, trivia, and the little rules",`<ul class="steps">${HOUSE.facts.map(([t,d])=>`<li><b>${esc(t)}:</b> ${esc(d)}</li>`).join("")}</ul>`)}
-    <div class="note" style="margin-top:12px">Mined from the real Greenwood training handouts. Where a handout disagrees with something newer, the newer word wins.</div>`;
+    <div class="note" style="margin-top:12px">Mined from the real Greenwood training handouts. Where a handout disagrees with something newer, the newer word wins.</div>
 
+    <div class="sechead"><h2>Employee Handbook</h2><span>the official policies, every section</span></div>
+    <p class="lede">The house handbook, section by section. General guidelines — not a contract. Questions go to Management.</p>
+    ${HANDBOOK.map(h=>acc(h[0],h[1],h[2])).join("")}`;
+
+  /* ---------- VOCABULARY ---------- */
+  $("#p-vocab").innerHTML=`
+    <div class="sechead"><h2>Mo's Vocabulary</h2><span>talk like you've been here for years</span></div>
+    <p class="lede">Straight off the house vocabulary sheets. The search up top knows every term.</p>
+    ${VOCAB.map(v=>`
+    <div class="sechead"><h2>${esc(v[0])}</h2><span>${v[1].length} terms</span></div>
+    ${tbl(["Term","What it means"],v[1].map(r=>[`<b>${esc(r[0])}</b>`,esc(r[1])]))}`).join("")}`;
+
+  const IPD0=(function(){const t=new Date();if(t.getFullYear()!==SCHEDULE.year)return 0;
+    const i=SCHEDULE.days.findIndex(x=>x[0]===((t.getMonth()+1)+"/"+t.getDate()));return i<0?0:i;})();
   $("#p-ops").innerHTML=`
     <div class="sechead" id="sec-checkout"><h2>Sales Calculator</h2><span>sales in — your money out</span></div>
     <div class="tool">
@@ -675,13 +719,13 @@ function build(){
       <div class="out" id="scOut"></div>
     </div>
 
-    <div class="sechead" id="sec-income"><h2>Income Predictor</h2><span>should I take the cut?</span></div>
+    <div class="sechead" id="sec-income"><h2>Night Forecast</h2><span>who's on + the covers + should I take the cut</span></div>
     <div class="tool">
-      <h3>Books in — your pocket out</h3>
-      <p class="sub">Type what's on the books (adjust any time — it moves all day), guess your walk-ins, and it shows what the front AND the back each walk with. The call is made against the $200 line: under $200 each is cut territory, over $200 is work it.</p>
+      <h3>The night, called before it happens</h3>
+      <p class="sub">Pick the day. Books start at the covers number straight off the posted schedule — that's the Sunday-night count, and it climbs all day, so update it from SevenRooms when you check. Teams and cocktailers start at what the schedule actually has on. Then it calls the $200 line: under is cut territory, over is work it.</p>
       <div class="frow">
-        <div class="f"><label>Day</label><select id="ipDay">${Object.entries(DAYPRE).map(([k,v])=>`<option value="${k}"${k==="sun"?" selected":""}>${v.label}</option>`).join("")}</select></div>
-        <div class="f"><label>On the books</label><input type="number" inputmode="decimal" id="ipBooks" placeholder="e.g. 60" min="0"></div>
+        <div class="f"><label>Day</label><select id="ipDay">${SCHEDULE.days.map((d,i)=>`<option value="${i}"${i===IPD0?" selected":""}>${d[1]} ${d[0]}</option>`).join("")}</select></div>
+        <div class="f"><label>On the books</label><input type="number" inputmode="decimal" id="ipBooks" placeholder="from SevenRooms" min="0"></div>
         <div class="f"><label>Walk-ins guess</label><input type="number" inputmode="decimal" id="ipWalk" placeholder="—" min="0"></div>
       </div>
       <p class="sub" id="ipSugg" style="margin:0 0 12px"></p>
@@ -690,10 +734,11 @@ function build(){
         <div class="f"><label>Cocktailers on</label><select id="ipCk"><option value="0">None</option><option value="1" selected>1</option><option value="2">2</option><option value="3">3</option></select></div>
         <div class="f"><label>Avg $ per person</label><input type="number" inputmode="decimal" id="ipCheck" value="115" min="0"></div>
         <div class="f"><label>Polisher?</label><select id="ipPol"><option value="0">No</option><option value="10">Yes ($10)</option></select></div>
-        
+        <div class="f"><label>Multiplier</label><select id="ipOcc">${[0.80,0.85,0.90,0.95,1.00,1.10,1.20,1.30,1.40,1.50,1.75].map(m=>`<option value="${m}"${m===1?" selected":""}>x${m.toFixed(2)}</option>`).join("")}</select></div>
       </div>
-      <p class="sub" style="margin:0 0 10px"><b>Avg $ per person</b> means what ONE guest spends on food and drinks — not the table's whole check. A check usually covers 2, 8, even 15 people; this number is per person. Toast calls it "average spend per guest." $115 is the preset for a typical steak-dinner night — adjust it when you know better.</p>
+      <p class="sub" style="margin:0 0 10px"><b>Avg $ per person</b> means what ONE guest spends on food and drinks — not the table's whole check. A check usually covers 2, 8, even 15 people; this number is per person. Toast calls it "average spend per guest." $115 is the preset for a typical steak-dinner night. The multiplier scales the whole-night projection for a big occasion — numbers only, your call.</p>
       <div class="out" id="ipOut"></div>
+      <div id="ipWho"></div>
     </div>
 
     ${acc("Banquet checkout — the second envelope","banquet nights run two checkouts; same math, separate sheet",`
@@ -708,58 +753,12 @@ function build(){
     <div class="sechead"><h2>How the split works</h2><span>the house rules</span></div>
     <ol class="steps">${SPLIT_RULES.map(r=>`<li><b>${esc(r.split(".")[0])}.</b>${esc(r.split(".").slice(1).join(".").trim())}</li>`).join("")}</ol>
 
-    ${acc("Night forecast — books + walk-ins","how many people are actually coming in",`
-      <p class="sub" style="color:var(--dim2);font-size:12.5px;margin:4px 0 12px">Covers on the books (SevenRooms) plus a walk-in guess equals the people coming in. Walk-ins lately: weekends 30–70 (call it 50), weekdays 15–30. No covers entered falls back to teams &times; $1,381.50. Staffing reality: most days run 3-4 teams, slow days 2, big days 5-7 — the manager sets it by covers and it changes every week.</p>
-      <div class="frow">
-        <div class="f"><label>Teams</label><input type="number" inputmode="decimal" id="fcTeams" value="3" min="1" max="12"></div>
-        <div class="f"><label>On the books</label><input type="number" inputmode="decimal" id="fcBooks" placeholder="from SevenRooms" min="0"></div>
-        <div class="f"><label>Walk-ins guess</label><input type="number" inputmode="decimal" id="fcWalk" placeholder="—" min="0"></div>
-        <div class="f"><label>Avg $ per person</label><input type="number" inputmode="decimal" id="fcCheck" value="115" min="0"></div>
-      </div>
-      <div class="filters" id="fcWalkChips">
-        <button data-w="50">Weekend walk-ins (~50)</button>
-        <button data-w="22">Weekday walk-ins (~22)</button>
-        <button data-w="0">No walk-ins</button>
-      </div>
-      <div class="frow">
-        <div class="f"><label>Tip multiplier</label><select id="fcOcc">${[0.80,0.85,0.90,0.95,1.00,1.10,1.20,1.30,1.40,1.50,1.75].map(m=>`<option value="${m}"${m===1?" selected":""}>x${m.toFixed(2)}</option>`).join("")}</select></div>
-        
-      </div>
-      <div class="out" id="fcOut"></div>
-      <p class="sub" style="color:var(--dim2);font-size:12px;margin:10px 0 0">Per-person anchors (what ONE guest spends, not the table's check): $95 lighter · $115 typical (prefilled) · $140 wine table. Typical nights: Sundays ~110 people, Fridays ~200, Saturdays ~230.</p>`)}
-
-    ${acc("Forecasting lab","backtest · implied covers · demand calendar",`
-      <div class="note"><b>How the model got smarter:</b> ${esc(SALES.read)}</div>
-      <div class="sechead"><h2>Backtest against real Toast data</h2><span>every rule proven against an actual day</span></div>
-      ${tbl(["Day","Model says","Toast actual","Miss"],[
-        ["<b>7/13</b> — 3 teams, normal","3 x $1,381.50 = <b>$4,144.50</b>","$4,144.51",'<span style="color:#1E6B3A">0.0% — exact (calibration day)</span>'],
-        ["<b>7/20</b> — 4 teams + banquet","4 x $1,381.50 + $3,366 = <b>$8,892</b>","$9,129.50",'<span style="color:#1E6B3A">-2.6%</span>'],
-        ["<b>12/26/25</b> — holiday Friday","biggest reference night on file","$26,886.50 net",'—'],
-        ["<b>Week of 7/13</b>","Toast itself projected the week","$51,418 net",'—'],
-        ["<b>7/20</b> tips check",".247 x dining + .23 x banquet = <b>$2,199</b>","$2,198.93",'<span style="color:#1E6B3A">0.0%</span>'],
-        ["<b>Tip pipeline</b>","withheld &rarr; tip-outs &rarr; split, run against a real graded house checkout","matched the handwritten sheet",'<span style="color:#1E6B3A">exact, to the dollar</span>'],
-        ["<b>Tax check</b>","9% of net (7% IN + 1% county + 1% city)","exact on BOTH verified Toast screens",'<span style="color:#1E6B3A">exact</span>']])}
-      <div class="sechead"><h2>What the covers probably were</h2><span>implied from net sales at each check size</span></div>
-      ${tbl(["Day","Dining net","@ $95/person","@ $115/person","@ $140/person"],[
-        ["<b>7/13</b> (all dining)","$4,145",...SALES.impliedChecks.map(c=>"~"+Math.round(4144.51/c)+" covers")],
-        ["<b>7/20</b> (minus banquet block)","$5,763",...SALES.impliedChecks.map(c=>"~"+Math.round(5763.5/c)+" covers")]])}
-      <div class="sechead"><h2>Greenwood demand calendar</h2><span>what moves a fine-dining Sunday here</span></div>
-      ${tbl(["Occasion","Suggested x","Why"],SALES.occasions.filter(o=>o[1]!==1||/Colts/.test(o[0])).map(o=>[`<b>${esc(o[0])}</b>`,"x"+o[1].toFixed(2),`<span style="color:var(--dim)">${esc(o[2])}</span>`]))}
-      <div class="note" style="margin-top:10px">Mother's Day is the busiest restaurant day of the year nationally, Valentine's second. Greenwood's spikes: Freedom Festival late June, WAMMfest mid-August, both Saturdays. Colts 1pm games — direction unknown for the south side, log it for a season.</div>
-      <div class="note gold" style="margin-top:12px"><b>Log every Sunday:</b> ${SALES.log.join(" · ")}.</div>
-      ${tbl(["Date","Teams","Banquet","Net sales","Tips + grat","Tax","Toast total"],SALES.rows.map(r=>[
-        `<b>${r.d}</b>`,r.teams,r.bq,`$${r.net.toLocaleString()}`,`$${r.tt.toLocaleString()}`,`$${r.tax.toLocaleString()}`,`$${r.total.toLocaleString()}`]))}
-      <div class="sechead"><h2>Where the files disagree</h2><span>newest date wins</span></div>
-      ${tbl(["Item","Older file","Newer file","Use this"],CONFLICTS.map(c=>[`<b>${esc(c[0])}</b>`,`<span style="color:var(--dim2)">${esc(c[1])}</span>`,esc(c[2]),`<span style="color:var(--gold2)">${esc(c[3])}</span>`]))}`)}
-
-    
-
     ${acc("Banquet quick math","parked on purpose — dollars are placeholders",`
       <div class="frow" style="margin-top:8px">
         <div class="f"><label>Party size</label><input type="number" inputmode="decimal" id="bqHeads" value="20" min="0"></div>
         <div class="f"><label>Est. $ / head</label><input type="number" inputmode="decimal" id="bqPerHead" value="105" min="0"></div>
         <div class="f"><label>F&amp;B minimum $</label><input type="number" inputmode="decimal" id="bqMin" value="3000" min="0"></div>
-        <div class="f"><label>Auto-grat %</label><input type="number" inputmode="decimal" id="bqGrat" value="20" min="0" max="30"></div>
+        <div class="f"><label>Auto-grat %</label><input type="number" inputmode="decimal" id="bqGrat" value="23" min="0" max="30"></div>
       </div>
       <div class="out" id="bqOut"></div>
       <p class="sub" style="color:var(--dim2);font-size:12px;margin:10px 0 0">Rooms: ${ROOMS.map(r=>`<b>${esc(r[0])}</b> — ${esc(r[1])}`).join(" · ")}. Booking through Lillian Speedy, Director of Sales.</p>`)}
@@ -769,7 +768,7 @@ function build(){
     `;
 
   /* ---------- WIRE UP ---------- */
-  renderWines(); renderDrinks(); renderAllergens(); pairingOut(0); calcSC(); calcBQC(); calcIP(); calcFC(); calcBq(); fillSched();
+  renderWines(); renderDrinks(); renderAllergens(); pairingOut(0); calcSC(); calcBQC(); ipPrefill(); calcIP(); calcBq(); fillSched();
 
   $("#p-shift").querySelector(".qa").onclick=e=>{
     const b=e.target.closest("button[data-qa]"); if(!b)return;
@@ -807,15 +806,12 @@ function build(){
     const n=$("#"+id); n.oninput=()=>{calcSC();calcBQC();}; n.onchange=()=>{calcSC();calcBQC();}; n.onkeyup=()=>{calcSC();calcBQC();};});
   ["bqcSales","bqcTips","bqcThree"].forEach(id=>{
     const n=$("#"+id); n.oninput=calcBQC; n.onchange=calcBQC; n.onkeyup=calcBQC;});
-  ["ipBooks","ipWalk","ipTeams","ipCk","ipCheck","ipPol"].forEach(id=>{
+  ["ipBooks","ipWalk","ipTeams","ipCk","ipCheck","ipPol","ipOcc"].forEach(id=>{
     const n=$("#"+id); n.oninput=calcIP; n.onchange=calcIP; n.onkeyup=calcIP;});
-  $("#ipDay").onchange=()=>{const dp=DAYPRE[$("#ipDay").value];$("#ipTeams").value=dp.teams;calcIP();};
+  $("#ipDay").onchange=()=>{ipPrefill();calcIP();};
   $("#ipSugg").onclick=e=>{const b=e.target.closest("#ipUse");if(!b)return;
     $("#ipWalk").value=+b.dataset.s||0; calcIP();};
-  ["fcTeams","fcBooks","fcWalk","fcCheck","fcOcc"].forEach(id=>{
-    const n=$("#"+id); n.oninput=calcFC; n.onchange=calcFC; n.onkeyup=calcFC;});
-  $("#fcWalkChips").onclick=e=>{const b=e.target.closest("button");if(!b)return;
-    $("#fcWalk").value=b.dataset.w; calcFC();};
+
   ["bqHeads","bqPerHead","bqMin","bqGrat"].forEach(id=>{
     const n=$("#"+id); n.oninput=calcBq; n.onchange=calcBq; n.onkeyup=calcBq;});
 

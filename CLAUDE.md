@@ -110,6 +110,32 @@ Fronts numbers render as their own "Covers · Sun M/D" row (the Sunday-night boo
 count from three days before the week starts, when the sheet prints); BQTs bar numbers
 are banquet headcounts.
 
+## Money tab (rebuilt 8/5 on Evan's ask)
+
+The Forecasting Lab UI is REMOVED from the app — Evan doesn't want people seeing it. All
+its knowledge stays in 5-data-quiz.js (SALES.read/rows/occasions/impliedChecks/log,
+CONFLICTS, WALKINS) as back-knowledge for us. Do not delete it and do not resurface it
+in the UI unless he asks. The old fc* forecast accordion merged into one NIGHT FORECAST
+section (id sec-income): day picker over the posted week, books prefill from the
+schedule's covers row, teams = min(fronts, backs) scheduled that day, cocktailers from
+the schedule, who's-on roster names, and a staffLadder() staffing table (model vs
+scheduled, "room to cut N"). ipTake() cut math is UNCHANGED — do not touch it without
+recomputing goldens. staffLadder bands are v1 guesses anchored to real nights (3 teams
+~$4.1k, 4+banquet ~$8.9k) — Evan will dictate acceptable staffing per night type; tune
+the bands from his words, not from theory. Banquet quick math auto-grat defaults 23.
+
+## Handbook + Vocabulary (added 8/5)
+
+Evan transcribed the official Employee Handbook; it lives as `HANDBOOK` (14 accordion
+sections, faithful but readable) at the end of the How We Work tab, and the vocabulary
+sheets as `VOCAB` in their own More tab (key: vocab). Both are in 5-data-quiz.js and in
+global search. Known conflict handled in-text: handbook says 18% big-party grat, floor
+runs 20% today — newest word wins, the handbook section says so. HR update 8/5: Darla McKnight is gone —
+Lillian Speedy took HR (she's also Director of Sales/banquets). Say "Lillian" casually
+in app text. The old HR phone/email (817-889-1155 / darlarmc@yahoo.com) STAYS in the
+grievance section on Evan's call — both forward to Lillian. The handbook calls itself confidential
+— the repo is public; Evan decides whether it pushes.
+
 ## Privacy — this folder gets shared
 
 The app is shared with coworkers and may sit in a PUBLIC repo. So:

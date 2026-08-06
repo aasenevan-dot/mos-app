@@ -59,7 +59,9 @@ All constants live in `SALES` in 5-data-quiz.js. The pipeline (`pipeMath` in 6-a
   23% auto-grat (guests can add more on top) — confirmed 8/4.
 - Toast withholds 2% of credit tips.
 - Tip-outs are percentages of TEAM NET SALES, each line rounded UP to a whole dollar:
-  bar 0.1% (Evan changed this from 1% on 8/5 — his word wins; goldens recomputed), busser 1.5%, expo 0.5%. Banquets add 3% — that 3% is Lillian's cut as banquet
+  bar 1%, busser 1.5%, expo 0.5% (Evan dropped bar to 0.1% on 8/5, then caught it and
+  put it back to 1% same day — 0.1% was a mistake, not a real change; goldens recomputed
+  both times, this is the correct final number). Banquets add 3% — that 3% is Lillian's cut as banquet
   coordinator, so the team effectively keeps 20 points of the 23% before normal tip-outs.
 - Polisher is flat: $10 for a front/back team, $5 for a solo (solo = cocktailer job).
   Most nights there is NO polisher — busiest nights only, usually just one (confirmed 8/4).
@@ -69,7 +71,7 @@ All constants live in `SALES` in 5-data-quiz.js. The pipeline (`pipeMath` in 6-a
 - Earned = pool minus tip-outs, cents dropped (floor).
 - Split 50/50 front/back, whole dollars, the BACK takes the greater dollar when odd.
 - A banquet is its own checkout sheet and envelope, same math, then the night combines.
-- Reverse formula: team net sales ≈ (2 × one person's take) / 0.18284 (rate moved when bar dropped to 0.1%).
+- Reverse formula: team net sales ≈ (2 × one person's take) / 0.17384.
 - Floor model: slices = teams + 0.7 per cocktailer. Avg $115 per person (Greenwood).
 - Evan's cut line is fixed at $200/person: under it, taking the cut is fine; over it, work.
 - Greenwood tax 8.96% ≈ 9% (7% Indiana + 1% Johnson County + 1% Greenwood food & beverage).
@@ -128,8 +130,8 @@ the bands from his words, not from theory. Banquet quick math auto-grat defaults
 night after a sync round reverted it):** the calculator had drifted into hourly-wage/
 hours/polisher clutter he never asked for and didn't understand. Cut back to what he
 actually wants: Team sales, Team earned, Front, Back as one row of squares, then
-Bussers / Expo / Bar tip-out $ (each person's share of their 1.5% / 0.5% / 0.1% pool —
-bar rate tracks whatever `SALES.tipouts` says, currently 0.1%) as a second row. No
+Bussers / Expo / Bar tip-out $ (each person's share of their 1.5% / 0.5% / 1% pool —
+bar rate tracks whatever `SALES.tipouts` says, currently 1%) as a second row. No
 hours input, no polisher line — polishers are rare enough (140+ covers before it's
 worth a thought, real staffing concern only 180+) that this calculator ignores that
 labor entirely. WAGES (busser/expo/foodrun/barTipped) stays in 5-data-quiz.js as

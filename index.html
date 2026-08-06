@@ -1392,7 +1392,7 @@ const SALES = {
  /* REAL tip rules — decoded from Evan's 5/23/26 solo checkout (Server Checkout Summary + Toast Shift Review) */
  guestTipRate:.208, // credit tips ran 20.8% of team net sales on 5/23
  withheldRate:.02, // Toast withholds 2% of credit tips before payout
- tipouts:[["Bar",.001],["Busser",.015],["Expo",.005]], // % of TEAM NET SALES, each rounded UP to next dollar. Bar dropped 1% -> 0.1% per Evan 8/5.
+ tipouts:[["Bar",.01],["Busser",.015],["Expo",.005]], // % of TEAM NET SALES, each rounded UP to next dollar. Bar is 1% -- the 8/5 drop to 0.1% was a mistake, reverted back same day.
  banquetTipout:.03, // extra 3% of sales when your team runs a banquet
  checkout523:{sales:1176,tips:244.10,withheld:4.88,pool:239.22,tipout:36,earned:203,guests:14,perGuest:84},
  log:["Date and day of week","Number of teams","Team #","Cocktailer on the schedule?","Dining cover count","Net sales","Gratuity","Toast tips","Tax","Deferred gift cards / other","Toast total","Occasion (holiday, graduation, event)","Weather","Colts / big TV game that day","Notes: big reservations, call-offs, patio"],
@@ -4733,7 +4733,7 @@ function calcSC(){
     <div class="rrow big"><span>BACK</span><span>${$d(back)}</span></div>
     <div class="rfoot">50/50 split &middot; back takes the greater dollar &middot; whole dollars only<br>every tip-out line rounds UP &middot; earned drops the cents</div>
   </div>
-  <div class="note" style="max-width:440px"><b>Rule of thumb:</b> a team keeps about 18.3% of its net sales — roughly $${Math.round(sales*.1828).toLocaleString()} on this night, call it 9 cents per sales dollar for each of you. Sell the bottle.</div>`;
+  <div class="note" style="max-width:440px"><b>Rule of thumb:</b> a team keeps about 17% of its net sales — roughly $${Math.round(sales*.1738).toLocaleString()} on this night, call it 8–9 cents per sales dollar for each of you. Sell the bottle.</div>`;
 }
 
 /* ---------- INCOME PREDICTOR — should I take the cut? ---------- */
@@ -5356,7 +5356,7 @@ addEventListener("scroll",()=>{$("#totop").classList.toggle("show",scrollY>700);
 /* ---------- EVERYBODY'S NIGHT — real net + tip %, team + tip-outs ----------
    Per Evan 8/5: no polisher (too rare to model — ignore that labor entirely)
    and no hourly wages/hours (doesn't matter for this view). Just team sales,
-   what the front and back earn, and the three real tip-out lines — bar 0.1%,
+   what the front and back earn, and the three real tip-out lines — bar 1%,
    busser 1.5%, expo 0.5% — split across whoever's on that role tonight. */
 function calcEX(){
   const el=$("#exOut"); if(!el)return;
@@ -5372,7 +5372,7 @@ function calcEX(){
   const teamSales=net/slices, ckSales=teamSales*CKTAIL_WEIGHT;
   const expoOn=nExpo>0;
   const cut=sales=>{
-    const bar=Math.ceil(.001*sales), bus=Math.ceil(.015*sales), ex=expoOn?Math.ceil(.005*sales):0;
+    const bar=Math.ceil(.01*sales), bus=Math.ceil(.015*sales), ex=expoOn?Math.ceil(.005*sales):0;
     const tips=sales*pct, pool=tips*(1-SALES.withheldRate);
     return {bar,bus,ex,earned:Math.max(0,Math.floor(pool-bar-bus-ex))};
   };
@@ -5395,7 +5395,7 @@ function calcEX(){
   <div class="kpis">
     ${tile("Bussers",nBus?money(share(busPool,nBus)):"\u2014",nBus?`each, from a ${money(busPool)} pool \u00f7 ${nBus} on (1.5%)`:"none on tonight")}
     ${tile("Expo / food run",expoOn?money(share(expoPool,nExpo)):"\u2014",expoOn?`each, from a ${money(expoPool)} pool \u00f7 ${nExpo} on (0.5%)`:"none on \u2014 teams keep the line")}
-    ${tile("Bar",nBar?money(share(barPool,nBar)):"\u2014",nBar?`each, from a ${money(barPool)} pool \u00f7 ${nBar} on (0.1%) \u2014 plus their own bar-top tips`:"none on tonight")}
+    ${tile("Bar",nBar?money(share(barPool,nBar)):"\u2014",nBar?`each, from a ${money(barPool)} pool \u00f7 ${nBar} on (1%) \u2014 plus their own bar-top tips`:"none on tonight")}
   </div>
   <p class="sub" style="margin:8px 0 0;color:var(--dim2);font-size:12px">Team and cocktailer math is the exact house pipeline (2% withheld, tip-outs rounded up per checkout). Each tip-out pool splits evenly across whoever's on that role \u2014 fewer people on it, more each one takes.</p>`;
 }

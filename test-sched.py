@@ -76,11 +76,11 @@ async def main():
         if await pg.evaluate("!!document.querySelector('#exHrs')"): bad.append("exHrs input still present (Evan 8/5: no hourly wages/hours in this calc)")
         await pg.evaluate("document.querySelector('#exNet').value='8000';document.querySelector('#exPct').value='20.8';calcEX()")
         exo=await pg.evaluate("document.querySelector('#exOut').innerHTML")
-        # net 8000, teams 7, cocktailers 2, bussers 2, expo 2, bar 3 (schedule prefill) -> slices 8.4, team earned 173, front 86 / back 87
-        for cell in ["8.4 slices", '>Team earned</div><div class="v">$173<', '>Front</div><div class="v">$86<',
-                     '>Back</div><div class="v">$87<', '>Bussers</div><div class="v">$63<', "pool ÷ 2 on (1.5%)",
+        # net 8000, teams 7, cocktailers 2, bussers 2, expo 2, bar 3 (schedule prefill) -> slices 8.4, team earned 164, front 82 / back 82 (bar back to 1% on 8/5)
+        for cell in ["8.4 slices", '>Team earned</div><div class="v">$164<', '>Front</div><div class="v">$82<',
+                     '>Back</div><div class="v">$82<', '>Bussers</div><div class="v">$63<', "pool ÷ 2 on (1.5%)",
                      '>Expo / food run</div><div class="v">$22<', "pool ÷ 2 on (0.5%)",
-                     '>Bar</div><div class="v">$3<', "pool ÷ 3 on (0.1%)", "bar-top tips"]:
+                     '>Bar</div><div class="v">$28<', "pool ÷ 3 on (1%)", "bar-top tips"]:
             if cell not in exo: bad.append(f"everybody-night missing {cell}")
         for gone in ["Polisher", "/hr", "Cocktailers", "hourly"]:
             if gone in exo: bad.append(f"everybody-night still shows {gone} (Evan 8/5: dropped)")

@@ -233,6 +233,30 @@ test-sched.py validates bank shape, lane purity + lengths, daily determinism, ev
 generator, the armed blitz timer, both order games run perfect, and the progress bar.
 Home tile says "Quiz & games."
 
+## Oysters (Evan, 8/6) + what still needs asking
+
+Menu answer is **Blue Point** — the classic East Coast oyster, historically from Blue
+Point on Long Island, now used broadly across Long Island Sound / Connecticut. Mild,
+balanced, clean salt, sweet finish, crisp. What actually shows up most nights is bigger
+**New Jersey** stock out of **Cape May** — thicker, meatier, brinier. Evan also names
+"Violet Skies" for the big Jersey ones; that is a purveyor/varietal brand and the exact
+spelling has NOT been confirmed off a box or invoice — do not print it in the app until
+it is. Current app text says Blue Point as the menu answer, Cape May New Jersey as the
+reality, and tells the server to say what is actually in the box tonight.
+
+**Oysters Rockefeller** added to Starters and the allergen matrix. Baked/broiled on the
+half shell: butter, breadcrumbs, spinach-and-herb green puree (parsley, tarragon),
+Parmesan, dash of hot sauce, on a pan over a bed of salt with lemon, oyster forks.
+Allergens differ from the raw oysters — dairy, gluten, allium, capsaicin, plus alcohol.
+
+ASK NEXT SHIFT (Evan's list):
+1. **Rockefeller price** — app carries $45 as a placeholder, flagged VERIFY. Evan guessed
+   $35 then $45; get the real number off Toast. Do NOT quiz this price until confirmed.
+2. **Does our Rockefeller puree actually contain a liqueur?** The classic recipe does;
+   ours is unconfirmed. This is an alcohol-allergy answer, so it matters.
+3. **Exact oyster varietal names off the box** — confirm "Violet Skies" and Cape May, and
+   whether the Blue Points really are Blue Points or just called that on the menu.
+
 ## Privacy — this folder gets shared
 
 The app is shared with coworkers and may sit in a PUBLIC repo. So:

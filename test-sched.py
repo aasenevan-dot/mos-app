@@ -73,13 +73,20 @@ async def main():
         z=await pg.evaluate("document.body.style.zoom")
         if str(z)!="0.925": bad.append(f"szDn zoom wrong: {z}")
         await pg.evaluate("document.querySelector('#szUp').click()")
+        if await pg.evaluate("!!document.querySelector('#exHrs')"): bad.append("exHrs input still present (Evan 8/5: no hourly wages/hours in this calc)")
         await pg.evaluate("document.querySelector('#exNet').value='8000';document.querySelector('#exPct').value='20.8';calcEX()")
         exo=await pg.evaluate("document.querySelector('#exOut').innerHTML")
-        for cell in ["8.4 slices","Front $82","Back $82","Cocktailers","$82","Bussers","$5/hr","Expo / food run","$10/hr","$2.13","bar-top tips","Polisher"]:
+        # net 8000, teams 7, cocktailers 2, bussers 2, expo 2, bar 3 (schedule prefill) -> slices 8.4, team earned 173, front 86 / back 87
+        for cell in ["8.4 slices", '>Team earned</div><div class="v">$173<', '>Front</div><div class="v">$86<',
+                     '>Back</div><div class="v">$87<', '>Bussers</div><div class="v">$63<', "pool ÷ 2 on (1.5%)",
+                     '>Expo / food run</div><div class="v">$22<', "pool ÷ 2 on (0.5%)",
+                     '>Bar</div><div class="v">$3<', "pool ÷ 3 on (0.1%)", "bar-top tips"]:
             if cell not in exo: bad.append(f"everybody-night missing {cell}")
+        for gone in ["Polisher", "/hr", "Cocktailers", "hourly"]:
+            if gone in exo: bad.append(f"everybody-night still shows {gone} (Evan 8/5: dropped)")
         exv=await pg.evaluate("({b:document.querySelector('#exBus').value,e:document.querySelector('#exExpo').value,r:document.querySelector('#exBar').value})")
         if exv!={"b":"2","e":"2","r":"3"}: bad.append(f"exact counts not from schedule: {exv}")
-        ok=await pg.evaluate("(function(){const s=8000/8.4;const r=pipeMath(s,s*.208,SALES.guestTipRate,false,0,0);return document.querySelector('#exOut').innerHTML.includes('team earns $'+Math.round(r.earned).toLocaleString());})()")
+        ok=await pg.evaluate("(function(){const s=8000/8.4;const r=pipeMath(s,s*.208,SALES.guestTipRate,false,0,0);return document.querySelector('#exOut').innerHTML.includes('$'+Math.round(r.earned).toLocaleString());})()")
         if not ok: bad.append("everybody-night team earned disagrees with pipeMath")
         alg=await pg.evaluate("document.querySelector('#p-allergens').innerHTML")
         if "Wagyu Porterhouse" in alg: bad.append("allergen row still says Wagyu Porterhouse")

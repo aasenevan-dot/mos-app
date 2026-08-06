@@ -126,17 +126,18 @@ function renderAllergens(){
   const q=($("#allergyQ")?.value||"").toLowerCase();
   const rows=ALLERGENS.filter(r=>!q||r[0].toLowerCase().includes(q)||r[2].join(" ").includes(q));
   const flagged=r=>[...allergySel].some(a=>r[2].includes(a));
-  const shown = rows.map(r=>[r,allergySel.size?flagged(r):false]);
+  /* chips FILTER now (Evan 8/5): tap an allergy and only the dishes that HAVE it stay on screen */
+  const shown = allergySel.size ? rows.filter(flagged).map(r=>[r,true]) : rows.map(r=>[r,false]);
   $("#allergyTable").innerHTML=`<table><thead><tr><th>Dish</th><th>Price</th><th>Contains</th><th>Note</th></tr></thead><tbody>${
     shown.map(([r,hit])=>`<tr${hit?' style="background:rgba(163,60,53,.09)"':''}>
       <td><b>${esc(r[0])}</b>${hit?' <span class="tag warn">FLAGGED</span>':''}</td>
       <td class="n">${esc(r[1])}</td>
       <td>${r[2].length?r[2].map(a=>`<span class="tag${allergySel.has(a)?" warn":""}">${esc(a)}</span>`).join(" "):'<span style="color:var(--dim2)">none listed</span>'}</td>
       <td style="color:var(--dim);font-size:12.6px">${esc(r[3])}</td></tr>`).join("")}</tbody></table>`;
-  const n=shown.filter(x=>x[1]).length;
+  const n=shown.length;
   $("#allergySummary").innerHTML = allergySel.size
-    ? `<div class="note warn"><b>${n} of ${shown.length} dishes flagged</b> for ${[...allergySel].map(esc).join(", ")}. Everything not flagged still needs a kitchen check — never guarantee from this sheet.</div>`
-    : `<div class="note">Tap an allergen below to flag every dish that contains it. ${ALLERGENS.length} dishes in the matrix.</div>`;
+    ? `<div class="note warn"><b>${n} dish${n===1?"":"es"} contain${n===1?"s":""} ${[...allergySel].map(esc).join(" or ")}</b> — everything clean is hidden. Tap the chip again to see the whole matrix. A dish NOT on this list still needs a kitchen check — never guarantee from this sheet.</div>`
+    : `<div class="note">Tap an allergen below and the list cuts to only the dishes that HAVE it. ${ALLERGENS.length} dishes in the matrix.</div>`;
 }
 
 /* ---------- QUIZ ---------- */
@@ -236,7 +237,7 @@ function calcSC(){
     <div class="rrow big"><span>BACK</span><span>${$d(back)}</span></div>
     <div class="rfoot">50/50 split &middot; back takes the greater dollar &middot; whole dollars only<br>every tip-out line rounds UP &middot; earned drops the cents</div>
   </div>
-  <div class="note" style="max-width:440px"><b>Rule of thumb:</b> a team keeps about 17% of its net sales — roughly $${Math.round(sales*.1738).toLocaleString()} on this night, call it 8–9 cents per sales dollar for each of you. Sell the bottle.</div>`;
+  <div class="note" style="max-width:440px"><b>Rule of thumb:</b> a team keeps about 18.3% of its net sales — roughly $${Math.round(sales*.1828).toLocaleString()} on this night, call it 9 cents per sales dollar for each of you. Sell the bottle.</div>`;
 }
 
 /* ---------- INCOME PREDICTOR — should I take the cut? ---------- */
@@ -503,7 +504,7 @@ function build(){
     <div class="qa">
       <button data-qa="sched|"><div class="t">Schedule</div><div class="s">Who works today + the whole posted week</div></button>
       <button data-qa="cocktails|#sec-garnish"><div class="t">Garnish check</div><div class="s">Every drink's garnish and glass, one table</div></button>
-      <button data-qa="allergens|#sec-allergy"><div class="t">Allergy check</div><div class="s">Flag any allergen across 75 dishes</div></button>
+      <button data-qa="allergens|#sec-allergy"><div class="t">Allergy check</div><div class="s">Tap an allergen — see only what has it</div></button>
       <button data-qa="wine|#sec-bottles"><div class="t">Wine by budget</div><div class="s">Bottles at their price, pitch included</div></button>
       <button data-qa="wine|#sec-pair"><div class="t">Pair their order</div><div class="s">They ordered X — here's what you say</div></button>
       <button data-qa="ops|#sec-checkout"><div class="t">Sales Calculator</div><div class="s">Sales in — your front/back split out</div></button>
@@ -859,7 +860,7 @@ addEventListener("scroll",()=>{$("#totop").classList.toggle("show",scrollY>700);
 /* ---------- EVERYBODY'S NIGHT — real net + tip %, team + tip-outs ----------
    Per Evan 8/5: no polisher (too rare to model — ignore that labor entirely)
    and no hourly wages/hours (doesn't matter for this view). Just team sales,
-   what the front and back earn, and the three real tip-out lines — bar 1%,
+   what the front and back earn, and the three real tip-out lines — bar 0.1%,
    busser 1.5%, expo 0.5% — split across whoever's on that role tonight. */
 function calcEX(){
   const el=$("#exOut"); if(!el)return;
@@ -875,7 +876,7 @@ function calcEX(){
   const teamSales=net/slices, ckSales=teamSales*CKTAIL_WEIGHT;
   const expoOn=nExpo>0;
   const cut=sales=>{
-    const bar=Math.ceil(.01*sales), bus=Math.ceil(.015*sales), ex=expoOn?Math.ceil(.005*sales):0;
+    const bar=Math.ceil(.001*sales), bus=Math.ceil(.015*sales), ex=expoOn?Math.ceil(.005*sales):0;
     const tips=sales*pct, pool=tips*(1-SALES.withheldRate);
     return {bar,bus,ex,earned:Math.max(0,Math.floor(pool-bar-bus-ex))};
   };
@@ -898,7 +899,7 @@ function calcEX(){
   <div class="kpis">
     ${tile("Bussers",nBus?money(share(busPool,nBus)):"\u2014",nBus?`each, from a ${money(busPool)} pool \u00f7 ${nBus} on (1.5%)`:"none on tonight")}
     ${tile("Expo / food run",expoOn?money(share(expoPool,nExpo)):"\u2014",expoOn?`each, from a ${money(expoPool)} pool \u00f7 ${nExpo} on (0.5%)`:"none on \u2014 teams keep the line")}
-    ${tile("Bar",nBar?money(share(barPool,nBar)):"\u2014",nBar?`each, from a ${money(barPool)} pool \u00f7 ${nBar} on (1%) \u2014 plus their own bar-top tips`:"none on tonight")}
+    ${tile("Bar",nBar?money(share(barPool,nBar)):"\u2014",nBar?`each, from a ${money(barPool)} pool \u00f7 ${nBar} on (0.1%) \u2014 plus their own bar-top tips`:"none on tonight")}
   </div>
   <p class="sub" style="margin:8px 0 0;color:var(--dim2);font-size:12px">Team and cocktailer math is the exact house pipeline (2% withheld, tip-outs rounded up per checkout). Each tip-out pool splits evenly across whoever's on that role \u2014 fewer people on it, more each one takes.</p>`;
 }

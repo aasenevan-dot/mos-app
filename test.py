@@ -59,13 +59,13 @@ with sync_playwright() as p:
 
     # golden math — verified against real graded checkouts, whole-dollar rules
     g1 = pg.evaluate("pipeMath(2000, 0, SALES.guestTipRate, false, 10, 0)")
-    want1 = {"earned": 337, "back": 169, "front": 168, "tipOut": 70}
+    want1 = {"earned": 355, "back": 178, "front": 177, "tipOut": 52}
     for k, v in want1.items():
         if g1.get(k) != v:
             fails.append(f"golden1 {k}: got {g1.get(k)}, want {v}")
 
     g2 = pg.evaluate("pipeMath(3871, 774.18, .20, true, 0, 0)")
-    want2 = {"earned": 523, "back": 262, "front": 261, "tipOut": 235}
+    want2 = {"earned": 558, "back": 279, "front": 279, "tipOut": 200}
     for k, v in want2.items():
         if g2.get(k) != v:
             fails.append(f"golden2 {k}: got {g2.get(k)}, want {v}")

@@ -35,20 +35,20 @@ const QAICONS={
  "sched|":'<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2.5"/><path d="M3 10h18M8 2.8v4M16 2.8v4"/></svg>',
  /* martini with an olive on a pick — the garnish IS the point */
  "cocktails|#sec-garnish":'<svg viewBox="0 0 24 24"><path d="M4 5.5h16l-8 8z"/><path d="M12 13.5v6M8.5 19.5h7"/><path d="M14.6 4.1l-2.4 2.4"/><circle cx="15.6" cy="3.1" r="1.5"/></svg>',
- /* peanut — the universal allergen symbol, per Evan */
- "allergens|#sec-allergy":'<svg viewBox="0 0 24 24"><circle cx="12" cy="7.4" r="4.3"/><circle cx="12" cy="16.2" r="4.3"/><path d="M9.6 11.1c1.6.9 3.2.9 4.8 0"/></svg>',
+ /* a shelled peanut — the universal allergen symbol */
+ "allergens|#sec-allergy":'<svg viewBox="0 0 24 24"><path d="M9.4 3.2C6.1 3.2 3.4 5.7 3.4 8.8c0 2.2 1.3 4.1 3.1 5 .8.4 1.2 1 1.4 1.9.5 2.3 2.6 4.1 5.1 4.1 3.3 0 6-2.5 6-5.6 0-2.2-1.3-4.1-3.1-5-.8-.4-1.2-1-1.4-1.9-.5-2.3-2.6-4.1-5.1-4.1z"/></svg>',
  /* the wine glass proper — this is the tab servers reach for, so it reads as wine first */
  "wine|#sec-bottles":'<svg viewBox="0 0 24 24"><path d="M6.6 2.6h10.8l-1.1 7.6a4.4 4.4 0 01-8.6 0z"/><path d="M12 14.6v5.8M8 20.6h8"/></svg>',
  /* a glass AND a four-prong fork — the pairing is wine plus the food */
- "wine|#sec-pair":'<svg viewBox="0 0 24 24"><path d="M2 3h5.8l-.6 4.4a2.3 2.3 0 01-4.6 0z"/><path d="M4.9 9.7v8.9M3.1 18.6h3.6"/><path d="M12.6 2.4v4.6a4.4 4.4 0 008.8 0V2.4"/><path d="M15.5 2.4v4.6M18.5 2.4v4.6"/><path d="M17 11.4v10"/></svg>',
+ "wine|#sec-pair":'<svg viewBox="0 0 24 24"><path d="M2 3h5.8l-.6 4.4a2.3 2.3 0 01-4.6 0z"/><path d="M4.9 9.7v8.9M3.1 18.6h3.6"/><path d="M13.6 2.2v5.6c0 1.9 1.5 3.2 3.4 3.4M20.4 2.2v5.6c0 1.9-1.5 3.2-3.4 3.4"/><path d="M15.9 2.2v5.9M18.1 2.2v5.9"/><path d="M17 11.2v10.4"/></svg>',
  /* calculator */
  "ops|#sec-checkout":'<svg viewBox="0 0 24 24"><rect x="4.5" y="2.5" width="15" height="19" rx="2.5"/><path d="M7.8 6.6h8.4"/><path d="M8.2 11.2h.01M12 11.2h.01M15.8 11.2h.01M8.2 14.6h.01M12 14.6h.01M15.8 14.6h.01M8.2 18h.01M12 18h.01M15.8 18h.01"/></svg>',
  /* crescent moon — calling the night before it happens */
  "ops|#sec-income":'<svg viewBox="0 0 24 24"><path d="M20.5 14.6A8.6 8.6 0 019.4 3.5a8.6 8.6 0 1011.1 11.1z"/></svg>',
  /* question mark */
  "study|#sec-quiz":'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.2"/><path d="M9.3 9.3a2.8 2.8 0 015.4.8c0 1.9-2.7 2.4-2.7 4"/><path d="M12 17.7h.01"/></svg>',
- /* fork and spoon — four prongs, like a real dinner fork */
- "menu|":'<svg viewBox="0 0 24 24"><path d="M1.6 2.4v4.6a4.4 4.4 0 008.8 0V2.4"/><path d="M4.5 2.4v4.6M7.5 2.4v4.6"/><path d="M6 11.4v10"/><ellipse cx="18.2" cy="6.4" rx="3" ry="3.9"/><path d="M18.2 10.4v11"/></svg>',
+ /* fork and spoon — four prongs converging to a point, like a real dinner fork */
+ "menu|":'<svg viewBox="0 0 24 24"><path d="M2.6 2.2v5.6c0 1.9 1.5 3.2 3.4 3.4M9.4 2.2v5.6c0 1.9-1.5 3.2-3.4 3.4"/><path d="M4.9 2.2v5.9M7.1 2.2v5.9"/><path d="M6 11.2v10.4"/><ellipse cx="18.2" cy="6.6" rx="2.9" ry="4"/><path d="M18.2 10.6v11"/></svg>',
  /* magnifier */
  "__search|":'<svg viewBox="0 0 24 24"><circle cx="10.6" cy="10.6" r="6.6"/><path d="M20 20l-4.7-4.7"/></svg>'
 };
@@ -742,13 +742,13 @@ function build(){
     <div class="qbar"><button class="btn" id="quizStart">Generate quiz</button><div class="score" id="quizScore">ready when you are</div></div>
     <div id="quizBox"><div class="empty">Hit generate. Food, steak, wine, cocktail, allergen, and ops questions, all mixed.</div></div>
 
-    <div class="sechead"><h2>The real menu test</h2><span>all 30 questions with the graded, corrected answers</span></div>
+    <div class="sechead"><h2>The real menu test</h2><span>all 30 questions with the corrected answers</span></div>
     <div class="qbar"><button class="btn sec" id="ansToggle">Show all answers</button><div class="score">say each answer out loud before revealing</div></div>
     <div class="anslist" id="ansList">${OPEN.map((o,i)=>`<div class="q"><div class="qq"><span>${i+1}.</span>${esc(o[0])}</div><div class="ans">${esc(o[1])}</div></div>`).join("")}</div>`;
 
   /* ---------- SALES CALCULATOR ---------- */
   $("#p-house").innerHTML=`
-    <div class="sechead"><h2>How we work</h2><span>Points of Passion, steps of service, and the house playbook — from the real training handouts</span></div>
+    <div class="sechead"><h2>How we work</h2><span>Points of Passion, steps of service, and the house playbook</span></div>
     <div class="note gold"><b>Mission:</b> ${esc(HOUSE.mission)}</div>
     ${acc("Points of Passion — the 16","the Mo's service philosophy, word for word where it counts",`<ol class="steps">${HOUSE.points.map(([t,d])=>`<li><b>${esc(t)}.</b> ${esc(d)}</li>`).join("")}</ol>`)}
     ${acc("Isaac's Non-Negotiables — the 11","the standards that never bend",`<ol class="steps">${HOUSE.isaacs.map(d=>`<li>${esc(d)}</li>`).join("")}</ol>`)}

@@ -36,7 +36,7 @@ const MENU = {
  ["Chopped Wedge Salad","$15","Blue cheese, bacon, marinated tomatoes.",""]],
 
  "Prime 47 Cuts & Wagyu":[
- ["Farbuckle Filet","6 oz $63 / 10 oz $87","THE SHOW (from the graded tests): ring at the guest's temp, bring a sizzling skillet + tongs + gloves + tray + rosemary salt + beef tallow + warm butter. Steaks in, butter while they cook, beef tallow before pulling, finish with rosemary salt, serve. You can Farbuckle ANY cut for roughly a $9 upcharge (the $63 minus $54 difference).","Help run this one"],
+ ["Farbuckle Filet","6 oz $63 / 10 oz $87","THE SHOW: ring at the guest's temp, bring a sizzling skillet + tongs + gloves + tray + rosemary salt + beef tallow + warm butter. Steaks in, butter while they cook, beef tallow before pulling, finish with rosemary salt, serve. You can Farbuckle ANY cut for roughly a $9 upcharge (the $63 minus $54 difference).","Help run this one"],
  ["Filet Mignon","6 oz $54 / 10 oz $79","Classic center-cut tender filet. Cooked with butter by default — but the kitchen CAN cook any steak fully butter-free for a dairy allergy, the guest just has to ask.","Price updated 7/3"],
  ["The PD — 15 oz Hand-Cut Filet","$115","On the printed menu — house calls it the PD.",""],
  ["Filet Duo","$47","Two 3 oz end-cut medallions. Crab Oscar and horseradish bleu cheese crust.",""],
@@ -47,7 +47,7 @@ const MENU = {
  ["Japanese A5 Wagyu","$25/oz","From Kagoshima Prefecture. The show: a manager cut, sliced with a Hanzo steel knife on a butcher's block, torch-finished with rosemary salt at the table. Preset the guests with the special Kobe Hanzo steak knives. House serves wagyu RARE to MED-RARE — nudge gently, never argue.","Confirmed $25/oz 8/4 — matches the published menu (6 oz $150)"],
  ["48 oz USDA Choice Porterhouse","$150 when it runs","NOT wagyu — USDA Choice. 48 oz total: about 15 oz NY strip + 8 oz filet + a 25 oz bone. Board service, manager slices tableside. The move: two people split it for a high-class manager-cut experience at a great value.","Off-menu special"],
  ["Spinalis / Ribeye Cap","$14/oz, min 6 oz","Rivals filet tenderness while keeping ribeye richness.","Off-menu — $10/oz on Spinalis Sunday"],
- ["45-Day Dry-Aged Bone-In Ribeye","22 oz — $120? VERIFY price","22 oz per the graded test answer key; aged a full 45 days. Evan thinks $120 — price still needs verified.","Off-menu, dry aged"]],
+ ["45-Day Dry-Aged Bone-In Ribeye","22 oz — $120? VERIFY price","22 oz, aged a full 45 days. Price still needs verified.","Off-menu, dry aged"]],
 
  "Surf & Turf":[
  ["Steak 47","$58","Filet topped with shrimp, scallop, lobster meat, asparagus, and hollandaise.","The Steak 47 topping upcharge is $25"],
@@ -271,7 +271,7 @@ const SPECIALS_ON=[
  ["48 oz USDA Choice Porterhouse","$150 when it runs","NOT wagyu — USDA Choice. 48 oz total: about 15 oz NY strip + 8 oz filet + a 25 oz bone. A manager slices it tableside off the board. The pitch: two people split it for a high-class manager-cut steak experience at a serious value — and there's no split-plate charge.","cut special"],
  ["Spinalis / Ribeye Cap","$14/oz — $10/oz on SUNDAYS","Minimum 6 oz. Rivals filet tenderness while keeping ribeye richness. Spinalis Sunday is on the restaurant's own weekly-features page — the easy upsell.","cut special"],
  ["Australian Wagyu Tomahawk","$180","32 oz. Wagyu rule: serve rare to med-rare — nudge, don't argue.","cut special"],
- ["45-Day Dry-Aged Bone-In Ribeye","22 oz — $120? VERIFY price","22 oz, confirmed by the graded test answer key. Evan thinks $120 — price still needs verified. All four cut specials (porterhouse, spinalis, tomahawk, 45-day) typically ALWAYS run.","cut special"],
+ ["45-Day Dry-Aged Bone-In Ribeye","22 oz — $120? VERIFY price","22 oz, aged a full 45 days. Price still needs verified. All four cut specials (porterhouse, spinalis, tomahawk, 45-day) typically ALWAYS run.","cut special"],
  ["Ladies Night — every Thursday","$10 martinis + \u00bd-off apps","Ladies get $10 martinis and half-price appetizers in the lounge, every Thursday night.","weekly feature"],
  ["Sundresses & Sangria","Thu 8/13 · 5–10 pm · the Lounge","One more summer girls' night out — slip into your favorite sundress and join us in the lounge. Sangria flowing 5 to 10.","event"],
  ["Surf & Turf Cup — Golf Outing Scramble","Tue 9/8 · Sagamore Golf Club","$3,000 per foursome. Breakfast, 18 holes, lunch and drinks, contests and prizes, and a surf & turf dinner by Prime 47. Registration 9:00 am. A day of golf, food, fun, and fellowship.","event"],
@@ -293,8 +293,8 @@ const SPECIALS_PAST=[
  ["Buffalo Trace Dinner","past event","Five-course bourbon dinner with Buffalo Trace: salmon cucumber canape, strawberry salad, BT-glazed chicken with truffled cauliflower, eye of ribeye with marsala mash, berry verrine — with tastings of Weller Special Reserve, Eagle Rare 10, EH Taylor Small Batch, and Blanton's. Proof we run bourbon dinners.","archive"],
  ["Retired printed cocktails","see Drinks tab","Sunny Day, Tito's & Cran X Ten Again, Mo's Paper Plane, Hugo Empress, Cherry Blossom, Christian's Cucumber Kick — all archived in the Drinks tab under Archive.","archive"],
  ["Seared Blackened Ahi Tuna (appetizer)","$26","Replaced by Crispy Ahi Tuna Bites on the current menu — menu test Q2 changed with it.","ended 7/3/26"],
- ["Lisa's Delight","dessert cocktail","Removed from the dessert cocktail list in the July 11 update.","ended 7/11/26"],
- ["The Nutty Martinez","dessert cocktail","Removed from the printed list in the July 11 update — but the bar may still make it if a guest asks. The old build: butter-washed Elijah Craig Toasted, Frangelico, Disaronno, black walnut bitters, brown sugar syrup.","archived, maybe orderable"]
+ ["Lisa's Delight","dessert cocktail","Removed from the dessert cocktail list.","ended 7/11/26"],
+ ["The Nutty Martinez","dessert cocktail","Removed from the printed list — but the bar may still make it if a guest asks. The old build: butter-washed Elijah Craig Toasted, Frangelico, Disaronno, black walnut bitters, brown sugar syrup.","archived, maybe orderable"]
 ];
 const SOUPS_STANDING=[
  ["How soups run","one per day","One soup of the day per shift, trading daily — and it comes COMPLIMENTARY with entrees. Guests can upcharge $4 to lobster bisque or baked French onion. Bisque is on every day. Most soups get a parsley garnish. Chili is off the menu right now and floats back in as a SOTD or bonus soup."],

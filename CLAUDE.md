@@ -71,7 +71,7 @@ All constants live in `SALES` in 5-data-quiz.js. The pipeline (`pipeMath` in 6-a
 - A banquet is its own checkout sheet and envelope, same math, then the night combines.
 - Reverse formula: team net sales ≈ (2 × one person's take) / 0.17384.
 - Floor model: slices = teams + 0.7 per cocktailer. Avg $115 per person (Greenwood).
-- Evan's cut line is fixed at $200/person: under it, taking the cut is fine; over it, work.
+- Evan's cut line is $175/person (was $200; he moved it 8/6 — "more generous"): under it, taking the cut is fine; over it, work.
 - Greenwood tax 8.96% ≈ 9% (7% Indiana + 1% Johnson County + 1% Greenwood food & beverage).
 - Banquet reference block: $3,366 sales derived from a real $774.18 auto-grat ÷ 23%.
 

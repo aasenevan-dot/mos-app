@@ -50,7 +50,7 @@ async def main():
         vals=await pg.evaluate("({d:document.querySelector('#ipDay').value,b:document.querySelector('#ipBooks').value,t:document.querySelector('#ipTeams').value,c:document.querySelector('#ipCk').value,bu:document.querySelector('#ipBus').value,ex:document.querySelector('#ipExpo').value,br:document.querySelector('#ipBar').value,g:document.querySelector('#bqGrat').value})")
         if vals!={"d":"2","b":"39","t":"7","c":"2","bu":"2","ex":"2","br":"3","g":"23"}: bad.append(f"prefills wrong: {vals}")
         ipout=await pg.evaluate("document.querySelector('#ipOut').innerHTML")
-        for cell in ["CUT TERRITORY","Night net","39 covers x $115","Bussers","Expo / food run","Bar","Staffing this night","room to cut","bar-top tips"]:
+        for cell in ["CUT TERRITORY","$175","Night net","39 covers x $115","Bussers","Expo / food run","Bar","Staffing this night","room to cut","bar-top tips"]:
             if cell not in ipout: bad.append(f"default forecast missing {cell}")
         # real-net override: the verified 8000-net numbers must appear exactly
         await pg.evaluate("document.querySelector('#ipNet').value='8000';calcIP()")

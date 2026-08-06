@@ -336,11 +336,12 @@ function calcIP(){
   const N=(x)=>nightFor(x,pct,teams,nCk,pol,nBus,nExpo,nBar);
   const mid=N(net), loR=N(net*.85), hiR=N(net*1.15);
   const each=Math.round(mid.earned/2), loE=Math.round(loR.earned/2), hiE=Math.round(hiR.earned/2);
-  const verdict = loE>=200
-    ? {cls:"gold",head:"WORK IT",body:`Even the slow end clears $200 each.`}
-    : hiE<200
-    ? {cls:"warn",head:"CUT TERRITORY",body:`Even a hot night stays under $200 each. If the cut is offered, the math says take it.`}
-    : {cls:"",head:"COIN FLIP",body:`Straddles the $200 line — walk-ins decide this one. Watch the book by late afternoon.`};
+  /* the cut line — $175, Evan's call 8/6 ("more generous" than the old $200) */
+  const verdict = loE>=175
+    ? {cls:"gold",head:"WORK IT",body:`Even the slow end clears $175 each.`}
+    : hiE<175
+    ? {cls:"warn",head:"CUT TERRITORY",body:`Even a hot night stays under $175 each. If the cut is offered, the math says take it.`}
+    : {cls:"",head:"COIN FLIP",body:`Straddles the $175 line — walk-ins decide this one. Watch the book by late afternoon.`};
 
   const tax=Math.round(net*SALES.taxRate);
   const lad=staffLadder(net);
@@ -749,7 +750,7 @@ function build(){
     <div class="sechead" id="sec-income"><h2>Night Forecast</h2><span>one machine — the cut, the money, the staffing</span></div>
     <div class="tool">
       <h3>The whole night, one set of numbers</h3>
-      <p class="sub">Pick the day and the posted schedule loads itself: covers on the books, teams, cocktailers, bussers, expo, bar. Guess the walk-ins. If you already KNOW the night's net sales, type it in the Real net box and it takes over — otherwise the night builds from covers times spend. One tip percent drives everything below: the $200 cut call, your pocket, and what every tip-out position walks with.</p>
+      <p class="sub">Pick the day and the posted schedule loads itself: covers on the books, teams, cocktailers, bussers, expo, bar. Guess the walk-ins. If you already KNOW the night's net sales, type it in the Real net box and it takes over — otherwise the night builds from covers times spend. One tip percent drives everything below: the $175 cut call, your pocket, and what every tip-out position walks with.</p>
       <div class="frow">
         <div class="f"><label>Day</label><select id="ipDay">${SCHEDULE.days.map((d,i)=>`<option value="${i}"${i===IPD0?" selected":""}>${d[1]} ${d[0]}</option>`).join("")}</select></div>
         <div class="f"><label>On the books</label><input type="number" inputmode="decimal" id="ipBooks" placeholder="from SevenRooms" min="0"></div>

@@ -245,8 +245,8 @@ function ipTake(covers,chk,teams,nCk,pol){
   return {take:Math.ceil(earned/2),earned,teamSales:Math.round(teamSales),tipout,share:Math.round(100/slices)};
 }
 function schedDayInfo(i){
-  const map={fronts:"fronts",backs:"backs",cktail:"cktail",expo:"expo",busser:"busser"};
-  const cnt={fronts:0,backs:0,cktail:0,expo:0,busser:0};
+  const map={fronts:"fronts",backs:"backs",cktail:"cktail",expo:"expo",busser:"busser",bar:"bar"};
+  const cnt={fronts:0,backs:0,cktail:0,expo:0,busser:0,bar:0};
   let covers=null;
   SCHEDULE.sections.forEach(sec=>{
     const key=String(sec[0]).trim().toLowerCase();
@@ -275,6 +275,9 @@ function ipPrefill(){
   const t=Math.min(inf.cnt.fronts,inf.cnt.backs);
   if(t>0)$("#ipTeams").value=t;
   $("#ipCk").value=String(Math.min(3,inf.cnt.cktail));
+  if($("#exBus"))$("#exBus").value=inf.cnt.busser;
+  if($("#exExpo"))$("#exExpo").value=inf.cnt.expo;
+  if($("#exBar"))$("#exBar").value=inf.cnt.bar!=null?inf.cnt.bar:2;
   window.__ipSugg="";
 }
 function calcIP(){
@@ -687,8 +690,6 @@ function build(){
     ${acc("Closing side work — front, back, closer","the posted sheet with slow-night and busy-night quantities",`<ul class="steps">${HOUSE.closesheet.map(d=>`<li>${esc(d)}</li>`).join("")}</ul>`)}
     ${acc("Bar steps + timing standards","the 20-step bar bible — the timing rules apply everywhere",`<ul class="steps">${HOUSE.barsteps.map(d=>`<li>${esc(d)}</li>`).join("")}</ul>`)}
     ${acc("House facts","uniform, trivia, and the little rules",`<ul class="steps">${HOUSE.facts.map(([t,d])=>`<li><b>${esc(t)}:</b> ${esc(d)}</li>`).join("")}</ul>`)}
-    <div class="note" style="margin-top:12px">Mined from the real Greenwood training handouts. Where a handout disagrees with something newer, the newer word wins.</div>
-
     <div class="sechead"><h2>Employee Handbook</h2><span>the official policies, every section</span></div>
     <p class="lede">The house handbook, section by section. General guidelines — not a contract. Questions go to Management.</p>
     ${HANDBOOK.map(h=>acc(h[0],h[1],h[2])).join("")}`;
@@ -738,6 +739,19 @@ function build(){
       </div>
       <p class="sub" style="margin:0 0 10px"><b>Avg $ per person</b> means what ONE guest spends on food and drinks — not the table's whole check. A check usually covers 2, 8, even 15 people; this number is per person. Toast calls it "average spend per guest." $115 is the preset for a typical steak-dinner night. The multiplier scales the whole-night projection for a big occasion — numbers only, your call.</p>
       <div class="out" id="ipOut"></div>
+      ${acc("Everybody's night — net sales + tip % in, every position out","what everybody makes, top to bottom",`
+      <p class="sub" style="color:var(--dim2);font-size:12.5px;margin:4px 0 12px">Type the floor's combined net sales — teams and cocktailers together, skip big banquets — and the night's tip percentage. Teams, cocktailers, and polisher come from the controls above; the counts below start at the posted schedule for the day you picked. The floor splits into slices (a cocktailer's section rides as 0.7 of a team), every slice runs the exact house pipeline, and the tip-out pools land where they really land.</p>
+      <div class="frow">
+        <div class="f"><label>Floor net sales $</label><input type="number" inputmode="decimal" id="exNet" placeholder="teams + cocktailers" min="0"></div>
+        <div class="f"><label>Tip %</label><input type="number" inputmode="decimal" id="exPct" value="20.8" min="0" max="35" step="0.1"></div>
+        <div class="f"><label>Hourly crew hours</label><input type="number" inputmode="decimal" id="exHrs" value="6" min="0" max="12" step="0.5"></div>
+      </div>
+      <div class="frow">
+        <div class="f"><label>Bussers on</label><input type="number" inputmode="decimal" id="exBus" value="2" min="0" max="6"></div>
+        <div class="f"><label>Expo / food run on</label><input type="number" inputmode="decimal" id="exExpo" value="1" min="0" max="4"></div>
+        <div class="f"><label>Bartenders on</label><input type="number" inputmode="decimal" id="exBar" value="2" min="0" max="5"></div>
+      </div>
+      <div class="out" id="exOut"></div>`)}
       <div id="ipWho"></div>
     </div>
 
@@ -768,7 +782,7 @@ function build(){
     `;
 
   /* ---------- WIRE UP ---------- */
-  renderWines(); renderDrinks(); renderAllergens(); pairingOut(0); calcSC(); calcBQC(); ipPrefill(); calcIP(); calcBq(); fillSched();
+  renderWines(); renderDrinks(); renderAllergens(); pairingOut(0); calcSC(); calcBQC(); ipPrefill(); calcIP(); calcEX(); calcBq(); fillSched();
 
   $("#p-shift").querySelector(".qa").onclick=e=>{
     const b=e.target.closest("button[data-qa]"); if(!b)return;
@@ -807,8 +821,10 @@ function build(){
   ["bqcSales","bqcTips","bqcThree"].forEach(id=>{
     const n=$("#"+id); n.oninput=calcBQC; n.onchange=calcBQC; n.onkeyup=calcBQC;});
   ["ipBooks","ipWalk","ipTeams","ipCk","ipCheck","ipPol","ipOcc"].forEach(id=>{
-    const n=$("#"+id); n.oninput=calcIP; n.onchange=calcIP; n.onkeyup=calcIP;});
-  $("#ipDay").onchange=()=>{ipPrefill();calcIP();};
+    const n=$("#"+id); const f=()=>{calcIP();calcEX();}; n.oninput=f; n.onchange=f; n.onkeyup=f;});
+  ["exNet","exPct"].forEach(id=>{
+    const n=$("#"+id); n.oninput=calcEX; n.onchange=calcEX; n.onkeyup=calcEX;});
+  $("#ipDay").onchange=()=>{ipPrefill();calcIP();calcEX();};
   $("#ipSugg").onclick=e=>{const b=e.target.closest("#ipUse");if(!b)return;
     $("#ipWalk").value=+b.dataset.s||0; calcIP();};
 
@@ -824,12 +840,67 @@ buildNav(); build();
 $("#gsearch").addEventListener("input",e=>renderSearch(e.target.value));
 $("#gsearch").addEventListener("keydown",e=>{if(e.key==="Escape"){e.target.value="";renderSearch("");}});
 $("#sheet").addEventListener("click",e=>{if(e.target.id==="sheet")closeSheet();});
-$("#bigA").onclick=()=>{
-  const on=document.body.classList.toggle("big");
-  $("#bigA").textContent=on?"A−":"A+";
+/* text size — five steps, whole app scales */
+let SZI=2; const SZSTEPS=[0.85,0.925,1,1.075,1.15];
+const szApply=()=>{document.body.style.zoom=SZSTEPS[SZI];};
+$("#szUp").onclick=()=>{SZI=Math.min(SZSTEPS.length-1,SZI+1);szApply();};
+$("#szDn").onclick=()=>{SZI=Math.max(0,SZI-1);szApply();};
+/* light / dark — same colors, lights off. Resets each open (no storage allowed here). */
+$("#darkT").onclick=()=>{
+  const on=document.documentElement.classList.toggle("dark");
+  $("#darkT").textContent=on?"Light":"Dark";
 };
 $("#totop").onclick=()=>window.scrollTo({top:0,behavior:"smooth"});
 addEventListener("scroll",()=>{$("#totop").classList.toggle("show",scrollY>700);},{passive:true});
+
+/* ---------- EVERYBODY'S NIGHT — real net + tip %, every position's money ---------- */
+function calcEX(){
+  const el=$("#exOut"); if(!el)return;
+  const net=+$("#exNet").value||0;
+  const pct=(+$("#exPct").value||0)/100;
+  const teams=Math.max(1,Math.round(+$("#ipTeams").value||3));
+  const nCk=Math.max(0,+$("#ipCk").value||0);
+  const pol=+$("#ipPol").value||0;
+  const hrs=+$("#exHrs").value||0;
+  const nBus=Math.max(0,Math.round(+$("#exBus").value||0));
+  const nExpo=Math.max(0,Math.round(+$("#exExpo").value||0));
+  const nBar=Math.max(0,Math.round(+$("#exBar").value||0));
+  if(!net){el.innerHTML='<div class="empty" style="padding:14px">Type the floor net and the tip % — this prints everybody\'s night, top to bottom.</div>';return;}
+  const slices=teams+CKTAIL_WEIGHT*nCk;
+  const teamSales=net/slices, ckSales=teamSales*CKTAIL_WEIGHT;
+  const expoOn=nExpo>0;
+  const cut=(sales,polLine)=>{
+    const bar=Math.ceil(.01*sales), bus=Math.ceil(.015*sales), ex=expoOn?Math.ceil(.005*sales):0;
+    const tips=sales*pct, pool=tips*(1-SALES.withheldRate);
+    return {bar,bus,ex,polLine,earned:Math.max(0,Math.floor(pool-bar-bus-ex-polLine))};
+  };
+  const T=cut(teamSales,pol>0?10:0);
+  const C=cut(ckSales,pol>0?5:0);
+  const back=Math.ceil(T.earned/2), front=T.earned-back;
+  const ckEach=Math.round(T.earned*.5);
+  const barPool=teams*T.bar+nCk*C.bar;
+  const busPool=teams*T.bus+nCk*C.bus;
+  const expoPool=expoOn?teams*T.ex+nCk*C.ex:0;
+  const polPool=pol>0?10*teams+5*nCk:0;
+  const share=(pool,n)=>n>0?Math.round(pool/n):0;
+  const money=v=>"$"+Math.round(v).toLocaleString();
+  const rows=[
+    [`<b>Teams — front + back</b>`,String(teams),`slice ${money(teamSales)} \u2192 team earns ${money(T.earned)} after tip-outs`,`<b>Front ${money(front)} \u00b7 Back ${money(back)}</b>`],
+    [`<b>Cocktailers</b>`,String(nCk),`50% of one team \u2014 same as one server`,nCk?`<b>${money(ckEach)}</b>`:"—"],
+    [`<b>Bar</b>`,String(nBar),`1% pool ${money(barPool)} \u00f7 ${nBar||"—"} + tipped wage $${WAGES.barTipped.toFixed(2)}/hr \u00d7 ${hrs}h \u2014 bar-top tips ride on top`,nBar?`<b>${money(share(barPool,nBar)+WAGES.barTipped*hrs)}</b> + bar tips`:"—"],
+    [`<b>Bussers</b>`,String(nBus),`1.5% pool ${money(busPool)} \u00f7 ${nBus||"—"} + $${WAGES.busser}/hr \u00d7 ${hrs}h (${money(WAGES.busser*hrs)})`,nBus?`<b>${money(share(busPool,nBus)+WAGES.busser*hrs)}</b>`:"—"],
+    [`<b>Expo / food run</b>`,String(nExpo),expoOn?`0.5% pool ${money(expoPool)} \u00f7 ${nExpo} + $${WAGES.expo}/hr \u00d7 ${hrs}h (${money(WAGES.expo*hrs)})`:`none on \u2014 teams keep the expo line tonight`,expoOn?`<b>${money(share(expoPool,nExpo)+WAGES.expo*hrs)}</b>`:"—"],
+    [`<b>Polisher</b>`,pol>0?"1":"0",pol>0?`flat $10 a team + $5 a cocktailer`:`no polisher tonight`,pol>0?`<b>${money(polPool)}</b>`:"—"]
+  ];
+  el.innerHTML=`
+  <div class="kpis" style="margin-bottom:10px">
+    <div class="kpi"><div class="k">The floor</div><div class="v">${money(net)}</div><div class="s">${slices.toFixed(1)} slices \u00b7 tips at ${(pct*100).toFixed(1)}%</div></div>
+    <div class="kpi"><div class="k">One team's slice</div><div class="v">${money(teamSales)}</div><div class="s">a cocktailer's section \u2248 ${money(ckSales)}</div></div>
+    <div class="kpi" style="border-color:var(--gold)"><div class="k">Each server</div><div class="v">${money(back)}</div><div class="s">front ${money(front)} \u00b7 back takes the greater dollar</div></div>
+  </div>
+  ${tbl(["Position","On","How it's figured","Each walks with"],rows)}
+  <p class="sub" style="margin:8px 0 0;color:var(--dim2);font-size:12px">Team and cocktailer math is the exact house pipeline (2% withheld, tip-outs rounded up per checkout). Pools are what the slices actually pay out. Bar wage is the tipped minimum \u2014 check the real rate \u2014 and the bar's own guest tips aren't modeled, so bar is a floor, not a ceiling. Hours are one shared guess; nudge them.</p>`;
+}
 
 /* ============================================================
    SCHEDULE — the posted week, a roster that flips itself at

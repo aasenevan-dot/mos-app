@@ -362,6 +362,19 @@ body.big{zoom:1.15}
 .rosec b{color:var(--gold2)}
 .rosec .who{margin-top:3px;line-height:1.6;font-size:13.5px}
 .rosec .who i{color:var(--dim2);font-style:normal;font-size:12px}
+/* dark mode — same brand, lights off */
+html.dark{
+  --bg:#1B1210; --bg2:#221714; --card:#261A16; --card2:#2D201A;
+  --line:#3E2C23; --line2:#57392C;
+  --txt:#EFE4D2; --dim:#BFAD96; --dim2:#93816C;
+  --gold:#7A2E26; --gold2:#E5A582; --wine:#7A2E26; --wine2:#9C4033;
+  --green:#5FBF83; --blue:#84ACCB; --red:#E58A80;
+}
+html.dark .schedwrap td.off{background:#0F0907;color:#6E4A3E}
+html.dark .schedwrap th.tdy,html.dark .schedwrap td.tdy{background:#3A2A16}
+html.dark .schedwrap td.off.tdy{background:#241009}
+html.dark .schedwrap td.ro{background:#4A3B1C;color:#E8CF8F}
+html.dark .pitch{background:#2D201A}
 /* bigger touch targets on phones/tablets */
 @media(pointer:coarse){
   .opt{padding:12px 13px;margin-bottom:7px}
@@ -402,7 +415,7 @@ window.addEventListener("error",function(e){
     </div>
   </div>
 </header>
-<div class="navbar"><div class="hwrap" style="display:flex;align-items:center;gap:8px"><nav id="nav" style="flex:1"></nav><button class="textbtn" id="bigA" title="Bigger text">A+</button></div></div>
+<div class="navbar"><div class="hwrap" style="display:flex;align-items:center;gap:8px"><nav id="nav" style="flex:1"></nav><button class="textbtn" id="szDn" title="Smaller text">A−</button><button class="textbtn" id="szUp" title="Bigger text">A+</button><button class="textbtn" id="darkT" title="Lights on / off">Dark</button></div></div>
 <div class="bottombar" id="bbar"></div>
 <div class="sheet" id="sheet"><div class="sheetin" id="sheetin"></div></div>
 <button class="totop" id="totop" aria-label="Back to top">&uarr;</button>

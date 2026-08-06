@@ -136,6 +136,31 @@ in app text. The old HR phone/email (817-889-1155 / darlarmc@yahoo.com) STAYS in
 grievance section on Evan's call — both forward to Lillian. The handbook calls itself confidential
 — the repo is public; Evan decides whether it pushes.
 
+## Display + exact-night (added 8/5 evening)
+
+Header controls: A− / A+ step body zoom through [0.85, 0.925, 1, 1.075, 1.15]; the Dark
+button toggles `html.dark`, which remaps the CSS vars to a dark warm palette on the same
+brand hues (oxblood/cream/gold — do NOT introduce new hues). No storage APIs allowed, so
+both reset on each open — that's by design, don't "fix" it with localStorage. The
+"Mined from the real Greenwood training handouts" note is deliberately removed — don't
+reintroduce provenance notes. Night Forecast gained an "Exact night" accordion: floor
+net (teams + cocktailers combined) + tip % → slices (cocktailer = 0.7) → pipeMath per
+slice with real tips. Evan loves the private-room capacities line in Banquet quick math
+(Smockton 70/125, Curry 72/125, Lounge 25, Vault 15, book through Lillian) — keep it.
+
+## Everybody's-night rules (Evan, 8/5 late)
+
+Wages: busser $5/hr, expo $10/hr, food runner $10/hr (WAGES const). Bar = tipped-minimum
+wage ($2.13 placeholder — VERIFY real rate) + the 1% tip-out pool + their own bar-top
+tips (not modeled — bar shown as a floor). COCKTAILER PAY = 50% of one team = same as
+one server (T.earned/2). CKTAIL_WEIGHT .7 is ONLY how floor sales slice up — don't mix
+the two. Polisher income = $10/team + $5/cocktailer when scheduled. Expo count 0 = no
+expo pool, teams keep the line. The Everybody's Night accordion in Night Forecast takes
+floor net + tip % + hours and prints every position; busser/expo/bar counts prefill from
+the posted schedule day. Also 8/5: the porterhouse was NEVER wagyu — "Australian Wagyu
+Porterhouse" renamed USDA Choice Porterhouse everywhere, old name archived in Specials
+past ($150, not $180).
+
 ## Privacy — this folder gets shared
 
 The app is shared with coworkers and may sit in a PUBLIC repo. So:

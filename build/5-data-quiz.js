@@ -193,6 +193,10 @@ const DAYPRE={
  mon:{label:"Monday",teams:3,wkRule:15},
  tue:{label:"Tuesday",teams:4,wkRule:15}
 };
+/* hourly wages, per Evan 8/5: busser $5, expo $10, food runner $10.
+   Bar gets tipped-minimum wage (put $2.13 — check the real rate) + the 1% tip-out pool + their own bar-top tips.
+   Cocktailer PAY = 50% of one team = same as one server (the 0.7 below is only how the FLOOR SALES slice up). */
+const WAGES={busser:5, expo:10, foodrun:10, barTipped:2.13};
 const CHECK_CAL=115; // menu-math check,'s preset
 const CKTAIL_WEIGHT=.7; // the cocktailer takes ~0.7 of a team's slice — with 3 teams + cktail each team gets ~27%, matching Evan's stated 23–30%
 

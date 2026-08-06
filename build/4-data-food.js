@@ -174,7 +174,7 @@ const ALLERGENS = [
  ["Delmonico Ribeye","$80",["beef","dairy"],"Cooked with butter by default — but the kitchen CAN cook any steak fully butter-free for a dairy allergy, the guest just has to ask."],
  ["Australian Wagyu Filet","6 oz $95 / 10 oz $135",["beef","dairy"],"Cooked with butter by default — but the kitchen CAN cook any steak fully butter-free for a dairy allergy, the guest just has to ask."],
  ["Japanese A5 Wagyu","$25/oz",["beef","dairy"],"Manager slices tableside. Cooked with butter by default — but the kitchen CAN cook any steak fully butter-free for a dairy allergy, the guest just has to ask."],
- ["48 oz Wagyu Porterhouse","$180",["beef","dairy"],"Board service, manager slices."],
+ ["48 oz USDA Choice Porterhouse","$150",["beef","dairy"],"NOT wagyu. Board service, manager slices."],
  ["Crab Oscar","$14",["crab","shellfish","dairy","egg","allium"],"Menu marks GF."],
  ["Horseradish-Bleu Cheese Crust","$4",["dairy","allium"],""],
  ["Add 5 oz Lobster Tail","$50",["shellfish","dairy"],"Menu marks GF. Dairy if served with butter."],
@@ -282,6 +282,7 @@ const SPECIALS_ROTATION=[
  ["Cajun Butter Salmon","$35 when it runs","Cajun butter, served with vegetables. Price."]
 ];
 const SPECIALS_PAST=[
+ ["Australian Wagyu Porterhouse (old name)","now the USDA Choice Porterhouse","For a while the 48 oz porterhouse was called an Australian Wagyu Porterhouse at $180. Same cut, right name and price now: USDA CHOICE, $150 — about 15 oz NY strip + 8 oz filet + a 25 oz bone, built for two to split.","renamed"],
  ["Tomahawk Tuesday","$180 package","The 32 oz Australian Wagyu Tomahawk plus two glasses of wine, two soups or salads, and a signature Brown Butter Cake to finish — a full night out for $180. Not running anymore, but worth knowing we did it.","not running"],
  ["Heart of Ribeye Skewers","$45","Bourbon glaze mixed with onions and peppers. One of the most underrated things we ever ran.","not running"],
  ["Flank Steak with Chimichurri","was ~$35","Ran earlier this summer. Not on the current list.","not running"],

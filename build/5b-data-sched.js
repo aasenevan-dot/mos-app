@@ -11,6 +11,24 @@
    When a new week gets posted: build a new SCHEDULE object and
    push the old one onto the FRONT of SCHEDULE_HISTORY.
    ============================================================ */
+/* ============================================================
+   LIVE MUSIC — off the house poster. Every Friday & Saturday.
+   Keyed "M/D" so schedGrid drops the act onto the right column
+   automatically as the posted week rolls over.
+   NOTE: the poster is headed "AUGUST 2027", but Saturday 8/1 only
+   lands in 2026 (8/1/2027 is a Sunday) — treating it as 2026.
+   Only the dates legible on the photo are here; 8/22 onward were
+   cut off, so they are deliberately absent rather than guessed.
+   ============================================================ */
+const LIVE_MUSIC={
+ "8/1":"Austin Johnson",
+ "8/7":"The Nick Lemmonti Show",
+ "8/8":"Austin Johnson",
+ "8/14":"Christina & Frank",
+ "8/15":"Christina & Frank",
+ "8/21":"Tim & Cat"
+};
+
 const SCHEDULE={
  week:"Week of 8/5 – 8/11, 2026", year:2026, start:"2026-08-05",
  days:[["8/5","We"],["8/6","Th"],["8/7","Fr"],["8/8","Sa"],["8/9","Su"],["8/10","Mo"],["8/11","Tu"]],

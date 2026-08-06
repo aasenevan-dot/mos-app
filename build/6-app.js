@@ -541,6 +541,34 @@ function search(q){
       const flat=(Array.isArray(v)?v:Object.values(v)).flat(Infinity);
       flat.forEach(t=>{if(typeof t==="string"&&matches([label,t]))add(label,label,t,"house");});
     });
+  /* everything else the app knows. Before this, searching a pairing, a steak temp, a
+     dressing, a private-room capacity, a quiz answer or a coworker's shift came back
+     empty even though the app had it on a tab somewhere. */
+  PAIRINGS.forEach(p=>{const w=[].concat(p.good||[],p.better||[],p.best||[]);
+    if(matches([p.d,p.line,w.join(" ")]))add("Pairing",p.d,p.line+" — "+w.join(", "),"wine");});
+  DRINK_PITCH.forEach(r=>{if(matches([r[0],r[1]]))add("Guest says / you say",r[0],r[1],"cocktails");});
+  FASTANSWERS.forEach(r=>{if(matches([r[0],r[1],r[2]]))add("Fast guest answer",r[0],r[1]+" — "+r[2],"wine");});
+  REGIONS.forEach(r=>{if(matches([r[0],r[1],r[2]]))add("Wine region",r[0],r[1]+" — "+r[2],"wine");});
+  TEMPS.forEach(r=>{if(matches(["steak temperature",r[0],r[1]]))add("Steak temp",r[0],r[1],"menu");});
+  A5PITCH.forEach(t=>{if(matches(["A5 wagyu pitch",t]))add("A5 pitch","The A5 pitch",t,"menu");});
+  DRESSINGS.forEach(t=>{if(matches(["salad dressing",t]))add("Dressing",t,"One of the 11 dressings — the house dressing is the vinaigrette.","menu");});
+  PROTOCOL.forEach((t,i)=>{if(matches(["allergy protocol",t]))add("Allergy protocol","Step "+(i+1),t,"allergens");});
+  FLOW.forEach(([t,items])=>items.forEach(s=>{if(matches([t,s]))add("Steps of service",t,s,"shift");}));
+  ANCHORS.forEach(r=>{if(matches([r[0],r[1]]))add("Training anchor",r[0],r[1],"shift");});
+  SPLIT_RULES.forEach(t=>{if(matches(["how the split works checkout",t]))add("How the split works","Checkout rule",t,"ops");});
+  ROOMS.forEach(r=>{if(matches(["private room banquet",r[0],r[1]]))add("Private room",r[0],r[1],"ops");});
+  [WOTW.a,WOTW.b].forEach(w=>{if(w&&matches([w.n,w.tag,w.what,w.flavor,w.why,w.pair,w.pitch,w.p]))
+    add("Wine of the Week",w.n+" — "+w.p,w.what,"wine");});
+  MC.forEach(m=>{if(matches([m.q,m.o[0],m.t]))add("Quiz",m.q,"Answer: "+m.o[0],"study");});
+  if(typeof LIVE_MUSIC!=="undefined")Object.entries(LIVE_MUSIC).forEach(([d,act])=>{
+    if(matches(["live music",d,act]))add("Live music",act,d+" — live in the lounge","sched");});
+  /* the posted week, by person — searching a name shows you their shifts */
+  (SCHEDULE.sections||[]).forEach(([sec,rows])=>rows.forEach(r=>{
+    if(String(r[0]).startsWith("("))return;
+    if(!matches([r[0],sec]))return;
+    const on=SCHEDULE.days.map((d,i)=>{const c=String(r[i+1]||"").trim();
+      return c?`${d[1]} ${/^(off|ro)\??$/i.test(c)?c.toUpperCase():schedTime(c)}`:null;}).filter(Boolean);
+    add("Schedule · "+sec,r[0],on.length?on.join(" · "):"not on the posted week","sched");}));
   return hits.sort((a,b)=>b.score-a.score).slice(0,40);
 }
 function renderSearch(q){
@@ -979,7 +1007,13 @@ function schedGrid(S,ti,cur){
   const head=`<tr><th class="nm">Name</th>${S.days.map((d,i)=>`<th${i===ti?' class="tdy"':''}><span class="dw">${d[1]}</span>${d[0]}</th>`).join("")}</tr>`;
   const body=S.sections.map(sec=>{
     const name=sec[0],nums=sec[2];
-    const rows=cur?sec[1].filter(r=>!schedGone(r)):sec[1];
+    let rows=cur?sec[1].filter(r=>!schedGone(r)):sec[1];
+    /* live music rides with the banquet block — same idea, an event on the floor that
+       night. Pulled by date so the right act lands on the right column every week. */
+    if(/^bqts?$/i.test(name)&&typeof LIVE_MUSIC!=="undefined"){
+      const lm=S.days.map(d=>LIVE_MUSIC[d[0]]||"");
+      if(lm.some(Boolean))rows=rows.concat([["Live music",...lm]]);
+    }
     /* Fronts numbers = covers already booked when the sheet printed — give them their own labeled row */
     let lab;
     if(nums&&/^fronts$/i.test(name)){

@@ -39,7 +39,7 @@ async def main():
             if cell not in grid: bad.append(f"grid missing {cell}")
         for gone in ["Jeremiah","Gavin","Lupe","Eleisia","AUDRINA","LUCAS"]:
             if f'"nm">{gone}<' in grid: bad.append(f"{gone} still has a row on current grid")
-        if "Not on this week:" not in html: bad.append("gone-note missing")
+        if "Not on this week:" in html: bad.append("gone-note is back (Evan removed it 8/6)")
         # ---- merged night forecast: one machine ----
         ops=await pg.evaluate("document.querySelector('#p-ops').innerHTML")
         if "Forecasting lab" in ops: bad.append("Forecasting lab still in Money tab")

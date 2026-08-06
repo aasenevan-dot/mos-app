@@ -107,7 +107,8 @@ this file and the chat, not in the app. Archive entries (Specials past) may keep
 dates — those are event history, which he okayed.
 
 Current-week schedule display rules (8/5): Jeremiah and Gavin never show on the grid;
-anyone whose whole week is blank/OFF is hidden too (a dim note lists who); an all-RO week
+anyone whose whole week is blank/OFF is hidden too (the note that listed them was removed
+8/6 on Evan's ask — they're just silently off the grid); an all-RO week
 still shows. Applies ONLY to the current week — history renders exactly as posted. The
 Fronts numbers render as their own "Covers · Sun M/D" row (the Sunday-night booked-covers
 count from three days before the week starts, when the sheet prints); BQTs bar numbers

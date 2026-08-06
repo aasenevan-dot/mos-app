@@ -374,9 +374,14 @@ footer{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
   .panel.on::after{content:"Mo's — updated __BUILDDATE__ — study copy, verify in Toast";display:block;margin-top:16px;padding-top:8px;border-top:1px solid #999;font-size:10px;color:#444}
 }
 /* schedule */
-.schedwrap table{min-width:680px}
-.schedwrap th,.schedwrap td{padding:6px 7px;font-size:12px;white-space:nowrap;text-align:center}
-.schedwrap th{font-size:11px}
+/* fixed layout so all seven days are the SAME width. On auto layout the columns sized
+   themselves to their longest cell — Friday and Saturday ballooned to ~120px on the back
+   of "2pm Carmel" and the live-music act while Sunday-Tuesday collapsed to ~43px, which
+   is what made the sheet look crooked. */
+.schedwrap table{min-width:680px;table-layout:fixed}
+.schedwrap th,.schedwrap td{padding:7px;font-size:12px;text-align:center;white-space:normal;overflow-wrap:anywhere;line-height:1.3}
+.schedwrap th{font-size:11px;white-space:nowrap}
+.schedwrap th:not(.nm),.schedwrap td:not(.nm){width:83px}
 .schedwrap th .dw{display:block;font-size:10px;color:var(--dim2);letter-spacing:.08em;text-transform:uppercase}
 .schedwrap td.nm{position:sticky;left:0;z-index:2;background:var(--card);text-align:left;font-weight:700;border-right:1.5px solid var(--line2);max-width:104px;overflow:hidden;text-overflow:ellipsis}
 .schedwrap tr.secrow td{background:var(--gold);color:var(--cream);text-align:left;font-weight:700;letter-spacing:.05em;font-size:11px;text-transform:uppercase}
@@ -490,7 +495,6 @@ window.addEventListener("error",function(e){
 <button class="totop" id="totop" aria-label="Back to top">&uarr;</button>
 <main id="main"></main>
 <footer>
-  Updated __BUILDDATE__ &middot; corrections go in the same day — newest info always wins.
   <b>This is a study tool, not a live price or allergy guarantee</b> — verify in Toast, the wine book, or with a manager before quoting a guest.
 </footer>
 <script>

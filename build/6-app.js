@@ -1029,12 +1029,35 @@ function schedGrid(S,ti,cur){
   }).join("");
   return `<div class="tw schedwrap"><table><thead>${head}</thead><tbody>${body}</tbody></table></div>`;
 }
+/* the posted sheet abbreviates to fit its columns; the roster has room, so spell it out.
+   The GRID still prints whatever the sheet says \u2014 that one stays exact. */
+/* what's still to come on the live-music poster. Dates are stored "M/D"; the year comes
+   from the posted schedule. Anything already played drops off on its own. */
+function liveMusicBlock(){
+  if(typeof LIVE_MUSIC==="undefined")return "";
+  const DOW=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+  const now=new Date(), today=new Date(now.getFullYear(),now.getMonth(),now.getDate());
+  const yr=SCHEDULE.year||now.getFullYear();
+  const rows=Object.entries(LIVE_MUSIC).map(([d,act])=>{
+    const [m,dd]=d.split("/").map(Number);
+    return {d,act,when:new Date(yr,m-1,dd)};
+  }).filter(x=>!isNaN(x.when)&&x.when>=today).sort((a,b)=>a.when-b.when);
+  if(!rows.length)return `<div class="sechead"><h2>Live music</h2><span>every Friday &amp; Saturday</span></div>
+    <div class="note">Nothing left on the current poster. When the next month goes up, send a photo and it lands here.</div>`;
+  return `<div class="sechead"><h2>Live music coming up</h2><span>every Friday &amp; Saturday, in the lounge</span></div>
+    ${tbl(["When","Who"],rows.map(r=>[`<b>${DOW[r.when.getDay()]} ${esc(r.d)}</b>`,esc(r.act)]))}`;
+}
 function rosterFor(S,idx,cur){
+  /* the posted sheet abbreviates to fit its columns; the roster has room, so spell it
+     out. The GRID still prints whatever the sheet says. Declared in here on purpose —
+     fillSched() runs at boot, before a top-level const this far down would exist. */
+  const ROSTER_LABEL={cktail:"Cocktail",bqts:"Banquets",bqt:"Banquets"};
   return S.sections.map(sec=>{
     const on=(cur?sec[1].filter(r=>!schedGone(r)):sec[1]).map(r=>({n:r[0],c:r[idx+1]}))
       .filter(x=>x.c && x.c!=="?" && !/^off\??$/i.test(x.c) && !/^ro\??$/i.test(x.c));
     if(!on.length)return "";
-    return `<div class="rosec"><b>${esc(sec[0])}</b><div class="who">${on.map(x=>`${esc(x.n)} <i>${esc(schedTime(x.c))}</i>`).join(" &nbsp;\u00b7&nbsp; ")}</div></div>`;
+    const label=ROSTER_LABEL[String(sec[0]).trim().toLowerCase()]||sec[0];
+    return `<div class="rosec"><b>${esc(label)}</b><div class="who">${on.map(x=>`${esc(x.n)} <i>${esc(schedTime(x.c))}</i>`).join(" &nbsp;\u00b7&nbsp; ")}</div></div>`;
   }).join("");
 }
 function fillSched(){
@@ -1057,9 +1080,8 @@ function fillSched(){
   p.innerHTML=`${roster}
     <div class="sechead"><h2>${esc(SCHEDULE.week)}</h2><span>exactly as posted</span></div>
     ${schedGrid(SCHEDULE,idx,true)}
-    ${(()=>{const gone=[];SCHEDULE.sections.forEach(sec=>sec[1].forEach(r=>{if(schedGone(r))gone.push(r[0]);}));
-      return gone.length?`<div class="note" style="margin-top:8px"><b>Not on this week:</b> ${gone.map(esc).join(", ")} \u2014 off or not scheduled all seven days, so they're off the grid. They come back the week they're back.</div>`:"";})()}
     <div class="note" style="margin-top:10px"><b>Reading it:</b> numbers are start times exactly as written \u2014 345 means 3:45. A dark box is OFF. <b>RO</b> is a requested day off. Blank means not scheduled that day. <b>Covers row:</b> dinners already on the books for each day when this schedule printed \u2014 the Sunday-night count from ${schedSunday(SCHEDULE)}. Numbers on the yellow <b>BQTs</b> bar are the banquet headcount for that day. A trailing ? means the photo was hard to read.</div>
+    ${liveMusicBlock()}
     <div class="sechead"><h2>Schedule history</h2><span>${SCHEDULE_HISTORY.length} weeks \u2014 every sheet since we opened</span></div>
     <div class="note">These are the sheets <b>as posted</b>. Trades, call-offs, cuts and sick days happened after \u2014 so a history week shows the plan, not always who actually worked.</div>
     <div class="frow" style="margin-top:8px"><div class="f"><label>Pick a week</label><select id="schedWeek">${SCHEDULE_HISTORY.map((w,i)=>`<option value="${i}"${i===SCHED_SEL?" selected":""}>${esc(w.week)}</option>`).join("")}</select></div></div>

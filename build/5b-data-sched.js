@@ -22,7 +22,7 @@
    ============================================================ */
 const LIVE_MUSIC={
  "8/1":"Austin Johnson",
- "8/7":"The Nick Lemmonti Show",
+ "8/7":"Nick Lemmonti", /* poster bills it as "The Nick Lemmonti Show" — shortened to fit the column */
  "8/8":"Austin Johnson",
  "8/14":"Christina & Frank",
  "8/15":"Christina & Frank",

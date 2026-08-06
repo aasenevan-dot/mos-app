@@ -124,27 +124,24 @@ recomputing goldens. staffLadder bands are v1 guesses anchored to real nights (3
 ~$4.1k, 4+banquet ~$8.9k) — Evan will dictate acceptable staffing per night type; tune
 the bands from his words, not from theory. Banquet quick math auto-grat defaults 23.
 
-**Everybody's night, simplified (8/5 evening, on Evan's correction — this keeps getting
-reverted by sync rounds built from a stale base; restored again 8/5 night, third time):**
-the calculator had drifted into hourly-wage/hours/polisher clutter he never asked for
-and didn't understand. Cut back to what he actually wants: Team sales, Team earned,
-Front, Back as one row of squares, then Bussers / Expo / Bar tip-out $ (each person's
-share of their 1.5% / 0.5% / 1% pool — bar rate tracks whatever `SALES.tipouts` says,
-currently 1%) as a second row. No hours input, no polisher line — polishers are rare
-enough (140+ covers before it's worth a thought, real staffing concern only 180+) that
-this calculator ignores that labor entirely. WAGES (busser/expo/foodrun/barTipped)
-stays in 5-data-quiz.js as back-knowledge, unused — Evan floated maybe wanting a
-SEPARATE total-restaurant-labor-cost view someday; don't build that unprompted, WAGES
-is there if/when he asks. exBus/exExpo/exBar trigger a live recalc like exNet/exPct
-always did. Also: the mobile "More" sheet's text-size button was still wired to a dead
-single-toggle system from before the A−/A+/Dark redesign — the header controls are
-hidden below 768px, so mobile users never saw the new controls. Fixed: the sheet's
-Tools row proxies clicks to the real header buttons (#szDn/#szUp/#darkT) so mobile
-gets the same five-step zoom + dark toggle desktop has. **If this section is ever gone
-from CLAUDE.md again, the code drifted back too** — check calcEX() and openSheet() in
-6-app.js before assuming either is still simplified/fixed. This is now a recurring
-pattern, not a one-off — if it keeps happening, the fix is upstream in how Cowork
-syncs, not another restore here.
+**Night Forecast MERGED (8/6, Evan's direct ask in Cowork — supersedes the 8/5
+"simplified accordion" note, this is NOT a clobber):** Evan asked to combine the
+forecast and the Everybody's Night accordion into ONE tool — "one big grid view",
+tip % instead of the multiplier (multiplier deleted, he never used it), and the
+busser/expo/bar money visible right off the take-the-cut decision. So: calcEX() and
+the accordion are GONE ON PURPOSE, replaced by a single calcIP() + nightFor() engine
+in 6-app.js. One input chain: day (prefills covers/teams/cktail/bussers/expo/bar from
+the schedule) → books + walk-ins → avg $pp → Tip % (default 20.8) → optional REAL NET
+override (ipNet — when typed it beats covers × spend) → counts. One output: verdict
+banner, then People/Net/Team sales/Team earned/Front/Back/Bussers/Expo/Bar as one kpi
+grid, then the staffing-model table. The 8/5 simplification survives inside it: no
+hours, no wages, no polisher payout row (WAGES stays parked in 5-data-quiz.js), pools
+split evenly per role, expo 0 = no expo line. The verified numbers still hold: net
+8000 / 20.8% / 7 teams + 2 cktail / 2-2-3 counts → team 952, earned 164, 82/82,
+busser 63, expo 22, bar 28 — test-sched.py asserts every one. Tripwire: if ipNet or
+the merged grid vanish, THAT is the clobber — check calcIP()/nightFor(). The mobile
+More-sheet control proxies (#shSzDn/#shSzUp/#shDark → header buttons) are untouched
+and still the law.
 
 ## Handbook + Vocabulary (added 8/5)
 

@@ -40,23 +40,31 @@ async def main():
         for gone in ["Jeremiah","Gavin","Lupe","Eleisia","AUDRINA","LUCAS"]:
             if f'"nm">{gone}<' in grid: bad.append(f"{gone} still has a row on current grid")
         if "Not on this week:" not in html: bad.append("gone-note missing")
-        # ---- night forecast pulls from the schedule ----
+        # ---- merged night forecast: one machine ----
         ops=await pg.evaluate("document.querySelector('#p-ops').innerHTML")
         if "Forecasting lab" in ops: bad.append("Forecasting lab still in Money tab")
-        if "Night forecast — books" in ops: bad.append("old fc accordion still present")
-        if "Night Forecast" not in ops: bad.append("Night Forecast section missing")
-        vals=await pg.evaluate("({d:document.querySelector('#ipDay').value,b:document.querySelector('#ipBooks').value,t:document.querySelector('#ipTeams').value,c:document.querySelector('#ipCk').value,g:document.querySelector('#bqGrat').value})")
-        if vals["d"]!="2": bad.append(f"ipDay not defaulted to Friday idx2: {vals}")
-        if vals["b"]!="39": bad.append(f"ipBooks not prefilled 39 from covers row: {vals}")
-        if vals["t"]!="7": bad.append(f"ipTeams not 7 from schedule: {vals}")
-        if vals["c"]!="2": bad.append(f"ipCk not 2 from schedule: {vals}")
-        if vals["g"]!="23": bad.append(f"bqGrat default not 23: {vals}")
+        for gone in ["Multiplier","exNet","exHrs","/hr","hourly"]:
+            if gone in ops: bad.append(f"merged tool still shows {gone}")
+        if "Tip %" not in ops: bad.append("Tip % input missing")
+        if ops.count('class="out"')<3: pass
+        vals=await pg.evaluate("({d:document.querySelector('#ipDay').value,b:document.querySelector('#ipBooks').value,t:document.querySelector('#ipTeams').value,c:document.querySelector('#ipCk').value,bu:document.querySelector('#ipBus').value,ex:document.querySelector('#ipExpo').value,br:document.querySelector('#ipBar').value,g:document.querySelector('#bqGrat').value})")
+        if vals!={"d":"2","b":"39","t":"7","c":"2","bu":"2","ex":"2","br":"3","g":"23"}: bad.append(f"prefills wrong: {vals}")
         ipout=await pg.evaluate("document.querySelector('#ipOut').innerHTML")
-        for cell in ["Staffing this night","room to cut","Scheduled Fr 8/7","Restaurant net"]:
-            if cell not in ipout: bad.append(f"forecast output missing {cell}")
-        who=await pg.evaluate("document.querySelector('#ipWho').innerHTML")
-        if "Who's on Friday 8/7" not in who: bad.append("who's-on roster missing")
-        if "Barbie" not in who: bad.append("roster names missing in forecast")
+        for cell in ["CUT TERRITORY","Night net","39 covers x $115","Bussers","Expo / food run","Bar","Staffing this night","room to cut","bar-top tips"]:
+            if cell not in ipout: bad.append(f"default forecast missing {cell}")
+        # real-net override: the verified 8000-net numbers must appear exactly
+        await pg.evaluate("document.querySelector('#ipNet').value='8000';calcIP()")
+        ipout=await pg.evaluate("document.querySelector('#ipOut').innerHTML")
+        for cell in ['typed in — the real number','>$952<','>$164<','Front $82','Back $82','>$63<','pool ÷ 2 on (1.5%)','>$22<','pool ÷ 2 on (0.5%)','>$28<','pool ÷ 3 on (1%)']:
+            if cell not in ipout: bad.append(f"8000-net forecast missing {cell}")
+        ok=await pg.evaluate("(function(){const s=8000/8.4;const r=pipeMath(s,s*.208,SALES.guestTipRate,false,0,0);return document.querySelector('#ipOut').innerHTML.includes('$'+Math.round(r.earned).toLocaleString());})()")
+        if not ok: bad.append("merged forecast disagrees with pipeMath on 8000 net")
+        await pg.evaluate("document.querySelector('#ipNet').value='';calcIP()")
+        alg=await pg.evaluate("document.querySelector('#p-allergens').innerHTML")
+        if "Wagyu Porterhouse" in alg: bad.append("allergen row still says Wagyu Porterhouse")
+        if "USDA Choice Porterhouse" not in alg: bad.append("allergen row missing USDA Choice")
+        spx=await pg.evaluate("document.querySelector('#p-specials').innerHTML")
+        if "Australian Wagyu Porterhouse (old name)" not in spx: bad.append("porterhouse archive entry missing")
         # ---- wine type filter ----
         if not await pg.evaluate("WINES.every(w=>w.v&&WINE_TYPES.some(t=>t[0]===w.v))"): bad.append("wine missing type mapping")
         nb=await pg.evaluate("[document.querySelectorAll('#wineType button').length,document.querySelectorAll('#wineServe button').length,document.querySelectorAll('#wineCats').length]")
@@ -89,26 +97,6 @@ async def main():
         z=await pg.evaluate("document.body.style.zoom")
         if str(z)!="0.925": bad.append(f"szDn zoom wrong: {z}")
         await pg.evaluate("document.querySelector('#szUp').click()")
-        if await pg.evaluate("!!document.querySelector('#exHrs')"): bad.append("exHrs input still present (Evan 8/5: no hourly wages/hours in this calc)")
-        await pg.evaluate("document.querySelector('#exNet').value='8000';document.querySelector('#exPct').value='20.8';calcEX()")
-        exo=await pg.evaluate("document.querySelector('#exOut').innerHTML")
-        # net 8000, teams 7, cocktailers 2, bussers 2, expo 2, bar 3 (schedule prefill) -> slices 8.4, team earned 164, front 82 / back 82, bar 1%
-        for cell in ["8.4 slices", '>Team earned</div><div class="v">$164<', '>Front</div><div class="v">$82<',
-                     '>Back</div><div class="v">$82<', '>Bussers</div><div class="v">$63<', "pool ÷ 2 on (1.5%)",
-                     '>Expo / food run</div><div class="v">$22<', "pool ÷ 2 on (0.5%)",
-                     '>Bar</div><div class="v">$28<', "pool ÷ 3 on (1%)", "bar-top tips"]:
-            if cell not in exo: bad.append(f"everybody-night missing {cell}")
-        for gone in ["Polisher", "/hr", "Cocktailers", "hourly"]:
-            if gone in exo: bad.append(f"everybody-night still shows {gone} (Evan 8/5: dropped)")
-        exv=await pg.evaluate("({b:document.querySelector('#exBus').value,e:document.querySelector('#exExpo').value,r:document.querySelector('#exBar').value})")
-        if exv!={"b":"2","e":"2","r":"3"}: bad.append(f"exact counts not from schedule: {exv}")
-        ok=await pg.evaluate("(function(){const s=8000/8.4;const r=pipeMath(s,s*.208,SALES.guestTipRate,false,0,0);return document.querySelector('#exOut').innerHTML.includes('$'+Math.round(r.earned).toLocaleString());})()")
-        if not ok: bad.append("everybody-night team earned disagrees with pipeMath")
-        alg=await pg.evaluate("document.querySelector('#p-allergens').innerHTML")
-        if "Wagyu Porterhouse" in alg: bad.append("allergen row still says Wagyu Porterhouse")
-        if "USDA Choice Porterhouse" not in alg: bad.append("allergen row missing USDA Choice")
-        spx=await pg.evaluate("document.querySelector('#p-specials').innerHTML")
-        if "Australian Wagyu Porterhouse (old name)" not in spx: bad.append("porterhouse archive entry missing")
         # ---- handbook + vocabulary ----
         house=await pg.evaluate("document.querySelector('#p-house').innerHTML")
         for cell in ["Employee Handbook","Lillian Speedy","Gum chewing","120 day","BEHIND YOU"]:

@@ -705,6 +705,9 @@ function search(q){
     if(matches([c.t,"mo's book",txt]))add("Mo's Book",c.t,txt.trim().slice(0,140)+"…","house");});
   /* The 79-slide training slideshow shipped indexed-nowhere, so nothing in it was
      findable from the search bar the way the book already was. */
+  if(typeof MISE!=="undefined") MISE.forEach(m=>{
+    if(matches([m[0],m[1],m[2],"mise en place","silverware","set with"]))
+      add("Mise en Place",m[0],m[1]+(m[2]?" — "+m[2]:""),"house");});
   if(typeof DECK!=="undefined") DECK.forEach((c,j)=>{
     const txt=String(c.h||"").replace(/<[^>]+>/g," ").replace(/\s+/g," ").trim();
     if(matches([c.t,c.s,c.d,"training slideshow","slideshow",txt]))
@@ -1072,6 +1075,22 @@ function build(){
     <div class="note gold"><b>Mission:</b> ${esc(HOUSE.mission)}</div>
     <div class="bkcard" onclick="openBook()"><h3>&#128214; The Mo's Book</h3><p>The whole training course, in the order we teach it — every day of the original itinerary, front to back. Tap to read it chapter by chapter.</p></div>
     <div class="bkcard" onclick="openDeck()"><h3>&#128444;&#65039; The Training Slideshow</h3><p>The same ten days as a deck you swipe through one slide at a time. Tap to start, or jump to a day.</p></div>
+    ${""/* Mise en Place: what has to ride out WITH the plate. Two views on purpose —
+          the grab list is how an expo builds a tray, the table is how you look one dish up. */}
+    <div class="sechead" id="sec-mise"><h2>Mise en Place</h2><span>${MISE.length} items that need something set with them</span></div>
+    <p class="sub" style="margin:0 0 10px">Everything below needs service ware carried out with it. If a dish is not on this list, it goes out with what is already on the table.</p>
+    ${(()=>{const by={};MISE.forEach(m=>{(by[m[1]]=by[m[1]]||[]).push(m[0]);});
+      return `<div class="card"><div class="cbody">
+        <p class="sub" style="margin:0 0 8px"><b>Building the tray</b> — group by what you grab</p>
+        ${Object.entries(by).sort((a,b)=>b[1].length-a[1].length).map(([tool,items])=>
+          `<div style="padding:5px 0;border-top:1px solid var(--line)">
+             <b>${esc(tool)}</b> <span style="color:var(--dim)">&times;${items.length}</span>
+             <div style="color:var(--dim);font-size:12.5px;margin-top:2px">${items.map(esc).join(" · ")}</div>
+           </div>`).join("")}</div></div>`;})()}
+    ${acc("Every item, one at a time","look a single dish up",
+      tbl(["Dish","Set with it","Note"],MISE.map(m=>[`<b>${esc(m[0])}</b>`,esc(m[1]),
+        `<span style="color:var(--dim)">${esc(m[2]||"")}</span>`])))}
+
     ${acc("Points of Passion — the 16","the Mo's service philosophy, word for word where it counts",`<ol class="steps">${HOUSE.points.map(([t,d])=>`<li><b>${esc(t)}.</b> ${esc(d)}</li>`).join("")}</ol>`)}
     ${acc("Isaac's Non-Negotiables — the 11","the standards that never bend",`<ol class="steps">${HOUSE.isaacs.map(d=>`<li>${esc(d)}</li>`).join("")}</ol>`)}
     ${acc("Back server steps of service","your role, from the official handout",`<ul class="steps">${HOUSE.back.map(d=>`<li>${esc(d)}</li>`).join("")}</ul>`)}

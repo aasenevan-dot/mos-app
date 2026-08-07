@@ -16,6 +16,46 @@ const ENHANCE = [
   ["Roasted Mushrooms","$8","Comes in a small soup bowl with a big spoon — confirm with the guest, then scoop it over their steak.",""]
 ];
 
+/* ============ MISE EN PLACE ============ */
+/* What has to ride out WITH the plate. Built from the dish descriptions, so it is
+   only as right as those are — Evan edits this list directly as the floor corrects it.
+   [item, what to set, note] */
+const MISE = [
+ ["Crispy Ahi Tuna Bites","Chopsticks","two Japanese metal chopsticks per person"],
+ ["A5 Nigiri","Chopsticks","two Japanese metal chopsticks per person"],
+ ["Seasonal Oysters","Cocktail fork + tongs",""],
+ ["Oysters Rockefeller","Oyster fork",""],
+ ["King Crab Legs","Cocktail fork + tongs",""],
+ ["Iced Seafood Tower","Cocktail forks","one per guest"],
+ ["Roasted Seafood Tower","Cocktail forks","one per guest"],
+ ["Twin South African Lobster Tails","Cocktail fork",""],
+ ["Calamari","Tongs",""],
+ ["Farbuckle Filet","Tongs","tableside skillet finish"],
+ ["Grilled Asparagus","Tongs + ramekin","hollandaise goes in the ramekin, on the side"],
+ ["Truffle Fries","Tongs + ketchup","house ranch is the pairing to offer"],
+ ["Creamed Corn","Big spoon",""],
+ ["Creamed Spinach with Roasted Butternut Squash","Big spoon",""],
+ ["Creamy Risotto","Big spoon",""],
+ ["Truffle Cauliflower","Big spoon",""],
+ ["Lobster Mac N' Cheese","Big spoon",""],
+ ["Jalapeno Potatoes Au Gratin","Big spoon",""],
+ ["Roasted Mushrooms","Big spoon","comes in a small soup bowl"],
+ ["White Cheddar Mashed Potatoes","Big serving spoon",""],
+ ["Brussels Sprouts","Serving spoon","the spoon rides in the bowl"],
+ ["Baked Potato","Bread knife","cut down the middle"],
+ ["Mo's Cookie / Prime Cookie","Big spoon","baked and served in its own bowl"],
+ ["The Mo's Sundae","Big spoon",""],
+ ["Celebration Sundae","Big spoon","the comped one"],
+ ["Bailey's Creme Brulee","Big spoon",""],
+ ["Molten Lava Cake","Big spoon",""],
+ ["Celebration Cake","Spatula",""],
+ ["NY Style Cheesecake","Spatula",""],
+ ["Colossal Carrot Cake","Spatula",""],
+ ["Bananas Foster","Spatula","plus a bowl and spoon per person"],
+ ["Prime Beef Burger","Ketchup","anything with fries gets ketchup"],
+ ["Chicken Tenders with Fries","Ketchup",""]
+];
+
 const MENU = {
  "Starters":[
   ["Crispy Ahi Tuna Bites","$18","Crispy sushi rice, avocado, ponzu sauce, cilantro, jalapeno. Remoulade or spicy citrus on the side if expected. Two metal Japanese chopsticks PER PERSON.","Replaced the old blackened ahi appetizer"],

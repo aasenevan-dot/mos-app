@@ -79,7 +79,9 @@ async def main():
         home=await pg.evaluate("document.querySelector('#p-shift').innerHTML")
         if "Starters" not in home or "5–12 min" not in home: bad.append("Starters tile missing")
         if "Manager alert" in home: bad.append("Manager alert tile still on home")
-        if "$250+ bottles get the big Bordeaux glasses" not in home: bad.append("Bordeaux fact lost")
+        if "Bordeaux" not in home or "250" not in home: bad.append("Bordeaux fact lost")
+        if "Post &amp; Beam" not in home: bad.append("wine move by-the-glass picks missing")
+        if "answers people miss" in home: bad.append("missed-answers tile still on home")
         if home.find("Starters")>home.find("Soups"): bad.append("Starters not first in grid")
         # ---- dark mode, text size, exact night ----
         if "Mined from the real Greenwood" in await pg.evaluate("document.querySelector('#p-house').innerHTML"):
@@ -101,9 +103,9 @@ async def main():
         h2v=await pg.evaluate("document.querySelector('#p-house').innerHTML")
         if "About this app" not in h2v: bad.append("About section missing")
         if "Lillian@mosgreenwood.com" not in h2v: bad.append("Lillian email missing from handbook")
-        spv=await pg.evaluate("document.querySelector('#p-menu').innerHTML")
+        spv=await pg.evaluate("document.querySelector('#p-sched').innerHTML")
         for cell in ["Sundresses &amp; Sangria","Surf &amp; Turf Cup","Prisoner Wine Dinner","Lillian@mosgreenwood.com"]:
-            if cell not in spv: bad.append(f"events missing {cell}")
+            if cell not in spv: bad.append(f"events missing from the schedule tab: {cell}")
         opsv=await pg.evaluate("document.querySelector('#p-ops').innerHTML")
         if "COMPS come OFF" not in opsv: bad.append("comps rule missing from split rules")
         if "Booked through Lillian?" not in opsv: bad.append("banquet toggle not relabeled")
@@ -137,6 +139,152 @@ async def main():
         prog=await pg.evaluate("(function(){startQuiz();return document.querySelector('#quizBox .qprog')!==null;})()")
         if not prog: bad.append("progress bar missing")
         await pg.evaluate("startQuiz()")
+        # ---- food menu rebuild + 8/7 corrections ----
+        await pg.evaluate("go('menu')")
+        await pg.wait_for_timeout(350)
+        mn=await pg.evaluate("document.querySelector('#p-menu').innerHTML")
+        if "Specials running right now" not in mn: bad.append("specials heading missing")
+        if "&#9733;" not in mn and "\u2605" not in mn: bad.append("star missing from specials heading")
+        if "Not running right now" not in mn: bad.append("rotating-specials heading missing")
+        if "Sundresses" in mn: bad.append("dated events still on the food menu")
+        if "Archives" not in mn: bad.append("archives section missing")
+        # archives + steak temps + A5 must be COLLAPSED accordions, not always-open blocks
+        closed=await pg.evaluate("""(function(){
+          const d=[...document.querySelectorAll('#p-menu details.acc')];
+          return {n:d.length, open:d.filter(x=>x.open).length};})()""")
+        if closed["n"]<4: bad.append(f"expected 4+ menu accordions, found {closed['n']}")
+        if closed["open"]: bad.append(f"{closed['open']} menu accordions start open")
+        order=await pg.evaluate("""(function(){
+          const h=[...document.querySelectorAll('#p-menu .sechead h2')].map(x=>x.textContent);
+          const at=t=>h.findIndex(x=>x.includes(t));
+          return [at('Specials running right now'),at('Not running right now'),
+                  at('Starters'),at('Archives')];})()""")
+        if not (0<=order[0]<order[1]<order[2]<order[3]):
+            bad.append(f"food menu section order wrong: {order}")
+        if "Steak temperatures" not in mn: bad.append("steak temps missing")
+        if mn.index("Prime 47 Cuts")>mn.index("Steak temperatures"):
+            bad.append("steak temps are not inside the cuts section")
+        if "The A5 pitch" not in mn: bad.append("A5 pitch missing from the A5 dish")
+        # data corrections
+        tow=await pg.evaluate("JSON.stringify(MENU['Seafood Towers'])")
+        for cell in ["Semi-Pro $98 / Baller $190","6 oysters","3 shrimp","half the seafood"]:
+            if cell not in tow: bad.append(f"tower detail missing: {cell}")
+        ph=await pg.evaluate("JSON.stringify(MENU['Prime 47 Cuts & Wagyu'])")
+        if "26 oz NY strip" not in ph or "12 oz filet" not in ph or "10 oz bone" not in ph:
+            bad.append("porterhouse ounces not updated")
+        if await pg.evaluate("SPECIALS_ROTATION.length")!=2:
+            bad.append("rotating specials should be the two salmon only")
+        if await pg.evaluate("SPECIALS_ROTATION.some(s=>/Marsala/.test(s[0]))"):
+            bad.append("Chicken Marsala still in the rotation")
+        if not await pg.evaluate("SPECIALS_PAST.some(s=>/Marsala/.test(s[0]))"):
+            bad.append("Chicken Marsala not archived")
+        ns=await pg.evaluate("SOTD.length")
+        if ns<18: bad.append(f"soup archive has {ns}, expected 18+")
+        for soup in ["Cheddar Broccoli","Corn Chowder","Roasted Poblano","Jalape\u00f1o Beer Cheese"]:
+            if not await pg.evaluate(f"SOTD.some(s=>s[0]==={soup!r})"):
+                bad.append(f"soup archive missing {soup}")
+        if await pg.evaluate("SOTD.some(s=>s[0]==='Poblano')"): bad.append("plain Poblano not renamed")
+        if not await pg.evaluate("RECIPES[0].tip&&/fries/i.test(RECIPES[0].tip)"):
+            bad.append("ranch fries tip missing")
+        tf=await pg.evaluate("JSON.stringify(MENU['Accessories / Sides'].find(x=>x[0]==='Truffle Fries'))")
+        if "ranch" not in tf.lower(): bad.append("truffle fries ranch tag missing")
+        bg=await pg.evaluate("JSON.stringify(MENU['Starters & Lounge'].find(x=>x[0]==='Prime Beef Burger'))")
+        if "ranch" not in bg.lower(): bad.append("burger ranch suggestion missing")
+        # events moved to the schedule tab
+        await pg.evaluate("go('sched')")
+        await pg.wait_for_timeout(250)
+        sc=await pg.evaluate("document.querySelector('#p-sched').innerHTML")
+        for cell in ["Events coming up","Sundresses","Prisoner Wine Dinner"]:
+            if cell not in sc: bad.append(f"schedule events missing {cell}")
+
+        # ---- search coverage ----
+        for q,expect in [("tip out percentages","Money tool"),("how much do i make on 4000","Money tool"),
+                         ("who works friday","Schedule"),("what is in our ranch","House recipe"),
+                         ("cheddar broccoli","Soup of the day"),("baller","Seafood Towers")]:
+            hits=await pg.evaluate(f"search({q!r}).map(h=>h.w).join('|')")
+            if expect not in hits: bad.append(f"search '{q}' missing {expect}: {hits[:70]}")
+        if await pg.evaluate("search('asdfghjkl').length"): bad.append("gibberish search returned hits")
+        await pg.evaluate("go('menu')")
+        await pg.wait_for_timeout(200)
+
+        # ---- 8/7 QC round: leads, GF legend, protocol order ----
+        await pg.evaluate("go('menu')")
+        await pg.wait_for_timeout(300)
+        lead=await pg.evaluate("""(function(){
+          const c=[...document.querySelectorAll('#p-menu .mitem')];
+          const leads=c.map(x=>x.querySelector('.mlead')).filter(Boolean);
+          const longest=Math.max(...leads.map(l=>l.textContent.trim().length));
+          const chopped=leads.filter(l=>/\\w\u2026$/.test(l.textContent.trim())).length;
+          return {cards:c.length, leads:leads.length, longest:longest, chopped:chopped};})()""")
+        if lead["leads"]!=lead["cards"]: bad.append(f"{lead['cards']-lead['leads']} menu rows have no preview line")
+        if lead["longest"]>115: bad.append(f"a collapsed preview runs {lead['longest']} chars")
+        if lead["chopped"]: bad.append(f"{lead['chopped']} previews cut off mid-word")
+        mtxt=await pg.evaluate("document.querySelector('#p-menu').innerText")
+        if "Menu marks GF" in mtxt: bad.append("'Menu marks GF' phrasing still in the menu")
+        if "GF" not in mtxt or "gluten-free" not in mtxt: bad.append("GF legend missing")
+        if "NOT vegetarian" in mtxt: bad.append("redundant risotto vegetarian line still there")
+        # allergy protocol order, and the study-sheet line is gone
+        pr=await pg.evaluate("PROTOCOL")
+        if len(pr)!=6: bad.append(f"protocol has {len(pr)} steps, expected 6")
+        want=["back server","expo","chef","manager"]
+        idx=[next((i for i,x in enumerate(pr) if w in x.lower()), -1) for w in want]
+        if -1 in idx or idx!=sorted(idx): bad.append(f"protocol order wrong: {pr}")
+        if any("guarantee" in x.lower() for x in pr): bad.append("study-sheet step not deleted")
+        # the wine move card
+        hm=await pg.evaluate("document.querySelector('#p-shift').innerText")
+        for cell in ["Post & Beam","Belle Glos","Caymus","lighter and smoother","bigger and richer",
+                     "corked","manager opens and pours"]:
+            if cell.lower() not in hm.lower(): bad.append(f"wine move missing: {cell}")
+        if await pg.evaluate("WINE_MOVE.glass.length")!=3: bad.append("wine move should show 3 by-the-glass")
+        if await pg.evaluate("WINE_MOVE.bottle.length")!=3: bad.append("wine move should show 3 bottles")
+
+        # ---- 8/7 round: logo home, drinks archive, reference tab, spinalis ----
+        await pg.evaluate("go('wine')")
+        await pg.wait_for_timeout(150)
+        await pg.evaluate("document.querySelector('#brandHome').click()")
+        await pg.wait_for_timeout(200)
+        if await pg.evaluate("TAB")!="shift": bad.append("logo does not go home")
+        # archived cocktails must not appear under All drinks
+        await pg.evaluate("go('cocktails')")
+        await pg.wait_for_timeout(250)
+        shown=await pg.evaluate("document.querySelectorAll('#drinkGrid .card').length")
+        active=await pg.evaluate("COCKTAILS.filter(c=>c.grp!=='verify').length")
+        if shown!=active: bad.append(f"All drinks shows {shown}, expected {active} (archive leaking)")
+        if await pg.evaluate("document.querySelector('#drinkGrid').innerHTML.includes('Sunny Day')"):
+            bad.append("archived cocktail visible under All drinks")
+        arch=await pg.evaluate("""(function(){
+          [...document.querySelectorAll('#drinkGrps button')].find(b=>b.dataset.g==='verify').click();
+          return document.querySelector('#drinkGrid').innerHTML.includes('Sunny Day');})()""")
+        if not arch: bad.append("archive chip does not show archived drinks")
+        # the reference tab
+        await pg.evaluate("go('extra')")
+        await pg.wait_for_timeout(250)
+        ex=await pg.evaluate("""(function(){const p=document.querySelector('#p-extra');
+          const d=[...p.querySelectorAll('details.acc')];
+          return {n:d.length, open:d.filter(x=>x.open).length, html:p.innerHTML};})()""")
+        if ex["n"]<5: bad.append(f"reference tab has {ex['n']} sections, expected 5")
+        if ex["open"]: bad.append("reference tab sections start open")
+        for cell in ["Caymus Special","fog-cooled","Sunny Day","Smockton"]:
+            if cell not in ex["html"]: bad.append(f"reference tab missing {cell}")
+        if await pg.evaluate("document.querySelector('#p-wine').innerHTML.includes('Power vs Precision')"):
+            bad.append("wine of the week still on the wine tab")
+        # regions carry a short why-it-matters
+        rg=await pg.evaluate("REGIONS")
+        if len(rg)<12: bad.append(f"REGIONS has {len(rg)}, expected 12")
+        if any(len(r[1])>46 for r in rg): bad.append("a region's why-it-matters is too long to sit beside a wine")
+        if not any("fog-cooled" in r[1] for r in rg): bad.append("Russian River fog note missing")
+        if await pg.evaluate("WINES.some(w=>/7\\/3 sheet/.test(w.r))"): bad.append("a wine still cites the 7/3 sheet")
+        # spinalis split + manager cuts + salmon verify
+        if not await pg.evaluate("SPECIALS_ON.some(s=>s[0]==='Spinalis Sunday'&&s[3]==='weekly feature')"):
+            bad.append("Spinalis Sunday is not a weekly feature")
+        if not await pg.evaluate("SPECIALS_ON.some(s=>s[0]==='Spinalis / Ribeye Cap'&&s[3]==='cut special')"):
+            bad.append("Spinalis is not listed as its own cut special")
+        for cut in ["48 oz USDA Choice Porterhouse","Australian Wagyu Tomahawk","Spinalis / Ribeye Cap"]:
+            if not await pg.evaluate(f"SPECIALS_ON.some(s=>s[0]==={cut!r}&&/manager/i.test(s[2]))"):
+                bad.append(f"{cut} does not say a manager cuts it")
+        if not await pg.evaluate("SPECIALS_ROTATION.every(s=>/VERIFY/i.test(s[1]))"):
+            bad.append("both salmon specials should flag the price")
+
         # ---- dish photos ----
         await pg.evaluate("go('menu')")
         await pg.wait_for_timeout(400)

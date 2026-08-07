@@ -257,6 +257,14 @@ ASK NEXT SHIFT (Evan's list):
 3. **Exact oyster varietal names off the box** — confirm "Violet Skies" and Cape May, and
    whether the Blue Points really are Blue Points or just called that on the menu.
 
+## Bottom-bar Food Menu icon — do not revert (Evan, 8/6 and again 8/7)
+
+`BOTTOM`'s Food Menu slot uses `ICONS.menu` — the SAME fork-and-spoon SVG as
+`QAICONS["menu|"]` on the Home tile. It must NOT be the star. Evan asked for this twice;
+a Cowork round put the star back in between, which is how it got asked for twice. The
+star stays defined in ICONS, unused, for a specials section inside the food menu later.
+If you are syncing and see `["menu","Food Menu","star"]`, that is the regression.
+
 ## Privacy — this folder gets shared
 
 The app is shared with coworkers and may sit in a PUBLIC repo. So:
@@ -488,3 +496,96 @@ Status at creation: 38 of 91 menu items covered, 5 need reshoots, 47 never shot.
   Adding another card = one more object in RECIPES.
 - Test note: the desktop tab-count check now reads `TABS` off the page instead of hardcoding
   12, so removing or adding a tab does not fail it.
+
+## 8/7 round 2 — Food Menu redesigned guest-app style
+
+**Layout, top to bottom:** "★ Specials running right now" → "Not running right now" (the two
+rotating salmon, each tagged so nobody pitches one that is off) → the menu sections, each with
+its own jump chip → Soups → Dressings → RECIPES → **Archives** (a set of CLOSED accordions:
+the full SOTD archive, off-menu cuts, past specials) → the living-list note. Reference material
+now lives where it belongs instead of at the top: steak temps are a closed accordion INSIDE
+"Prime 47 Cuts & Wagyu" (via `SEC_EXTRA`), and the A5 pitch opens from the Japanese A5 dish
+itself (via `DISH_EXTRA`). Do not put either back at the top of the tab.
+The jump-bar chips come from `addJumps("menu")` — do NOT add a second chip row, that was tried
+and duplicated. Note for tests: chip labels repeat the section names, so section ORDER must be
+measured from `.sechead h2` elements, never from innerHTML indexOf.
+
+**Dated events moved OUT of the food menu.** New `EVENTS` in 5b-data-sched.js + `eventsBlock()`
+renders them on the Schedule tab above live music, same M/D + drop-off-when-past pattern.
+
+**Data:** towers are now "Semi-Pro $98 / Baller $190" — Semi-Pro is 6 oysters, 3 shrimp, ~½ lb
+crab plus the tuna salad and lobster salad (those two come with both sizes and are NOT portioned
+in the copy); Baller doubles the counted items; the roasted tower's Semi-Pro is half the seafood.
+Porterhouse (both the USDA Choice and the old Australian Wagyu archive entry) = roughly a 26 oz
+strip, 12 oz filet, 10 oz bone, varies with the cut. Chili line leads with the $4 soup-course
+upcharge. 10 soups added to SOTD (18 total) and Poblano → Roasted Poblano. Chicken Marsala moved
+from rotation to SPECIALS_PAST. Ranch got `tip` (fries pairing), truffle fries and the Prime Beef
+Burger both carry a ranch suggestion.
+
+**Search audit (8/7)** — real gaps found and fixed, keep these: `RECIPES` is searched now;
+three synthetic "Money tool" entries route plain-language money questions to the calculator;
+day-of-week roster search answers "who works friday" (the sheet abbreviates to TWO letters —
+"Fr" — so match on `slice(0,2)`, a three-letter compare silently matched nothing); `matchesNum()`
+is a second matcher that IGNORES bare numbers, because "how much do i make on 4000" was being
+killed by the 4000. Synonym map grew (percentages→percent, ounces→oz, works→schedule, etc).
+Audit script pattern: run ~45 real server phrasings and assert none return zero.
+
+**`mkquestions.py`** now generates the open-questions PDF AND appends the pictures-needed list,
+both pulled from live app data so they cannot drift. RESHOOT/SKIP dicts are hand-maintained in
+both mkquestions.py and mkshotlist.py — keep them in step.
+
+**Open naming question:** Evan asked for a dinner listed beside the Buffalo Trace dinner that
+sounded like "keelah". Not guessable — it is on the questions PDF for him to confirm, and
+nothing was written into the app.
+
+## 8/7 QC round — cleanup, previews, wine move, protocol
+
+- **`qc.py` is NEW and should be run after any data edit** (`python3 qc.py`, before the test
+  suites). It catches what a blanket find-and-replace breaks: empty prices/descriptions,
+  duplicate dishes, PHOTOS/LEADS keys pointing at nothing, allergen flags outside
+  ALLERGEN_LIST, provenance stamps leaking back into rendered data, WINE_MOVE naming a wine
+  that is not on the list, an item both running and archived, duplicate soups. It earned its
+  keep immediately — a blanket `"$35"` → `""` replace silently wiped the A5 Nigiri PRICE
+  while cleaning a tag. Never blanket-replace a bare price/tag string again.
+- **Tags cleaned.** "Menu marks GF" is gone everywhere — the tag is just **GF**, and a legend
+  at the foot of the food menu explains it is the printed menu's mark, not a GF kitchen.
+  Tags that merely repeated the allergen row (e.g. "Dairy, egg, gluten") were removed, and
+  the risotto no longer says "NOT vegetarian" because the description already says chicken stock.
+- **`LEADS`** (4-data-food.js) — the one line a collapsed menu row shows. Keyed by dish or
+  special name; anything without an entry falls back to `firstLine()`, the item's own first
+  sentence. Rule enforced by test: no preview over ~115 chars and none cut off mid-word.
+  If a description gets longer, give the item a LEAD rather than letting it truncate.
+- **Homepage:** the "Three answers people miss" tile is REMOVED. The wine move is now a real
+  pre-table card built on `WINE_MOVE` in 2-data-wine.js — three by-the-glass pours (Post &
+  Beam Chardonnay, Belle Glos Pinot, Caymus Cab) framed lighter-and-smoother vs
+  bigger-and-richer, the bottle logic in Evan's words (two glasses with a refill coming = a
+  bottle; three glasses = a bottle every time, and the rest gets corked to take home), three
+  step-up bottles, and the rule that a MANAGER opens and pours every bottle with $250+ getting
+  Bordeaux glasses. Training anchors stay at the bottom — Evan likes them there.
+- **Allergy protocol reordered and shortened to 6:** ask → ring it in Toast → back server →
+  expo → chef → manager. The old "never guarantee anything from a study sheet" step is
+  DELETED (that caution still lives on the allergen tab's warning note). The allergy
+  order-game recap was updated to match; it reads PROTOCOL directly so it stays in step.
+
+## 8/7 round 3 — regions, Reference tab, drinks archive, Spinalis
+
+- **`REGIONS` rewritten** (2-data-wine.js) — now [region, short why-it-matters, the longer
+  explanation]. Column 2 is capped at ~46 chars ON PURPOSE so it can sit beside a wine name
+  ("warm and dry", "fog-cooled", "thin soil, high up", "cool, volcanic soil"). A test enforces
+  that length. Column 3 explains the CAUSE, not just the taste — that was Evan's ask: what the
+  place actually does to the grape. Individual wine `r` fields carry the same idea in
+  parentheses where useful. Removed the last "added on the 7/3 sheet" stamp (Dona Paula Malbec).
+- **NEW tab: "Reference & Archive"** (`extra`, last in TABS, reached through More). Holds Wine
+  of the Week (MOVED off the wine tab), the region cards, archived cocktails, the resolved
+  conflicts table, and the private rooms. Everything is a CLOSED accordion — same feel as the
+  food menu. This is where good-but-not-shift-critical material goes from now on; do not delete
+  content to declutter a tab, move it here.
+- **Archived cocktails no longer appear under "All drinks"** — `drinkFilter.grp==="all"` now
+  excludes `grp==="verify"`, so they only show when the Archive chip is tapped. People were
+  reading them as orderable.
+- **The header logo is a home button** (`#brandHome` → `go("shift")`). It is a real `<button>`
+  now, styled flat; keep it that way for keyboard and screen-reader users.
+- **Spinalis is TWO entries:** "Spinalis / Ribeye Cap" at $14/oz as a cut special (runs six
+  days) and "Spinalis Sunday" at $10/oz as a weekly feature, sitting next to Ladies Night.
+  The porterhouse, the tomahawk, the spinalis and the A5 all say a MANAGER cuts them tableside.
+- Both rotating salmon specials now carry "? VERIFY price".

@@ -13,7 +13,7 @@ const $n=s=>Math.max(0,+$(s).value||0);
 const TABS = [
   ["shift","Home"],["sched","Schedule"],["wine","Wine"],["cocktails","Drinks & Garnish"],["menu","Food Menu & Specials"],
   ["allergens","Allergens"],["bar","Spirits & Beer"],["study","Study & Quiz"],["ops","Money"],
-  ["house","How We Work"],["vocab","Vocabulary"]
+  ["house","How We Work"],["vocab","Vocabulary"],["extra","Reference & Archive"]
 ];
 const ICONS={
  home:'<svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>',
@@ -22,8 +22,9 @@ const ICONS={
  money:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M15 9.5c0-1.4-1.3-2.5-3-2.5s-3 1-3 2.2c0 3 6 1.6 6 4.6 0 1.2-1.3 2.2-3 2.2s-3-1.1-3-2.5"/></svg>',
  more:'<svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg>',
  star:'<svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 5.9L12 16.4 6.7 19.3l1.2-5.9L3.4 9.3l6-.7z"/></svg>',
- /* the Food Menu mark — the same fork and spoon as the Food menu tile on Home, so the
-    tab and the tile read as one thing. The star stays defined for a specials section. */
+ /* Food Menu mark — the SAME fork and spoon as the Food menu tile on Home. Evan asked
+    for this twice; a Cowork round reverted it to the star in between. The tab and the
+    tile have to read as one thing. Star stays defined for a specials section. */
  menu:'<svg viewBox="0 0 24 24"><path d="M2.6 2.2v5.6c0 1.9 1.5 3.2 3.4 3.4M9.4 2.2v5.6c0 1.9-1.5 3.2-3.4 3.4"/><path d="M4.9 2.2v5.9M7.1 2.2v5.9"/><path d="M6 11.2v10.4"/><ellipse cx="18.2" cy="6.6" rx="2.9" ry="4"/><path d="M18.2 10.6v11"/></svg>'
 };
 const BOTTOM=[["shift","Home","home"],["wine","Wine","wine"],["cocktails","Drinks","drinks"],["menu","Food Menu","menu"],["ops","Money","money"],["__more","More","more"]];
@@ -156,7 +157,12 @@ function drinkCard(c){
 let drinkFilter={grp:"all",q:""};
 function renderDrinks(){
   const q=drinkFilter.q.toLowerCase();
-  const list=COCKTAILS.filter(c=>(drinkFilter.grp==="all"||c.grp===drinkFilter.grp)&&(!q||(c.n+c.build+c.garnish+c.desc+c.base).toLowerCase().includes(q)));
+  /* Archived drinks stay OUT of "All drinks" — they are off the menu and people were
+     reading them as orderable. They only appear when the Archive chip is picked. */
+  const list=COCKTAILS.filter(c=>{
+    const inGrp = drinkFilter.grp==="all" ? c.grp!=="verify" : c.grp===drinkFilter.grp;
+    return inGrp && (!q||(c.n+c.build+c.garnish+c.desc+c.base).toLowerCase().includes(q));
+  });
   $("#drinkGrid").innerHTML=list.length?list.map(drinkCard).join(""):'<div class="empty">No drinks match.</div>';
 }
 
@@ -312,7 +318,7 @@ function priceBlitz(){
 const GREET_STEPS=["Busser drops the waters","Front greets \u2014 drinks and apps","BACK drops soup-salad and introduces themselves","Entr\u00e9es land \u2014 coursed, never stacked","Checkback, 2\u20135 minutes after entr\u00e9es"];
 const ORDER_SEQS={
   greet:{title:"Tap the greet flow in the right order",steps:GREET_STEPS,recap:"Waters \u2192 greet \u2192 soup-salad \u2192 entr\u00e9es \u2192 checkback. That rhythm is the job."},
-  allergy:{title:"Tap the allergy protocol in the right order",steps:PROTOCOL,recap:"Ask \u2192 ring it \u2192 tell your team \u2192 tell expo + chef \u2192 tell a manager \u2192 never guarantee. Every time."}
+  allergy:{title:"Tap the allergy protocol in the right order",steps:PROTOCOL,recap:"Ask \u2192 ring it \u2192 back server \u2192 expo \u2192 chef \u2192 manager. Every time."}
 };
 function orderGame(key){
   key=ORDER_SEQS[key]?key:"greet";
@@ -573,7 +579,7 @@ function calcBq(){
 /* Ask it questions: words match in any order, filler words are ignored,
    common floor terms map to menu vocabulary, and small typos still hit. */
 const SEARCH_STOP=new Set("what whats is in the a an on of for to do does did we have has had any with and or are it its how much many me my show tell about can could i you your price prices cost costs".split(" "));
-const SEARCH_SYN={mocktail:"non-alcoholic",virgin:"non-alcoholic",children:"kids",child:"kids",app:"starters",apps:"starters",appetizer:"starters",appetizers:"starters",sparkling:"champagne",bubbly:"champagne",bubbles:"champagne",veggie:"vegetable",veggies:"vegetable",glutenfree:"gf",sweets:"desserts",bday:"celebration",birthday:"celebration",anniversary:"celebration"};
+const SEARCH_SYN={mocktail:"non-alcoholic",virgin:"non-alcoholic",children:"kids",child:"kids",app:"starters",apps:"starters",appetizer:"starters",appetizers:"starters",sparkling:"champagne",bubbly:"champagne",bubbles:"champagne",veggie:"vegetable",veggies:"vegetable",glutenfree:"gf",sweets:"desserts",bday:"celebration",birthday:"celebration",anniversary:"celebration",percentages:"percent",percentage:"percent",tipout:"tip",tipouts:"tip",ounces:"oz",ounce:"oz",cheapest:"price",cheap:"price",priciest:"price",recipe:"ingredients",dressing:"dressings",earn:"earned",earnings:"earned",paycheck:"earned",payout:"earned",roster:"schedule",working:"schedule",works:"schedule",temp:"temperature",temps:"temperature",nuts:"nut",peanuts:"peanut",gf:"gluten"};
 function nearWord(a,b){
   if(a===b)return true;
   const la=a.length,lb=b.length;
@@ -600,6 +606,15 @@ function search(q){
     if(t.length>=4&&t.endsWith("s")&&hay.includes(t.slice(0,-1)))return true;
     if(t.length>=5)return words().some(w=>w[0]===t[0]&&nearWord(w,t));
     return false;
+  };
+  /* Same matcher, but bare numbers are ignored. "how much do i make on 4000" is a money
+     question with an input in it — the 4000 should not filter the results away. */
+  const matchesNum=fields=>{
+    const hay=fields.filter(Boolean).join(" ").toLowerCase().replace(/[\u2019']/g,"");
+    let words=null;
+    const getWords=()=>words||(words=hay.split(/[^a-z0-9$&%]+/).filter(Boolean));
+    const real=toks.filter(t=>!/^\$?[\d,.]+$/.test(t));
+    return real.length>0 && real.every(t=>tokenIn(hay,getWords,t));
   };
   const matches=fields=>{
     const hay=fields.filter(Boolean).join(" ").toLowerCase().replace(/[’']/g,"");
@@ -667,6 +682,30 @@ function search(q){
   ANCHORS.forEach(r=>{if(matches([r[0],r[1]]))add("Training anchor",r[0],r[1],"shift");});
   SPLIT_RULES.forEach(t=>{if(matches(["how the split works checkout",t]))add("How the split works","Checkout rule",t,"ops");});
   ROOMS.forEach(r=>{if(matches(["private room banquet",r[0],r[1]]))add("Private room",r[0],r[1],"ops");});
+  /* house recipes — "what is in our ranch" has to land on the card, not the book */
+  (typeof RECIPES!=="undefined"?RECIPES:[]).forEach(r=>{
+    const ing=r.ing.map(x=>x[0]).join(", ");
+    if(matches([r.n,"recipe","ingredients",r.sub,ing,r.note||"",r.tip||""]))
+      add("House recipe",r.n,ing,"menu");});
+  /* the money tools: a plain-language money question should land on the calculator */
+  [["Sales Calculator","type your team net sales and it does the whole checkout — tips, tip-outs, your split",
+    "how much do i make earned take home checkout net sales calculator money paycheck"],
+   ["Tip-out rates","bar 1%, busser 1.5%, expo 0.5% of team net sales, each rounded up to the next dollar",
+    "tip out tipout percent rates bar busser expo how much comes out"],
+   ["Night Forecast","covers and staffing for tonight, and what everybody on the floor makes",
+    "forecast tonight covers staffing everybody night projection"]
+  ].forEach(([t,d,keys])=>{if(matchesNum([t,d,keys]))add("Money tool",t,d,"ops");});
+  /* who is on which day — "who works friday" should answer from the posted week */
+  (function(){
+    const DOWN=["sunday","monday","tuesday","wednesday","thursday","friday","saturday"];
+    (SCHEDULE.days||[]).forEach((d,i)=>{
+      const ab=String(d[1]||"").toLowerCase().slice(0,2);
+      const full=DOWN.find(n=>n.slice(0,2)===ab)||"";
+      if(!matches(["who works schedule",full,d[0]]))return;
+      const on=rosterFor(SCHEDULE,i,true).replace(/<[^>]+>/g," ").replace(/\s+/g," ").trim();
+      if(on)add("Schedule",(full?full[0].toUpperCase()+full.slice(1):"")+" "+d[0],on.slice(0,150),"sched");
+    });
+  })();
   [WOTW.a,WOTW.b].forEach(w=>{if(w&&matches([w.n,w.tag,w.what,w.flavor,w.why,w.pair,w.pitch,w.p]))
     add("Wine of the Week",w.n+" — "+w.p,w.what,"wine");});
   MC.forEach(m=>{if(matches([m.q,m.o[0],m.t]))add("Quiz",m.q,"Answer: "+m.o[0],"study");});
@@ -749,12 +788,13 @@ function build(){
       <div class="card"><div class="cname">Two drink calls that always work</div>
         <div class="cbody">${DRINK_PITCH.slice(0,4).map(p=>`<div style="padding:4px 0"><b>${esc(p[0])}:</b> ${esc(p[1])}</div>`).join("")}</div></div>
       <div class="card"><div class="cname">The wine move</div>
-        <div class="cbody">Ask whether they are leaning <b>lighter and smoother</b> or <b>bigger and richer</b>, then give two confident choices. Never open the list and go quiet. A manager opens and pours every bottle — $250+ bottles get the big Bordeaux glasses.</div>
-        <div class="pitch">&ldquo;For four glasses, a bottle is usually the better value.&rdquo;</div></div>
+        <div class="cbody">Ask one question: <b>lighter and smoother</b>, or <b>bigger and richer</b>? Then name a wine. If they say white, start there — and if they tell you what they want, listen.</div>
+        ${tbl(["By the glass","Pitch it as"],WINE_MOVE.glass.map(w=>[`<b>${esc(w[0])}</b><br><span style="color:var(--dim2);font-size:11.5px">${esc(w[1])}</span>`,esc(w[2])]))}
+        <div class="cbody" style="margin-top:10px"><b>Move them to a bottle:</b> two glasses and one of them will want a refill — that is a bottle. Three glasses is a bottle every time, and whatever is left gets corked so they can take it home.</div>
+        ${tbl(["Step up to a bottle","Price"],WINE_MOVE.bottle.map(w=>[`<b>${esc(w[0])}</b><br><span style="color:var(--dim2);font-size:11.5px">${esc(w[1])}</span>`,esc(w[2])]))}
+        <div class="note gold" style="margin-top:10px"><b>Every bottle:</b> tell a manager and set the wine glasses down — a manager opens and pours it at the table, every time. <b>$250 and up</b> also gets the big Bordeaux glasses.</div></div>
       <div class="card"><div class="cname">Allergy protocol, in order</div>
         <div class="cbody">${PROTOCOL.map((p,i)=>`<div style="padding:3px 0"><b>${i+1}.</b> ${esc(p)}</div>`).join("")}</div></div>
-      <div class="card"><div class="cname">Three answers people miss</div>
-        <div class="cbody"><b>Risotto is not vegetarian</b> — chicken stock and prosciutto.<br><b>Au gratin bacon cannot come out</b> — mixed in every morning.<br><b>Well-done filets get butterflied.</b></div></div>
     </div>
 
     <div class="sechead"><h2>Steps of service</h2><span>front server flow, top to bottom</span></div>
@@ -782,13 +822,6 @@ function build(){
       <div class="out" id="pairOut"></div>
     </div>
 
-    <div class="sechead"><h2>${WOTW.title}</h2><span>the current feature</span></div>
-    <div class="grid wide">${[WOTW.a,WOTW.b].map(w=>`<div class="card hl">
-      <div class="crow"><div><div class="cname">${esc(w.n)}</div><div class="csub">${w.tag}</div></div><div class="cprice">${w.p}</div></div>
-      <div class="cbody"><b>What it is:</b> ${esc(w.what)}<br><b>Flavor:</b> ${esc(w.flavor)}<br><b>Structure:</b> ${esc(w.structure)}<br><b>Why the price:</b> ${esc(w.why)}<br><b>Pair with:</b> ${esc(w.pair)}</div>
-      <div class="pitch">&ldquo;${esc(w.pitch)}&rdquo;</div></div>`).join("")}</div>
-    <div style="margin-top:12px">${tbl(["Guest wants","Recommend","Why"],WOTW.contrast.map(c=>[esc(c[0]),`<b>${esc(c[1])}</b>`,`<span style="color:var(--dim)">${esc(c[2])}</span>`]))}</div>
-
     <div class="sechead"><h2>Fast guest answers</h2><span>when they ask you to pick</span></div>
     ${tbl(["Question","Answer","Why"],FASTANSWERS.map(f=>[esc(f[0]),`<b>${esc(f[1])}</b>`,`<span style="color:var(--dim)">${esc(f[2])}</span>`]))}
 
@@ -808,57 +841,69 @@ function build(){
     <div class="filters" id="drinkGrps">${COCKTAIL_GRPS.map(g=>`<button data-g="${g[0]}"${g[0]==="all"?' class="on"':''}>${g[1]}</button>`).join("")}</div>
     <div class="grid wide" id="drinkGrid"></div>`;
 
-  /* ---------- FOOD MENU & SPECIALS — one tab ----------
-     Rows collapse to name + price + thumb; the description opens on tap. A long
-     description would otherwise push three items off a phone screen. */
+  /* ---------- FOOD MENU — the whole food world in one tab ----------
+     Modeled on the guest app: section chips across the top, then compact rows that
+     open on tap. Reference material (steak temps, the A5 story) sits INSIDE the
+     section it belongs to instead of taking the top of the screen. */
+  const MSECS=Object.keys(MENU);
+  const secId=n=>"ms-"+n.toLowerCase().replace(/[^a-z0-9]+/g,"-");
+  /* extra reference that belongs to one dish, opened from the dish itself */
+  const DISH_EXTRA={
+    "Japanese A5 Wagyu":`<p class="sub" style="margin:10px 0 4px"><b>The A5 pitch — hit these beats</b></p>
+      <ol class="steps">${A5PITCH.map(p=>`<li>${esc(p)}</li>`).join("")}</ol>`
+  };
+  /* Collapsed rows show the FIRST SENTENCE, so the line always makes sense at a glance
+     instead of getting chopped mid-word. Everything else waits behind the chevron. */
+  const firstLine=t=>{
+    const d=String(t||"").trim(); if(!d)return "";
+    const m=d.match(/^[\s\S]*?[.!?](?=\s|$)/);
+    let one=(m?m[0]:d).trim();
+    if(one.length>150) one=one.slice(0,147).replace(/\s+\S*$/,"")+"…";
+    return one;
+  };
   const mCard=(name,price,desc,tag,cls)=>{
-    const pic=dishPic(name), long=String(desc||"").length>105;
-    const body=`${desc?`<div class="mdesc">${esc(desc)}</div>`:""}
-      ${tag?`<div class="tags"><span class="tag${/verify|cannot|NOT|archiv/i.test(tag)?" warn":""}">${esc(tag)}</span></div>`:""}`;
+    const pic=dishPic(name), extra=DISH_EXTRA[name]||"";
+    const full=String(desc||"");
+    const lead=(typeof LEADS!=="undefined"&&LEADS[name])||firstLine(full);
+    const more=full.trim()!==lead.trim(), long=more||!!extra||!!tag;
+    const body=`${more?`<div class="mdesc">${esc(full)}</div>`:""}
+      ${tag?`<div class="tags"><span class="tag${/verify|cannot|archiv/i.test(tag)?" warn":""}">${esc(tag)}</span></div>`:""}
+      ${extra}`;
     return `<div class="card mitem${long?" canopen":""}${cls?" "+cls:""}">
       <div class="mhead"${long?' onclick="mToggle(this)"':""}>
         ${pic?`<img class="dishimg" src="${pic}" alt="${esc(name)}" loading="lazy" onclick="event.stopPropagation();openPic(this.alt)">`:""}
         <div class="mtext"><div class="cname">${esc(name)}</div><div class="cprice">${esc(price)}</div></div>
         ${long?'<span class="mchev" aria-hidden="true">&#8964;</span>':""}
       </div>
+      ${lead?`<div class="mlead">${esc(lead)}</div>`:""}
       <div class="mbody">${body}</div>
     </div>`;
   };
-  const runningNow=SPECIALS_ON.filter(s=>s[3]!=="event");
-  const eventsNow=SPECIALS_ON.filter(s=>s[3]==="event");
+  /* steak temps ride along with the cuts, not at the top of the tab */
+  const SEC_EXTRA={
+    "Prime 47 Cuts & Wagyu":acc("Steak temperatures","what each one looks like inside",
+      `${tbl(["Temp","Center"],TEMPS.map(t=>[`<b>${esc(t[0])}</b>`,esc(t[1])]))}
+       <div class="note warn" style="margin-top:10px"><b>Well done:</b> offer to butterfly a well-done filet — it cooks faster and comes out juicier.</div>`)
+  };
 
   $("#p-menu").innerHTML=`
-    <div class="sechead" id="sec-specials"><h2>Running right now</h2><span>${runningNow.length} on the board</span></div>
-    <div class="grid wide">${runningNow.length?runningNow.map(s=>mCard(s[0],s[1],s[2],s[3],"hl")).join("")
+    <div class="sechead" id="sec-specials"><h2>&#9733; Specials running right now</h2><span>${SPECIALS_ON.length} on the board</span></div>
+    <div class="grid wide">${SPECIALS_ON.length?SPECIALS_ON.map(s=>mCard(s[0],s[1],s[2],s[3],"hl")).join("")
       :'<div class="empty">Nothing running — tell your Claude the new special.</div>'}</div>
 
-    ${eventsNow.length?`<div class="sechead"><h2>Coming up</h2><span>dated events</span></div>
-    <div class="grid wide">${eventsNow.map(s=>mCard(s[0],s[1],s[2],"","")).join("")}</div>`:""}
+    ${SPECIALS_ROTATION.length?`<div class="sechead"><h2>Not running right now</h2><span>rotating entrees — ask a manager before you pitch one</span></div>
+    <div class="grid wide">${SPECIALS_ROTATION.map(s=>mCard(s[0],s[1],s[2],"not on tonight unless a manager says so","")).join("")}</div>`:""}
 
-    <div class="sechead"><h2>Rotating entree specials</h2><span>seen before — ask a manager if one is on tonight</span></div>
-    <div class="grid wide">${SPECIALS_ROTATION.map(s=>mCard(s[0],s[1],s[2],"","")).join("")}</div>
+    ${MSECS.map(sec=>`
+      <div class="sechead" id="${secId(sec)}"><h2>${esc(sec)}</h2><span>${MENU[sec].length} items</span></div>
+      ${SEC_EXTRA[sec]||""}
+      <div class="grid wide">${MENU[sec].map(i=>mCard(i[0],i[1],i[2],i[3],"")).join("")}</div>`).join("")}
 
-    <div class="sechead"><h2>Steak temperatures</h2></div>
-    ${tbl(["Temp","Center"],TEMPS.map(t=>[`<b>${esc(t[0])}</b>`,esc(t[1])]))}
-    <div class="note warn" style="margin-top:10px"><b>Well done:</b> butterfly well-done filets so they cook evenly.</div>
-
-    ${acc("The A5 pitch","say it in your own words, hit these beats",
-      `<ol class="steps">${A5PITCH.map(p=>`<li>${esc(p)}</li>`).join("")}</ol>`)}
-
-    ${Object.entries(MENU).map(([sec,items])=>`
-      <div class="sechead"><h2>${esc(sec)}</h2><span>${items.length} items</span></div>
-      <div class="grid wide">${items.map(i=>mCard(i[0],i[1],i[2],i[3],"")).join("")}</div>`).join("")}
-
-    <div class="sechead"><h2>Soups always on</h2><span>the standing list</span></div>
+    <div class="sechead" id="ms-soups"><h2>Soups</h2><span>one of the day, comp with entrees</span></div>
     ${tbl(["Soup","Price","Build"],SOUPS_STANDING.map(s=>[`<b>${esc(s[0])}</b>`,s[1],esc(s[2])]))}
+    <div class="note warn" style="margin-top:10px"><b>Allergen rule:</b> soup of the day allergens change with the soup. Never answer from memory — check the archive below, then verify with the kitchen.</div>
 
-    <div class="sechead"><h2>Soup of the day — archive</h2><span>changes daily · every one we log lives here</span></div>
-    ${SOTD.length
-      ? tbl(["Soup","What's in it","Allergen notes"],SOTD.map(s=>[`<b>${esc(s[0])}</b>`,esc(s[1]),`<span style="color:var(--dim)">${esc(s[2])}</span>`]))
-      : `<div class="empty">No soups logged yet.</div>`}
-    <div class="note warn" style="margin-top:10px"><b>Allergen rule:</b> soup of the day allergens change with the soup. Never answer from memory — check this archive, then verify with the kitchen.</div>
-
-    <div class="sechead"><h2>Salad dressings</h2><span>11 total, only one ranch</span></div>
+    <div class="sechead" id="ms-dressings"><h2>Salad dressings</h2><span>11 total, only one ranch</span></div>
     <div class="card"><div class="cbody">${DRESSINGS.map(d=>`<div style="padding:3px 0">${/house dressing/i.test(d)?`<b style="color:var(--gold2)">${esc(d)}</b>`:esc(d)}</div>`).join("")}</div></div>
 
     ${(typeof RECIPES!=="undefined"?RECIPES:[]).map(r=>acc(r.n,r.sub,`
@@ -867,15 +912,19 @@ function build(){
       <p class="sub" style="margin:12px 0 4px"><b>How it is made</b></p>
       <ol class="steps">${r.steps.map(t=>`<li>${esc(t)}</li>`).join("")}</ol>
       <div class="tags" style="margin-top:10px">${r.flags.map(f=>`<span class="tag">${esc(f)}</span>`).join("")}</div>
-      ${r.note?`<div class="note" style="margin-top:10px">${esc(r.note)}</div>`:""}`)).join("")}
+      ${r.note?`<div class="note" style="margin-top:10px">${esc(r.note)}</div>`:""}
+      ${r.tip?`<div class="note gold" style="margin-top:8px"><b>${esc(r.tip)}</b></div>`:""}`)).join("")}
 
-    <div class="sechead"><h2>Off-menu cuts</h2><span>ask a manager before promising any of these</span></div>
-    ${tbl(["Cut","Price","The pitch"],OFFMENU.map(s=>[`<b>${esc(s[0])}</b>`,esc(s[1]),`<span style="color:var(--dim)">${esc(s[2])}</span>`]))}
+    <div class="sechead" id="ms-archive"><h2>Archives</h2><span>everything that is not on the menu tonight</span></div>
+    ${acc("Soup of the day — the full archive",`${SOTD.length} logged`,
+      tbl(["Soup","What's in it","Allergen notes"],SOTD.map(s=>[`<b>${esc(s[0])}</b>`,esc(s[1]),`<span style="color:var(--dim)">${esc(s[2])}</span>`])))}
+    ${acc("Off-menu cuts","ask a manager before promising any of these",
+      tbl(["Cut","Price","The pitch"],OFFMENU.map(s=>[`<b>${esc(s[0])}</b>`,esc(s[1]),`<span style="color:var(--dim)">${esc(s[2])}</span>`])))}
+    ${acc("Past specials, dinners and retired items",`${SPECIALS_PAST.length} entries — do not pitch these`,
+      `<div class="grid wide">${SPECIALS_PAST.map(s=>mCard(s[0],s[1],s[2],s[3],"")).join("")}</div>`)}
 
-    <div class="sechead"><h2>Past specials</h2><span>not running anymore — do not pitch</span></div>
-    <div class="grid wide">${SPECIALS_PAST.map(s=>mCard(s[0],s[1],s[2],s[3],"")).join("")}</div>
-
-    <div class="note gold" style="margin-top:14px"><b>This page is a living list.</b> Specials and soups rotate constantly — tell your Claude "new special: swordfish, $52, mango salsa" or "tonight's soup is chicken tortilla" and it updates: running flips to past, soups get archived forever.</div>`;
+    <div class="note" style="margin-top:14px"><b>GF</b> = the printed menu marks it gluten-free. It is not a promise of a gluten-free kitchen — the fryer is shared and crackers, bread and croutons ride on plenty of setups. Any real allergy still runs the protocol.</div>
+    <div class="note gold" style="margin-top:10px"><b>This page is a living list.</b> Tell your Claude "new special: swordfish, $52, mango salsa" or "tonight's soup is chicken tortilla" and it updates — running flips to past, and every soup stays in the archive forever.</div>`;
 
   /* ---------- ALLERGENS ---------- */
   $("#p-allergens").innerHTML=`
@@ -959,6 +1008,36 @@ function build(){
     <div class="sechead"><h2>About this app</h2><span>read once</span></div>
     <div class="note">Mo's Server Command Center — built by Evan (back server) as a training and money tool for the team. It is a STUDY COPY, not official house policy: menus, prices, and rules change, so when a dollar matters, verify in Toast or with a manager. The checkout math is proven against real graded checkouts. Spot something wrong or outdated? Tell Evan — corrections go in same-day. Updated <b>__BUILDDATE__</b>.</div>
     </div>`;
+
+  /* ---------- REFERENCE & ARCHIVE ----------
+     Good material that does not belong in a working tab. Same collapsed-row feel as the
+     food menu: everything is shut until you tap it. */
+  $("#p-extra").innerHTML=`
+    <div class="sechead"><h2>Reference &amp; Archive</h2><span>worth keeping, out of the way</span></div>
+    <p class="lede">Nothing here changes shift to shift. Open what you want.</p>
+
+    ${acc(WOTW.title,"the feature, both bottles",`
+      <div class="grid wide">${[WOTW.a,WOTW.b].map(w=>`<div class="card hl">
+        <div class="crow"><div><div class="cname">${esc(w.n)}</div><div class="csub">${esc(w.tag)}</div></div><div class="cprice">${esc(w.p)}</div></div>
+        <div class="cbody"><b>What it is:</b> ${esc(w.what)}<br><b>Flavor:</b> ${esc(w.flavor)}<br><b>Structure:</b> ${esc(w.structure)}<br><b>Why the price:</b> ${esc(w.why)}<br><b>Pair with:</b> ${esc(w.pair)}</div>
+        <div class="pitch">&ldquo;${esc(w.pitch)}&rdquo;</div></div>`).join("")}</div>
+      <div style="margin-top:12px">${tbl(["Guest wants","Recommend","Why"],WOTW.contrast.map(c=>[esc(c[0]),`<b>${esc(c[1])}</b>`,`<span style="color:var(--dim)">${esc(c[2])}</span>`]))}</div>`)}
+
+    ${acc("Wine regions — why the place changes the taste",`${REGIONS.length} regions`,
+      `<div class="grid wide">${REGIONS.map(r=>`<div class="card">
+        <div class="crow"><div class="cname">${esc(r[0])}</div><div class="cprice" style="font-size:12px">${esc(r[1])}</div></div>
+        <div class="cbody">${esc(r[2])}</div></div>`).join("")}</div>`)}
+
+    ${acc("Archived cocktails","off the printed list — ask the bar before promising one",
+      `<div class="grid wide">${COCKTAILS.filter(c=>c.grp==="verify").map(c=>`<div class="card">
+        <div class="crow"><div class="cname">${esc(c.n)}</div><div class="cprice">${esc(c.p)}</div></div>
+        <div class="cbody"><b>Was:</b> ${esc(c.build)}</div></div>`).join("")}</div>`)}
+
+    ${acc("Conflicts we resolved","old sheet said one thing, the current menu says another",
+      tbl(["Item","Older","Newer","Use"],CONFLICTS.map(c=>[`<b>${esc(c[0])}</b>`,esc(c[1]),esc(c[2]),`<b style="color:var(--gold2)">${esc(c[3])}</b>`])))}
+
+    ${acc("Private dining rooms","headcounts — Lillian books them",
+      tbl(["Room","Capacity"],ROOMS.map(r=>[`<b>${esc(r[0])}</b>`,esc(r[1])])))}`;
 
   /* ---------- VOCABULARY ---------- */
   $("#p-vocab").innerHTML=`
@@ -1199,6 +1278,8 @@ $("#darkT").onclick=()=>{
   $("#darkT").textContent=on?"Light":"Dark";
 };
 $("#totop").onclick=()=>window.scrollTo({top:0,behavior:"smooth"});
+/* the logo is the way home from anywhere */
+$("#brandHome").onclick=()=>go("shift");
 /* tap the dimmed backdrop or hit Escape to close a photo */
 $("#lb").addEventListener("click",e=>{if(e.target.id==="lb")closePic();});
 document.addEventListener("keydown",e=>{if(e.key==="Escape")closePic();});
@@ -1271,6 +1352,21 @@ function liveMusicBlock(){
   return `<div class="sechead"><h2>Live music coming up</h2><span>every Friday &amp; Saturday, in the lounge</span></div>
     ${tbl(["When","Who"],rows.map(r=>[`<b>${DOW[r.when.getDay()]} ${esc(r.d)}</b>`,esc(r.act)]))}`;
 }
+/* House events — dated, drop off once they pass. */
+function eventsBlock(){
+  if(typeof EVENTS==="undefined")return "";
+  const now=new Date(), today=new Date(now.getFullYear(),now.getMonth(),now.getDate());
+  const yr=SCHEDULE.year||now.getFullYear();
+  const rows=EVENTS.map(e=>{
+    const [m,d]=e.d.split("/").map(Number);
+    return Object.assign({},e,{at:new Date(yr,m-1,d)});
+  }).filter(x=>!isNaN(x.at)&&x.at>=today).sort((a,b)=>a.at-b.at);
+  if(!rows.length)return "";
+  return `<div class="sechead"><h2>Events coming up</h2><span>${rows.length} on the books</span></div>
+    <div class="grid wide">${rows.map(e=>`<div class="card hl">
+      <div class="crow"><div class="cname">${esc(e.n)}</div><div class="cprice">${esc(e.d)}</div></div>
+      <div class="cbody"><b>${esc(e.when)}</b><br>${esc(e.w)}</div></div>`).join("")}</div>`;
+}
 /* Meals & Moments — same idea as the music block: only what is still ahead of us. */
 function offsiteBlock(){
   if(typeof OFFSITE==="undefined")return "";
@@ -1322,6 +1418,7 @@ function fillSched(){
     <div class="sechead"><h2>${esc(SCHEDULE.week)}</h2><span>exactly as posted</span></div>
     ${schedGrid(SCHEDULE,idx,true)}
     <div class="note" style="margin-top:10px"><b>Reading it:</b> numbers are start times exactly as written \u2014 345 means 3:45. A dark box is OFF. <b>RO</b> is a requested day off. Blank means not scheduled that day. <b>Covers row:</b> dinners already on the books for each day when this schedule printed \u2014 the Sunday-night count from ${schedSunday(SCHEDULE)}. Numbers on the yellow <b>BQTs</b> bar are the banquet headcount for that day. A trailing ? means the photo was hard to read.</div>
+    ${eventsBlock()}
     ${liveMusicBlock()}
     ${offsiteBlock()}
     <div class="sechead"><h2>Schedule history</h2><span>${SCHEDULE_HISTORY.length} weeks \u2014 every sheet since we opened</span></div>

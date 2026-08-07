@@ -38,6 +38,16 @@ const OFFSITE=[
  {d:"8/9", t:"7:00 – 9:00 pm", where:"Real Life Church", addr:"5151 West US Highway 40, Greenfield"},
  {d:"8/23", t:"11:30 am – 1:00 pm", where:"Life Church", addr:"9820 E 141st St, Fishers"}
 ];
+/* Dated house events. Same "M/D" storage and same drop-off-when-past behavior as the rest
+   of this file — they live here, not on the food menu. */
+const EVENTS=[
+ {d:"8/13", when:"Thu · 5–10 pm · the Lounge", n:"Sundresses & Sangria",
+  w:"One more summer girls' night out — slip into your favorite sundress and join us in the lounge. Sangria flowing 5 to 10."},
+ {d:"9/8", when:"Tue · Sagamore Golf Club", n:"Surf & Turf Cup — Golf Outing Scramble",
+  w:"$3,000 per foursome. Breakfast, 18 holes, lunch and drinks, contests and prizes, and a surf & turf dinner by Prime 47. Registration 9:00 am."},
+ {d:"9/17", when:"Thu · 6:30 pm · $150 per person", n:"The Prisoner Wine Dinner",
+  w:"Five-course wine dinner presented by The Prisoner Wine Company. RSVP Lillian@mosgreenwood.com. Wine dinners mean banquet money."}
+];
 const OFFSITE_NOTE="Fellowship, food, and fun — bringing a church family and the community together over a shared meal. Want to serve one? Email or text Yaris at admin@prime47carmel.com or 317.703.4284.";
 
 const SCHEDULE={

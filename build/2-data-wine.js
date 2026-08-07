@@ -99,7 +99,7 @@ W("Caymus Cabernet Sauvignon","gred","Better","$32 / $155","Napa","Dark cherry, 
 W("Advice From John Merlot","gred","Good","$16 / $60","California — by Orin Swift","Plum, black cherry, mocha, soft spice","Low-Med","Med","Med-Full","Soft, smooth, lower-grip red","Filet, Steak 47, guest who says Cab is too dry","Softer than Cabernet, still red-wine enough for steak. Table story: the label is real bathroom-wall graffiti — advice from THE john."),
 W("Ghost Pines Cabernet Sauvignon","gred","Good","$14 / $53","Napa / Sonoma, CA","Blackberry, dark cherry, vanilla, oak spice","Med-High","Med","Full","Value Cabernet finish","Ribeye, NY Strip, Cab value guest","Steak-friendly dark fruit without jumping into the higher-priced Napa bottles."),
 W("Pessimist Red Blend","gred","Good","$15 / $58","Paso Robles, CA — by Daou","Blackberry, blueberry, plum, cocoa, spice","Med","Med","Full","Bold, plush, fruit-forward","Ribeye, Short Rib Pasta, Prime Meatballs","Bolder Paso red blend; richer than Pinot, softer than serious Cab."),
-W("Dona Paula Malbec","gred","Good","$14 / $52","Mendoza, Argentina — added on the 7/3 sheet","Black plum, blueberry, violet, cocoa","Med","Med","Med-Full","Smooth, fruit-forward Malbec finish","Filet, NY Strip, Prime Meatballs","Easy red for guests who want smooth fruit without Cabernet grip."),
+W("Dona Paula Malbec","gred","Good","$14 / $52","Mendoza, Argentina (high desert — sun by day, cold nights keep it fresh)","Black plum, blueberry, violet, cocoa","Med","Med","Med-Full","Smooth, fruit-forward Malbec finish","Filet, NY Strip, Prime Meatballs","Easy red for guests who want smooth fruit without Cabernet grip."),
 
 /* ---- BY THE GLASS: WHITE ---- */
 W("Ruffino Moscato d'Asti","gwhite","Good","$13 / $48","Piedmont, Italy — sweetest white","Peach, orange blossom, citrus, floral sweetness","None","Med","Light","Sweet, lightly bubbly, soft","Dessert, cotton candy, guest who dislikes dry wine","Sweetest, softest white on the list; floral and lightly bubbly."),
@@ -115,6 +115,22 @@ W("La Marca Prosecco","gwhite","Good","$13 gl — verify bottle","Italy — bubb
 W("Mionetto Rose","gwhite","Good","$14 gl — verify bottle","Italy — pink bubbles by the glass (confirm in Toast)","Strawberry, raspberry, floral, crisp finish","None","Med-High","Light","Pink, pretty, dry-ish","Celebrations, rose drinkers, light desserts","Pink bubbles for the table that wants the pretty glass."),
 W("Post & Beam Chardonnay","gwhite","Better","$20 / $78","Napa, CA — by Far Niente","Golden apple, pear, lemon curd, vanilla, polished oak","None","Med","Med-Full","Polished premium Napa Chardonnay","Lobster, scallops, sea bass, chicken","By Far Niente; the premium polished Chardonnay by the glass.")
 ];
+
+/* THE WINE MOVE — the short list you read on the way to a table. Three by-the-glass pours
+   that cover the whole room, then the bottles to step them up to. Popular, mainstream
+   names in our Better lane, so nobody has to sell something nobody has heard of. */
+const WINE_MOVE = {
+ glass:[
+  ["Post & Beam Chardonnay","$20 glass / $78 bottle","The white. Rounder Chardonnay — start here if they say white."],
+  ["Belle Glos “Las Alturas” Pinot Noir","$18 / $62","Lighter and smoother. Plush red for the filet table."],
+  ["Caymus Cabernet Sauvignon","$32 / $155","Bigger and richer. The name everybody knows — sells itself with ribeye."]
+ ],
+ bottle:[
+  ["Caymus Napa Valley","the Cabernet everyone recognizes","$160"],
+  ["Gary Farrell Russian River Pinot Noir","silky, works with fish or filet","$120"],
+  ["Auntsfield Single Vineyard Sauvignon Blanc","the step up from Kim Crawford — crisp, for a seafood table","$53"]
+ ]
+};
 
 const WINE_CATS = [
  ["all","Everything"],["cab","Cabernet & Red Blends"],["merlot","Merlot"],["pinot","Pinot Noir"],
@@ -208,17 +224,18 @@ const WOTW = {
 };
 
 const REGIONS = [
- ["Napa Valley","Warm and dry, Cabernet country","Dark fruit, cocoa, oak, full body, tannin. Say: big steak red."],
- ["Mountain Napa","Howell Mtn / Spring Mtn / Mt. Veeder","Darker, firmer, graphite, more tannic. Say: best for ribeye or tomahawk."],
- ["Russian River","Fog-cooled Sonoma","Cherry and apple, silky texture, acidity. Say: red that works with fish or filet."],
- ["Willamette","Cool Oregon Pinot","Lighter, earthier, fresher, more acidic. Say: elegant, not heavy."],
- ["Burgundy / Chablis","Old World Pinot and Chardonnay","Earth, mineral, acid; less fruit and oak. Say: refined and food-driven."],
- ["Bordeaux / Pomerol","Cab and Merlot blends","Drier, cedar, tobacco, earth. Pomerol is softer Merlot. Say: classic steakhouse restraint."],
- ["Rhone","Grenache and Syrah blends","Pepper, herbs, savory warmth. Say: bold but not Cabernet."],
- ["Rioja / Ribera","Spanish Tempranillo","Vanilla, tobacco, red and dark fruit. Say: food-friendly savory steak red."],
- ["Tuscany / Super Tuscan","Italian acidity plus Bordeaux grapes","Cherry, herbs, graphite, freshness. Say: powerful but better with food."],
- ["Champagne","High-acid bubbles","Refreshes the palate and cuts richness. Oysters, seafood, wagyu, truffle fries."],
- ["Marlborough","NZ Sauvignon Blanc","Citrus, grass, tropical, very bright. Say: crisp seafood white."]
+ ["Napa Valley","warm and dry","A long, dry growing season ripens Cabernet fully — that is where the dark fruit, the weight and the soft tannin come from. Say: big steak red."],
+ ["Mountain Napa","thin soil, high up","Howell Mtn, Spring Mtn, Mt. Veeder. Vines struggle in rocky soil above the fog, so berries come out small and concentrated — darker, firmer, more graphite. Say: best for ribeye or tomahawk."],
+ ["Russian River","fog-cooled","Pacific fog rolls in nightly and slows ripening, so the grapes keep their acidity while the flavor builds. Say: the red that still works with fish or filet."],
+ ["Willamette","cool, volcanic soil","Ancient floods left deep, iron-rich soil, and the cool Oregon season keeps the fruit bright rather than jammy. Say: elegant, not heavy."],
+ ["Burgundy / Chablis","cold and chalky","Limestone and a cold climate give mineral and acid instead of ripe fruit and oak. Say: refined and food-driven."],
+ ["Bordeaux / Pomerol","maritime, gravel and clay","River-valley gravel drains hard and stresses the vine; Pomerol clay softens the Merlot. Say: classic steakhouse restraint."],
+ ["Rhone","hot, stony, windy","Sun-baked stones hold heat overnight and the Mistral wind thickens the skins — pepper, herbs, savory warmth. Say: bold but not Cabernet."],
+ ["Rioja / Ribera","high plains, American oak","Altitude keeps the acid, and long aging in oak is what gives it the vanilla and tobacco. Say: food-friendly savory steak red."],
+ ["Tuscany / Super Tuscan","Mediterranean hills","Sangiovese keeps its natural acidity even when ripe, so the wine stays fresh no matter how big it gets. Say: powerful, but better with food."],
+ ["Champagne","cold and chalky, bubbles from a second ferment","Grapes barely ripen that far north — that high acid plus bubbles is exactly what cuts richness. Oysters, seafood, wagyu, truffle fries."],
+ ["Marlborough","cool, sunny, stony river beds","Bright sun with cold nights pushes the aromatics way up — citrus, grass, tropical. Say: crisp seafood white."],
+ ["Kagoshima / old world vs new world","place vs grape","Old World labels name the PLACE and drink drier and earthier; New World labels name the GRAPE and drink riper and fruitier. Same grape, two accents."]
 ];
 
 const FASTANSWERS = [

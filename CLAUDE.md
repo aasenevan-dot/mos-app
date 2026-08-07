@@ -631,3 +631,81 @@ either side was lost.
 Green after the merge: qc.py CLEAN (91 menu items, 88 allergen rows, 37 photos, 44 leads,
 18 soups, 3 protocol steps, 55 dishes still without a photo), build 1,036,813 bytes,
 test.py ALL GOOD, test-sched.py ALL GOOD.
+
+## 8/7 round 5 — Claude Code merge #2, the one drink list, flags, and the slideshow
+
+Second Claude Code round adopted from repo HEAD `71f5fe6` ("Shorter section names, menu
+restructure, flags out of the dropdowns"). The repo already had every Cowork round-4 marker,
+so all four differing files were adopted wholesale.
+
+**From Claude Code — do not revert:**
+- **MENU restructured 10 sections → 7:** Starters (Seafood Towers folded in), Soup & Salad,
+  Entrees (Prime Cuts + Surf & Turf + Exclusives merged), Accessories, Desserts, Lounge,
+  Kids Menu. Section names are SHORT on purpose.
+- **`ENHANCE` left MENU** and is now one table opened from the top of Entrees, the way the
+  steak-temperature table rides with the cuts. Ten rows.
+- **Flags ride beside the dish name** (`.mflag` chip) instead of hiding in the dropdown.
+- The Spirits & Beer tab was removed; its content moved onto the Drinks tab.
+- Section headings renamed: Every Bottle, Pairing Finder, Go-To Pitches, Regions, Garnishes,
+  Flavors, Drink Menu, Checkout, Splits, Specials, Old Specials.
+- The three standing soups lost their section heading and are a one-line footnote now.
+
+**Cowork fixed a real CSS bug in the adopted head.** The flag comment was written INSIDE the
+selector — `.mitem /* ... */\n.mflag{...}` — which CSS parses as the descendant selector
+`.mitem .mflag`. Result: flag chips inside the Enhancements table got no chip styling at all
+(transparent, no border, 13.2px instead of 10.5px), and `.mchev` lost its `.mitem` scope.
+Comment moved above the rule. **Rule: never put a comment between a selector and its brace.**
+The chip length cap is now the named constant `FLAGMAX` (33) in 6-app.js — one place, used by
+both `mCard()` and the Enhancements table.
+
+**The Drinks tab is ONE organizer now (Evan 8/7).** It was a cocktail grid followed by eleven
+separate bottle tables — bourbon, Bardstown, high-end whiskey, Tennessee, scotch, cognac,
+tequila, draft, cordials, coffee, beer. Evan: *"how do we have the wine organizer with every
+bottle? We need every drink here... It needs to pretty much copy the layout of it."*
+- `buildDrinkIndex()` flattens COCKTAILS + SPIRITS + BEER into one `DRINKS_ALL` array of
+  uniform cards. 136 drinks.
+- Filter chips (`DRINK_CATS`) plus a price row (`DRINK_BUDGETS`), mirroring the wine tab.
+- `drinkCard()` takes the uniform shape and drops empty rows, so a bottle with only a
+  descriptor and a cocktail with a full build render as the same object.
+- `DRINK_NOTES` holds the four rows that POINT somewhere instead of naming something pourable
+  (the draft Old Fashioned duplicate, "anything else on tap?", the missing tequila page, the
+  coffee-cocktail cross-reference). They render as notes under the grid, not as cards.
+- Only three headings left on the tab: Garnishes, Flavors, Drink Menu. A test enforces that.
+
+**Flags earn their place (Evan 8/7).** *"Flags need to be important."* GF stays. Removed:
+U-6, 95% crab, trim + breadcrumbs, dry aged (the name says it), biggest side upsell,
+celebration play, new on the menu, cold water, GF (base), the Moscato pairing, and the chili's
+second "off menu". Rewritten: the 45-day ribeye says **Manager cuts tableside**; the white
+cheddar mash says **GF · upsell truffle or wasabi $3**; the lava cake is plain **GF**.
+Long sales notes moved into descriptions where they belong.
+
+**Utensils live in the description now, not a dropdown.** Big spoon on the au gratin, lobster
+mac, truffle cauliflower, risotto, creamed corn, creamed spinach, Mo's cookie, Mo's sundae,
+creme brulee and the lava cake. Spatula on the celebration cake, cheesecake and carrot cake.
+Big SERVING spoon on the white cheddar mash. The baked potato gets a **bread knife** and is
+cut down the middle. Asparagus leads with hollandaise in a ramekin and comes with tongs.
+Truffle fries and the burger come with **ketchup** (so does anything with fries). The ahi
+bites and the A5 nigiri get two metal Japanese chopsticks **PER PERSON**.
+
+Other menu changes: the lava cake has NO ice cream. "Celebration drop (free)" became its own
+dessert, **Celebration Sundae** — caramel, dark rum caramel, hot milk chocolate, and it is NOT
+the Mo's Sundae. Sorbets and pistachio gelato moved to the archive. The "Every side shares"
+row is gone. "Accessories / Sides" is just **Accessories**.
+
+**NEW: the training slideshow, and it shares ONE source with the PowerPoint.**
+- `mkdeck.js` builds `2026-08-07-mos-training-regiment.pptx` — 79 slides following the original
+  itinerary, with 13 PLACEHOLDER slides that say "PLACE PICTURE OF ___ HERE" and name the shot.
+  Those are the shot list, not filler; Evan fills them as the material comes in.
+- While it builds, it RECORDS every slide as structured content to `deck-content.json`.
+- `mkslides.py` turns that into `build/5e-data-deck.js` (`const DECK`). **Never hand-edit it.**
+  To change the slideshow, edit `mkdeck.js` → `node mkdeck.js` → `python3 mkslides.py` →
+  `python3 build.py`.
+- `openDeck(i)` / `closeDeck()` render it in How We Work, one slide at a time, with a contents
+  list, a progress bar and prev/next. Same top-level-declaration rule as the book: inline
+  onclick needs globals, and `var DECKI` has NO initializer.
+- The entry card sits directly under The Mo's Book card, which is where Evan asked for it.
+- The book's "Built on the original Mo's Training Itinerary…" blurb is DELETED. Do not add it back.
+
+Green: qc.py CLEAN (78 menu items, 88 allergen rows, 37 photos, 44 leads, 3 protocol steps),
+build 1,122,345 bytes, test.py ALL GOOD, test-sched.py ALL GOOD (now also covers the one drink
+list, retired flags, utensil text and all 79 slides).

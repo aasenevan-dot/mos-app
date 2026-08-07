@@ -201,10 +201,52 @@ async def main():
         if await pg.evaluate("SOTD.some(s=>s[0]==='Poblano')"): bad.append("plain Poblano not renamed")
         if not await pg.evaluate("RECIPES[0].tip&&/fries/i.test(RECIPES[0].tip)"):
             bad.append("ranch fries tip missing")
-        tf=await pg.evaluate("JSON.stringify(MENU['Accessories / Sides'].find(x=>x[0]==='Truffle Fries'))")
-        if "ranch" not in tf.lower(): bad.append("truffle fries ranch tag missing")
+        tf=await pg.evaluate("JSON.stringify(MENU['Accessories'].find(x=>x[0]==='Truffle Fries'))")
+        if "ranch" not in tf.lower(): bad.append("truffle fries ranch note missing")
+        if "ketchup" not in tf.lower(): bad.append("truffle fries ketchup missing")
+        # 8/7: flags have to earn their place — these were noise and are gone
+        noise=await pg.evaluate("""(function(){
+          const dead=["Know the U-6","95% crab","Trim + breadcrumbs","Dry aged","Biggest side upsell",
+            "Celebration play","New on the menu","Cold water — know why","GF (base)",
+            "Pairs with Ruffino Moscato","suggest ranch"];
+          const hit=[];
+          Object.values(MENU).forEach(a=>a.forEach(i=>{if(dead.includes(i[3]))hit.push(i[0]+": "+i[3]);}));
+          return hit;})()""")
+        if noise: bad.append(f"retired flags came back: {noise}")
+        # utensils belong in the description where a server actually reads them
+        for dish,word in [("Lobster Mac N' Cheese","big spoon"),("Baked Potato","bread knife"),
+                          ("White Cheddar Mashed Potatoes","serving spoon"),("Grilled Asparagus","tongs"),
+                          ("NY Style Cheesecake","spatula"),("Molten Lava Cake","big spoon"),
+                          ("A5 Nigiri","per person")]:
+            row=await pg.evaluate("(function(){let r=null;Object.values(MENU).forEach(a=>a.forEach(i=>{if(i[0]===%r)r=i;}));return r?r[2]:'';})()" % dish)
+            if word not in row.lower(): bad.append(f"{dish} description missing '{word}'")
         bg=await pg.evaluate("JSON.stringify(MENU['Lounge'].find(x=>x[0]==='Prime Beef Burger'))")
         if "ranch" not in bg.lower(): bad.append("burger ranch suggestion missing")
+        if "ketchup" not in bg.lower(): bad.append("burger ketchup missing")
+        # 8/7: the training slideshow lives under the book in How We Work
+        await pg.evaluate("go('house')")
+        await pg.wait_for_timeout(300)
+        cards=await pg.evaluate("[...document.querySelectorAll('#p-house .bkcard h3')].map(x=>x.textContent)")
+        if len(cards)<2 or "Slideshow" not in cards[1]:
+            bad.append(f"slideshow card is not under the book: {cards}")
+        if "Built on the original" in await pg.evaluate("document.body.innerHTML"):
+            bad.append("the old book blurb is back")
+        broke=await pg.evaluate("""(function(){
+          const out=[];
+          for(let i=0;i<DECK.length;i++){
+            openDeck(i);
+            const st=document.querySelector('#bkWrap .dkstage');
+            if(!st){out.push(i+':no stage');continue;}
+            if(st.innerText.trim().length<25) out.push(i+':empty');
+            if(/__TOC__|undefined|\\[object/.test(st.innerHTML)) out.push(i+':marker');
+          }
+          closeDeck(); return out;})()""")
+        if broke: bad.append(f"slideshow slides broken: {broke[:6]}")
+        n=await pg.evaluate("DECK.length")
+        if n < 70: bad.append(f"deck only has {n} slides")
+        shots=await pg.evaluate("DECK.filter(d=>d.k==='shot').length")
+        if not shots: bad.append("deck has no placeholder slides")
+
         # events moved to the schedule tab
         await pg.evaluate("go('sched')")
         await pg.wait_for_timeout(250)
@@ -266,8 +308,30 @@ async def main():
         await pg.evaluate("go('cocktails')")
         await pg.wait_for_timeout(250)
         shown=await pg.evaluate("document.querySelectorAll('#drinkGrid .card').length")
-        active=await pg.evaluate("COCKTAILS.filter(c=>c.grp!=='verify').length")
+        active=await pg.evaluate("DRINKS_ALL.filter(d=>d.cat!=='verify').length")
         if shown!=active: bad.append(f"All drinks shows {shown}, expected {active} (archive leaking)")
+        # 8/7: the drink tab is ONE organizer now — no per-spirit section headings
+        dsecs=await pg.evaluate("[...document.querySelectorAll('#p-cocktails .sechead h2')].map(h=>h.textContent)")
+        if dsecs!=["Garnishes","Flavors","Drink Menu"]:
+            bad.append(f"drink tab sections drifted: {dsecs}")
+        # every spirit and beer must be reachable as a card, not just as a table row
+        miss=await pg.evaluate("""(function(){
+          const names=new Set(DRINKS_ALL.map(d=>d.n)); const gone=[];
+          Object.values(SPIRITS).forEach(rows=>rows.forEach(r=>{
+            if(!names.has(r[0])&&!DRINK_NOTES.some(n=>n[0]===r[0])) gone.push(r[0]);}));
+          BEER.forEach(b=>{if(!names.has(b[0])) gone.push(b[0]);});
+          return gone;})()""")
+        if miss: bad.append(f"drinks missing from the one list: {miss[:6]}")
+        # archive chip reveals them
+        await pg.evaluate("document.querySelector('#drinkGrps button[data-g=\"verify\"]').click()")
+        await pg.wait_for_timeout(200)
+        arch=await pg.evaluate("document.querySelectorAll('#drinkGrid .card').length")
+        if arch!=await pg.evaluate("DRINKS_ALL.filter(d=>d.cat==='verify').length"):
+            bad.append("archive chip does not show exactly the archived drinks")
+        await pg.evaluate("document.querySelector('#drinkGrps button[data-g=\"all\"]').click()")
+        # no duplicate drink names in the merged list
+        dup=await pg.evaluate("(function(){const s={};DRINKS_ALL.forEach(d=>s[d.n]=(s[d.n]||0)+1);return Object.keys(s).filter(k=>s[k]>1);})()")
+        if dup: bad.append(f"duplicate drinks in the one list: {dup}")
         if await pg.evaluate("document.querySelector('#drinkGrid').innerHTML.includes('Sunny Day')"):
             bad.append("archived cocktail visible under All drinks")
         arch=await pg.evaluate("""(function(){

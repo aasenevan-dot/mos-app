@@ -175,6 +175,63 @@ tr:hover td{background:rgba(255,255,255,.017)}
 .bknav{display:flex;gap:8px;margin:18px 0 4px}
 .bknav button{flex:1;padding:12px 8px;border-radius:14px;border:1.5px solid var(--line);background:var(--card);font-weight:700;font-size:.85rem;cursor:pointer;color:var(--txt)}
 .bknav button.bkc{flex:0 0 auto;padding:12px 14px}
+
+/* ---------- the training slideshow: one slide at a time, thumb-friendly ---------- */
+.dkstage{border:1.5px solid var(--line);border-radius:18px;background:var(--card);
+  padding:20px 18px 24px;margin:10px 0 4px;min-height:58vh}
+.dkstage.day,.dkstage.cover{background:var(--brand);border-color:var(--brand);color:var(--cream)}
+.dkstage.day h2,.dkstage.cover h2{color:var(--cream)}
+.dkstage.day .dkkick,.dkstage.cover .dkkick{color:#E8D6C8}
+.dkstage.shot{background:repeating-linear-gradient(135deg,rgba(176,129,47,.05) 0 12px,transparent 12px 24px);
+  border:2px dashed var(--gold2)}
+.dkstage h2{margin:0 0 6px;font-size:1.5rem;line-height:1.22;color:var(--brand);font-weight:800}
+.dkstage.cover h2{font-size:1.9rem}
+.dkkick{margin:0 0 16px;font-size:.87rem;font-style:italic;color:var(--dim);line-height:1.5}
+.dkbadge{display:inline-block;margin:0 0 12px;padding:3px 12px;border-radius:999px;
+  background:rgba(89,31,28,.09);color:var(--brand);font-size:.72rem;font-weight:800;letter-spacing:.04em}
+.dkstage.day .dkbadge{background:var(--cream);color:var(--brand)}
+.dkdisc{width:54px;height:54px;border-radius:50%;background:var(--cream);color:var(--brand);
+  display:flex;align-items:center;justify-content:center;font-size:1.5rem;font-weight:800;margin:0 0 14px}
+.dkrows{list-style:none;margin:0;padding:0;counter-reset:dk}
+.dkrows li{position:relative;padding:0 0 14px 34px;font-size:.9rem;line-height:1.55;counter-increment:dk}
+.dkrows li:before{content:counter(dk);position:absolute;left:0;top:1px;width:24px;height:24px;
+  border-radius:50%;background:rgba(89,31,28,.09);color:var(--brand);font-size:.7rem;font-weight:800;
+  display:flex;align-items:center;justify-content:center}
+.dkrows li b{color:var(--brand)}
+.dkcards{display:grid;grid-template-columns:1fr;gap:10px;margin:4px 0 12px}
+.dkcard{background:var(--card2);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.dkcard h4{margin:0 0 3px;font-size:.95rem;color:var(--brand);font-weight:800}
+.dkcard span{display:block;font-size:.76rem;font-weight:800;color:var(--gold2);margin:0 0 5px}
+.dkcard p{margin:0;font-size:.86rem;line-height:1.52}
+.dklist{margin:0 0 14px;padding-left:20px}
+.dklist li{margin:0 0 8px;font-size:.89rem;line-height:1.55}
+.dkstage h5{margin:14px 0 7px;font-size:.95rem;color:var(--brand)}
+.dknote{background:rgba(89,31,28,.06);border:1px solid rgba(89,31,28,.14);border-radius:12px;
+  padding:11px 13px;margin:12px 0 4px;font-size:.86rem;line-height:1.55}
+.dknote b{color:var(--brand)}
+.dkshout{margin:14px 0 4px;text-align:center;font-size:1.05rem;font-weight:800;
+  font-style:italic;color:var(--brand);line-height:1.4}
+.dkquote{margin:0 0 8px;font-size:1.05rem;font-style:italic;color:var(--brand);line-height:1.5}
+.dksub{margin:0 0 12px;font-size:.86rem;color:var(--dim);line-height:1.55}
+.dkswap div{display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:center;
+  padding:8px 0;border-bottom:1px solid var(--line);font-size:.84rem}
+.dkswap div:last-child{border-bottom:0}
+.dkswap s{color:var(--dim)}
+.dkswap i{color:var(--gold2);font-style:normal;font-weight:800}
+.dkswap b{color:var(--brand)}
+.dkshot{border:2px dashed var(--gold2);border-radius:16px;padding:26px 16px;text-align:center;margin:6px 0 0}
+.dkshot .lbl{font-size:.72rem;font-weight:800;letter-spacing:.12em;color:var(--gold2)}
+.dkshot .big{margin:10px 0;font-size:1.3rem;font-weight:800;color:var(--brand);line-height:1.3;text-transform:uppercase}
+.dkshot .why{margin:12px 0 0;font-size:.85rem;font-style:italic;color:var(--dim);line-height:1.5}
+.dkbar{display:flex;align-items:center;gap:8px;margin:10px 0 2px}
+.dkbar button{flex:1;padding:13px 8px;border-radius:14px;border:1.5px solid var(--line);
+  background:var(--card);font-weight:800;font-size:.85rem;cursor:pointer;color:var(--txt)}
+.dkbar button.wide{flex:0 0 auto;padding:13px 15px}
+.dkbar button:disabled{opacity:.35}
+.dkcount{text-align:center;font-size:.78rem;color:var(--dim);margin:8px 0 0}
+.dktrack{height:4px;border-radius:999px;background:var(--line);margin:12px 0 0;overflow:hidden}
+.dktrack i{display:block;height:100%;background:var(--brand);transition:width .2s ease}
+@media(min-width:700px){.dkcards{grid-template-columns:1fr 1fr}}
 .note b{color:var(--txt)}
 .note.warn b{color:#8F332C}
 .note.gold b{color:var(--gold)}
@@ -251,9 +308,10 @@ tr:hover td{background:rgba(255,255,255,.017)}
 .mitem .mhead{display:flex;align-items:center;gap:11px}
 .mitem.canopen .mhead{cursor:pointer}
 .mitem .mtext{flex:1;min-width:0;display:flex;justify-content:space-between;align-items:baseline;gap:8px}
-.mitem /* A dish flag (GF, New on the menu) sits beside the name and must be legible at a
+/* A dish flag (GF, New on the menu) sits beside the name and must be legible at a
    glance without opening the card — that is the whole point of it. Small, quiet,
-   and it never pushes the price out of line. */
+   and it never pushes the price out of line. Standalone selector ON PURPOSE: these
+   chips also ride in the Enhancements table, which is not inside a .mitem. */
 .mflag{display:inline-block;margin-left:7px;padding:1px 7px;border-radius:999px;
   font-size:10.5px;font-weight:700;letter-spacing:.02em;vertical-align:2px;
   background:rgba(122,46,38,.09);color:var(--gold);border:1px solid rgba(122,46,38,.18);
@@ -262,7 +320,7 @@ tr:hover td{background:rgba(255,255,255,.017)}
 body.dark .mflag{background:rgba(201,123,90,.16);color:var(--gold);border-color:rgba(201,123,90,.30)}
 body.dark .mflag.warn{background:rgba(214,158,74,.16);color:#e0aa5e;border-color:rgba(214,158,74,.32)}
 .tbl .mflag{margin-left:6px}
-.mchev{flex:0 0 auto;color:var(--brand);font-size:15px;line-height:1;transition:transform .18s ease;opacity:.75}
+.mitem .mchev{flex:0 0 auto;color:var(--brand);font-size:15px;line-height:1;transition:transform .18s ease;opacity:.75}
 .mitem.open .mchev{transform:rotate(180deg)}
 .mitem .mlead{margin-top:8px;font-size:.92rem;line-height:1.5;color:var(--dim)}
 .mitem.open .mlead{display:none}

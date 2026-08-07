@@ -56,6 +56,8 @@ const QAICONS={
  "__search|":'<svg viewBox="0 0 24 24"><circle cx="10.6" cy="10.6" r="6.6"/><path d="M20 20l-4.7-4.7"/></svg>'
 };
 
+const FLAGMAX=33; /* longest flag that still rides inline beside a dish name */
+
 let TAB = "shift";
 
 function buildNav(){
@@ -147,23 +149,77 @@ function pairingOut(i){
 
 /* ---------- COCKTAILS ---------- */
 function drinkCard(c){
+  /* one card shape for everything in the drink list — a cocktail fills in build and
+     garnish, a bottle only has a descriptor, and the card just drops the empty rows */
   return `<div class="card">
-    <div class="crow"><div><div class="cname">${esc(c.n)}</div><div class="csub">${esc(c.base)}${c.glass&&c.glass!=="—"?" &middot; "+esc(c.glass):""}</div></div><div class="cprice">${esc(c.p)}</div></div>
-    <div class="cbody"><b>Build:</b> ${esc(c.build)}<br><b>Tastes like:</b> ${esc(c.desc)}</div>
+    <div class="crow"><div><div class="cname">${esc(c.n)}</div><div class="csub">${esc(c.sub||"")}</div></div><div class="cprice">${esc(c.p)}</div></div>
+    <div class="cbody">${c.build?`<b>Build:</b> ${esc(c.build)}<br>`:""}${c.desc?`<b>${c.build?"Tastes like":"Say this"}:</b> ${esc(c.desc)}`:""}</div>
     ${c.garnish&&c.garnish!=="—"?`<div class="garnish"><b>Garnish:</b> ${esc(c.garnish)}</div>`:""}
-    ${c.note?`<div class="tags"><span class="tag ${c.grp==="verify"?"warn":""}">${esc(c.note)}</span></div>`:""}
+    ${c.note?`<div class="tags"><span class="tag ${c.cat==="verify"?"warn":""}">${esc(c.note)}</span></div>`:""}
   </div>`;
 }
-let drinkFilter={grp:"all",q:""};
+/* ---------- ONE DRINK LIST ----------
+   Evan 8/7: the drink tab was a cocktail grid followed by eleven separate bottle
+   tables. It is now built like the wine organizer — every non-wine drink in one
+   filterable grid. SPIRITS rows and BEER rows get normalized into the same card
+   shape the cocktails already use, so nothing on screen looks like a second system. */
+const DRINK_CATS=[["all","All drinks"],["cocktail","Cocktails"],["bourbon","Bourbon"],
+  ["whiskey","Whiskey"],["scotch","Scotch"],["tequila","Tequila"],["cognac","Cognac & Port"],
+  ["beer","Beer & seltzer"],["cordial","Cordials"],["nonalc","Coffee, Tea & Water"],
+  ["verify","Archive — off the menu"]];
+const DRINK_BUDGETS=[["all","Any price"],["0-14","Under $15"],["15-24","$15–24"],
+  ["25-49","$25–49"],["50-9999","$50+"]];
+/* which filter chip each SPIRITS heading belongs under */
+const SPIRIT_CAT={"Bourbon":"bourbon","Bardstown":"bourbon","High-End Whiskey":"whiskey",
+  "Tennessee":"whiskey","Scotch":"scotch","Tequila":"tequila","Cognac":"cognac",
+  "On Draft":"cocktail","Cordials":"cordial","Coffee":"nonalc"};
+/* rows that point somewhere else rather than name something pourable */
+const DRINK_NOTES=[
+  ["Smoked Draft Old Fashioned","The only draft line we know for sure. It is in the list as a cocktail — the full build is on its card."],
+  ["Anything else on tap?","We barely have anything on tap. Sweet &amp; Salty is confirmed NOT on tap. If a second line exists, nobody has figured out what it is yet."],
+  ["Straight tequila list","The straight tequila shelf was never captured. Pull the current list from Toast before you quote one. El Charro and LALO are the two we pour into cocktails."],
+  ["Coffee cocktails","Espresso martinis and everything like them are in this same list — filter to Cocktails."]
+];
+var DRINKS_ALL=[];
+function buildDrinkIndex(){
+  const out=[];
+  COCKTAILS.forEach(c=>out.push({n:c.n,p:c.p,cat:c.grp==="verify"?"verify":"cocktail",
+    sub:c.base+(c.glass&&c.glass!=="—"?" · "+c.glass:""),build:c.build,desc:c.desc,
+    garnish:c.garnish,note:c.note,grp:c.grp,from:COCKTAIL_GRPS.reduce((a,g)=>g[0]===c.grp?g[1]:a,"Cocktail")}));
+  /* Pointer rows, not drinks: they made sense as the last line of their own table,
+     but in one merged list they read as something a guest could order. They render
+     as notes under the grid instead — nothing is lost, it is just not a card. */
+  Object.entries(SPIRITS).forEach(([sec,rows])=>{
+    const key=Object.keys(SPIRIT_CAT).find(k=>sec.indexOf(k)===0)||"";
+    const cat=SPIRIT_CAT[key]||"bourbon";
+    rows.forEach(r=>{
+      if(DRINK_NOTES.some(n=>n[0]===r[0]))return;
+      out.push({n:r[0],p:r[1],cat:cat,sub:sec.replace(/ —.*$/,"").replace(/ \(.*\)$/,""),
+        build:"",desc:r[2],garnish:"",note:"",from:sec});
+    });
+  });
+  BEER.forEach(b=>out.push({n:b[0],p:b[1],cat:"beer",sub:b[2],build:"",desc:b[3],
+    garnish:"",note:"",from:"Beer & seltzer"}));
+  DRINKS_ALL=out;
+}
+function drinkPrice(d){const m=String(d.p).match(/\$(\d+)/);return m?+m[1]:-1;}
+let drinkFilter={grp:"all",q:"",price:"all"};
 function renderDrinks(){
+  if(!DRINKS_ALL.length)buildDrinkIndex();
   const q=drinkFilter.q.toLowerCase();
+  let lo=0,hi=1e9;
+  if(drinkFilter.price!=="all"){const b=drinkFilter.price.split("-");lo=+b[0];hi=+b[1];}
   /* Archived drinks stay OUT of "All drinks" — they are off the menu and people were
      reading them as orderable. They only appear when the Archive chip is picked. */
-  const list=COCKTAILS.filter(c=>{
-    const inGrp = drinkFilter.grp==="all" ? c.grp!=="verify" : c.grp===drinkFilter.grp;
-    return inGrp && (!q||(c.n+c.build+c.garnish+c.desc+c.base).toLowerCase().includes(q));
+  const list=DRINKS_ALL.filter(d=>{
+    const inGrp = drinkFilter.grp==="all" ? d.cat!=="verify" : d.cat===drinkFilter.grp;
+    if(!inGrp) return false;
+    if(drinkFilter.price!=="all"){const v=drinkPrice(d); if(v<lo||v>hi) return false;}
+    return !q||(d.n+d.build+d.garnish+d.desc+d.sub+d.from).toLowerCase().includes(q);
   });
-  $("#drinkGrid").innerHTML=list.length?list.map(drinkCard).join(""):'<div class="empty">No drinks match.</div>';
+  const c=$("#drinkCount"); if(c) c.textContent=list.length+" match"+(list.length===1?"":"es");
+  $("#drinkGrid").innerHTML=list.length?list.map(drinkCard).join("")
+    :'<div class="empty">Nothing in that lane. Widen the price or pick another chip.</div>';
 }
 
 /* ---------- ALLERGENS ---------- */
@@ -630,6 +686,7 @@ function search(q){
   WINES.forEach(x=>{if(matches([x.n,x.r,x.f,x.pair,x.pitch,x.p]))add("Wine",x.n+" — "+x.p,x.pitch,"wine");});
   COCKTAILS.forEach(x=>{if(matches([x.n,x.build,x.garnish,x.desc,x.p,x.grp]))add("Cocktail",x.n+" — "+x.p,"Garnish: "+x.garnish+" · "+x.build,"cocktails");});
   Object.entries(MENU).forEach(([sec,items])=>items.forEach(i=>{if(matches([sec,i[0],i[1],i[2],i[3]]))add(sec,i[0]+" — "+i[1],i[2],"menu");}));
+  ENHANCE.forEach(e=>{if(matches([e[0],e[1],e[2],e[3]]))add("Enhancement",e[0]+" — "+e[1],e[2],"menu");});
   ALLERGENS.forEach(r=>{if(matches([r[0],r[2].join(" "),r[3]]))add("Allergens",r[0],"Contains: "+(r[2].join(", ")||"none listed")+". "+r[3],"allergens");});
   Object.entries(SPIRITS).forEach(([sec,rows])=>rows.forEach(r=>{if(matches([sec,r[0],r[2]]))add(sec,r[0]+" — "+r[1],r[2],"cocktails");}));
   BEER.forEach(b=>{if(matches([b[0],b[2],b[3]]))add("Beer",b[0]+" — "+b[1],b[2]+". "+b[3],"cocktails");});
@@ -646,6 +703,12 @@ function search(q){
   /* the book is searchable too — a hit sends you to How We Work, where the book card lives */
   BOOK.forEach(c=>{const txt=c.h.replace(/<[^>]+>/g," ").replace(/\s+/g," ");
     if(matches([c.t,"mo's book",txt]))add("Mo's Book",c.t,txt.trim().slice(0,140)+"…","house");});
+  /* The 79-slide training slideshow shipped indexed-nowhere, so nothing in it was
+     findable from the search bar the way the book already was. */
+  if(typeof DECK!=="undefined") DECK.forEach((c,j)=>{
+    const txt=String(c.h||"").replace(/<[^>]+>/g," ").replace(/\s+/g," ").trim();
+    if(matches([c.t,c.s,c.d,"training slideshow","slideshow",txt]))
+      add("Slideshow"+(c.d?" · "+c.d:""),c.t,(c.s?c.s+" — ":"")+txt.slice(0,120)+(txt.length>120?"…":""),"house");});
   /* How We Work was never indexed — the mission, the Points of Passion, the
      non-negotiables, every steps-of-service list, the side work and the house facts
      were all invisible to search. "uniform", "boxing station", the chef's name: nothing. */
@@ -836,19 +899,14 @@ function build(){
     <div class="sechead"><h2>Flavors</h2></div>
     ${tbl(["Guest asks for","Send them to"],DRINK_PITCH.map(p=>[esc(p[0]),`<b>${esc(p[1])}</b>`]))}
 
-    <div class="sechead"><h2>Drink Menu</h2><span>build, glass, garnish, descriptor</span></div>
-    <input class="fsearch" id="drinkQ" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="search" placeholder="Search drink, spirit, or garnish...">
-    <div class="filters" id="drinkGrps">${COCKTAIL_GRPS.map(g=>`<button data-g="${g[0]}"${g[0]==="all"?' class="on"':''}>${g[1]}</button>`).join("")}</div>
+    <div class="sechead" id="sec-drinkmenu"><h2>Drink Menu</h2><span id="drinkCount"></span></div>
+    <p class="lede">Everything that is not wine, in one list — cocktails, bourbon, whiskey, scotch, tequila, cognac, port, beer, draft, cordials, coffee and tea. Filter the same way you filter the wine list.</p>
+    <input class="fsearch" id="drinkQ" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="search" placeholder="Search drink, bottle, spirit, or garnish...">
+    <div class="filters" id="drinkGrps">${DRINK_CATS.map(g=>`<button data-g="${g[0]}"${g[0]==="all"?' class="on"':''}>${g[1]}</button>`).join("")}</div>
+    <div class="filters" id="drinkPrice">${DRINK_BUDGETS.map(b=>`<button data-p="${b[0]}"${b[0]==="all"?' class="on"':''}>${b[1]}</button>`).join("")}</div>
     <div class="grid wide" id="drinkGrid"></div>
-    ${""/* Everything that is not wine lives here too — spirits, beer, draft,
-          cordials, port, coffee and tea — so "Drink Menu" means the whole book. */}
-
-    ${Object.entries(SPIRITS).map(([sec,rows])=>`
-      <div class="sechead"><h2>${esc(sec)}</h2><span>${rows.length} bottles</span></div>
-      ${tbl(["Bottle","Price","Say this"],rows.map(r=>[`<b>${esc(r[0])}</b>`,esc(r[1]),`<span style="color:var(--dim)">${esc(r[2])}</span>`]),[,"n",])}`).join("")}
-    <div class="sechead"><h2>Beer &amp; seltzer</h2><span>ranked by ABV — prices verify in Toast</span></div>
-    ${tbl(["Beer","ABV","Type","Say this"],BEER.map(b=>[`<b>${esc(b[0])}</b>`,`<span class="mono">${esc(b[1])}</span>`,esc(b[2]),`<span style="color:var(--dim)">${esc(b[3])}</span>`]))}
-    <div class="note"><b>Two easy calls:</b> the strongest beer is Elysian Space Dust at 8.2%. The only zero-proof beer is Bud Zero. Austin Eastciders Original Dry is the gluten-free-style option.</div>`;
+    <div class="note"><b>Two easy calls:</b> the strongest beer is Elysian Space Dust at 8.2%. The only zero-proof beer is Bud Zero. Austin Eastciders Original Dry is the gluten-free-style option.</div>
+    ${DRINK_NOTES.map(n=>`<div class="note" style="margin-top:8px"><b>${esc(n[0])}${/[?.!]$/.test(n[0])?"":":"}</b> ${n[1]}</div>`).join("")}`;
 
   /* ---------- FOOD MENU — the whole food world in one tab ----------
      Modeled on the guest app: section chips across the top, then compact rows that
@@ -874,11 +932,11 @@ function build(){
     const pic=dishPic(name), extra=DISH_EXTRA[name]||"";
     const full=String(desc||"");
     const lead=(typeof LEADS!=="undefined"&&LEADS[name])||firstLine(full);
-    const more=full.trim()!==lead.trim(), long=more||!!extra||!!(tag&&tag.length>24);
+    const more=full.trim()!==lead.trim(), long=more||!!extra||!!(tag&&tag.length>FLAGMAX);
     /* A flag a guest could ask about — GF, "New on the menu" — has to be readable
        WITHOUT opening the card. Short flags ride up beside the name; longer notes
        stay in the body so the heading never turns into a paragraph. */
-    const isFlag=tag&&tag.length<=24;
+    const isFlag=tag&&tag.length<=FLAGMAX;
     const warnT=/verify|cannot|archiv/i.test(tag||"");
     const chip=isFlag?`<span class="mflag${warnT?" warn":""}">${esc(tag)}</span>`:"";
     const body=`${more?`<div class="mdesc">${esc(full)}</div>`:""}
@@ -899,9 +957,9 @@ function build(){
      sitting above the steaks the way the temperature table rides with the cuts. */
   const ENH_TBL=acc("Enhancements","what you can add to any steak",
     tbl(["Add","Price","What it is"],ENHANCE.map(e=>[
-      `<b>${esc(e[0])}</b>${e[3]&&e[3].length<=24?`<span class="mflag">${esc(e[3])}</span>`:""}`,
+      `<b>${esc(e[0])}</b>${e[3]&&e[3].length<=FLAGMAX?`<span class="mflag">${esc(e[3])}</span>`:""}`,
       `<span class="mono">${esc(e[1])}</span>`,
-      `<span style="color:var(--dim)">${esc(e[2])}${e[3]&&e[3].length>24?" "+esc(e[3]):""}</span>`])));
+      `<span style="color:var(--dim)">${esc(e[2])}${e[3]&&e[3].length>FLAGMAX?" "+esc(e[3]):""}</span>`])));
   const SEC_EXTRA={
     "Entrees":ENH_TBL+acc("Steak temperatures","what each one looks like inside",
       `${tbl(["Temp","Center"],TEMPS.map(t=>[`<b>${esc(t[0])}</b>`,esc(t[1])]))}
@@ -1013,6 +1071,7 @@ function build(){
     <div class="sechead"><h2>How we work</h2><span>Points of Passion, steps of service, and the house playbook</span></div>
     <div class="note gold"><b>Mission:</b> ${esc(HOUSE.mission)}</div>
     <div class="bkcard" onclick="openBook()"><h3>&#128214; The Mo's Book</h3><p>The whole training course, in the order we teach it — every day of the original itinerary, front to back. Tap to read it chapter by chapter.</p></div>
+    <div class="bkcard" onclick="openDeck()"><h3>&#128444;&#65039; The Training Slideshow</h3><p>The same ten days as a deck you swipe through one slide at a time. Tap to start, or jump to a day.</p></div>
     ${acc("Points of Passion — the 16","the Mo's service philosophy, word for word where it counts",`<ol class="steps">${HOUSE.points.map(([t,d])=>`<li><b>${esc(t)}.</b> ${esc(d)}</li>`).join("")}</ol>`)}
     ${acc("Isaac's Non-Negotiables — the 11","the standards that never bend",`<ol class="steps">${HOUSE.isaacs.map(d=>`<li>${esc(d)}</li>`).join("")}</ol>`)}
     ${acc("Back server steps of service","your role, from the official handout",`<ul class="steps">${HOUSE.back.map(d=>`<li>${esc(d)}</li>`).join("")}</ul>`)}
@@ -1167,6 +1226,8 @@ function build(){
   $("#drinkQ").oninput=e=>{drinkFilter.q=e.target.value;renderDrinks();};
   $("#drinkGrps").onclick=e=>{const b=e.target.closest("button");if(!b)return;
     $("#drinkGrps").querySelectorAll("button").forEach(x=>x.classList.toggle("on",x===b));drinkFilter.grp=b.dataset.g;renderDrinks();};
+  $("#drinkPrice").onclick=e=>{const b=e.target.closest("button");if(!b)return;
+    $("#drinkPrice").querySelectorAll("button").forEach(x=>x.classList.toggle("on",x===b));drinkFilter.price=b.dataset.p;renderDrinks();};
 
   $("#allergyChips").onclick=e=>{const b=e.target.closest("button");if(!b)return;
     const a=b.dataset.a;
@@ -1252,7 +1313,6 @@ function openBook(i){
   if(i==null){
     BOOKCH=null;
     w.innerHTML=`<div class="sechead"><h2>The Mo's Book</h2><span>everything we teach, in the order we teach it</span></div>
-    <p class="lede">Built on the original Mo's Training Itinerary — the plan that opened this restaurant. Read it front to back, or jump straight to a day. When the book and the rest of the app disagree, the app is newer.</p>
     <div class="card"><div class="cbody">${BOOK.map((c,j)=>`<div class="bkrow" onclick="openBook(${j})"><div class="n">${j===0?"&#9733;":(j===BOOK.length-1?"&#9873;":j)}</div><div class="t">${esc(c.t)}</div></div>`).join("")}</div></div>
     <div class="bknav"><button onclick="closeBook()">&#8592; Back to How We Work</button></div>`;
   } else {
@@ -1270,6 +1330,68 @@ function closeBook(){
   const w=$("#bkWrap"), m=$("#houseMain");
   if(!w||!m)return;
   BOOKCH=null; w.style.display="none"; w.innerHTML=""; m.style.display="block";
+  window.scrollTo(0,0);
+}
+
+/* ---------- THE TRAINING SLIDESHOW — reader inside How We Work ----------
+   Same rules as the book: TOP-LEVEL declarations because the contents rows and
+   the prev/next buttons use inline onclick. DECKI has no initializer so a
+   re-run of build() never throws you out of the slide you are on. Slide HTML
+   comes from mkslides.py — already escaped, injected raw. */
+var DECKI;
+function dkDay(i){ /* which day divider owns this slide */
+  let d=null; for(let j=0;j<=i;j++) if(DECK[j].k==="day") d=DECK[j];
+  return d;
+}
+function dkTOC(){
+  return `<div class="card"><div class="cbody">${DECK.map((c,j)=>c.k==="day"||c.k==="cover"
+    ?`<div class="bkrow" onclick="openDeck(${j})"><div class="n">${c.k==="day"?c.n:"&#9733;"}</div><div class="t">${esc(c.t)}</div></div>`
+    :"").join("")}</div></div>`;
+}
+function openDeck(i){
+  const w=$("#bkWrap"), m=$("#houseMain");
+  if(!w||!m)return;
+  m.style.display="none"; w.style.display="block";
+  if(i==null){
+    DECKI=null;
+    w.innerHTML=`<div class="sechead"><h2>The Training Slideshow</h2><span>${DECK.length} slides, one at a time</span></div>
+      ${dkTOC()}
+      <div class="bknav"><button onclick="closeDeck()">&#8592; Back to How We Work</button>
+      <button class="bkc" onclick="openDeck(0)">Start &#8594;</button></div>`;
+    window.scrollTo(0,0); return;
+  }
+  i=Math.max(0,Math.min(DECK.length-1,i));
+  DECKI=i;
+  const c=DECK[i], day=dkDay(i);
+  let inner="";
+  if(c.k==="shot"){
+    inner=`<div class="dkshot"><div class="lbl">PLACE PICTURE OF</div>
+      <div class="big">${esc(c.t)}</div><div class="lbl">HERE</div>
+      <p class="why">${esc(c.s)}</p></div>`;
+  } else if(c.k==="day"){
+    inner=`<div class="dkdisc">${c.n}</div><h2>${esc(c.t)}</h2><p class="dkkick">${esc(c.s)}</p>`;
+  } else if(c.k==="cover"){
+    inner=`<h2>${esc(c.t)}</h2><p class="dkkick">${esc(c.s)}</p><p class="dkkick">${esc(c.d)}</p>`;
+  } else {
+    inner=`<h2>${esc(c.t)}</h2>${c.s?`<p class="dkkick">${esc(c.s)}</p>`:""}${c.h.replace("__TOC__",dkTOC())}`;
+  }
+  const badge = c.k==="day"||c.k==="cover" ? "" :
+    (day?`<div class="dkbadge">${esc(day.d)} &middot; ${esc(day.t)}</div>`:"");
+  w.innerHTML=`<div class="bknav"><button class="bkc" onclick="openDeck()">&#9776; Contents</button>
+      <button onclick="closeDeck()">Exit the slideshow</button></div>
+    <div class="dkstage ${c.k}">${badge}${inner}</div>
+    <div class="dktrack"><i style="width:${Math.round((i+1)/DECK.length*100)}%"></i></div>
+    <div class="dkbar">
+      <button onclick="openDeck(${i-1})"${i===0?" disabled":""}>&#8592; Back</button>
+      <button class="wide" onclick="openDeck()">&#9776;</button>
+      <button onclick="openDeck(${i+1})"${i===DECK.length-1?" disabled":""}>Next &#8594;</button></div>
+    <p class="dkcount">Slide ${i+1} of ${DECK.length}</p>`;
+  window.scrollTo(0,0);
+}
+function closeDeck(){
+  const w=$("#bkWrap"), m=$("#houseMain");
+  if(!w||!m)return;
+  DECKI=null; w.style.display="none"; w.innerHTML=""; m.style.display="block";
   window.scrollTo(0,0);
 }
 

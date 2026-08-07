@@ -1,4 +1,4 @@
-import asyncio, sys
+import asyncio, pathlib, sys
 from playwright.async_api import async_playwright
 
 MOCK = """
@@ -13,7 +13,9 @@ MOCK = """
 """
 
 async def main():
-    url="file:///home/user/moes/index.html"; bad=[]
+    # resolve index.html next to this script, so the suite runs on any machine
+    # (it was pinned to the Cowork container path and could only ever run there)
+    url=(pathlib.Path(__file__).parent/"index.html").resolve().as_uri(); bad=[]
     async with async_playwright() as pw:
         b=await pw.chromium.launch()
         # ---- load 1: Friday 8/7/2026, 3pm ----
@@ -132,7 +134,8 @@ async def main():
         if not ok: bad.append("name-that-bottle malformed")
         ok=await pg.evaluate("(function(){priceBlitz();const armed=QTIME!==null&&QTIME.left===60&&QMODE==='blitz';const shape=quiz.order.length===10&&quiz.order.every(i=>{const q=QBANK[i];return q.o.length===4&&new Set(q.o).size===4&&q.o[0].startsWith('$');});clearQTimer();return armed&&shape;})()")
         if not ok: bad.append("price blitz or its timer malformed")
-        for key,n in [("greet",5),("allergy",6)]:
+        nprot=await pg.evaluate("PROTOCOL.length")
+        for key,n in [("greet",5),("allergy",nprot)]:
             js="(function(){orderGame('"+key+"');const b=[...document.querySelectorAll('#quizBox .opt')];if(b.length!=="+str(n)+")return false;for(let x=0;x<"+str(n)+";x++){const t=[...document.querySelectorAll('#quizBox .opt')].find(e=>+e.dataset.i===x);t.click();}return document.querySelector('#ogFb').innerHTML.includes('0 wrong taps');})()"
             ok=await pg.evaluate(js)
             if not ok: bad.append(f"order game {key} broken")
@@ -157,10 +160,15 @@ async def main():
         order=await pg.evaluate("""(function(){
           const h=[...document.querySelectorAll('#p-menu .sechead h2')].map(x=>x.textContent);
           const at=t=>h.findIndex(x=>x.includes(t));
-          return [at('Specials running right now'),at('Not running right now'),
-                  at('Starters'),at('Archives')];})()""")
-        if not (0<=order[0]<order[1]<order[2]<order[3]):
-            bad.append(f"food menu section order wrong: {order}")
+          return {specials:at('Specials running right now'),starters:at('Starters'),
+                  kids:at('Kids Menu'),notnow:at('Not running right now'),
+                  arch:at('Archives')};})()""")
+        o=order
+        if -1 in o.values(): bad.append(f"a food menu section is missing: {o}")
+        elif not (0==o["specials"]<o["starters"]<o["kids"]<o["notnow"]<o["arch"]):
+            bad.append(f"food menu section order wrong: {o}")
+        elif o["notnow"]-o["kids"]!=1:
+            bad.append(f"'Not running' sits {o['notnow']-o['kids']} sections after Kids Menu, expected 1")
         if "Steak temperatures" not in mn: bad.append("steak temps missing")
         if mn.index("Prime 47 Cuts")>mn.index("Steak temperatures"):
             bad.append("steak temps are not inside the cuts section")
@@ -225,9 +233,12 @@ async def main():
         if "NOT vegetarian" in mtxt: bad.append("redundant risotto vegetarian line still there")
         # allergy protocol order, and the study-sheet line is gone
         pr=await pg.evaluate("PROTOCOL")
-        if len(pr)!=6: bad.append(f"protocol has {len(pr)} steps, expected 6")
+        if len(pr)!=3: bad.append(f"protocol has {len(pr)} steps, expected 3")
         want=["back server","expo","chef","manager"]
-        idx=[next((i for i,x in enumerate(pr) if w in x.lower()), -1) for w in want]
+        # steps 3-6 were merged into one line, so position-in-list no longer separates
+        # them - check the four read in order across the joined text instead.
+        flat=" | ".join(pr).lower()
+        idx=[flat.find(w) for w in want]
         if -1 in idx or idx!=sorted(idx): bad.append(f"protocol order wrong: {pr}")
         if any("guarantee" in x.lower() for x in pr): bad.append("study-sheet step not deleted")
         # the wine move card

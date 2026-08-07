@@ -1499,10 +1499,7 @@ const ALLERGEN_MEANING = [
 const PROTOCOL = [
  "Ask what kind of allergy it is.",
  "Ring the allergy in Toast.",
- "Tell your back server.",
- "Tell expo.",
- "Tell the chef.",
- "Tell a manager."
+ "Tell your back server, expo, the chef, and a manager."
 ];
 
 const DIET = [
@@ -1538,7 +1535,7 @@ const SPECIALS_ROTATION=[
  ["Cajun Butter Salmon","$35? VERIFY price","Cajun butter, served with vegetables. Price still needs verified in Toast."]
 ];
 const SPECIALS_PAST=[
- ["Ahi Tuna & Wagyu Beef","$68","4 oz Hawaiian ahi crusted in black and white sesame with a hoisin glaze, plus a 4 oz Australian wagyu filet, sliced. Eight ounces of surf and turf on one plate.","off the current menu"],
+ ["Ahi Tuna & Wagyu Beef","$68","4 oz Hawaiian ahi crusted in black and white sesame with hoisin glaze, plus a 4 oz Australian wagyu filet, sliced. Eight ounces of surf and turf on one plate.","off the current menu"],
  ["Australian Wagyu Porterhouse (old name)","now the USDA Choice Porterhouse","For a while the 48 oz porterhouse was called an Australian Wagyu Porterhouse at $180. Same cut, right name and price now: USDA CHOICE, $150 — roughly a 26 oz NY strip, a 12 oz filet, and about a 10 oz bone, built for two to split.","renamed"],
  ["Tomahawk Tuesday","$180 package","The 32 oz Australian Wagyu Tomahawk plus two glasses of wine, two soups or salads, and a signature Brown Butter Cake to finish — a full night out for $180. Not running anymore, but worth knowing we did it.","not running"],
  ["Heart of Ribeye Skewers","$45","Bourbon glaze mixed with onions and peppers. One of the most underrated things we ever ran.","not running"],
@@ -1779,7 +1776,7 @@ const OPEN = [
 
 /* ============ OPS ============ */
 const FLOW = [
- ["Before you walk up",["Pre-shift lineup runs about 4:15 every day — the MOD covers teams, floor plan, need-to-knows, soup, today's specials, and recent reviews.","Know soup of the day, oysters, 86'd items, cut specials, and big features.","Know the cocktail menu well enough to give 2 easy recommendations.","Know allergy protocol: ask the allergy, ring it in, tell back server, expo and chef, and a manager.","Know timing: soups, salads, and desserts 5-7 minutes (10 max); entrees 22-27 minutes.","The kitchen is Chef Miguel Garatachea's — use the name when you pitch."]],
+ ["Before you walk up",["Pre-shift lineup runs about 4:15 every day — the MOD covers teams, floor plan, need-to-knows, soup, today's specials, and recent reviews.","Know soup of the day, oysters, 86'd items, cut specials, and big features.","Know the cocktail menu well enough to give 2 easy recommendations.","Know allergy protocol: ask the allergy, ring it in, tell back server, expo and chef, and a manager.","Know timing: soups, salads, and desserts 5-7 minutes (10 max); entrees 22-27 minutes."]],
  ["Greet",["Introduce yourself and your back server.","Ask first time, celebration, allergies, and whether they want the wine list.","Point them to cocktails, beer, wine, and whiskey.","Keep it warm and short."]],
  ["Drinks first",["Get drinks started quickly.","If they are unsure, give two simple choices — light and refreshing: Cactus Flower Mule or Lychee Icee. Sweet and fruity: Ruby & Jade or Golden Hour. Whiskey: Pittsburghed Peach Old Fashioned.","Wine bottles: the front server sets the glasses, and a MANAGER opens and pours the bottle at the table — every time.","If they order a wine bottle over $250, let a manager know and use big Bordeaux glasses."]],
  ["Appetizers",["After drinks, ask about apps.","Recommend 2-3 confidently: shrimp cocktail, calamari, crispy ahi tuna bites, oysters, or a seafood tower.","Send apps quickly and tell the back server.","Apps buy you time, but do not forget to course the rest."]],
@@ -5349,7 +5346,7 @@ function priceBlitz(){
 const GREET_STEPS=["Busser drops the waters","Front greets \u2014 drinks and apps","BACK drops soup-salad and introduces themselves","Entr\u00e9es land \u2014 coursed, never stacked","Checkback, 2\u20135 minutes after entr\u00e9es"];
 const ORDER_SEQS={
   greet:{title:"Tap the greet flow in the right order",steps:GREET_STEPS,recap:"Waters \u2192 greet \u2192 soup-salad \u2192 entr\u00e9es \u2192 checkback. That rhythm is the job."},
-  allergy:{title:"Tap the allergy protocol in the right order",steps:PROTOCOL,recap:"Ask \u2192 ring it \u2192 back server \u2192 expo \u2192 chef \u2192 manager. Every time."}
+  allergy:{title:"Tap the allergy protocol in the right order",steps:PROTOCOL,recap:"Ask \u2192 ring it in \u2192 then tell back server, expo, chef, manager. Every time."}
 };
 function orderGame(key){
   key=ORDER_SEQS[key]?key:"greet";
@@ -6018,7 +6015,7 @@ function build(){
       <button id="gGarnish"><div class="t">Garnish match</div><div class="s">10 drinks — pick the right garnish</div></button>
       <button id="gBottle"><div class="t">Name that bottle</div><div class="s">Hear the pitch, name the wine</div></button>
       <button id="gOrder"><div class="t">Order the greet</div><div class="s">Tap the 5 service steps in sequence</div></button>
-      <button id="gAllergy"><div class="t">Order the allergy protocol</div><div class="s">The 6 steps, in the only acceptable order</div></button>
+      <button id="gAllergy"><div class="t">Order the allergy protocol</div><div class="s">The ${PROTOCOL.length} steps, in the only acceptable order</div></button>
     </div>
 
     <div class="sechead"><h2>The real menu test</h2><span>all 30 questions with the corrected answers</span></div>

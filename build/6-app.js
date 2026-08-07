@@ -318,7 +318,7 @@ function priceBlitz(){
 const GREET_STEPS=["Busser drops the waters","Front greets \u2014 drinks and apps","BACK drops soup-salad and introduces themselves","Entr\u00e9es land \u2014 coursed, never stacked","Checkback, 2\u20135 minutes after entr\u00e9es"];
 const ORDER_SEQS={
   greet:{title:"Tap the greet flow in the right order",steps:GREET_STEPS,recap:"Waters \u2192 greet \u2192 soup-salad \u2192 entr\u00e9es \u2192 checkback. That rhythm is the job."},
-  allergy:{title:"Tap the allergy protocol in the right order",steps:PROTOCOL,recap:"Ask \u2192 ring it \u2192 back server \u2192 expo \u2192 chef \u2192 manager. Every time."}
+  allergy:{title:"Tap the allergy protocol in the right order",steps:PROTOCOL,recap:"Ask \u2192 ring it in \u2192 then tell back server, expo, chef, manager. Every time."}
 };
 function orderGame(key){
   key=ORDER_SEQS[key]?key:"greet";
@@ -987,7 +987,7 @@ function build(){
       <button id="gGarnish"><div class="t">Garnish match</div><div class="s">10 drinks — pick the right garnish</div></button>
       <button id="gBottle"><div class="t">Name that bottle</div><div class="s">Hear the pitch, name the wine</div></button>
       <button id="gOrder"><div class="t">Order the greet</div><div class="s">Tap the 5 service steps in sequence</div></button>
-      <button id="gAllergy"><div class="t">Order the allergy protocol</div><div class="s">The 6 steps, in the only acceptable order</div></button>
+      <button id="gAllergy"><div class="t">Order the allergy protocol</div><div class="s">The ${PROTOCOL.length} steps, in the only acceptable order</div></button>
     </div>
 
     <div class="sechead"><h2>The real menu test</h2><span>all 30 questions with the corrected answers</span></div>

@@ -322,10 +322,7 @@ const ALLERGEN_MEANING = [
 const PROTOCOL = [
  "Ask what kind of allergy it is.",
  "Ring the allergy in Toast.",
- "Tell your back server.",
- "Tell expo.",
- "Tell the chef.",
- "Tell a manager."
+ "Tell your back server, expo, the chef, and a manager."
 ];
 
 const DIET = [
@@ -361,7 +358,7 @@ const SPECIALS_ROTATION=[
  ["Cajun Butter Salmon","$35? VERIFY price","Cajun butter, served with vegetables. Price still needs verified in Toast."]
 ];
 const SPECIALS_PAST=[
- ["Ahi Tuna & Wagyu Beef","$68","4 oz Hawaiian ahi crusted in black and white sesame with a hoisin glaze, plus a 4 oz Australian wagyu filet, sliced. Eight ounces of surf and turf on one plate.","off the current menu"],
+ ["Ahi Tuna & Wagyu Beef","$68","4 oz Hawaiian ahi crusted in black and white sesame with hoisin glaze, plus a 4 oz Australian wagyu filet, sliced. Eight ounces of surf and turf on one plate.","off the current menu"],
  ["Australian Wagyu Porterhouse (old name)","now the USDA Choice Porterhouse","For a while the 48 oz porterhouse was called an Australian Wagyu Porterhouse at $180. Same cut, right name and price now: USDA CHOICE, $150 — roughly a 26 oz NY strip, a 12 oz filet, and about a 10 oz bone, built for two to split.","renamed"],
  ["Tomahawk Tuesday","$180 package","The 32 oz Australian Wagyu Tomahawk plus two glasses of wine, two soups or salads, and a signature Brown Butter Cake to finish — a full night out for $180. Not running anymore, but worth knowing we did it.","not running"],
  ["Heart of Ribeye Skewers","$45","Bourbon glaze mixed with onions and peppers. One of the most underrated things we ever ran.","not running"],

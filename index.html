@@ -5718,7 +5718,7 @@ function calcSC(){
     <div class="rrow big"><span>BACK</span><span>${$d(back)}</span></div>
     <div class="rfoot">50/50 split &middot; back takes the greater dollar &middot; whole dollars only<br>every tip-out line rounds UP &middot; earned drops the cents</div>
   </div>
-  <div class="note" style="max-width:440px"><b>Rule of thumb:</b> a team keeps about ${sales?((r.earned/sales)*100).toFixed(1):"17"}% of its net sales — ${$d(r.earned)} on on this night, call it 8–9 cents per sales dollar for each of you. Sell the bottle.</div>`;
+  <div class="note" style="max-width:440px"><b>Rule of thumb:</b> a team keeps about ${sales?((earned/sales)*100).toFixed(1):"17"}% of its net sales — ${$d(earned)} on this night, call it 8–9 cents per sales dollar for each of you. Sell the bottle.</div>`;
 }
 
 /* ---------- INCOME PREDICTOR — should I take the cut? ---------- */

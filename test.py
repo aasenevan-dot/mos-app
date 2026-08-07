@@ -70,6 +70,27 @@ with sync_playwright() as p:
         if g2.get(k) != v:
             fails.append(f"golden2 {k}: got {g2.get(k)}, want {v}")
 
+    # The golden checks above call pipeMath() directly, which passes even when the
+    # UI that renders it is broken — a `r is not defined` in calcSC() shipped once
+    # exactly that way. So drive the actual calculators through the DOM too.
+    for tab, setup, box, want in [
+        ("ops", {"scSales": 2000, "scTips": 500}, "#scOut", ["TEAM CHECKOUT", "EARNED", "FRONT", "BACK"]),
+        ("ops", {"bqcSales": 4000, "bqcHeads": 40}, "#bqcOut", ["BILLED NET", "GRATUITY"]),
+    ]:
+        pg.evaluate(f"go('{tab}')")
+        pg.wait_for_timeout(250)
+        for k, v in setup.items():
+            pg.evaluate(
+                "([i,v])=>{const n=document.querySelector('#'+i);n.value=v;"
+                "n.dispatchEvent(new Event('input',{bubbles:true}));}", [k, v])
+        txt = pg.evaluate(f"document.querySelector('{box}')?.innerText||''")
+        for cell in want:
+            if cell not in txt:
+                fails.append(f"{box} never rendered {cell!r} — the calculator is broken in the UI")
+
+    if errs:
+        fails.append(f"uncaught JS while driving the calculators: {errs[:2]}")
+
     b.close()
 
 if fails:

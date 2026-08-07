@@ -1599,7 +1599,6 @@ function fillSched(){
   p.innerHTML=`${roster}
     <div class="sechead"><h2>${esc(SCHEDULE.week)}</h2><span>exactly as posted</span></div>
     ${schedGrid(SCHEDULE,idx,true)}
-    <div class="note" style="margin-top:10px"><b>Reading it:</b> numbers are start times exactly as written \u2014 345 means 3:45. A dark box is OFF. <b>RO</b> is a requested day off. Blank means not scheduled that day. <b>Covers row:</b> dinners already on the books for each day when this schedule printed \u2014 the Sunday-night count from ${schedSunday(SCHEDULE)}. Numbers on the yellow <b>BQTs</b> bar are the banquet headcount for that day. A trailing ? means the photo was hard to read.</div>
     ${eventsBlock()}
     ${liveMusicBlock()}
     ${offsiteBlock()}
@@ -1614,7 +1613,7 @@ function renderSchedHist(day){
   const w=SCHEDULE_HISTORY[SCHED_SEL], el=$("#schedHist"); if(!w||!el)return;
   const chips=`<div class="filters" style="margin:8px 0 10px">${w.days.map((d,i)=>`<button data-d="${i}"${day===i?' class="on"':''}>${d[1]} ${d[0]}</button>`).join("")}</div>`;
   el.innerHTML=`${chips}
-    ${day!=null?(rosterFor(w,day)||'<div class="note">Nobody readable on the sheet that day.</div>'):'<div class="note" style="margin:6px 0 10px">Tap a day to see who was on \u2014 tap again to close it.</div>'}
+    ${day!=null?(rosterFor(w,day)||'<div class="note">Nobody readable on the sheet that day.</div>'):''}
     ${schedGrid(w,day!=null?day:-1)}
     ${w.note?`<div class="note" style="margin-top:8px">${esc(w.note)}</div>`:""}`;
   el.querySelector(".filters").onclick=e=>{const b=e.target.closest("button");if(!b)return;

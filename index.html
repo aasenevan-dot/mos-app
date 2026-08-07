@@ -1348,7 +1348,7 @@ const MISE = [
 const MENU = {
  "Starters":[
   ["Crispy Ahi Tuna Bites","$18","Crispy sushi rice, avocado, ponzu sauce, cilantro, jalapeno. Remoulade or spicy citrus on the side if expected. Two metal Japanese chopsticks per person.",""],
-  ["Seasonal Oysters","$25","On the half shell. Cocktail sauce, mignonette, Tabasco/hot sauce, raw horseradish. PRESENTATION: they come out on a bed of ice with a dry-ice smoke pouring out of the middle — hot water is what sets the smoke off. Tabasco and Zesta crackers go down with them, and the cocktail forks are already on the table before the plate ever lands. No tongs. WHERE THEY'RE FROM: the menu answer is Blue Point, the classic East Coast oyster — historically out of Blue Point on Long Island, now used across Long Island Sound and Connecticut. Mild and balanced, clean salt with a sweet finish and a crisp bite. What we actually pour most nights is bigger New Jersey stock out of Cape May — thicker, meatier, brinier. Say seasonal, then say what is actually in the box tonight. Know it: warm-water oysters run larger, sweeter, more tender; cold-water run smaller, brinier, firmer.","GF"],
+  ["Seasonal Oysters","half dozen $25 / dozen $50","Six on the half shell for $25, or a full dozen for $50. Cocktail sauce, mignonette, Tabasco/hot sauce, raw horseradish. PRESENTATION: they come out on a bed of ice with a dry-ice smoke pouring out of the middle — hot water is what sets the smoke off. Tabasco and Zesta crackers go down with them, and the cocktail forks are already on the table before the plate ever lands. No tongs. WHERE THEY'RE FROM: the menu answer is Blue Point, the classic East Coast oyster — historically out of Blue Point on Long Island, now used across Long Island Sound and Connecticut. Mild and balanced, clean salt with a sweet finish and a crisp bite. What we actually pour most nights is bigger New Jersey stock out of Cape May — thicker, meatier, brinier. Say seasonal, then say what is actually in the box tonight. Know it: warm-water oysters run larger, sweeter, more tender; cold-water run smaller, brinier, firmer.","GF"],
   ["Oysters Rockefeller","$45","The cooked oyster. Same half shell, baked or broiled with butter, breadcrumbs, and a green puree — spinach with soft herbs like parsley and tarragon — finished with Parmesan and a dash of hot sauce. Traditionally a splash of liqueur goes in the puree; confirm with the kitchen before answering an alcohol question. Comes out on a little pan over a bed of salt with fresh lemon, and it gets oyster forks like the raw ones.","Price needs verified in Toast"],
   ["Calamari","$17","Sliced thin, lightly floured, and flash-fried with red bell and banana pepper rings — never frozen, so it never turns chewy. Two sauces: spicy citrus aioli (creamy heat) and kung pao (sweet and savory — treat it as BOTH a peanut and a tree nut risk). Serve with tongs.",""],
   ["Shrimp Cocktail","$26","U-6 tiger shrimp — under six to a pound, that is how big they run — boiled IN the shell in a house boil of mirepoix, garlic, lemon, dill, pickling spice, and Old Bay, then chilled and peeled by hand. The fiery cocktail sauce is fresh-grated horseradish, English mustard, sriracha, and Worcestershire. The shrimp is the star, not the sauce.",""],
@@ -1509,7 +1509,7 @@ const LEADS = {
  "Colossal Carrot Cake":"Layered high with cream cheese icing, kept moist by pineapple in the batter.",
  "Sorbets — lemon and raspberry":"Dairy-free, in the freezer. Archived.",
  "4 oz Filet Mignon":"The kids filet. Butter by default, and it can be cooked butter-free.",
- "Seasonal Oysters":"On the half shell, on ice with dry-ice smoke. Cocktail sauce, mignonette, horseradish.",
+ "Seasonal Oysters":"A half dozen on the half shell, on ice with dry-ice smoke. Cocktail sauce, mignonette, horseradish.",
  "Oysters Rockefeller":"The cooked oyster — baked with butter, breadcrumbs and a green herb puree.",
  "Crispy Ahi Tuna Bites":"Crispy sushi rice, avocado, ponzu, cilantro and jalapeno.",
  "45-Day 22 oz Dry-Aged Bone-In Ribeye":"Forty-five days of aging — deep, nutty, brown-butter richness on the bone.",
@@ -1538,7 +1538,7 @@ const ALLERGENS = [
     it FILTERABLE too. Chili keeps plain legumes — those are beans. */
  ["Calamari","$17",["shellfish","gluten","soy","sesame","capsaicin","cross-contact","legumes","peanuts","tree nuts"],"Fried in the SHARED fryer. Kung pao is a nut sauce — we treat it as BOTH peanut and tree nut until the chef pins down which one it really is. ANY nut allergy is a full stop. Egg in the breading still unconfirmed."],
  ["Shrimp Cocktail","$26",["shellfish","capsaicin","nightshade","allium","fin fish"],"The fiery cocktail sauce carries Worcestershire — that means anchovy, and that is the fin fish flag. Plus English mustard and fresh horseradish."],
- ["Seasonal Oysters","$25",["shellfish","allium","nightshade","capsaicin"],"GF. Cocktail sauce and mignonette add tomato, pepper, shallot. Zesta crackers ride on the setup — that is gluten next to the plate, pull them for a gluten allergy."],
+ ["Seasonal Oysters","half dozen $25 / dozen $50",["shellfish","allium","nightshade","capsaicin"],"GF. Cocktail sauce and mignonette add tomato, pepper, shallot. Zesta crackers ride on the setup — that is gluten next to the plate, pull them for a gluten allergy."],
  ["Oysters Rockefeller","$45",["shellfish","dairy","gluten","allium","capsaicin","alcohol"],"NOT the same allergen answer as the raw oysters. Butter and Parmesan are dairy, the breadcrumb topping is gluten, the green puree carries allium, and the hot sauce is the capsaicin. Alcohol is flagged because the classic recipe finishes the puree with a liqueur — VERIFY with the kitchen whether ours does before you promise either way."],
  ["Crispy Ahi Tuna Bites","$18",["fin fish","sesame","soy","egg","capsaicin","gluten"],"Formerly listed as Seared Blackened Tuna. Ponzu is made with REGULAR soy sauce — NOT gluten-free."],
  ["King Crab Legs","MP",["crab","shellfish","dairy","nightshade","capsaicin"],"Melted butter and cocktail sauce."],
@@ -1672,10 +1672,10 @@ const SPECIAL_DAYS={
  "Ladies Night — every Thursday":4
 };
 const SPECIALS_ON=[
- ["48 oz USDA Choice Porterhouse","$150 when it runs","NOT wagyu — USDA Choice. 48 oz total: roughly a 22 oz NY strip, a 12 oz filet, and about a 10 oz bone — it varies a little with the cut. A manager slices it tableside off the board. The pitch: two people split it for a high-class manager-cut steak experience at a serious value — and there's no split-plate charge.","cut special"],
- ["Spinalis / Ribeye Cap","$14/oz","Minimum 6 oz. The cap of the ribeye — it rivals filet tenderness while keeping ribeye richness. A manager cuts it tableside.","cut special"],
+ ["48 oz USDA Choice Porterhouse","$150 when it runs","NOT wagyu — USDA Choice. 48 oz total: roughly a 22 oz NY strip, a 12 oz filet, and about a 10 oz bone — it varies a little with the cut. A manager slices it tableside off the board. The pitch: two people split it for a high-class manager-cut steak experience at a serious value — and there's no split-plate charge.","Manager cut"],
+ ["Spinalis / Ribeye Cap","$14/oz","Minimum 6 oz. The cap of the ribeye — it rivals filet tenderness while keeping ribeye richness. A manager cuts it tableside.","Manager cut"],
  ["Spinalis Sunday","$10/oz every Sunday","The same ribeye cap, four dollars an ounce cheaper, one day a week. Minimum 6 oz. It is on the restaurant's own weekly-features page — the easiest upsell we have on a Sunday.","weekly feature"],
- ["Australian Wagyu Tomahawk","$180","32 oz, cut tableside by a manager. Wagyu rule: serve rare to med-rare — nudge, don't argue.","cut special"],
+ ["Australian Wagyu Tomahawk","$180","32 oz, cut tableside by a manager. Wagyu rule: serve rare to med-rare — nudge, don't argue.","Manager cut"],
  ["45-Day 22 oz Dry-Aged Bone-In Ribeye","$120","Forty-five days of cold, moving air pulls the moisture out and concentrates the beef, while the meat's own enzymes break proteins down into amino acids and soften the connective tissue. That is where the deep, nutty, brown-butter richness comes from — savory and profound rather than just beefy, with the bone adding even more depth. All four cut specials (porterhouse, spinalis, tomahawk, 45-day) typically ALWAYS run.","cut special"],
  ["Ladies Night — every Thursday","$10 martinis + \u00bd-off apps","Ladies get $10 martinis and half-price appetizers in the lounge, every Thursday night.","weekly feature"]
 ];
@@ -6869,7 +6869,6 @@ function fillSched(){
   p.innerHTML=`${roster}
     <div class="sechead"><h2>${esc(SCHEDULE.week)}</h2><span>exactly as posted</span></div>
     ${schedGrid(SCHEDULE,idx,true)}
-    <div class="note" style="margin-top:10px"><b>Reading it:</b> numbers are start times exactly as written \u2014 345 means 3:45. A dark box is OFF. <b>RO</b> is a requested day off. Blank means not scheduled that day. <b>Covers row:</b> dinners already on the books for each day when this schedule printed \u2014 the Sunday-night count from ${schedSunday(SCHEDULE)}. Numbers on the yellow <b>BQTs</b> bar are the banquet headcount for that day. A trailing ? means the photo was hard to read.</div>
     ${eventsBlock()}
     ${liveMusicBlock()}
     ${offsiteBlock()}
@@ -6884,7 +6883,7 @@ function renderSchedHist(day){
   const w=SCHEDULE_HISTORY[SCHED_SEL], el=$("#schedHist"); if(!w||!el)return;
   const chips=`<div class="filters" style="margin:8px 0 10px">${w.days.map((d,i)=>`<button data-d="${i}"${day===i?' class="on"':''}>${d[1]} ${d[0]}</button>`).join("")}</div>`;
   el.innerHTML=`${chips}
-    ${day!=null?(rosterFor(w,day)||'<div class="note">Nobody readable on the sheet that day.</div>'):'<div class="note" style="margin:6px 0 10px">Tap a day to see who was on \u2014 tap again to close it.</div>'}
+    ${day!=null?(rosterFor(w,day)||'<div class="note">Nobody readable on the sheet that day.</div>'):''}
     ${schedGrid(w,day!=null?day:-1)}
     ${w.note?`<div class="note" style="margin-top:8px">${esc(w.note)}</div>`:""}`;
   el.querySelector(".filters").onclick=e=>{const b=e.target.closest("button");if(!b)return;

@@ -369,8 +369,14 @@ async def main():
         # spinalis split + manager cuts + salmon verify
         if not await pg.evaluate("SPECIALS_ON.some(s=>s[0]==='Spinalis Sunday'&&s[3]==='weekly feature')"):
             bad.append("Spinalis Sunday is not a weekly feature")
-        if not await pg.evaluate("SPECIALS_ON.some(s=>s[0]==='Spinalis / Ribeye Cap'&&s[3]==='cut special')"):
-            bad.append("Spinalis is not listed as its own cut special")
+        # 8/7: the cut specials read "Manager cut" — except the 45-day, which a
+        # manager does NOT cut tableside, so it keeps the plain "cut special" tag
+        if not await pg.evaluate("SPECIALS_ON.some(s=>s[0]==='Spinalis / Ribeye Cap'&&s[3]==='Manager cut')"):
+            bad.append("Spinalis should be flagged Manager cut")
+        if not await pg.evaluate("SPECIALS_ON.some(s=>/45-Day/.test(s[0])&&s[3]==='cut special')"):
+            bad.append("the 45-day should NOT say Manager cut")
+        if not await pg.evaluate("SPECIALS_ON.filter(s=>s[3]==='Manager cut').length===3"):
+            bad.append("expected exactly 3 Manager cut specials")
         for cut in ["48 oz USDA Choice Porterhouse","Australian Wagyu Tomahawk","Spinalis / Ribeye Cap"]:
             if not await pg.evaluate(f"SPECIALS_ON.some(s=>s[0]==={cut!r}&&/manager/i.test(s[2]))"):
                 bad.append(f"{cut} does not say a manager cuts it")

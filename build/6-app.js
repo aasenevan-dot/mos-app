@@ -724,6 +724,12 @@ function search(q){
      findable from the search bar the way the book already was. */
   /* dated house events — the Labor Day party, wine dinners, the golf outing —
      were in the schedule but indexed nowhere, so search could not find them */
+  if(typeof FLOOR!=="undefined") FLOOR.forEach(r=>{
+    r.groups.forEach(g=>g[1].forEach(t=>{
+      if(matches(["table "+t,t,r.n,g[0],"floor plan","seat"]))
+        add("Floor plan · "+r.n,"Table "+t,g[0]+" in the "+r.n,"house");}));
+    if(matches([r.n,"floor plan","tables","seat 1"]))
+      add("Floor plan",r.n,r.sub+" — "+r.tables.length+" tables","house");});
   if(typeof EVENTS!=="undefined") EVENTS.forEach(e=>{
     if(matches([e.n,e.when,e.w,e.d,"event","party"]))
       add("Event · "+e.d,e.n,e.when+" — "+e.w,"sched");});
@@ -1125,6 +1131,18 @@ function build(){
       tbl(["Dish","Set with it","Note"],MISE.map(m=>[`<b>${esc(m[0])}</b>`,esc(m[1].join(" + ")),
         `<span style="color:var(--dim)">${esc(m[2]||"")}</span>`])))}
 
+    ${""/* Floor plan. The photo is the real thing off the wall; the table list under
+          each room is there so search can find "table 74" and so it reads on a phone
+          without pinching into a picture. */}
+    <div class="sechead" id="sec-floor"><h2>Floor plan</h2><span>${FLOOR.reduce((n,r)=>n+r.tables.length,0)} tables across ${FLOOR.length} rooms</span></div>
+    <p class="sub" style="margin:0 0 10px">Every table is marked with where <b>seat 1</b> sits — number clockwise from there so the whole team rings the same seat the same way.</p>
+    ${FLOOR.map(r=>acc(r.n, r.sub+" · "+r.tables.length+" tables", `
+      <img class="floorimg" src="${r.img}" alt="${esc(r.n)} floor plan" loading="lazy" onclick="openFloor('${esc(r.n)}')">
+      <p class="sub" style="margin:8px 0 4px">Tap the plan to open it full screen.</p>
+      ${r.groups.map(g=>`<div style="padding:5px 0;border-top:1px solid var(--line)">
+        <b>${esc(g[0])}</b>
+        <div style="color:var(--dim);font-size:13px;margin-top:2px">${g[1].map(esc).join(" · ")}</div></div>`).join("")}`)).join("")}
+
     ${acc("Points of Passion — the 16","the Mo's service philosophy, word for word where it counts",`<ol class="steps">${HOUSE.points.map(([t,d])=>`<li><b>${esc(t)}.</b> ${esc(d)}</li>`).join("")}</ol>`)}
     ${acc("Isaac's Non-Negotiables — the 11","the standards that never bend",`<ol class="steps">${HOUSE.isaacs.map(d=>`<li>${esc(d)}</li>`).join("")}</ol>`)}
     ${acc("Back server steps of service","your role, from the official handout",`<ul class="steps">${HOUSE.back.map(d=>`<li>${esc(d)}</li>`).join("")}</ul>`)}
@@ -1315,6 +1333,12 @@ function build(){
    because the thumbnails call openPic() through inline onclick. */
 function dishPic(name){
   return (typeof PHOTOS!=="undefined" && PHOTOS[name]) || "";
+}
+function openFloor(name){
+  const r=(typeof FLOOR!=="undefined"?FLOOR:[]).find(x=>x.n===name); if(!r)return;
+  const w=document.createElement("div"); w.className="picwrap"; w.onclick=()=>w.remove();
+  w.innerHTML=`<img src="${r.img}" alt="${esc(r.n)} floor plan"><div class="piccap">${esc(r.n)} — tap anywhere to close</div>`;
+  document.body.appendChild(w);
 }
 function openPic(name){
   const src=dishPic(name); if(!src)return;

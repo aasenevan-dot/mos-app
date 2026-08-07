@@ -48,7 +48,6 @@ DISHES = {
  "primavera-pasta":"Primavera Pasta",
  "prime-meatballs":"Prime Meatballs",
  "roasted-pear-salad":"Roasted Pear Salad",
- "sea-scallops":"Sea Scallops",
  "short-rib-pasta":"Short Rib Pasta",
  "shrimp-cocktail":"Shrimp Cocktail",
  "steak-47":"Steak 47",

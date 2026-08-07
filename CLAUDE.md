@@ -460,3 +460,31 @@ photo renders the plain header row — no placeholder, no note.
 not-a-plate, plus the cocktail list as the next wave. RESHOOT and SKIP are hand-maintained
 dicts at the top of that script. Regenerate it whenever the menu or the photo set changes.
 Status at creation: 38 of 91 menu items covered, 5 need reshoots, 47 never shot.
+
+## 8/7 later — Food Menu absorbs Specials, compact rows, ranch recipe
+
+- **The Specials tab is GONE.** All of it merged into the Food Menu tab, which now sits in
+  the Specials slot on the bottom bar (`["menu","Food Menu","star"]`) and is titled
+  "Food Menu & Specials" in the top nav. `#p-specials` no longer exists — every specials
+  search hit routes to `"menu"`, and "specials" came out of the addJumps list.
+  Order in the tab: Running right now (SPECIALS_ON minus events) → Coming up (the dated
+  events) → rotating entree specials → steak temps → A5 pitch (now a collapsed accordion,
+  it used to eat half the screen) → the menu sections → standing soups → SOTD archive →
+  dressings → RECIPES → off-menu cuts → past specials → the living-list note.
+- **Compact rows, borrowed from the guest app** (Evan likes that pattern). `mCard()` builds
+  every food/special card: thumb + name + price always visible, description clamped to two
+  lines with a chevron, `mToggle()` opens the full text and the tag. Only rows whose
+  description runs past 105 characters get `.canopen` — short ones just read straight
+  through with no chevron. Tapping the THUMB still opens the lightbox (stopPropagation on
+  the image so it does not also toggle the row).
+- **Sea Scallops photo REMOVED** — it was a different dish (corn, not butternut puree).
+  Dropped from mkphotos.py DISHES; logged in mkshotlist.py RESHOOT so it stays on the list.
+- **Short Rib Pasta and Stuffed Chicken Breast are ARCHIVED** — off the menu. Same treatment
+  as Forest Mushrooms: entry stays with "ARCHIVED — off the menu" leading the description and
+  an "Archived" tag, allergen row noted, and both added to mkshotlist.py SKIP.
+- **NEW `RECIPES`** in 4-data-food.js — house spec cards, rendered as accordions near the
+  dressings. First one is the fresh ranch. Card allergen lines are NOT gospel: the ranch card
+  says dairy only, but it is built on mayo, so egg is flagged too and the note says why.
+  Adding another card = one more object in RECIPES.
+- Test note: the desktop tab-count check now reads `TABS` off the page instead of hardcoding
+  12, so removing or adding a tab does not fail it.

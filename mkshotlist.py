@@ -32,16 +32,18 @@ cocktails = re.findall(r'\{n:"([^"]+)",p:"([^"]+)",grp:"([^"]+)"', drinks)
 RESHOOT = {
  "Cotton Candy":"out of focus",
  "Roasted Seafood Tower":"soft, lower tier unreadable",
- "Stuffed Chicken Breast":"blown out",
  "Wagyu Tacos":"shadows crushed",
  "Iced Seafood Tower":"frame could not be cropped clean",
+ "Sea Scallops":"old photo was the wrong dish — pulled from the app",
 }
 # not a plate of food, or off the menu — nothing to shoot
 SKIP = {"Every side shares":"not a dish",
         "Celebration drop (free)":"comp, varies",
         "Soup of the Day":"changes daily",
         "Sorbets (not really sold)":"off menu",
-        "Forest Mushrooms":"off menu"}
+        "Forest Mushrooms":"off menu",
+        "Short Rib Pasta":"off menu",
+        "Stuffed Chicken Breast":"off menu"}
 
 have_rows, need_rows, reshoot_rows, skipped = [], [], [], []
 for sec, items in MENU.items():

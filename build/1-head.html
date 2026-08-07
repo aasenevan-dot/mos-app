@@ -246,6 +246,19 @@ tr:hover td{background:rgba(255,255,255,.017)}
 /* the rule above puts a leading <b>Label:</b> on its own line, which is right for most
    lists — but mid-sentence emphasis has to stay in the flow of the sentence */
 .steps li b.inl{display:inline;margin:0;font-size:inherit}
+/* menu rows: name + price + thumb always visible, description opens on tap */
+.mitem .mhead{display:flex;align-items:center;gap:11px}
+.mitem.canopen .mhead{cursor:pointer}
+.mitem .mtext{flex:1;min-width:0;display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.mitem .mchev{flex:0 0 auto;color:var(--brand);font-size:15px;line-height:1;transition:transform .18s ease;opacity:.75}
+.mitem.open .mchev{transform:rotate(180deg)}
+.mitem .mbody{margin-top:9px}
+.mitem .mdesc{font-size:.92rem;line-height:1.55;color:var(--txt)}
+/* collapsed: two lines and a fade, so the row stays scannable but hints there is more */
+.mitem.canopen .mdesc{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;color:var(--dim)}
+.mitem.canopen.open .mdesc{display:block;overflow:visible;color:var(--txt)}
+.mitem.canopen .tags{display:none}
+.mitem.canopen.open .tags{display:flex}
 /* dish photos: square thumb in the menu card, tap for a bigger look */
 .crow.hasimg{display:flex;align-items:center;gap:11px}
 .dishimg{flex:0 0 62px;width:62px;height:62px;border-radius:12px;object-fit:cover;

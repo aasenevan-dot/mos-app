@@ -63,7 +63,7 @@ async def main():
         alg=await pg.evaluate("document.querySelector('#p-allergens').innerHTML")
         if "Wagyu Porterhouse" in alg: bad.append("allergen row still says Wagyu Porterhouse")
         if "USDA Choice Porterhouse" not in alg: bad.append("allergen row missing USDA Choice")
-        spx=await pg.evaluate("document.querySelector('#p-specials').innerHTML")
+        spx=await pg.evaluate("document.querySelector('#p-menu').innerHTML")
         if "Australian Wagyu Porterhouse (old name)" not in spx: bad.append("porterhouse archive entry missing")
         # ---- wine type filter ----
         if not await pg.evaluate("WINES.every(w=>w.v&&WINE_TYPES.some(t=>t[0]===w.v))"): bad.append("wine missing type mapping")
@@ -101,7 +101,7 @@ async def main():
         h2v=await pg.evaluate("document.querySelector('#p-house').innerHTML")
         if "About this app" not in h2v: bad.append("About section missing")
         if "Lillian@mosgreenwood.com" not in h2v: bad.append("Lillian email missing from handbook")
-        spv=await pg.evaluate("document.querySelector('#p-specials').innerHTML")
+        spv=await pg.evaluate("document.querySelector('#p-menu').innerHTML")
         for cell in ["Sundresses &amp; Sangria","Surf &amp; Turf Cup","Prisoner Wine Dinner","Lillian@mosgreenwood.com"]:
             if cell not in spv: bad.append(f"events missing {cell}")
         opsv=await pg.evaluate("document.querySelector('#p-ops').innerHTML")
@@ -141,7 +141,7 @@ async def main():
         await pg.evaluate("go('menu')")
         await pg.wait_for_timeout(400)
         np=await pg.evaluate("Object.keys(PHOTOS).length")
-        if np<38: bad.append(f"PHOTOS has {np} keys, expected 38+")
+        if np<37: bad.append(f"PHOTOS has {np} keys, expected 37+")
         alluri=await pg.evaluate("Object.values(PHOTOS).every(v=>v.startsWith('data:image/jpeg;base64,'))")
         if not alluri: bad.append("a PHOTOS value is not a jpeg data URI")
         # every photo key must match a real menu item, or it will never render
@@ -210,6 +210,7 @@ async def main():
         # ---- desktop header cleanup ----
         await pg.set_viewport_size({"width":1280,"height":800})
         await pg.wait_for_timeout(300)
+        TABS_N=await pg.evaluate("TABS.map(t=>t[0])")
         hdr=await pg.evaluate("""(function(){
           const nav=document.querySelector('#nav'), btns=[...nav.querySelectorAll('button')];
           const rows=new Set(btns.map(b=>Math.round(b.getBoundingClientRect().top)));
@@ -217,7 +218,7 @@ async def main():
                   scrolls:nav.scrollWidth>nav.clientWidth+1,
                   ctl:!!document.querySelector('#hdrCtl:not([hidden])'),
                   wide:document.documentElement.scrollWidth>window.innerWidth+1};})()""")
-        if hdr["n"]!=12: bad.append(f"desktop nav shows {hdr['n']} tabs, expected 12")
+        if hdr["n"]!=len(TABS_N): bad.append(f"desktop nav shows {hdr['n']} tabs, expected {len(TABS_N)}")
         if hdr["rows"]!=1: bad.append(f"desktop tabs wrapped onto {hdr['rows']} rows at 1280")
         if hdr["scrolls"]: bad.append("desktop tab row still scrolls sideways")
         if hdr["ctl"]: bad.append("A-/A+/Dark still visible in the header")

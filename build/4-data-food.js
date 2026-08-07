@@ -75,8 +75,8 @@ const MENU = {
  ["Sea Scallops","$48","U-10 scallops seared in a nearly smoking pan for a deep golden crust. The butternut puree leans into the scallop's natural sweetness, crispy prosciutto salts it and cuts through, and the mushrooms ground the whole plate.","Menu marks GF"],
  ["Chilean Sea Bass","$46","Patagonian toothfish — a rich, buttery white fish — pan seared and set in a lemon-caper white wine butter sauce with asparagus, spinach, and cherry tomato for brightness. The citrus cutting the richness is the whole idea.","Menu marks GF"],
  ["Blackened Creole Salmon","$42","Faroe Island salmon — raised in cold open water with no antibiotics, richer and firmer than standard salmon. Blackened by default over sweet potato puree with Holy Trinity relish and remoulade. The kitchen can also broil it or pan sear it plain if a guest wants it mild.","Holy Trinity = bell pepper, onion, celery"],
- ["Short Rib Pasta","$52","Prime short rib braised 12 hours in veal demi-glace, pressed clean, and laid over orecchiette in a light vermouth cream — shallot, fennel, garlic, thyme. The little pasta cups are built to hold that sauce.",""],
- ["Stuffed Chicken Breast","$38","Stuffed with cream cheese, goat cheese, Parmesan, and white cheddar under a creamy thyme-rosemary herb sauce. Very sauce-driven — the go-to for anyone skipping red meat.","Halal option noted"],
+ ["Short Rib Pasta","$52","ARCHIVED — off the menu. Prime short rib braised 12 hours in veal demi-glace, pressed clean, and laid over orecchiette in a light vermouth cream — shallot, fennel, garlic, thyme.","Archived"],
+ ["Stuffed Chicken Breast","$38","ARCHIVED — off the menu. Stuffed with cream cheese, goat cheese, Parmesan, and white cheddar under a creamy thyme-rosemary herb sauce.","Archived"],
  ["Twin South African Lobster Tails","$100","Two 5 oz cold-water tails, 10 oz total. The why: colder South African water means lobsters shed their shells less often, so the meat stays more tender and sweeter. Old Bay and lemon, steamed, served with a charred lemon. SERVICE: light the butter warmer with the clarified garlic butter and set a cocktail fork to the right of the silverware.","Cold water — know why"]],
 
  "Accessories / Sides":[
@@ -137,6 +137,20 @@ const A5PITCH = [
  "A manager always slices it tableside on a wooden board with a Japanese knife and gloves. They talk about the steak and add value to the moment."
 ];
 
+/* ============ HOUSE RECIPES — straight off the kitchen spec cards ============ */
+/* Card allergen lines are not gospel: the ranch card says dairy only, but it is built on
+   mayo, so egg belongs there too. Flag what the ingredients actually say. */
+const RECIPES = [
+ {n:"Ranch Dressing", sub:"made fresh in house", batch:"big-batch card — about two gallons",
+  flags:["dairy","egg","allium","MSG","capsaicin"],
+  ing:[["Mayo","1 gallon"],["Buttermilk","1 gallon"],["Green onion, minced","1/2 cup"],
+       ["Dill, finely minced","1/2 cup"],["Parsley, finely minced","1/2 cup"],
+       ["Onion powder","1 Tbsp"],["Garlic powder","1 Tbsp"],["Chipotle powder","1 tsp"],
+       ["Mustard powder","1 tsp"],["MSG","1 tsp"],["Rice vinegar","1/4 cup"]],
+  steps:["Dice the herbs.","Add everything to the bowl and whisk until it is completely smooth."],
+  note:"The card lists dairy as the only allergen — but mayo means EGG, so egg gets flagged too. Chipotle powder is the faint warmth in it, and yes, there is MSG."}
+];
+
 const DRESSINGS = ["House Vinaigrette (whole-grain mustard — the house dressing)","Orange Vinaigrette","Balsamic Vinaigrette","Maple Balsamic","Italian","French","Blue Cheese","Oil & Vinegar","Thousand Island","Caesar","Peppercorn Ranch"];
 
 /* ============ ALLERGENS ============ */
@@ -187,10 +201,10 @@ const ALLERGENS = [
  ["Brandy Peppercorn Sauce","$6",["alcohol","beef","allium","dairy"],"Menu marks GF. Verify dairy, and ask if the demi starts with a flour roux before promising GF."],
  ["Black Truffle Butter","$6",["dairy"],"Menu marks GF."],
  ["Bearnaise Sauce","$2",["egg","dairy","allium","alcohol"],"Menu marks GF. Verify the vinegar/wine/shallot base."],
- ["Stuffed Chicken Breast","$38",["dairy","chicken","allium","alcohol"],"Halal option noted."],
+ ["Stuffed Chicken Breast","$38",["dairy","chicken","allium","alcohol"],"ARCHIVED — off the menu. Halal option was noted when it ran."],
  ["Primavera Pasta","$40",["gluten","dairy","allium","nightshade","tree nuts"],"Verify pesto nut content."],
  ["Miso Sea Bass","$46",["white fish","fin fish","soy","alcohol","gluten"],"Miso, mirin, sake, coconut risotto. Miso and soy elements often carry wheat or barley — confirm before promising GF."],
- ["Short Rib Pasta","$52",["beef","gluten","dairy","alcohol","allium"],"Orecchiette, vermouth cream sauce."],
+ ["Short Rib Pasta","$52",["beef","gluten","dairy","alcohol","allium"],"ARCHIVED — off the menu. Orecchiette, vermouth cream sauce."],
  ["Sea Scallops","$48",["shellfish","pork","dairy","allium"],"Menu marks GF. Prosciutto, mushrooms, squash puree."],
  ["Chilean Sea Bass","$46",["white fish","fin fish","dairy","alcohol","allium","nightshade"],"Menu marks GF. Lemon-caper white wine butter sauce."],
  ["Blackened Creole Salmon","$42",["fin fish","egg","capsaicin","nightshade","allium","dairy"],"Blackened spice, Holy Trinity relish, remoulade."],

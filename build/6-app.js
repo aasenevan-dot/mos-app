@@ -11,8 +11,7 @@ const $d=n=>"$"+Math.round(n).toLocaleString();
 const $n=s=>Math.max(0,+$(s).value||0);
 
 const TABS = [
-  ["shift","Home"],["sched","Schedule"],["wine","Wine"],["cocktails","Drinks & Garnish"],["menu","Food Menu"],
-  ["specials","Specials & Soups"],
+  ["shift","Home"],["sched","Schedule"],["wine","Wine"],["cocktails","Drinks & Garnish"],["menu","Food Menu & Specials"],
   ["allergens","Allergens"],["bar","Spirits & Beer"],["study","Study & Quiz"],["ops","Money"],
   ["house","How We Work"],["vocab","Vocabulary"]
 ];
@@ -22,9 +21,12 @@ const ICONS={
  drinks:'<svg viewBox="0 0 24 24"><path d="M4 4h16l-8 9z"/><path d="M12 13v7M8 21h8"/></svg>',
  money:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M15 9.5c0-1.4-1.3-2.5-3-2.5s-3 1-3 2.2c0 3 6 1.6 6 4.6 0 1.2-1.3 2.2-3 2.2s-3-1.1-3-2.5"/></svg>',
  more:'<svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg>',
- star:'<svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 5.9L12 16.4 6.7 19.3l1.2-5.9L3.4 9.3l6-.7z"/></svg>'
+ star:'<svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 5.9L12 16.4 6.7 19.3l1.2-5.9L3.4 9.3l6-.7z"/></svg>',
+ /* the Food Menu mark — the same fork and spoon as the Food menu tile on Home, so the
+    tab and the tile read as one thing. The star stays defined for a specials section. */
+ menu:'<svg viewBox="0 0 24 24"><path d="M2.6 2.2v5.6c0 1.9 1.5 3.2 3.4 3.4M9.4 2.2v5.6c0 1.9-1.5 3.2-3.4 3.4"/><path d="M4.9 2.2v5.9M7.1 2.2v5.9"/><path d="M6 11.2v10.4"/><ellipse cx="18.2" cy="6.6" rx="2.9" ry="4"/><path d="M18.2 10.6v11"/></svg>'
 };
-const BOTTOM=[["shift","Home","home"],["wine","Wine","wine"],["cocktails","Drinks","drinks"],["specials","Specials","star"],["ops","Money","money"],["__more","More","more"]];
+const BOTTOM=[["shift","Home","home"],["wine","Wine","wine"],["cocktails","Drinks","drinks"],["menu","Food Menu","menu"],["ops","Money","money"],["__more","More","more"]];
 
 /* One symbol per quick-action tile, keyed by the tile's data-qa. Same 24x24 stroke style
    as the bottom bar so the app still looks like one thing. Sits in the top-right corner
@@ -617,12 +619,12 @@ function search(q){
   Object.entries(SPIRITS).forEach(([sec,rows])=>rows.forEach(r=>{if(matches([sec,r[0],r[2]]))add(sec,r[0]+" — "+r[1],r[2],"bar");}));
   BEER.forEach(b=>{if(matches([b[0],b[2],b[3]]))add("Beer",b[0]+" — "+b[1],b[2]+". "+b[3],"bar");});
   OPEN.forEach(o=>{if(matches([o[0],o[1]]))add("Test answer",o[0],o[1],"study");});
-  SPECIALS_ON.forEach(s=>{if(matches([s[0],s[2]]))add("Ongoing special",s[0]+" — "+s[1],s[2],"specials");});
-  SPECIALS_ROTATION.forEach(s=>{if(matches([s[0],s[2]]))add("Rotating special",s[0],s[2],"specials");});
-  SPECIALS_PAST.forEach(s=>{if(matches([s[0],s[2]]))add("Past special",s[0]+" ("+s[3]+")",s[2],"specials");});
-  SOTD.forEach(s=>{if(matches([s[0],s[1]]))add("Soup of the day",s[0],s[1],"specials");});
-  SOUPS_STANDING.forEach(s=>{if(matches([s[0],s[2]]))add("Standing soup",s[0]+" — "+s[1],s[2],"specials");});
-  OFFMENU.forEach(s=>{if(matches([s[0],s[2]]))add("Off-menu",s[0]+" — "+s[1],s[2],"specials");});
+  SPECIALS_ON.forEach(s=>{if(matches([s[0],s[2]]))add("Ongoing special",s[0]+" — "+s[1],s[2],"menu");});
+  SPECIALS_ROTATION.forEach(s=>{if(matches([s[0],s[2]]))add("Rotating special",s[0],s[2],"menu");});
+  SPECIALS_PAST.forEach(s=>{if(matches([s[0],s[2]]))add("Past special",s[0]+" ("+s[3]+")",s[2],"menu");});
+  SOTD.forEach(s=>{if(matches([s[0],s[1]]))add("Soup of the day",s[0],s[1],"menu");});
+  SOUPS_STANDING.forEach(s=>{if(matches([s[0],s[2]]))add("Standing soup",s[0]+" — "+s[1],s[2],"menu");});
+  OFFMENU.forEach(s=>{if(matches([s[0],s[2]]))add("Off-menu",s[0]+" — "+s[1],s[2],"menu");});
   VOCAB.forEach(g=>g[1].forEach(r=>{if(matches([g[0],r[0],r[1]]))add("Vocabulary",r[0],r[1],"vocab");}));
   HANDBOOK.forEach(h=>{const txt=h[2].replace(/<[^>]+>/g," ");
     if(matches([h[0],h[1],txt]))add("Handbook",h[0],txt.trim().slice(0,140)+"…","house");});
@@ -806,65 +808,74 @@ function build(){
     <div class="filters" id="drinkGrps">${COCKTAIL_GRPS.map(g=>`<button data-g="${g[0]}"${g[0]==="all"?' class="on"':''}>${g[1]}</button>`).join("")}</div>
     <div class="grid wide" id="drinkGrid"></div>`;
 
-  /* ---------- MENU ---------- */
+  /* ---------- FOOD MENU & SPECIALS — one tab ----------
+     Rows collapse to name + price + thumb; the description opens on tap. A long
+     description would otherwise push three items off a phone screen. */
+  const mCard=(name,price,desc,tag,cls)=>{
+    const pic=dishPic(name), long=String(desc||"").length>105;
+    const body=`${desc?`<div class="mdesc">${esc(desc)}</div>`:""}
+      ${tag?`<div class="tags"><span class="tag${/verify|cannot|NOT|archiv/i.test(tag)?" warn":""}">${esc(tag)}</span></div>`:""}`;
+    return `<div class="card mitem${long?" canopen":""}${cls?" "+cls:""}">
+      <div class="mhead"${long?' onclick="mToggle(this)"':""}>
+        ${pic?`<img class="dishimg" src="${pic}" alt="${esc(name)}" loading="lazy" onclick="event.stopPropagation();openPic(this.alt)">`:""}
+        <div class="mtext"><div class="cname">${esc(name)}</div><div class="cprice">${esc(price)}</div></div>
+        ${long?'<span class="mchev" aria-hidden="true">&#8964;</span>':""}
+      </div>
+      <div class="mbody">${body}</div>
+    </div>`;
+  };
+  const runningNow=SPECIALS_ON.filter(s=>s[3]!=="event");
+  const eventsNow=SPECIALS_ON.filter(s=>s[3]==="event");
+
   $("#p-menu").innerHTML=`
+    <div class="sechead" id="sec-specials"><h2>Running right now</h2><span>${runningNow.length} on the board</span></div>
+    <div class="grid wide">${runningNow.length?runningNow.map(s=>mCard(s[0],s[1],s[2],s[3],"hl")).join("")
+      :'<div class="empty">Nothing running — tell your Claude the new special.</div>'}</div>
+
+    ${eventsNow.length?`<div class="sechead"><h2>Coming up</h2><span>dated events</span></div>
+    <div class="grid wide">${eventsNow.map(s=>mCard(s[0],s[1],s[2],"","")).join("")}</div>`:""}
+
+    <div class="sechead"><h2>Rotating entree specials</h2><span>seen before — ask a manager if one is on tonight</span></div>
+    <div class="grid wide">${SPECIALS_ROTATION.map(s=>mCard(s[0],s[1],s[2],"","")).join("")}</div>
+
     <div class="sechead"><h2>Steak temperatures</h2></div>
     ${tbl(["Temp","Center"],TEMPS.map(t=>[`<b>${esc(t[0])}</b>`,esc(t[1])]))}
     <div class="note warn" style="margin-top:10px"><b>Well done:</b> butterfly well-done filets so they cook evenly.</div>
 
-    <div class="sechead"><h2>The A5 pitch</h2><span>say it in your own words, hit these beats</span></div>
-    <div class="card"><div class="crow"><div class="cname">Japanese A5 Wagyu &mdash; Kagoshima Prefecture</div><div class="cprice">$25/oz</div></div>
-      <div class="cbody">${A5PITCH.map(p=>`<div style="padding:5px 0;border-top:1px solid var(--line)">${esc(p)}</div>`).join("")}</div></div>
+    ${acc("The A5 pitch","say it in your own words, hit these beats",
+      `<ol class="steps">${A5PITCH.map(p=>`<li>${esc(p)}</li>`).join("")}</ol>`)}
 
     ${Object.entries(MENU).map(([sec,items])=>`
       <div class="sechead"><h2>${esc(sec)}</h2><span>${items.length} items</span></div>
-      <div class="grid wide">${items.map(i=>`<div class="card">
-        ${dishPic(i[0])
-          ?`<div class="crow hasimg"><img class="dishimg" src="${dishPic(i[0])}" alt="${esc(i[0])}" loading="lazy" onclick="openPic(this.alt)">
-             <div class="ctext"><div class="cname">${esc(i[0])}</div><div class="cprice">${esc(i[1])}</div></div></div>`
-          :`<div class="crow"><div class="cname">${esc(i[0])}</div><div class="cprice">${esc(i[1])}</div></div>`}
-        <div class="cbody">${esc(i[2])}</div>
-        ${i[3]?`<div class="tags"><span class="tag${/verify|cannot|NOT|updated/i.test(i[3])?" warn":""}">${esc(i[3])}</span></div>`:""}
-      </div>`).join("")}</div>`).join("")}
+      <div class="grid wide">${items.map(i=>mCard(i[0],i[1],i[2],i[3],"")).join("")}</div>`).join("")}
 
-    <div class="sechead"><h2>Salad dressings</h2><span>11 total, only one ranch</span></div>
-    <div class="card"><div class="cbody">${DRESSINGS.map(d=>`<div style="padding:3px 0">${/house dressing/i.test(d)?`<b style="color:var(--gold2)">${esc(d)}</b>`:esc(d)}</div>`).join("")}</div></div>`;
+    <div class="sechead"><h2>Soups always on</h2><span>the standing list</span></div>
+    ${tbl(["Soup","Price","Build"],SOUPS_STANDING.map(s=>[`<b>${esc(s[0])}</b>`,s[1],esc(s[2])]))}
 
-  /* ---------- SPECIALS & SOUPS ---------- */
-  $("#p-specials").innerHTML=`
-    <div class="note gold"><b>This is a living list.</b> Specials and soups rotate constantly — tell your Claude things like "new special: swordfish, $52, mango salsa" or "the skewers are done" or "tonight's soup is chicken tortilla with..." and this page updates: ongoing flips to past, soups get archived forever.</div>
-
-    <div class="sechead" id="sec-specials"><h2>Ongoing specials</h2><span>running right now</span></div>
-    <div class="grid wide">${SPECIALS_ON.length?SPECIALS_ON.map(s=>`<div class="card hl">
-      <div class="crow"><div class="cname">${esc(s[0])}</div><div class="cprice">${esc(s[1])}</div></div>
-      <div class="cbody">${esc(s[2])}</div>
-      ${s[3]?`<div class="tags"><span class="tag">${esc(s[3])}</span></div>`:""}
-    </div>`).join(""):'<div class="empty">Nothing running — tell your Claude the new special.</div>'}</div>
-
-    <div class="sechead"><h2>Rotating entree specials</h2><span>seen before — ask a manager if one is running tonight</span></div>
-    <div class="grid wide">${SPECIALS_ROTATION.map(s=>`<div class="card">
-      <div class="crow"><div class="cname">${esc(s[0])}</div><div class="cprice">${esc(s[1])}</div></div>
-      <div class="cbody">${esc(s[2])}</div>
-    </div>`).join("")}</div>
-
-    <div class="sechead"><h2>Soup of the day — archive</h2><span>$7 · changes daily · every one we log lives here</span></div>
+    <div class="sechead"><h2>Soup of the day — archive</h2><span>changes daily · every one we log lives here</span></div>
     ${SOTD.length
       ? tbl(["Soup","What's in it","Allergen notes"],SOTD.map(s=>[`<b>${esc(s[0])}</b>`,esc(s[1]),`<span style="color:var(--dim)">${esc(s[2])}</span>`]))
-      : `<div class="empty">No soups logged yet. Tell your Claude tonight's soup and what's in it — the archive starts there, and every soup stays searchable forever.</div>`}
+      : `<div class="empty">No soups logged yet.</div>`}
     <div class="note warn" style="margin-top:10px"><b>Allergen rule:</b> soup of the day allergens change with the soup. Never answer from memory — check this archive, then verify with the kitchen.</div>
 
-    <div class="sechead"><h2>Soups always on the menu</h2><span>not rotating — the standing three</span></div>
-    ${tbl(["Soup","Price","Build"],SOUPS_STANDING.map(s=>[`<b>${esc(s[0])}</b>`,s[1],esc(s[2])]))}
+    <div class="sechead"><h2>Salad dressings</h2><span>11 total, only one ranch</span></div>
+    <div class="card"><div class="cbody">${DRESSINGS.map(d=>`<div style="padding:3px 0">${/house dressing/i.test(d)?`<b style="color:var(--gold2)">${esc(d)}</b>`:esc(d)}</div>`).join("")}</div></div>
+
+    ${(typeof RECIPES!=="undefined"?RECIPES:[]).map(r=>acc(r.n,r.sub,`
+      <p class="sub" style="margin:2px 0 8px">${esc(r.batch)}</p>
+      ${tbl(["Ingredient","Amount"],r.ing.map(x=>[`<b>${esc(x[0])}</b>`,esc(x[1])]))}
+      <p class="sub" style="margin:12px 0 4px"><b>How it is made</b></p>
+      <ol class="steps">${r.steps.map(t=>`<li>${esc(t)}</li>`).join("")}</ol>
+      <div class="tags" style="margin-top:10px">${r.flags.map(f=>`<span class="tag">${esc(f)}</span>`).join("")}</div>
+      ${r.note?`<div class="note" style="margin-top:10px">${esc(r.note)}</div>`:""}`)).join("")}
 
     <div class="sechead"><h2>Off-menu cuts</h2><span>ask a manager before promising any of these</span></div>
     ${tbl(["Cut","Price","The pitch"],OFFMENU.map(s=>[`<b>${esc(s[0])}</b>`,esc(s[1]),`<span style="color:var(--dim)">${esc(s[2])}</span>`]))}
 
     <div class="sechead"><h2>Past specials</h2><span>not running anymore — do not pitch</span></div>
-    <div class="grid wide">${SPECIALS_PAST.map(s=>`<div class="card">
-      <div class="crow"><div class="cname">${esc(s[0])}</div><div class="cprice">${esc(s[1])}</div></div>
-      <div class="cbody">${esc(s[2])}</div>
-      <div class="tags"><span class="tag warn">${esc(s[3])}</span></div>
-    </div>`).join("")}</div>`;
+    <div class="grid wide">${SPECIALS_PAST.map(s=>mCard(s[0],s[1],s[2],s[3],"")).join("")}</div>
+
+    <div class="note gold" style="margin-top:14px"><b>This page is a living list.</b> Specials and soups rotate constantly — tell your Claude "new special: swordfish, $52, mango salsa" or "tonight's soup is chicken tortilla" and it updates: running flips to past, soups get archived forever.</div>`;
 
   /* ---------- ALLERGENS ---------- */
   $("#p-allergens").innerHTML=`
@@ -1091,7 +1102,7 @@ function build(){
   ["bqHeads","bqPerHead","bqMin","bqGrat"].forEach(id=>{
     const n=$("#"+id); n.oninput=calcBq; n.onchange=calcBq; n.onkeyup=calcBq;});
 
-  ["wine","menu","bar","ops","allergens","specials"].forEach(addJumps);
+  ["wine","menu","bar","ops","allergens"].forEach(addJumps);
 }
 
 /* ---------- DISH PHOTOS ----------
@@ -1114,6 +1125,9 @@ function openPic(name){
   $("#lb").classList.add("open");
 }
 function closePic(){ $("#lb").classList.remove("open"); $("#lbin").innerHTML=""; }
+/* menu rows: tap the header to open the description. Only rows long enough to be
+   worth hiding get the chevron — short ones just read straight through. */
+function mToggle(head){ head.parentElement.classList.toggle("open"); }
 
 /* ---------- THE MO'S BOOK — reader inside How We Work ----------
    Function declarations at TOP LEVEL on purpose: the contents rows and the

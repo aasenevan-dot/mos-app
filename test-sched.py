@@ -137,6 +137,58 @@ async def main():
         prog=await pg.evaluate("(function(){startQuiz();return document.querySelector('#quizBox .qprog')!==null;})()")
         if not prog: bad.append("progress bar missing")
         await pg.evaluate("startQuiz()")
+        # ---- Meals & Moments (off-site service) ----
+        await pg.evaluate("go('sched')")
+        await pg.wait_for_timeout(200)
+        sch=await pg.evaluate("document.querySelector('#p-sched').innerHTML")
+        for cell in ["Meals &amp; Moments","Heart &amp; Soul Church","Real Life Church","Life Church","Yaris"]:
+            if cell not in sch: bad.append(f"Meals & Moments missing {cell}")
+        if "Sunday 8/9" not in sch: bad.append("Meals & Moments 8/9 did not resolve to Sunday")
+        past=await pg.evaluate("""(function(){
+          const keep=OFFSITE.slice();
+          OFFSITE.length=0; OFFSITE.push({d:'1/2',t:'noon',where:'Old One',addr:'x'});
+          const out=offsiteBlock();
+          OFFSITE.length=0; keep.forEach(k=>OFFSITE.push(k));
+          return out;})()""")
+        if past.strip(): bad.append("a past Meals & Moments date still rendered")
+        so=await pg.evaluate("search('meals and moments').map(h=>h.w).join('|')")
+        if "Meals & Moments" not in so: bad.append(f"search miss meals: {so[:90]}")
+        await pg.evaluate("go('house')")
+        await pg.wait_for_timeout(200)
+
+        # ---- the Mo's Book reader ----
+        nb=await pg.evaluate("BOOK.length")
+        if nb!=12: bad.append(f"BOOK chapter count {nb}, expected 12")
+        shape=await pg.evaluate("BOOK.every(c=>c.t&&c.h&&c.h.length>200)")
+        if not shape: bad.append("a BOOK chapter is missing its title or body")
+        titles=await pg.evaluate("BOOK.map(c=>c.t).join('|')")
+        for t in ["Start Here","Day 1","Day 10","The Get List"]:
+            if t not in titles: bad.append(f"BOOK missing chapter {t}")
+        if not await pg.evaluate("document.querySelector('#p-house .bkcard')!==null"):
+            bad.append("book launcher card missing from How We Work")
+        rows=await pg.evaluate("(function(){openBook();return document.querySelectorAll('#bkWrap .bkrow').length;})()")
+        if rows!=12: bad.append(f"contents shows {rows} rows, expected 12")
+        hid=await pg.evaluate("document.querySelector('#houseMain').style.display==='none'")
+        if not hid: bad.append("houseMain still visible while book is open")
+        ch3=await pg.evaluate("(function(){openBook(3);return document.querySelector('#bkWrap').innerHTML;})()")
+        for cell in ["Delmonico","Farbuckle","chapter 4 of 12"]:
+            if cell not in ch3: bad.append(f"chapter 3 missing {cell}")
+        nxt=await pg.evaluate("""(function(){
+          const b=[...document.querySelectorAll('#bkWrap .bknav button')].find(x=>x.textContent.includes('Day 4'));
+          if(!b)return 'NO-NEXT-BUTTON'; b.click();
+          return document.querySelector('#bkWrap').innerHTML;})()""")
+        if "Bananas Foster" not in nxt: bad.append("next-chapter nav did not reach Day 4 content")
+        if "chapter 5 of 12" not in nxt: bad.append("next-chapter nav landed on the wrong chapter")
+        back=await pg.evaluate("(function(){closeBook();return [document.querySelector('#houseMain').style.display,document.querySelector('#bkWrap').style.display,document.querySelector('#p-house').innerHTML.includes('Points of Passion')];})()")
+        if back[0]=="none" or back[1]!="none" or not back[2]:
+            bad.append(f"closeBook did not restore How We Work: {back}")
+        sb=await pg.evaluate("search('points of passion').map(h=>h.w).join('|')")
+        if "Mo's Book" not in sb: bad.append(f"search miss book: {sb[:90]}")
+        await pg.evaluate("openBook(6)")
+        ow=await pg.evaluate("(function(){const d=document.documentElement;return [d.scrollWidth,window.innerWidth];})()")
+        if ow[0]>ow[1]+2: bad.append(f"book chapter overflows sideways: {ow}")
+        await pg.evaluate("closeBook()")
+
         # ---- handbook + vocabulary ----
         house=await pg.evaluate("document.querySelector('#p-house').innerHTML")
         for cell in ["Employee Handbook","Lillian Speedy","Gum chewing","120 day","BEHIND YOU"]:

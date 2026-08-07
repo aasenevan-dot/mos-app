@@ -365,3 +365,38 @@ filet base, upgrades price as filet price + the $25 topping (6 oz $79, 10 oz $10
 the shrimp/scallop U-sizes are unconfirmed (old sheet U-10/U-12, Evan remembers U-5).
 Still out from the bible on purpose: blackened-tuna starter, bone-in center-cut ribeye,
 truffle mash as its own side — old dishes, not current.
+
+## The Mo's Book — now IN the app (8/6 late)
+
+Evan's ORIGINAL 3-page Mo's Training Itinerary (the opening-team plan, ~18 hrs) became
+"The Mo's Book": a 12-chapter training book whose table of contents IS that itinerary
+(Start Here, Day 1 Orientation → Day 10 Friends & Family, The Get List). It reads INSIDE
+the app now — How We Work → the book card → contents → tap a chapter → Prev/Next.
+
+**Editing workflow — book.md is the master, never edit 5c-data-book.js:**
+`book.md` (repo root) → `python3 mkbook.py` → writes `build/5c-data-book.js` (`const BOOK`,
+[{t,plan,h}]) → `python3 build.py`. mkbook.py splits chapters on `# `, converts `##`/`###`
+to .bkh/.bkh2, `- ` to .steps lists, `**bold**` to <b>, and "STILL TO GET" lines to
+.getline callouts. Chapter HTML is pre-escaped and injected RAW in 6-app.js — never esc() it.
+
+Reader code lives at TOP LEVEL in 6-app.js (between build() and BOOT), not inside build(),
+because the contents rows and nav buttons use inline onclick and need real globals:
+`openBook(i)` (no arg = contents), `closeBook()`, `bkShort()`, `var BOOKCH` (no initializer).
+The house tab wraps its old content in `#houseMain` and the reader renders into `#bkWrap`.
+Book chapters are searchable (they route to the house tab).
+
+**The book is DOWNSTREAM of app facts.** App data updates first; book text only on request.
+Fine-dining verbiage layer is deliberate ("less tender," never "tough"; "my pleasure," never
+"no problem"). Gaps are marked STILL TO GET in-text and collected in the Get List chapter —
+floor plan with table+seat numbers, opening handouts, gift-card how-to, banquet count sheets,
+tequila page, original handouts and tests, mock-serve checklist. PDF/markdown copies also
+live on Evan's Mac (Restaurant/2026-08-06-mos-book.pdf and .md).
+
+## Meals & Moments (8/6) — off-site community meals
+
+`OFFSITE` + `OFFSITE_NOTE` in 5b-data-sched.js, rendered by `offsiteBlock()` in the Schedule
+tab right under live music. Same pattern as LIVE_MUSIC: dates stored "M/D", year comes from
+SCHEDULE.year, anything already past drops off by itself. It is a LIST not a map because two
+events share 8/9. Current: 8/9 Heart & Soul Church (Fishers) 12–2, 8/9 Real Life Church
+(Greenfield) 7–9, 8/23 Life Church (Fishers) 11:30–1. Volunteer contact is Yaris,
+admin@prime47carmel.com / 317.703.4284. Searchable under "Meals & Moments".

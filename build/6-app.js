@@ -626,6 +626,9 @@ function search(q){
   VOCAB.forEach(g=>g[1].forEach(r=>{if(matches([g[0],r[0],r[1]]))add("Vocabulary",r[0],r[1],"vocab");}));
   HANDBOOK.forEach(h=>{const txt=h[2].replace(/<[^>]+>/g," ");
     if(matches([h[0],h[1],txt]))add("Handbook",h[0],txt.trim().slice(0,140)+"…","house");});
+  /* the book is searchable too — a hit sends you to How We Work, where the book card lives */
+  BOOK.forEach(c=>{const txt=c.h.replace(/<[^>]+>/g," ").replace(/\s+/g," ");
+    if(matches([c.t,"mo's book",txt]))add("Mo's Book",c.t,txt.trim().slice(0,140)+"…","house");});
   /* How We Work was never indexed — the mission, the Points of Passion, the
      non-negotiables, every steps-of-service list, the side work and the house facts
      were all invisible to search. "uniform", "boxing station", the chef's name: nothing. */
@@ -662,6 +665,9 @@ function search(q){
   MC.forEach(m=>{if(matches([m.q,m.o[0],m.t]))add("Quiz",m.q,"Answer: "+m.o[0],"study");});
   if(typeof LIVE_MUSIC!=="undefined")Object.entries(LIVE_MUSIC).forEach(([d,act])=>{
     if(matches(["live music",d,act]))add("Live music",act,d+" — live in the lounge","sched");});
+  if(typeof OFFSITE!=="undefined")OFFSITE.forEach(o=>{
+    if(matches(["meals and moments","meals & moments","church","volunteer",o.where,o.addr,o.d]))
+      add("Meals & Moments",o.where,o.d+" · "+o.t+" · "+o.addr,"sched");});
   /* the posted week, by person — searching a name shows you their shifts */
   (SCHEDULE.sections||[]).forEach(([sec,rows])=>rows.forEach(r=>{
     if(String(r[0]).startsWith("("))return;
@@ -906,8 +912,11 @@ function build(){
 
   /* ---------- SALES CALCULATOR ---------- */
   $("#p-house").innerHTML=`
+    <div id="bkWrap" style="display:none"></div>
+    <div id="houseMain">
     <div class="sechead"><h2>How we work</h2><span>Points of Passion, steps of service, and the house playbook</span></div>
     <div class="note gold"><b>Mission:</b> ${esc(HOUSE.mission)}</div>
+    <div class="bkcard" onclick="openBook()"><h3>&#128214; The Mo's Book</h3><p>The whole training course, in the order we teach it — every day of the original itinerary, front to back. Tap to read it chapter by chapter.</p></div>
     ${acc("Points of Passion — the 16","the Mo's service philosophy, word for word where it counts",`<ol class="steps">${HOUSE.points.map(([t,d])=>`<li><b>${esc(t)}.</b> ${esc(d)}</li>`).join("")}</ol>`)}
     ${acc("Isaac's Non-Negotiables — the 11","the standards that never bend",`<ol class="steps">${HOUSE.isaacs.map(d=>`<li>${esc(d)}</li>`).join("")}</ol>`)}
     ${acc("Back server steps of service","your role, from the official handout",`<ul class="steps">${HOUSE.back.map(d=>`<li>${esc(d)}</li>`).join("")}</ul>`)}
@@ -926,7 +935,8 @@ function build(){
     ${HANDBOOK.map(h=>acc(h[0],h[1],h[2])).join("")}
 
     <div class="sechead"><h2>About this app</h2><span>read once</span></div>
-    <div class="note">Mo's Server Command Center — built by Evan (back server) as a training and money tool for the team. It is a STUDY COPY, not official house policy: menus, prices, and rules change, so when a dollar matters, verify in Toast or with a manager. The checkout math is proven against real graded checkouts. Spot something wrong or outdated? Tell Evan — corrections go in same-day. Updated <b>__BUILDDATE__</b>.</div>`;
+    <div class="note">Mo's Server Command Center — built by Evan (back server) as a training and money tool for the team. It is a STUDY COPY, not official house policy: menus, prices, and rules change, so when a dollar matters, verify in Toast or with a manager. The checkout math is proven against real graded checkouts. Spot something wrong or outdated? Tell Evan — corrections go in same-day. Updated <b>__BUILDDATE__</b>.</div>
+    </div>`;
 
   /* ---------- VOCABULARY ---------- */
   $("#p-vocab").innerHTML=`
@@ -1073,6 +1083,42 @@ function build(){
   ["wine","menu","bar","ops","allergens","specials"].forEach(addJumps);
 }
 
+/* ---------- THE MO'S BOOK — reader inside How We Work ----------
+   Function declarations at TOP LEVEL on purpose: the contents rows and the
+   prev/next buttons use inline onclick, so these have to be global. BOOKCH is
+   declared with no initializer (an initializer here re-runs after boot and
+   wipes the chapter you are on). Chapter HTML comes from mkbook.py — it is
+   already escaped and trusted, so it is injected raw, never through esc(). */
+var BOOKCH;
+function bkShort(t){const m=String(t).match(/^(Day \d+|Start Here|The Get List)/);return m?m[1]:String(t).slice(0,14);}
+function openBook(i){
+  const w=$("#bkWrap"), m=$("#houseMain");
+  if(!w||!m)return;
+  m.style.display="none"; w.style.display="block";
+  if(i==null){
+    BOOKCH=null;
+    w.innerHTML=`<div class="sechead"><h2>The Mo's Book</h2><span>everything we teach, in the order we teach it</span></div>
+    <p class="lede">Built on the original Mo's Training Itinerary — the plan that opened this restaurant. Read it front to back, or jump straight to a day. When the book and the rest of the app disagree, the app is newer.</p>
+    <div class="card"><div class="cbody">${BOOK.map((c,j)=>`<div class="bkrow" onclick="openBook(${j})"><div class="n">${j===0?"&#9733;":(j===BOOK.length-1?"&#9873;":j)}</div><div class="t">${esc(c.t)}</div></div>`).join("")}</div></div>
+    <div class="bknav"><button onclick="closeBook()">&#8592; Back to How We Work</button></div>`;
+  } else {
+    BOOKCH=i;
+    const c=BOOK[i];
+    w.innerHTML=`<div class="bknav"><button class="bkc" onclick="openBook()">&#9776; Contents</button><button onclick="closeBook()">Exit the book</button></div>
+    <div class="sechead"><h2>${esc(c.t)}</h2><span>chapter ${i+1} of ${BOOK.length}</span></div>
+    ${c.plan?`<p class="bkplan">${esc(c.plan)}</p>`:""}
+    <div class="bkbody">${c.h}</div>
+    <div class="bknav">${i>0?`<button onclick="openBook(${i-1})">&#8592; ${esc(bkShort(BOOK[i-1].t))}</button>`:""}<button class="bkc" onclick="openBook()">&#9776;</button>${i<BOOK.length-1?`<button onclick="openBook(${i+1})">${esc(bkShort(BOOK[i+1].t))} &#8594;</button>`:""}</div>`;
+  }
+  window.scrollTo(0,0);
+}
+function closeBook(){
+  const w=$("#bkWrap"), m=$("#houseMain");
+  if(!w||!m)return;
+  BOOKCH=null; w.style.display="none"; w.innerHTML=""; m.style.display="block";
+  window.scrollTo(0,0);
+}
+
 /* ---------- BOOT ---------- */
 buildNav(); build();
 /* Every calculator field is markup like <div class="f"><label>Teams</label><input id=...>.
@@ -1176,6 +1222,23 @@ function liveMusicBlock(){
   return `<div class="sechead"><h2>Live music coming up</h2><span>every Friday &amp; Saturday, in the lounge</span></div>
     ${tbl(["When","Who"],rows.map(r=>[`<b>${DOW[r.when.getDay()]} ${esc(r.d)}</b>`,esc(r.act)]))}`;
 }
+/* Meals & Moments — same idea as the music block: only what is still ahead of us. */
+function offsiteBlock(){
+  if(typeof OFFSITE==="undefined")return "";
+  const DOW=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+  const now=new Date(), today=new Date(now.getFullYear(),now.getMonth(),now.getDate());
+  const yr=SCHEDULE.year||now.getFullYear();
+  const rows=OFFSITE.map(o=>{
+    const [m,dd]=o.d.split("/").map(Number);
+    return Object.assign({},o,{when:new Date(yr,m-1,dd)});
+  }).filter(x=>!isNaN(x.when)&&x.when>=today).sort((a,b)=>a.when-b.when||a.t.localeCompare(b.t));
+  if(!rows.length)return "";
+  return `<div class="sechead"><h2>Meals &amp; Moments</h2><span>serving off-site, after their service</span></div>
+    ${tbl(["When","Where"],rows.map(r=>[
+      `<b>${DOW[r.when.getDay()]} ${esc(r.d)}</b><br><span style="color:var(--dim)">${esc(r.t)}</span>`,
+      `<b>${esc(r.where)}</b><br><span style="color:var(--dim)">${esc(r.addr)}</span>`]))}
+    <div class="note">${esc(typeof OFFSITE_NOTE!=="undefined"?OFFSITE_NOTE:"")}</div>`;
+}
 function rosterFor(S,idx,cur){
   /* the posted sheet abbreviates to fit its columns; the roster has room, so spell it
      out. The GRID still prints whatever the sheet says. Declared in here on purpose —
@@ -1211,6 +1274,7 @@ function fillSched(){
     ${schedGrid(SCHEDULE,idx,true)}
     <div class="note" style="margin-top:10px"><b>Reading it:</b> numbers are start times exactly as written \u2014 345 means 3:45. A dark box is OFF. <b>RO</b> is a requested day off. Blank means not scheduled that day. <b>Covers row:</b> dinners already on the books for each day when this schedule printed \u2014 the Sunday-night count from ${schedSunday(SCHEDULE)}. Numbers on the yellow <b>BQTs</b> bar are the banquet headcount for that day. A trailing ? means the photo was hard to read.</div>
     ${liveMusicBlock()}
+    ${offsiteBlock()}
     <div class="sechead"><h2>Schedule history</h2><span>${SCHEDULE_HISTORY.length} weeks \u2014 every sheet since we opened</span></div>
     <div class="note">These are the sheets <b>as posted</b>. Trades, call-offs, cuts and sick days happened after \u2014 so a history week shows the plan, not always who actually worked.</div>
     <div class="frow" style="margin-top:8px"><div class="f"><label>Pick a week</label><select id="schedWeek">${SCHEDULE_HISTORY.map((w,i)=>`<option value="${i}"${i===SCHED_SEL?" selected":""}>${esc(w.week)}</option>`).join("")}</select></div></div>

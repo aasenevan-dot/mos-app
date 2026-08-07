@@ -29,6 +29,17 @@ const LIVE_MUSIC={
  "8/21":"Tim & Cat"
 };
 
+/* MEALS & MOMENTS — the off-site meals we serve for church families and the community,
+   after their service. Stored "M/D" like the music poster; the year comes from the posted
+   schedule and anything already served drops off the list on its own. Two entries can
+   share a date, so this is a list, not a map. */
+const OFFSITE=[
+ {d:"8/9", t:"12:00 – 2:00 pm", where:"Heart & Soul Church", addr:"11616 E 126th Street, Fishers"},
+ {d:"8/9", t:"7:00 – 9:00 pm", where:"Real Life Church", addr:"5151 West US Highway 40, Greenfield"},
+ {d:"8/23", t:"11:30 am – 1:00 pm", where:"Life Church", addr:"9820 E 141st St, Fishers"}
+];
+const OFFSITE_NOTE="Fellowship, food, and fun — bringing a church family and the community together over a shared meal. Want to serve one? Email or text Yaris at admin@prime47carmel.com or 317.703.4284.";
+
 const SCHEDULE={
  week:"Week of 8/5 – 8/11, 2026", year:2026, start:"2026-08-05",
  days:[["8/5","We"],["8/6","Th"],["8/7","Fr"],["8/8","Sa"],["8/9","Su"],["8/10","Mo"],["8/11","Tu"]],

@@ -5922,7 +5922,7 @@ function calcBq(){}   /* the mini-tool folded into calcBQC above */
 /* Ask it questions: words match in any order, filler words are ignored,
    common floor terms map to menu vocabulary, and small typos still hit. */
 const SEARCH_STOP=new Set("what whats is in the a an on of for to do does did we have has had any with and or are it its how much many me my show tell about can could i you your price prices cost costs".split(" "));
-const SEARCH_SYN={mocktail:"non-alcoholic",virgin:"non-alcoholic",children:"kids",child:"kids",app:"starters",apps:"starters",appetizer:"starters",appetizers:"starters",sparkling:"champagne",bubbly:"champagne",bubbles:"champagne",veggie:"vegetable",veggies:"vegetable",glutenfree:"gf",sweets:"desserts",bday:"celebration",birthday:"celebration",anniversary:"celebration",percentages:"percent",percentage:"percent",tipout:"tip",tipouts:"tip",ounces:"oz",ounce:"oz",cheapest:"price",cheap:"price",priciest:"price",recipe:"ingredients",dressing:"dressings",earn:"earned",earnings:"earned",paycheck:"earned",payout:"earned",roster:"schedule",working:"schedule",works:"schedule",temp:"temperature",temps:"temperature",nuts:"nut",peanuts:"peanut",gf:"gluten"};
+const SEARCH_SYN={works:"schedule",working:"schedule",shift:"schedule",mocktail:"non-alcoholic",virgin:"non-alcoholic",children:"kids",child:"kids",app:"starters",apps:"starters",appetizer:"starters",appetizers:"starters",sparkling:"champagne",bubbly:"champagne",bubbles:"champagne",veggie:"vegetable",veggies:"vegetable",glutenfree:"gf",sweets:"desserts",bday:"celebration",birthday:"celebration",anniversary:"celebration",percentages:"percent",percentage:"percent",tipout:"tip",tipouts:"tip",ounces:"oz",ounce:"oz",cheapest:"price",cheap:"price",priciest:"price",recipe:"ingredients",dressing:"dressings",earn:"earned",earnings:"earned",paycheck:"earned",payout:"earned",roster:"schedule",working:"schedule",works:"schedule",temp:"temperature",temps:"temperature",nuts:"nut",peanuts:"peanut",gf:"gluten"};
 function nearWord(a,b){
   if(a===b)return true;
   const la=a.length,lb=b.length;
@@ -5975,7 +5975,7 @@ function search(q){
   Object.entries(MENU).forEach(([sec,items])=>items.forEach(i=>{if(matches([sec,i[0],i[1],i[2],i[3]]))add(sec,i[0]+" — "+i[1],i[2],"menu");}));
   ENHANCE.forEach(e=>{if(matches([e[0],e[1],e[2],e[3]]))add("Enhancement",e[0]+" — "+e[1],e[2],"menu");});
   ALLERGENS.forEach(r=>{if(matches([r[0],r[2].join(" "),r[3]]))add("Allergens",r[0],"Contains: "+(r[2].join(", ")||"none listed")+". "+r[3],"allergens");});
-  Object.entries(SPIRITS).forEach(([sec,rows])=>rows.forEach(r=>{if(matches([sec,r[0],r[2]]))add(sec,r[0]+" — "+r[1],r[2],"cocktails");}));
+  Object.entries(SPIRITS).forEach(([sec,rows])=>rows.forEach(r=>{if(matches([sec,r[0],r[1],r[2]]))add(sec,r[0]+" — "+r[1],r[2],"cocktails");}));
   BEER.forEach(b=>{if(matches([b[0],b[2],b[3]]))add("Beer",b[0]+" — "+b[1],b[2]+". "+b[3],"cocktails");});
   OPEN.forEach(o=>{if(matches([o[0],o[1]]))add("Test answer",o[0],o[1],"study");});
   SPECIALS_ON.forEach(s=>{if(matches([s[0],s[2]]))add("Ongoing special",s[0]+" — "+s[1],s[2],"menu");});
@@ -5992,6 +5992,11 @@ function search(q){
     if(matches([c.t,"mo's book",txt]))add("Mo's Book",c.t,txt.trim().slice(0,140)+"…","house");});
   /* The 79-slide training slideshow shipped indexed-nowhere, so nothing in it was
      findable from the search bar the way the book already was. */
+  /* dated house events — the Labor Day party, wine dinners, the golf outing —
+     were in the schedule but indexed nowhere, so search could not find them */
+  if(typeof EVENTS!=="undefined") EVENTS.forEach(e=>{
+    if(matches([e.n,e.when,e.w,e.d,"event","party"]))
+      add("Event · "+e.d,e.n,e.when+" — "+e.w,"sched");});
   if(typeof MISE!=="undefined") MISE.forEach(m=>{
     const tools=m[1].join(", ");
     if(matches([m[0],tools,m[2],"mise en place","silverware","set with"]))

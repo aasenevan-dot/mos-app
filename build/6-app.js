@@ -351,7 +351,7 @@ function priceBlitz(){
   Object.entries(MENU).forEach(([sec,items])=>items.forEach(i=>{
     const raw=String(i[1]); const m=raw.match(/^\$(\d+)/);
     if(m&&!raw.includes("/")&&+m[1]>=5)pool.push({n:i[0],p:+m[1]});}));
-  COCKTAILS.forEach(c=>{const m=String(c.p).match(/^\$(\d+)$/);if(m)pool.push({n:c.n,p:+m[1]});});
+  COCKTAILS.filter(c=>c.grp!=="verify").forEach(c=>{const m=String(c.p).match(/^\$(\d+)$/);if(m)pool.push({n:c.n,p:+m[1]});});
   WINES.filter(w=>w.btg).forEach(w=>{const m=String(w.p).match(/^\$(\d+)/);if(m)pool.push({n:w.n+" (glass)",p:+m[1]});});
   const prices=[...new Set(pool.map(x=>x.p))].sort((a,b)=>a-b);
   const qs=shuffled(pool).slice(0,10).map(it=>{
@@ -1054,7 +1054,7 @@ function build(){
     ${acc("Past specials, dinners and retired items",`${SPECIALS_PAST.length} entries — do not pitch these`,
       `<div class="grid wide">${SPECIALS_PAST.map(s=>mCard(s[0],s[1],s[2],s[3],"")).join("")}</div>`)}
 
-    <div class="note" style="margin-top:14px"><b>GF</b> = the printed menu marks it gluten-free. It is not a promise of a gluten-free kitchen — the fryer is shared and crackers, bread and croutons ride on plenty of setups. Any real allergy still runs the protocol.</div>
+    <div class="note" style="margin-top:14px"><b>GF</b> = we have confirmed this dish runs gluten-free. Watch the printed menu: it does <b>not</b> mark GF any more — it marks gluten-<b>CONTAINING</b> items with a small <b>g</b>. Never read a letter on the menu as "safe". It is not a promise of a gluten-free kitchen either — the fryer is shared and crackers, bread and croutons ride on plenty of setups. Any real allergy still runs the protocol.</div>
     `;
 
   /* ---------- ALLERGENS ---------- */
@@ -1239,7 +1239,7 @@ function build(){
     <div class="out" id="bqcOut"></div>
 
     <div class="sechead"><h2>Splits</h2><span>the house rules</span></div>
-    <ol class="steps">${SPLIT_RULES.map(r=>`<li><b>${esc(r.split(".")[0])}.</b>${esc(r.split(".").slice(1).join(".").trim())}</li>`).join("")}</ol>
+    <ol class="steps">${SPLIT_RULES.map(r=>{/* split on a SENTENCE end, not any period — "busser gets 1.5%" was being cut in half at the decimal */const m=r.match(/^([\s\S]*?[.!?])(\s[\s\S]*)$/);return `<li><b>${esc(m?m[1]:r)}</b>${m?" "+esc(m[2].trim()):""}</li>`;}).join("")}</ol>
 
     
 

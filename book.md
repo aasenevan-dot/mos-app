@@ -177,9 +177,9 @@ Two rules sit above every allergen answer in this chapter. First: the **fryer is
 
 ## The Towers
 
-**Iced Seafood Tower — $98.** Six items — memorize them: king crab legs, shrimp cocktail, lobster salad on brioche, oysters, blackened ahi tuna salad, wonton chips. Service: cocktail forks preset, butter warmer with a tealight, clear the top tier once it finishes. The crackers, brioche, and wontons all ride separate — hold those three and the tower itself goes gluten-free. That is a fact that wins tables.
+**Iced Seafood Tower — Semi-Pro $98 / Baller $190.** Six items — memorize them: king crab legs, shrimp cocktail, lobster salad on brioche, oysters, blackened ahi tuna salad, wonton chips. Service: cocktail forks preset, butter warmer with a tealight, clear the top tier once it finishes. The crackers, brioche, and wontons all ride separate — hold those three and the tower itself goes gluten-free. That is a fact that wins tables.
 
-**Roasted Seafood Tower — $190.** King crab legs, scallops, lobster meat, shrimp, mussels in diavolo, with a seafood-butter sauce pooling underneath — garlic butter, lobster stock, parsley, a touch of house marinara. Service is the show: stacking rack in the base, stack it at the table over a black linen, cocktail forks preset, butter warmer with a tealight. HALFWAY through, clear the shells and stir the pasta setup into that remaining sauce — the house calls the result capavetti pasta, and the tableside pasta moment is the whole reason the tower feels like $190. Do not skip it. This one belongs to the back server.
+**Roasted Seafood Tower — Semi-Pro $98 / Baller $190.** King crab legs, scallops, lobster meat, shrimp, mussels in diavolo, with a seafood-butter sauce pooling underneath — garlic butter, lobster stock, parsley, a touch of house marinara. Service is the show: stacking rack in the base, stack it at the table over a black linen, cocktail forks preset, butter warmer with a tealight. HALFWAY through, clear the shells and stir the pasta setup into that remaining sauce — the house calls the result capavetti pasta, and the tableside pasta moment is the whole reason the Baller feels worth $190. Do not skip it. This one belongs to the back server.
 
 ## Soups
 

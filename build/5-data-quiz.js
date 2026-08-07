@@ -109,7 +109,7 @@ const MC = [
  {"q": "Prime meatballs are made from…", "o": ["Filet, ribeye, and NY strip trim with a breadcrumb binder", "Ground chuck", "A pork and beef blend", "Plant-based blend"], "t": "food"},
  {"q": "The A5 Nigiri is…", "o": ["$35 — torched rice, balsamic pearls, pear reduction, crispy leeks, metal chopsticks", "$25 with soy on the side", "$45 for six pieces", "Served with cocktail forks"], "t": "food"},
  {"q": "The Crispy Ahi Tuna Bites come with…", "o": ["The same metal Japanese chopsticks as the nigiri", "Regular forks", "Disposable wood chopsticks", "No utensils — finger food"], "t": "food"},
- {"q": "Kung pao sauce on the calamari — allergy-wise you treat it as…", "o": ["PEANUTS — flag every peanut allergy", "Nut-free", "Cashews only", "Just soy"], "t": "food"},
+ {"q": "Kung pao sauce on the calamari — allergy-wise you treat it as…", "o": ["ANY NUT — treat it as both peanut AND tree nut", "Nut-free", "Cashews only", "Just soy"], "t": "food"},
  {"q": "Halfway through the Roasted Seafood Tower you…", "o": ["Stir the cheese-sauce pasta into the tower sauce — that's the Capavetti Pasta", "Clear it and drop the check", "Refill the shells", "Let the guest mix it"], "t": "food"},
  {"q": "The loaded baked potato upgrade adds…", "o": ["Chives, bacon, cheese — and that bacon means PORK for allergies", "Just extra butter", "Shrimp and scallions", "Nothing — it's a size upgrade"], "t": "food"},
  {"q": "White cheddar mash runs…", "o": ["$12 — add truffle or wasabi for $3", "$15 with add-ons included", "$8 flat", "$12 with free truffle"], "t": "food"},

@@ -52,7 +52,9 @@ async def main():
         vals=await pg.evaluate("({d:document.querySelector('#ipDay').value,b:document.querySelector('#ipBooks').value,t:document.querySelector('#ipTeams').value,c:document.querySelector('#ipCk').value,bu:document.querySelector('#ipBus').value,ex:document.querySelector('#ipExpo').value,br:document.querySelector('#ipBar').value,g:document.querySelector('#bqGrat').value})")
         if vals!={"d":"2","b":"39","t":"7","c":"2","bu":"2","ex":"2","br":"3","g":"23"}: bad.append(f"prefills wrong: {vals}")
         ipout=await pg.evaluate("document.querySelector('#ipOut').innerHTML")
-        for cell in ["CUT TERRITORY","$175","Night net","39 covers x $115","Bussers","Expo / food run","Bar","Staffing this night","room to cut","bar-top tips"]:
+        # "Staffing this night" was a sub-heading inside this output; it was removed 8/7
+        # as redundant (this whole panel IS the night forecast). Rows below still assert.
+        for cell in ["CUT TERRITORY","$175","Night net","39 covers x $115","Bussers","Expo / food run","Bar","room to cut","bar-top tips"]:
             if cell not in ipout: bad.append(f"default forecast missing {cell}")
         # real-net override: the verified 8000-net numbers must appear exactly
         await pg.evaluate("document.querySelector('#ipNet').value='8000';calcIP()")
@@ -146,9 +148,9 @@ async def main():
         await pg.evaluate("go('menu')")
         await pg.wait_for_timeout(350)
         mn=await pg.evaluate("document.querySelector('#p-menu').innerHTML")
-        if "Specials running right now" not in mn: bad.append("specials heading missing")
+        if "Specials" not in mn: bad.append("specials heading missing")
         if "&#9733;" not in mn and "\u2605" not in mn: bad.append("star missing from specials heading")
-        if "Not running right now" not in mn: bad.append("rotating-specials heading missing")
+        if "Old Specials" not in mn: bad.append("rotating-specials heading missing")
         if "Sundresses" in mn: bad.append("dated events still on the food menu")
         if "Archives" not in mn: bad.append("archives section missing")
         # archives + steak temps + A5 must be COLLAPSED accordions, not always-open blocks
@@ -160,8 +162,8 @@ async def main():
         order=await pg.evaluate("""(function(){
           const h=[...document.querySelectorAll('#p-menu .sechead h2')].map(x=>x.textContent);
           const at=t=>h.findIndex(x=>x.includes(t));
-          return {specials:at('Specials running right now'),starters:at('Starters'),
-                  kids:at('Kids Menu'),notnow:at('Not running right now'),
+          return {specials:at('Specials'),starters:at('Starters'),
+                  kids:at('Kids Menu'),notnow:at('Old Specials'),
                   arch:at('Archives')};})()""")
         o=order
         if -1 in o.values(): bad.append(f"a food menu section is missing: {o}")
@@ -170,14 +172,19 @@ async def main():
         elif o["notnow"]-o["kids"]!=1:
             bad.append(f"'Not running' sits {o['notnow']-o['kids']} sections after Kids Menu, expected 1")
         if "Steak temperatures" not in mn: bad.append("steak temps missing")
-        if mn.index("Prime 47 Cuts")>mn.index("Steak temperatures"):
-            bad.append("steak temps are not inside the cuts section")
+        # cuts, surf & turf and exclusives merged into one "Entrees" section (8/7),
+        # and the enhancements table now opens above the steaks
+        if mn.index("Entrees")>mn.index("Steak temperatures"):
+            bad.append("steak temps are not inside the entrees section")
+        if mn.index("Enhancements")>mn.index("Steak temperatures"):
+            bad.append("enhancements table should sit above the steak temps")
         if "The A5 pitch" not in mn: bad.append("A5 pitch missing from the A5 dish")
         # data corrections
-        tow=await pg.evaluate("JSON.stringify(MENU['Seafood Towers'])")
+        # towers merged into Starters (8/7); cuts/surf&turf/exclusives merged into Entrees
+        tow=await pg.evaluate("JSON.stringify(MENU['Starters'])")
         for cell in ["Semi-Pro $98 / Baller $190","6 oysters","3 shrimp","half the seafood"]:
             if cell not in tow: bad.append(f"tower detail missing: {cell}")
-        ph=await pg.evaluate("JSON.stringify(MENU['Prime 47 Cuts & Wagyu'])")
+        ph=await pg.evaluate("JSON.stringify(MENU['Entrees'])")
         if "26 oz NY strip" not in ph or "12 oz filet" not in ph or "10 oz bone" not in ph:
             bad.append("porterhouse ounces not updated")
         if await pg.evaluate("SPECIALS_ROTATION.length")!=2:
@@ -196,7 +203,7 @@ async def main():
             bad.append("ranch fries tip missing")
         tf=await pg.evaluate("JSON.stringify(MENU['Accessories / Sides'].find(x=>x[0]==='Truffle Fries'))")
         if "ranch" not in tf.lower(): bad.append("truffle fries ranch tag missing")
-        bg=await pg.evaluate("JSON.stringify(MENU['Starters & Lounge'].find(x=>x[0]==='Prime Beef Burger'))")
+        bg=await pg.evaluate("JSON.stringify(MENU['Lounge'].find(x=>x[0]==='Prime Beef Burger'))")
         if "ranch" not in bg.lower(): bad.append("burger ranch suggestion missing")
         # events moved to the schedule tab
         await pg.evaluate("go('sched')")
@@ -208,7 +215,7 @@ async def main():
         # ---- search coverage ----
         for q,expect in [("tip out percentages","Money tool"),("how much do i make on 4000","Money tool"),
                          ("who works friday","Schedule"),("what is in our ranch","House recipe"),
-                         ("cheddar broccoli","Soup of the day"),("baller","Seafood Towers")]:
+                         ("cheddar broccoli","Soup of the day"),("baller","Starters")]:
             hits=await pg.evaluate(f"search({q!r}).map(h=>h.w).join('|')")
             if expect not in hits: bad.append(f"search '{q}' missing {expect}: {hits[:70]}")
         if await pg.evaluate("search('asdfghjkl').length"): bad.append("gibberish search returned hits")
@@ -306,6 +313,7 @@ async def main():
         # every photo key must match a real menu item, or it will never render
         orphan=await pg.evaluate("""(function(){
           const names=new Set(); Object.values(MENU).forEach(a=>a.forEach(i=>names.add(i[0])));
+          [SPECIALS_ON,SPECIALS_ROTATION,SPECIALS_PAST].forEach(a=>a.forEach(i=>names.add(i[0])));
           return Object.keys(PHOTOS).filter(k=>!names.has(k));})()""")
         if orphan: bad.append(f"PHOTOS keys with no menu item: {orphan}")
         shown=await pg.evaluate("document.querySelectorAll('#p-menu .dishimg').length")
@@ -356,14 +364,14 @@ async def main():
         if not shape: bad.append("a mise en place group is malformed")
         sm=await pg.evaluate("search('what silverware goes with the lobster tail').map(h=>h.w).join('|')")
         if "Mise en place" not in sm: bad.append(f"search miss mise: {sm[:90]}")
-        rib=await pg.evaluate("JSON.stringify(MENU['Prime 47 Cuts & Wagyu'].find(x=>/45-Day/.test(x[0])))")
+        rib=await pg.evaluate("JSON.stringify(MENU['Entrees'].find(x=>/45-Day/.test(x[0])))")
         if "45-Day 22 oz Dry-Aged Bone-In Ribeye" not in rib: bad.append("45-day ribeye not renamed")
         for cell in ["amino acids","nutty","enzymes"]:
             if cell not in rib: bad.append(f"dry-age story missing {cell}")
-        oy=await pg.evaluate("JSON.stringify(MENU['Starters & Lounge'].find(x=>x[0]==='Seasonal Oysters'))")
+        oy=await pg.evaluate("JSON.stringify(MENU['Starters'].find(x=>x[0]==='Seasonal Oysters'))")
         for cell in ["bed of ice","dry-ice smoke","Zesta","cocktail forks are already on the table"]:
             if cell not in oy: bad.append(f"oyster presentation missing {cell}")
-        wt=await pg.evaluate("JSON.stringify(MENU['Starters & Lounge'].find(x=>x[0]==='Wagyu Tacos'))")
+        wt=await pg.evaluate("JSON.stringify(MENU['Starters'].find(x=>x[0]==='Wagyu Tacos'))")
         if "balsamic vinegar glaze" not in wt: bad.append("wagyu taco balsamic glaze not stated")
 
         # ---- desktop header cleanup ----

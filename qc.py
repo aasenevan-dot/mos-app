@@ -42,10 +42,11 @@ for sec, items in MENU.items():
         if c > 1: problems.append(f"{sec}: '{n}' listed {c} times")
 
 # 3. every photo and lead must point at a real dish
-for k in photos:
-    if k not in names: problems.append(f"PHOTOS key '{k}' matches no menu item")
 special_names = {s[0] for s in food["SPECIALS_ON"]} | {s[0] for s in food["SPECIALS_ROTATION"]} \
                 | {s[0] for s in food["SPECIALS_PAST"]}
+for k in photos:
+    if k not in names and k not in special_names:
+        problems.append(f"PHOTOS key '{k}' matches no menu item or special")
 for k in food["LEADS"]:
     if k not in names and k not in special_names:
         problems.append(f"LEADS key '{k}' matches no menu item or special")

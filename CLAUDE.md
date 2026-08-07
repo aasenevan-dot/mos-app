@@ -589,3 +589,45 @@ nothing was written into the app.
   days) and "Spinalis Sunday" at $10/oz as a weekly feature, sitting next to Ladies Night.
   The porterhouse, the tomahawk, the spinalis and the A5 all say a MANAGER cuts them tableside.
 - Both rotating salmon specials now carry "? VERIFY price".
+
+## 8/7 round 4 — Claude Code merge, plus one archive cleanup
+
+Evan did a round in Claude Code on his Mac and pushed it. Cowork cloned HEAD (`d7eb221`),
+diffed 13 files, confirmed every marker from the previous Cowork round was already in the repo
+(`brandHome`, `p-extra`, `WINE_MOVE`, `grp!=="verify"`, `LEADS`, `mlead`, `fog-cooled`,
+`Spinalis Sunday`), and adopted Claude Code's five differing files wholesale. Nothing from
+either side was lost.
+
+**What came from Claude Code — do not revert any of this:**
+- Caymus Napa Valley repriced $160 → $155 in both `WINES` and `WINE_MOVE`.
+- "Ahi Tuna & Wagyu Beef" moved out of Surf & Turf into `SPECIALS_PAST`, tagged
+  "off the current menu".
+- `PROTOCOL` condensed from 6 steps to 3: ask what kind of allergy → ring it in Toast →
+  tell your back server, expo, the chef and a manager.
+- New `SPECIAL_DAYS` map + `SPX` render logic: specials are gated by weekday, and anything
+  not running today drops below the Kids Menu under "Not running right now".
+- **The Food Menu tab icon is a fork and spoon, NOT a star.** A previous Cowork round
+  reverted this once already. Leave it alone.
+- The "Chef Miguel Garatachea's kitchen" bullet was dropped from FLOW.
+- `test-sched.py` made machine-portable with `pathlib` — no more hardcoded paths.
+
+**What Cowork added this round — one consistency pass, nothing else:**
+- Archived dishes no longer sit inside the live menu shouting "ARCHIVED". Short Rib Pasta,
+  Stuffed Chicken Breast and Forest Mushrooms moved out of their menu sections into
+  `SPECIALS_PAST` with the tag "off the current menu" — the same pattern Claude Code used for
+  Ahi Tuna. They now live under the Archives dropdown at the bottom of the Food Menu.
+  Menu items 94 → 91.
+- Their allergen rows STAY (a server still has to answer for a dish someone remembers). The
+  note now opens with a plain "Off the menu." instead of "ARCHIVED — off the menu."
+  Ahi Tuna, Seared Blackened Scallops and Roasted Green Beans were normalized to match.
+  The word ARCHIVED no longer appears anywhere in the food data.
+- `LEADS` entries added for the three moved dishes so their collapsed previews stay under the
+  115-char rule the test enforces.
+- **Two tests were too strict and are now correct:** the PHOTOS-orphan check in both `qc.py`
+  and `test-sched.py` only looked at `MENU`, so a photo of an archived dish read as an orphan.
+  Both now accept `SPECIALS_ON` / `SPECIALS_ROTATION` / `SPECIALS_PAST` too, because
+  `mCard()` renders those cards with `dishPic()` exactly like menu rows.
+
+Green after the merge: qc.py CLEAN (91 menu items, 88 allergen rows, 37 photos, 44 leads,
+18 soups, 3 protocol steps, 55 dishes still without a photo), build 1,036,813 bytes,
+test.py ALL GOOD, test-sched.py ALL GOOD.

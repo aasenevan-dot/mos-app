@@ -400,3 +400,63 @@ SCHEDULE.year, anything already past drops off by itself. It is a LIST not a map
 events share 8/9. Current: 8/9 Heart & Soul Church (Fishers) 12–2, 8/9 Real Life Church
 (Greenfield) 7–9, 8/23 Life Church (Fishers) 11:30–1. Volunteer contact is Yaris,
 admin@prime47carmel.com / 317.703.4284. Searchable under "Meals & Moments".
+
+## 8/7 round — menu corrections, mise en place, desktop header
+
+- **45-Day ribeye renamed** to "45-Day 22 oz Dry-Aged Bone-In Ribeye" (ounces in the NAME,
+  so the price column is just the price). Description now tells the dry-age story: moving
+  air pulls moisture and concentrates the beef, enzymes break proteins into amino acids and
+  soften connective tissue → deep nutty brown-butter richness. Price still VERIFY.
+- **Seasonal oysters presentation:** bed of ice, dry-ice smoke out of the middle (hot water
+  sets it off), Tabasco + Zesta crackers, cocktail forks already on the table before it lands.
+- **Wagyu tacos:** light balsamic vinegar glaze over the top — that glaze IS the sauce.
+- **NEW `HOUSE.mise`** (5-data-quiz.js) → "Mise en place — what goes down with what"
+  accordion in How We Work, above the tableside list. 7 groups: preset-before-the-food,
+  starters, soup/salad/bread, steaks and entrees, sides, desserts, tableside shows. Shape is
+  [title, subtitle, [lines]] and lines carry HTML. Searchable under "Mise en place".
+  Evan's locked rule: the COCKTAIL FORK is preset BEFORE the plate for shrimp cocktail, king
+  crab legs, oysters, both towers, the 5 oz lobster tail add-on, and the twin tails entree.
+  CSS gotcha: `.steps li b` is display:block by design (label-led lists) — for mid-sentence
+  emphasis use `<b class="inl">`, which the new `.steps li b.inl` rule keeps inline.
+- **Desktop header cleaned:** A−/A+/Dark are OUT of the tab row (they crowded it and the row
+  scrolled). The buttons still exist inside `<div id="hdrCtl" hidden>` because the More sheet
+  clicks #szDn/#szUp/#darkT by id — do NOT delete them. Desktop tab row now wraps+centers
+  with 11.5px/8px sizing, mask fade off, hwrap max-width 1280: all 12 tabs visible on one row
+  at ≥1280, a balanced two rows at 1024, never a sideways scroll.
+  TWO CSS TRAPS hit here: (1) the `@media(min-width:769px)` block lost its closing brace and
+  silently swallowed the dark-mode rules — always re-check brace balance after editing head
+  CSS; (2) `@media(pointer:coarse)` sets big nav buttons and comes later in the sheet, so a
+  touchscreen laptop/iPad-landscape wrapped the row — there is now a min-width:769px override
+  placed AFTER the coarse block to win it back. Keep that ordering.
+
+## The picture project (8/7) — dish photos in the app
+
+Evan started a standing project: every new item gets a photo, and we keep a running
+have/don't-have list. **Two hard rules from him: (1) NO photos in the Study & Quiz tab —
+ever; test-sched.py guards this across all eight quiz/game modes. (2) Never write filler in
+the app about missing photos ("more coming soon") — a missing photo just renders no image
+slot, silently. Also do not put photo-project meta (sourcing, counts, the shot list) in the
+app at all.**
+
+Source folder is Evan's Mac: `Desktop/Mos-Dish-Photos` — "By dish name/" (37 originals),
+"Web ready/" (slug names + 260px square thumbs), photo-index.csv, README.txt. They were
+photographed out of the printed menu binder for the guest app, so they carry paper grain;
+real plate photography is the eventual upgrade.
+
+**Pipeline:** stage the square thumbs → `python3 mkphotos.py` → writes
+`build/5d-data-photos.js` (`const PHOTOS`, keyed by the EXACT menu item name → 200px q70
+jpeg data URI) → `python3 build.py`. Photos are embedded, not linked, because the app is one
+self-contained file — that costs ~450KB and puts index.html a touch under 1MB. If it ever
+needs to shrink, drop PX/Q in mkphotos.py; 180px q70 saves ~80KB. `ALSO` in that script lets
+one photo serve a second item (Filet Mignon covers the kids 4 oz).
+
+**UI:** 62px square thumb in the left of each Food Menu card (`.crow.hasimg` + `.dishimg`),
+tap opens a lightbox (`#lb`/`#lbin`, `openPic(name)`/`closePic()`, top-level functions
+because the thumbs use inline onclick; backdrop click and Escape both close). A dish with no
+photo renders the plain header row — no placeholder, no note.
+
+**The shot list:** `python3 mkshotlist.py` regenerates
+`<date>-mos-picture-shot-list.md` from live app data — have / reshoot / never-shot /
+not-a-plate, plus the cocktail list as the next wave. RESHOOT and SKIP are hand-maintained
+dicts at the top of that script. Regenerate it whenever the menu or the photo set changes.
+Status at creation: 38 of 91 menu items covered, 5 need reshoots, 47 never shot.

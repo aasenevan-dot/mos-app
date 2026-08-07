@@ -243,6 +243,25 @@ tr:hover td{background:rgba(255,255,255,.017)}
   display:grid;place-items:center;font-size:12px;font-weight:700;font-family:var(--serif);
 }
 .steps li b{display:block;color:var(--txt);margin-bottom:3px;font-size:14px}
+/* the rule above puts a leading <b>Label:</b> on its own line, which is right for most
+   lists — but mid-sentence emphasis has to stay in the flow of the sentence */
+.steps li b.inl{display:inline;margin:0;font-size:inherit}
+/* dish photos: square thumb in the menu card, tap for a bigger look */
+.crow.hasimg{display:flex;align-items:center;gap:11px}
+.dishimg{flex:0 0 62px;width:62px;height:62px;border-radius:12px;object-fit:cover;
+  border:1px solid var(--line2);background:var(--bg2);cursor:zoom-in;display:block}
+.crow.hasimg .ctext{flex:1;min-width:0;display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.lb{position:fixed;inset:0;z-index:120;background:rgba(41,37,37,.72);
+  -webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);
+  display:none;align-items:center;justify-content:center;padding:24px}
+.lb.open{display:flex}
+.lbin{max-width:340px;width:100%;background:var(--card);border:1px solid var(--line2);
+  border-radius:20px;padding:12px;box-shadow:0 14px 40px rgba(41,37,37,.3);text-align:center}
+.lbin img{width:100%;max-width:300px;border-radius:14px;display:block;margin:0 auto}
+.lbin .lbname{font-weight:700;margin:10px 4px 2px;font-size:15px;color:var(--txt)}
+.lbin .lbprice{color:var(--gold2);font-size:13px;font-weight:650}
+.lbin button{margin-top:11px;width:100%;padding:11px;border-radius:14px;border:1.5px solid var(--line2);
+  background:var(--bg2);color:var(--txt);font-weight:700;font-size:14px;cursor:pointer}
 .steps li ul{margin:5px 0 0;padding-left:17px;color:var(--dim)}
 .steps li li{border:0;padding:2px 0;font-size:13px}
 .steps li li::before{display:none}
@@ -368,6 +387,13 @@ footer{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
   .sheetin{left:50%;right:auto;transform:translateX(-50%);bottom:18px;max-width:520px;width:calc(100% - 48px);
     border-radius:20px;box-shadow:0 10px 30px rgba(41,37,37,.22);}
   .sheet.open{background:rgba(41,37,37,.35)}
+  /* Desktop tab row: show every tab instead of hiding half of them behind a scroll.
+     Nothing is cut off, so the edge fade comes off and the row wraps to a second
+     line on narrower screens rather than overlapping. */
+  nav{flex-wrap:wrap;justify-content:center;overflow-x:visible;gap:1px 2px;padding:7px 0 4px;
+      -webkit-mask-image:none;mask-image:none}
+  nav button{font-size:11.5px;padding:8px 8px 9px;letter-spacing:.02em}
+  .navbar .hwrap{padding:0 10px;max-width:1280px}
 }
 @media print{
   header,.navbar,.bottombar,.sheet,.totop,.filters,.fsearch,.qbar,.jumper,.qa,button.btn{display:none !important}
@@ -476,6 +502,12 @@ html.dark .totop{background:var(--brand2);color:var(--cream)}
   .f select,.f input{padding:11px 12px}
   td{padding:11px 12px}
 }
+/* A touchscreen laptop or an iPad in landscape is still a wide screen — the
+   fat-finger tab sizing above would wrap the row, so the desktop sizing wins
+   back here. Must stay AFTER the pointer:coarse block to override it. */
+@media(min-width:769px){
+  nav button{padding:8px 8px 9px;font-size:11.5px}
+}
 </style>
 </head>
 <body>
@@ -506,9 +538,13 @@ window.addEventListener("error",function(e){
     </div>
   </div>
 </header>
-<div class="navbar"><div class="hwrap" style="display:flex;align-items:center;gap:8px"><nav id="nav" style="flex:1"></nav><button class="textbtn" id="szDn" title="Smaller text">A−</button><button class="textbtn" id="szUp" title="Bigger text">A+</button><button class="textbtn" id="darkT" title="Lights on / off">Dark</button></div></div>
+<div class="navbar"><div class="hwrap"><nav id="nav"></nav></div></div>
+<!-- Text size and dark mode moved OUT of the header (they crowded the tab row on desktop).
+     The buttons stay in the DOM, hidden, because the More sheet clicks them by id. -->
+<div id="hdrCtl" hidden><button class="textbtn" id="szDn">A−</button><button class="textbtn" id="szUp">A+</button><button class="textbtn" id="darkT">Dark</button></div>
 <div class="bottombar" id="bbar"></div>
 <div class="sheet" id="sheet"><div class="sheetin" id="sheetin"></div></div>
+<div class="lb" id="lb"><div class="lbin" id="lbin"></div></div>
 <button class="totop" id="totop" aria-label="Back to top">&uarr;</button>
 <main id="main"></main>
 <footer>

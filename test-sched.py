@@ -137,6 +137,111 @@ async def main():
         prog=await pg.evaluate("(function(){startQuiz();return document.querySelector('#quizBox .qprog')!==null;})()")
         if not prog: bad.append("progress bar missing")
         await pg.evaluate("startQuiz()")
+        # ---- dish photos ----
+        await pg.evaluate("go('menu')")
+        await pg.wait_for_timeout(400)
+        np=await pg.evaluate("Object.keys(PHOTOS).length")
+        if np<38: bad.append(f"PHOTOS has {np} keys, expected 38+")
+        alluri=await pg.evaluate("Object.values(PHOTOS).every(v=>v.startsWith('data:image/jpeg;base64,'))")
+        if not alluri: bad.append("a PHOTOS value is not a jpeg data URI")
+        # every photo key must match a real menu item, or it will never render
+        orphan=await pg.evaluate("""(function(){
+          const names=new Set(); Object.values(MENU).forEach(a=>a.forEach(i=>names.add(i[0])));
+          return Object.keys(PHOTOS).filter(k=>!names.has(k));})()""")
+        if orphan: bad.append(f"PHOTOS keys with no menu item: {orphan}")
+        shown=await pg.evaluate("document.querySelectorAll('#p-menu .dishimg').length")
+        if shown!=np: bad.append(f"{shown} thumbs rendered but {np} photos exist")
+        broke=await pg.evaluate("""(function(){
+          const im=document.querySelector('#p-menu .dishimg[alt="Calamari"]');
+          im.loading='eager'; return im.alt;})()""")
+        await pg.wait_for_timeout(300)
+        good=await pg.evaluate("""(function(){const im=document.querySelector('#p-menu .dishimg[alt="Calamari"]');
+          return im.complete && im.naturalWidth>0;})()""")
+        if not good: bad.append("calamari thumbnail did not decode")
+        lb=await pg.evaluate("""(function(){openPic('Calamari');
+          const o=document.querySelector('#lb').classList.contains('open');
+          const html=document.querySelector('#lbin').innerHTML;
+          closePic();
+          return [o,html.includes('Calamari'),html.includes('$17'),
+                  document.querySelector('#lb').classList.contains('open')];})()""")
+        if not lb[0] or not lb[1] or not lb[2] or lb[3]:
+            bad.append(f"photo lightbox broken: {lb}")
+        noimg=await pg.evaluate("""(function(){
+          const c=[...document.querySelectorAll('#p-menu .card')]
+            .find(x=>x.textContent.includes('Oysters Rockefeller'));
+          return c ? c.querySelector('.dishimg')===null : false;})()""")
+        if not noimg: bad.append("a dish with no photo is showing an image slot")
+
+        # ---- photos stay OUT of Study & Quiz (Evan's rule) ----
+        await pg.evaluate("go('study')")
+        await pg.wait_for_timeout(300)
+        for fn in ["startQuiz()","todaysTen()","vocabQuiz()","priceBlitz()","garnishMatch()",
+                   "nameBottle()","orderGame('greet')","orderGame('allergy')"]:
+            await pg.evaluate(fn)
+            await pg.wait_for_timeout(60)
+            leak=await pg.evaluate("""(function(){const s=document.querySelector('#p-study');
+              return [s.querySelectorAll('img').length, s.innerHTML.includes('data:image')];})()""")
+            if leak[0] or leak[1]: bad.append(f"photo leaked into Study & Quiz after {fn}: {leak}")
+        await pg.evaluate("typeof clearQTimer==='function'&&clearQTimer()")
+        await pg.evaluate("go('menu')")
+        await pg.wait_for_timeout(200)
+
+        # ---- mise en place + the 8/7 menu corrections ----
+        house=await pg.evaluate("document.querySelector('#p-house').innerHTML")
+        if "Mise en place" not in house: bad.append("mise en place section missing from How We Work")
+        for cell in ["cocktail fork","king crab legs","Spreading knife","Teaspoon on the right"]:
+            if cell.lower() not in house.lower(): bad.append(f"mise en place missing {cell}")
+        ng=await pg.evaluate("HOUSE.mise.length")
+        if ng!=7: bad.append(f"mise en place has {ng} groups, expected 7")
+        shape=await pg.evaluate("HOUSE.mise.every(g=>g.length===3&&Array.isArray(g[2])&&g[2].length)")
+        if not shape: bad.append("a mise en place group is malformed")
+        sm=await pg.evaluate("search('what silverware goes with the lobster tail').map(h=>h.w).join('|')")
+        if "Mise en place" not in sm: bad.append(f"search miss mise: {sm[:90]}")
+        rib=await pg.evaluate("JSON.stringify(MENU['Prime 47 Cuts & Wagyu'].find(x=>/45-Day/.test(x[0])))")
+        if "45-Day 22 oz Dry-Aged Bone-In Ribeye" not in rib: bad.append("45-day ribeye not renamed")
+        for cell in ["amino acids","nutty","enzymes"]:
+            if cell not in rib: bad.append(f"dry-age story missing {cell}")
+        oy=await pg.evaluate("JSON.stringify(MENU['Starters & Lounge'].find(x=>x[0]==='Seasonal Oysters'))")
+        for cell in ["bed of ice","dry-ice smoke","Zesta","cocktail forks are already on the table"]:
+            if cell not in oy: bad.append(f"oyster presentation missing {cell}")
+        wt=await pg.evaluate("JSON.stringify(MENU['Starters & Lounge'].find(x=>x[0]==='Wagyu Tacos'))")
+        if "balsamic vinegar glaze" not in wt: bad.append("wagyu taco balsamic glaze not stated")
+
+        # ---- desktop header cleanup ----
+        await pg.set_viewport_size({"width":1280,"height":800})
+        await pg.wait_for_timeout(300)
+        hdr=await pg.evaluate("""(function(){
+          const nav=document.querySelector('#nav'), btns=[...nav.querySelectorAll('button')];
+          const rows=new Set(btns.map(b=>Math.round(b.getBoundingClientRect().top)));
+          return {n:btns.length, rows:rows.size,
+                  scrolls:nav.scrollWidth>nav.clientWidth+1,
+                  ctl:!!document.querySelector('#hdrCtl:not([hidden])'),
+                  wide:document.documentElement.scrollWidth>window.innerWidth+1};})()""")
+        if hdr["n"]!=12: bad.append(f"desktop nav shows {hdr['n']} tabs, expected 12")
+        if hdr["rows"]!=1: bad.append(f"desktop tabs wrapped onto {hdr['rows']} rows at 1280")
+        if hdr["scrolls"]: bad.append("desktop tab row still scrolls sideways")
+        if hdr["ctl"]: bad.append("A-/A+/Dark still visible in the header")
+        if hdr["wide"]: bad.append("desktop page overflows sideways")
+        zoom=await pg.evaluate("""(function(){
+          openSheet();
+          const base=document.body.style.zoom||'1';
+          document.querySelector('#shSzUp').click();
+          const up=document.body.style.zoom||'1';
+          document.querySelector('#shSzDn').click();
+          const out=[base,up,document.body.style.zoom||'1'];
+          closeSheet();return out;})()""")
+        if zoom[0]==zoom[1] or zoom[0]!=zoom[2]:
+            bad.append(f"More-sheet text size broken after header change: {zoom}")
+        dk=await pg.evaluate("""(function(){
+          openSheet(); document.querySelector('#shDark').click();
+          const on=document.documentElement.classList.contains('dark');
+          openSheet(); document.querySelector('#shDark').click();
+          const out=[on,document.documentElement.classList.contains('dark')];
+          closeSheet();return out;})()""")
+        if not dk[0] or dk[1]: bad.append(f"More-sheet dark toggle broken: {dk}")
+        await pg.set_viewport_size({"width":393,"height":852})
+        await pg.wait_for_timeout(300)
+
         # ---- Meals & Moments (off-site service) ----
         await pg.evaluate("go('sched')")
         await pg.wait_for_timeout(200)

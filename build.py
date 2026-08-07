@@ -34,7 +34,8 @@ assert "__" not in head.split("sha384")[0] or True
 
 parts = [head]
 for f in ["2-data-wine.js", "3-data-drinks.js", "4-data-food.js",
-          "5-data-quiz.js", "5b-data-sched.js", "5c-data-book.js", "6-app.js"]:
+          "5-data-quiz.js", "5b-data-sched.js", "5c-data-book.js", "5d-data-photos.js",
+          "6-app.js"]:
     parts.append((B / f).read_text().replace("__BUILDDATE__", f"{d.month}/{d.day}/{d.year}"))
 
 html = "\n".join(p.rstrip("\n") for p in parts) + "\n\n</script>\n</body>\n</html>\n"

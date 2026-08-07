@@ -417,6 +417,55 @@ barsteps:[
 "Boxing: away from the guest, clear everything first, cold with cold, hot with hot, different sides in different boxes.",
 "Desserts: approach WITH a menu in hand — it doubles the yes. Wrap the staples (cookie, brown butter cake, cotton candy), relay sorbet + gelato flavors, Bananas Foster when it applies. Teaspoon on the right, B&Bs if sharing. Every celebration gets a sparkler.",
 "Check stands tall in front of the guest, run it the second the card is in the holster, use names on the goodbye. Energy is everything behind a bar — smile."],
+/* MISE EN PLACE — everything in its place. What goes down BEFORE the food, and what
+   utensil rides out WITH each dish. Grouped the way a shift actually runs. */
+mise:[
+["Preset before the food ever lands","cocktail fork on the table first",[
+ "The COCKTAIL FORK goes down before the plate arrives — never after, never with. Anything a guest picks meat out of a shell with earns one: <b class=\"inl\">shrimp cocktail</b>, <b class=\"inl\">king crab legs</b>, <b class=\"inl\">seasonal oysters</b>, the <b class=\"inl\">iced seafood tower</b>, the <b class=\"inl\">roasted seafood tower</b>, the <b class=\"inl\">5 oz lobster tail add-on</b>, and the <b class=\"inl\">twin South African lobster tails</b> entree.",
+ "On the lobster tails it sits on the rightmost side of the guest's silverware, so it is the first thing their hand finds.",
+ "Butter warmer with a tealight goes out with king crab, both towers, and every lobster tail.",
+ "Steak knives get preset for steaks. The A5 and the porterhouse get the special Kobe Hanzo knives.",
+ "B&B plates go down after the front greets — the back server's first touch on the table.",
+ "Presetting the next course is the whole game. All the items the guest needs, none they do not."]],
+["Starters","what rides out with each one",[
+ "<b>Tongs:</b> calamari, wagyu tacos, crispy ahi tuna bites.",
+ "<b>Spatula:</b> crab cake, seared scallops.",
+ "<b>Serving spoon:</b> prime meatballs, creamy spicy crab dip.",
+ "<b>Spreading knife:</b> goat cheese spread — it is going onto crostini with the honey.",
+ "<b>Cocktail fork + hot water kettle:</b> shrimp cocktail.",
+ "<b>Oysters:</b> oyster fork, Tabasco, Zesta crackers, cocktail forks, and hot water for the dry-ice smoke. NO tongs.",
+ "<b>Oysters Rockefeller:</b> oyster forks, same as the raw ones — they arrive on a pan over a bed of salt with fresh lemon."]],
+["Soup, salad and bread","the course everybody rushes and shouldn't",[
+ "Bread ALWAYS comes with soups and salads — French bread with garlic-salt butter plus the whipped butter.",
+ "Soup spoon sets on the side of the plate, not in the bowl.",
+ "Offer freshly cracked pepper EVERY time after you drop a soup or a salad. Bring the mill; do not wait to be asked.",
+ "Pour soups only once all the salads are trayed — soup skins over while salad waits.",
+ "Clearing salads: everything onto the tray, knives and the correct silverware down, crumb the table — one trip."]],
+["Steaks and entrees","knives, sauces, and the sides that ride along",[
+ "Steak knife preset. Well-done filets get butterflied — offer it every time.",
+ "Roasted mushrooms come in a small soup bowl with a big spoon — confirm with the guest, then scoop them over the steak.",
+ "Sauces and enhancements land in ramekins on the side unless the kitchen plates them: bearnaise, brandy peppercorn, hollandaise.",
+ "Twin lobster tails: cocktail fork rightmost, butter warmer lit with clarified garlic butter, charred lemon on the plate.",
+ "Bread knife goes into the baked potato after you cut it open and press it apart."]],
+["Sides","every side is built to share, so every side gets a serving piece",[
+ "<b>Serving spoon:</b> both mashed potatoes, risotto, creamed corn, creamed spinach, lobster mac, jalapeno au gratin, Brussels sprouts, truffle cauliflower. On the sprouts the spoon rides inside the bowl.",
+ "<b>Tongs:</b> grilled asparagus (hollandaise on the side), truffle fries (ketchup on the side).",
+ "<b>Baked potato:</b> small knife in the potato, butter and sour cream alongside.",
+ "Suggest 3-4 shared sides for a table of six — each one feeds two to three."]],
+["Desserts and after-dinner","the last impression",[
+ "Teaspoon on the right. B&B plates if the table is sharing.",
+ "Walk up WITH a dessert menu in your hand — it doubles the yes.",
+ "Mark the table with B&Bs and dessert spoons the moment desserts are ordered.",
+ "Every celebration gets a sparkler. Pull the spent sparkler with a black linen and hold the ice cream down with the serving spoon.",
+ "Bananas Foster: spoons for everyone, and warn your front you are about to be tied up.",
+ "Coffee goes out with a cream and sugar caddy, every time."]],
+["Tableside shows","the setups that make the night",[
+ "<b>Farbuckle:</b> sizzling skillet, tongs, gloves, tray, rosemary salt, beef tallow, warm butter.",
+ "<b>A5 / porterhouse:</b> butcher block, Japanese knife, honing iron, gloves, rosemary salt — a manager slices, you build the setup.",
+ "<b>Roasted tower:</b> stacking rack in the base, black linen underneath so nothing slides, cocktail forks preset, butter warmer with a tealight. Halfway through, the pasta goes into the remaining sauce.",
+ "<b>Iced tower:</b> same rack, linen, cocktail forks, butter warmer — clear the top bowl once it is finished to free up the table.",
+ "<b>Smoked cocktails (+$3):</b> the bartender builds it, you smoke it under the lid on your tray and lift the lid at the table.",
+ "<b>Bananas Foster:</b> cinnamon, 99 Oranges, Nilla wafers, caramel, burner, pan — the back server's show."]]],
 facts:[
 ["Uniform","Men: black vest, black tie, long white shirt, black pants, black shoes. Women: black shirt, black pants, black shoes."],
 ["Suggest sides","3-4 shared sides for a table of six. Every side feeds 2-3."],

@@ -644,6 +644,11 @@ function search(q){
       const flat=(Array.isArray(v)?v:Object.values(v)).flat(Infinity);
       flat.forEach(t=>{if(typeof t==="string"&&matches([label,t]))add(label,label,t,"house");});
     });
+  /* mise en place is [title, subtitle, [lines]] — search the lines, show the group */
+  (HOUSE.mise||[]).forEach(([t,s,rows])=>rows.forEach(d=>{
+    const plain=String(d).replace(/<[^>]+>/g,"");
+    if(matches(["mise en place","silverware","utensil",t,plain]))
+      add("Mise en place",t,plain.slice(0,140)+(plain.length>140?"…":""),"house");}));
   /* everything else the app knows. Before this, searching a pairing, a steak temp, a
      dressing, a private-room capacity, a quiz answer or a coworker's shift came back
      empty even though the app had it on a tab somewhere. */
@@ -814,7 +819,10 @@ function build(){
     ${Object.entries(MENU).map(([sec,items])=>`
       <div class="sechead"><h2>${esc(sec)}</h2><span>${items.length} items</span></div>
       <div class="grid wide">${items.map(i=>`<div class="card">
-        <div class="crow"><div class="cname">${esc(i[0])}</div><div class="cprice">${esc(i[1])}</div></div>
+        ${dishPic(i[0])
+          ?`<div class="crow hasimg"><img class="dishimg" src="${dishPic(i[0])}" alt="${esc(i[0])}" loading="lazy" onclick="openPic(this.alt)">
+             <div class="ctext"><div class="cname">${esc(i[0])}</div><div class="cprice">${esc(i[1])}</div></div></div>`
+          :`<div class="crow"><div class="cname">${esc(i[0])}</div><div class="cprice">${esc(i[1])}</div></div>`}
         <div class="cbody">${esc(i[2])}</div>
         ${i[3]?`<div class="tags"><span class="tag${/verify|cannot|NOT|updated/i.test(i[3])?" warn":""}">${esc(i[3])}</span></div>`:""}
       </div>`).join("")}</div>`).join("")}
@@ -925,7 +933,10 @@ function build(){
       <p class="sub" style="margin:4px 0"><b>Opening</b></p><ul class="steps">${HOUSE.expo.open.map(d=>`<li>${esc(d)}</li>`).join("")}</ul>
       <p class="sub" style="margin:10px 0 4px"><b>Mid-shift</b></p><ul class="steps">${HOUSE.expo.mid.map(d=>`<li>${esc(d)}</li>`).join("")}</ul>
       <p class="sub" style="margin:10px 0 4px"><b>Closing</b></p><ul class="steps">${HOUSE.expo.close.map(d=>`<li>${esc(d)}</li>`).join("")}</ul>`)}
-    ${acc("Tableside shows + mise en place","every setup, every show, one list",`<ul class="steps">${HOUSE.tableside.map(([t,d])=>`<li><b>${esc(t)}:</b> ${esc(d)}</li>`).join("")}</ul>`)}
+    ${acc("Mise en place — what goes down with what","every utensil, course by course",`
+      <p class="sub" style="margin:2px 0 10px">Everything in its place: all the items the guest needs and none they do not. The cocktail fork is the one that gets forgotten — it goes down <b>before</b> the food, never after.</p>
+      ${HOUSE.mise.map(([t,s,rows])=>`<p class="sub" style="margin:12px 0 4px"><b>${esc(t)}</b> — ${esc(s)}</p><ul class="steps">${rows.map(d=>`<li>${d}</li>`).join("")}</ul>`).join("")}`)}
+    ${acc("Tableside shows + setups","every setup, every show, one list",`<ul class="steps">${HOUSE.tableside.map(([t,d])=>`<li><b>${esc(t)}:</b> ${esc(d)}</li>`).join("")}</ul>`)}
     ${acc("Back server closing tasks","the full close-down, from the official checklist",`<ul class="steps">${HOUSE.backclose.map(d=>`<li>${esc(d)}</li>`).join("")}</ul>`)}
     ${acc("Closing side work — front, back, closer","the posted sheet with slow-night and busy-night quantities",`<ul class="steps">${HOUSE.closesheet.map(d=>`<li>${esc(d)}</li>`).join("")}</ul>`)}
     ${acc("Bar steps + timing standards","the 20-step bar bible — the timing rules apply everywhere",`<ul class="steps">${HOUSE.barsteps.map(d=>`<li>${esc(d)}</li>`).join("")}</ul>`)}
@@ -1083,6 +1094,27 @@ function build(){
   ["wine","menu","bar","ops","allergens","specials"].forEach(addJumps);
 }
 
+/* ---------- DISH PHOTOS ----------
+   PHOTOS is keyed by the exact menu-item name. Top level with the book reader
+   because the thumbnails call openPic() through inline onclick. */
+function dishPic(name){
+  return (typeof PHOTOS!=="undefined" && PHOTOS[name]) || "";
+}
+function openPic(name){
+  const src=dishPic(name); if(!src)return;
+  let price="";
+  for(const items of Object.values(MENU)){
+    const hit=items.find(x=>x[0]===name);
+    if(hit){price=hit[1];break;}
+  }
+  $("#lbin").innerHTML=`<img src="${src}" alt="${esc(name)}">
+    <div class="lbname">${esc(name)}</div>
+    ${price?`<div class="lbprice">${esc(price)}</div>`:""}
+    <button onclick="closePic()">Close</button>`;
+  $("#lb").classList.add("open");
+}
+function closePic(){ $("#lb").classList.remove("open"); $("#lbin").innerHTML=""; }
+
 /* ---------- THE MO'S BOOK — reader inside How We Work ----------
    Function declarations at TOP LEVEL on purpose: the contents rows and the
    prev/next buttons use inline onclick, so these have to be global. BOOKCH is
@@ -1153,6 +1185,9 @@ $("#darkT").onclick=()=>{
   $("#darkT").textContent=on?"Light":"Dark";
 };
 $("#totop").onclick=()=>window.scrollTo({top:0,behavior:"smooth"});
+/* tap the dimmed backdrop or hit Escape to close a photo */
+$("#lb").addEventListener("click",e=>{if(e.target.id==="lb")closePic();});
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closePic();});
 addEventListener("scroll",()=>{$("#totop").classList.toggle("show",scrollY>700);},{passive:true});
 
 /* ============================================================

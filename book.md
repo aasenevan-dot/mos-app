@@ -151,7 +151,7 @@ Two rules sit above every allergen answer in this chapter. First: the **fryer is
 
 **Crispy Ahi Tuna Bites — $18.** Crispy sushi rice, avocado, ponzu, cilantro, jalapeno. Served with metal Japanese chopsticks. Flags: fin fish, sesame, soy, egg, capsaicin, gluten — the ponzu is built on regular soy sauce, so it is NOT gluten-free no matter how light it looks. Replaced the old seared blackened ahi appetizer.
 
-**Seasonal Oysters — $25.** On the half shell with cocktail sauce, mignonette, hot sauce, and raw horseradish. Setup is its own little ceremony: oyster fork, Tabasco, Zesta crackers, cocktail forks, and hot water for the dry-ice presentation — no tongs. Know your oyster talk: warm-water oysters run larger, sweeter, more tender; cold-water run smaller, brinier, firmer. Menu marks GF, but the Zesta crackers ride the setup — pull them for a gluten allergy.
+**Seasonal Oysters — $25.** On the half shell with cocktail sauce, mignonette, hot sauce, and raw horseradish. They arrive on a bed of ice with dry-ice smoke pouring out of the middle — hot water sets the smoke off. Setup is its own little ceremony: oyster fork, Tabasco, Zesta crackers, and the cocktail forks already on the table before the plate lands — no tongs. Know your oyster talk: warm-water oysters run larger, sweeter, more tender; cold-water run smaller, brinier, firmer. Menu marks GF, but the Zesta crackers ride the setup — pull them for a gluten allergy.
 
 **Calamari — $17.** Sliced thin, lightly floured, flash-fried with red bell and banana pepper rings — never frozen, so it never turns chewy. Two sauces: spicy citrus aioli, creamy with heat, and kung pao, sweet and savory. The kung pao is a nut sauce — treat it as BOTH peanut and tree nut until the chef pins it down; any nut allergy is a full stop. Shared fryer. Serve with tongs. Pairs beautifully with Sancerre or Sauvignon Blanc — the acid cuts the spice.
 
@@ -209,7 +209,7 @@ Soups seen in the rotation over time: jalapeño beer cheese, tomato basil bisque
 
 ## Serving utensils — the quick table
 
-Tongs: calamari, tacos, tuna bites, asparagus, fries. Spatula: scallops, crab cake. Serving spoon: meatballs, crab dip, both mashes, risotto, corn, mac, au gratin, brussels, mushrooms. Spreading knife: goat cheese. Cocktail fork and hot water: shrimp cocktail. The full oyster setup: oyster fork, Tabasco, Zesta crackers, cocktail forks, hot water, no tongs. Baked potato: knife, butter, sour cream. When the sprouts hit the table, the serving spoon rides in the bowl.
+The cocktail fork goes down BEFORE the food on shrimp cocktail, king crab legs, oysters, both towers, the lobster tail add-on, and the twin tails entree. Tongs: calamari, tacos, tuna bites, asparagus, fries. Spatula: scallops, crab cake. Serving spoon: meatballs, crab dip, both mashes, risotto, corn, mac, au gratin, brussels, mushrooms. Spreading knife: goat cheese. Cocktail fork and hot water: shrimp cocktail. The full oyster setup: oyster fork, Tabasco, Zesta crackers, cocktail forks, hot water, no tongs. Baked potato: knife, butter, sour cream. When the sprouts hit the table, the serving spoon rides in the bowl.
 
 ---
 
@@ -247,7 +247,7 @@ Two standing rules. Every steak is **cooked with butter by default, and the kitc
 
 **Spinalis / Ribeye Cap — $14 an ounce, minimum 6 oz.** The cap of the ribeye — rivals filet tenderness while keeping ribeye richness. Spinalis Sunday runs it at $10 an ounce.
 
-**45-Day Dry-Aged Bone-In Ribeye — 22 oz, price being verified.** Aged a full 45 days for maximum funk and tenderness.
+**45-Day 22 oz Dry-Aged Bone-In Ribeye — price being verified.** Forty-five days of cold, moving air pulls the moisture out and concentrates the beef, while the meat's own enzymes break proteins down into amino acids and soften the connective tissue. That is where the deep, nutty, brown-butter richness comes from — savory and profound rather than just beefy, with the bone adding even more depth.
 
 ## Surf and Turf
 

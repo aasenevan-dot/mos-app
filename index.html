@@ -1308,6 +1308,29 @@ const ENHANCE = [
    grab list can count each one properly — an oyster fork IS a cocktail fork, so
    there is only ever one name for a thing. Evan edits this as the floor corrects it.
    [dish, [what to set], note] */
+/* ============ FRONT POS NUMBERS ============ */
+/* Transcribed from the sheet taped up front. Two rows on that sheet are crossed
+   out and are deliberately not here. The asterisk is printed on the original and
+   nobody has told us what it means, so it is left as-is rather than guessed at.
+   [name, POS #] */
+const FRONT_POS = [
+ ["Morgan B *","450"],
+ ["Diana *","452"],
+ ["Calista *","453"],
+ ["Christian *","454"],
+ ["Chad *","455"],
+ ["Bar Bar","466"],
+ ["Jenny Jenny","467"],
+ ["Alexis Alexis","469"],
+ ["Lupe *","473"],
+ ["Hunter *","475"],
+ ["Taylor *","477"],
+ ["Nate *","478"],
+ ["Fabian *","479"],
+ ["AlexB *","480"],
+ ["Evan","3690"]
+];
+
 const MISE = [
  ["Seasonal Oysters",["Cocktail fork"],"Tabasco and Zesta crackers ride along — no tongs"],
  ["Oysters Rockefeller",["Cocktail fork"],""],
@@ -6006,6 +6029,9 @@ function search(q){
      findable from the search bar the way the book already was. */
   /* dated house events — the Labor Day party, wine dinners, the golf outing —
      were in the schedule but indexed nowhere, so search could not find them */
+  if(typeof FRONT_POS!=="undefined") FRONT_POS.forEach(r=>{
+    if(matches([r[0],r[1],"pos number","front pos","server number"]))
+      add("Front POS",r[0].replace(/\s*\*$/,""),"POS #"+r[1],"house");});
   if(typeof FLOOR!=="undefined") FLOOR.forEach(r=>{
     r.groups.forEach(g=>g[1].forEach(t=>{
       if(matches(["table "+t,t,r.n,g[0],"floor plan","seat"]))
@@ -6444,6 +6470,10 @@ function build(){
     <div class="sechead"><h2>Employee Handbook</h2><span>the official policies, every section</span></div>
     <p class="lede">The house handbook, section by section. General guidelines — not a contract. Questions go to Management.</p>
     ${HANDBOOK.map(h=>acc(h[0],h[1],h[2])).join("")}
+
+    <div class="sechead" id="sec-pos"><h2>Front POS numbers</h2><span>${FRONT_POS.length} on the sheet up front</span></div>
+    <p class="sub" style="margin:0 0 10px">Straight off the sheet taped up front. Two crossed-out rows are not here, and the asterisk is printed on the original — nobody has told us what it marks.</p>
+    ${tbl(["Front","POS #"],FRONT_POS.map(r=>[`<b>${esc(r[0])}</b>`,`<span class="mono">${esc(r[1])}</span>`]))}
 
     <div class="sechead"><h2>About this app</h2><span>read once</span></div>
     <div class="note">Mo's Server Command Center — built by Evan (back server) as a training and money tool for the team. It is a STUDY COPY, not official house policy: menus, prices, and rules change, so when a dollar matters, verify in Toast or with a manager. The checkout math is proven against real graded checkouts. Spot something wrong or outdated? Tell Evan — corrections go in same-day. Updated <b>8/7/2026</b>.</div>

@@ -25,6 +25,29 @@ const ENHANCE = [
    grab list can count each one properly — an oyster fork IS a cocktail fork, so
    there is only ever one name for a thing. Evan edits this as the floor corrects it.
    [dish, [what to set], note] */
+/* ============ FRONT POS NUMBERS ============ */
+/* Transcribed from the sheet taped up front. Two rows on that sheet are crossed
+   out and are deliberately not here. The asterisk is printed on the original and
+   nobody has told us what it means, so it is left as-is rather than guessed at.
+   [name, POS #] */
+const FRONT_POS = [
+ ["Morgan B *","450"],
+ ["Diana *","452"],
+ ["Calista *","453"],
+ ["Christian *","454"],
+ ["Chad *","455"],
+ ["Bar Bar","466"],
+ ["Jenny Jenny","467"],
+ ["Alexis Alexis","469"],
+ ["Lupe *","473"],
+ ["Hunter *","475"],
+ ["Taylor *","477"],
+ ["Nate *","478"],
+ ["Fabian *","479"],
+ ["AlexB *","480"],
+ ["Evan","3690"]
+];
+
 const MISE = [
  ["Seasonal Oysters",["Cocktail fork"],"Tabasco and Zesta crackers ride along — no tongs"],
  ["Oysters Rockefeller",["Cocktail fork"],""],

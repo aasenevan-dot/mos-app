@@ -17,7 +17,7 @@ W("Cain 5 \"Spring Mountain\" 2013","cab","Best","$300","Spring Mountain, Napa",
 W("Cain 5 \"Spring Mountain\" 2014","cab","Best","$325","Spring Mountain, Napa","Black cherry, graphite, cedar, dried herbs, tobacco, cocoa","Med-High","Med-High","Med-Full","Long, earthy, savory spice","Tomahawk, NY Strip, Filet for serious wine guests","Aged Spring Mountain blend; great for guests who like tobacco, cedar, and earth. Training-sheet line: much more about harmony and evolution than sheer Napa power — layered, savory, and it opens up beautifully through the meal."),
 W("Cakebread Cellars 2021","cab","Better","$180","Napa — recognizable Napa family name","Blackberry, currant, plum, vanilla, baking spice","Med-High","Med","Full","Polished Napa finish, smooth oak","Filet Mignon, NY Strip, business dinner steak table","A familiar premium Napa name; easy confident steak recommendation."),
 W("Caymus \"California\" 2022","cab","Good","$100","Wagner family; plush Caymus style","Ripe blackberry, dark cherry, cocoa, vanilla","Med","Low-Med","Full","Plush, smooth, fruit-forward","Ribeye, Filet, guest who asks for Caymus style","Caymus richness at a friendlier bottle price."),
-W("Caymus Napa Valley 2023","cab","Better","$160","Napa — Wagner family","Dark cherry, cassis, blackberry jam, chocolate, vanilla","Med","Low-Med","Full","Plush, rich, recognizable","Delmonico Ribeye, NY Strip, Tomahawk","The name a lot of Cabernet drinkers recognize; plush and easy with steak."),
+W("Caymus Napa Valley 2023","cab","Better","$155","Napa — Wagner family","Dark cherry, cassis, blackberry jam, chocolate, vanilla","Med","Low-Med","Full","Plush, rich, recognizable","Delmonico Ribeye, NY Strip, Tomahawk","The name a lot of Cabernet drinkers recognize; plush and easy with steak."),
 W("Caymus Special Select 2019","cab","Best","$525","Napa — Wagner flagship. Only wine ever named Wine Spectator Wine of the Year twice","Black fruit, cassis, mocha, sweet oak, dark chocolate","Med-High","Med","Full","Long, lush, special-occasion Caymus","Tomahawk, Porterhouse, Wagyu, high-check celebration","If they already like Caymus, this is the special-occasion jump."),
 W("Caymus \"Suisun Grand Durif\" 2021","cab","Good","$65","Suisun Valley — Petite Sirah/Durif","Blackberry, blueberry, black pepper, cocoa","High","Med","Full","Dark, grippy, bold","Prime Meatballs, Short Rib Pasta, Delmonico","Petite Sirah/Durif style: dark color, dark fruit, more grip, friendly price."),
 W("Far Niente \"Bella Union\" 2021/2023","cab","Good","$105","Rutherford-style, by Far Niente","Black cherry, cassis, cedar, plum, dark chocolate, vanilla","Med","Med","Full","Polished, integrated, smooth","Filet, NY Strip, Steak 47","By Far Niente, polished Rutherford-style Cabernet blend without Far Niente pricing."),
@@ -126,7 +126,7 @@ const WINE_MOVE = {
   ["Caymus Cabernet Sauvignon","$32 / $155","Bigger and richer. The name everybody knows — sells itself with ribeye."]
  ],
  bottle:[
-  ["Caymus Napa Valley","the Cabernet everyone recognizes","$160"],
+  ["Caymus Napa Valley","the Cabernet everyone recognizes","$155"],
   ["Gary Farrell Russian River Pinot Noir","silky, works with fish or filet","$120"],
   ["Auntsfield Single Vineyard Sauvignon Blanc","the step up from Kim Crawford — crisp, for a seafood table","$53"]
  ]

@@ -886,18 +886,34 @@ function build(){
        <div class="note warn" style="margin-top:10px"><b>Well done:</b> offer to butterfly a well-done filet — it cooks faster and comes out juicier.</div>`)
   };
 
+  /* Split the specials by day BEFORE rendering: a day-gated special counts as running
+     only on its day, otherwise it falls to the not-running list with the day named, so
+     nobody pitches Sunday spinalis on a Thursday. Recomputed every render.
+     Evan's placement: running stays at the top, NOT running sits after the Kids Menu. */
+  const SPX=(()=>{
+    const today=new Date().getDay();
+    const DAYNM=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+    const gate=s=>typeof SPECIAL_DAYS!=="undefined"?SPECIAL_DAYS[s[0]]:undefined;
+    return {
+      onNow:SPECIALS_ON.filter(s=>{const d=gate(s);return d===undefined||d===today;}),
+      notNow:SPECIALS_ON.filter(s=>{const d=gate(s);return d!==undefined&&d!==today;})
+        .map(s=>[s[0],s[1],s[2],"only on "+DAYNM[gate(s)]+"s"])
+        .concat(SPECIALS_ROTATION.map(s=>[s[0],s[1],s[2],"not on tonight unless a manager says so"]))
+    };
+  })();
   $("#p-menu").innerHTML=`
-    <div class="sechead" id="sec-specials"><h2>&#9733; Specials running right now</h2><span>${SPECIALS_ON.length} on the board</span></div>
-    <div class="grid wide">${SPECIALS_ON.length?SPECIALS_ON.map(s=>mCard(s[0],s[1],s[2],s[3],"hl")).join("")
-      :'<div class="empty">Nothing running — tell your Claude the new special.</div>'}</div>
-
-    ${SPECIALS_ROTATION.length?`<div class="sechead"><h2>Not running right now</h2><span>rotating entrees — ask a manager before you pitch one</span></div>
-    <div class="grid wide">${SPECIALS_ROTATION.map(s=>mCard(s[0],s[1],s[2],"not on tonight unless a manager says so","")).join("")}</div>`:""}
+    ${SPX.onNow.length?`<div class="sechead" id="sec-specials"><h2>&#9733; Specials running right now</h2><span>${SPX.onNow.length} on the board</span></div>
+    <div class="grid wide">${SPX.onNow.map(s=>mCard(s[0],s[1],s[2],s[3],"hl")).join("")}</div>`
+    :`<div class="sechead" id="sec-specials"><h2>&#9733; Specials running right now</h2><span>nothing on the board</span></div>
+    <div class="grid wide"><div class="empty">Nothing running — tell your Claude the new special.</div></div>`}
 
     ${MSECS.map(sec=>`
       <div class="sechead" id="${secId(sec)}"><h2>${esc(sec)}</h2><span>${MENU[sec].length} items</span></div>
       ${SEC_EXTRA[sec]||""}
       <div class="grid wide">${MENU[sec].map(i=>mCard(i[0],i[1],i[2],i[3],"")).join("")}</div>`).join("")}
+
+    ${SPX.notNow.length?`<div class="sechead" id="ms-notnow"><h2>Not running right now</h2><span>ask a manager before you pitch one</span></div>
+    <div class="grid wide">${SPX.notNow.map(s=>mCard(s[0],s[1],s[2],s[3],"")).join("")}</div>`:""}
 
     <div class="sechead" id="ms-soups"><h2>Soups</h2><span>one of the day, comp with entrees</span></div>
     ${tbl(["Soup","Price","Build"],SOUPS_STANDING.map(s=>[`<b>${esc(s[0])}</b>`,s[1],esc(s[2])]))}

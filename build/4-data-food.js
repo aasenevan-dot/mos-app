@@ -53,8 +53,7 @@ const MENU = {
  "Surf & Turf":[
  ["Steak 47","$58","A 4 oz filet base topped with a scallop and a shrimp, chopped asparagus and lobster meat around the plate, hollandaise drizzled on by expo. Upgrade math is easy — any filet goes 47 style for its price plus the $25 topping: 6 oz is $54 + $25 = $79, 10 oz is $79 + $25 = $104.","The Steak 47 topping upcharge is $25"],
  ["Filet & Lobster","$105","A 6 oz filet off the charbroiler (upgrade to 10 oz) with a 5 oz South African lobster tail, steamed gently so it never turns chewy.","GF"],
- ["Filet & Scallops","$82","A 6 oz filet with two U-10 prosciutto-wrapped scallops, flash-seared hot and fast — about two minutes — so they stay tender.",""],
- ["Ahi Tuna & Wagyu Beef","$68","4 oz Hawaiian ahi crusted in black and white sesame with a hoisin glaze, plus a 4 oz Australian wagyu filet, sliced. Wasabi mash and asparagus under lemon beurre blanc. The pitch: eight ounces of top-shelf protein — one of the best values on the menu, and the easy step up from a 6 oz filet.",""]],
+ ["Filet & Scallops","$82","A 6 oz filet with two U-10 prosciutto-wrapped scallops, flash-seared hot and fast — about two minutes — so they stay tender.",""]],
 
  "Enhancements":[
  ["Crab Oscar","$14","Snow crab, asparagus, hollandaise.","GF"],
@@ -174,7 +173,6 @@ const LEADS = {
  "Steak 47":"A 4 oz filet topped with scallop, shrimp, lobster, asparagus and hollandaise.",
  "Filet & Lobster":"A 6 oz filet with a 5 oz South African lobster tail.",
  "Filet & Scallops":"A 6 oz filet with two prosciutto-wrapped scallops.",
- "Ahi Tuna & Wagyu Beef":"Sesame-crusted ahi and a wagyu filet — eight ounces for $68, the best value on the menu.",
  "Miso Seabass":"Toothfish cured in white miso, mirin and sake, over coconut risotto.",
  "Chilean Sea Bass":"Rich, buttery toothfish in a lemon-caper white wine butter sauce.",
  "Lobster Mac N' Cheese":"Lobster-stock cheese sauce, broiled with panko. The biggest side upsell.",
@@ -340,6 +338,15 @@ const DIET = [
 
 /* ============ SPECIALS, SOUP OF THE DAY, OFF-MENU — living lists. Updates come through Claude. ============ */
 /* Current 8/4/26: only these four cut specials are running. */
+/* Specials that only run on ONE day. 0=Sun … 6=Sat. Anything listed here shows under
+   "running right now" only on its day and drops to "not running right now" the rest of
+   the week, so nobody pitches a Sunday cut on a Thursday. Spinalis is Sunday-only and
+   Ladies Night is Thursday-only. */
+const SPECIAL_DAYS={
+ "Spinalis / Ribeye Cap":0,
+ "Spinalis Sunday":0,
+ "Ladies Night — every Thursday":4
+};
 const SPECIALS_ON=[
  ["48 oz USDA Choice Porterhouse","$150 when it runs","NOT wagyu — USDA Choice. 48 oz total: roughly a 26 oz NY strip, a 12 oz filet, and about a 10 oz bone — it varies a little with the cut. A manager slices it tableside off the board. The pitch: two people split it for a high-class manager-cut steak experience at a serious value — and there's no split-plate charge.","cut special"],
  ["Spinalis / Ribeye Cap","$14/oz","Minimum 6 oz. The cap of the ribeye — it rivals filet tenderness while keeping ribeye richness. A manager cuts it tableside.","cut special"],
@@ -354,6 +361,7 @@ const SPECIALS_ROTATION=[
  ["Cajun Butter Salmon","$35? VERIFY price","Cajun butter, served with vegetables. Price still needs verified in Toast."]
 ];
 const SPECIALS_PAST=[
+ ["Ahi Tuna & Wagyu Beef","$68","4 oz Hawaiian ahi crusted in black and white sesame with a hoisin glaze, plus a 4 oz Australian wagyu filet, sliced. Eight ounces of surf and turf on one plate.","off the current menu"],
  ["Australian Wagyu Porterhouse (old name)","now the USDA Choice Porterhouse","For a while the 48 oz porterhouse was called an Australian Wagyu Porterhouse at $180. Same cut, right name and price now: USDA CHOICE, $150 — roughly a 26 oz NY strip, a 12 oz filet, and about a 10 oz bone, built for two to split.","renamed"],
  ["Tomahawk Tuesday","$180 package","The 32 oz Australian Wagyu Tomahawk plus two glasses of wine, two soups or salads, and a signature Brown Butter Cake to finish — a full night out for $180. Not running anymore, but worth knowing we did it.","not running"],
  ["Heart of Ribeye Skewers","$45","Bourbon glaze mixed with onions and peppers. One of the most underrated things we ever ran.","not running"],

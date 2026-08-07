@@ -125,9 +125,9 @@ W("Post & Beam Chardonnay","gwhite","Better","$20 / $78","Napa, CA — by Far Ni
    names in our Better lane, so nobody has to sell something nobody has heard of. */
 const WINE_MOVE = {
  glass:[
-  ["Post & Beam Chardonnay","$20 glass / $78 bottle","The white. Rounder Chardonnay — start here if they say white."],
-  ["Belle Glos “Las Alturas” Pinot Noir","$18 / $62","Lighter and smoother. Plush red for the filet table."],
-  ["Caymus Cabernet Sauvignon","$32 / $155","Bigger and richer. The name everybody knows — sells itself with ribeye."]
+  ["Post & Beam Chardonnay","$20 glass / $78 bottle","Golden apple and lemon curd over vanilla and polished oak — Far Niente's Napa Chardonnay, and it tastes like the address."],
+  ["Belle Glos “Las Alturas” Pinot Noir","$18 / $62","Dark cherry, plum and baking spice with a plush, velvet middle — a Pinot with real weight to it, not a thin one."],
+  ["Caymus Cabernet Sauvignon","$32 / $155","Blackberry jam, chocolate and vanilla, rich and soft from the very first sip — the Napa Cabernet everybody already trusts."]
  ],
  bottle:[
   ["Caymus Napa Valley","the Cabernet everyone recognizes","$155"],

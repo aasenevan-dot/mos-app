@@ -763,9 +763,9 @@ W("Post & Beam Chardonnay","gwhite","Better","$20 / $78","Napa, CA — by Far Ni
    names in our Better lane, so nobody has to sell something nobody has heard of. */
 const WINE_MOVE = {
  glass:[
-  ["Post & Beam Chardonnay","$20 glass / $78 bottle","The white. Rounder Chardonnay — start here if they say white."],
-  ["Belle Glos “Las Alturas” Pinot Noir","$18 / $62","Lighter and smoother. Plush red for the filet table."],
-  ["Caymus Cabernet Sauvignon","$32 / $155","Bigger and richer. The name everybody knows — sells itself with ribeye."]
+  ["Post & Beam Chardonnay","$20 glass / $78 bottle","Golden apple and lemon curd over vanilla and polished oak — Far Niente's Napa Chardonnay, and it tastes like the address."],
+  ["Belle Glos “Las Alturas” Pinot Noir","$18 / $62","Dark cherry, plum and baking spice with a plush, velvet middle — a Pinot with real weight to it, not a thin one."],
+  ["Caymus Cabernet Sauvignon","$32 / $155","Blackberry jam, chocolate and vanilla, rich and soft from the very first sip — the Napa Cabernet everybody already trusts."]
  ],
  bottle:[
   ["Caymus Napa Valley","the Cabernet everyone recognizes","$155"],
@@ -1192,10 +1192,6 @@ const SPIRITS = {
  ["Johnnie Walker Red","$11","Entry blend, smoke and spice"],
  ["Johnnie Walker Black","$15","More smoke and depth"],
  ["Johnnie Walker Blue","$60","Luxury blend, smooth, polished"]],
- "Port":[
- ["Quinta do Noval Black Reserve Port","$16","Sweet fortified red; black fruit, chocolate"],
- ["Smith Woodhouse 10yr Tawny Port","$20","Nutty, caramel, dried fruit"],
- ["Quinta do Noval 20yr Tawny Port","$38","Richer tawny; walnut, caramel, orange peel"]],
  "Cognac":[
  ["Courvoisier VS","$15/oz","Young cognac, fruit and oak"],
  ["Courvoisier VSOP","$15/oz","Smoother cognac"],
@@ -1273,45 +1269,51 @@ const ENHANCE = [
 /* What has to ride out WITH the plate. Built from the dish descriptions, so it is
    only as right as those are — Evan edits this list directly as the floor corrects it.
    [item, what to set, note] */
+/* ============ MISE EN PLACE ============ */
+/* What has to ride out WITH the plate. The utensils are a LIST per dish so the
+   grab list can count each one properly — an oyster fork IS a cocktail fork, so
+   there is only ever one name for a thing. Evan edits this as the floor corrects it.
+   [dish, [what to set], note] */
 const MISE = [
- ["Crispy Ahi Tuna Bites","Chopsticks","two Japanese metal chopsticks per person"],
- ["A5 Nigiri","Chopsticks","two Japanese metal chopsticks per person"],
- ["Goat Cheese Spread","Spreader knife","honey drizzle goes on at the table"],
- ["Shrimp Cocktail","Cocktail forks","one per guest"],
- ["Creamy Spicy Crab Dip","Big spoon",""],
- ["Prime Meatballs","Big spoon",""],
- ["Wagyu Tacos","Tongs",""],
- ["Seasonal Oysters","Cocktail fork + tongs",""],
- ["Oysters Rockefeller","Oyster fork",""],
- ["King Crab Legs","Cocktail fork + tongs",""],
- ["Iced Seafood Tower","Cocktail forks + black shell bowl","one fork per guest; bowl for the shells"],
- ["Roasted Seafood Tower","Cocktail forks + black shell bowl","one fork per guest; bowl for the remains"],
- ["Twin South African Lobster Tails","Cocktail fork",""],
- ["Calamari","Tongs",""],
- ["Farbuckle Filet","Tongs","tableside skillet finish"],
- ["Grilled Asparagus","Tongs + ramekin","hollandaise goes in the ramekin, on the side"],
- ["Truffle Fries","Tongs + ketchup","house ranch is the pairing to offer"],
- ["Creamed Corn","Big spoon",""],
- ["Creamed Spinach with Roasted Butternut Squash","Big spoon",""],
- ["Creamy Risotto","Big spoon",""],
- ["Truffle Cauliflower","Big spoon",""],
- ["Lobster Mac N' Cheese","Big spoon",""],
- ["Jalapeno Potatoes Au Gratin","Big spoon",""],
- ["Roasted Mushrooms","Big spoon","comes in a small soup bowl"],
- ["White Cheddar Mashed Potatoes","Big serving spoon",""],
- ["Brussels Sprouts","Serving spoon","the spoon rides in the bowl"],
- ["Baked Potato","Bread knife","cut down the middle"],
- ["Mo's Cookie / Prime Cookie","Big spoon","baked and served in its own bowl"],
- ["The Mo's Sundae","Big spoon",""],
- ["Celebration Sundae","Big spoon","the comped one"],
- ["Bailey's Creme Brulee","Big spoon",""],
- ["Molten Lava Cake","Big spoon",""],
- ["Celebration Cake","Spatula",""],
- ["NY Style Cheesecake","Spatula",""],
- ["Colossal Carrot Cake","Spatula",""],
- ["Bananas Foster","Spatula","plus a bowl and spoon per person"],
- ["Prime Beef Burger","Ketchup","anything with fries gets ketchup"],
- ["Chicken Tenders with Fries","Ketchup",""]
+ ["Seasonal Oysters",["Cocktail fork","Tongs"],""],
+ ["Oysters Rockefeller",["Cocktail fork"],""],
+ ["Shrimp Cocktail",["Cocktail fork"],"one per guest"],
+ ["King Crab Legs",["Cocktail fork","Tongs"],""],
+ ["Iced Seafood Tower",["Cocktail fork","Black shell bowl"],"one fork per guest; bowl for the shells"],
+ ["Roasted Seafood Tower",["Cocktail fork","Black shell bowl"],"one fork per guest; bowl for the remains"],
+ ["Twin South African Lobster Tails",["Cocktail fork"],""],
+ ["Crispy Ahi Tuna Bites",["Chopsticks"],"two Japanese metal chopsticks per person"],
+ ["A5 Nigiri",["Chopsticks"],"two Japanese metal chopsticks per person"],
+ ["Goat Cheese Spread",["Spreader knife"],"honey drizzle goes on at the table"],
+ ["Creamy Spicy Crab Dip",["Big spoon"],""],
+ ["Prime Meatballs",["Big spoon"],""],
+ ["Wagyu Tacos",["Tongs"],""],
+ ["Calamari",["Tongs"],""],
+ ["Farbuckle Filet",["Tongs"],"tableside skillet finish"],
+ ["Grilled Asparagus",["Tongs","Ramekin"],"hollandaise goes in the ramekin, on the side"],
+ ["Truffle Fries",["Tongs","Ketchup"],"house ranch is the pairing to offer"],
+ ["All soups",["Soup spoon"],"soup of the day, bisque, French onion"],
+ ["Creamed Corn",["Big spoon"],""],
+ ["Creamed Spinach with Roasted Butternut Squash",["Big spoon"],""],
+ ["Creamy Risotto",["Big spoon"],""],
+ ["Truffle Cauliflower",["Big spoon"],""],
+ ["Lobster Mac N' Cheese",["Big spoon"],""],
+ ["Jalapeno Potatoes Au Gratin",["Big spoon"],""],
+ ["Roasted Mushrooms",["Big spoon"],"comes in a small soup bowl"],
+ ["White Cheddar Mashed Potatoes",["Big spoon"],""],
+ ["Brussels Sprouts",["Big spoon"],"the spoon rides in the bowl"],
+ ["Baked Potato",["Bread knife"],"cut down the middle"],
+ ["Mo's Cookie / Prime Cookie",["Big spoon"],"baked and served in its own bowl"],
+ ["The Mo's Sundae",["Big spoon"],""],
+ ["Celebration Sundae",["Big spoon"],"the comped one"],
+ ["Bailey's Creme Brulee",["Big spoon"],""],
+ ["Molten Lava Cake",["Big spoon"],""],
+ ["Celebration Cake",["Spatula"],""],
+ ["NY Style Cheesecake",["Spatula"],""],
+ ["Colossal Carrot Cake",["Spatula"],""],
+ ["Bananas Foster",["Spatula","Big spoon"],"a bowl and a spoon per person"],
+ ["Prime Beef Burger",["Ketchup"],"anything with fries gets ketchup"],
+ ["Chicken Tenders with Fries",["Ketchup"],""]
 ];
 
 const MENU = {
@@ -1351,9 +1353,6 @@ const MENU = {
   ["K.D.'s Tomahawk","32 oz $160","A ribeye that keeps the whole rib bone. Even more heavily marbled than the Delmonico. The bone lets marrow render during cooking, adding a butteriness you can only get by keeping the rib bone. The juiciest, most flavorful cut we offer besides the Japanese A5.","K.D. = Kevin Dickey, former owner · largest oval plate"],
   ["Australian Wagyu Filet","6 oz $95 / 10 oz $135","Australian cattle crossbred with Japanese wagyu — even one generation of crossbreeding lifts the marbling way up. Wagyu fat melts at a lower temperature, so it runs juicy even at rare. Just as tender as the prime filet with more richness — the easy level-up for a filet person. Serve rare to med-rare — nudge, don't argue.",""],
   ["Japanese A5 Wagyu","$25/oz","From Kagoshima Prefecture. The show: a manager cut, sliced with a Hanzo steel knife on a butcher's block, torch-finished with rosemary salt at the table. Preset the guests with the special Kobe Hanzo steak knives. House serves wagyu RARE to MED-RARE — nudge gently, never argue.","Manager cut"],
-  ["48 oz USDA Choice Porterhouse","$150 when it runs","NOT wagyu — USDA Choice. 48 oz total: roughly a 26 oz NY strip, a 12 oz filet, and about a 10 oz bone — it varies a little with the cut. Board service, a MANAGER cuts it tableside. The move: two people split it for a high-class manager-cut experience at a great value. Know the cut: a porterhouse is a T-bone where the filet side has to be nearly as big as the strip side — that is rare, and it is why good porterhouses are hard to find.","Manager cut"],
-  ["Spinalis / Ribeye Cap","$14/oz, min 6 oz","The cap of the ribeye — rivals filet tenderness while keeping ribeye richness. A manager cuts it tableside. $10/oz all day on Spinalis Sunday.","Manager cut"],
-  ["45-Day 22 oz Dry-Aged Bone-In Ribeye","$120","Forty-five days in the dry-aging room, and every one of them is doing something. Cold, moving air draws the moisture out, so what is left behind is pure concentrated beef — the flavor gets deeper because there is simply less water diluting it. At the same time the meat's own enzymes go quietly to work, breaking down proteins into amino acids and unwinding the connective tissue, which is what makes an aged steak taste savory and profound instead of just beefy. That is where the signature comes from: a deep, nutty, almost brown-butter richness with a whisper of blue cheese and toasted hazelnut, wrapped around a bone that gives it even more depth. Rich, robust, and unmistakably aged — the steak for the guest who wants the most flavor a piece of beef can carry. Price still needs verified.","Manager cuts tableside"],
   ["Steak 47","$58","A 4 oz filet base topped with a scallop and a shrimp, chopped asparagus and lobster meat around the plate, hollandaise drizzled on by expo. Upgrade math is easy — any filet goes 47 style for its price plus the $25 topping: 6 oz is $54 + $25 = $79, 10 oz is $79 + $25 = $104.","The Steak 47 topping upcharge is $25"],
   ["Filet & Lobster","$105","A 6 oz filet off the charbroiler (upgrade to 10 oz) with a 5 oz South African lobster tail, steamed gently so it never turns chewy.","GF"],
   ["Filet & Scallops","$82","A 6 oz filet with two U-10 prosciutto-wrapped scallops, flash-seared hot and fast — about two minutes — so they stay tender.",""],
@@ -1644,11 +1643,11 @@ const SPECIAL_DAYS={
  "Ladies Night — every Thursday":4
 };
 const SPECIALS_ON=[
- ["48 oz USDA Choice Porterhouse","$150 when it runs","NOT wagyu — USDA Choice. 48 oz total: roughly a 26 oz NY strip, a 12 oz filet, and about a 10 oz bone — it varies a little with the cut. A manager slices it tableside off the board. The pitch: two people split it for a high-class manager-cut steak experience at a serious value — and there's no split-plate charge.","cut special"],
+ ["48 oz USDA Choice Porterhouse","$150 when it runs","NOT wagyu — USDA Choice. 48 oz total: roughly a 22 oz NY strip, a 12 oz filet, and about a 10 oz bone — it varies a little with the cut. A manager slices it tableside off the board. The pitch: two people split it for a high-class manager-cut steak experience at a serious value — and there's no split-plate charge.","cut special"],
  ["Spinalis / Ribeye Cap","$14/oz","Minimum 6 oz. The cap of the ribeye — it rivals filet tenderness while keeping ribeye richness. A manager cuts it tableside.","cut special"],
  ["Spinalis Sunday","$10/oz every Sunday","The same ribeye cap, four dollars an ounce cheaper, one day a week. Minimum 6 oz. It is on the restaurant's own weekly-features page — the easiest upsell we have on a Sunday.","weekly feature"],
  ["Australian Wagyu Tomahawk","$180","32 oz, cut tableside by a manager. Wagyu rule: serve rare to med-rare — nudge, don't argue.","cut special"],
- ["45-Day 22 oz Dry-Aged Bone-In Ribeye","$120","Forty-five days of cold, moving air pulls the moisture out and concentrates the beef, while the meat's own enzymes break proteins down into amino acids and soften the connective tissue. That is where the deep, nutty, brown-butter richness comes from — savory and profound rather than just beefy, with the bone adding even more depth. Price still needs verified. All four cut specials (porterhouse, spinalis, tomahawk, 45-day) typically ALWAYS run.","cut special"],
+ ["45-Day 22 oz Dry-Aged Bone-In Ribeye","$120","Forty-five days of cold, moving air pulls the moisture out and concentrates the beef, while the meat's own enzymes break proteins down into amino acids and soften the connective tissue. That is where the deep, nutty, brown-butter richness comes from — savory and profound rather than just beefy, with the bone adding even more depth. All four cut specials (porterhouse, spinalis, tomahawk, 45-day) typically ALWAYS run.","cut special"],
  ["Ladies Night — every Thursday","$10 martinis + \u00bd-off apps","Ladies get $10 martinis and half-price appetizers in the lounge, every Thursday night.","weekly feature"]
 ];
 /* Rotating entree specials seen before — ask a manager if one is running tonight. */
@@ -1663,7 +1662,7 @@ const SPECIALS_PAST=[
  ["Short Rib Pasta","$52","Prime short rib braised 12 hours in veal demi-glace, pressed clean, and laid over orecchiette in a light vermouth cream — shallot, fennel, garlic, thyme.","off the current menu"],
  ["Stuffed Chicken Breast","$38","Stuffed with cream cheese, goat cheese, Parmesan, and white cheddar under a creamy thyme-rosemary herb sauce.","off the current menu"],
  ["Ahi Tuna & Wagyu Beef","$68","4 oz Hawaiian ahi crusted in black and white sesame with hoisin glaze, plus a 4 oz Australian wagyu filet, sliced. Eight ounces of surf and turf on one plate.","off the current menu"],
- ["Australian Wagyu Porterhouse (old name)","now the USDA Choice Porterhouse","For a while the 48 oz porterhouse was called an Australian Wagyu Porterhouse at $180. Same cut, right name and price now: USDA CHOICE, $150 — roughly a 26 oz NY strip, a 12 oz filet, and about a 10 oz bone, built for two to split.","renamed"],
+ ["Australian Wagyu Porterhouse (old name)","now the USDA Choice Porterhouse","For a while the 48 oz porterhouse was called an Australian Wagyu Porterhouse at $180. Same cut, right name and price now: USDA CHOICE, $150 — roughly a 22 oz NY strip, a 12 oz filet, and about a 10 oz bone, built for two to split.","renamed"],
  ["Tomahawk Tuesday","$180 package","The 32 oz Australian Wagyu Tomahawk plus two glasses of wine, two soups or salads, and a signature Brown Butter Cake to finish — a full night out for $180. Not running anymore, but worth knowing we did it.","not running"],
  ["Heart of Ribeye Skewers","$45","Bourbon glaze mixed with onions and peppers. One of the most underrated things we ever ran.","not running"],
  ["Flank Steak with Chimichurri","was ~$35","Ran earlier this summer. Not on the current list.","not running"],
@@ -1743,7 +1742,7 @@ const MC = [
  {q:"Can the risotto be made vegetarian?",o:["No — chicken stock is cooked into the base and prosciutto is on top","Yes, rice is always vegetarian no matter the stock","Yes, because it has fish stock","Only if you add bacon"],t:"allergen"},
  {q:"Halal and seed-oil-free note:",o:["Filet-family cuts and chicken are halal; menu is seed-oil-free using beef tallow, olive oil, avocado oil, butter","All fish are halal and all steaks use canola oil","Only pork is halal","No chicken is halal"],t:"allergen"},
  {q:"A guest has a dairy allergy and wants a filet. What is true?",o:["Steaks are buttered by default, but the kitchen can cook any steak completely butter-free — the guest just asks","Steaks can never be made dairy-free","Only the A5 can go butter-free","Butter only touches steaks at the table, so nothing changes"],t:"allergen"},
- {q:"How does the 48 oz Porterhouse break down?",o:["USDA Choice: about 15 oz NY strip + 8 oz filet + a 25 oz bone, $150 — built for two to split","32 oz of wagyu plus a 16 oz bone for $180","24 oz strip and 24 oz filet for $200","It is a dry-aged tomahawk for $160"],t:"steak"},
+ {q:"How does the 48 oz Porterhouse break down?",o:["USDA Choice: about a 22 oz NY strip + a 12 oz filet + a 10 oz bone, $150 — built for two to split","A 26 oz NY strip + a 14 oz filet + a 12 oz bone","An 18 oz NY strip + a 10 oz filet + a 14 oz bone","A 24 oz NY strip + an 8 oz filet + a 14 oz bone"],t:"steak"},
  {q:"Banquet gratuity works how?",o:["23% auto-grat; 3% of banquet sales is Lillian's cut; banquet sales still tip bar, busser, and expo","20% flat and no tip-outs come from it","18% and the team keeps every point","25% and it skips the pool entirely"],t:"money"},
  {q:"How does the soup course work right now?",o:["One soup of the day comes comp with entrees; $4 upcharge to bisque or French onion; chili is off the menu","Every soup is a flat $7","Bisque is the comp soup and SOTD is the upcharge","Soup only comes with seafood towers"],t:"food"},
  {q:"A gluten-free guest wants the Iced Tower:",o:["Doable — hold the Zesta crackers, brioche, and wonton chips; the tower itself is GF","Impossible, the seafood is breaded","Only if they skip the oysters","Only the Roasted Tower can go GF"],t:"allergen"},
@@ -5406,7 +5405,7 @@ function drinkCard(c){
    filterable grid. SPIRITS rows and BEER rows get normalized into the same card
    shape the cocktails already use, so nothing on screen looks like a second system. */
 const DRINK_CATS=[["all","All drinks"],["cocktail","Cocktails"],["bourbon","Bourbon"],
-  ["whiskey","Whiskey"],["scotch","Scotch"],["tequila","Tequila"],["cognac","Cognac & Port"],
+  ["whiskey","Whiskey"],["scotch","Scotch"],["tequila","Tequila"],["cognac","Cognac"],
   ["beer","Beer & seltzer"],["cordial","Cordials"],["nonalc","Coffee, Tea & Water"],
   ["verify","Archive — off the menu"]];
 const DRINK_BUDGETS=[["all","Any price"],["0-17","Under $18"],["18-35","$18–35"],
@@ -5729,15 +5728,22 @@ function schedDayInfo(i){
   });
   return {covers,cnt};
 }
-/* staffing bands v1 — anchored to real nights (3 teams ~ $4.1k, 4 teams + banquet ~ $8.9k).
-   Evan tunes these as he tells us what's acceptable on each kind of night. */
-function staffLadder(net){
+/* Staffing bands v2 — anchored to real nights (3 teams ~ $4.1k, 4 teams + banquet ~ $8.9k).
+   Cocktailers and the polisher are driven by Evan's floor rules, not by dollars:
+   two cocktailers is the ceiling (a third is overkill — add a team instead), and a
+   polisher is never MODELLED under 175 covers, though 125+ is a manager's call.
+   Food runners are the opposite: one every night minimum, more as covers climb. */
+function staffLadder(net,covers){
+  const cov=+covers||0;
   return {
     teams: Math.min(7,Math.max(2,Math.ceil(net/SALES.teamBase))),
-    cktail: net<6000?1:net<12000?2:3,
+    cktail: net<6000?1:2,
     busser: net<3000?1:net<8000?2:3,
-    expo: net<4000?0:net<8000?1:2,
-    polisher: net>=8000?1:0
+    expo: cov>=225?3:cov>=150?2:1,
+    polisher: cov>175?1:0,
+    polisherNote: cov>175?"over 175 covers — staff one"
+      :cov>125?"125&ndash;175 covers — manager's call"
+      :"under 125 covers — none"
   };
 }
 function ipPrefill(){
@@ -5795,7 +5801,7 @@ function calcIP(){
     : {cls:"",head:"COIN FLIP",body:`Straddles the $175 line — walk-ins decide this one. Watch the book by late afternoon.`};
 
   const tax=Math.round(net*SALES.taxRate);
-  const lad=staffLadder(net);
+  const lad=staffLadder(net,inf.covers);
   const schedTeams=Math.min(inf.cnt.fronts,inf.cnt.backs);
   const callFor=(model,sched)=>sched==null?`<span style="color:var(--dim2)">manager's call</span>`
     :sched>model?`<span style="color:var(--gold2)">room to cut ${sched-model}</span>`
@@ -5822,8 +5828,8 @@ function calcIP(){
     ["<b>Teams (front + back)</b>",String(lad.teams),String(schedTeams||0),callFor(lad.teams,schedTeams||0)],
     ["<b>Cocktailers</b>",String(lad.cktail),String(inf.cnt.cktail),callFor(lad.cktail,inf.cnt.cktail)],
     ["<b>Bussers</b>",String(lad.busser),String(inf.cnt.busser),callFor(lad.busser,inf.cnt.busser)],
-    ["<b>Expo / food run</b>",String(lad.expo),String(inf.cnt.expo),callFor(lad.expo,inf.cnt.expo)],
-    ["<b>Polisher</b>",String(lad.polisher),"—",callFor(lad.polisher,null)]])}
+    ["<b>Food runners / expo</b>",String(lad.expo),String(inf.cnt.expo),callFor(lad.expo,inf.cnt.expo)],
+    ["<b>Polisher</b>",String(lad.polisher),"—",`<span style="color:var(--dim2)">${lad.polisherNote}</span>`]])}
   <p class="sub" style="margin:8px 0 0;color:var(--dim2);font-size:12px">Skip big banquets in this net — a banquet brings its own staffing. Pools split evenly across whoever's on the role — fewer on, more each. Bands anchored to real nights (3 teams &asymp; $4.1k, 4 teams + a banquet &asymp; $8.9k, over $10k is all hands); say what's acceptable per night type and they get tuned.</p>
   <p class="sub" style="margin:8px 0 0;color:var(--dim2);font-size:12px">Cut math is calibrated against real Toast checkouts — lands within a few dollars of actual nights. A model, not a promise.</p>`;
 }
@@ -5955,8 +5961,9 @@ function search(q){
   /* The 79-slide training slideshow shipped indexed-nowhere, so nothing in it was
      findable from the search bar the way the book already was. */
   if(typeof MISE!=="undefined") MISE.forEach(m=>{
-    if(matches([m[0],m[1],m[2],"mise en place","silverware","set with"]))
-      add("Mise en Place",m[0],m[1]+(m[2]?" — "+m[2]:""),"house");});
+    const tools=m[1].join(", ");
+    if(matches([m[0],tools,m[2],"mise en place","silverware","set with"]))
+      add("Mise en Place",m[0],tools+(m[2]?" — "+m[2]:""),"house");});
   if(typeof DECK!=="undefined") DECK.forEach((c,j)=>{
     const txt=String(c.h||"").replace(/<[^>]+>/g," ").replace(/\s+/g," ").trim();
     if(matches([c.t,c.s,c.d,"training slideshow","slideshow",txt]))
@@ -6338,16 +6345,17 @@ function build(){
           the grab list is how an expo builds a tray, the table is how you look one dish up. */}
     <div class="sechead" id="sec-mise"><h2>Mise en Place</h2><span>${MISE.length} items that need something set with them</span></div>
     <p class="sub" style="margin:0 0 10px">Everything below needs service ware carried out with it. If a dish is not on this list, it goes out with what is already on the table.</p>
-    ${(()=>{const by={};MISE.forEach(m=>{(by[m[1]]=by[m[1]]||[]).push(m[0]);});
+    ${(()=>{const by={};
+      MISE.forEach(m=>m[1].forEach(tool=>{(by[tool]=by[tool]||[]).push(m[0]);}));
       return `<div class="card"><div class="cbody">
         <p class="sub" style="margin:0 0 8px"><b>Building the tray</b> — group by what you grab</p>
-        ${Object.entries(by).sort((a,b)=>b[1].length-a[1].length).map(([tool,items])=>
+        ${Object.entries(by).sort((a,b)=>b[1].length-a[1].length||a[0].localeCompare(b[0])).map(([tool,items])=>
           `<div style="padding:5px 0;border-top:1px solid var(--line)">
              <b>${esc(tool)}</b> <span style="color:var(--dim)">&times;${items.length}</span>
              <div style="color:var(--dim);font-size:12.5px;margin-top:2px">${items.map(esc).join(" · ")}</div>
            </div>`).join("")}</div></div>`;})()}
     ${acc("Every item, one at a time","look a single dish up",
-      tbl(["Dish","Set with it","Note"],MISE.map(m=>[`<b>${esc(m[0])}</b>`,esc(m[1]),
+      tbl(["Dish","Set with it","Note"],MISE.map(m=>[`<b>${esc(m[0])}</b>`,esc(m[1].join(" + ")),
         `<span style="color:var(--dim)">${esc(m[2]||"")}</span>`])))}
 
     ${acc("Points of Passion — the 16","the Mo's service philosophy, word for word where it counts",`<ol class="steps">${HOUSE.points.map(([t,d])=>`<li><b>${esc(t)}.</b> ${esc(d)}</li>`).join("")}</ol>`)}

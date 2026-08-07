@@ -198,10 +198,6 @@ const SPIRITS = {
  ["Johnnie Walker Red","$11","Entry blend, smoke and spice"],
  ["Johnnie Walker Black","$15","More smoke and depth"],
  ["Johnnie Walker Blue","$60","Luxury blend, smooth, polished"]],
- "Port":[
- ["Quinta do Noval Black Reserve Port","$16","Sweet fortified red; black fruit, chocolate"],
- ["Smith Woodhouse 10yr Tawny Port","$20","Nutty, caramel, dried fruit"],
- ["Quinta do Noval 20yr Tawny Port","$38","Richer tawny; walnut, caramel, orange peel"]],
  "Cognac":[
  ["Courvoisier VS","$15/oz","Young cognac, fruit and oak"],
  ["Courvoisier VSOP","$15/oz","Smoother cognac"],

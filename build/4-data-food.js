@@ -20,45 +20,51 @@ const ENHANCE = [
 /* What has to ride out WITH the plate. Built from the dish descriptions, so it is
    only as right as those are — Evan edits this list directly as the floor corrects it.
    [item, what to set, note] */
+/* ============ MISE EN PLACE ============ */
+/* What has to ride out WITH the plate. The utensils are a LIST per dish so the
+   grab list can count each one properly — an oyster fork IS a cocktail fork, so
+   there is only ever one name for a thing. Evan edits this as the floor corrects it.
+   [dish, [what to set], note] */
 const MISE = [
- ["Crispy Ahi Tuna Bites","Chopsticks","two Japanese metal chopsticks per person"],
- ["A5 Nigiri","Chopsticks","two Japanese metal chopsticks per person"],
- ["Goat Cheese Spread","Spreader knife","honey drizzle goes on at the table"],
- ["Shrimp Cocktail","Cocktail forks","one per guest"],
- ["Creamy Spicy Crab Dip","Big spoon",""],
- ["Prime Meatballs","Big spoon",""],
- ["Wagyu Tacos","Tongs",""],
- ["Seasonal Oysters","Cocktail fork + tongs",""],
- ["Oysters Rockefeller","Oyster fork",""],
- ["King Crab Legs","Cocktail fork + tongs",""],
- ["Iced Seafood Tower","Cocktail forks + black shell bowl","one fork per guest; bowl for the shells"],
- ["Roasted Seafood Tower","Cocktail forks + black shell bowl","one fork per guest; bowl for the remains"],
- ["Twin South African Lobster Tails","Cocktail fork",""],
- ["Calamari","Tongs",""],
- ["Farbuckle Filet","Tongs","tableside skillet finish"],
- ["Grilled Asparagus","Tongs + ramekin","hollandaise goes in the ramekin, on the side"],
- ["Truffle Fries","Tongs + ketchup","house ranch is the pairing to offer"],
- ["Creamed Corn","Big spoon",""],
- ["Creamed Spinach with Roasted Butternut Squash","Big spoon",""],
- ["Creamy Risotto","Big spoon",""],
- ["Truffle Cauliflower","Big spoon",""],
- ["Lobster Mac N' Cheese","Big spoon",""],
- ["Jalapeno Potatoes Au Gratin","Big spoon",""],
- ["Roasted Mushrooms","Big spoon","comes in a small soup bowl"],
- ["White Cheddar Mashed Potatoes","Big serving spoon",""],
- ["Brussels Sprouts","Serving spoon","the spoon rides in the bowl"],
- ["Baked Potato","Bread knife","cut down the middle"],
- ["Mo's Cookie / Prime Cookie","Big spoon","baked and served in its own bowl"],
- ["The Mo's Sundae","Big spoon",""],
- ["Celebration Sundae","Big spoon","the comped one"],
- ["Bailey's Creme Brulee","Big spoon",""],
- ["Molten Lava Cake","Big spoon",""],
- ["Celebration Cake","Spatula",""],
- ["NY Style Cheesecake","Spatula",""],
- ["Colossal Carrot Cake","Spatula",""],
- ["Bananas Foster","Spatula","plus a bowl and spoon per person"],
- ["Prime Beef Burger","Ketchup","anything with fries gets ketchup"],
- ["Chicken Tenders with Fries","Ketchup",""]
+ ["Seasonal Oysters",["Cocktail fork","Tongs"],""],
+ ["Oysters Rockefeller",["Cocktail fork"],""],
+ ["Shrimp Cocktail",["Cocktail fork"],"one per guest"],
+ ["King Crab Legs",["Cocktail fork","Tongs"],""],
+ ["Iced Seafood Tower",["Cocktail fork","Black shell bowl"],"one fork per guest; bowl for the shells"],
+ ["Roasted Seafood Tower",["Cocktail fork","Black shell bowl"],"one fork per guest; bowl for the remains"],
+ ["Twin South African Lobster Tails",["Cocktail fork"],""],
+ ["Crispy Ahi Tuna Bites",["Chopsticks"],"two Japanese metal chopsticks per person"],
+ ["A5 Nigiri",["Chopsticks"],"two Japanese metal chopsticks per person"],
+ ["Goat Cheese Spread",["Spreader knife"],"honey drizzle goes on at the table"],
+ ["Creamy Spicy Crab Dip",["Big spoon"],""],
+ ["Prime Meatballs",["Big spoon"],""],
+ ["Wagyu Tacos",["Tongs"],""],
+ ["Calamari",["Tongs"],""],
+ ["Farbuckle Filet",["Tongs"],"tableside skillet finish"],
+ ["Grilled Asparagus",["Tongs","Ramekin"],"hollandaise goes in the ramekin, on the side"],
+ ["Truffle Fries",["Tongs","Ketchup"],"house ranch is the pairing to offer"],
+ ["All soups",["Soup spoon"],"soup of the day, bisque, French onion"],
+ ["Creamed Corn",["Big spoon"],""],
+ ["Creamed Spinach with Roasted Butternut Squash",["Big spoon"],""],
+ ["Creamy Risotto",["Big spoon"],""],
+ ["Truffle Cauliflower",["Big spoon"],""],
+ ["Lobster Mac N' Cheese",["Big spoon"],""],
+ ["Jalapeno Potatoes Au Gratin",["Big spoon"],""],
+ ["Roasted Mushrooms",["Big spoon"],"comes in a small soup bowl"],
+ ["White Cheddar Mashed Potatoes",["Big spoon"],""],
+ ["Brussels Sprouts",["Big spoon"],"the spoon rides in the bowl"],
+ ["Baked Potato",["Bread knife"],"cut down the middle"],
+ ["Mo's Cookie / Prime Cookie",["Big spoon"],"baked and served in its own bowl"],
+ ["The Mo's Sundae",["Big spoon"],""],
+ ["Celebration Sundae",["Big spoon"],"the comped one"],
+ ["Bailey's Creme Brulee",["Big spoon"],""],
+ ["Molten Lava Cake",["Big spoon"],""],
+ ["Celebration Cake",["Spatula"],""],
+ ["NY Style Cheesecake",["Spatula"],""],
+ ["Colossal Carrot Cake",["Spatula"],""],
+ ["Bananas Foster",["Spatula","Big spoon"],"a bowl and a spoon per person"],
+ ["Prime Beef Burger",["Ketchup"],"anything with fries gets ketchup"],
+ ["Chicken Tenders with Fries",["Ketchup"],""]
 ];
 
 const MENU = {
@@ -98,9 +104,6 @@ const MENU = {
   ["K.D.'s Tomahawk","32 oz $160","A ribeye that keeps the whole rib bone. Even more heavily marbled than the Delmonico. The bone lets marrow render during cooking, adding a butteriness you can only get by keeping the rib bone. The juiciest, most flavorful cut we offer besides the Japanese A5.","K.D. = Kevin Dickey, former owner · largest oval plate"],
   ["Australian Wagyu Filet","6 oz $95 / 10 oz $135","Australian cattle crossbred with Japanese wagyu — even one generation of crossbreeding lifts the marbling way up. Wagyu fat melts at a lower temperature, so it runs juicy even at rare. Just as tender as the prime filet with more richness — the easy level-up for a filet person. Serve rare to med-rare — nudge, don't argue.",""],
   ["Japanese A5 Wagyu","$25/oz","From Kagoshima Prefecture. The show: a manager cut, sliced with a Hanzo steel knife on a butcher's block, torch-finished with rosemary salt at the table. Preset the guests with the special Kobe Hanzo steak knives. House serves wagyu RARE to MED-RARE — nudge gently, never argue.","Manager cut"],
-  ["48 oz USDA Choice Porterhouse","$150 when it runs","NOT wagyu — USDA Choice. 48 oz total: roughly a 26 oz NY strip, a 12 oz filet, and about a 10 oz bone — it varies a little with the cut. Board service, a MANAGER cuts it tableside. The move: two people split it for a high-class manager-cut experience at a great value. Know the cut: a porterhouse is a T-bone where the filet side has to be nearly as big as the strip side — that is rare, and it is why good porterhouses are hard to find.","Manager cut"],
-  ["Spinalis / Ribeye Cap","$14/oz, min 6 oz","The cap of the ribeye — rivals filet tenderness while keeping ribeye richness. A manager cuts it tableside. $10/oz all day on Spinalis Sunday.","Manager cut"],
-  ["45-Day 22 oz Dry-Aged Bone-In Ribeye","$120","Forty-five days in the dry-aging room, and every one of them is doing something. Cold, moving air draws the moisture out, so what is left behind is pure concentrated beef — the flavor gets deeper because there is simply less water diluting it. At the same time the meat's own enzymes go quietly to work, breaking down proteins into amino acids and unwinding the connective tissue, which is what makes an aged steak taste savory and profound instead of just beefy. That is where the signature comes from: a deep, nutty, almost brown-butter richness with a whisper of blue cheese and toasted hazelnut, wrapped around a bone that gives it even more depth. Rich, robust, and unmistakably aged — the steak for the guest who wants the most flavor a piece of beef can carry. Price still needs verified.","Manager cuts tableside"],
   ["Steak 47","$58","A 4 oz filet base topped with a scallop and a shrimp, chopped asparagus and lobster meat around the plate, hollandaise drizzled on by expo. Upgrade math is easy — any filet goes 47 style for its price plus the $25 topping: 6 oz is $54 + $25 = $79, 10 oz is $79 + $25 = $104.","The Steak 47 topping upcharge is $25"],
   ["Filet & Lobster","$105","A 6 oz filet off the charbroiler (upgrade to 10 oz) with a 5 oz South African lobster tail, steamed gently so it never turns chewy.","GF"],
   ["Filet & Scallops","$82","A 6 oz filet with two U-10 prosciutto-wrapped scallops, flash-seared hot and fast — about two minutes — so they stay tender.",""],
@@ -391,11 +394,11 @@ const SPECIAL_DAYS={
  "Ladies Night — every Thursday":4
 };
 const SPECIALS_ON=[
- ["48 oz USDA Choice Porterhouse","$150 when it runs","NOT wagyu — USDA Choice. 48 oz total: roughly a 26 oz NY strip, a 12 oz filet, and about a 10 oz bone — it varies a little with the cut. A manager slices it tableside off the board. The pitch: two people split it for a high-class manager-cut steak experience at a serious value — and there's no split-plate charge.","cut special"],
+ ["48 oz USDA Choice Porterhouse","$150 when it runs","NOT wagyu — USDA Choice. 48 oz total: roughly a 22 oz NY strip, a 12 oz filet, and about a 10 oz bone — it varies a little with the cut. A manager slices it tableside off the board. The pitch: two people split it for a high-class manager-cut steak experience at a serious value — and there's no split-plate charge.","cut special"],
  ["Spinalis / Ribeye Cap","$14/oz","Minimum 6 oz. The cap of the ribeye — it rivals filet tenderness while keeping ribeye richness. A manager cuts it tableside.","cut special"],
  ["Spinalis Sunday","$10/oz every Sunday","The same ribeye cap, four dollars an ounce cheaper, one day a week. Minimum 6 oz. It is on the restaurant's own weekly-features page — the easiest upsell we have on a Sunday.","weekly feature"],
  ["Australian Wagyu Tomahawk","$180","32 oz, cut tableside by a manager. Wagyu rule: serve rare to med-rare — nudge, don't argue.","cut special"],
- ["45-Day 22 oz Dry-Aged Bone-In Ribeye","$120","Forty-five days of cold, moving air pulls the moisture out and concentrates the beef, while the meat's own enzymes break proteins down into amino acids and soften the connective tissue. That is where the deep, nutty, brown-butter richness comes from — savory and profound rather than just beefy, with the bone adding even more depth. Price still needs verified. All four cut specials (porterhouse, spinalis, tomahawk, 45-day) typically ALWAYS run.","cut special"],
+ ["45-Day 22 oz Dry-Aged Bone-In Ribeye","$120","Forty-five days of cold, moving air pulls the moisture out and concentrates the beef, while the meat's own enzymes break proteins down into amino acids and soften the connective tissue. That is where the deep, nutty, brown-butter richness comes from — savory and profound rather than just beefy, with the bone adding even more depth. All four cut specials (porterhouse, spinalis, tomahawk, 45-day) typically ALWAYS run.","cut special"],
  ["Ladies Night — every Thursday","$10 martinis + \u00bd-off apps","Ladies get $10 martinis and half-price appetizers in the lounge, every Thursday night.","weekly feature"]
 ];
 /* Rotating entree specials seen before — ask a manager if one is running tonight. */
@@ -410,7 +413,7 @@ const SPECIALS_PAST=[
  ["Short Rib Pasta","$52","Prime short rib braised 12 hours in veal demi-glace, pressed clean, and laid over orecchiette in a light vermouth cream — shallot, fennel, garlic, thyme.","off the current menu"],
  ["Stuffed Chicken Breast","$38","Stuffed with cream cheese, goat cheese, Parmesan, and white cheddar under a creamy thyme-rosemary herb sauce.","off the current menu"],
  ["Ahi Tuna & Wagyu Beef","$68","4 oz Hawaiian ahi crusted in black and white sesame with hoisin glaze, plus a 4 oz Australian wagyu filet, sliced. Eight ounces of surf and turf on one plate.","off the current menu"],
- ["Australian Wagyu Porterhouse (old name)","now the USDA Choice Porterhouse","For a while the 48 oz porterhouse was called an Australian Wagyu Porterhouse at $180. Same cut, right name and price now: USDA CHOICE, $150 — roughly a 26 oz NY strip, a 12 oz filet, and about a 10 oz bone, built for two to split.","renamed"],
+ ["Australian Wagyu Porterhouse (old name)","now the USDA Choice Porterhouse","For a while the 48 oz porterhouse was called an Australian Wagyu Porterhouse at $180. Same cut, right name and price now: USDA CHOICE, $150 — roughly a 22 oz NY strip, a 12 oz filet, and about a 10 oz bone, built for two to split.","renamed"],
  ["Tomahawk Tuesday","$180 package","The 32 oz Australian Wagyu Tomahawk plus two glasses of wine, two soups or salads, and a signature Brown Butter Cake to finish — a full night out for $180. Not running anymore, but worth knowing we did it.","not running"],
  ["Heart of Ribeye Skewers","$45","Bourbon glaze mixed with onions and peppers. One of the most underrated things we ever ran.","not running"],
  ["Flank Steak with Chimichurri","was ~$35","Ran earlier this summer. Not on the current list.","not running"],

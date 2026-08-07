@@ -164,7 +164,7 @@ function drinkCard(c){
    filterable grid. SPIRITS rows and BEER rows get normalized into the same card
    shape the cocktails already use, so nothing on screen looks like a second system. */
 const DRINK_CATS=[["all","All drinks"],["cocktail","Cocktails"],["bourbon","Bourbon"],
-  ["whiskey","Whiskey"],["scotch","Scotch"],["tequila","Tequila"],["cognac","Cognac & Port"],
+  ["whiskey","Whiskey"],["scotch","Scotch"],["tequila","Tequila"],["cognac","Cognac"],
   ["beer","Beer & seltzer"],["cordial","Cordials"],["nonalc","Coffee, Tea & Water"],
   ["verify","Archive — off the menu"]];
 const DRINK_BUDGETS=[["all","Any price"],["0-17","Under $18"],["18-35","$18–35"],
@@ -487,15 +487,22 @@ function schedDayInfo(i){
   });
   return {covers,cnt};
 }
-/* staffing bands v1 — anchored to real nights (3 teams ~ $4.1k, 4 teams + banquet ~ $8.9k).
-   Evan tunes these as he tells us what's acceptable on each kind of night. */
-function staffLadder(net){
+/* Staffing bands v2 — anchored to real nights (3 teams ~ $4.1k, 4 teams + banquet ~ $8.9k).
+   Cocktailers and the polisher are driven by Evan's floor rules, not by dollars:
+   two cocktailers is the ceiling (a third is overkill — add a team instead), and a
+   polisher is never MODELLED under 175 covers, though 125+ is a manager's call.
+   Food runners are the opposite: one every night minimum, more as covers climb. */
+function staffLadder(net,covers){
+  const cov=+covers||0;
   return {
     teams: Math.min(7,Math.max(2,Math.ceil(net/SALES.teamBase))),
-    cktail: net<6000?1:net<12000?2:3,
+    cktail: net<6000?1:2,
     busser: net<3000?1:net<8000?2:3,
-    expo: net<4000?0:net<8000?1:2,
-    polisher: net>=8000?1:0
+    expo: cov>=225?3:cov>=150?2:1,
+    polisher: cov>175?1:0,
+    polisherNote: cov>175?"over 175 covers — staff one"
+      :cov>125?"125&ndash;175 covers — manager's call"
+      :"under 125 covers — none"
   };
 }
 function ipPrefill(){
@@ -553,7 +560,7 @@ function calcIP(){
     : {cls:"",head:"COIN FLIP",body:`Straddles the $175 line — walk-ins decide this one. Watch the book by late afternoon.`};
 
   const tax=Math.round(net*SALES.taxRate);
-  const lad=staffLadder(net);
+  const lad=staffLadder(net,inf.covers);
   const schedTeams=Math.min(inf.cnt.fronts,inf.cnt.backs);
   const callFor=(model,sched)=>sched==null?`<span style="color:var(--dim2)">manager's call</span>`
     :sched>model?`<span style="color:var(--gold2)">room to cut ${sched-model}</span>`
@@ -580,8 +587,8 @@ function calcIP(){
     ["<b>Teams (front + back)</b>",String(lad.teams),String(schedTeams||0),callFor(lad.teams,schedTeams||0)],
     ["<b>Cocktailers</b>",String(lad.cktail),String(inf.cnt.cktail),callFor(lad.cktail,inf.cnt.cktail)],
     ["<b>Bussers</b>",String(lad.busser),String(inf.cnt.busser),callFor(lad.busser,inf.cnt.busser)],
-    ["<b>Expo / food run</b>",String(lad.expo),String(inf.cnt.expo),callFor(lad.expo,inf.cnt.expo)],
-    ["<b>Polisher</b>",String(lad.polisher),"—",callFor(lad.polisher,null)]])}
+    ["<b>Food runners / expo</b>",String(lad.expo),String(inf.cnt.expo),callFor(lad.expo,inf.cnt.expo)],
+    ["<b>Polisher</b>",String(lad.polisher),"—",`<span style="color:var(--dim2)">${lad.polisherNote}</span>`]])}
   <p class="sub" style="margin:8px 0 0;color:var(--dim2);font-size:12px">Skip big banquets in this net — a banquet brings its own staffing. Pools split evenly across whoever's on the role — fewer on, more each. Bands anchored to real nights (3 teams &asymp; $4.1k, 4 teams + a banquet &asymp; $8.9k, over $10k is all hands); say what's acceptable per night type and they get tuned.</p>
   <p class="sub" style="margin:8px 0 0;color:var(--dim2);font-size:12px">Cut math is calibrated against real Toast checkouts — lands within a few dollars of actual nights. A model, not a promise.</p>`;
 }
@@ -713,8 +720,9 @@ function search(q){
   /* The 79-slide training slideshow shipped indexed-nowhere, so nothing in it was
      findable from the search bar the way the book already was. */
   if(typeof MISE!=="undefined") MISE.forEach(m=>{
-    if(matches([m[0],m[1],m[2],"mise en place","silverware","set with"]))
-      add("Mise en Place",m[0],m[1]+(m[2]?" — "+m[2]:""),"house");});
+    const tools=m[1].join(", ");
+    if(matches([m[0],tools,m[2],"mise en place","silverware","set with"]))
+      add("Mise en Place",m[0],tools+(m[2]?" — "+m[2]:""),"house");});
   if(typeof DECK!=="undefined") DECK.forEach((c,j)=>{
     const txt=String(c.h||"").replace(/<[^>]+>/g," ").replace(/\s+/g," ").trim();
     if(matches([c.t,c.s,c.d,"training slideshow","slideshow",txt]))
@@ -1096,16 +1104,17 @@ function build(){
           the grab list is how an expo builds a tray, the table is how you look one dish up. */}
     <div class="sechead" id="sec-mise"><h2>Mise en Place</h2><span>${MISE.length} items that need something set with them</span></div>
     <p class="sub" style="margin:0 0 10px">Everything below needs service ware carried out with it. If a dish is not on this list, it goes out with what is already on the table.</p>
-    ${(()=>{const by={};MISE.forEach(m=>{(by[m[1]]=by[m[1]]||[]).push(m[0]);});
+    ${(()=>{const by={};
+      MISE.forEach(m=>m[1].forEach(tool=>{(by[tool]=by[tool]||[]).push(m[0]);}));
       return `<div class="card"><div class="cbody">
         <p class="sub" style="margin:0 0 8px"><b>Building the tray</b> — group by what you grab</p>
-        ${Object.entries(by).sort((a,b)=>b[1].length-a[1].length).map(([tool,items])=>
+        ${Object.entries(by).sort((a,b)=>b[1].length-a[1].length||a[0].localeCompare(b[0])).map(([tool,items])=>
           `<div style="padding:5px 0;border-top:1px solid var(--line)">
              <b>${esc(tool)}</b> <span style="color:var(--dim)">&times;${items.length}</span>
              <div style="color:var(--dim);font-size:12.5px;margin-top:2px">${items.map(esc).join(" · ")}</div>
            </div>`).join("")}</div></div>`;})()}
     ${acc("Every item, one at a time","look a single dish up",
-      tbl(["Dish","Set with it","Note"],MISE.map(m=>[`<b>${esc(m[0])}</b>`,esc(m[1]),
+      tbl(["Dish","Set with it","Note"],MISE.map(m=>[`<b>${esc(m[0])}</b>`,esc(m[1].join(" + ")),
         `<span style="color:var(--dim)">${esc(m[2]||"")}</span>`])))}
 
     ${acc("Points of Passion — the 16","the Mo's service philosophy, word for word where it counts",`<ol class="steps">${HOUSE.points.map(([t,d])=>`<li><b>${esc(t)}.</b> ${esc(d)}</li>`).join("")}</ol>`)}

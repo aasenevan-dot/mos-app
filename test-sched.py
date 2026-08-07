@@ -185,9 +185,13 @@ async def main():
         tow=await pg.evaluate("JSON.stringify(MENU['Starters'])")
         for cell in ["Semi-Pro $98 / Baller $190","6 oysters","3 shrimp","half the seafood"]:
             if cell not in tow: bad.append(f"tower detail missing: {cell}")
-        ph=await pg.evaluate("JSON.stringify(MENU['Entrees'])")
-        if "26 oz NY strip" not in ph or "12 oz filet" not in ph or "10 oz bone" not in ph:
+        # porterhouse corrected to 22/12/10 and moved to the specials board (8/7)
+        ph=await pg.evaluate("JSON.stringify(SPECIALS_ON)")
+        if "22 oz NY strip" not in ph or "12 oz filet" not in ph or "10 oz bone" not in ph:
             bad.append("porterhouse ounces not updated")
+        qz=await pg.evaluate("JSON.stringify(MC.find(q=>/48 oz Porterhouse break down/.test(q.q)))")
+        if "22 oz NY strip" not in qz: bad.append("porterhouse quiz answer still on the old ounces")
+        if "15 oz NY strip" in qz or "25 oz bone" in qz: bad.append("outdated porterhouse ounces still a quiz option")
         if await pg.evaluate("SPECIALS_ROTATION.length")!=2:
             bad.append("rotating specials should be the two salmon only")
         if await pg.evaluate("SPECIALS_ROTATION.some(s=>/Marsala/.test(s[0]))"):
@@ -434,7 +438,8 @@ async def main():
         if not shape: bad.append("a mise en place group is malformed")
         sm=await pg.evaluate("search('what silverware goes with the lobster tail').map(h=>h.w).join('|')")
         if "Mise en place" not in sm: bad.append(f"search miss mise: {sm[:90]}")
-        rib=await pg.evaluate("JSON.stringify(MENU['Entrees'].find(x=>/45-Day/.test(x[0])))")
+        # the cut specials left Entrees on 8/7 — they only live on the specials board now
+        rib=await pg.evaluate("JSON.stringify(SPECIALS_ON.find(x=>/45-Day/.test(x[0])))")
         if "45-Day 22 oz Dry-Aged Bone-In Ribeye" not in rib: bad.append("45-day ribeye not renamed")
         for cell in ["amino acids","nutty","enzymes"]:
             if cell not in rib: bad.append(f"dry-age story missing {cell}")

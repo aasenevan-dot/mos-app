@@ -26,7 +26,7 @@ const ENHANCE = [
    there is only ever one name for a thing. Evan edits this as the floor corrects it.
    [dish, [what to set], note] */
 const MISE = [
- ["Seasonal Oysters",["Cocktail fork","Tongs"],""],
+ ["Seasonal Oysters",["Cocktail fork"],"Tabasco and Zesta crackers ride along — no tongs"],
  ["Oysters Rockefeller",["Cocktail fork"],""],
  ["Shrimp Cocktail",["Cocktail fork"],"one per guest"],
  ["King Crab Legs",["Cocktail fork","Tongs"],""],
@@ -138,7 +138,7 @@ const MENU = {
   ["Colossal Carrot Cake","$14","Layered high with cream cheese icing, moist all the way through from pineapple in the batter — that is where the pineapple flag comes from. Powdered sugar and whipped cream. Spatula.",""],
   ["Molten Lava Cake","$13","Chocolate dome filled with chocolate cake and strawberries — no ice cream on this one. THE SHOW: light the orange liqueur and chocolate sauce, then pour it flaming over the dome — it melts away to reveal what is underneath. Big spoon. GF-marked and flourless, but it still has eggs, dairy, soy, and that liqueur.","GF"],
   ["Brown Butter Cake","$14","Browned butter and brown sugar are the whole flavor story. Served warm with vanilla ice cream, caramel, and Granny Smith apple slices to cut the richness — and it rolls out with the dry-ice cloud show, hot water poured over dry ice right in the bowl.",""],
-  ["Cotton Candy","$12","GF. Spun to order on a light-up stick and set in a black wooden block. Every color of the rainbow, all taste like sugar — tell the table 'pick your color.'",""],
+  ["Cotton Candy","$12","Spun to order on a light-up stick and set in a black wooden block. Every color of the rainbow, all taste like sugar — tell the table 'pick your color.'","GF"],
   ["Bananas Foster","$12/person — minimum 2 people","Bananas, brown butter, orange, cinnamon, 99 Oranges liqueur, caramel, Nilla wafers and ice cream, flamed tableside. Per person: one scoop of brown butter, half a banana, half an orange, and one scoop of ice cream in its own bowl. The back server runs it. Bring: cinnamon, 99 Oranges liqueur, Nilla wafers, caramel, burner, pan. The show: melt the brown butter, breaking it up with the spatula. Coat the bananas evenly in it. Add the orange citrus so nothing burns. Pour 99 Oranges over the top and light it — big flame. Sprinkle cinnamon into the fire and it sparks up (cinnamon is made of wood, so it burns) — a fantastic show. Pour it all over bowls of ice cream with the caramel and Nilla wafers, serve with spoons. Great upsell: get the whole table in on it.",""]
  ],
  "Lounge":[
@@ -398,7 +398,7 @@ const SPECIALS_ON=[
  ["Spinalis / Ribeye Cap","$14/oz","Minimum 6 oz. The cap of the ribeye — it rivals filet tenderness while keeping ribeye richness. A manager cuts it tableside.","Manager cut"],
  ["Spinalis Sunday","$10/oz every Sunday","The same ribeye cap, four dollars an ounce cheaper, one day a week. Minimum 6 oz. It is on the restaurant's own weekly-features page — the easiest upsell we have on a Sunday.","weekly feature"],
  ["Australian Wagyu Tomahawk","$180","32 oz, cut tableside by a manager. Wagyu rule: serve rare to med-rare — nudge, don't argue.","Manager cut"],
- ["45-Day 22 oz Dry-Aged Bone-In Ribeye","$120","Forty-five days of cold, moving air pulls the moisture out and concentrates the beef, while the meat's own enzymes break proteins down into amino acids and soften the connective tissue. That is where the deep, nutty, brown-butter richness comes from — savory and profound rather than just beefy, with the bone adding even more depth. All four cut specials (porterhouse, spinalis, tomahawk, 45-day) typically ALWAYS run.",""],
+ ["45-Day 22 oz Dry-Aged Bone-In Ribeye","$120","Forty-five days of cold, moving air pulls the moisture out and concentrates the beef, while the meat's own enzymes break proteins down into amino acids and soften the connective tissue. That is where the deep, nutty, brown-butter richness comes from — savory and profound rather than just beefy, with the bone adding even more depth.",""],
  ["Ladies Night — every Thursday","$10 martinis + \u00bd-off apps","Ladies get $10 martinis and half-price appetizers in the lounge, every Thursday night.","weekly feature"]
 ];
 /* Rotating entree specials seen before — ask a manager if one is running tonight. */

@@ -78,7 +78,7 @@ W("El Coto Rioja Crianza","old","Good","$36","Rioja, Spain","Cherry, strawberry,
 W("Guigal Gigondas","old","Good","$75","Rhone, France","Blackberry, black cherry, pepper, garrigue herbs","Med-High","Med","Full","Spicy, savory, dry","Ribeye, Short Rib Pasta, Prime Meatballs","Rhone red with pepper and herbs; great for richer, savory dishes."),
 W("Joseph Drouhin Gevry-Chambertin","old","Best","$231","Burgundy, France","Red cherry, black cherry, earth, spice, forest floor","Med","High","Med","Long, elegant, serious Burgundy","Filet, A5 Wagyu, special Pinot guest","Serious Burgundy; elegant, earthy, and built for a wine person."),
 W("Joseph Drouhin Macon-Villages","old","Good","$44","Burgundy, France — UNOAKED Chardonnay","Green apple, lemon zest, white peach, flowers","None","High","Light-Med","Crisp, bright, unoaked","Miso Sea Bass, Chilean Sea Bass, scallops, Seafood Tower","Unoaked Burgundy Chardonnay; clean and bright with seafood."),
-W("L'Ecole \"Apogee\" 2020","old","Better","$120","Washington State — Bordeaux-style blend","Black cherry, cassis, plum, cedar, tobacco, spice","Med-High","Med","Full","Structured Washington blend","NY Strip, ribeye, Short Rib Pasta","Washington Bordeaux-style blend; structured and dark without Napa sweetness."),
+W("L'Ecole \"Apogee\" 2020","cab","Better","$120","Washington State — Bordeaux-style blend","Black cherry, cassis, plum, cedar, tobacco, spice","Med-High","Med","Full","Structured Washington blend","NY Strip, ribeye, Short Rib Pasta","Washington Bordeaux-style blend; structured and dark without Napa sweetness."),
 W("Le Serre Nuove \"Ornellaia\" 3L 2022","old","Best","$400","Bolgheri, Italy — large format","Black cherry, cassis, plum, herbs, graphite","Med-High","Med-High","Full","Polished, large-format, celebratory","Large steak table, Tomahawk, Porterhouse","Large-format Ornellaia-family Super Tuscan; built for a group celebration."),
 W("Marquis de Riscal Reserva Rioja","old","Good","$57 / $70","Rioja, Spain","Cherry, plum, vanilla, cedar, tobacco","Med","Med-High","Med-Full","Classic Rioja spice and oak","NY Strip, Prime Meatballs, Short Rib Pasta","Recognizable Rioja; savory, classic, easy with steak and pasta."),
 W("Ornellaia Super Tuscan 2022","old","Best","$600","Bolgheri, Italy — elite Super Tuscan","Black cherry, brambleberry, eucalyptus, milk chocolate, clove, graphite","High","Med-High","Full","Long, elite, Mediterranean luxury","Wagyu, Tomahawk, high-end Italian wine guest","One of the great Super Tuscans: Bordeaux grapes with Italian character."),
@@ -112,7 +112,6 @@ W("Chateau de Campuget Rose","gwhite","Good","$12 / $45","Rhone, France — dry 
 W("Beviamo Pinot Grigio","gwhite","Good","$13 / $49","Venezia, Italy","Lemon, pear, green apple, light floral","None","Med-High","Light","Crisp, clean, simple","Salads, oysters, lighter starters","Lightest, cleanest dry white; safest crisp choice before dinner."),
 W("Kim Crawford Sauvignon Blanc","gwhite","Good","$13 / $49","Marlborough, NZ","Grapefruit, lime, green melon, passion fruit, grass","None","High","Light-Med","Zesty, citrusy, refreshing","Oysters, Seafood Tower, Caesar, shellfish","Bright New Zealand Sauvignon Blanc: citrusy, crisp, refreshing."),
 W("Auntsfield Single Vineyard Sauvignon Blanc","gwhite","Better","$14 / $53","Marlborough, NZ — single-vineyard step up","Grapefruit, lime, tropical fruit, herbs, minerality","None","High","Light-Med","More refined Sauvignon Blanc finish","Seafood Tower, oysters, scallops, sea bass","The elevated single-vineyard Sauvignon Blanc if they like Kim Crawford but want the nicer version."),
-W("Mer Soleil Chardonnay","gwhite","Good","$15 / $57","OFF THE LIST — not on the printed menu. Do NOT pitch it; kept here for history.","Apple, pear, tropical fruit, vanilla, toast","None","Med","Med-Full","Round, richer California Chardonnay","Lobster tail, scallops, stuffed chicken, creamy dishes","Fuller California Chardonnay; rounder and richer than Sauvignon Blanc."),
 W("Buehler Chardonnay","gwhite","Good","$13 / $50","Russian River Valley, CA","Ripe apple, pear, citrus, light vanilla, toasted oak","None","Med","Med","Smooth, balanced, lightly oaked","Sea bass, scallops, stuffed chicken","Middle-ground Chardonnay: ripe fruit, light vanilla, smooth but balanced."),
 W("Freixenet Cava Blanc de Blanc","gwhite","Good","$12 / $45","Spain — bubbles by the glass (confirm in Toast)","Green apple, citrus, toasted bread, clean bubbles","None","High","Light","Crisp, dry, celebratory","Oysters, towers, any toast","Dry Spanish bubbles at an easy price — the default celebration glass."),
 W("La Marca Prosecco","gwhite","Good","$13 gl — verify bottle","Italy — bubbles by the glass (confirm in Toast)","Peach, green apple, honeysuckle, soft bubbles","None","Med-High","Light","Softer, fruitier bubbles","Celebrations, spritz drinkers, dessert","The friendly Prosecco — softer and fruitier than the Cava."),
@@ -189,7 +188,7 @@ const PAIRINGS = [
  best:["Caymus Special Select"]},
  {d:"Old World guest — less fruity", line:"Drier, earthier, more restrained than Napa.",
  good:["Bodegas Muga Reserva Rioja","Domaine de la Solitude Cotes du Rhone","Chateau Laffitte-Laujac Medoc"],
- better:["Chateau L'eyzer Pomerol","Domaine du Pegau Chateauneuf-du-Pape","L'Ecole \"Apogee\""],
+ better:["Chateau L'eyzer Pomerol","Domaine du Pegau Chateauneuf-du-Pape","Ca'marcanda Tuscany 2023"],
  best:["Ornellaia Super Tuscan","Joseph Drouhin Gevry-Chambertin","Le Serre Nuove \"Ornellaia\" 3L"]},
  {d:"Celebration / anniversary", line:"Bubbles first, then the trophy bottle.",
  good:["Moet Imperial Brut","Beau Joie"],
@@ -239,7 +238,7 @@ const REGIONS = [
  ["Tuscany / Super Tuscan","Mediterranean hills","Sangiovese keeps its natural acidity even when ripe, so the wine stays fresh no matter how big it gets. Say: powerful, but better with food."],
  ["Champagne","cold and chalky, bubbles from a second ferment","Grapes barely ripen that far north — that high acid plus bubbles is exactly what cuts richness. Oysters, seafood, wagyu, truffle fries."],
  ["Marlborough","cool, sunny, stony river beds","Bright sun with cold nights pushes the aromatics way up — citrus, grass, tropical. Say: crisp seafood white."],
- ["Kagoshima / old world vs new world","place vs grape","Old World labels name the PLACE and drink drier and earthier; New World labels name the GRAPE and drink riper and fruitier. Same grape, two accents."]
+ ["Old World vs New World","place vs grape","Old World labels name the PLACE and drink drier and earthier; New World labels name the GRAPE and drink riper and fruitier. Same grape, two accents."]
 ];
 
 const FASTANSWERS = [
@@ -346,11 +345,11 @@ const WINE_V={
 "Beviamo Pinot Grigio": "pgrigio",
 "Kim Crawford Sauvignon Blanc": "sauvblanc",
 "Auntsfield Single Vineyard Sauvignon Blanc": "sauvblanc",
-"Mer Soleil Chardonnay": "chard",
 "Buehler Chardonnay": "chard",
 "Freixenet Cava Blanc de Blanc": "bubbles",
 "La Marca Prosecco": "bubbles",
 "Mionetto Rose": "bubbles",
 "Post & Beam Chardonnay": "chard"
 };
-WINES.forEach(w=>{w.v=WINE_V[w.n]; w.btg=(w.c==="gred"||w.c==="gwhite");});
+/* ports are poured by the glass even though they sit in their own category */
+WINES.forEach(w=>{w.v=WINE_V[w.n]; w.btg=(w.c==="gred"||w.c==="gwhite"||w.c==="port");});

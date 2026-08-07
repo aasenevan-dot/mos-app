@@ -75,7 +75,11 @@ async def main():
         # 13 type chips since Port joined the list (8/7)
         if nb!=[13,3,0]: bad.append(f"wine chip rows wrong: {nb}")
         wg=await pg.evaluate("wineFilter.v='chard';renderWines();document.querySelector('#wineGrid').innerHTML")
-        if "Chablis" not in wg or "Mer Soleil" not in wg: bad.append("chardonnay filter misses bottle+glass")
+        # Mer Soleil was pulled 8/7 — the app said "do NOT pitch it" while it sat live
+        if "Chablis" not in wg or "Beam Chardonnay" not in wg:
+            bad.append("chardonnay filter misses bottle+glass")
+        if "Mer Soleil" in await pg.evaluate("JSON.stringify(WINES)"):
+            bad.append("Mer Soleil is back on the live wine list")
         if "Caymus" in wg: bad.append("chardonnay filter leaking reds")
         wg=await pg.evaluate("wineFilter.v='cab';wineFilter.serve='glass';renderWines();document.querySelector('#wineGrid').innerHTML")
         if "Ghost Pines" not in wg or "Silver Oak" in wg: bad.append("glass+cab combo wrong")
@@ -151,7 +155,7 @@ async def main():
         mn=await pg.evaluate("document.querySelector('#p-menu').innerHTML")
         if "Specials" not in mn: bad.append("specials heading missing")
         if "&#9733;" not in mn and "\u2605" not in mn: bad.append("star missing from specials heading")
-        if "Old Specials" not in mn: bad.append("rotating-specials heading missing")
+        if "Not Running Tonight" not in mn: bad.append("rotating-specials heading missing")
         if "Sundresses" in mn: bad.append("dated events still on the food menu")
         if "Archives" not in mn: bad.append("archives section missing")
         # archives + steak temps + A5 must be COLLAPSED accordions, not always-open blocks
@@ -164,7 +168,7 @@ async def main():
           const h=[...document.querySelectorAll('#p-menu .sechead h2')].map(x=>x.textContent);
           const at=t=>h.findIndex(x=>x.includes(t));
           return {specials:at('Specials'),starters:at('Starters'),
-                  kids:at('Kids Menu'),notnow:at('Old Specials'),
+                  kids:at('Kids Menu'),notnow:at('Not Running Tonight'),
                   arch:at('Archives')};})()""")
         o=order
         if -1 in o.values(): bad.append(f"a food menu section is missing: {o}")

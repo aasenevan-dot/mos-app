@@ -447,7 +447,7 @@ function calcSC(){
     <div class="rrow big"><span>BACK</span><span>${$d(back)}</span></div>
     <div class="rfoot">50/50 split &middot; back takes the greater dollar &middot; whole dollars only<br>every tip-out line rounds UP &middot; earned drops the cents</div>
   </div>
-  <div class="note" style="max-width:440px"><b>Rule of thumb:</b> a team keeps about 17% of its net sales — roughly $${Math.round(sales*.1738).toLocaleString()} on this night, call it 8–9 cents per sales dollar for each of you. Sell the bottle.</div>`;
+  <div class="note" style="max-width:440px"><b>Rule of thumb:</b> a team keeps about ${sales?((r.earned/sales)*100).toFixed(1):"17"}% of its net sales — ${$d(r.earned)} on on this night, call it 8–9 cents per sales dollar for each of you. Sell the bottle.</div>`;
 }
 
 /* ---------- INCOME PREDICTOR — should I take the cut? ---------- */
@@ -592,7 +592,7 @@ function calcIP(){
     ["<b>Bussers</b>",String(lad.busser),String(inf.cnt.busser),callFor(lad.busser,inf.cnt.busser)],
     ["<b>Food runners / expo</b>",`${lad.expo}<div class="sub" style="font-size:11px;color:var(--dim2);margin-top:2px">1 expo${lad.runners?` + ${lad.runners} runner${lad.runners>1?"s":""}`:""}</div>`,String(inf.cnt.expo),callFor(lad.expo,inf.cnt.expo)],
     ["<b>Polisher</b>",String(lad.polisher),"—",`<span style="color:var(--dim2)">${lad.polisherNote}</span>`]])}
-  <p class="sub" style="margin:8px 0 0;color:var(--dim2);font-size:12px">Skip big banquets in this net — a banquet brings its own staffing. Pools split evenly across whoever's on the role — fewer on, more each. Bands anchored to real nights (3 teams &asymp; $4.1k, 4 teams + a banquet &asymp; $8.9k, over $10k is all hands); say what's acceptable per night type and they get tuned.</p>
+  <p class="sub" style="margin:8px 0 0;color:var(--dim2);font-size:12px">Skip big banquets in this net — a banquet brings its own staffing. Pools split evenly across whoever's on the role — fewer on, more each. Bands anchored to real nights (3 teams &asymp; $4.1k, 4 teams + a banquet &asymp; $8.9k, over $10k is all hands).</p>
   <p class="sub" style="margin:8px 0 0;color:var(--dim2);font-size:12px">Cut math is calibrated against real Toast checkouts — lands within a few dollars of actual nights. A model, not a promise.</p>`;
 }
 
@@ -615,7 +615,7 @@ function calcBQC(){
   const billed=Math.max(sales,min);
   const grat  =typed>0?typed:Math.round(billed*pct);
   const effPct=billed>0?(grat/billed*100):0;
-  const r=pipeMath(billed,grat,SALES.banquetGratRate,bq3,0,0);
+  const r=pipeMath(billed,grat,pct,bq3,0,0);
   const perHead=heads>0?billed/heads:0;
   const minWins=min>0&&min>sales;
 
@@ -1028,7 +1028,7 @@ function build(){
       ${SEC_EXTRA[sec]||""}
       <div class="grid wide">${MENU[sec].map(i=>mCard(i[0],i[1],i[2],i[3],"")).join("")}</div>`).join("")}
 
-    ${SPX.notNow.length?`<div class="sechead" id="ms-notnow"><h2>Old Specials</h2><span>ask a manager before you pitch one</span></div>
+    ${SPX.notNow.length?`<div class="sechead" id="ms-notnow"><h2>Not Running Tonight</h2><span>still current — just not on today. Check with a manager before you pitch one.</span></div>
     <div class="grid wide">${SPX.notNow.map(s=>mCard(s[0],s[1],s[2],s[3],"")).join("")}</div>`:""}
 
     <div class="sechead" id="ms-dressings"><h2>Salad dressings</h2><span>11 total, only one ranch</span></div>

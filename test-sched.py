@@ -49,7 +49,7 @@ async def main():
             if gone in ops: bad.append(f"merged tool still shows {gone}")
         if "Tip %" not in ops: bad.append("Tip % input missing")
         if ops.count('class="out"')<3: pass
-        vals=await pg.evaluate("({d:document.querySelector('#ipDay').value,b:document.querySelector('#ipBooks').value,t:document.querySelector('#ipTeams').value,c:document.querySelector('#ipCk').value,bu:document.querySelector('#ipBus').value,ex:document.querySelector('#ipExpo').value,br:document.querySelector('#ipBar').value,g:document.querySelector('#bqGrat').value})")
+        vals=await pg.evaluate("({d:document.querySelector('#ipDay').value,b:document.querySelector('#ipBooks').value,t:document.querySelector('#ipTeams').value,c:document.querySelector('#ipCk').value,bu:document.querySelector('#ipBus').value,ex:document.querySelector('#ipExpo').value,br:document.querySelector('#ipBar').value,g:document.querySelector('#bqcGratPct').value})")
         if vals!={"d":"2","b":"39","t":"7","c":"2","bu":"2","ex":"2","br":"3","g":"23"}: bad.append(f"prefills wrong: {vals}")
         ipout=await pg.evaluate("document.querySelector('#ipOut').innerHTML")
         # "Staffing this night" was a sub-heading inside this output; it was removed 8/7
@@ -72,7 +72,8 @@ async def main():
         # ---- wine type filter ----
         if not await pg.evaluate("WINES.every(w=>w.v&&WINE_TYPES.some(t=>t[0]===w.v))"): bad.append("wine missing type mapping")
         nb=await pg.evaluate("[document.querySelectorAll('#wineType button').length,document.querySelectorAll('#wineServe button').length,document.querySelectorAll('#wineCats').length]")
-        if nb!=[12,3,0]: bad.append(f"wine chip rows wrong: {nb}")
+        # 13 type chips since Port joined the list (8/7)
+        if nb!=[13,3,0]: bad.append(f"wine chip rows wrong: {nb}")
         wg=await pg.evaluate("wineFilter.v='chard';renderWines();document.querySelector('#wineGrid').innerHTML")
         if "Chablis" not in wg or "Mer Soleil" not in wg: bad.append("chardonnay filter misses bottle+glass")
         if "Caymus" in wg: bad.append("chardonnay filter leaking reds")
@@ -344,9 +345,10 @@ async def main():
         ex=await pg.evaluate("""(function(){const p=document.querySelector('#p-extra');
           const d=[...p.querySelectorAll('details.acc')];
           return {n:d.length, open:d.filter(x=>x.open).length, html:p.innerHTML};})()""")
-        if ex["n"]<5: bad.append(f"reference tab has {ex['n']} sections, expected 5")
+        # regions moved to the Wine tab and Conflicts was deleted (8/7), so 3 remain
+        if ex["n"]<3: bad.append(f"reference tab has {ex['n']} sections, expected 3")
         if ex["open"]: bad.append("reference tab sections start open")
-        for cell in ["Caymus Special","fog-cooled","Sunny Day","Smockton"]:
+        for cell in ["Caymus Special","Sunny Day","Smockton"]:
             if cell not in ex["html"]: bad.append(f"reference tab missing {cell}")
         if await pg.evaluate("document.querySelector('#p-wine').innerHTML.includes('Power vs Precision')"):
             bad.append("wine of the week still on the wine tab")
@@ -355,6 +357,10 @@ async def main():
         if len(rg)<12: bad.append(f"REGIONS has {len(rg)}, expected 12")
         if any(len(r[1])>46 for r in rg): bad.append("a region's why-it-matters is too long to sit beside a wine")
         if not any("fog-cooled" in r[1] for r in rg): bad.append("Russian River fog note missing")
+        # regions now render as cards on the Wine tab, not as a table in Reference
+        await pg.evaluate("go('wine')"); await pg.wait_for_timeout(250)
+        wt=await pg.evaluate("document.querySelector('#p-wine').innerText")
+        if "fog-cooled" not in wt: bad.append("wine tab missing the region cards")
         if await pg.evaluate("WINES.some(w=>/7\\/3 sheet/.test(w.r))"): bad.append("a wine still cites the 7/3 sheet")
         # spinalis split + manager cuts + salmon verify
         if not await pg.evaluate("SPECIALS_ON.some(s=>s[0]==='Spinalis Sunday'&&s[3]==='weekly feature')"):

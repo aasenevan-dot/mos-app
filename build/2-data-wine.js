@@ -9,6 +9,10 @@
 const W = (n,c,t,p,r,f,T,A,B,fin,pair,pitch)=>({n,c,t,p,r,f,T,A,B,fin,pair,pitch});
 
 const WINES = [
+ /* ---- PORT (also on the after-dinner shelf in Drinks) ---- */
+ W("Quinta do Noval Black Reserve Port","port","Good","$16","Douro, Portugal","Black fruit, chocolate, sweet fortified red","High","Low","Full","Sweet and warming — a dessert in a glass","after dinner, chocolate desserts","Fortified, so it is sweeter and stronger than a table red. Pour it with the chocolate cake or on its own after the plates are cleared."),
+ W("Smith Woodhouse 10yr Tawny Port","port","Better","$20","Douro, Portugal","Nutty, caramel, dried fruit","Med-High","Low","Med-Full","Long nutty caramel finish","cheesecake, carrot cake, cheese","Ten years in barrel turns it tawny — nuts and caramel instead of black fruit. The easy step up from the Black Reserve."),
+ W("Quinta do Noval 20yr Tawny Port","port","Best","$38","Douro, Portugal","Walnut, caramel, orange peel","High","Low","Full","Rich, layered, very long","the celebration pour","Twenty years. This is the one to suggest when someone says 'something special' after dinner."),
 /* ---- CABERNET & RED BLENDS (bottles) ---- */
 W("Buehler Estate Cabernet 2021","cab","Good","$105","Napa Valley","Blackberry, cassis, dark cherry, light oak spice","Med-High","Med","Full","Classic Napa finish, firm but not trophy-heavy","Dry Aged NY Strip, Filet Mignon, Steak 47","Strong Napa Cabernet value. Classic structure without trophy pricing."),
 W("Cade Estate Howell Mountain 2022","cab","Better","$180","Howell Mountain, Napa — mountain fruit, graphite, firmer tannin","Blackberry, cassis, black plum, dark chocolate, espresso, graphite","High","Med-High","Full","Long, mountain-structured, graphite and cocoa","Delmonico Ribeye, Tomahawk, Porterhouse, Farbuckle","Howell Mountain gives it elevation, darker fruit, and serious tannin for marbled steak. Wine-of-the-week note: high elevation Howell Mountain means smaller, more concentrated grapes — bolder structure than valley-floor Cabs."),
@@ -134,7 +138,7 @@ const WINE_MOVE = {
 
 const WINE_CATS = [
  ["all","Everything"],["cab","Cabernet & Red Blends"],["merlot","Merlot"],["pinot","Pinot Noir"],
- ["old","Old World"],["champ","Champagne"],["gred","By the Glass — Red"],["gwhite","By the Glass — White"]
+ ["old","Old World"],["port","Port"],["champ","Champagne"],["gred","By the Glass — Red"],["gwhite","By the Glass — White"]
 ];
 
 /* PAIRING FINDER — dish -> {line, picks:[Good, Better, Best]} */
@@ -251,8 +255,11 @@ const FASTANSWERS = [
 ];
 
 /* wine TYPE (varietal) for the type filter — every kind gets a chip, and by-the-glass works with the types */
-const WINE_TYPES=[["all","All types"],["cab","Cabernet"],["blend","Red Blends"],["pinot","Pinot Noir"],["merlot","Merlot"],["otherred","Other Reds"],["chard","Chardonnay"],["sauvblanc","Sauv Blanc"],["pgrigio","Pinot Grigio"],["riesling","Riesling & Moscato"],["rose","Ros\u00e9"],["bubbles","Bubbles & Champagne"]];
+const WINE_TYPES=[["all","All types"],["cab","Cabernet"],["blend","Red Blends"],["pinot","Pinot Noir"],["merlot","Merlot"],["otherred","Other Reds"],["chard","Chardonnay"],["sauvblanc","Sauv Blanc"],["pgrigio","Pinot Grigio"],["riesling","Riesling & Moscato"],["rose","Ros\u00e9"],["port","Port"],["bubbles","Bubbles & Champagne"]];
 const WINE_V={
+"Quinta do Noval Black Reserve Port": "port",
+"Smith Woodhouse 10yr Tawny Port": "port",
+"Quinta do Noval 20yr Tawny Port": "port",
 "Buehler Estate Cabernet 2021": "cab",
 "Cade Estate Howell Mountain 2022": "cab",
 "Cain 5 \"Spring Mountain\" 2012": "blend",

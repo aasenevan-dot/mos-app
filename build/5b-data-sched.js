@@ -45,6 +45,8 @@ const EVENTS=[
   w:"One more summer girls' night out — slip into your favorite sundress and join us in the lounge. Sangria flowing 5 to 10."},
  {d:"9/8", when:"Tue · Sagamore Golf Club", n:"Surf & Turf Cup — Golf Outing Scramble",
   w:"$3,000 per foursome. Breakfast, 18 holes, lunch and drinks, contests and prizes, and a surf & turf dinner by Prime 47. Registration 9:00 am."},
+ {d:"9/7", when:"Mon · 12–4 pm · 4812 N 300 E, Greenfield IN 46140", n:"Mo's Staff Labor Day Party",
+  w:"Staff party with Prime 47 — kickball, beach volleyball and swimming, with the TKC food truck from 1 to 3. Family and a +1 welcome. RSVP admin@prime47carmel.com; the sign-up sheet is on the wall and confirmations are due by August 20th. Drink responsibly."},
  {d:"9/17", when:"Thu · 6:30 pm · $150 per person", n:"The Prisoner Wine Dinner",
   w:"Five-course wine dinner presented by The Prisoner Wine Company. RSVP Lillian@mosgreenwood.com. Wine dinners mean banquet money."}
 ];

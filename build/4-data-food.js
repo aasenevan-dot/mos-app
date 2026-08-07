@@ -5,7 +5,7 @@
    the way the steak-temperature table rides along with the cuts. */
 const ENHANCE = [
   ["Crab Oscar","$14","Snow crab, asparagus, hollandaise.","GF"],
-  ["Steak 47 topping","$25","Shrimp, scallop, lobster meat, asparagus, hollandaise.","The $25 answer"],
+  ["Steak 47 topping","$25","Shrimp, scallop, lobster meat, asparagus, hollandaise.",""],
   ["Horseradish-Bleu Cheese Crust","$4","Melted bleu cheese crumbles, horseradish, herbs.",""],
   ["Bearnaise Sauce","$2","Egg and butter sauce with a tarragon and shallot reduction. Tarragon and shallot are what make it bearnaise — hollandaise has neither.","GF"],
   ["Add 5 oz Lobster Tail","$50","Add to any entree.","GF"],
@@ -23,11 +23,16 @@ const ENHANCE = [
 const MISE = [
  ["Crispy Ahi Tuna Bites","Chopsticks","two Japanese metal chopsticks per person"],
  ["A5 Nigiri","Chopsticks","two Japanese metal chopsticks per person"],
+ ["Goat Cheese Spread","Spreader knife","honey drizzle goes on at the table"],
+ ["Shrimp Cocktail","Cocktail forks","one per guest"],
+ ["Creamy Spicy Crab Dip","Big spoon",""],
+ ["Prime Meatballs","Big spoon",""],
+ ["Wagyu Tacos","Tongs",""],
  ["Seasonal Oysters","Cocktail fork + tongs",""],
  ["Oysters Rockefeller","Oyster fork",""],
  ["King Crab Legs","Cocktail fork + tongs",""],
- ["Iced Seafood Tower","Cocktail forks","one per guest"],
- ["Roasted Seafood Tower","Cocktail forks","one per guest"],
+ ["Iced Seafood Tower","Cocktail forks + black shell bowl","one fork per guest; bowl for the shells"],
+ ["Roasted Seafood Tower","Cocktail forks + black shell bowl","one fork per guest; bowl for the remains"],
  ["Twin South African Lobster Tails","Cocktail fork",""],
  ["Calamari","Tongs",""],
  ["Farbuckle Filet","Tongs","tableside skillet finish"],
@@ -58,23 +63,23 @@ const MISE = [
 
 const MENU = {
  "Starters":[
-  ["Crispy Ahi Tuna Bites","$18","Crispy sushi rice, avocado, ponzu sauce, cilantro, jalapeno. Remoulade or spicy citrus on the side if expected. Two metal Japanese chopsticks PER PERSON.","Replaced the old blackened ahi appetizer"],
+  ["Crispy Ahi Tuna Bites","$18","Crispy sushi rice, avocado, ponzu sauce, cilantro, jalapeno. Remoulade or spicy citrus on the side if expected. Two metal Japanese chopsticks per person.",""],
   ["Seasonal Oysters","$25","On the half shell. Cocktail sauce, mignonette, Tabasco/hot sauce, raw horseradish. PRESENTATION: they come out on a bed of ice with a dry-ice smoke pouring out of the middle — hot water is what sets the smoke off. Tabasco and Zesta crackers go down with them, and the cocktail forks are already on the table before the plate ever lands. No tongs. WHERE THEY'RE FROM: the menu answer is Blue Point, the classic East Coast oyster — historically out of Blue Point on Long Island, now used across Long Island Sound and Connecticut. Mild and balanced, clean salt with a sweet finish and a crisp bite. What we actually pour most nights is bigger New Jersey stock out of Cape May — thicker, meatier, brinier. Say seasonal, then say what is actually in the box tonight. Know it: warm-water oysters run larger, sweeter, more tender; cold-water run smaller, brinier, firmer.","GF"],
-  ["Oysters Rockefeller","$45 — VERIFY price","The cooked oyster. Same half shell, baked or broiled with butter, breadcrumbs, and a green puree — spinach with soft herbs like parsley and tarragon — finished with Parmesan and a dash of hot sauce. Traditionally a splash of liqueur goes in the puree; confirm with the kitchen before answering an alcohol question. Comes out on a little pan over a bed of salt with fresh lemon, and it gets oyster forks like the raw ones.","Price needs verified in Toast"],
-  ["Calamari","$17","Sliced thin, lightly floured, and flash-fried with red bell and banana pepper rings — never frozen, so it never turns chewy. Two sauces: spicy citrus aioli (creamy heat) and kung pao (sweet and savory — treat it as BOTH a peanut and a tree nut risk). Serve with tongs.","Pairs: Sancerre or Sauvignon Blanc — the acid cuts the spice"],
+  ["Oysters Rockefeller","$45","The cooked oyster. Same half shell, baked or broiled with butter, breadcrumbs, and a green puree — spinach with soft herbs like parsley and tarragon — finished with Parmesan and a dash of hot sauce. Traditionally a splash of liqueur goes in the puree; confirm with the kitchen before answering an alcohol question. Comes out on a little pan over a bed of salt with fresh lemon, and it gets oyster forks like the raw ones.","Price needs verified in Toast"],
+  ["Calamari","$17","Sliced thin, lightly floured, and flash-fried with red bell and banana pepper rings — never frozen, so it never turns chewy. Two sauces: spicy citrus aioli (creamy heat) and kung pao (sweet and savory — treat it as BOTH a peanut and a tree nut risk). Serve with tongs.",""],
   ["Shrimp Cocktail","$26","U-6 tiger shrimp — under six to a pound, that is how big they run — boiled IN the shell in a house boil of mirepoix, garlic, lemon, dill, pickling spice, and Old Bay, then chilled and peeled by hand. The fiery cocktail sauce is fresh-grated horseradish, English mustard, sriracha, and Worcestershire. The shrimp is the star, not the sauce.",""],
   ["Goat Cheese Spread","$17","Goat, cream, and ricotta cheeses whipped with basil, rosemary, and a pinch of cayenne. Topped with pistachios and a honey drizzle finished at the table, with flash-baked crostini and Granny Smith apple wedges. Built to share.",""],
   ["Crab Cake","$18","Maryland style, 95% crab — jumbo lump and special crab held together with a light egg, Dijon, and mayo binder, finished in panko and plated OVER the remoulade. Great selling point: it is almost all crab.",""],
   ["Creamy Spicy Crab Dip","$22","Jumbo lump and colossal crab folded into cream cheese and ricotta with an egg yolk, baked until bubbly. House-made corn tortilla chips with a cajun dusting for scooping.","GF"],
   ["Prime Meatballs","$16","We grind filet, ribeye, and NY strip trim in house every day, then mix it with mozzarella, Parmesan, breadcrumbs, basil, and oregano. Baked, rested, and finished in a hot ceramic dish with house marinara and melted provolone.",""],
   ["Wagyu Tacos","$25","A5 wagyu filet sliced thin and flash-seared, set in a crispy wonton shell over caramelized onions with chimichurri, microgreens, and balsamic pearls — little pearls that pop like caviar. A light balsamic vinegar glaze goes over the top; that glaze is the sauce.",""],
-  ["A5 Nigiri","$35","Torched sushi rice, balsamic pearls, Asian pear wine reduction, crispy leeks. Two metal Japanese chopsticks PER PERSON.",""],
+  ["A5 Nigiri","$35","Torched sushi rice, balsamic pearls, Asian pear wine reduction, crispy leeks. Two metal Japanese chopsticks per person.",""],
   ["King Crab Legs","MP","Served with melted butter and cocktail sauce. Setup: cocktail forks, tongs, butter warmer with clarified butter. Recently around $125 a pound — but ALWAYS quote Toast, never memory.",""],
-  ["Iced Seafood Tower","Semi-Pro $98 / Baller $190","SEMI-PRO: 6 oysters, 3 shrimp, about a half pound of king crab legs, plus the blackened ahi tuna salad and the lobster salad on brioche. BALLER: everything doubled — 12 oysters, 6 shrimp, about a pound of crab. The tuna salad and lobster salad come with both and stay the same size. SERVICE: cocktail forks preset, butter warmer with a tealight, and clear the top tier away once it is finished to open up the table.","Two sizes — know the counts"],
-  ["Roasted Seafood Tower","Semi-Pro $98 / Baller $190","King crab legs, scallops, lobster meat, shrimp, and mussels tossed in diavolo. Same two sizes: the Semi-Pro has half the seafood the Baller does. The seafood-butter sauce pooling at the bottom — garlic butter, lobster stock, parsley, a touch of house marinara — is the good stuff. SERVICE: stacking rack in the base, stack at the table over a black linen, cocktail forks preset, butter warmer with a tealight. HALFWAY through, clear shells and stir the pasta setup into that remaining sauce — the tableside pasta is the value moment, do NOT skip it.","Bechamel is the base sauce (Mornay-style once cheese is in). We stir our bechamel cheese-sauce pasta into the tower sauce and the house calls the result CAPAVETTI PASTA — that is exactly how we say it."]
+  ["Iced Seafood Tower","Semi-Pro $98 / Baller $190","SEMI-PRO: 6 oysters, 3 shrimp, about a half pound of king crab legs, plus the blackened ahi tuna salad and the lobster salad on brioche. BALLER: everything doubled — 12 oysters, 6 shrimp, about a pound of crab. The tuna salad and lobster salad come with both and stay the same size. SERVICE: cocktail forks preset, butter warmer with a tealight, and clear the top tier away once it is finished to open up the table. Set a black shell bowl on the table for the shells and tower remains.",""],
+  ["Roasted Seafood Tower","Semi-Pro $98 / Baller $190","King crab legs, scallops, lobster meat, shrimp, and mussels tossed in diavolo. Same two sizes: the Semi-Pro has half the seafood the Baller does. The seafood-butter sauce pooling at the bottom — garlic butter, lobster stock, parsley, a touch of house marinara — is the good stuff. SERVICE: stacking rack in the base, stack at the table over a black linen, cocktail forks preset, butter warmer with a tealight. HALFWAY through, clear shells and stir the pasta setup into that remaining sauce — the tableside pasta is the value moment, do NOT skip it. Set a black shell bowl on the table for the shells and tower remains.","Bechamel is the base sauce (Mornay-style once cheese is in). We stir our bechamel cheese-sauce pasta into the tower sauce and the house calls the result CAPAVETTI PASTA — that is exactly how we say it."]
  ],
  "Soup & Salad":[
-  ["Soup of the Day","$7 printed / comp with entrees","One soup of the day per shift. It comes COMPLIMENTARY with entrees — or the guest can upcharge $4 to lobster bisque or baked French onion. Verify the exact soup before answering any allergen question.",""],
+  ["Soup of the Day","$7 printed / comp with entrees","Comes complimentary with entrees — or the guest can upcharge $4 to lobster bisque or baked French onion.",""],
   ["Prime Beef Chili","OFF the menu right now","When it runs it is a $4 soup-course upcharge from the comp soup of the day. Prime trim ground in house, browned with onion and garlic, deglazed with beer. The house chili paste is guajillo, ancho, and chipotle peppers, built up with veal stock and tomato until rich and thick. Currently pulled — comes back sometimes as the soup of the day or a bonus $4 soup; probably returns for winter.",""],
   ["Lobster Bisque","$11","Lobster stock built into a roux with tomato, white wine, and sherry vinegar. Also the $4 soup-course upcharge from the comp soup of the day.",""],
   ["Baked French Onion","$13","Vidalia onions caramelized with butter, deglazed with red wine, in beef bone stock with mirepoix and herbs 48–72 hours. Brown ceramic crock, herb crouton, provolone melted in the broiler, parsley.","Mirepoix = meer-PWAH = onion, carrot, celery"],
@@ -92,10 +97,10 @@ const MENU = {
   ["Delmonico Ribeye","16 oz $80","Named for Delmonico's, the old New York steakhouse that made this style famous. Our most marbled prime cut — rich, buttery, beefy fat renders between the cap and the eye with every bite. If a guest wants an old-school steakhouse ribeye, this is it.",""],
   ["K.D.'s Tomahawk","32 oz $160","A ribeye that keeps the whole rib bone. Even more heavily marbled than the Delmonico. The bone lets marrow render during cooking, adding a butteriness you can only get by keeping the rib bone. The juiciest, most flavorful cut we offer besides the Japanese A5.","K.D. = Kevin Dickey, former owner · largest oval plate"],
   ["Australian Wagyu Filet","6 oz $95 / 10 oz $135","Australian cattle crossbred with Japanese wagyu — even one generation of crossbreeding lifts the marbling way up. Wagyu fat melts at a lower temperature, so it runs juicy even at rare. Just as tender as the prime filet with more richness — the easy level-up for a filet person. Serve rare to med-rare — nudge, don't argue.",""],
-  ["Japanese A5 Wagyu","$25/oz","From Kagoshima Prefecture. The show: a manager cut, sliced with a Hanzo steel knife on a butcher's block, torch-finished with rosemary salt at the table. Preset the guests with the special Kobe Hanzo steak knives. House serves wagyu RARE to MED-RARE — nudge gently, never argue.","6 oz is $150"],
-  ["48 oz USDA Choice Porterhouse","$150 when it runs","NOT wagyu — USDA Choice. 48 oz total: roughly a 26 oz NY strip, a 12 oz filet, and about a 10 oz bone — it varies a little with the cut. Board service, a MANAGER cuts it tableside. The move: two people split it for a high-class manager-cut experience at a great value. Know the cut: a porterhouse is a T-bone where the filet side has to be nearly as big as the strip side — that is rare, and it is why good porterhouses are hard to find.","Off-menu special"],
-  ["Spinalis / Ribeye Cap","$14/oz, min 6 oz","The cap of the ribeye — rivals filet tenderness while keeping ribeye richness. A manager cuts it tableside. $10/oz all day on Spinalis Sunday.","Off-menu · manager cut"],
-  ["45-Day 22 oz Dry-Aged Bone-In Ribeye","$120? VERIFY price","Forty-five days in the dry-aging room, and every one of them is doing something. Cold, moving air draws the moisture out, so what is left behind is pure concentrated beef — the flavor gets deeper because there is simply less water diluting it. At the same time the meat's own enzymes go quietly to work, breaking down proteins into amino acids and unwinding the connective tissue, which is what makes an aged steak taste savory and profound instead of just beefy. That is where the signature comes from: a deep, nutty, almost brown-butter richness with a whisper of blue cheese and toasted hazelnut, wrapped around a bone that gives it even more depth. Rich, robust, and unmistakably aged — the steak for the guest who wants the most flavor a piece of beef can carry. Price still needs verified.","Manager cuts tableside"],
+  ["Japanese A5 Wagyu","$25/oz","From Kagoshima Prefecture. The show: a manager cut, sliced with a Hanzo steel knife on a butcher's block, torch-finished with rosemary salt at the table. Preset the guests with the special Kobe Hanzo steak knives. House serves wagyu RARE to MED-RARE — nudge gently, never argue.","Manager cut"],
+  ["48 oz USDA Choice Porterhouse","$150 when it runs","NOT wagyu — USDA Choice. 48 oz total: roughly a 26 oz NY strip, a 12 oz filet, and about a 10 oz bone — it varies a little with the cut. Board service, a MANAGER cuts it tableside. The move: two people split it for a high-class manager-cut experience at a great value. Know the cut: a porterhouse is a T-bone where the filet side has to be nearly as big as the strip side — that is rare, and it is why good porterhouses are hard to find.","Manager cut"],
+  ["Spinalis / Ribeye Cap","$14/oz, min 6 oz","The cap of the ribeye — rivals filet tenderness while keeping ribeye richness. A manager cuts it tableside. $10/oz all day on Spinalis Sunday.","Manager cut"],
+  ["45-Day 22 oz Dry-Aged Bone-In Ribeye","$120","Forty-five days in the dry-aging room, and every one of them is doing something. Cold, moving air draws the moisture out, so what is left behind is pure concentrated beef — the flavor gets deeper because there is simply less water diluting it. At the same time the meat's own enzymes go quietly to work, breaking down proteins into amino acids and unwinding the connective tissue, which is what makes an aged steak taste savory and profound instead of just beefy. That is where the signature comes from: a deep, nutty, almost brown-butter richness with a whisper of blue cheese and toasted hazelnut, wrapped around a bone that gives it even more depth. Rich, robust, and unmistakably aged — the steak for the guest who wants the most flavor a piece of beef can carry. Price still needs verified.","Manager cuts tableside"],
   ["Steak 47","$58","A 4 oz filet base topped with a scallop and a shrimp, chopped asparagus and lobster meat around the plate, hollandaise drizzled on by expo. Upgrade math is easy — any filet goes 47 style for its price plus the $25 topping: 6 oz is $54 + $25 = $79, 10 oz is $79 + $25 = $104.","The Steak 47 topping upcharge is $25"],
   ["Filet & Lobster","$105","A 6 oz filet off the charbroiler (upgrade to 10 oz) with a 5 oz South African lobster tail, steamed gently so it never turns chewy.","GF"],
   ["Filet & Scallops","$82","A 6 oz filet with two U-10 prosciutto-wrapped scallops, flash-seared hot and fast — about two minutes — so they stay tender.",""],
@@ -105,7 +110,7 @@ const MENU = {
   ["Sea Scallops","$48","U-10 scallops seared in a nearly smoking pan for a deep golden crust. The butternut puree leans into the scallop's natural sweetness, crispy prosciutto salts it and cuts through, and the mushrooms ground the whole plate.","GF"],
   ["Chilean Sea Bass","$46","Patagonian toothfish — a rich, buttery white fish — pan seared and set in a lemon-caper white wine butter sauce with asparagus, spinach, and cherry tomato for brightness. The citrus cutting the richness is the whole idea.","GF"],
   ["Blackened Creole Salmon","$42","Faroe Island salmon — raised in cold open water with no antibiotics, richer and firmer than standard salmon. Blackened by default over sweet potato puree with Holy Trinity relish and remoulade. The kitchen can also broil it or pan sear it plain if a guest wants it mild.","Holy Trinity = bell pepper, onion, celery"],
-  ["Twin South African Lobster Tails","$100","Two 5 oz cold-water tails, 10 oz total. The why: colder South African water means lobsters shed their shells less often, so the meat stays more tender and sweeter. Old Bay and lemon, steamed, served with a charred lemon. SERVICE: light the butter warmer with the clarified garlic butter and set a cocktail fork to the right of the silverware.",""]
+  ["Twin South African Lobster Tails","$100","Two 5 oz cold-water tails, 10 oz total. The why: colder South African water means lobsters shed their shells less often, so the meat stays more tender and sweeter. Old Bay and lemon, steamed, served with a charred lemon. SERVICE: light the butter warmer with the clarified garlic butter and set a cocktail fork to the right of the silverware.","GF"]
  ],
  "Accessories":[
     ["Grilled Asparagus","$15","Marinated with garlic herb butter, grilled, with hollandaise in a ramekin on the side. Grilled to a light char. Comes with tongs.","GF"],
@@ -376,8 +381,12 @@ const DIET = [
    "running right now" only on its day and drops to "not running right now" the rest of
    the week, so nobody pitches a Sunday cut on a Thursday. Spinalis is Sunday-only and
    Ladies Night is Thursday-only. */
+/* Day gating. A number means "only on that weekday". A negative number means
+   A string like "!0" means "every day EXCEPT that weekday" — the Spinalis runs all
+   week at $14/oz and
+   drops to $10/oz on Sundays, so the two entries must never show together. */
 const SPECIAL_DAYS={
- "Spinalis / Ribeye Cap":0,
+ "Spinalis / Ribeye Cap":"!0",
  "Spinalis Sunday":0,
  "Ladies Night — every Thursday":4
 };
@@ -386,7 +395,7 @@ const SPECIALS_ON=[
  ["Spinalis / Ribeye Cap","$14/oz","Minimum 6 oz. The cap of the ribeye — it rivals filet tenderness while keeping ribeye richness. A manager cuts it tableside.","cut special"],
  ["Spinalis Sunday","$10/oz every Sunday","The same ribeye cap, four dollars an ounce cheaper, one day a week. Minimum 6 oz. It is on the restaurant's own weekly-features page — the easiest upsell we have on a Sunday.","weekly feature"],
  ["Australian Wagyu Tomahawk","$180","32 oz, cut tableside by a manager. Wagyu rule: serve rare to med-rare — nudge, don't argue.","cut special"],
- ["45-Day 22 oz Dry-Aged Bone-In Ribeye","$120? VERIFY price","Forty-five days of cold, moving air pulls the moisture out and concentrates the beef, while the meat's own enzymes break proteins down into amino acids and soften the connective tissue. That is where the deep, nutty, brown-butter richness comes from — savory and profound rather than just beefy, with the bone adding even more depth. Price still needs verified. All four cut specials (porterhouse, spinalis, tomahawk, 45-day) typically ALWAYS run.","cut special"],
+ ["45-Day 22 oz Dry-Aged Bone-In Ribeye","$120","Forty-five days of cold, moving air pulls the moisture out and concentrates the beef, while the meat's own enzymes break proteins down into amino acids and soften the connective tissue. That is where the deep, nutty, brown-butter richness comes from — savory and profound rather than just beefy, with the bone adding even more depth. Price still needs verified. All four cut specials (porterhouse, spinalis, tomahawk, 45-day) typically ALWAYS run.","cut special"],
  ["Ladies Night — every Thursday","$10 martinis + \u00bd-off apps","Ladies get $10 martinis and half-price appetizers in the lounge, every Thursday night.","weekly feature"]
 ];
 /* Rotating entree specials seen before — ask a manager if one is running tonight. */

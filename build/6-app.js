@@ -167,18 +167,17 @@ const DRINK_CATS=[["all","All drinks"],["cocktail","Cocktails"],["bourbon","Bour
   ["whiskey","Whiskey"],["scotch","Scotch"],["tequila","Tequila"],["cognac","Cognac & Port"],
   ["beer","Beer & seltzer"],["cordial","Cordials"],["nonalc","Coffee, Tea & Water"],
   ["verify","Archive — off the menu"]];
-const DRINK_BUDGETS=[["all","Any price"],["0-14","Under $15"],["15-24","$15–24"],
-  ["25-49","$25–49"],["50-9999","$50+"]];
+const DRINK_BUDGETS=[["all","Any price"],["0-17","Under $18"],["18-35","$18–35"],
+  ["36-9999","$35+"]];
 /* which filter chip each SPIRITS heading belongs under */
 const SPIRIT_CAT={"Bourbon":"bourbon","Bardstown":"bourbon","High-End Whiskey":"whiskey",
   "Tennessee":"whiskey","Scotch":"scotch","Tequila":"tequila","Cognac":"cognac",
   "On Draft":"cocktail","Cordials":"cordial","Coffee":"nonalc"};
 /* rows that point somewhere else rather than name something pourable */
 const DRINK_NOTES=[
-  ["Smoked Draft Old Fashioned","The only draft line we know for sure. It is in the list as a cocktail — the full build is on its card."],
-  ["Anything else on tap?","We barely have anything on tap. Sweet &amp; Salty is confirmed NOT on tap. If a second line exists, nobody has figured out what it is yet."],
-  ["Straight tequila list","The straight tequila shelf was never captured. Pull the current list from Toast before you quote one. El Charro and LALO are the two we pour into cocktails."],
-  ["Coffee cocktails","Espresso martinis and everything like them are in this same list — filter to Cocktails."]
+  ["Smoked Draft Old Fashioned","One of the two draft lines. It is in the list as a cocktail — the full build is on its card."],
+  ["Tito's and Cranberry","The other draft line. It pours ready off the tap."],
+  ["Straight tequila list","The straight tequila shelf was never captured. Pull the current list from Toast before you quote one. El Charro and LALO are the two we pour into cocktails."]
 ];
 var DRINKS_ALL=[];
 function buildDrinkIndex(){
@@ -537,7 +536,7 @@ function calcIP(){
   if(window.__ipSugg!==suggHTML){window.__ipSugg=suggHTML;$("#ipSugg").innerHTML=suggHTML;}
 
   $("#ipWho").innerHTML=`
-    <div class="sechead"><h2>Who's on ${dp.label} ${d[0]}</h2><span>from the posted schedule</span></div>
+    <div class="sechead"><h2>Schedule</h2><span>${dp.label} ${d[0]} — from the posted schedule</span></div>
     ${rosterFor(SCHEDULE,di,true)||'<div class="note">Nobody on the sheet for that day.</div>'}`;
 
   const net=manual>0?Math.round(manual):Math.round(covers*chk);
@@ -587,20 +586,44 @@ function calcIP(){
   <p class="sub" style="margin:8px 0 0;color:var(--dim2);font-size:12px">Cut math is calibrated against real Toast checkouts — lands within a few dollars of actual nights. A model, not a promise.</p>`;
 }
 
-/* ---------- BANQUET CHECKOUT — the second envelope, same math ---------- */
+/* ---------- BANQUET — one tool, the whole event ----------
+   Gratuity can be typed as a percent OR as real dollars off the sheet; whichever
+   you give, the other is shown next to it so the two never disagree. */
 function calcBQC(){
+  const heads=$n("#bqcHeads");
   const sales=$n("#bqcSales");
-  const tips=$n("#bqcTips");
-  const bq3=$("#bqcThree").value==="yes";
-  const r=pipeMath(sales,tips,SALES.banquetGratRate,bq3,0,0);
-  if(!r){$("#bqcOut").innerHTML='<div class="empty" style="padding:14px">Type the banquet sheet\u2019s net sales and this prints the second envelope.</div>';return;}
+  const min  =$n("#bqcMin");
+  const pct  =(+$("#bqcGratPct").value||0)/100;
+  const typed=$n("#bqcTips");
+  const bq3  =$("#bqcThree").value==="yes";
+  const box=$("#bqcOut");
+  if(!sales&&!min&&!heads){
+    box.innerHTML='<div class="empty" style="padding:14px">Party size, net sales, and the minimum if the contract had one. Gratuity defaults to 23% until you type the real number.</div>';
+    return;
+  }
+  /* the minimum is a floor, not a target — the event bills the greater of the two */
+  const billed=Math.max(sales,min);
+  const grat  =typed>0?typed:Math.round(billed*pct);
+  const effPct=billed>0?(grat/billed*100):0;
+  const r=pipeMath(billed,grat,SALES.banquetGratRate,bq3,0,0);
+  const perHead=heads>0?billed/heads:0;
+  const minWins=min>0&&min>sales;
+
   const rs=$n("#scSales"), rt=$n("#scTips");
   const reg=pipeMath(rs,rt,SALES.guestTipRate,$("#scBq").value==="yes",+$("#scPolisher").value||0,$n("#scCash"));
-  $("#bqcOut").innerHTML=`<div class="receipt">
+
+  box.innerHTML=`<div class="kpis">
+    ${heads?`<div class="kpi"><div class="k">Party size</div><div class="v">${heads}</div><div class="s">${perHead?$d(perHead)+" a head at this total":"&nbsp;"}</div></div>`:""}
+    <div class="kpi"><div class="k">Billed net</div><div class="v">${$d(billed)}</div>
+      <div class="s">${minWins?"the "+$d(min)+" minimum wins over "+$d(sales)+" in sales":(min?"cleared the "+$d(min)+" minimum":"no minimum on this one")}</div></div>
+    <div class="kpi"><div class="k">Gratuity</div><div class="v">${$d(grat)}</div>
+      <div class="s">${typed>0?"typed off the sheet &middot; that is "+effPct.toFixed(1)+"%":effPct.toFixed(0)+"% of billed net &middot; type the real number to override"}</div></div>
+  </div>
+  ${r?`<div class="receipt">
     <div class="rhead">MO'S — BANQUET CHECKOUT</div>
-    <div class="rsub">${tips>0?"real gratuity from the banquet sheet":"gratuity estimated at the house 23% until you type it"}</div>
-    <div class="rrow"><span>Banquet net sales</span><b>${$d(sales)}</b></div>
-    <div class="rrow"><span>Gratuity${tips>0?"":" (est.)"}</span><b>${$d(r.credTips)}</b></div>
+    <div class="rsub">${typed>0?"real gratuity from the banquet sheet":"gratuity estimated at "+(pct*100).toFixed(0)+"% until you type it"}</div>
+    <div class="rrow"><span>Billed net sales</span><b>${$d(billed)}</b></div>
+    <div class="rrow"><span>Gratuity${typed>0?"":" (est.)"}</span><b>${$d(r.credTips)}</b></div>
     <div class="rrow neg"><span>Tips withheld (2%)</span><span>&minus;${$d(r.withheld)}</span></div>
     <div class="rrow sum"><span>Envelope pool</span><b>${$d(r.pool)}</b></div>
     ${r.lines.map(l=>`<div class="rrow neg"><span>Tip out — ${esc(l[0])}</span><span>&minus;$${l[1].toLocaleString()}</span></div>`).join("")}
@@ -609,27 +632,11 @@ function calcBQC(){
     <div class="rrow big"><span>FRONT</span><span>${$d(r.front)}</span></div>
     <div class="rrow big"><span>BACK</span><span>${$d(r.back)}</span></div>
     <div class="rfoot">same rules as the regular envelope &middot; split per envelope, back takes the greater dollar</div>
-  </div>
-  ${reg?`<div class="note gold" style="max-width:440px"><b>Both envelopes tonight:</b> regular ${$d(reg.earned)} + banquet ${$d(r.earned)} = <b>${$d(reg.earned+r.earned)}</b> team total. Your pockets: front ${$d(reg.front+r.front)}, back ${$d(reg.back+r.back)}.</div>`
-       :`<div class="note" style="max-width:440px">Fill the regular Sales Calculator above too and this shows the full two-envelope night total.</div>`}`;
+  </div>`:""}
+  ${reg&&r?`<div class="note gold" style="max-width:440px"><b>Both envelopes tonight:</b> regular ${$d(reg.earned)} + banquet ${$d(r.earned)} = <b>${$d(reg.earned+r.earned)}</b></div>`
+    :`<div class="note" style="max-width:440px">Fill the Checkout above too and this shows the full two-envelope night total.</div>`}`;
 }
-
-/* ---------- BANQUET MINI-TOOL ---------- */
-function calcBq(){
-  const heads=$n("#bqHeads");
-  const perHead=$n("#bqPerHead");
-  const min=$n("#bqMin");
-  const gratPct=(+$("#bqGrat").value||0)/100;
-  const byHeads=heads*perHead;
-  const net=Math.round(Math.max(byHeads,min));
-  const grat=Math.round(net*gratPct);
-  const minWins=min>0&&min>byHeads;
-  $("#bqOut").innerHTML=`<div class="kpis">
-    <div class="kpi"><div class="k">Event net</div><div class="v">${$d(net)}</div><div class="s">${minWins?"the minimum wins over "+$d(byHeads)+" by heads":heads+" heads x $"+perHead+(min>0?" (beats the "+$d(min)+" minimum)":"")}</div></div>
-    <div class="kpi"><div class="k">Auto-grat</div><div class="v">${$d(grat)}</div><div class="s">${(gratPct*100).toFixed(0)}% — Lillian bookings run 23</div></div>
-    <div class="kpi"><div class="k">Grat split if one team runs it</div><div class="v">Front ${$d(Math.floor(grat/2))} · Back ${$d(Math.ceil(grat/2))}</div><div class="s">before tip-out, back takes the greater dollar</div></div>
-  </div>`;
-}
+function calcBq(){}   /* the mini-tool folded into calcBQC above */
 
 /* ---------- GLOBAL SEARCH ---------- */
 /* Ask it questions: words match in any order, filler words are ignored,
@@ -891,8 +898,10 @@ function build(){
     <div class="sechead"><h2>Go-To Pitches</h2><span>when they ask you to pick</span></div>
     ${tbl(["Question","Answer","Why"],FASTANSWERS.map(f=>[esc(f[0]),`<b>${esc(f[1])}</b>`,`<span style="color:var(--dim)">${esc(f[2])}</span>`]))}
 
-    <div class="sechead"><h2>Regions</h2></div>
-    ${tbl(["Region","Why it matters","Say this"],REGIONS.map(r=>[`<b>${esc(r[0])}</b>`,esc(r[1]),`<span style="color:var(--dim)">${esc(r[2])}</span>`]))}`;
+    <div class="sechead"><h2>Regions</h2><span>why the place changes the taste</span></div>
+    <div class="grid wide">${REGIONS.map(r=>`<div class="card">
+      <div class="crow"><div class="cname">${esc(r[0])}</div><div class="cprice" style="font-size:12px">${esc(r[1])}</div></div>
+      <div class="cbody">${esc(r[2])}</div></div>`).join("")}</div>`;
 
   /* ---------- COCKTAILS ---------- */
   $("#p-cocktails").innerHTML=`
@@ -908,7 +917,6 @@ function build(){
     <div class="filters" id="drinkGrps">${DRINK_CATS.map(g=>`<button data-g="${g[0]}"${g[0]==="all"?' class="on"':''}>${g[1]}</button>`).join("")}</div>
     <div class="filters" id="drinkPrice">${DRINK_BUDGETS.map(b=>`<button data-p="${b[0]}"${b[0]==="all"?' class="on"':''}>${b[1]}</button>`).join("")}</div>
     <div class="grid wide" id="drinkGrid"></div>
-    <div class="note"><b>Two easy calls:</b> the strongest beer is Elysian Space Dust at 8.2%. The only zero-proof beer is Bud Zero. Austin Eastciders Original Dry is the gluten-free-style option.</div>
     ${DRINK_NOTES.map(n=>`<div class="note" style="margin-top:8px"><b>${esc(n[0])}${/[?.!]$/.test(n[0])?"":":"}</b> ${n[1]}</div>`).join("")}`;
 
   /* ---------- FOOD MENU — the whole food world in one tab ----------
@@ -978,9 +986,18 @@ function build(){
     const DAYNM=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
     const gate=s=>typeof SPECIAL_DAYS!=="undefined"?SPECIAL_DAYS[s[0]]:undefined;
     return {
-      onNow:SPECIALS_ON.filter(s=>{const d=gate(s);return d===undefined||d===today;}),
-      notNow:SPECIALS_ON.filter(s=>{const d=gate(s);return d!==undefined&&d!==today;})
-        .map(s=>[s[0],s[1],s[2],"only on "+DAYNM[gate(s)]+"s"])
+      onNow:SPECIALS_ON.filter(s=>{const d=gate(s);
+        if(d===undefined)return true;
+        if(typeof d==="string"&&d[0]==="!")return today!==+d.slice(1);
+        return d===today;}),
+      notNow:SPECIALS_ON.filter(s=>{const d=gate(s);
+        if(d===undefined)return false;
+        if(typeof d==="string"&&d[0]==="!")return today===+d.slice(1);
+        return d!==today;})
+        .map(s=>{const d=gate(s);
+          return [s[0],s[1],s[2],typeof d==="string"&&d[0]==="!"
+            ? "every day except "+DAYNM[+d.slice(1)]+"s"
+            : "only on "+DAYNM[d]+"s"];})
         .concat(SPECIALS_ROTATION.map(s=>[s[0],s[1],s[2],"not on tonight unless a manager says so"]))
     };
   })();
@@ -1129,18 +1146,10 @@ function build(){
         <div class="pitch">&ldquo;${esc(w.pitch)}&rdquo;</div></div>`).join("")}</div>
       <div style="margin-top:12px">${tbl(["Guest wants","Recommend","Why"],WOTW.contrast.map(c=>[esc(c[0]),`<b>${esc(c[1])}</b>`,`<span style="color:var(--dim)">${esc(c[2])}</span>`]))}</div>`)}
 
-    ${acc("Wine regions — why the place changes the taste",`${REGIONS.length} regions`,
-      `<div class="grid wide">${REGIONS.map(r=>`<div class="card">
-        <div class="crow"><div class="cname">${esc(r[0])}</div><div class="cprice" style="font-size:12px">${esc(r[1])}</div></div>
-        <div class="cbody">${esc(r[2])}</div></div>`).join("")}</div>`)}
-
     ${acc("Archived cocktails","off the printed list — ask the bar before promising one",
       `<div class="grid wide">${COCKTAILS.filter(c=>c.grp==="verify").map(c=>`<div class="card">
         <div class="crow"><div class="cname">${esc(c.n)}</div><div class="cprice">${esc(c.p)}</div></div>
         <div class="cbody"><b>Was:</b> ${esc(c.build)}</div></div>`).join("")}</div>`)}
-
-    ${acc("Conflicts we resolved","old sheet said one thing, the current menu says another",
-      tbl(["Item","Older","Newer","Use"],CONFLICTS.map(c=>[`<b>${esc(c[0])}</b>`,esc(c[1]),esc(c[2]),`<b style="color:var(--gold2)">${esc(c[3])}</b>`])))}
 
     ${acc("Private dining rooms","headcounts — Lillian books them",
       tbl(["Room","Capacity"],ROOMS.map(r=>[`<b>${esc(r[0])}</b>`,esc(r[1])])))}`;
@@ -1198,26 +1207,19 @@ function build(){
       <div class="out" id="ipOut"></div>
       <div id="ipWho"></div>
     </div>
-
     <div class="sechead"><h2>Banquet</h2><span>only when Lillian books it</span></div>
     <p class="sub" style="margin:0 0 10px">A <b>banquet checkout</b> only happens when Lillian books the party — that is the one carrying her 3% and the 23% auto-grat, and it usually runs a limited menu with a spend minimum. A group of 8&ndash;10 that walks in and eats off the normal menu is <b>not</b> a banquet: it is a regular table you may or may not auto-grat, with no second envelope.</p>
-    ${acc("Banquet checkout — the second envelope","banquet nights run two checkouts; same math, separate sheet",`
-      <p class="sub" style="color:var(--dim2);font-size:12.5px;margin:4px 0 12px">A banquet BOOKED THROUGH LILLIAN gets its own checkout sheet and envelope, on top of the regular one. Same pipeline. Guests pay 23% auto-grat instead of 20 — the extra 3 points are Lillian's cut, and that's the 3% line below. A big party that walks in on the regular menu is NOT a banquet: no 3%, no second envelope. Type the real gratuity off the banquet sheet when you have it.</p>
-      <div class="frow">
-        <div class="f"><label>Banquet net sales $</label><input type="number" inputmode="decimal" id="bqcSales" placeholder="from the banquet sheet" min="0"></div>
-        <div class="f"><label>Gratuity $ (optional)</label><input type="number" inputmode="decimal" id="bqcTips" placeholder="blank = 23% est." min="0"></div>
-        <div class="f"><label>Booked through Lillian?</label><select id="bqcThree"><option value="yes" selected>Yes — her 3% comes out</option><option value="no">No — no 3%</option></select></div>
-      </div>
-      <div class="out" id="bqcOut"></div>`)}
-    ${acc("Banquet quick math","parked on purpose — dollars are placeholders",`
-      <div class="frow" style="margin-top:8px">
-        <div class="f"><label>Party size</label><input type="number" inputmode="decimal" id="bqHeads" value="20" min="0"></div>
-        <div class="f"><label>Est. $ / head</label><input type="number" inputmode="decimal" id="bqPerHead" value="105" min="0"></div>
-        <div class="f"><label>F&amp;B minimum $</label><input type="number" inputmode="decimal" id="bqMin" value="3000" min="0"></div>
-        <div class="f"><label>Auto-grat %</label><input type="number" inputmode="decimal" id="bqGrat" value="23" min="0" max="30"></div>
-      </div>
-      <div class="out" id="bqOut"></div>
-      <p class="sub" style="color:var(--dim2);font-size:12px;margin:10px 0 0">Rooms: ${ROOMS.map(r=>`<b>${esc(r[0])}</b> — ${esc(r[1])}`).join(" · ")}. Booking through Lillian Speedy, Director of Sales \u2014 Lillian@mosgreenwood.com.</p>`)}
+    <div class="frow">
+      <div class="f"><label>Party size</label><input type="number" inputmode="decimal" id="bqcHeads" placeholder="how many guests" min="0"></div>
+      <div class="f"><label>Banquet net sales $</label><input type="number" inputmode="decimal" id="bqcSales" placeholder="from the banquet sheet" min="0"></div>
+      <div class="f"><label>F&amp;B minimum $</label><input type="number" inputmode="decimal" id="bqcMin" placeholder="blank = no minimum" min="0"></div>
+    </div>
+    <div class="frow">
+      <div class="f"><label>Auto-grat %</label><input type="number" inputmode="decimal" id="bqcGratPct" value="23" min="0" max="30"></div>
+      <div class="f"><label>or gratuity $</label><input type="number" inputmode="decimal" id="bqcTips" placeholder="real number wins" min="0"></div>
+      <div class="f"><label>Booked through Lillian?</label><select id="bqcThree"><option value="yes" selected>Yes — her 3% comes out</option><option value="no">No — no 3%</option></select></div>
+    </div>
+    <div class="out" id="bqcOut"></div>
 
     <div class="sechead"><h2>Splits</h2><span>the house rules</span></div>
     <ol class="steps">${SPLIT_RULES.map(r=>`<li><b>${esc(r.split(".")[0])}.</b>${esc(r.split(".").slice(1).join(".").trim())}</li>`).join("")}</ol>
@@ -1279,7 +1281,7 @@ function build(){
     $("#scSales").value=b.dataset.v; $("#scTips").value=""; calcSC(); calcBQC();};
   ["scSales","scTips","scBq","scPolisher","scExpo","scCash"].forEach(id=>{
     const n=$("#"+id); n.oninput=()=>{calcSC();calcBQC();}; n.onchange=()=>{calcSC();calcBQC();}; n.onkeyup=()=>{calcSC();calcBQC();};});
-  ["bqcSales","bqcTips","bqcThree"].forEach(id=>{
+  ["bqcHeads","bqcSales","bqcMin","bqcGratPct","bqcTips","bqcThree"].forEach(id=>{
     const n=$("#"+id); n.oninput=calcBQC; n.onchange=calcBQC; n.onkeyup=calcBQC;});
   ["ipBooks","ipWalk","ipTeams","ipCk","ipCheck","ipPol","ipPct","ipNet","ipBus","ipExpo","ipBar"].forEach(id=>{
     const n=$("#"+id); n.oninput=calcIP; n.onchange=calcIP; n.onkeyup=calcIP;});
@@ -1287,8 +1289,6 @@ function build(){
   $("#ipSugg").onclick=e=>{const b=e.target.closest("#ipUse");if(!b)return;
     $("#ipWalk").value=+b.dataset.s||0; calcIP();};
 
-  ["bqHeads","bqPerHead","bqMin","bqGrat"].forEach(id=>{
-    const n=$("#"+id); n.oninput=calcBq; n.onchange=calcBq; n.onkeyup=calcBq;});
 
   ["wine","menu","cocktails","ops","allergens"].forEach(addJumps);
 }

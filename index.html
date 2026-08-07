@@ -647,6 +647,10 @@ window.addEventListener("error",function(e){
 const W = (n,c,t,p,r,f,T,A,B,fin,pair,pitch)=>({n,c,t,p,r,f,T,A,B,fin,pair,pitch});
 
 const WINES = [
+ /* ---- PORT (also on the after-dinner shelf in Drinks) ---- */
+ W("Quinta do Noval Black Reserve Port","port","Good","$16","Douro, Portugal","Black fruit, chocolate, sweet fortified red","High","Low","Full","Sweet and warming — a dessert in a glass","after dinner, chocolate desserts","Fortified, so it is sweeter and stronger than a table red. Pour it with the chocolate cake or on its own after the plates are cleared."),
+ W("Smith Woodhouse 10yr Tawny Port","port","Better","$20","Douro, Portugal","Nutty, caramel, dried fruit","Med-High","Low","Med-Full","Long nutty caramel finish","cheesecake, carrot cake, cheese","Ten years in barrel turns it tawny — nuts and caramel instead of black fruit. The easy step up from the Black Reserve."),
+ W("Quinta do Noval 20yr Tawny Port","port","Best","$38","Douro, Portugal","Walnut, caramel, orange peel","High","Low","Full","Rich, layered, very long","the celebration pour","Twenty years. This is the one to suggest when someone says 'something special' after dinner."),
 /* ---- CABERNET & RED BLENDS (bottles) ---- */
 W("Buehler Estate Cabernet 2021","cab","Good","$105","Napa Valley","Blackberry, cassis, dark cherry, light oak spice","Med-High","Med","Full","Classic Napa finish, firm but not trophy-heavy","Dry Aged NY Strip, Filet Mignon, Steak 47","Strong Napa Cabernet value. Classic structure without trophy pricing."),
 W("Cade Estate Howell Mountain 2022","cab","Better","$180","Howell Mountain, Napa — mountain fruit, graphite, firmer tannin","Blackberry, cassis, black plum, dark chocolate, espresso, graphite","High","Med-High","Full","Long, mountain-structured, graphite and cocoa","Delmonico Ribeye, Tomahawk, Porterhouse, Farbuckle","Howell Mountain gives it elevation, darker fruit, and serious tannin for marbled steak. Wine-of-the-week note: high elevation Howell Mountain means smaller, more concentrated grapes — bolder structure than valley-floor Cabs."),
@@ -772,7 +776,7 @@ const WINE_MOVE = {
 
 const WINE_CATS = [
  ["all","Everything"],["cab","Cabernet & Red Blends"],["merlot","Merlot"],["pinot","Pinot Noir"],
- ["old","Old World"],["champ","Champagne"],["gred","By the Glass — Red"],["gwhite","By the Glass — White"]
+ ["old","Old World"],["port","Port"],["champ","Champagne"],["gred","By the Glass — Red"],["gwhite","By the Glass — White"]
 ];
 
 /* PAIRING FINDER — dish -> {line, picks:[Good, Better, Best]} */
@@ -889,8 +893,11 @@ const FASTANSWERS = [
 ];
 
 /* wine TYPE (varietal) for the type filter — every kind gets a chip, and by-the-glass works with the types */
-const WINE_TYPES=[["all","All types"],["cab","Cabernet"],["blend","Red Blends"],["pinot","Pinot Noir"],["merlot","Merlot"],["otherred","Other Reds"],["chard","Chardonnay"],["sauvblanc","Sauv Blanc"],["pgrigio","Pinot Grigio"],["riesling","Riesling & Moscato"],["rose","Ros\u00e9"],["bubbles","Bubbles & Champagne"]];
+const WINE_TYPES=[["all","All types"],["cab","Cabernet"],["blend","Red Blends"],["pinot","Pinot Noir"],["merlot","Merlot"],["otherred","Other Reds"],["chard","Chardonnay"],["sauvblanc","Sauv Blanc"],["pgrigio","Pinot Grigio"],["riesling","Riesling & Moscato"],["rose","Ros\u00e9"],["port","Port"],["bubbles","Bubbles & Champagne"]];
 const WINE_V={
+"Quinta do Noval Black Reserve Port": "port",
+"Smith Woodhouse 10yr Tawny Port": "port",
+"Quinta do Noval 20yr Tawny Port": "port",
 "Buehler Estate Cabernet 2021": "cab",
 "Cade Estate Howell Mountain 2022": "cab",
 "Cain 5 \"Spring Mountain\" 2012": "blend",
@@ -1185,10 +1192,11 @@ const SPIRITS = {
  ["Johnnie Walker Red","$11","Entry blend, smoke and spice"],
  ["Johnnie Walker Black","$15","More smoke and depth"],
  ["Johnnie Walker Blue","$60","Luxury blend, smooth, polished"]],
- "Cognac & Port":[
+ "Port":[
  ["Quinta do Noval Black Reserve Port","$16","Sweet fortified red; black fruit, chocolate"],
  ["Smith Woodhouse 10yr Tawny Port","$20","Nutty, caramel, dried fruit"],
- ["Quinta do Noval 20yr Tawny Port","$38","Richer tawny; walnut, caramel, orange peel"],
+ ["Quinta do Noval 20yr Tawny Port","$38","Richer tawny; walnut, caramel, orange peel"]],
+ "Cognac":[
  ["Courvoisier VS","$15/oz","Young cognac, fruit and oak"],
  ["Courvoisier VSOP","$15/oz","Smoother cognac"],
  ["Hennessy VS","$15/oz","Classic cognac"],
@@ -1204,9 +1212,9 @@ const SPIRITS = {
 };
 
 /* ============ BEER ============ */
-SPIRITS["On Draft — only two lines"]=[
+SPIRITS["On Draft — the two lines"]=[
  ["Smoked Draft Old Fashioned","$17","Signature — full build up in the cocktail list."],
- ["Anything else on tap?","probably not","We barely have anything on tap — the Smoked Draft OF is the only line we know for sure. Sweet & Salty is CONFIRMED not on tap. If a second line exists, nobody has figured out what it is yet."]
+ ["Tito's and Cranberry","on tap","The second line. Poured, not built — it comes off the tap ready."]
 ];
 
 SPIRITS["Cordials on the rail (after-dinner asks)"]=[
@@ -1221,8 +1229,7 @@ SPIRITS["Coffee, Tea & Water (no booze)"]=[
  ["Iced Tea","unsweet","Suncoast iced tea blend. Unsweet by default — sweet tea can be made on request."],
  ["Filtered Water","free","The busser carries it — default for every table."],
  ["Aquafina","bottle","Bottled still water if the guest wants it — price in Toast."],
- ["Sparkling Water","bottle","Bottled sparkling if the guest wants it — price in Toast."],
- ["Coffee cocktails","see Dessert Cocktails","Espresso martinis and friends live up in the cocktail list, dessert group."]
+ ["Sparkling Water","bottle","Bottled sparkling if the guest wants it — price in Toast."]
 ];
 
 const BEER = [
@@ -1251,7 +1258,7 @@ const BEER = [
    the way the steak-temperature table rides along with the cuts. */
 const ENHANCE = [
   ["Crab Oscar","$14","Snow crab, asparagus, hollandaise.","GF"],
-  ["Steak 47 topping","$25","Shrimp, scallop, lobster meat, asparagus, hollandaise.","The $25 answer"],
+  ["Steak 47 topping","$25","Shrimp, scallop, lobster meat, asparagus, hollandaise.",""],
   ["Horseradish-Bleu Cheese Crust","$4","Melted bleu cheese crumbles, horseradish, herbs.",""],
   ["Bearnaise Sauce","$2","Egg and butter sauce with a tarragon and shallot reduction. Tarragon and shallot are what make it bearnaise — hollandaise has neither.","GF"],
   ["Add 5 oz Lobster Tail","$50","Add to any entree.","GF"],
@@ -1269,11 +1276,16 @@ const ENHANCE = [
 const MISE = [
  ["Crispy Ahi Tuna Bites","Chopsticks","two Japanese metal chopsticks per person"],
  ["A5 Nigiri","Chopsticks","two Japanese metal chopsticks per person"],
+ ["Goat Cheese Spread","Spreader knife","honey drizzle goes on at the table"],
+ ["Shrimp Cocktail","Cocktail forks","one per guest"],
+ ["Creamy Spicy Crab Dip","Big spoon",""],
+ ["Prime Meatballs","Big spoon",""],
+ ["Wagyu Tacos","Tongs",""],
  ["Seasonal Oysters","Cocktail fork + tongs",""],
  ["Oysters Rockefeller","Oyster fork",""],
  ["King Crab Legs","Cocktail fork + tongs",""],
- ["Iced Seafood Tower","Cocktail forks","one per guest"],
- ["Roasted Seafood Tower","Cocktail forks","one per guest"],
+ ["Iced Seafood Tower","Cocktail forks + black shell bowl","one fork per guest; bowl for the shells"],
+ ["Roasted Seafood Tower","Cocktail forks + black shell bowl","one fork per guest; bowl for the remains"],
  ["Twin South African Lobster Tails","Cocktail fork",""],
  ["Calamari","Tongs",""],
  ["Farbuckle Filet","Tongs","tableside skillet finish"],
@@ -1304,23 +1316,23 @@ const MISE = [
 
 const MENU = {
  "Starters":[
-  ["Crispy Ahi Tuna Bites","$18","Crispy sushi rice, avocado, ponzu sauce, cilantro, jalapeno. Remoulade or spicy citrus on the side if expected. Two metal Japanese chopsticks PER PERSON.","Replaced the old blackened ahi appetizer"],
+  ["Crispy Ahi Tuna Bites","$18","Crispy sushi rice, avocado, ponzu sauce, cilantro, jalapeno. Remoulade or spicy citrus on the side if expected. Two metal Japanese chopsticks per person.",""],
   ["Seasonal Oysters","$25","On the half shell. Cocktail sauce, mignonette, Tabasco/hot sauce, raw horseradish. PRESENTATION: they come out on a bed of ice with a dry-ice smoke pouring out of the middle — hot water is what sets the smoke off. Tabasco and Zesta crackers go down with them, and the cocktail forks are already on the table before the plate ever lands. No tongs. WHERE THEY'RE FROM: the menu answer is Blue Point, the classic East Coast oyster — historically out of Blue Point on Long Island, now used across Long Island Sound and Connecticut. Mild and balanced, clean salt with a sweet finish and a crisp bite. What we actually pour most nights is bigger New Jersey stock out of Cape May — thicker, meatier, brinier. Say seasonal, then say what is actually in the box tonight. Know it: warm-water oysters run larger, sweeter, more tender; cold-water run smaller, brinier, firmer.","GF"],
-  ["Oysters Rockefeller","$45 — VERIFY price","The cooked oyster. Same half shell, baked or broiled with butter, breadcrumbs, and a green puree — spinach with soft herbs like parsley and tarragon — finished with Parmesan and a dash of hot sauce. Traditionally a splash of liqueur goes in the puree; confirm with the kitchen before answering an alcohol question. Comes out on a little pan over a bed of salt with fresh lemon, and it gets oyster forks like the raw ones.","Price needs verified in Toast"],
-  ["Calamari","$17","Sliced thin, lightly floured, and flash-fried with red bell and banana pepper rings — never frozen, so it never turns chewy. Two sauces: spicy citrus aioli (creamy heat) and kung pao (sweet and savory — treat it as BOTH a peanut and a tree nut risk). Serve with tongs.","Pairs: Sancerre or Sauvignon Blanc — the acid cuts the spice"],
+  ["Oysters Rockefeller","$45","The cooked oyster. Same half shell, baked or broiled with butter, breadcrumbs, and a green puree — spinach with soft herbs like parsley and tarragon — finished with Parmesan and a dash of hot sauce. Traditionally a splash of liqueur goes in the puree; confirm with the kitchen before answering an alcohol question. Comes out on a little pan over a bed of salt with fresh lemon, and it gets oyster forks like the raw ones.","Price needs verified in Toast"],
+  ["Calamari","$17","Sliced thin, lightly floured, and flash-fried with red bell and banana pepper rings — never frozen, so it never turns chewy. Two sauces: spicy citrus aioli (creamy heat) and kung pao (sweet and savory — treat it as BOTH a peanut and a tree nut risk). Serve with tongs.",""],
   ["Shrimp Cocktail","$26","U-6 tiger shrimp — under six to a pound, that is how big they run — boiled IN the shell in a house boil of mirepoix, garlic, lemon, dill, pickling spice, and Old Bay, then chilled and peeled by hand. The fiery cocktail sauce is fresh-grated horseradish, English mustard, sriracha, and Worcestershire. The shrimp is the star, not the sauce.",""],
   ["Goat Cheese Spread","$17","Goat, cream, and ricotta cheeses whipped with basil, rosemary, and a pinch of cayenne. Topped with pistachios and a honey drizzle finished at the table, with flash-baked crostini and Granny Smith apple wedges. Built to share.",""],
   ["Crab Cake","$18","Maryland style, 95% crab — jumbo lump and special crab held together with a light egg, Dijon, and mayo binder, finished in panko and plated OVER the remoulade. Great selling point: it is almost all crab.",""],
   ["Creamy Spicy Crab Dip","$22","Jumbo lump and colossal crab folded into cream cheese and ricotta with an egg yolk, baked until bubbly. House-made corn tortilla chips with a cajun dusting for scooping.","GF"],
   ["Prime Meatballs","$16","We grind filet, ribeye, and NY strip trim in house every day, then mix it with mozzarella, Parmesan, breadcrumbs, basil, and oregano. Baked, rested, and finished in a hot ceramic dish with house marinara and melted provolone.",""],
   ["Wagyu Tacos","$25","A5 wagyu filet sliced thin and flash-seared, set in a crispy wonton shell over caramelized onions with chimichurri, microgreens, and balsamic pearls — little pearls that pop like caviar. A light balsamic vinegar glaze goes over the top; that glaze is the sauce.",""],
-  ["A5 Nigiri","$35","Torched sushi rice, balsamic pearls, Asian pear wine reduction, crispy leeks. Two metal Japanese chopsticks PER PERSON.",""],
+  ["A5 Nigiri","$35","Torched sushi rice, balsamic pearls, Asian pear wine reduction, crispy leeks. Two metal Japanese chopsticks per person.",""],
   ["King Crab Legs","MP","Served with melted butter and cocktail sauce. Setup: cocktail forks, tongs, butter warmer with clarified butter. Recently around $125 a pound — but ALWAYS quote Toast, never memory.",""],
-  ["Iced Seafood Tower","Semi-Pro $98 / Baller $190","SEMI-PRO: 6 oysters, 3 shrimp, about a half pound of king crab legs, plus the blackened ahi tuna salad and the lobster salad on brioche. BALLER: everything doubled — 12 oysters, 6 shrimp, about a pound of crab. The tuna salad and lobster salad come with both and stay the same size. SERVICE: cocktail forks preset, butter warmer with a tealight, and clear the top tier away once it is finished to open up the table.","Two sizes — know the counts"],
-  ["Roasted Seafood Tower","Semi-Pro $98 / Baller $190","King crab legs, scallops, lobster meat, shrimp, and mussels tossed in diavolo. Same two sizes: the Semi-Pro has half the seafood the Baller does. The seafood-butter sauce pooling at the bottom — garlic butter, lobster stock, parsley, a touch of house marinara — is the good stuff. SERVICE: stacking rack in the base, stack at the table over a black linen, cocktail forks preset, butter warmer with a tealight. HALFWAY through, clear shells and stir the pasta setup into that remaining sauce — the tableside pasta is the value moment, do NOT skip it.","Bechamel is the base sauce (Mornay-style once cheese is in). We stir our bechamel cheese-sauce pasta into the tower sauce and the house calls the result CAPAVETTI PASTA — that is exactly how we say it."]
+  ["Iced Seafood Tower","Semi-Pro $98 / Baller $190","SEMI-PRO: 6 oysters, 3 shrimp, about a half pound of king crab legs, plus the blackened ahi tuna salad and the lobster salad on brioche. BALLER: everything doubled — 12 oysters, 6 shrimp, about a pound of crab. The tuna salad and lobster salad come with both and stay the same size. SERVICE: cocktail forks preset, butter warmer with a tealight, and clear the top tier away once it is finished to open up the table. Set a black shell bowl on the table for the shells and tower remains.",""],
+  ["Roasted Seafood Tower","Semi-Pro $98 / Baller $190","King crab legs, scallops, lobster meat, shrimp, and mussels tossed in diavolo. Same two sizes: the Semi-Pro has half the seafood the Baller does. The seafood-butter sauce pooling at the bottom — garlic butter, lobster stock, parsley, a touch of house marinara — is the good stuff. SERVICE: stacking rack in the base, stack at the table over a black linen, cocktail forks preset, butter warmer with a tealight. HALFWAY through, clear shells and stir the pasta setup into that remaining sauce — the tableside pasta is the value moment, do NOT skip it. Set a black shell bowl on the table for the shells and tower remains.","Bechamel is the base sauce (Mornay-style once cheese is in). We stir our bechamel cheese-sauce pasta into the tower sauce and the house calls the result CAPAVETTI PASTA — that is exactly how we say it."]
  ],
  "Soup & Salad":[
-  ["Soup of the Day","$7 printed / comp with entrees","One soup of the day per shift. It comes COMPLIMENTARY with entrees — or the guest can upcharge $4 to lobster bisque or baked French onion. Verify the exact soup before answering any allergen question.",""],
+  ["Soup of the Day","$7 printed / comp with entrees","Comes complimentary with entrees — or the guest can upcharge $4 to lobster bisque or baked French onion.",""],
   ["Prime Beef Chili","OFF the menu right now","When it runs it is a $4 soup-course upcharge from the comp soup of the day. Prime trim ground in house, browned with onion and garlic, deglazed with beer. The house chili paste is guajillo, ancho, and chipotle peppers, built up with veal stock and tomato until rich and thick. Currently pulled — comes back sometimes as the soup of the day or a bonus $4 soup; probably returns for winter.",""],
   ["Lobster Bisque","$11","Lobster stock built into a roux with tomato, white wine, and sherry vinegar. Also the $4 soup-course upcharge from the comp soup of the day.",""],
   ["Baked French Onion","$13","Vidalia onions caramelized with butter, deglazed with red wine, in beef bone stock with mirepoix and herbs 48–72 hours. Brown ceramic crock, herb crouton, provolone melted in the broiler, parsley.","Mirepoix = meer-PWAH = onion, carrot, celery"],
@@ -1338,10 +1350,10 @@ const MENU = {
   ["Delmonico Ribeye","16 oz $80","Named for Delmonico's, the old New York steakhouse that made this style famous. Our most marbled prime cut — rich, buttery, beefy fat renders between the cap and the eye with every bite. If a guest wants an old-school steakhouse ribeye, this is it.",""],
   ["K.D.'s Tomahawk","32 oz $160","A ribeye that keeps the whole rib bone. Even more heavily marbled than the Delmonico. The bone lets marrow render during cooking, adding a butteriness you can only get by keeping the rib bone. The juiciest, most flavorful cut we offer besides the Japanese A5.","K.D. = Kevin Dickey, former owner · largest oval plate"],
   ["Australian Wagyu Filet","6 oz $95 / 10 oz $135","Australian cattle crossbred with Japanese wagyu — even one generation of crossbreeding lifts the marbling way up. Wagyu fat melts at a lower temperature, so it runs juicy even at rare. Just as tender as the prime filet with more richness — the easy level-up for a filet person. Serve rare to med-rare — nudge, don't argue.",""],
-  ["Japanese A5 Wagyu","$25/oz","From Kagoshima Prefecture. The show: a manager cut, sliced with a Hanzo steel knife on a butcher's block, torch-finished with rosemary salt at the table. Preset the guests with the special Kobe Hanzo steak knives. House serves wagyu RARE to MED-RARE — nudge gently, never argue.","6 oz is $150"],
-  ["48 oz USDA Choice Porterhouse","$150 when it runs","NOT wagyu — USDA Choice. 48 oz total: roughly a 26 oz NY strip, a 12 oz filet, and about a 10 oz bone — it varies a little with the cut. Board service, a MANAGER cuts it tableside. The move: two people split it for a high-class manager-cut experience at a great value. Know the cut: a porterhouse is a T-bone where the filet side has to be nearly as big as the strip side — that is rare, and it is why good porterhouses are hard to find.","Off-menu special"],
-  ["Spinalis / Ribeye Cap","$14/oz, min 6 oz","The cap of the ribeye — rivals filet tenderness while keeping ribeye richness. A manager cuts it tableside. $10/oz all day on Spinalis Sunday.","Off-menu · manager cut"],
-  ["45-Day 22 oz Dry-Aged Bone-In Ribeye","$120? VERIFY price","Forty-five days in the dry-aging room, and every one of them is doing something. Cold, moving air draws the moisture out, so what is left behind is pure concentrated beef — the flavor gets deeper because there is simply less water diluting it. At the same time the meat's own enzymes go quietly to work, breaking down proteins into amino acids and unwinding the connective tissue, which is what makes an aged steak taste savory and profound instead of just beefy. That is where the signature comes from: a deep, nutty, almost brown-butter richness with a whisper of blue cheese and toasted hazelnut, wrapped around a bone that gives it even more depth. Rich, robust, and unmistakably aged — the steak for the guest who wants the most flavor a piece of beef can carry. Price still needs verified.","Manager cuts tableside"],
+  ["Japanese A5 Wagyu","$25/oz","From Kagoshima Prefecture. The show: a manager cut, sliced with a Hanzo steel knife on a butcher's block, torch-finished with rosemary salt at the table. Preset the guests with the special Kobe Hanzo steak knives. House serves wagyu RARE to MED-RARE — nudge gently, never argue.","Manager cut"],
+  ["48 oz USDA Choice Porterhouse","$150 when it runs","NOT wagyu — USDA Choice. 48 oz total: roughly a 26 oz NY strip, a 12 oz filet, and about a 10 oz bone — it varies a little with the cut. Board service, a MANAGER cuts it tableside. The move: two people split it for a high-class manager-cut experience at a great value. Know the cut: a porterhouse is a T-bone where the filet side has to be nearly as big as the strip side — that is rare, and it is why good porterhouses are hard to find.","Manager cut"],
+  ["Spinalis / Ribeye Cap","$14/oz, min 6 oz","The cap of the ribeye — rivals filet tenderness while keeping ribeye richness. A manager cuts it tableside. $10/oz all day on Spinalis Sunday.","Manager cut"],
+  ["45-Day 22 oz Dry-Aged Bone-In Ribeye","$120","Forty-five days in the dry-aging room, and every one of them is doing something. Cold, moving air draws the moisture out, so what is left behind is pure concentrated beef — the flavor gets deeper because there is simply less water diluting it. At the same time the meat's own enzymes go quietly to work, breaking down proteins into amino acids and unwinding the connective tissue, which is what makes an aged steak taste savory and profound instead of just beefy. That is where the signature comes from: a deep, nutty, almost brown-butter richness with a whisper of blue cheese and toasted hazelnut, wrapped around a bone that gives it even more depth. Rich, robust, and unmistakably aged — the steak for the guest who wants the most flavor a piece of beef can carry. Price still needs verified.","Manager cuts tableside"],
   ["Steak 47","$58","A 4 oz filet base topped with a scallop and a shrimp, chopped asparagus and lobster meat around the plate, hollandaise drizzled on by expo. Upgrade math is easy — any filet goes 47 style for its price plus the $25 topping: 6 oz is $54 + $25 = $79, 10 oz is $79 + $25 = $104.","The Steak 47 topping upcharge is $25"],
   ["Filet & Lobster","$105","A 6 oz filet off the charbroiler (upgrade to 10 oz) with a 5 oz South African lobster tail, steamed gently so it never turns chewy.","GF"],
   ["Filet & Scallops","$82","A 6 oz filet with two U-10 prosciutto-wrapped scallops, flash-seared hot and fast — about two minutes — so they stay tender.",""],
@@ -1351,7 +1363,7 @@ const MENU = {
   ["Sea Scallops","$48","U-10 scallops seared in a nearly smoking pan for a deep golden crust. The butternut puree leans into the scallop's natural sweetness, crispy prosciutto salts it and cuts through, and the mushrooms ground the whole plate.","GF"],
   ["Chilean Sea Bass","$46","Patagonian toothfish — a rich, buttery white fish — pan seared and set in a lemon-caper white wine butter sauce with asparagus, spinach, and cherry tomato for brightness. The citrus cutting the richness is the whole idea.","GF"],
   ["Blackened Creole Salmon","$42","Faroe Island salmon — raised in cold open water with no antibiotics, richer and firmer than standard salmon. Blackened by default over sweet potato puree with Holy Trinity relish and remoulade. The kitchen can also broil it or pan sear it plain if a guest wants it mild.","Holy Trinity = bell pepper, onion, celery"],
-  ["Twin South African Lobster Tails","$100","Two 5 oz cold-water tails, 10 oz total. The why: colder South African water means lobsters shed their shells less often, so the meat stays more tender and sweeter. Old Bay and lemon, steamed, served with a charred lemon. SERVICE: light the butter warmer with the clarified garlic butter and set a cocktail fork to the right of the silverware.",""]
+  ["Twin South African Lobster Tails","$100","Two 5 oz cold-water tails, 10 oz total. The why: colder South African water means lobsters shed their shells less often, so the meat stays more tender and sweeter. Old Bay and lemon, steamed, served with a charred lemon. SERVICE: light the butter warmer with the clarified garlic butter and set a cocktail fork to the right of the silverware.","GF"]
  ],
  "Accessories":[
     ["Grilled Asparagus","$15","Marinated with garlic herb butter, grilled, with hollandaise in a ramekin on the side. Grilled to a light char. Comes with tongs.","GF"],
@@ -1622,8 +1634,12 @@ const DIET = [
    "running right now" only on its day and drops to "not running right now" the rest of
    the week, so nobody pitches a Sunday cut on a Thursday. Spinalis is Sunday-only and
    Ladies Night is Thursday-only. */
+/* Day gating. A number means "only on that weekday". A negative number means
+   A string like "!0" means "every day EXCEPT that weekday" — the Spinalis runs all
+   week at $14/oz and
+   drops to $10/oz on Sundays, so the two entries must never show together. */
 const SPECIAL_DAYS={
- "Spinalis / Ribeye Cap":0,
+ "Spinalis / Ribeye Cap":"!0",
  "Spinalis Sunday":0,
  "Ladies Night — every Thursday":4
 };
@@ -1632,7 +1648,7 @@ const SPECIALS_ON=[
  ["Spinalis / Ribeye Cap","$14/oz","Minimum 6 oz. The cap of the ribeye — it rivals filet tenderness while keeping ribeye richness. A manager cuts it tableside.","cut special"],
  ["Spinalis Sunday","$10/oz every Sunday","The same ribeye cap, four dollars an ounce cheaper, one day a week. Minimum 6 oz. It is on the restaurant's own weekly-features page — the easiest upsell we have on a Sunday.","weekly feature"],
  ["Australian Wagyu Tomahawk","$180","32 oz, cut tableside by a manager. Wagyu rule: serve rare to med-rare — nudge, don't argue.","cut special"],
- ["45-Day 22 oz Dry-Aged Bone-In Ribeye","$120? VERIFY price","Forty-five days of cold, moving air pulls the moisture out and concentrates the beef, while the meat's own enzymes break proteins down into amino acids and soften the connective tissue. That is where the deep, nutty, brown-butter richness comes from — savory and profound rather than just beefy, with the bone adding even more depth. Price still needs verified. All four cut specials (porterhouse, spinalis, tomahawk, 45-day) typically ALWAYS run.","cut special"],
+ ["45-Day 22 oz Dry-Aged Bone-In Ribeye","$120","Forty-five days of cold, moving air pulls the moisture out and concentrates the beef, while the meat's own enzymes break proteins down into amino acids and soften the connective tissue. That is where the deep, nutty, brown-butter richness comes from — savory and profound rather than just beefy, with the bone adding even more depth. Price still needs verified. All four cut specials (porterhouse, spinalis, tomahawk, 45-day) typically ALWAYS run.","cut special"],
  ["Ladies Night — every Thursday","$10 martinis + \u00bd-off apps","Ladies get $10 martinis and half-price appetizers in the lounge, every Thursday night.","weekly feature"]
 ];
 /* Rotating entree specials seen before — ask a manager if one is running tonight. */
@@ -2493,6 +2509,8 @@ const EVENTS=[
   w:"One more summer girls' night out — slip into your favorite sundress and join us in the lounge. Sangria flowing 5 to 10."},
  {d:"9/8", when:"Tue · Sagamore Golf Club", n:"Surf & Turf Cup — Golf Outing Scramble",
   w:"$3,000 per foursome. Breakfast, 18 holes, lunch and drinks, contests and prizes, and a surf & turf dinner by Prime 47. Registration 9:00 am."},
+ {d:"9/7", when:"Mon · 12–4 pm · 4812 N 300 E, Greenfield IN 46140", n:"Mo's Staff Labor Day Party",
+  w:"Staff party with Prime 47 — kickball, beach volleyball and swimming, with the TKC food truck from 1 to 3. Family and a +1 welcome. RSVP admin@prime47carmel.com; the sign-up sheet is on the wall and confirmations are due by August 20th. Drink responsibly."},
  {d:"9/17", when:"Thu · 6:30 pm · $150 per person", n:"The Prisoner Wine Dinner",
   w:"Five-course wine dinner presented by The Prisoner Wine Company. RSVP Lillian@mosgreenwood.com. Wine dinners mean banquet money."}
 ];
@@ -5391,18 +5409,17 @@ const DRINK_CATS=[["all","All drinks"],["cocktail","Cocktails"],["bourbon","Bour
   ["whiskey","Whiskey"],["scotch","Scotch"],["tequila","Tequila"],["cognac","Cognac & Port"],
   ["beer","Beer & seltzer"],["cordial","Cordials"],["nonalc","Coffee, Tea & Water"],
   ["verify","Archive — off the menu"]];
-const DRINK_BUDGETS=[["all","Any price"],["0-14","Under $15"],["15-24","$15–24"],
-  ["25-49","$25–49"],["50-9999","$50+"]];
+const DRINK_BUDGETS=[["all","Any price"],["0-17","Under $18"],["18-35","$18–35"],
+  ["36-9999","$35+"]];
 /* which filter chip each SPIRITS heading belongs under */
 const SPIRIT_CAT={"Bourbon":"bourbon","Bardstown":"bourbon","High-End Whiskey":"whiskey",
   "Tennessee":"whiskey","Scotch":"scotch","Tequila":"tequila","Cognac":"cognac",
   "On Draft":"cocktail","Cordials":"cordial","Coffee":"nonalc"};
 /* rows that point somewhere else rather than name something pourable */
 const DRINK_NOTES=[
-  ["Smoked Draft Old Fashioned","The only draft line we know for sure. It is in the list as a cocktail — the full build is on its card."],
-  ["Anything else on tap?","We barely have anything on tap. Sweet &amp; Salty is confirmed NOT on tap. If a second line exists, nobody has figured out what it is yet."],
-  ["Straight tequila list","The straight tequila shelf was never captured. Pull the current list from Toast before you quote one. El Charro and LALO are the two we pour into cocktails."],
-  ["Coffee cocktails","Espresso martinis and everything like them are in this same list — filter to Cocktails."]
+  ["Smoked Draft Old Fashioned","One of the two draft lines. It is in the list as a cocktail — the full build is on its card."],
+  ["Tito's and Cranberry","The other draft line. It pours ready off the tap."],
+  ["Straight tequila list","The straight tequila shelf was never captured. Pull the current list from Toast before you quote one. El Charro and LALO are the two we pour into cocktails."]
 ];
 var DRINKS_ALL=[];
 function buildDrinkIndex(){
@@ -5761,7 +5778,7 @@ function calcIP(){
   if(window.__ipSugg!==suggHTML){window.__ipSugg=suggHTML;$("#ipSugg").innerHTML=suggHTML;}
 
   $("#ipWho").innerHTML=`
-    <div class="sechead"><h2>Who's on ${dp.label} ${d[0]}</h2><span>from the posted schedule</span></div>
+    <div class="sechead"><h2>Schedule</h2><span>${dp.label} ${d[0]} — from the posted schedule</span></div>
     ${rosterFor(SCHEDULE,di,true)||'<div class="note">Nobody on the sheet for that day.</div>'}`;
 
   const net=manual>0?Math.round(manual):Math.round(covers*chk);
@@ -5811,20 +5828,44 @@ function calcIP(){
   <p class="sub" style="margin:8px 0 0;color:var(--dim2);font-size:12px">Cut math is calibrated against real Toast checkouts — lands within a few dollars of actual nights. A model, not a promise.</p>`;
 }
 
-/* ---------- BANQUET CHECKOUT — the second envelope, same math ---------- */
+/* ---------- BANQUET — one tool, the whole event ----------
+   Gratuity can be typed as a percent OR as real dollars off the sheet; whichever
+   you give, the other is shown next to it so the two never disagree. */
 function calcBQC(){
+  const heads=$n("#bqcHeads");
   const sales=$n("#bqcSales");
-  const tips=$n("#bqcTips");
-  const bq3=$("#bqcThree").value==="yes";
-  const r=pipeMath(sales,tips,SALES.banquetGratRate,bq3,0,0);
-  if(!r){$("#bqcOut").innerHTML='<div class="empty" style="padding:14px">Type the banquet sheet\u2019s net sales and this prints the second envelope.</div>';return;}
+  const min  =$n("#bqcMin");
+  const pct  =(+$("#bqcGratPct").value||0)/100;
+  const typed=$n("#bqcTips");
+  const bq3  =$("#bqcThree").value==="yes";
+  const box=$("#bqcOut");
+  if(!sales&&!min&&!heads){
+    box.innerHTML='<div class="empty" style="padding:14px">Party size, net sales, and the minimum if the contract had one. Gratuity defaults to 23% until you type the real number.</div>';
+    return;
+  }
+  /* the minimum is a floor, not a target — the event bills the greater of the two */
+  const billed=Math.max(sales,min);
+  const grat  =typed>0?typed:Math.round(billed*pct);
+  const effPct=billed>0?(grat/billed*100):0;
+  const r=pipeMath(billed,grat,SALES.banquetGratRate,bq3,0,0);
+  const perHead=heads>0?billed/heads:0;
+  const minWins=min>0&&min>sales;
+
   const rs=$n("#scSales"), rt=$n("#scTips");
   const reg=pipeMath(rs,rt,SALES.guestTipRate,$("#scBq").value==="yes",+$("#scPolisher").value||0,$n("#scCash"));
-  $("#bqcOut").innerHTML=`<div class="receipt">
+
+  box.innerHTML=`<div class="kpis">
+    ${heads?`<div class="kpi"><div class="k">Party size</div><div class="v">${heads}</div><div class="s">${perHead?$d(perHead)+" a head at this total":"&nbsp;"}</div></div>`:""}
+    <div class="kpi"><div class="k">Billed net</div><div class="v">${$d(billed)}</div>
+      <div class="s">${minWins?"the "+$d(min)+" minimum wins over "+$d(sales)+" in sales":(min?"cleared the "+$d(min)+" minimum":"no minimum on this one")}</div></div>
+    <div class="kpi"><div class="k">Gratuity</div><div class="v">${$d(grat)}</div>
+      <div class="s">${typed>0?"typed off the sheet &middot; that is "+effPct.toFixed(1)+"%":effPct.toFixed(0)+"% of billed net &middot; type the real number to override"}</div></div>
+  </div>
+  ${r?`<div class="receipt">
     <div class="rhead">MO'S — BANQUET CHECKOUT</div>
-    <div class="rsub">${tips>0?"real gratuity from the banquet sheet":"gratuity estimated at the house 23% until you type it"}</div>
-    <div class="rrow"><span>Banquet net sales</span><b>${$d(sales)}</b></div>
-    <div class="rrow"><span>Gratuity${tips>0?"":" (est.)"}</span><b>${$d(r.credTips)}</b></div>
+    <div class="rsub">${typed>0?"real gratuity from the banquet sheet":"gratuity estimated at "+(pct*100).toFixed(0)+"% until you type it"}</div>
+    <div class="rrow"><span>Billed net sales</span><b>${$d(billed)}</b></div>
+    <div class="rrow"><span>Gratuity${typed>0?"":" (est.)"}</span><b>${$d(r.credTips)}</b></div>
     <div class="rrow neg"><span>Tips withheld (2%)</span><span>&minus;${$d(r.withheld)}</span></div>
     <div class="rrow sum"><span>Envelope pool</span><b>${$d(r.pool)}</b></div>
     ${r.lines.map(l=>`<div class="rrow neg"><span>Tip out — ${esc(l[0])}</span><span>&minus;$${l[1].toLocaleString()}</span></div>`).join("")}
@@ -5833,27 +5874,11 @@ function calcBQC(){
     <div class="rrow big"><span>FRONT</span><span>${$d(r.front)}</span></div>
     <div class="rrow big"><span>BACK</span><span>${$d(r.back)}</span></div>
     <div class="rfoot">same rules as the regular envelope &middot; split per envelope, back takes the greater dollar</div>
-  </div>
-  ${reg?`<div class="note gold" style="max-width:440px"><b>Both envelopes tonight:</b> regular ${$d(reg.earned)} + banquet ${$d(r.earned)} = <b>${$d(reg.earned+r.earned)}</b> team total. Your pockets: front ${$d(reg.front+r.front)}, back ${$d(reg.back+r.back)}.</div>`
-       :`<div class="note" style="max-width:440px">Fill the regular Sales Calculator above too and this shows the full two-envelope night total.</div>`}`;
+  </div>`:""}
+  ${reg&&r?`<div class="note gold" style="max-width:440px"><b>Both envelopes tonight:</b> regular ${$d(reg.earned)} + banquet ${$d(r.earned)} = <b>${$d(reg.earned+r.earned)}</b></div>`
+    :`<div class="note" style="max-width:440px">Fill the Checkout above too and this shows the full two-envelope night total.</div>`}`;
 }
-
-/* ---------- BANQUET MINI-TOOL ---------- */
-function calcBq(){
-  const heads=$n("#bqHeads");
-  const perHead=$n("#bqPerHead");
-  const min=$n("#bqMin");
-  const gratPct=(+$("#bqGrat").value||0)/100;
-  const byHeads=heads*perHead;
-  const net=Math.round(Math.max(byHeads,min));
-  const grat=Math.round(net*gratPct);
-  const minWins=min>0&&min>byHeads;
-  $("#bqOut").innerHTML=`<div class="kpis">
-    <div class="kpi"><div class="k">Event net</div><div class="v">${$d(net)}</div><div class="s">${minWins?"the minimum wins over "+$d(byHeads)+" by heads":heads+" heads x $"+perHead+(min>0?" (beats the "+$d(min)+" minimum)":"")}</div></div>
-    <div class="kpi"><div class="k">Auto-grat</div><div class="v">${$d(grat)}</div><div class="s">${(gratPct*100).toFixed(0)}% — Lillian bookings run 23</div></div>
-    <div class="kpi"><div class="k">Grat split if one team runs it</div><div class="v">Front ${$d(Math.floor(grat/2))} · Back ${$d(Math.ceil(grat/2))}</div><div class="s">before tip-out, back takes the greater dollar</div></div>
-  </div>`;
-}
+function calcBq(){}   /* the mini-tool folded into calcBQC above */
 
 /* ---------- GLOBAL SEARCH ---------- */
 /* Ask it questions: words match in any order, filler words are ignored,
@@ -6115,8 +6140,10 @@ function build(){
     <div class="sechead"><h2>Go-To Pitches</h2><span>when they ask you to pick</span></div>
     ${tbl(["Question","Answer","Why"],FASTANSWERS.map(f=>[esc(f[0]),`<b>${esc(f[1])}</b>`,`<span style="color:var(--dim)">${esc(f[2])}</span>`]))}
 
-    <div class="sechead"><h2>Regions</h2></div>
-    ${tbl(["Region","Why it matters","Say this"],REGIONS.map(r=>[`<b>${esc(r[0])}</b>`,esc(r[1]),`<span style="color:var(--dim)">${esc(r[2])}</span>`]))}`;
+    <div class="sechead"><h2>Regions</h2><span>why the place changes the taste</span></div>
+    <div class="grid wide">${REGIONS.map(r=>`<div class="card">
+      <div class="crow"><div class="cname">${esc(r[0])}</div><div class="cprice" style="font-size:12px">${esc(r[1])}</div></div>
+      <div class="cbody">${esc(r[2])}</div></div>`).join("")}</div>`;
 
   /* ---------- COCKTAILS ---------- */
   $("#p-cocktails").innerHTML=`
@@ -6132,7 +6159,6 @@ function build(){
     <div class="filters" id="drinkGrps">${DRINK_CATS.map(g=>`<button data-g="${g[0]}"${g[0]==="all"?' class="on"':''}>${g[1]}</button>`).join("")}</div>
     <div class="filters" id="drinkPrice">${DRINK_BUDGETS.map(b=>`<button data-p="${b[0]}"${b[0]==="all"?' class="on"':''}>${b[1]}</button>`).join("")}</div>
     <div class="grid wide" id="drinkGrid"></div>
-    <div class="note"><b>Two easy calls:</b> the strongest beer is Elysian Space Dust at 8.2%. The only zero-proof beer is Bud Zero. Austin Eastciders Original Dry is the gluten-free-style option.</div>
     ${DRINK_NOTES.map(n=>`<div class="note" style="margin-top:8px"><b>${esc(n[0])}${/[?.!]$/.test(n[0])?"":":"}</b> ${n[1]}</div>`).join("")}`;
 
   /* ---------- FOOD MENU — the whole food world in one tab ----------
@@ -6202,9 +6228,18 @@ function build(){
     const DAYNM=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
     const gate=s=>typeof SPECIAL_DAYS!=="undefined"?SPECIAL_DAYS[s[0]]:undefined;
     return {
-      onNow:SPECIALS_ON.filter(s=>{const d=gate(s);return d===undefined||d===today;}),
-      notNow:SPECIALS_ON.filter(s=>{const d=gate(s);return d!==undefined&&d!==today;})
-        .map(s=>[s[0],s[1],s[2],"only on "+DAYNM[gate(s)]+"s"])
+      onNow:SPECIALS_ON.filter(s=>{const d=gate(s);
+        if(d===undefined)return true;
+        if(typeof d==="string"&&d[0]==="!")return today!==+d.slice(1);
+        return d===today;}),
+      notNow:SPECIALS_ON.filter(s=>{const d=gate(s);
+        if(d===undefined)return false;
+        if(typeof d==="string"&&d[0]==="!")return today===+d.slice(1);
+        return d!==today;})
+        .map(s=>{const d=gate(s);
+          return [s[0],s[1],s[2],typeof d==="string"&&d[0]==="!"
+            ? "every day except "+DAYNM[+d.slice(1)]+"s"
+            : "only on "+DAYNM[d]+"s"];})
         .concat(SPECIALS_ROTATION.map(s=>[s[0],s[1],s[2],"not on tonight unless a manager says so"]))
     };
   })();
@@ -6353,18 +6388,10 @@ function build(){
         <div class="pitch">&ldquo;${esc(w.pitch)}&rdquo;</div></div>`).join("")}</div>
       <div style="margin-top:12px">${tbl(["Guest wants","Recommend","Why"],WOTW.contrast.map(c=>[esc(c[0]),`<b>${esc(c[1])}</b>`,`<span style="color:var(--dim)">${esc(c[2])}</span>`]))}</div>`)}
 
-    ${acc("Wine regions — why the place changes the taste",`${REGIONS.length} regions`,
-      `<div class="grid wide">${REGIONS.map(r=>`<div class="card">
-        <div class="crow"><div class="cname">${esc(r[0])}</div><div class="cprice" style="font-size:12px">${esc(r[1])}</div></div>
-        <div class="cbody">${esc(r[2])}</div></div>`).join("")}</div>`)}
-
     ${acc("Archived cocktails","off the printed list — ask the bar before promising one",
       `<div class="grid wide">${COCKTAILS.filter(c=>c.grp==="verify").map(c=>`<div class="card">
         <div class="crow"><div class="cname">${esc(c.n)}</div><div class="cprice">${esc(c.p)}</div></div>
         <div class="cbody"><b>Was:</b> ${esc(c.build)}</div></div>`).join("")}</div>`)}
-
-    ${acc("Conflicts we resolved","old sheet said one thing, the current menu says another",
-      tbl(["Item","Older","Newer","Use"],CONFLICTS.map(c=>[`<b>${esc(c[0])}</b>`,esc(c[1]),esc(c[2]),`<b style="color:var(--gold2)">${esc(c[3])}</b>`])))}
 
     ${acc("Private dining rooms","headcounts — Lillian books them",
       tbl(["Room","Capacity"],ROOMS.map(r=>[`<b>${esc(r[0])}</b>`,esc(r[1])])))}`;
@@ -6422,26 +6449,19 @@ function build(){
       <div class="out" id="ipOut"></div>
       <div id="ipWho"></div>
     </div>
-
     <div class="sechead"><h2>Banquet</h2><span>only when Lillian books it</span></div>
     <p class="sub" style="margin:0 0 10px">A <b>banquet checkout</b> only happens when Lillian books the party — that is the one carrying her 3% and the 23% auto-grat, and it usually runs a limited menu with a spend minimum. A group of 8&ndash;10 that walks in and eats off the normal menu is <b>not</b> a banquet: it is a regular table you may or may not auto-grat, with no second envelope.</p>
-    ${acc("Banquet checkout — the second envelope","banquet nights run two checkouts; same math, separate sheet",`
-      <p class="sub" style="color:var(--dim2);font-size:12.5px;margin:4px 0 12px">A banquet BOOKED THROUGH LILLIAN gets its own checkout sheet and envelope, on top of the regular one. Same pipeline. Guests pay 23% auto-grat instead of 20 — the extra 3 points are Lillian's cut, and that's the 3% line below. A big party that walks in on the regular menu is NOT a banquet: no 3%, no second envelope. Type the real gratuity off the banquet sheet when you have it.</p>
-      <div class="frow">
-        <div class="f"><label>Banquet net sales $</label><input type="number" inputmode="decimal" id="bqcSales" placeholder="from the banquet sheet" min="0"></div>
-        <div class="f"><label>Gratuity $ (optional)</label><input type="number" inputmode="decimal" id="bqcTips" placeholder="blank = 23% est." min="0"></div>
-        <div class="f"><label>Booked through Lillian?</label><select id="bqcThree"><option value="yes" selected>Yes — her 3% comes out</option><option value="no">No — no 3%</option></select></div>
-      </div>
-      <div class="out" id="bqcOut"></div>`)}
-    ${acc("Banquet quick math","parked on purpose — dollars are placeholders",`
-      <div class="frow" style="margin-top:8px">
-        <div class="f"><label>Party size</label><input type="number" inputmode="decimal" id="bqHeads" value="20" min="0"></div>
-        <div class="f"><label>Est. $ / head</label><input type="number" inputmode="decimal" id="bqPerHead" value="105" min="0"></div>
-        <div class="f"><label>F&amp;B minimum $</label><input type="number" inputmode="decimal" id="bqMin" value="3000" min="0"></div>
-        <div class="f"><label>Auto-grat %</label><input type="number" inputmode="decimal" id="bqGrat" value="23" min="0" max="30"></div>
-      </div>
-      <div class="out" id="bqOut"></div>
-      <p class="sub" style="color:var(--dim2);font-size:12px;margin:10px 0 0">Rooms: ${ROOMS.map(r=>`<b>${esc(r[0])}</b> — ${esc(r[1])}`).join(" · ")}. Booking through Lillian Speedy, Director of Sales \u2014 Lillian@mosgreenwood.com.</p>`)}
+    <div class="frow">
+      <div class="f"><label>Party size</label><input type="number" inputmode="decimal" id="bqcHeads" placeholder="how many guests" min="0"></div>
+      <div class="f"><label>Banquet net sales $</label><input type="number" inputmode="decimal" id="bqcSales" placeholder="from the banquet sheet" min="0"></div>
+      <div class="f"><label>F&amp;B minimum $</label><input type="number" inputmode="decimal" id="bqcMin" placeholder="blank = no minimum" min="0"></div>
+    </div>
+    <div class="frow">
+      <div class="f"><label>Auto-grat %</label><input type="number" inputmode="decimal" id="bqcGratPct" value="23" min="0" max="30"></div>
+      <div class="f"><label>or gratuity $</label><input type="number" inputmode="decimal" id="bqcTips" placeholder="real number wins" min="0"></div>
+      <div class="f"><label>Booked through Lillian?</label><select id="bqcThree"><option value="yes" selected>Yes — her 3% comes out</option><option value="no">No — no 3%</option></select></div>
+    </div>
+    <div class="out" id="bqcOut"></div>
 
     <div class="sechead"><h2>Splits</h2><span>the house rules</span></div>
     <ol class="steps">${SPLIT_RULES.map(r=>`<li><b>${esc(r.split(".")[0])}.</b>${esc(r.split(".").slice(1).join(".").trim())}</li>`).join("")}</ol>
@@ -6503,7 +6523,7 @@ function build(){
     $("#scSales").value=b.dataset.v; $("#scTips").value=""; calcSC(); calcBQC();};
   ["scSales","scTips","scBq","scPolisher","scExpo","scCash"].forEach(id=>{
     const n=$("#"+id); n.oninput=()=>{calcSC();calcBQC();}; n.onchange=()=>{calcSC();calcBQC();}; n.onkeyup=()=>{calcSC();calcBQC();};});
-  ["bqcSales","bqcTips","bqcThree"].forEach(id=>{
+  ["bqcHeads","bqcSales","bqcMin","bqcGratPct","bqcTips","bqcThree"].forEach(id=>{
     const n=$("#"+id); n.oninput=calcBQC; n.onchange=calcBQC; n.onkeyup=calcBQC;});
   ["ipBooks","ipWalk","ipTeams","ipCk","ipCheck","ipPol","ipPct","ipNet","ipBus","ipExpo","ipBar"].forEach(id=>{
     const n=$("#"+id); n.oninput=calcIP; n.onchange=calcIP; n.onkeyup=calcIP;});
@@ -6511,8 +6531,6 @@ function build(){
   $("#ipSugg").onclick=e=>{const b=e.target.closest("#ipUse");if(!b)return;
     $("#ipWalk").value=+b.dataset.s||0; calcIP();};
 
-  ["bqHeads","bqPerHead","bqMin","bqGrat"].forEach(id=>{
-    const n=$("#"+id); n.oninput=calcBq; n.onchange=calcBq; n.onkeyup=calcBq;});
 
   ["wine","menu","cocktails","ops","allergens"].forEach(addJumps);
 }

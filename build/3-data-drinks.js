@@ -198,10 +198,11 @@ const SPIRITS = {
  ["Johnnie Walker Red","$11","Entry blend, smoke and spice"],
  ["Johnnie Walker Black","$15","More smoke and depth"],
  ["Johnnie Walker Blue","$60","Luxury blend, smooth, polished"]],
- "Cognac & Port":[
+ "Port":[
  ["Quinta do Noval Black Reserve Port","$16","Sweet fortified red; black fruit, chocolate"],
  ["Smith Woodhouse 10yr Tawny Port","$20","Nutty, caramel, dried fruit"],
- ["Quinta do Noval 20yr Tawny Port","$38","Richer tawny; walnut, caramel, orange peel"],
+ ["Quinta do Noval 20yr Tawny Port","$38","Richer tawny; walnut, caramel, orange peel"]],
+ "Cognac":[
  ["Courvoisier VS","$15/oz","Young cognac, fruit and oak"],
  ["Courvoisier VSOP","$15/oz","Smoother cognac"],
  ["Hennessy VS","$15/oz","Classic cognac"],
@@ -217,9 +218,9 @@ const SPIRITS = {
 };
 
 /* ============ BEER ============ */
-SPIRITS["On Draft — only two lines"]=[
+SPIRITS["On Draft — the two lines"]=[
  ["Smoked Draft Old Fashioned","$17","Signature — full build up in the cocktail list."],
- ["Anything else on tap?","probably not","We barely have anything on tap — the Smoked Draft OF is the only line we know for sure. Sweet & Salty is CONFIRMED not on tap. If a second line exists, nobody has figured out what it is yet."]
+ ["Tito's and Cranberry","on tap","The second line. Poured, not built — it comes off the tap ready."]
 ];
 
 SPIRITS["Cordials on the rail (after-dinner asks)"]=[
@@ -234,8 +235,7 @@ SPIRITS["Coffee, Tea & Water (no booze)"]=[
  ["Iced Tea","unsweet","Suncoast iced tea blend. Unsweet by default — sweet tea can be made on request."],
  ["Filtered Water","free","The busser carries it — default for every table."],
  ["Aquafina","bottle","Bottled still water if the guest wants it — price in Toast."],
- ["Sparkling Water","bottle","Bottled sparkling if the guest wants it — price in Toast."],
- ["Coffee cocktails","see Dessert Cocktails","Espresso martinis and friends live up in the cocktail list, dessert group."]
+ ["Sparkling Water","bottle","Bottled sparkling if the guest wants it — price in Toast."]
 ];
 
 const BEER = [

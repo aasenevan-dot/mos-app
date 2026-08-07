@@ -280,7 +280,7 @@ function renderQuiz(){
     const grade=pct===100?"Perfect run — floor royalty":pct>=90?"Floor ready":pct>=75?"Close — run the review round":pct>=50?"Getting there":"Rookie numbers — run it again";
     const topics=Object.entries(quiz.topics).map(([t,v])=>`<span class="tag${v.ok===v.n?" good":v.ok/v.n<.7?" warn":""}" style="font-size:12px;padding:4px 9px">${t}: ${v.ok}/${v.n}</span>`).join(" ");
     box.innerHTML=`<div class="q" style="text-align:center;padding:28px">
-      <div style="font-size:40px;font-weight:800;color:${pct>=90?"#1E6B3A":pct>=70?"var(--gold2)":"#A33C35"}">${pct}%</div>
+      <div style="font-size:40px;font-weight:800;color:${pct>=90?"var(--green2)":pct>=70?"var(--gold2)":"#A33C35"}">${pct}%</div>
       <div style="margin:2px 0 4px;font-weight:700;color:var(--gold)">${grade}</div>
       <div style="margin:0 0 12px;color:var(--dim)">${quiz.score} of ${QMODE==="blitz"?quiz.answered+" answered in the minute":quiz.order.length+" correct"}${QMODE==="daily"?" · Today's 10 — same ten for everyone, compare at pre-shift":""}</div>
       <div class="tags" style="justify-content:center;margin-bottom:16px">${topics}</div>
@@ -305,7 +305,7 @@ function renderQuiz(){
     box.querySelectorAll(".opt").forEach((x,j)=>{x.disabled=true;if(opts[j].ok)x.classList.add("right");});
     if(!ok)b.classList.add("wrong");
     $("#qfb").innerHTML=`<div style="margin-top:11px;display:flex;gap:10px;align-items:center;flex-wrap:wrap">
-      <span style="color:${ok?'#1E6B3A':'#A33C35'};font-weight:650;font-size:13.5px">${ok?'Correct':'Not quite'}</span>
+      <span style="color:${ok?'var(--green2)':'#A33C35'};font-weight:650;font-size:13.5px">${ok?'Correct':'Not quite'}</span>
       <button class="btn sec" id="qnext">${quiz.i+1>=quiz.order.length?"Finish":"Next question"}</button></div>`;
     $("#qnext").onclick=()=>{quiz.i++;renderQuiz();};
     $("#quizScore").innerHTML=`<b>${quiz.score}</b> / ${quiz.answered} &nbsp;·&nbsp; question ${quiz.i+1} of ${quiz.order.length}`;
@@ -498,7 +498,10 @@ function staffLadder(net,covers){
     teams: Math.min(7,Math.max(2,Math.ceil(net/SALES.teamBase))),
     cktail: net<6000?1:2,
     busser: net<3000?1:net<8000?2:3,
-    expo: cov>=225?3:cov>=150?2:1,
+    /* An expo runs damn near every night, so that is the floor. Food runners are
+       additive on top: the first one at 75 covers, another every 40 after that. */
+    expo: 1+(cov>75?1+Math.floor((cov-75)/40):0),
+    runners: cov>75?1+Math.floor((cov-75)/40):0,
     polisher: cov>175?1:0,
     polisherNote: cov>175?"over 175 covers — staff one"
       :cov>125?"125&ndash;175 covers — manager's call"
@@ -587,7 +590,7 @@ function calcIP(){
     ["<b>Teams (front + back)</b>",String(lad.teams),String(schedTeams||0),callFor(lad.teams,schedTeams||0)],
     ["<b>Cocktailers</b>",String(lad.cktail),String(inf.cnt.cktail),callFor(lad.cktail,inf.cnt.cktail)],
     ["<b>Bussers</b>",String(lad.busser),String(inf.cnt.busser),callFor(lad.busser,inf.cnt.busser)],
-    ["<b>Food runners / expo</b>",String(lad.expo),String(inf.cnt.expo),callFor(lad.expo,inf.cnt.expo)],
+    ["<b>Food runners / expo</b>",`${lad.expo}<div class="sub" style="font-size:11px;color:var(--dim2);margin-top:2px">1 expo${lad.runners?` + ${lad.runners} runner${lad.runners>1?"s":""}`:""}</div>`,String(inf.cnt.expo),callFor(lad.expo,inf.cnt.expo)],
     ["<b>Polisher</b>",String(lad.polisher),"—",`<span style="color:var(--dim2)">${lad.polisherNote}</span>`]])}
   <p class="sub" style="margin:8px 0 0;color:var(--dim2);font-size:12px">Skip big banquets in this net — a banquet brings its own staffing. Pools split evenly across whoever's on the role — fewer on, more each. Bands anchored to real nights (3 teams &asymp; $4.1k, 4 teams + a banquet &asymp; $8.9k, over $10k is all hands); say what's acceptable per night type and they get tuned.</p>
   <p class="sub" style="margin:8px 0 0;color:var(--dim2);font-size:12px">Cut math is calibrated against real Toast checkouts — lands within a few dollars of actual nights. A model, not a promise.</p>`;
@@ -914,7 +917,7 @@ function build(){
   /* ---------- COCKTAILS ---------- */
   $("#p-cocktails").innerHTML=`
     <div class="sechead" id="sec-garnish"><h2>Garnishes</h2><span>the fastest thing to get wrong</span></div>
-    ${tbl(["Drink","Garnish","Glass"],COCKTAILS.filter(c=>c.garnish&&c.garnish!=="—").map(c=>[`<b>${esc(c.n)}</b>`,`<span style="color:#1E6B3A">${esc(c.garnish)}</span>`,esc(c.glass)]))}
+    ${tbl(["Drink","Garnish","Glass"],COCKTAILS.filter(c=>c.garnish&&c.garnish!=="—").map(c=>[`<b>${esc(c.n)}</b>`,`<span style="color:var(--green2)">${esc(c.garnish)}</span>`,esc(c.glass)]))}
 
     <div class="sechead"><h2>Flavors</h2></div>
     ${tbl(["Guest asks for","Send them to"],DRINK_PITCH.map(p=>[esc(p[0]),`<b>${esc(p[1])}</b>`]))}
@@ -1047,7 +1050,7 @@ function build(){
       `<div class="grid wide">${SPECIALS_PAST.map(s=>mCard(s[0],s[1],s[2],s[3],"")).join("")}</div>`)}
 
     <div class="note" style="margin-top:14px"><b>GF</b> = the printed menu marks it gluten-free. It is not a promise of a gluten-free kitchen — the fryer is shared and crackers, bread and croutons ride on plenty of setups. Any real allergy still runs the protocol.</div>
-    <div class="note gold" style="margin-top:10px"><b>This page is a living list.</b> Tell your Claude "new special: swordfish, $52, mango salsa" or "tonight's soup is chicken tortilla" and it updates — running flips to past, and every soup stays in the archive forever.</div>`;
+    `;
 
   /* ---------- ALLERGENS ---------- */
   $("#p-allergens").innerHTML=`

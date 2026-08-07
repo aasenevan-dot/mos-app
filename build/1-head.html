@@ -20,9 +20,9 @@
 :root{
   --bg:#F5EEDF; --bg2:#EFE6D1; --card:#FBF6EB; --card2:#EFE3CC;
   --line:#DFD1B6; --line2:#C4B08C;
-  --txt:#292525; --dim:#5D5348; --dim2:#8B7D69;
+  --txt:#292525; --dim:#5D5348; --dim2:#6E6046;
   --gold:#591F1C; --gold2:#6E2722; --wine:#591F1C; --wine2:#7C2A24;
-  --green:#1E6B3A; --blue:#39566B; --red:#A33C35;
+  --green:#1E6B3A; --green2:#1E6B3A; --blue:#39566B; --red:#A33C35;
   --brand:#59201C; --brand2:#6E2722; --cream:#F7EFE4; --forest:#003622;
   --serif:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif; /* normal fonts everywhere, per Evan */
 }
@@ -317,8 +317,8 @@ tr:hover td{background:rgba(255,255,255,.017)}
   background:rgba(122,46,38,.09);color:var(--gold);border:1px solid rgba(122,46,38,.18);
   white-space:nowrap}
 .mflag.warn{background:rgba(150,90,20,.12);color:#8a5a12;border-color:rgba(150,90,20,.28)}
-body.dark .mflag{background:rgba(201,123,90,.16);color:var(--gold);border-color:rgba(201,123,90,.30)}
-body.dark .mflag.warn{background:rgba(214,158,74,.16);color:#e0aa5e;border-color:rgba(214,158,74,.32)}
+html.dark .mflag{background:rgba(201,123,90,.18);color:var(--gold2);border-color:rgba(201,123,90,.30)}
+html.dark .mflag.warn{background:rgba(214,158,74,.16);color:#e0aa5e;border-color:rgba(214,158,74,.32)}
 .tbl .mflag{margin-left:6px}
 .mitem .mchev{flex:0 0 auto;color:var(--brand);font-size:15px;line-height:1;transition:transform .18s ease;opacity:.75}
 .mitem.open .mchev{transform:rotate(180deg)}
@@ -510,12 +510,17 @@ footer{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
 .schedwrap th,.schedwrap td{padding:7px;font-size:12px;text-align:center;white-space:normal;overflow-wrap:anywhere;line-height:1.3}
 .schedwrap th{font-size:11px;white-space:nowrap}
 .schedwrap th:not(.nm),.schedwrap td:not(.nm){width:83px}
-.schedwrap th .dw{display:block;font-size:10px;color:var(--dim2);letter-spacing:.08em;text-transform:uppercase}
+.schedwrap th .dw{display:block;font-size:10px;color:#E2D0B8;letter-spacing:.08em;text-transform:uppercase}
 .schedwrap td.nm{position:sticky;left:0;z-index:2;background:var(--card);text-align:left;font-weight:700;border-right:1.5px solid var(--line2);max-width:104px;overflow:hidden;text-overflow:ellipsis}
 .schedwrap tr.secrow td{background:var(--gold);color:var(--cream);text-align:left;font-weight:700;letter-spacing:.05em;font-size:11px;text-transform:uppercase}
-.schedwrap td.off{background:#2E1512;color:#8A6157;font-size:10px;letter-spacing:.08em}
+.schedwrap td.off{background:#2E1512;color:#C79B8C;font-size:10px;letter-spacing:.08em}
 .schedwrap td.ro{background:#E9D9B4;color:#6E5716;font-weight:700}
-.schedwrap th.tdy,.schedwrap td.tdy{background:#EFE0C2}
+/* today's column: the header row is cream-on-oxblood, so this pale highlight left
+   the date cream-on-cream at 1.14 — invisible. Force the ink back to text colour. */
+.schedwrap th.tdy,.schedwrap td.tdy{background:#EFE0C2;color:var(--txt)}
+.schedwrap th.tdy .dw{color:var(--dim)}
+/* .tdy set a dark ink; the OFF cells underneath are dark-on-dark, so restore theirs */
+.schedwrap td.off.tdy{color:#C79B8C}
 .schedwrap td.off.tdy{background:#3A1B16}
 .schedwrap tr.covrow td{background:var(--card2);color:var(--gold);font-weight:700}
 .schedwrap tr.covrow td.nm{font-size:10.5px;background:var(--card2)}
@@ -532,10 +537,34 @@ html.dark{
      the light-mode oxblood, which measured 1.7–2.0 contrast on these backgrounds —
      section headings and Best tags were deep red on deep red, basically unreadable.
      Same brand hue, raised until it clears 4.5 against bg, card and card2 alike. */
-  --gold:#C97B5A; --gold2:#E5A582; --wine:#C97B5A; --wine2:#9C4033;
+  --green2:#5FBF83; --gold:#C97B5A; --gold2:#E5A582; --wine:#C97B5A; --wine2:#9C4033;
   --green:#5FBF83; --blue:#84ACCB; --red:#E58A80;
 }
-html.dark .schedwrap td.off{background:#0F0907;color:#6E4A3E}
+/* --brand is the light-mode oxblood and it is used BOTH as a fill and as text.
+   Lifting the variable would recolour the header, the active filter chips and the
+   slideshow day cards, so instead every place it is used as TEXT ON A DARK SURFACE
+   is lifted here. Without this the Mo's Book and Slideshow titles measured 1.44
+   and the menu chevrons 1.33 — effectively invisible. */
+html.dark .bkcard h3,
+html.dark .bkrow .n,
+html.dark .bkbody .bkh2,
+html.dark .getline,
+html.dark .dkdisc,
+html.dark .dkrows li b,
+html.dark .mitem .mchev{color:var(--gold)}
+html.dark .bkrow .n,
+html.dark .dkdisc{background:rgba(201,123,90,.14)}
+/* the garnish line used the deep house green as text on a dark card: 2.6 */
+html.dark .garnish b{color:var(--green)}
+html.dark .garnish{background:rgba(95,191,131,.07);border-color:rgba(95,191,131,.22)}
+/* day initials and OFF cells sat just under the line */
+html.dark .schedwrap th .dw{color:var(--dim)}
+/* the deck reader's own headings and day badges are brand-on-dark inside a card */
+html.dark .dkstage h2{color:var(--gold2)}
+html.dark .dkbadge{background:rgba(201,123,90,.16);color:var(--gold2)}
+html.dark .bkrow .n{color:var(--gold2)}
+html.dark .schedwrap td.off.tdy{color:#B08776}
+html.dark .schedwrap td.off{background:#0F0907;color:#9A7263}
 html.dark .schedwrap th.tdy,html.dark .schedwrap td.tdy{background:#3A2A16}
 html.dark .schedwrap td.off.tdy{background:#241009}
 html.dark .schedwrap td.ro{background:#4A3B1C;color:#E8CF8F}

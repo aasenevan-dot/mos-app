@@ -122,7 +122,6 @@ const MENU = {
   ["Filet Mignon","6 oz $54 / 10 oz $79","Center cut with almost no marbling — you order it for pure tenderness. At medium rare it practically cuts with a fork. Finished with rosemary Maldon salt. Guest wants it well done? Offer to butterfly it — cooks faster, stays juicier. Butter by default; the kitchen CAN cook any steak butter-free for a dairy allergy.",""],
   ["The PD — 15 oz Hand-Cut Filet","$115","On the printed menu — house calls it the PD.",""],
   ["Filet Duo","$47","Two 3 oz end-cut medallions — a touch more fat than the center cut, and really ordered for the toppings: Crab Oscar on one, horseradish bleu cheese crust on the other.",""],
-  ["Dry Aged New York Strip","14 oz $58","The middle ground between ribeye and filet — marbling and tenderness land right between the two, with a big fat cap down one side that bastes the steak as it renders. Dry aging: the meat hangs in a controlled room while moisture evaporates and enzymes tenderize, concentrating rich, nutty, beefy umami. Tell the guest that story — it is the whole point of the steak.",""],
   ["Delmonico Ribeye","16 oz $80","Named for Delmonico's, the old New York steakhouse that made this style famous. Our most marbled prime cut — rich, buttery, beefy fat renders between the cap and the eye with every bite. If a guest wants an old-school steakhouse ribeye, this is it.",""],
   ["K.D.'s Tomahawk","32 oz $160","A ribeye that keeps the whole rib bone. Even more heavily marbled than the Delmonico. The bone lets marrow render during cooking, adding a butteriness you can only get by keeping the rib bone. The juiciest, most flavorful cut we offer besides the Japanese A5.","K.D. = Kevin Dickey, former owner · largest oval plate"],
   ["Australian Wagyu Filet","6 oz $95 / 10 oz $135","Australian cattle crossbred with Japanese wagyu — even one generation of crossbreeding lifts the marbling way up. Wagyu fat melts at a lower temperature, so it runs juicy even at rare. Just as tender as the prime filet with more richness — the easy level-up for a filet person. Serve rare to med-rare — nudge, don't argue.",""],
@@ -236,7 +235,6 @@ const LEADS = {
  "House Salad":"Romaine mix, carrots, cucumber, cherry tomato, red cabbage, croutons.",
  "Farbuckle Filet":"The tableside show — finished in a sizzling skillet with butter, tallow and rosemary salt.",
  "Filet Duo":"Two 3 oz medallions, one Crab Oscar and one horseradish bleu cheese crust.",
- "Dry Aged New York Strip":"The middle ground between ribeye and filet, with a fat cap that bastes it.",
  "Australian Wagyu Filet":"Wagyu crossbred marbling — juicy even at rare. The easy level-up from a filet.",
  "Steak 47":"A 4 oz filet topped with scallop, shrimp, lobster, asparagus and hollandaise.",
  "Filet & Lobster":"A 6 oz filet with a 5 oz South African lobster tail.",
@@ -432,6 +430,7 @@ const SPECIALS_ROTATION=[
  ["Cajun Butter Salmon","$45","Squash, zucchini and shallots in cajun butter."]
 ];
 const SPECIALS_PAST=[
+ ["Dry Aged New York Strip","14 oz $58","Off the menu — the Denver Cut runs in its place at the same price. The middle ground between ribeye and filet, with a fat cap down one side that bastes it as it renders.","off the current menu"],
  ["Sorbets — lemon and raspberry","in the freezer","Dairy-free, and they have lived in the freezer for a long time. Archived — ask before promising one.","off the current menu"],
  ["Pistachio Gelato","in the freezer","Dairy and tree nuts. Archived — ask before promising one.","off the current menu"],
  ["Forest Mushrooms","$14","Cremini, portobello, shiitake, and button in garlic herb butter. The $8 Roasted Mushrooms enhancement is the current mushroom play.","off the current menu"],

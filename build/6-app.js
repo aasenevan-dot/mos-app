@@ -96,6 +96,7 @@ function openSheet(){
       <button class="item" id="shSzDn">A− Smaller text</button>
       <button class="item" id="shSzUp">A+ Bigger text</button>
       <button class="item" id="shDark">${document.documentElement.classList.contains("dark")?"Light mode":"Dark mode"}</button>
+      <button class="item" id="shLang">${LANG==="es"?"English":"Espa\u00f1ol"}</button>
       <button class="item" id="shPrint">Print this tab</button>
     </div>`;
   $("#sheet").classList.add("open");
@@ -103,6 +104,7 @@ function openSheet(){
   $("#shSzDn").onclick=()=>$("#szDn").click();
   $("#shSzUp").onclick=()=>$("#szUp").click();
   $("#shDark").onclick=()=>{$("#darkT").click();closeSheet();};
+  $("#shLang").onclick=()=>{closeSheet();setLang(LANG==="es"?"en":"es");};
   $("#shPrint").onclick=()=>{closeSheet();setTimeout(()=>window.print(),150);};
 }
 function closeSheet(){$("#sheet").classList.remove("open");}
@@ -871,7 +873,7 @@ function build(){
       <button data-qa="ops|#sec-income">${QAICONS["ops|#sec-income"]||""}<div class="t">Night Forecast</div><div class="s">Who's on, the covers, and the cut — called early</div></button>
       <button data-qa="study|#sec-quiz">${QAICONS["study|#sec-quiz"]||""}<div class="t">Quiz &amp; games</div><div class="s">${MC.length} questions by topic + the real 30</div></button>
       <button data-qa="menu|">${QAICONS["menu|"]||""}<div class="t">Food menu</div><div class="s">Prices, builds, temps, the A5 pitch</div></button>
-      <button data-qa="__search|">${QAICONS["__search|"]||""}<div class="t">Search everything</div><div class="s">Wine, garnish, allergen, price</div></button>
+      <button data-qa="__search|">${QAICONS["__search|"]||""}<div class="t">Ask anything</div><div class="s">Wine, garnish, allergen, price</div></button>
     </div>
 
     <div class="sechead"><h2>Before you walk up</h2><span>the 60-second version</span></div>
@@ -1274,6 +1276,7 @@ function build(){
 
   /* ---------- WIRE UP ---------- */
   renderWines(); renderDrinks(); renderAllergens(); pairingOut(0); calcSC(); calcBQC(); ipPrefill(); calcIP(); calcBq(); fillSched();
+  applyLang();
 
   $("#p-shift").querySelector(".qa").onclick=e=>{
     const b=e.target.closest("button[data-qa]"); if(!b)return;
@@ -1497,6 +1500,56 @@ $("#darkT").onclick=()=>{
   const on=document.documentElement.classList.toggle("dark");
   $("#darkT").textContent=on?"Light":"Dark";
 };
+/* ---------- SPANISH MODE ----------
+   A post-render pass over text nodes, not a rewrite of every template: the app keeps
+   rendering in English exactly as it always has and the words get swapped afterwards.
+   Anything missing from ES simply stays English, so a gap can never mangle a price,
+   a dish name or a calculation.
+
+   The swap remembers the original on each node it touches (ORIG), because build()
+   only repaints the panels — the nav, header and footer are not rebuilt, so without
+   this, switching back to English left "Inicio" on the tab bar forever.            */
+var LANG;
+var ORIG = new WeakMap();
+
+function langWalk(fn){
+  const w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,{
+    acceptNode(n){
+      const p=n.parentElement;
+      if(!p||/SCRIPT|STYLE|TEXTAREA/.test(p.tagName)) return NodeFilter.FILTER_REJECT;
+      return n.textContent.trim() ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+    }});
+  const hits=[]; let n;
+  while(n=w.nextNode()) hits.push(n);
+  hits.forEach(fn);
+}
+function applyLang(){
+  if(LANG!=="es"||typeof ES==="undefined") return;
+  langWalk(n=>{
+    const raw=n.textContent, k=raw.trim();
+    const hit=ES[k];
+    if(!hit) return;
+    if(!ORIG.has(n)) ORIG.set(n,raw);
+    n.textContent=raw.replace(k,hit);
+  });
+  document.querySelectorAll("input[placeholder]").forEach(i=>{
+    const v=ES[i.placeholder];
+    if(v){ if(!i.dataset.enPh) i.dataset.enPh=i.placeholder; i.placeholder=v; }
+  });
+}
+function restoreLang(){
+  langWalk(n=>{ if(ORIG.has(n)) n.textContent=ORIG.get(n); });
+  document.querySelectorAll("input[data-en-ph]").forEach(i=>{ i.placeholder=i.dataset.enPh; });
+}
+function renderAll(){ build(); }
+function setLang(l){
+  LANG=l;
+  document.documentElement.lang = l==="es" ? "es" : "en";
+  const b=$("#langT"); if(b) b.textContent = l==="es" ? "English" : "Espa\u00f1ol";
+  if(l==="es"){ renderAll(); }          /* build() repaints panels, then applyLang runs */
+  else { restoreLang(); renderAll(); }  /* put the chrome back, then repaint in English */
+}
+$("#langT").onclick=()=>setLang(LANG==="es"?"en":"es");
 $("#totop").onclick=()=>window.scrollTo({top:0,behavior:"smooth"});
 /* the logo is the way home from anywhere */
 $("#brandHome").onclick=()=>go("shift");

@@ -273,6 +273,21 @@ async def main():
         await pg.evaluate("go('menu')")
         await pg.wait_for_timeout(200)
 
+        # ---- Spanish mode: it must not damage anything ----
+        await pg.evaluate("setLang('es')"); await pg.wait_for_timeout(600)
+        es=await pg.evaluate("document.querySelector('#p-menu').innerText")
+        for cell in ["Filet Mignon","Bananas Foster","$115"]:
+            if cell not in es: bad.append(f"Spanish mode changed something it must not: {cell}")
+        if "Especiales" not in es: bad.append("Spanish mode did not translate the menu headings")
+        leftover=await pg.evaluate("""(()=>{const p=document.querySelector('#p-menu');
+          const w=document.createTreeWalker(p,NodeFilter.SHOW_TEXT);let n,c=0;
+          while(n=w.nextNode()){const s=n.textContent.trim(); if(s.length>2&&(s in ES))c++;}
+          return c;})()""")
+        if leftover: bad.append(f"{leftover} menu strings have a translation but still render English")
+        await pg.evaluate("setLang('en')"); await pg.wait_for_timeout(600)
+        if "Especiales" in await pg.evaluate("document.querySelector('#p-menu').innerText"):
+            bad.append("toggling back to English left Spanish on screen")
+
         # ---- 8/7 QC round: leads, GF legend, protocol order ----
         await pg.evaluate("go('menu')")
         await pg.wait_for_timeout(300)

@@ -108,6 +108,23 @@ async def main():
         z=await pg.evaluate("document.body.style.zoom")
         if str(z)!="0.925": bad.append(f"szDn zoom wrong: {z}")
         await pg.evaluate("document.querySelector('#szUp').click()")
+        # ---- the handbook curtain (8/10) ----
+        await pg.evaluate("go('house')"); await pg.wait_for_timeout(300)
+        locked=await pg.evaluate("document.querySelector('#p-house').innerText")
+        if "Gum chewing" in locked: bad.append("handbook body is readable while locked")
+        if "staff only" not in locked.lower(): bad.append("handbook does not show as staff only")
+        if await pg.evaluate("""(()=>{const h=search('dress code').find(x=>/Handbook/i.test(x.w));
+            return h? /Act professionally/.test(h.d) : false;})()"""):
+            bad.append("search leaks the handbook body while it is locked")
+        await pg.evaluate("document.querySelector('#hbPw').value='nope'; hbTry();")
+        await pg.wait_for_timeout(150)
+        if await pg.evaluate("HBOPEN===true"): bad.append("the wrong password opened the handbook")
+        await pg.evaluate("document.querySelector('#hbPw').value='GreatSteaks'; hbTry();")
+        await pg.wait_for_timeout(350)
+        if not await pg.evaluate("HBOPEN===true"): bad.append("the right password did not open the handbook")
+        if await pg.evaluate("document.querySelectorAll('#hbGate details').length")<10:
+            bad.append("handbook sections did not render after unlocking")
+
         # ---- distribution round: about + events + lillian email ----
         h2v=await pg.evaluate("document.querySelector('#p-house').innerHTML")
         if "About this app" not in h2v: bad.append("About section missing")

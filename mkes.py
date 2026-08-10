@@ -31,6 +31,21 @@ for line in JOURNAL.read_text().splitlines():
 
 pairs.update(fixes)
 
+# Strings added to the app after the translation run. The journal cannot know about
+# these, so they live here and are applied last — that keeps 5g-data-es.js genuinely
+# generated instead of something you have to remember not to overwrite.
+LATER = {
+    "Floor plan": "Plano del piso",
+    "Tap a table — seats, section, where seat 1 is":
+        "Toca una mesa — asientos, sección y dónde va el asiento 1",
+    "Ask anything — try 'whats in the carajillo' or 'gf desserts'":
+        "Pregunta lo que sea — prueba 'qué lleva el carajillo' o 'postres sin gluten'",
+    "Employee Handbook": "Manual del empleado",
+    "staff only": "solo personal",
+    "Lock it again": "Bloquear de nuevo",
+}
+pairs.update(LATER)
+
 def strip_ident(s: str) -> str:
     """'gluten (gluten)' -> 'gluten'. The English gloss earns its place only when the
        two words actually differ; otherwise it is noise in a narrow phone cell."""

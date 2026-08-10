@@ -34,6 +34,7 @@ const BOTTOM=[["shift","Home","home"],["wine","Wine","wine"],["cocktails","Drink
    rather than beside the title: these tiles get down to ~160px on a phone and an inline
    icon would squeeze the text into more lines. */
 const QAICONS={
+  "house|#sec-floor":'<svg viewBox="0 0 24 24"><rect x="7.6" y="8.6" width="8.8" height="6.8" rx="1.4"/><circle cx="12" cy="4.6" r="1.7"/><circle cx="12" cy="19.4" r="1.7"/><circle cx="4.6" cy="12" r="1.7"/><circle cx="19.4" cy="12" r="1.7"/></svg>',
  /* calendar */
  "sched|":'<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2.5"/><path d="M3 10h18M8 2.8v4M16 2.8v4"/></svg>',
  /* martini with an olive on a pick — the garnish IS the point */
@@ -717,8 +718,13 @@ function search(q){
   SOUPS_STANDING.forEach(s=>{if(matches([s[0],s[2]]))add("Standing soup",s[0]+" — "+s[1],s[2],"menu");});
   OFFMENU.forEach(s=>{if(matches([s[0],s[2]]))add("Off-menu",s[0]+" — "+s[1],s[2],"menu");});
   VOCAB.forEach(g=>g[1].forEach(r=>{if(matches([g[0],r[0],r[1]]))add("Vocabulary",r[0],r[1],"vocab");}));
+  /* The handbook sits behind the curtain, so search must not walk around it — while
+     it is locked a hit shows only the section TITLE and says where to unlock it. */
   HANDBOOK.forEach(h=>{const txt=h[2].replace(/<[^>]+>/g," ");
-    if(matches([h[0],h[1],txt]))add("Handbook",h[0],txt.trim().slice(0,140)+"…","house");});
+    if(matches([h[0],h[1],txt]))
+      add("Handbook",h[0], (typeof HBOPEN!=="undefined"&&HBOPEN)
+        ? txt.trim().slice(0,140)+"…"
+        : "Staff only — open the Employee Handbook in How We Work to read it.","house");});
   /* the book is searchable too — a hit sends you to How We Work, where the book card lives */
   BOOK.forEach(c=>{const txt=c.h.replace(/<[^>]+>/g," ").replace(/\s+/g," ");
     if(matches([c.t,"mo's book",txt]))add("Mo's Book",c.t,txt.trim().slice(0,140)+"…","house");});
@@ -878,7 +884,7 @@ function build(){
       <button data-qa="ops|#sec-income">${QAICONS["ops|#sec-income"]||""}<div class="t">Night Forecast</div><div class="s">Who's on, the covers, and the cut — called early</div></button>
       <button data-qa="study|#sec-quiz">${QAICONS["study|#sec-quiz"]||""}<div class="t">Quiz &amp; games</div><div class="s">${MC.length} questions by topic + the real 30</div></button>
       <button data-qa="menu|">${QAICONS["menu|"]||""}<div class="t">Food menu</div><div class="s">Prices, builds, temps, the A5 pitch</div></button>
-      <button data-qa="__search|">${QAICONS["__search|"]||""}<div class="t">Ask anything</div><div class="s">Wine, garnish, allergen, price</div></button>
+      <button data-qa="house|#sec-floor">${QAICONS["house|#sec-floor"]||""}<div class="t">Floor plan</div><div class="s">Tap a table — seats, section, where seat 1 is</div></button>
     </div>
 
     <div class="sechead"><h2>Before you walk up</h2><span>the 60-second version</span></div>
@@ -1176,9 +1182,8 @@ function build(){
     ${acc("Closing side work — front, back, closer","the posted sheet with slow-night and busy-night quantities",`<ul class="steps">${HOUSE.closesheet.map(d=>`<li>${esc(d)}</li>`).join("")}</ul>`)}
     ${acc("Bar steps + timing standards","the 20-step bar bible — the timing rules apply everywhere",`<ul class="steps">${HOUSE.barsteps.map(d=>`<li>${esc(d)}</li>`).join("")}</ul>`)}
     ${acc("House facts","uniform, trivia, and the little rules",`<ul class="steps">${HOUSE.facts.map(([t,d])=>`<li><b>${esc(t)}:</b> ${esc(d)}</li>`).join("")}</ul>`)}
-    <div class="sechead"><h2>Employee Handbook</h2><span>the official policies, every section</span></div>
-    <p class="lede">The house handbook, section by section. General guidelines — not a contract. Questions go to Management.</p>
-    ${HANDBOOK.map(h=>acc(h[0],h[1],h[2])).join("")}
+    <div class="sechead"><h2>Employee Handbook</h2><span>staff only</span></div>
+    <div id="hbGate"></div>
 
     <div class="sechead"><h2>About this app</h2><span>read once</span></div>
     <div class="note">Mo's Server Command Center — built by Evan (back server) as a training and money tool for the team. It is a STUDY COPY, not official house policy: menus, prices, and rules change, so when a dollar matters, verify in Toast or with a manager. The checkout math is proven against real graded checkouts. Spot something wrong or outdated? Tell Evan — corrections go in same-day. Updated <b>__BUILDDATE__</b>.</div>
@@ -1281,7 +1286,7 @@ function build(){
     `;
 
   /* ---------- WIRE UP ---------- */
-  renderWines(); renderDrinks(); renderAllergens(); renderFloor(); pairingOut(0); calcSC(); calcBQC(); ipPrefill(); calcIP(); calcBq(); fillSched();
+  renderWines(); renderDrinks(); renderAllergens(); renderFloor(); hbRender(); pairingOut(0); calcSC(); calcBQC(); ipPrefill(); calcIP(); calcBq(); fillSched();
   applyLang();
 
   $("#p-shift").querySelector(".qa").onclick=e=>{
@@ -1371,15 +1376,66 @@ function fpSeatRing(tb){
     NW:"the near-left corner"};
   return NAME[tb.seat1]||tb.seat1;
 }
+/* ---------- HANDBOOK CURTAIN ----------
+   A curtain, not a lock, and it is worth being honest about which: this app is one
+   public file, so anyone who opens the page source can read the handbook whether or
+   not they type the word. What this DOES do is stop a guest who picks up a server's
+   phone and taps around. Real protection would mean not shipping the handbook in a
+   public file at all.
+   The word is compared as a small hash rather than sitting in plain sight, so a
+   casual view-source and Ctrl-F "password" does not just hand it over. */
+var HBOPEN;
+function hbHash(str){
+  let h=5381;
+  for(let i=0;i<str.length;i++) h=((h*33)^str.charCodeAt(i))>>>0;
+  return h;
+}
+function hbRender(){
+  const box=$("#hbGate"); if(!box)return;
+  if(HBOPEN){
+    box.innerHTML=`<p class="lede">The house handbook, section by section. General guidelines — not a contract. Questions go to Management.</p>
+      ${HANDBOOK.map(h=>acc(h[0],h[1],h[2])).join("")}
+      <p class="sub" style="margin:10px 2px 0"><button class="btn sec" onclick="hbLock()">Lock it again</button></p>`;
+    return;
+  }
+  box.innerHTML=`<div class="card"><div class="cbody">
+    <p class="sub" style="margin:0 0 10px">The handbook is staff only. Ask a manager for the word if you do not have it.</p>
+    <div class="frow"><div class="f" style="max-width:260px">
+      <label for="hbPw">Password</label>
+      <input type="password" id="hbPw" autocomplete="off" autocapitalize="off" autocorrect="off"
+             spellcheck="false" enterkeyhint="go" placeholder="staff password">
+    </div></div>
+    <p style="margin:8px 0 0"><button class="btn" onclick="hbTry()">Open the handbook</button></p>
+    <p class="sub" id="hbMsg" style="margin:8px 0 0;color:var(--red);display:none">That is not it. Try again.</p>
+  </div></div>`;
+  const inp=$("#hbPw");
+  if(inp) inp.onkeydown=e=>{ if(e.key==="Enter"){ e.preventDefault(); hbTry(); } };
+}
+function hbTry(){
+  const v=($("#hbPw")||{}).value||"";
+  if(hbHash(v.trim())===3652400411){ HBOPEN=true; hbRender(); window.scrollTo({top:$("#hbGate").offsetTop-70,behavior:"smooth"}); }
+  else { const m=$("#hbMsg"); if(m)m.style.display="block"; }
+}
+function hbLock(){ HBOPEN=false; hbRender(); }
+
 function renderFloor(){
   const wrap=$("#fpStage"); if(!wrap||typeof FLOORMAP==="undefined")return;
   if(FPROOM==null)FPROOM=0;
   const room=FLOORMAP[FPROOM];
+  /* The seat-1 dot rides as a sibling, not a child: a diamond table is rotated 45deg
+     by CSS, and anything inside it rotates too, which would throw the marker to the
+     wrong corner. Positioned off the table centre by shape radius and compass. */
+  const DIRV={N:[0,-1],NE:[.72,-.72],E:[1,0],SE:[.72,.72],S:[0,1],SW:[-.72,.72],W:[-1,0],NW:[-.72,-.72]};
+  const RAD={d:[6.4,6.9],b:[8,5.6],r:[5.6,6.1],banq:[5,13],bar:[0,0]};
   wrap.innerHTML=room.tables.map(tb=>{
     const sec=FPSHOWSEC?fpSectionOf(tb.t):null;
     const bg=sec?`background:${FPCOLORS[sec.i%FPCOLORS.length]}`:"";
+    const v=DIRV[tb.seat1], r=RAD[tb.shape];
+    const dot=(v&&r&&tb.seats>1&&tb.shape!=="bar")
+      ? `<i class="fpseat1${FPSEL===tb.t?" sel":""}" style="left:${(tb.x+v[0]*r[0]).toFixed(2)}%;top:${(tb.y+v[1]*r[1]).toFixed(2)}%"
+           title="Seat 1 on table ${esc(tb.t)}"></i>` : "";
     return `<div class="fptable ${tb.shape}${FPSEL===tb.t?" sel":""}" style="left:${tb.x}%;top:${tb.y}%;${bg}"
-      onclick="fpPick('${tb.t}')" role="button" aria-label="Table ${esc(tb.t)}"><span>${esc(tb.t)}</span></div>`;
+      onclick="fpPick('${tb.t}')" role="button" aria-label="Table ${esc(tb.t)}"><span>${esc(tb.t)}</span></div>${dot}`;
   }).join("");
   $("#fpRooms").innerHTML=FLOORMAP.map((r,i)=>
     `<button class="${i===FPROOM?"on":""}" onclick="fpRoom(${i})">${esc(r.room)}</button>`).join("");

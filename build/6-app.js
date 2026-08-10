@@ -12,7 +12,7 @@ const $n=s=>Math.max(0,+$(s).value||0);
 
 const TABS = [
   ["shift","Home"],["sched","Schedule"],["wine","Wine"],["cocktails","Drinks & Garnish"],["menu","Food Menu & Specials"],
-  ["allergens","Allergens"],["study","Study & Quiz"],["ops","Money"],
+  ["allergens","Allergens"],["study","Study & Quiz"],["ops","Money"],["pos","Front POS"],
   ["house","How We Work"],["vocab","Vocabulary"],["extra","Reference & Archive"]
 ];
 const ICONS={
@@ -1083,6 +1083,12 @@ function build(){
     <div class="sechead"><h2>What the terms mean</h2><span>test question 20</span></div>
     ${tbl(["Term","What it includes"],ALLERGEN_MEANING.map(a=>[`<b>${esc(a[0])}</b>`,esc(a[1])]))}`;
 
+  /* ---------- FRONT POS ---------- */
+  $("#p-pos").innerHTML = (typeof FRONT_POS==="undefined") ? "" : `
+    <div class="sechead" id="sec-pos"><h2>Front POS numbers</h2><span>${FRONT_POS.length} on the sheet up front</span></div>
+    <p class="sub" style="margin:0 0 10px">Straight off the sheet taped up front. Two crossed-out rows are not here, and the asterisk is printed on the original — nobody has told us what it marks.</p>
+    ${tbl(["Front","POS #"],FRONT_POS.map(r=>[`<b>${esc(r[0])}</b>`,`<span class="mono">${esc(r[1])}</span>`]))}`;
+
   /* ---------- STUDY ---------- */
   const QT=[["all","Everything"],["steak","Steaks"],["food","Food"],["wine","Wine"],["cocktail","Cocktails"],["allergen","Allergens"],["service","Service"],["money","Money"],["house","The House"],["ops","Ops"]];
   const qtCount=t=>t==="all"?MC.length:MC.filter(m=>m.t===t).length;
@@ -1165,10 +1171,6 @@ function build(){
     <div class="sechead"><h2>Employee Handbook</h2><span>the official policies, every section</span></div>
     <p class="lede">The house handbook, section by section. General guidelines — not a contract. Questions go to Management.</p>
     ${HANDBOOK.map(h=>acc(h[0],h[1],h[2])).join("")}
-
-    <div class="sechead" id="sec-pos"><h2>Front POS numbers</h2><span>${FRONT_POS.length} on the sheet up front</span></div>
-    <p class="sub" style="margin:0 0 10px">Straight off the sheet taped up front. Two crossed-out rows are not here, and the asterisk is printed on the original — nobody has told us what it marks.</p>
-    ${tbl(["Front","POS #"],FRONT_POS.map(r=>[`<b>${esc(r[0])}</b>`,`<span class="mono">${esc(r[1])}</span>`]))}
 
     <div class="sechead"><h2>About this app</h2><span>read once</span></div>
     <div class="note">Mo's Server Command Center — built by Evan (back server) as a training and money tool for the team. It is a STUDY COPY, not official house policy: menus, prices, and rules change, so when a dollar matters, verify in Toast or with a manager. The checkout math is proven against real graded checkouts. Spot something wrong or outdated? Tell Evan — corrections go in same-day. Updated <b>__BUILDDATE__</b>.</div>

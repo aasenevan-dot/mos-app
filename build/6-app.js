@@ -729,6 +729,11 @@ function search(q){
   if(typeof FRONT_POS!=="undefined") FRONT_POS.forEach(r=>{
     if(matches([r[0],r[1],"pos number","front pos","server number"]))
       add("Front POS",r[0].replace(/\s*\*$/,""),"POS #"+r[1],"house");});
+  if(typeof FLOORMAP!=="undefined") FLOORMAP.forEach(r=>r.tables.forEach(tb=>{
+    const sec=(typeof SECTIONS!=="undefined"?(SECTIONS.find(x=>x.tables.indexOf(tb.t)>=0)||{}).who:"")||"";
+    if(matches(["table "+tb.t,tb.t,r.room,sec,"floor plan","seat"]))
+      add("Floor plan · "+r.room,"Table "+tb.t,
+          "Sits "+tb.seats+(sec?" · "+sec:"")+" · tap it on the plan","house");}));
   if(typeof FLOOR!=="undefined") FLOOR.forEach(r=>{
     r.groups.forEach(g=>g[1].forEach(t=>{
       if(matches(["table "+t,t,r.n,g[0],"floor plan","seat"]))
@@ -1142,17 +1147,18 @@ function build(){
       tbl(["Dish","Set with it","Note"],MISE.map(m=>[`<b>${esc(m[0])}</b>`,esc(m[1].join(" + ")),
         `<span style="color:var(--dim)">${esc(m[2]||"")}</span>`])))}
 
-    ${""/* Floor plan. The photo is the real thing off the wall; the table list under
-          each room is there so search can find "table 74" and so it reads on a phone
-          without pinching into a picture. */}
-    <div class="sechead" id="sec-floor"><h2>Floor plan</h2><span>${FLOOR.reduce((n,r)=>n+r.tables.length,0)} tables across ${FLOOR.length} rooms</span></div>
-    <p class="sub" style="margin:0 0 10px">Every table is marked with where <b>seat 1</b> sits — number clockwise from there so the whole team rings the same seat the same way.</p>
-    ${FLOOR.map(r=>acc(r.n, r.sub+" · "+r.tables.length+" tables", `
-      <img class="floorimg" src="${r.img}" alt="${esc(r.n)} floor plan" loading="lazy" onclick="openFloor('${esc(r.n)}')">
-      <p class="sub" style="margin:8px 0 4px">Tap the plan to open it full screen.</p>
-      ${r.groups.map(g=>`<div style="padding:5px 0;border-top:1px solid var(--line)">
-        <b>${esc(g[0])}</b>
-        <div style="color:var(--dim);font-size:13px;margin-top:2px">${g[1].map(esc).join(" · ")}</div></div>`).join("")}`)).join("")}
+    ${""/* Interactive plan first — tap a table, see who has it and where seat 1 sits.
+          The photographed sheets stay underneath as the source of truth. */}
+    <div class="sechead" id="sec-floor"><h2>Floor plan</h2><span>${FLOORMAP.reduce((n,r)=>n+r.tables.length,0)} tables across ${FLOORMAP.length} rooms</span></div>
+    <p class="sub" style="margin:0 0 8px">Seat 1 usually faces the front door. Number clockwise from there unless it is a booth.</p>
+    <div class="fproom" id="fpRooms"></div>
+    <div class="fpstage" id="fpStage"></div>
+    <div class="fplegend" id="fpLegend"></div>
+    <div class="fpdetail" id="fpDetail"></div>
+    ${typeof FLOOR_CREW!=="undefined"?`<p class="sub" style="margin:10px 2px 0">${FLOOR_CREW.map(c=>`<b>${esc(c[0])}:</b> ${esc(c[1])}`).join(" &middot; ")}</p>`:""}
+    ${acc("The printed sheets","photographed off the wall — the source these positions came from",
+      FLOOR.map(r=>`<p class="sub" style="margin:10px 0 4px"><b>${esc(r.n)}</b> — ${esc(r.sub)}</p>
+        <img class="floorimg" src="${r.img}" alt="${esc(r.n)} floor plan" loading="lazy" onclick="openFloor('${esc(r.n)}')">`).join(""))}
 
     ${acc("Points of Passion — the 16","the Mo's service philosophy, word for word where it counts",`<ol class="steps">${HOUSE.points.map(([t,d])=>`<li><b>${esc(t)}.</b> ${esc(d)}</li>`).join("")}</ol>`)}
     ${acc("Isaac's Non-Negotiables — the 11","the standards that never bend",`<ol class="steps">${HOUSE.isaacs.map(d=>`<li>${esc(d)}</li>`).join("")}</ol>`)}
@@ -1275,7 +1281,7 @@ function build(){
     `;
 
   /* ---------- WIRE UP ---------- */
-  renderWines(); renderDrinks(); renderAllergens(); pairingOut(0); calcSC(); calcBQC(); ipPrefill(); calcIP(); calcBq(); fillSched();
+  renderWines(); renderDrinks(); renderAllergens(); renderFloor(); pairingOut(0); calcSC(); calcBQC(); ipPrefill(); calcIP(); calcBq(); fillSched();
   applyLang();
 
   $("#p-shift").querySelector(".qa").onclick=e=>{
@@ -1346,6 +1352,70 @@ function build(){
 function dishPic(name){
   return (typeof PHOTOS!=="undefined" && PHOTOS[name]) || "";
 }
+/* ---------- INTERACTIVE FLOOR PLAN ----------
+   Rendered from FLOORMAP (positions) + SECTIONS (who has what tonight). Edit
+   SECTIONS and the plan recolours — that is the daily update, no code change. */
+var FPROOM, FPSEL, FPSHOWSEC;
+var FPCOLORS=["#7A2E26","#1F6B4F","#2F5D8A","#8A5A12","#6B3E7A","#0F6E70","#9B4A2F","#4A6B1F","#7A2050","#3D5A80"];
+function fpSectionOf(t){
+  if(typeof SECTIONS==="undefined")return null;
+  for(let i=0;i<SECTIONS.length;i++) if(SECTIONS[i].tables.indexOf(t)>=0) return {i:i,who:SECTIONS[i].who};
+  return null;
+}
+function fpSeatRing(tb){
+  /* Seat 1 sits where the plan marks it and you number clockwise from there. */
+  if(!tb.seat1||tb.seats<2) return "";
+  const dirs=["N","NE","E","SE","S","SW","W","NW"];
+  const NAME={N:"toward the front door side",NE:"the near-right corner",E:"the right side",
+    SE:"the far-right corner",S:"the far side",SW:"the far-left corner",W:"the left side",
+    NW:"the near-left corner"};
+  return NAME[tb.seat1]||tb.seat1;
+}
+function renderFloor(){
+  const wrap=$("#fpStage"); if(!wrap||typeof FLOORMAP==="undefined")return;
+  if(FPROOM==null)FPROOM=0;
+  const room=FLOORMAP[FPROOM];
+  wrap.innerHTML=room.tables.map(tb=>{
+    const sec=FPSHOWSEC?fpSectionOf(tb.t):null;
+    const bg=sec?`background:${FPCOLORS[sec.i%FPCOLORS.length]}`:"";
+    return `<div class="fptable ${tb.shape}${FPSEL===tb.t?" sel":""}" style="left:${tb.x}%;top:${tb.y}%;${bg}"
+      onclick="fpPick('${tb.t}')" role="button" aria-label="Table ${esc(tb.t)}"><span>${esc(tb.t)}</span></div>`;
+  }).join("");
+  $("#fpRooms").innerHTML=FLOORMAP.map((r,i)=>
+    `<button class="${i===FPROOM?"on":""}" onclick="fpRoom(${i})">${esc(r.room)}</button>`).join("");
+  $("#fpLegend").innerHTML=(typeof SECTIONS==="undefined")?"":
+    `<button class="${FPSHOWSEC?"on":""}" onclick="fpToggleSections()">${FPSHOWSEC?"Hide sections":"Show tonight's sections"}</button>`+
+    (FPSHOWSEC?SECTIONS.map((s,i)=>`<button onclick="fpPick('${s.tables[0]}')"><span class="sw" style="background:${FPCOLORS[i%FPCOLORS.length]}"></span>${esc(s.who)}</button>`).join(""):"");
+  fpDetail();
+}
+function fpDetail(){
+  const box=$("#fpDetail"); if(!box)return;
+  const room=FLOORMAP[FPROOM];
+  const tb=room.tables.find(x=>x.t===FPSEL);
+  if(!tb){
+    box.innerHTML=`<div class="meta">${esc(room.sub)} &middot; ${room.tables.length} tables. Tap any table.</div>`;
+    return;
+  }
+  const SHAPE={d:"Four-top",b:"Booth",r:"Round",bar:"Bar seat",banq:"Banquette"};
+  const sec=fpSectionOf(tb.t);
+  const ring=fpSeatRing(tb);
+  box.innerHTML=`<div class="n">Table ${esc(tb.t)}</div>
+    <div class="meta">${esc(SHAPE[tb.shape]||tb.shape)} &middot; sits ${tb.seats} &middot; ${esc(room.room)}${sec?" &middot; "+esc(sec.who):""}</div>
+    ${tb.seats>1&&ring?`<div class="meta" style="margin-top:6px"><b>Seat 1</b> is ${esc(ring)} — number clockwise from there.</div>
+    <div class="fpseats">${Array.from({length:Math.min(tb.seats,8)},(_,i)=>`<i>Seat ${i+1}</i>`).join("")}</div>`:""}`;
+}
+function fpPick(t){
+  const room=FLOORMAP[FPROOM];
+  if(!room.tables.some(x=>x.t===t)){
+    const ri=FLOORMAP.findIndex(r=>r.tables.some(x=>x.t===t));
+    if(ri>=0)FPROOM=ri;
+  }
+  FPSEL=(FPSEL===t)?null:t;
+  renderFloor();
+}
+function fpRoom(i){ FPROOM=i; FPSEL=null; renderFloor(); }
+function fpToggleSections(){ FPSHOWSEC=!FPSHOWSEC; renderFloor(); }
+
 function openFloor(name){
   const r=(typeof FLOOR!=="undefined"?FLOOR:[]).find(x=>x.n===name); if(!r)return;
   const w=document.createElement("div"); w.className="picwrap"; w.onclick=()=>w.remove();

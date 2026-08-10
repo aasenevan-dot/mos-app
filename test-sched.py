@@ -273,6 +273,28 @@ async def main():
         await pg.evaluate("go('menu')")
         await pg.wait_for_timeout(200)
 
+        # ---- interactive floor plan ----
+        await pg.evaluate("go('house')"); await pg.wait_for_timeout(400)
+        fp=await pg.evaluate("""(()=>({
+          rooms:document.querySelectorAll('#fpRooms button').length,
+          drawn:document.querySelectorAll('#fpStage .fptable').length,
+          total:FLOORMAP.reduce((n,r)=>n+r.tables.length,0),
+          dupes:(()=>{const s=new Set(),d=[];FLOORMAP.forEach(r=>r.tables.forEach(t=>{
+            if(s.has(t.t))d.push(t.t); s.add(t.t);}));return d;})(),
+          offGrid:FLOORMAP.flatMap(r=>r.tables.filter(t=>t.x<3||t.x>97||t.y<3||t.y>97).map(t=>t.t))
+        }))()""")
+        if fp["rooms"]!=5: bad.append(f"floor plan shows {fp['rooms']} rooms, expected 5")
+        if fp["dupes"]: bad.append(f"a table number appears twice on the plan: {fp['dupes']}")
+        if fp["offGrid"]: bad.append(f"tables plotted off the stage: {fp['offGrid']}")
+        if fp["total"]<64: bad.append(f"floor plan only has {fp['total']} tables")
+        await pg.evaluate("fpPick('74')"); await pg.wait_for_timeout(250)
+        det=await pg.evaluate("document.querySelector('#fpDetail').innerText")
+        if "Table 74" not in det: bad.append("tapping table 74 did not open its detail")
+        if "Curry" not in det: bad.append("table 74 detail does not name the Curry")
+        await pg.evaluate("fpToggleSections()"); await pg.wait_for_timeout(250)
+        if not await pg.evaluate("[...document.querySelectorAll('#fpStage .fptable')].some(e=>e.style.background)"):
+            bad.append("sections toggle did not colour the tables")
+
         # ---- Spanish mode: it must not damage anything ----
         await pg.evaluate("setLang('es')"); await pg.wait_for_timeout(600)
         es=await pg.evaluate("document.querySelector('#p-menu').innerText")

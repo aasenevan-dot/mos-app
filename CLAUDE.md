@@ -743,3 +743,37 @@ ran, and it is history, not a live price.
 entry**, or that string silently reverts to English for Spanish users. A missing entry
 never breaks anything, it just shows English — which is safe, but it is also invisible,
 so nobody notices the drift.
+
+## Menu photos, 8/10 — what the printed menu settled and what it did NOT
+
+18 photos transcribed to `Floor plan + updated menus/transcribed/`, with a full
+photo-vs-app diff in `CONFLICTS-vs-app.md`. The printed dinner menu is the authority.
+
+FIXED from it:
+- **Steak temperatures were shifted one whole step.** Every description belonged to the
+  step below it — the app's "Medium: warm pink" is the menu's MEDIUM WELL. Names too:
+  the menu's second step is **Center Rare**, not "Rare". Now matches the guide exactly.
+- The porterhouse archive prose still said $150 in one sentence; now $170.
+- The A5's printed **6 oz at a flat $150** is back in the price line.
+- Both seafood towers now also teach the guest-facing names: **Little Tower (half
+  platter) $98 / Big Tower $190**. We say Semi-Pro / Baller; the guest reads Little / Big.
+
+STILL NEEDS EVAN OR A MANAGER — do not guess these:
+1. **Molten Lava Cake.** Printed menu lists **ice cream and Hershey's syrup**. Evan said
+   on 8/7 "we don't have ice cream on the molten lava cake, take that out". The app
+   follows Evan. The printed menu may simply be older — but it is a direct conflict
+   between his word and the menu in the guest's hand.
+2. **Caesar Salad.** Printed lists **White Anchovies as a component**; the app says they
+   are an optional side. This changes the allergen answer for a fish allergy.
+3. **Dry Aged New York Strip.** Still on the printed menu at 14 oz $58; the app has it
+   archived because the Denver Cut replaced it. Guests can still order it by name.
+4. **Denver Cut $58 is an inference.** The shift note says only "same price"; Evan
+   confirmed same as the strip. No photo shows a Denver price.
+5. **Celebration Cake** — printed says chocolate mousse, app says white chocolate mousse.
+6. **Halal** — the menu footer claims it broadly; the app says filet-family and chicken
+   only, manager confirmation otherwise.
+7. Not on any printed page, so unverified rather than gone: Oysters Rockefeller $45,
+   A5 Nigiri $35, King Crab Legs MP, K.D.'s Tomahawk $160, Filet Duo $47, Filet &
+   Lobster $105, Filet & Scallops $82, the Steak 47 **entree** $58 (the $25 topping IS
+   printed), and Garlic Butter $6. No lounge or kids menu was photographed at all.
+

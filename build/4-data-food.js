@@ -104,8 +104,8 @@ const MENU = {
   ["Wagyu Tacos","$25","A5 wagyu filet sliced thin and flash-seared, set in a crispy wonton shell over caramelized onions with chimichurri, microgreens, and balsamic pearls — little pearls that pop like caviar. A light balsamic vinegar glaze goes over the top; that glaze is the sauce.",""],
   ["A5 Nigiri","$35","Torched sushi rice, balsamic pearls, Asian pear wine reduction, crispy leeks. Two metal Japanese chopsticks per person.",""],
   ["King Crab Legs","MP","Served with melted butter and cocktail sauce. Setup: cocktail forks, tongs, butter warmer with clarified butter. Recently around $125 a pound — but ALWAYS quote Toast, never memory.",""],
-  ["Iced Seafood Tower","Semi-Pro $98 / Baller $190","SEMI-PRO: 6 oysters, 3 shrimp, about a half pound of king crab legs, plus the blackened ahi tuna salad and the lobster salad on brioche. BALLER: everything doubled — 12 oysters, 6 shrimp, about a pound of crab. The tuna salad and lobster salad come with both and stay the same size. SERVICE: cocktail forks preset, butter warmer with a tealight, and clear the top tier away once it is finished to open up the table. Set a black shell bowl on the table for the shells and tower remains.",""],
-  ["Roasted Seafood Tower","Semi-Pro $98 / Baller $190","King crab legs, scallops, lobster meat, shrimp, and mussels tossed in diavolo. Same two sizes: the Semi-Pro has half the seafood the Baller does. The seafood-butter sauce pooling at the bottom — garlic butter, lobster stock, parsley, a touch of house marinara — is the good stuff. SERVICE: stacking rack in the base, stack at the table over a black linen, cocktail forks preset, butter warmer with a tealight. HALFWAY through, clear shells and stir the pasta setup into that remaining sauce — the tableside pasta is the value moment, do NOT skip it. Set a black shell bowl on the table for the shells and tower remains.","Bechamel is the base sauce (Mornay-style once cheese is in). We stir our bechamel cheese-sauce pasta into the tower sauce and the house calls the result CAPAVETTI PASTA — that is exactly how we say it."]
+  ["Iced Seafood Tower","Semi-Pro $98 / Baller $190","SEMI-PRO: 6 oysters, 3 shrimp, about a half pound of king crab legs, plus the blackened ahi tuna salad and the lobster salad on brioche. BALLER: everything doubled — 12 oysters, 6 shrimp, about a pound of crab. The tuna salad and lobster salad come with both and stay the same size. SERVICE: cocktail forks preset, butter warmer with a tealight, and clear the top tier away once it is finished to open up the table. Set a black shell bowl on the table for the shells and tower remains. On the printed menu these are the Little Tower (half platter, $98) and the Big Tower ($190) — same sizes, guest-facing names.",""],
+  ["Roasted Seafood Tower","Semi-Pro $98 / Baller $190","King crab legs, scallops, lobster meat, shrimp, and mussels tossed in diavolo. Same two sizes: the Semi-Pro has half the seafood the Baller does. The seafood-butter sauce pooling at the bottom — garlic butter, lobster stock, parsley, a touch of house marinara — is the good stuff. SERVICE: stacking rack in the base, stack at the table over a black linen, cocktail forks preset, butter warmer with a tealight. HALFWAY through, clear shells and stir the pasta setup into that remaining sauce — the tableside pasta is the value moment, do NOT skip it. Set a black shell bowl on the table for the shells and tower remains. On the printed menu these are the Little Tower (half platter, $98) and the Big Tower ($190) — same sizes, guest-facing names.","Bechamel is the base sauce (Mornay-style once cheese is in). We stir our bechamel cheese-sauce pasta into the tower sauce and the house calls the result CAPAVETTI PASTA — that is exactly how we say it."]
  ],
  "Soup & Salad":[
   ["Soup of the Day","$7 printed / comp with entrees","Comes complimentary with entrees — or the guest can upcharge $4 to lobster bisque or baked French onion.",""],
@@ -125,7 +125,7 @@ const MENU = {
   ["Delmonico Ribeye","16 oz $80","Named for Delmonico's, the old New York steakhouse that made this style famous. Our most marbled prime cut — rich, buttery, beefy fat renders between the cap and the eye with every bite. If a guest wants an old-school steakhouse ribeye, this is it.",""],
   ["K.D.'s Tomahawk","32 oz $160","A ribeye that keeps the whole rib bone. Even more heavily marbled than the Delmonico. The bone lets marrow render during cooking, adding a butteriness you can only get by keeping the rib bone. The juiciest, most flavorful cut we offer besides the Japanese A5.","K.D. = Kevin Dickey, former owner · largest oval plate"],
   ["Australian Wagyu Filet","6 oz $95 / 10 oz $135","Australian cattle crossbred with Japanese wagyu — even one generation of crossbreeding lifts the marbling way up. Wagyu fat melts at a lower temperature, so it runs juicy even at rare. Just as tender as the prime filet with more richness — the easy level-up for a filet person. Serve rare to med-rare — nudge, don't argue.",""],
-  ["Japanese A5 Wagyu","$25/oz","From Kagoshima Prefecture. The show: a manager cut, sliced with a Hanzo steel knife on a butcher's block, torch-finished with rosemary salt at the table. Preset the guests with the special Kobe Hanzo steak knives. House serves wagyu RARE to MED-RARE — nudge gently, never argue.","Manager cut"],
+  ["Japanese A5 Wagyu","$25/oz — 6 oz is a listed $150","From Kagoshima Prefecture. The show: a manager cut, sliced with a Hanzo steel knife on a butcher's block, torch-finished with rosemary salt at the table. Preset the guests with the special Kobe Hanzo steak knives. House serves wagyu RARE to MED-RARE — nudge gently, never argue.","Manager cut"],
   ["Steak 47","$58","A 4 oz filet base topped with a scallop and a shrimp, chopped asparagus and lobster meat around the plate, hollandaise drizzled on by expo. Upgrade math is easy — any filet goes 47 style for its price plus the $25 topping: 6 oz is $54 + $25 = $79, 10 oz is $79 + $25 = $104.","The Steak 47 topping upcharge is $25"],
   ["Filet & Lobster","$105","A 6 oz filet off the charbroiler (upgrade to 10 oz) with a 5 oz South African lobster tail, steamed gently so it never turns chewy.","GF"],
   ["Filet & Scallops","$82","A 6 oz filet with two U-10 prosciutto-wrapped scallops, flash-seared hot and fast — about two minutes — so they stay tender.",""],
@@ -181,13 +181,17 @@ const MENU = {
  ]
 };
 
+/* Straight off the printed menu's temperature guide (photo 8/10). The app had every
+   description shifted one step down — "Medium: warm pink" was actually the menu's
+   MEDIUM WELL, so a server describing medium off the app was describing the wrong
+   steak. Names match the menu too: the second step is CENTER RARE, not "Rare". */
 const TEMPS = [
- ["Blue rare","Cold red center"],
- ["Rare","Cool red"],
- ["Medium rare","Warm red"],
- ["Medium","Warm pink"],
- ["Medium well","Slight / hot pink"],
- ["Well done","Little to no pink — butterfly well-done filets"]
+ ["Blue","Very red and very cold"],
+ ["Center Rare","Cold red center"],
+ ["Medium Rare","Cool red center"],
+ ["Medium","Warm to hot red center"],
+ ["Medium Well","Hot pink center"],
+ ["Well","Hot center, little to no pink — offer to butterfly a well-done filet"]
 ];
 
 const A5PITCH = [
@@ -437,7 +441,7 @@ const SPECIALS_PAST=[
  ["Short Rib Pasta","$52","Prime short rib braised 12 hours in veal demi-glace, pressed clean, and laid over orecchiette in a light vermouth cream — shallot, fennel, garlic, thyme.","off the current menu"],
  ["Stuffed Chicken Breast","$38","Stuffed with cream cheese, goat cheese, Parmesan, and white cheddar under a creamy thyme-rosemary herb sauce.","off the current menu"],
  ["Ahi Tuna & Wagyu Beef","$68","4 oz Hawaiian ahi crusted in black and white sesame with hoisin glaze, plus a 4 oz Australian wagyu filet, sliced. Eight ounces of surf and turf on one plate.","off the current menu"],
- ["Australian Wagyu Porterhouse (old name)","now the USDA Choice Porterhouse","For a while the 48 oz porterhouse was called an Australian Wagyu Porterhouse at $180. Same cut, right name and price now: USDA CHOICE, $150 — roughly a 22 oz NY strip, a 12 oz filet, and about a 10 oz bone, built for two to split.","renamed"],
+ ["Australian Wagyu Porterhouse (old name)","now the USDA Choice Porterhouse","For a while the 48 oz porterhouse was called an Australian Wagyu Porterhouse at $180. Same cut, right name and price now: USDA CHOICE, $170 — roughly a 22 oz NY strip, a 12 oz filet, and about a 10 oz bone, built for two to split.","renamed"],
  ["Tomahawk Tuesday","$180 package","The 32 oz Australian Wagyu Tomahawk plus two glasses of wine, two soups or salads, and a signature Brown Butter Cake to finish — a full night out for $180. Not running anymore, but worth knowing we did it.","not running"],
  ["Heart of Ribeye Skewers","$45","Bourbon glaze mixed with onions and peppers. One of the most underrated things we ever ran.","not running"],
  ["Flank Steak with Chimichurri","was ~$35","Ran earlier this summer. Not on the current list.","not running"],

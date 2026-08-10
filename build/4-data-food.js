@@ -309,6 +309,7 @@ const ALLERGENS = [
  ["Delmonico Ribeye","$80",["beef","dairy"],"Cooked with butter by default — but the kitchen CAN cook any steak fully butter-free for a dairy allergy, the guest just has to ask."],
  ["Australian Wagyu Filet","6 oz $95 / 10 oz $135",["beef","dairy"],"Cooked with butter by default — but the kitchen CAN cook any steak fully butter-free for a dairy allergy, the guest just has to ask."],
  ["Japanese A5 Wagyu","$25/oz",["beef","dairy"],"Manager slices tableside. Cooked with butter by default — but the kitchen CAN cook any steak fully butter-free for a dairy allergy, the guest just has to ask."],
+ ["Denver Cut","$58",["beef","dairy"],"Chuck cut. Cooked with butter by default — the kitchen can go butter-free for a dairy allergy if the guest asks."],
  ["48 oz USDA Choice Porterhouse","$170",["beef","dairy"],"NOT wagyu. Board service, manager slices."],
  ["Crab Oscar","$14",["crab","shellfish","dairy","egg","allium"],"GF."],
  ["Horseradish-Bleu Cheese Crust","$4",["dairy","allium"],""],
@@ -417,6 +418,7 @@ const SPECIAL_DAYS={
  "Ladies Night — every Thursday":4
 };
 const SPECIALS_ON=[
+ ["Denver Cut","$58","Running in place of the Dry Aged New York Strip, at the same price. A chuck cut — prime, fattier and heartier through the belly, with less marbling than the strip. Serve it rare, medium-rare or medium; past that it turns gamey.","cut special"],
  ["48 oz USDA Choice Porterhouse","$170 when it runs","NOT wagyu — USDA Choice. 48 oz total: roughly a 22 oz NY strip, a 12 oz filet, and about a 10 oz bone — it varies a little with the cut. A manager slices it tableside off the board. The pitch: two people split it for a high-class manager-cut steak experience at a serious value — and there's no split-plate charge.","Manager cut"],
  ["Spinalis / Ribeye Cap","$14/oz","Minimum 6 oz. The cap of the ribeye — it rivals filet tenderness while keeping ribeye richness. A manager cuts it tableside.","Manager cut"],
  ["Spinalis Sunday","$10/oz every Sunday","The same ribeye cap, four dollars an ounce cheaper, one day a week. Minimum 6 oz. It is on the restaurant's own weekly-features page — the easiest upsell we have on a Sunday.","weekly feature"],

@@ -727,9 +727,11 @@ carrying "$35? VERIFY"). Bourbon salmon is Buffalo Trace glaze with "gb" and tru
 cauliflower; Cajun is squash, zucchini, shallots, cajun butter. The "gb" abbreviation is
 NOT expanded anywhere — do not guess it.
 
-STILL OPEN from that note: a **Denver cut** is listed as "same price" — same as WHAT is
-not stated, so it is deliberately not in the app yet. Chuck prime, fattier, heartier
-belly, less marbling, served r/mr/m with "t = gamey".
+The **Denver Cut** is CLOSED: Evan confirmed it runs at the same price as the Dry Aged
+New York Strip (**$58**) and runs *in place of* it. Chuck cut, prime, fattier and
+heartier through the belly, less marbling than the strip, served rare / medium-rare /
+medium. The Dry Aged New York Strip is still on the printed menu in the app — ask Evan
+whether it should come off while the Denver runs.
 
 The archived Tomahawk Tuesday package stays at $180 — that was the package price when it
 ran, and it is history, not a live price.

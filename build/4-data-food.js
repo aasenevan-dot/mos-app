@@ -12,7 +12,7 @@ const ENHANCE = [
   ["Add 2 Scallops","$14","Two scallops added to any entree.",""],
   ["Brandy Peppercorn Sauce","$6","Demi-glace and brandy peppercorns.","GF"],
   ["Black Truffle Butter","$6","Truffle butter steak finish.","GF"],
-  ["Garlic Butter","$6","Steak enhancement — active in Toast.",""],
+  ["Garlic Butter","$6","Always available even though it is not on the printed enhancements list.",""],
   ["Roasted Mushrooms","$8","Comes in a small soup bowl with a big spoon — confirm with the guest, then scoop it over their steak.",""]
 ];
 
@@ -121,12 +121,9 @@ const MENU = {
   ["Farbuckle Filet","6 oz $63 / 10 oz $87","THE SHOW: ring at the guest's temp, bring a sizzling skillet + tongs + gloves + tray + rosemary salt + beef tallow + warm butter. Steaks in, butter while they cook, beef tallow before pulling, finish with rosemary salt, serve. You can Farbuckle ANY cut for roughly a $9 upcharge (the $63 minus $54 difference).","Help run this one"],
   ["Filet Mignon","6 oz $54 / 10 oz $79","Center cut with almost no marbling — you order it for pure tenderness. At medium rare it practically cuts with a fork. Finished with rosemary Maldon salt. Guest wants it well done? Offer to butterfly it — cooks faster, stays juicier. Butter by default; the kitchen CAN cook any steak butter-free for a dairy allergy.",""],
   ["The PD — 15 oz Hand-Cut Filet","$115","On the printed menu — house calls it the PD.",""],
-  ["Filet Duo","$47","Two 3 oz end-cut medallions — a touch more fat than the center cut, and really ordered for the toppings: Crab Oscar on one, horseradish bleu cheese crust on the other.",""],
   ["Delmonico Ribeye","16 oz $80","Named for Delmonico's, the old New York steakhouse that made this style famous. Our most marbled prime cut — rich, buttery, beefy fat renders between the cap and the eye with every bite. If a guest wants an old-school steakhouse ribeye, this is it.",""],
-  ["K.D.'s Tomahawk","32 oz $160","A ribeye that keeps the whole rib bone. Even more heavily marbled than the Delmonico. The bone lets marrow render during cooking, adding a butteriness you can only get by keeping the rib bone. The juiciest, most flavorful cut we offer besides the Japanese A5.","K.D. = Kevin Dickey, former owner · largest oval plate"],
   ["Australian Wagyu Filet","6 oz $95 / 10 oz $135","Australian cattle crossbred with Japanese wagyu — even one generation of crossbreeding lifts the marbling way up. Wagyu fat melts at a lower temperature, so it runs juicy even at rare. Just as tender as the prime filet with more richness — the easy level-up for a filet person. Serve rare to med-rare — nudge, don't argue.",""],
   ["Japanese A5 Wagyu","$25/oz — 6 oz is a listed $150","From Kagoshima Prefecture. The show: a manager cut, sliced with a Hanzo steel knife on a butcher's block, torch-finished with rosemary salt at the table. Preset the guests with the special Kobe Hanzo steak knives. House serves wagyu RARE to MED-RARE — nudge gently, never argue.","Manager cut"],
-  ["Steak 47","$58","A 4 oz filet base topped with a scallop and a shrimp, chopped asparagus and lobster meat around the plate, hollandaise drizzled on by expo. Upgrade math is easy — any filet goes 47 style for its price plus the $25 topping: 6 oz is $54 + $25 = $79, 10 oz is $79 + $25 = $104.","The Steak 47 topping upcharge is $25"],
   ["Filet & Lobster","$105","A 6 oz filet off the charbroiler (upgrade to 10 oz) with a 5 oz South African lobster tail, steamed gently so it never turns chewy.","GF"],
   ["Filet & Scallops","$82","A 6 oz filet with two U-10 prosciutto-wrapped scallops, flash-seared hot and fast — about two minutes — so they stay tender.",""],
   ["Chicken Parmesan","$39","Hand-breaded fried chicken breast, linguine, tomato diavolo sauce, melted provolone, garlic bread.",""],
@@ -158,7 +155,7 @@ const MENU = {
   ["NY Style Cheesecake","$10","Dense and rich on a graham cracker crust — that density is what makes it New York style. Fresh whipped cream and strawberry sauce to cut through. Spatula.",""],
   ["Bailey's Creme Brulee","$10","Classic custard spiked with Bailey's Irish Cream, topped with raw demerara sugar torched into a glassy shell you crack with the spoon. Whipped cream and fresh berries. Big spoon.",""],
   ["Colossal Carrot Cake","$14","Layered high with cream cheese icing, moist all the way through from pineapple in the batter — that is where the pineapple flag comes from. Powdered sugar and whipped cream. Spatula.",""],
-  ["Molten Lava Cake","$13","Chocolate dome filled with chocolate cake and strawberries — no ice cream on this one. THE SHOW: light the orange liqueur and chocolate sauce, then pour it flaming over the dome — it melts away to reveal what is underneath. Big spoon. GF-marked and flourless, but it still has eggs, dairy, soy, and that liqueur.","GF"],
+  ["Molten Lava Cake","$13","Chocolate dome filled with chocolate cake, strawberries and ice cream, topped with Hershey's chocolate syrup. THE SHOW: light the orange liqueur and chocolate sauce, then pour it flaming over the dome — it melts away to reveal what is underneath. Big spoon. GF-marked and flourless, but it still has eggs, dairy, soy, and that liqueur.","GF"],
   ["Brown Butter Cake","$14","Browned butter and brown sugar are the whole flavor story. Served warm with vanilla ice cream, caramel, and Granny Smith apple slices to cut the richness — and it rolls out with the dry-ice cloud show, hot water poured over dry ice right in the bowl.",""],
   ["Cotton Candy","$12","Spun to order on a light-up stick and set in a black wooden block. Every color of the rainbow, all taste like sugar — tell the table 'pick your color.'","GF"],
   ["Bananas Foster","$12/person — minimum 2 people","Bananas, brown butter, orange, cinnamon, 99 Oranges liqueur, caramel, Nilla wafers and ice cream, flamed tableside. Per person: one scoop of brown butter, half a banana, half an orange, and one scoop of ice cream in its own bowl. The back server runs it. Bring: cinnamon, 99 Oranges liqueur, Nilla wafers, caramel, burner, pan. The show: melt the brown butter, breaking it up with the spatula. Coat the bananas evenly in it. Add the orange citrus so nothing burns. Pour 99 Oranges over the top and light it — big flame. Sprinkle cinnamon into the fire and it sparks up (cinnamon is made of wood, so it burns) — a fantastic show. Pour it all over bowls of ice cream with the caramel and Nilla wafers, serve with spoons. Great upsell: get the whole table in on it.",""]
@@ -240,7 +237,6 @@ const LEADS = {
  "Farbuckle Filet":"The tableside show — finished in a sizzling skillet with butter, tallow and rosemary salt.",
  "Filet Duo":"Two 3 oz medallions, one Crab Oscar and one horseradish bleu cheese crust.",
  "Australian Wagyu Filet":"Wagyu crossbred marbling — juicy even at rare. The easy level-up from a filet.",
- "Steak 47":"A 4 oz filet topped with scallop, shrimp, lobster, asparagus and hollandaise.",
  "Filet & Lobster":"A 6 oz filet with a 5 oz South African lobster tail.",
  "Filet & Scallops":"A 6 oz filet with two prosciutto-wrapped scallops.",
  "Miso Seabass":"Toothfish cured in white miso, mirin and sake, over coconut risotto.",
@@ -420,6 +416,7 @@ const SPECIAL_DAYS={
  "Ladies Night — every Thursday":4
 };
 const SPECIALS_ON=[
+ ["K.D.'s Tomahawk","32 oz $160","A ribeye that keeps the whole rib bone. Even more heavily marbled than the Delmonico. The bone lets marrow render during cooking, adding a butteriness you can only get by keeping the rib bone. The juiciest, most flavorful cut we offer besides the Japanese A5.","K.D. = Kevin Dickey, former owner · largest oval plate"],
  ["Denver Cut","$58","Running in place of the Dry Aged New York Strip, at the same price. A chuck cut — prime, fattier and heartier through the belly, with less marbling than the strip. Serve it rare, medium-rare or medium; past that it turns gamey.","cut special"],
  ["48 oz USDA Choice Porterhouse","$170 when it runs","NOT wagyu — USDA Choice. 48 oz total: roughly a 22 oz NY strip, a 12 oz filet, and about a 10 oz bone — it varies a little with the cut. A manager slices it tableside off the board. The pitch: two people split it for a high-class manager-cut steak experience at a serious value — and there's no split-plate charge.","Manager cut"],
  ["Spinalis / Ribeye Cap","$14/oz","Minimum 6 oz. The cap of the ribeye — it rivals filet tenderness while keeping ribeye richness. A manager cuts it tableside.","Manager cut"],
@@ -434,7 +431,9 @@ const SPECIALS_ROTATION=[
  ["Cajun Butter Salmon","$45","Squash, zucchini and shallots in cajun butter."]
 ];
 const SPECIALS_PAST=[
- ["Dry Aged New York Strip","14 oz $58","Off the menu — the Denver Cut runs in its place at the same price. The middle ground between ribeye and filet, with a fat cap down one side that bastes it as it renders.","off the current menu"],
+ ["Filet Duo","$47","Off the current menu. Two 3 oz medallions, one Crab Oscar and one horseradish bleu cheese crust.","off the current menu"],
+ ["Steak 47 (as an entree)","$58","Off the current menu — pitch the Steak 47 TOPPING at $25 instead. Any filet goes 47 style for its price plus $25.","off the current menu"],
+ ["Dry Aged New York Strip","14 oz $58","Still printed on the menu, but we are OUT of it — tell the guest we have the Denver Cut instead, same price. That line is part of the daily spiel. The middle ground between ribeye and filet, with a fat cap down one side that bastes it as it renders.","off the current menu"],
  ["Sorbets — lemon and raspberry","in the freezer","Dairy-free, and they have lived in the freezer for a long time. Archived — ask before promising one.","off the current menu"],
  ["Pistachio Gelato","in the freezer","Dairy and tree nuts. Archived — ask before promising one.","off the current menu"],
  ["Forest Mushrooms","$14","Cremini, portobello, shiitake, and button in garlic herb butter. The $8 Roasted Mushrooms enhancement is the current mushroom play.","off the current menu"],

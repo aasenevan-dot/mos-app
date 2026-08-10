@@ -399,8 +399,17 @@ async def main():
         for cut in ["48 oz USDA Choice Porterhouse","Australian Wagyu Tomahawk","Spinalis / Ribeye Cap"]:
             if not await pg.evaluate(f"SPECIALS_ON.some(s=>s[0]==={cut!r}&&/manager/i.test(s[2]))"):
                 bad.append(f"{cut} does not say a manager cuts it")
-        if not await pg.evaluate("SPECIALS_ROTATION.every(s=>/VERIFY/i.test(s[1]))"):
-            bad.append("both salmon specials should flag the price")
+        # 8/10: both salmons confirmed at $45 off the pre-shift note, so the VERIFY is gone
+        if not await pg.evaluate("SPECIALS_ROTATION.every(s=>s[1]==='$45')"):
+            bad.append("both salmon specials should be $45")
+        if await pg.evaluate("/VERIFY/i.test(JSON.stringify(SPECIALS_ROTATION))"):
+            bad.append("a salmon special still carries a VERIFY flag")
+        # the three prices the 8/10 note corrected — pinned so a sync cannot walk them back
+        for cut, price in [("48 oz USDA Choice Porterhouse","$170"),
+                           ("Australian Wagyu Tomahawk","$140"),
+                           ("45-Day 22 oz Dry-Aged Bone-In Ribeye","$110")]:
+            if not await pg.evaluate(f"SPECIALS_ON.some(s=>s[0]==={cut!r}&&s[1].indexOf({price!r})===0)"):
+                bad.append(f"{cut} is not {price} (8/10 note)")
 
         # ---- dish photos ----
         await pg.evaluate("go('menu')")

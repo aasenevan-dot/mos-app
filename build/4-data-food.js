@@ -309,7 +309,7 @@ const ALLERGENS = [
  ["Delmonico Ribeye","$80",["beef","dairy"],"Cooked with butter by default — but the kitchen CAN cook any steak fully butter-free for a dairy allergy, the guest just has to ask."],
  ["Australian Wagyu Filet","6 oz $95 / 10 oz $135",["beef","dairy"],"Cooked with butter by default — but the kitchen CAN cook any steak fully butter-free for a dairy allergy, the guest just has to ask."],
  ["Japanese A5 Wagyu","$25/oz",["beef","dairy"],"Manager slices tableside. Cooked with butter by default — but the kitchen CAN cook any steak fully butter-free for a dairy allergy, the guest just has to ask."],
- ["48 oz USDA Choice Porterhouse","$150",["beef","dairy"],"NOT wagyu. Board service, manager slices."],
+ ["48 oz USDA Choice Porterhouse","$170",["beef","dairy"],"NOT wagyu. Board service, manager slices."],
  ["Crab Oscar","$14",["crab","shellfish","dairy","egg","allium"],"GF."],
  ["Horseradish-Bleu Cheese Crust","$4",["dairy","allium"],""],
  ["Add 5 oz Lobster Tail","$50",["shellfish","dairy"],"GF. Dairy if served with butter."],
@@ -417,17 +417,17 @@ const SPECIAL_DAYS={
  "Ladies Night — every Thursday":4
 };
 const SPECIALS_ON=[
- ["48 oz USDA Choice Porterhouse","$150 when it runs","NOT wagyu — USDA Choice. 48 oz total: roughly a 22 oz NY strip, a 12 oz filet, and about a 10 oz bone — it varies a little with the cut. A manager slices it tableside off the board. The pitch: two people split it for a high-class manager-cut steak experience at a serious value — and there's no split-plate charge.","Manager cut"],
+ ["48 oz USDA Choice Porterhouse","$170 when it runs","NOT wagyu — USDA Choice. 48 oz total: roughly a 22 oz NY strip, a 12 oz filet, and about a 10 oz bone — it varies a little with the cut. A manager slices it tableside off the board. The pitch: two people split it for a high-class manager-cut steak experience at a serious value — and there's no split-plate charge.","Manager cut"],
  ["Spinalis / Ribeye Cap","$14/oz","Minimum 6 oz. The cap of the ribeye — it rivals filet tenderness while keeping ribeye richness. A manager cuts it tableside.","Manager cut"],
  ["Spinalis Sunday","$10/oz every Sunday","The same ribeye cap, four dollars an ounce cheaper, one day a week. Minimum 6 oz. It is on the restaurant's own weekly-features page — the easiest upsell we have on a Sunday.","weekly feature"],
- ["Australian Wagyu Tomahawk","$180","32 oz, cut tableside by a manager. Wagyu rule: serve rare to med-rare — nudge, don't argue.","Manager cut"],
- ["45-Day 22 oz Dry-Aged Bone-In Ribeye","$120","Forty-five days of cold, moving air pulls the moisture out and concentrates the beef, while the meat's own enzymes break proteins down into amino acids and soften the connective tissue. That is where the deep, nutty, brown-butter richness comes from — savory and profound rather than just beefy, with the bone adding even more depth.",""],
+ ["Australian Wagyu Tomahawk","$140","32 oz, cut tableside by a manager. Wagyu rule: serve rare to med-rare — nudge, don't argue.","Manager cut"],
+ ["45-Day 22 oz Dry-Aged Bone-In Ribeye","$110","Forty-five days of cold, moving air pulls the moisture out and concentrates the beef, while the meat's own enzymes break proteins down into amino acids and soften the connective tissue. That is where the deep, nutty, brown-butter richness comes from — savory and profound rather than just beefy, with the bone adding even more depth.",""],
  ["Ladies Night — every Thursday","$10 martinis + \u00bd-off apps","Ladies get $10 martinis and half-price appetizers in the lounge, every Thursday night.","weekly feature"]
 ];
 /* Rotating entree specials seen before — ask a manager if one is running tonight. */
 const SPECIALS_ROTATION=[
- ["Bourbon-Glazed Salmon","$45? VERIFY price","Same bourbon glaze as the ribeye skewers, served with vegetables. Price still needs verified in Toast."],
- ["Cajun Butter Salmon","$35? VERIFY price","Cajun butter, served with vegetables. Price still needs verified in Toast."]
+ ["Bourbon-Glazed Salmon","$45","Buffalo Trace bourbon glaze, with gb and truffle cauliflower."],
+ ["Cajun Butter Salmon","$45","Squash, zucchini and shallots in cajun butter."]
 ];
 const SPECIALS_PAST=[
  ["Sorbets — lemon and raspberry","in the freezer","Dairy-free, and they have lived in the freezer for a long time. Archived — ask before promising one.","off the current menu"],

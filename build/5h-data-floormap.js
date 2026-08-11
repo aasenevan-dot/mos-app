@@ -12,21 +12,21 @@
    ============ */
 const FLOORMAP = [
  {room:"Main", sub:"the room you are in most nights", tables:[
-   {t:"43", x:26, y:12, shape:"b", seats:4, seat1:"W"},
-   {t:"42", x:50, y:12, shape:"b", seats:4, seat1:"W"},
-   {t:"41", x:74, y:12, shape:"b", seats:4, seat1:"W"},
-   {t:"32", x:42, y:36, shape:"d", seats:4, seat1:"NE"},
-   {t:"31", x:60, y:36, shape:"d", seats:4, seat1:"NE"},
-   {t:"100", lbl:"Vault", x:7, y:57, shape:"vault", seats:15, seat1:"SE",
+   {t:"43", x:33, y:13, shape:"b", seats:4, seat1:"W"},
+   {t:"42", x:55, y:13, shape:"b", seats:4, seat1:"W"},
+   {t:"41", x:77, y:13, shape:"b", seats:4, seat1:"W"},
+   {t:"32", x:47, y:37, shape:"d", seats:4, seat1:"NE"},
+   {t:"31", x:66, y:37, shape:"d", seats:4, seat1:"NE"},
+   {t:"100", lbl:"Vault", x:13.5, y:57, shape:"vault", seats:15, seat1:"SE",
     note:"The private room. Seats horseshoe clockwise from seat 1 at the bottom right — the entrance side is a door, so nobody sits there."},
-   {t:"24", x:20, y:57, shape:"d", seats:4, seat1:"NE"},
-   {t:"23", x:40, y:57, shape:"d", seats:4, seat1:"NE"},
-   {t:"22", x:60, y:57, shape:"d", seats:4, seat1:"NE"},
-   {t:"21", x:80, y:57, shape:"d", seats:4, seat1:"NE"},
-   {t:"14", x:20, y:82, shape:"bv", seats:4, seat1:"NE"},
-   {t:"13", x:40, y:82, shape:"bv", seats:4, seat1:"NE"},
-   {t:"12", x:60, y:82, shape:"bv", seats:4, seat1:"NE"},
-   {t:"11", x:80, y:82, shape:"bv", seats:4, seat1:"NE"}
+   {t:"24", x:28, y:57, shape:"d", seats:4, seat1:"NE"},
+   {t:"23", x:47, y:57, shape:"d", seats:4, seat1:"NE"},
+   {t:"22", x:66, y:57, shape:"d", seats:4, seat1:"NE"},
+   {t:"21", x:85, y:57, shape:"d", seats:4, seat1:"NE"},
+   {t:"14", x:28, y:82, shape:"bv", seats:4, seat1:"NE"},
+   {t:"13", x:47, y:82, shape:"bv", seats:4, seat1:"NE"},
+   {t:"12", x:66, y:82, shape:"bv", seats:4, seat1:"NE"},
+   {t:"11", x:85, y:82, shape:"bv", seats:4, seat1:"NE"}
  ]},
  {room:"Bar / Lounge", sub:"25 seated, plus the bar top", tables:[
    {t:"404", x:24, y:11, shape:"d", seats:4, seat1:"NE"},

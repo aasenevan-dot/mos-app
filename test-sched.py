@@ -713,6 +713,13 @@ async def main():
           return t?{lbl:t.lbl,seat1:t.seat1,seats:t.seats,leftOf24:t.x<t24.x}:null;})()""")
         if v!={"lbl":"Vault","seat1":"SE","seats":15,"leftOf24":True}:
             bad.append(f"Vault not placed on Main correctly: {v}")
+        # the plan should sit evenly in its box -- the Vault once pushed it hard left
+        mg=await pg.evaluate("""(()=>{const st=document.querySelector('#fpStage').getBoundingClientRect();
+          let L=1e9,R=-1e9;[...document.querySelectorAll('#fpStage .fptable,#fpStage .fpseat1')]
+            .forEach(e=>{const b=e.getBoundingClientRect();L=Math.min(L,b.left);R=Math.max(R,b.right);});
+          return {l:(L-st.left)/st.width*100, r:(st.right-R)/st.width*100};})()""")
+        if mg["l"]<4 or mg["r"]<4: bad.append(f"plan crowds the stage edge: {mg}")
+        if abs(mg["l"]-mg["r"])>5: bad.append(f"plan sits off-centre: left {mg['l']:.1f}%% right {mg['r']:.1f}%%")
         if await pg.evaluate("FLOORMAP.some(r=>r.room==='The Vault')"): bad.append("The Vault is still a separate room")
         if not await pg.evaluate("FLOORMAP.some(r=>r.tables.some(t=>t.t==='91B'))"): bad.append("Smockton 91B missing")
         # every table belongs to exactly one section

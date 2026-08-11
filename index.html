@@ -313,11 +313,11 @@ tr:hover td{background:rgba(255,255,255,.017)}
    and it never pushes the price out of line. Standalone selector ON PURPOSE: these
    chips also ride in the Enhancements table, which is not inside a .mitem. */
 /* ---------- INTERACTIVE FLOOR PLAN ---------- */
-.fproom{display:flex;gap:6px;overflow-x:auto;padding-bottom:6px;-webkit-overflow-scrolling:touch}
+.fproom{display:flex;gap:6px;overflow-x:auto;padding-bottom:6px;margin-top:2px;-webkit-overflow-scrolling:touch}
 .fproom button{flex:0 0 auto;border:1px solid var(--line);background:var(--card);color:var(--txt);
   border-radius:999px;padding:7px 13px;font-size:12.5px;font-weight:600;cursor:pointer}
 .fproom button.on{background:var(--brand);border-color:var(--brand);color:var(--cream)}
-.fpstage{position:relative;width:100%;aspect-ratio:1/.92;margin-top:10px;border-radius:14px;
+.fpstage{position:relative;width:100%;aspect-ratio:1/.92;margin:12px 0 2px;border-radius:14px;
   border:1px solid var(--line);background:var(--card);overflow:hidden}
 html.dark .fpstage{background:var(--card2)}
 .fptable{position:absolute;transform:translate(-50%,-50%);display:flex;align-items:center;
@@ -333,8 +333,12 @@ html.dark .fpstage{background:var(--card2)}
 .fptable.bv{width:8%;height:13%;border-radius:4px}
 /* The Vault is a whole room sitting on the Main plan, so it reads as a room: bigger, and
    ringed rather than filled, so it never gets mistaken for a four-top. */
-.fptable.vault{width:12%;height:17%;border-radius:7px;border-width:3px;border-color:var(--gold);
-  font-size:9.5px;letter-spacing:.02em}
+.fptable.vault{width:13%;height:20%;border-radius:8px;border-width:2.5px;border-color:var(--gold);
+  background:transparent;color:var(--gold);font-size:9.5px;letter-spacing:.02em;
+  /* the side facing the floor is the doorway, so it is drawn open rather than walled */
+  border-right-style:dashed}
+html.dark .fptable.vault{border-color:var(--gold2);color:var(--gold)}
+.fptable.vault.sel{background:var(--brand);color:var(--cream)}
 /* a merged table is one shape spanning both positions -- size comes from the renderer */
 .fptable.merged{border-radius:7px;border-style:dashed;border-width:2px;border-color:var(--gold)}
 .fptable.merged span{font-size:11px;letter-spacing:.02em}
@@ -353,7 +357,7 @@ html.dark .fppty{background:var(--gold2);color:#20140f;border-color:rgba(255,255
 
 .fptable.bar{width:5.4%;aspect-ratio:1;border-radius:50%;font-size:8px}
 .fptable.banq{width:8%;height:22%;border-radius:8px}
-.fpdetail{margin-top:10px;border:1px solid var(--line);border-radius:12px;background:var(--card);padding:12px 14px}
+.fpdetail{margin-top:12px;border:1px solid var(--line);border-radius:12px;background:var(--card);padding:13px 15px}
 .fpdetail .n{font-family:Georgia,serif;font-size:22px;font-weight:800;color:var(--gold);line-height:1}
 .fpdetail .meta{color:var(--dim);font-size:12.5px;margin-top:4px}
 .fpseats{display:flex;flex-wrap:wrap;gap:5px;margin-top:9px}
@@ -371,7 +375,7 @@ html.dark .fpseats i{background:rgba(201,123,90,.16);border-color:rgba(201,123,9
 .fpseat1.sel{background:var(--brand);border-color:var(--gold2);width:6.4%;font-size:11.5px}
 html.dark .fpseat1{background:var(--gold2);color:#20140F;border-color:var(--card)}
 html.dark .fpseat1.sel{background:var(--gold);color:#20140F;border-color:var(--txt)}
-.fplegend{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.fplegend{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
 .fplegend button{border:1px solid var(--line);background:var(--card);border-radius:999px;
   padding:4px 10px;font-size:11.5px;color:var(--txt);cursor:pointer;display:flex;align-items:center;gap:6px}
 .fplegend button.on{border-color:var(--gold);font-weight:700}
@@ -5450,21 +5454,21 @@ const FLOOR=[
    ============ */
 const FLOORMAP = [
  {room:"Main", sub:"the room you are in most nights", tables:[
-   {t:"43", x:26, y:12, shape:"b", seats:4, seat1:"W"},
-   {t:"42", x:50, y:12, shape:"b", seats:4, seat1:"W"},
-   {t:"41", x:74, y:12, shape:"b", seats:4, seat1:"W"},
-   {t:"32", x:42, y:36, shape:"d", seats:4, seat1:"NE"},
-   {t:"31", x:60, y:36, shape:"d", seats:4, seat1:"NE"},
-   {t:"100", lbl:"Vault", x:7, y:57, shape:"vault", seats:15, seat1:"SE",
+   {t:"43", x:33, y:13, shape:"b", seats:4, seat1:"W"},
+   {t:"42", x:55, y:13, shape:"b", seats:4, seat1:"W"},
+   {t:"41", x:77, y:13, shape:"b", seats:4, seat1:"W"},
+   {t:"32", x:47, y:37, shape:"d", seats:4, seat1:"NE"},
+   {t:"31", x:66, y:37, shape:"d", seats:4, seat1:"NE"},
+   {t:"100", lbl:"Vault", x:13.5, y:57, shape:"vault", seats:15, seat1:"SE",
     note:"The private room. Seats horseshoe clockwise from seat 1 at the bottom right — the entrance side is a door, so nobody sits there."},
-   {t:"24", x:20, y:57, shape:"d", seats:4, seat1:"NE"},
-   {t:"23", x:40, y:57, shape:"d", seats:4, seat1:"NE"},
-   {t:"22", x:60, y:57, shape:"d", seats:4, seat1:"NE"},
-   {t:"21", x:80, y:57, shape:"d", seats:4, seat1:"NE"},
-   {t:"14", x:20, y:82, shape:"bv", seats:4, seat1:"NE"},
-   {t:"13", x:40, y:82, shape:"bv", seats:4, seat1:"NE"},
-   {t:"12", x:60, y:82, shape:"bv", seats:4, seat1:"NE"},
-   {t:"11", x:80, y:82, shape:"bv", seats:4, seat1:"NE"}
+   {t:"24", x:28, y:57, shape:"d", seats:4, seat1:"NE"},
+   {t:"23", x:47, y:57, shape:"d", seats:4, seat1:"NE"},
+   {t:"22", x:66, y:57, shape:"d", seats:4, seat1:"NE"},
+   {t:"21", x:85, y:57, shape:"d", seats:4, seat1:"NE"},
+   {t:"14", x:28, y:82, shape:"bv", seats:4, seat1:"NE"},
+   {t:"13", x:47, y:82, shape:"bv", seats:4, seat1:"NE"},
+   {t:"12", x:66, y:82, shape:"bv", seats:4, seat1:"NE"},
+   {t:"11", x:85, y:82, shape:"bv", seats:4, seat1:"NE"}
  ]},
  {room:"Bar / Lounge", sub:"25 seated, plus the bar top", tables:[
    {t:"404", x:24, y:11, shape:"d", seats:4, seat1:"NE"},

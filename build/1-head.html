@@ -330,6 +330,23 @@ html.dark .fpstage{background:var(--card2)}
 .fptable.d.sel{transform:translate(-50%,-50%) rotate(45deg) scale(1.06)}
 .fptable.b{width:13%;height:8%;border-radius:4px}
 .fptable.r{width:9%;aspect-ratio:1;border-radius:50%}
+.fptable.bv{width:8%;height:13%;border-radius:4px}
+/* a merged table is one shape spanning both positions -- size comes from the renderer */
+.fptable.merged{border-radius:7px;border-style:dashed;border-width:2px;border-color:var(--gold)}
+.fptable.merged span{font-size:11px;letter-spacing:.02em}
+/* a seated table reads at a glance, before you tap it */
+.fptable.seated{box-shadow:0 0 0 2px var(--gold2) inset}
+.fppty{position:absolute;transform:translate(-50%,0);white-space:nowrap;z-index:4;pointer-events:none;
+  font-size:9px;font-weight:800;letter-spacing:.02em;padding:1px 5px;border-radius:999px;
+  background:var(--gold);color:var(--cream);border:1px solid rgba(0,0,0,.15)}
+html.dark .fppty{background:var(--gold2);color:#20140f;border-color:rgba(255,255,255,.18)}
+.fpbook{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.fpbook .r{display:flex;align-items:center;gap:8px;width:100%;padding:6px 0;border-top:1px solid var(--line)}
+.fpbook .tm{font-weight:800;color:var(--gold);min-width:58px}
+.fpbook .tb{font-weight:700}
+.fpbook .sz{color:var(--dim);font-size:12.5px}
+.fpbook .x{margin-left:auto}
+
 .fptable.bar{width:5.4%;aspect-ratio:1;border-radius:50%;font-size:8px}
 .fptable.banq{width:8%;height:22%;border-radius:8px}
 .fpdetail{margin-top:10px;border:1px solid var(--line);border-radius:12px;background:var(--card);padding:12px 14px}

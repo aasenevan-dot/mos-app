@@ -43,6 +43,29 @@ LATER = {
     "Employee Handbook": "Manual del empleado",
     "staff only": "solo personal",
     "Lock it again": "Bloquear de nuevo",
+    "Floor plan": "Plano del piso",
+    "Tonight's book": "La reserva de esta noche",
+    "what you have plotted": "lo que has marcado",
+    "Who has which section": "Quién tiene cada sección",
+    "retype tonight's names — the plan recolours to match":
+        "reescribe los nombres de esta noche — el plano se recolorea solo",
+    "Party of": "Grupo de", "Time": "Hora", "Name": "Nombre", "optional": "opcional",
+    "Seat this table": "Sentar esta mesa", "Update this table": "Actualizar esta mesa",
+    "Clear it": "Borrarla", "Clear the whole book": "Borrar toda la reserva",
+    "Show": "Ver", "Suggest names from": "Sugerir nombres de",
+    "Put the posted names back": "Restaurar los nombres publicados",
+    "Pushed together": "Mesas unidas",
+    "Nothing plotted yet. Tap a table above, put in the party and the time, and it lands here.":
+        "Nada marcado todavía. Toca una mesa arriba, pon el grupo y la hora, y aparece aquí.",
+    "Tap any table to seat it, see who has it, and find seat 1.":
+        "Toca cualquier mesa para sentarla, ver quién la tiene y encontrar el asiento 1.",
+    "The printed floor plans": "Los planos impresos",
+    "photographed off the wall — the live, tappable plan lives on the Money tab":
+        "fotografiados de la pared — el plano interactivo está en la pestaña Dinero",
+    "Seat 1 usually faces the front door. Number clockwise from there unless it is a booth. Tap a table to plot a party on it.":
+        "El asiento 1 suele dar a la puerta principal. Numera en sentido horario desde ahí, salvo en los booths. Toca una mesa para marcar un grupo.",
+    "Hide sections": "Ocultar secciones",
+    "Show tonight's sections": "Ver las secciones de esta noche",
 }
 pairs.update(LATER)
 

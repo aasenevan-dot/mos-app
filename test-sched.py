@@ -670,6 +670,52 @@ async def main():
         if hun!=["OFF","OFF"]: bad.append(f"Hunter Mo/Tu not reconciled to OFF: {hun}")
         # home button + nav
         if not await pg.evaluate("!!document.querySelector('button[data-qa=\\'sched|\\']')"): bad.append("home Schedule button missing")
+        # ---- floor plan: lives on Money now, merges, plotting, section names ----
+        if await pg.evaluate("!!document.querySelector('#p-house #sec-floor')"):
+            bad.append("floor plan still on the How We Work tab")
+        if not await pg.evaluate("!!document.querySelector('#p-ops #sec-floor')"):
+            bad.append("floor plan missing from the Money tab")
+        # it has to sit AFTER the night forecast, which is the whole point of moving it
+        order=await pg.evaluate("""(()=>{const h=document.querySelector('#p-ops').innerHTML;
+          return [h.indexOf('id="sec-income"'),h.indexOf('id="sec-floor"')];})()""")
+        if not (0<=order[0]<order[1]): bad.append(f"floor plan is not after the forecast: {order}")
+        # the seat-1 corrections Evan called out 8/11
+        seats=await pg.evaluate("""(()=>{const a={};FLOORMAP.forEach(r=>r.tables.forEach(t=>a[t.t]=t));
+          return {b43:a['43'].seat1,b42:a['42'].seat1,b41:a['41'].seat1,
+                  s11:a['11'].shape,d11:a['11'].seat1,s14:a['14'].shape,d14:a['14'].seat1,
+                  c65:a['65'].seat1,c84:a['84'].seat1,b91:a['91'].seat1};})()""")
+        want={"b43":"W","b42":"W","b41":"W","s11":"bv","d11":"NE","s14":"bv","d14":"NE",
+              "c65":"W","c84":"W","b91":"N"}
+        if seats!=want: bad.append(f"seat-1 / shapes wrong: {seats} != {want}")
+        # an earlier block picked table 74, which leaves the plan on The Curry -- pin the
+        # room rather than inheriting whatever the last assertion happened to leave selected
+        await pg.evaluate("go('ops');fpRoom(0)"); await pg.wait_for_timeout(400)
+        dots=await pg.evaluate("document.querySelectorAll('#fpStage .fpseat1').length")
+        if dots!=13: bad.append(f"Main should draw 13 seat-1 dots, drew {dots}")
+        # merge -> one element replaces two, party rides across, split puts it back
+        await pg.evaluate("FPMERGED=[];FPPARTY={};fpPick('23');fpMerge('23+32')")
+        await pg.wait_for_timeout(300)
+        if await pg.evaluate("document.querySelectorAll('#fpStage .fptable.merged').length")!=1:
+            bad.append("merged table did not render as one element")
+        if await pg.evaluate("[...document.querySelectorAll('#fpStage .fptable:not(.merged) span')].some(s=>['23','32'].includes(s.textContent))"):
+            bad.append("merged halves still drawn separately")
+        await pg.evaluate("""(()=>{document.querySelector('#fpN').value='8';
+          document.querySelector('#fpT').value='6:30';fpSeat();})()""")
+        await pg.wait_for_timeout(250)
+        if "6:30" not in (await pg.evaluate("(document.querySelector('#fpStage .fppty')||{}).textContent||''")):
+            bad.append("party badge missing from the plan")
+        if "8 covers" not in (await pg.evaluate("document.querySelector('#fpBook').innerText")):
+            bad.append("book did not total the covers")
+        await pg.evaluate("fpUnmerge('23+32')"); await pg.wait_for_timeout(250)
+        if await pg.evaluate("!FPPARTY['23']"): bad.append("splitting the pair dropped the party")
+        # section rename flows to the legend and the detail panel
+        await pg.evaluate("fpSetWho(9,'ZZTest'); FPSHOWSEC=true; renderFloor(); fpPick('23')")
+        await pg.wait_for_timeout(300)
+        if "ZZTest" not in (await pg.evaluate("document.querySelector('#fpLegend').innerText")):
+            bad.append("renamed section missing from the legend")
+        await pg.evaluate("fpResetWho();FPMERGED=[];FPPARTY={};fpSave();renderFloor()")
+        if await pg.evaluate("Object.keys(FPWHO).length"): bad.append("reset did not clear the section overrides")
+
         # ---- midnight flip: advance mocked clock to Sat 8/8, wait out the 60s watcher ----
         t2=int(datetime.datetime(2026,8,8,0,0,30).timestamp()*1000)
         await pg.evaluate(f"window.__now={t2}")

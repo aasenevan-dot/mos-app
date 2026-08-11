@@ -4,26 +4,27 @@
    whole-restaurant sheet. They are a faithful arrangement, not a survey — the
    relative layout is right, the inches are not.
 
-   shape: "d" diamond (four-top, rotated square) · "b" booth (rectangle)
+   shape: "d" diamond (four-top, rotated square) · "b" booth (wide rectangle)
+          "bv" booth stood vertically (tall rectangle)
           "r" round · "bar" bar stool · "banq" banquette
    seats: how many it sits. seat1: where seat 1 sits, as a compass point.
           Seat 1 usually faces the front door; number clockwise from there.
    ============ */
 const FLOORMAP = [
  {room:"Main", sub:"the room you are in most nights", tables:[
-   {t:"43", x:26, y:12, shape:"b", seats:4, seat1:"S"},
-   {t:"42", x:50, y:12, shape:"b", seats:4, seat1:"S"},
-   {t:"41", x:74, y:12, shape:"b", seats:4, seat1:"S"},
+   {t:"43", x:26, y:12, shape:"b", seats:4, seat1:"W"},
+   {t:"42", x:50, y:12, shape:"b", seats:4, seat1:"W"},
+   {t:"41", x:74, y:12, shape:"b", seats:4, seat1:"W"},
    {t:"32", x:42, y:36, shape:"d", seats:4, seat1:"NE"},
    {t:"31", x:60, y:36, shape:"d", seats:4, seat1:"NE"},
    {t:"24", x:20, y:57, shape:"d", seats:4, seat1:"NE"},
    {t:"23", x:40, y:57, shape:"d", seats:4, seat1:"NE"},
    {t:"22", x:60, y:57, shape:"d", seats:4, seat1:"NE"},
    {t:"21", x:80, y:57, shape:"d", seats:4, seat1:"NE"},
-   {t:"14", x:20, y:82, shape:"b", seats:4, seat1:"N"},
-   {t:"13", x:40, y:82, shape:"b", seats:4, seat1:"N"},
-   {t:"12", x:60, y:82, shape:"b", seats:4, seat1:"N"},
-   {t:"11", x:80, y:82, shape:"b", seats:4, seat1:"N"}
+   {t:"14", x:20, y:82, shape:"bv", seats:4, seat1:"NE"},
+   {t:"13", x:40, y:82, shape:"bv", seats:4, seat1:"NE"},
+   {t:"12", x:60, y:82, shape:"bv", seats:4, seat1:"NE"},
+   {t:"11", x:80, y:82, shape:"bv", seats:4, seat1:"NE"}
  ]},
  {room:"Bar / Lounge", sub:"25 seated, plus the bar top", tables:[
    {t:"404", x:24, y:11, shape:"d", seats:4, seat1:"NE"},
@@ -48,8 +49,8 @@ const FLOORMAP = [
    {t:"101", x:68, y:84, shape:"b", seats:4, seat1:"N"}
  ]},
  {room:"The Curry", sub:"semi-private — 72 seated, 125 cocktail", tables:[
-   {t:"65", x:44, y:10, shape:"b", seats:4, seat1:"S"},
-   {t:"84", x:62, y:10, shape:"b", seats:4, seat1:"S"},
+   {t:"65", x:44, y:10, shape:"b", seats:4, seat1:"W"},
+   {t:"84", x:62, y:10, shape:"b", seats:4, seat1:"W"},
    {t:"53", x:14, y:34, shape:"b", seats:4, seat1:"E"},
    {t:"52", x:14, y:52, shape:"b", seats:4, seat1:"E"},
    {t:"51", x:14, y:70, shape:"b", seats:4, seat1:"E"},
@@ -66,7 +67,7 @@ const FLOORMAP = [
    {t:"81", x:72, y:88, shape:"b", seats:4, seat1:"N"}
  ]},
  {room:"Smockton", sub:"the big private room — 70 seated, 125 cocktail", tables:[
-   {t:"91", x:84, y:46, shape:"banq", seats:6, seat1:"W"},
+   {t:"91", x:84, y:46, shape:"banq", seats:6, seat1:"N"},
    {t:"96", x:18, y:33, shape:"d", seats:4, seat1:"NE"},
    {t:"97", x:35, y:33, shape:"d", seats:4, seat1:"NE"},
    {t:"98", x:52, y:33, shape:"d", seats:4, seat1:"NE"},
@@ -101,4 +102,13 @@ const FLOOR_CREW = [
  ["Host","Mackenzie, Leila"],
  ["Busser","Carter, Dalton, Conner"],
  ["Expo","Jackson, Rodrigo"]
+];
+
+/* Pairs the floor actually pushes together for a big party. Only these combinations —
+   they are the ones that physically line up — and each is a straight neighbour of the
+   other, so the merged table is drawn as one shape spanning both positions. */
+const MERGEABLE = [
+ {id:"23+32", a:"23", b:"32"},
+ {id:"31+22", a:"31", b:"22"},
+ {id:"65+84", a:"65", b:"84"}
 ];

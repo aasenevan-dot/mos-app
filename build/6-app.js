@@ -34,7 +34,7 @@ const BOTTOM=[["shift","Home","home"],["wine","Wine","wine"],["cocktails","Drink
    rather than beside the title: these tiles get down to ~160px on a phone and an inline
    icon would squeeze the text into more lines. */
 const QAICONS={
-  "house|#sec-floor":'<svg viewBox="0 0 24 24"><rect x="7.6" y="8.6" width="8.8" height="6.8" rx="1.4"/><circle cx="12" cy="4.6" r="1.7"/><circle cx="12" cy="19.4" r="1.7"/><circle cx="4.6" cy="12" r="1.7"/><circle cx="19.4" cy="12" r="1.7"/></svg>',
+  "ops|#sec-floor":'<svg viewBox="0 0 24 24"><rect x="7.6" y="8.6" width="8.8" height="6.8" rx="1.4"/><circle cx="12" cy="4.6" r="1.7"/><circle cx="12" cy="19.4" r="1.7"/><circle cx="4.6" cy="12" r="1.7"/><circle cx="19.4" cy="12" r="1.7"/></svg>',
  /* calendar */
  "sched|":'<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2.5"/><path d="M3 10h18M8 2.8v4M16 2.8v4"/></svg>',
  /* martini with an olive on a pick — the garnish IS the point */
@@ -884,7 +884,7 @@ function build(){
       <button data-qa="ops|#sec-income">${QAICONS["ops|#sec-income"]||""}<div class="t">Night Forecast</div><div class="s">Who's on, the covers, and the cut — called early</div></button>
       <button data-qa="study|#sec-quiz">${QAICONS["study|#sec-quiz"]||""}<div class="t">Quiz &amp; games</div><div class="s">${MC.length} questions by topic + the real 30</div></button>
       <button data-qa="menu|">${QAICONS["menu|"]||""}<div class="t">Food menu</div><div class="s">Prices, builds, temps, the A5 pitch</div></button>
-      <button data-qa="house|#sec-floor">${QAICONS["house|#sec-floor"]||""}<div class="t">Floor plan</div><div class="s">Tap a table — seats, section, where seat 1 is</div></button>
+      <button data-qa="ops|#sec-floor">${QAICONS["ops|#sec-floor"]||""}<div class="t">Floor plan</div><div class="s">Tap a table — seats, section, where seat 1 is</div></button>
     </div>
 
     <div class="sechead"><h2>Before you walk up</h2><span>the 60-second version</span></div>
@@ -1153,16 +1153,7 @@ function build(){
       tbl(["Dish","Set with it","Note"],MISE.map(m=>[`<b>${esc(m[0])}</b>`,esc(m[1].join(" + ")),
         `<span style="color:var(--dim)">${esc(m[2]||"")}</span>`])))}
 
-    ${""/* Interactive plan first — tap a table, see who has it and where seat 1 sits.
-          The photographed sheets stay underneath as the source of truth. */}
-    <div class="sechead" id="sec-floor"><h2>Floor plan</h2><span>${FLOORMAP.reduce((n,r)=>n+r.tables.length,0)} tables across ${FLOORMAP.length} rooms</span></div>
-    <p class="sub" style="margin:0 0 8px">Seat 1 usually faces the front door. Number clockwise from there unless it is a booth.</p>
-    <div class="fproom" id="fpRooms"></div>
-    <div class="fpstage" id="fpStage"></div>
-    <div class="fplegend" id="fpLegend"></div>
-    <div class="fpdetail" id="fpDetail"></div>
-    ${typeof FLOOR_CREW!=="undefined"?`<p class="sub" style="margin:10px 2px 0">${FLOOR_CREW.map(c=>`<b>${esc(c[0])}:</b> ${esc(c[1])}`).join(" &middot; ")}</p>`:""}
-    ${acc("The printed sheets","photographed off the wall — the source these positions came from",
+    ${acc("The printed floor plans","photographed off the wall — the live, tappable plan lives on the Money tab",
       FLOOR.map(r=>`<p class="sub" style="margin:10px 0 4px"><b>${esc(r.n)}</b> — ${esc(r.sub)}</p>
         <img class="floorimg" src="${r.img}" alt="${esc(r.n)} floor plan" loading="lazy" onclick="openFloor('${esc(r.n)}')">`).join(""))}
 
@@ -1264,6 +1255,20 @@ function build(){
       <div class="out" id="ipOut"></div>
       <div id="ipWho"></div>
     </div>
+
+    ${""/* The plan sits with the forecast on purpose: covers, staffing and the cut are
+          the same conversation as who has which section and where the parties land. */}
+    <div class="sechead" id="sec-floor"><h2>Floor plan</h2><span>${FLOORMAP.reduce((n,r)=>n+r.tables.length,0)} tables across ${FLOORMAP.length} rooms</span></div>
+    <p class="sub" style="margin:0 0 8px">Seat 1 usually faces the front door. Number clockwise from there unless it is a booth. Tap a table to plot a party on it.</p>
+    <div class="fproom" id="fpRooms"></div>
+    <div class="fpstage" id="fpStage"></div>
+    <div class="fplegend" id="fpLegend"></div>
+    <div class="fpdetail" id="fpDetail"></div>
+    <div class="sechead"><h2>Tonight's book</h2><span>what you have plotted</span></div>
+    <div id="fpBook"></div>
+    ${acc("Who has which section","retype tonight's names — the plan recolours to match",
+      `<div id="fpWhoBox"></div>`)}
+    ${typeof FLOOR_CREW!=="undefined"?`<p class="sub" style="margin:10px 2px 0">${FLOOR_CREW.map(c=>`<b>${esc(c[0])}:</b> ${esc(c[1])}`).join(" &middot; ")}</p>`:""}
     <div class="sechead"><h2>Banquet</h2><span>only when Lillian books it</span></div>
     <p class="sub" style="margin:0 0 10px">A <b>banquet checkout</b> only happens when Lillian books the party — that is the one carrying her 3% and the 23% auto-grat, and it usually runs a limited menu with a spend minimum. A group of 8&ndash;10 that walks in and eats off the normal menu is <b>not</b> a banquet: it is a regular table you may or may not auto-grat, with no second envelope.</p>
     <div class="frow">
@@ -1360,11 +1365,40 @@ function dishPic(name){
 /* ---------- INTERACTIVE FLOOR PLAN ----------
    Rendered from FLOORMAP (positions) + SECTIONS (who has what tonight). Edit
    SECTIONS and the plan recolours — that is the daily update, no code change. */
-var FPROOM, FPSEL, FPSHOWSEC;
+var FPROOM, FPSEL, FPSHOWSEC, FPMERGED, FPPARTY, FPWHO, FPDAY;
 var FPCOLORS=["#7A2E26","#1F6B4F","#2F5D8A","#8A5A12","#6B3E7A","#0F6E70","#9B4A2F","#4A6B1F","#7A2050","#3D5A80"];
+/* What the floor typed in tonight — merges, parties, who has which section. Kept in
+   localStorage so a refresh mid-shift doesn't wipe the plot. Everything is wrapped:
+   private-mode Safari throws on setItem, and losing the plot beats crashing the app. */
+function fpSave(){
+  try{ localStorage.setItem("mos-floor-v1", JSON.stringify(
+    {m:FPMERGED||[], p:FPPARTY||{}, w:FPWHO||{}, d:FPDAY==null?null:FPDAY})); }catch(e){}
+}
+function fpLoad(){
+  FPMERGED=[]; FPPARTY={}; FPWHO={};
+  try{
+    const r=JSON.parse(localStorage.getItem("mos-floor-v1")||"{}");
+    if(Array.isArray(r.m))FPMERGED=r.m;
+    if(r.p&&typeof r.p==="object")FPPARTY=r.p;
+    if(r.w&&typeof r.w==="object")FPWHO=r.w;
+    if(r.d!=null)FPDAY=+r.d;
+  }catch(e){}
+}
+function fpMergeList(){ return (typeof MERGEABLE==="undefined")?[]:MERGEABLE; }
+function fpActiveMerges(){ return fpMergeList().filter(m=>(FPMERGED||[]).indexOf(m.id)>=0); }
+/* A merged pair books as ONE table, so parties key off the merge id when it is on. */
+function fpKey(t){
+  const m=fpActiveMerges().find(x=>x.a===t||x.b===t);
+  return m?m.id:t;
+}
+function fpPartnerOf(t){
+  const m=fpMergeList().find(x=>x.a===t||x.b===t);
+  if(!m)return null;
+  return {m:m, other:(m.a===t?m.b:m.a), on:(FPMERGED||[]).indexOf(m.id)>=0};
+}
 function fpSectionOf(t){
   if(typeof SECTIONS==="undefined")return null;
-  for(let i=0;i<SECTIONS.length;i++) if(SECTIONS[i].tables.indexOf(t)>=0) return {i:i,who:SECTIONS[i].who};
+  for(let i=0;i<SECTIONS.length;i++) if(SECTIONS[i].tables.indexOf(t)>=0) return {i:i,who:fpWhoOf(i)};
   return null;
 }
 function fpSeatRing(tb){
@@ -1418,52 +1452,224 @@ function hbTry(){
 }
 function hbLock(){ HBOPEN=false; hbRender(); }
 
+/* ---------- geometry shared by the plan and the seat-1 markers ----------
+   SZ is each shape's footprint as a % of the stage. A diamond is a square rotated 45deg,
+   so its BOUNDING box is the diagonal, not the side — using the side would draw a merged
+   pair narrower than the tables it replaces. */
+var FPSZ={d:[13.4,13.4],b:[13,8],bv:[8,13],r:[9,9],bar:[5.4,5.4],banq:[8,22]};
+var FPDIRV={N:[0,-1],NE:[.72,-.72],E:[1,0],SE:[.72,.72],S:[0,1],SW:[-.72,.72],W:[-1,0],NW:[-.72,-.72]};
+var FPRAD={d:[6.4,6.9],b:[8,5.6],bv:[6,9],r:[5.6,6.1],banq:[5,13],bar:[0,0]};
+
+function fpMergedBoxes(room){
+  return fpActiveMerges().map(m=>{
+    const A=room.tables.find(x=>x.t===m.a), B=room.tables.find(x=>x.t===m.b);
+    if(!A||!B)return null;
+    const sa=FPSZ[A.shape]||[9,9], sb=FPSZ[B.shape]||[9,9];
+    return {id:m.id, a:A, b:B, x:(A.x+B.x)/2, y:(A.y+B.y)/2,
+      w:Math.abs(A.x-B.x)+Math.max(sa[0],sb[0]),
+      h:Math.abs(A.y-B.y)+Math.max(sa[1],sb[1]),
+      seats:A.seats+B.seats, seat1:A.seat1, room:room};
+  }).filter(Boolean);
+}
+function fpSeatDot(key,cx,cy,rx,ry,dir){
+  const v=FPDIRV[dir]; if(!v)return "";
+  return `<i class="fpseat1${FPSEL===key?" sel":""}" style="left:${(cx+v[0]*rx).toFixed(2)}%;top:${(cy+v[1]*ry).toFixed(2)}%" title="Seat 1"></i>`;
+}
+function fpBadge(key,cx,cy,h){
+  const pt=(FPPARTY||{})[key]; if(!pt)return "";
+  const label=[pt.t||"",pt.n?pt.n+" top":""].filter(Boolean).join(" · ");
+  if(!label)return "";
+  return `<b class="fppty" style="left:${cx}%;top:${(cy+h/2+0.6).toFixed(2)}%">${esc(label)}</b>`;
+}
 function renderFloor(){
   const wrap=$("#fpStage"); if(!wrap||typeof FLOORMAP==="undefined")return;
   if(FPROOM==null)FPROOM=0;
+  if(!FPMERGED)fpLoad();
   const room=FLOORMAP[FPROOM];
-  /* The seat-1 dot rides as a sibling, not a child: a diamond table is rotated 45deg
-     by CSS, and anything inside it rotates too, which would throw the marker to the
-     wrong corner. Positioned off the table centre by shape radius and compass. */
-  const DIRV={N:[0,-1],NE:[.72,-.72],E:[1,0],SE:[.72,.72],S:[0,1],SW:[-.72,.72],W:[-1,0],NW:[-.72,-.72]};
-  const RAD={d:[6.4,6.9],b:[8,5.6],r:[5.6,6.1],banq:[5,13],bar:[0,0]};
-  wrap.innerHTML=room.tables.map(tb=>{
+  const boxes=fpMergedBoxes(room);
+  const hidden={}; boxes.forEach(g=>{hidden[g.a.t]=1;hidden[g.b.t]=1;});
+
+  const singles=room.tables.filter(tb=>!hidden[tb.t]).map(tb=>{
     const sec=FPSHOWSEC?fpSectionOf(tb.t):null;
     const bg=sec?`background:${FPCOLORS[sec.i%FPCOLORS.length]}`:"";
-    const v=DIRV[tb.seat1], r=RAD[tb.shape];
-    const dot=(v&&r&&tb.seats>1&&tb.shape!=="bar")
-      ? `<i class="fpseat1${FPSEL===tb.t?" sel":""}" style="left:${(tb.x+v[0]*r[0]).toFixed(2)}%;top:${(tb.y+v[1]*r[1]).toFixed(2)}%"
-           title="Seat 1 on table ${esc(tb.t)}"></i>` : "";
-    return `<div class="fptable ${tb.shape}${FPSEL===tb.t?" sel":""}" style="left:${tb.x}%;top:${tb.y}%;${bg}"
-      onclick="fpPick('${tb.t}')" role="button" aria-label="Table ${esc(tb.t)}"><span>${esc(tb.t)}</span></div>${dot}`;
+    const seated=(FPPARTY||{})[tb.t]?" seated":"";
+    const r=FPRAD[tb.shape];
+    const dot=(r&&tb.seats>1&&tb.shape!=="bar")?fpSeatDot(tb.t,tb.x,tb.y,r[0],r[1],tb.seat1):"";
+    const sz=FPSZ[tb.shape]||[9,9];
+    return `<div class="fptable ${tb.shape}${FPSEL===tb.t?" sel":""}${seated}" style="left:${tb.x}%;top:${tb.y}%;${bg}"
+      onclick="fpPick('${tb.t}')" role="button" aria-label="Table ${esc(tb.t)}"><span>${esc(tb.t)}</span></div>${dot}${fpBadge(tb.t,tb.x,tb.y,sz[1])}`;
   }).join("");
+
+  const groups=boxes.map(g=>{
+    const sec=FPSHOWSEC?fpSectionOf(g.a.t):null;
+    const bg=sec?`background:${FPCOLORS[sec.i%FPCOLORS.length]}`:"";
+    const seated=(FPPARTY||{})[g.id]?" seated":"";
+    const dot=fpSeatDot(g.id,g.x,g.y,g.w/2+1.5,g.h/2+1.5,g.seat1);
+    return `<div class="fptable merged${FPSEL===g.id?" sel":""}${seated}"
+      style="left:${g.x}%;top:${g.y}%;width:${g.w.toFixed(2)}%;height:${g.h.toFixed(2)}%;${bg}"
+      onclick="fpPick('${g.id}')" role="button" aria-label="Tables ${esc(g.id)} pushed together"><span>${esc(g.id)}</span></div>${dot}${fpBadge(g.id,g.x,g.y,g.h)}`;
+  }).join("");
+
+  wrap.innerHTML=singles+groups;
   $("#fpRooms").innerHTML=FLOORMAP.map((r,i)=>
     `<button class="${i===FPROOM?"on":""}" onclick="fpRoom(${i})">${esc(r.room)}</button>`).join("");
   $("#fpLegend").innerHTML=(typeof SECTIONS==="undefined")?"":
     `<button class="${FPSHOWSEC?"on":""}" onclick="fpToggleSections()">${FPSHOWSEC?"Hide sections":"Show tonight's sections"}</button>`+
-    (FPSHOWSEC?SECTIONS.map((s,i)=>`<button onclick="fpPick('${s.tables[0]}')"><span class="sw" style="background:${FPCOLORS[i%FPCOLORS.length]}"></span>${esc(s.who)}</button>`).join(""):"");
-  fpDetail();
+    (FPSHOWSEC?SECTIONS.map((s,i)=>`<button onclick="fpPick('${s.tables[0]}')"><span class="sw" style="background:${FPCOLORS[i%FPCOLORS.length]}"></span>${esc(fpWhoOf(i))}</button>`).join(""):"");
+  fpDetail(); fpBook(); fpWhoBox();
+}
+function fpFind(key){
+  const room=FLOORMAP[FPROOM];
+  const g=fpMergedBoxes(room).find(x=>x.id===key);
+  if(g)return {merged:true,g:g,seats:g.seats,seat1:g.seat1,label:"Tables "+g.id,room:room};
+  const tb=room.tables.find(x=>x.t===key);
+  if(!tb)return null;
+  return {merged:false,tb:tb,seats:tb.seats,seat1:tb.seat1,label:"Table "+tb.t,room:room};
 }
 function fpDetail(){
   const box=$("#fpDetail"); if(!box)return;
   const room=FLOORMAP[FPROOM];
-  const tb=room.tables.find(x=>x.t===FPSEL);
-  if(!tb){
-    box.innerHTML=`<div class="meta">${esc(room.sub)} &middot; ${room.tables.length} tables. Tap any table.</div>`;
+  const f=FPSEL?fpFind(FPSEL):null;
+  if(!f){
+    box.innerHTML=`<div class="meta">${esc(room.sub)} &middot; ${room.tables.length} tables. Tap any table to seat it, see who has it, and find seat 1.</div>`;
     return;
   }
-  const SHAPE={d:"Four-top",b:"Booth",r:"Round",bar:"Bar seat",banq:"Banquette"};
-  const sec=fpSectionOf(tb.t);
-  const ring=fpSeatRing(tb);
-  box.innerHTML=`<div class="n">Table ${esc(tb.t)}</div>
-    <div class="meta">${esc(SHAPE[tb.shape]||tb.shape)} &middot; sits ${tb.seats} &middot; ${esc(room.room)}${sec?" &middot; "+esc(sec.who):""}</div>
-    ${tb.seats>1&&ring?`<div class="meta" style="margin-top:6px"><b>Seat 1</b> is ${esc(ring)} — number clockwise from there.</div>
-    <div class="fpseats">${Array.from({length:Math.min(tb.seats,8)},(_,i)=>`<i>Seat ${i+1}</i>`).join("")}</div>`:""}`;
+  const SHAPE={d:"Four-top",b:"Booth",bv:"Booth",r:"Round",bar:"Bar seat",banq:"Banquette"};
+  const kind=f.merged?"Pushed together":(SHAPE[f.tb.shape]||f.tb.shape);
+  const sec=fpSectionOf(f.merged?f.g.a.t:f.tb.t);
+  const ring=fpSeatRing({seat1:f.seat1,seats:f.seats});
+  const pt=(FPPARTY||{})[FPSEL]||{};
+  const pair=f.merged?null:fpPartnerOf(f.tb.t);
+  const mergeBtn=f.merged
+    ? `<button class="btn sec" onclick="fpUnmerge('${f.g.id}')">Split ${esc(f.g.a.t)} and ${esc(f.g.b.t)} back apart</button>`
+    : (pair?`<button class="btn sec" onclick="fpMerge('${pair.m.id}')">Push together with ${esc(pair.other)}</button>`:"");
+  box.innerHTML=`<div class="n">${esc(f.label)}</div>
+    <div class="meta">${esc(kind)} &middot; sits ${f.seats} &middot; ${esc(room.room)}${sec?" &middot; "+esc(sec.who):""}</div>
+    ${f.seats>1&&ring?`<div class="meta" style="margin-top:6px"><b>Seat 1</b> is ${esc(ring)} — number clockwise from there.</div>
+    <div class="fpseats">${Array.from({length:Math.min(f.seats,10)},(_,i)=>`<i>Seat ${i+1}</i>`).join("")}</div>`:""}
+    <div class="frow" style="margin-top:12px">
+      <div class="f"><label for="fpN">Party of</label><input type="number" inputmode="numeric" id="fpN" min="1" max="40" value="${pt.n||""}" placeholder="how many"></div>
+      <div class="f"><label for="fpT">Time</label><input type="text" id="fpT" value="${esc(pt.t||"")}" placeholder="6:30" autocapitalize="off"></div>
+      <div class="f"><label for="fpNm">Name <span style="color:var(--dim)">optional</span></label><input type="text" id="fpNm" value="${esc(pt.name||"")}" placeholder="Smith"></div>
+    </div>
+    <p style="margin:8px 0 0">
+      <button class="btn" onclick="fpSeat()">${pt.n?"Update this table":"Seat this table"}</button>
+      ${pt.n?`<button class="btn sec" onclick="fpClear('${FPSEL}')">Clear it</button>`:""}
+      ${mergeBtn}
+    </p>`;
+  const go=e=>{ if(e.key==="Enter"){ e.preventDefault(); fpSeat(); } };
+  ["#fpN","#fpT","#fpNm"].forEach(id=>{ const el=$(id); if(el)el.onkeydown=go; });
 }
+function fpSeat(){
+  if(!FPSEL)return;
+  const n=+(($("#fpN")||{}).value||0);
+  const t=String((($("#fpT")||{}).value||"")).trim();
+  const nm=String((($("#fpNm")||{}).value||"")).trim();
+  if(!n&&!t&&!nm){ fpClear(FPSEL); return; }
+  FPPARTY=FPPARTY||{};
+  FPPARTY[FPSEL]={n:n||null,t:t,name:nm};
+  fpSave(); renderFloor();
+}
+function fpClear(key){ if(FPPARTY)delete FPPARTY[key]; fpSave(); renderFloor(); }
+function fpMerge(id){
+  FPMERGED=FPMERGED||[];
+  if(FPMERGED.indexOf(id)<0)FPMERGED.push(id);
+  const m=fpMergeList().find(x=>x.id===id);
+  /* a party already sitting on either half follows the pair onto the merged table */
+  if(m&&FPPARTY){
+    const keep=FPPARTY[m.a]||FPPARTY[m.b];
+    delete FPPARTY[m.a]; delete FPPARTY[m.b];
+    if(keep)FPPARTY[id]=keep;
+  }
+  FPSEL=id; fpSave(); renderFloor();
+}
+function fpUnmerge(id){
+  FPMERGED=(FPMERGED||[]).filter(x=>x!==id);
+  const m=fpMergeList().find(x=>x.id===id);
+  if(m&&FPPARTY&&FPPARTY[id]){ FPPARTY[m.a]=FPPARTY[id]; delete FPPARTY[id]; }
+  FPSEL=m?m.a:null; fpSave(); renderFloor();
+}
+/* Tonight's book — every party plotted, in time order, across all rooms. */
+function fpTimeVal(t){
+  const m=String(t||"").match(/^(\d{1,2})[:.]?(\d{2})?/);
+  if(!m)return 9999;
+  let h=+m[1]; const mi=+(m[2]||0);
+  if(h<11)h+=12;                      /* a floor that opens at 4 never means 5am */
+  return h*60+mi;
+}
+function fpBook(){
+  const box=$("#fpBook"); if(!box)return;
+  const rows=Object.keys(FPPARTY||{}).map(k=>{
+    let room="";
+    FLOORMAP.forEach(r=>{
+      if(r.tables.some(x=>x.t===k))room=r.room;
+      const m=fpMergeList().find(x=>x.id===k);
+      if(m&&r.tables.some(x=>x.t===m.a))room=r.room;
+    });
+    return Object.assign({key:k,room:room},FPPARTY[k]);
+  }).sort((a,b)=>fpTimeVal(a.t)-fpTimeVal(b.t)||String(a.key).localeCompare(b.key));
+  if(!rows.length){
+    box.innerHTML=`<div class="meta">Nothing plotted yet. Tap a table above, put in the party and the time, and it lands here.</div>`;
+    return;
+  }
+  const covers=rows.reduce((n,r)=>n+(+r.n||0),0);
+  box.innerHTML=`<div class="meta"><b>${rows.length}</b> ${rows.length===1?"table":"tables"} plotted &middot; <b>${covers}</b> covers</div>
+    <div class="fpbook">${rows.map(r=>`<div class="r">
+      <span class="tm">${esc(r.t||"—")}</span>
+      <span class="tb">${esc(r.key)}</span>
+      <span class="sz">${r.n?esc(r.n)+" top":""}${r.name?" &middot; "+esc(r.name):""}${r.room?" &middot; "+esc(r.room):""}</span>
+      <span class="x"><button class="btn sec" onclick="fpPick('${esc(r.key)}')">Show</button></span>
+    </div>`).join("")}</div>
+    <p style="margin:10px 0 0"><button class="btn sec" onclick="fpClearAll()">Clear the whole book</button></p>`;
+}
+function fpClearAll(){ FPPARTY={}; fpSave(); renderFloor(); }
+/* ---------- who has which section ----------
+   SECTIONS ships with the names off the marked-up sheet. This lets the floor retype them
+   for tonight, with the people actually scheduled that day offered as suggestions. */
+function fpWhoOf(i){
+  const o=(FPWHO||{})[String(i)];
+  if(o!=null&&String(o).trim()!=="")return String(o);
+  return SECTIONS[i]?SECTIONS[i].who:"";
+}
+function fpDayNames(di){
+  if(typeof SCHEDULE==="undefined")return [];
+  const out=[];
+  SCHEDULE.sections.forEach(sec=>{
+    if(["Fronts","Backs","Bar","Cktail"].indexOf(sec[0])<0)return;
+    sec[1].forEach(r=>{
+      const c=String(r[di+1]||"").trim();
+      if(c&&c!=="?"&&!/^off\??$/i.test(c)&&!/^ro\??$/i.test(c))out.push(r[0]);
+    });
+  });
+  return out;
+}
+function fpWhoBox(){
+  const box=$("#fpWhoBox"); if(!box||typeof SECTIONS==="undefined")return;
+  if(FPDAY==null)FPDAY=(typeof IPD0!=="undefined")?IPD0:0;
+  const names=fpDayNames(FPDAY);
+  box.innerHTML=`
+    <div class="frow"><div class="f"><label for="fpDay">Suggest names from</label>
+      <select id="fpDay" onchange="fpSetDay(this.value)">${SCHEDULE.days.map((d,i)=>
+        `<option value="${i}"${i===FPDAY?" selected":""}>${d[1]} ${d[0]}</option>`).join("")}</select></div></div>
+    <datalist id="fpNames">${names.map(n=>`<option value="${esc(n)}"></option>`).join("")}</datalist>
+    <p class="sub" style="margin:0 0 8px">${names.length?`${names.length} on that day — start typing and they autocomplete.`:"Nobody scheduled that day."}</p>
+    ${SECTIONS.map((s,i)=>`<div class="frow" style="margin-bottom:6px"><div class="f">
+      <label for="fpw${i}"><span class="sw" style="display:inline-block;width:10px;height:10px;border-radius:3px;background:${FPCOLORS[i%FPCOLORS.length]};margin-right:6px"></span>${esc(s.tables.join(", "))}</label>
+      <input type="text" id="fpw${i}" list="fpNames" value="${esc(fpWhoOf(i))}" placeholder="${esc(s.who)}" onchange="fpSetWho(${i},this.value)">
+    </div></div>`).join("")}
+    <p style="margin:8px 0 0"><button class="btn sec" onclick="fpResetWho()">Put the posted names back</button></p>`;
+}
+function fpSetDay(v){ FPDAY=+v; fpSave(); fpWhoBox(); }
+function fpSetWho(i,v){
+  FPWHO=FPWHO||{};
+  if(String(v).trim()==="")delete FPWHO[String(i)]; else FPWHO[String(i)]=String(v).trim();
+  fpSave();
+  if(FPSHOWSEC)renderFloor(); else { fpDetail(); }
+}
+function fpResetWho(){ FPWHO={}; fpSave(); renderFloor(); }
 function fpPick(t){
-  const room=FLOORMAP[FPROOM];
-  if(!room.tables.some(x=>x.t===t)){
-    const ri=FLOORMAP.findIndex(r=>r.tables.some(x=>x.t===t));
+  if(!FLOORMAP[FPROOM]||!fpFind(t)){
+    const ri=FLOORMAP.findIndex(r=>r.tables.some(x=>x.t===t)||fpMergedBoxes(r).some(g=>g.id===t));
     if(ri>=0)FPROOM=ri;
   }
   FPSEL=(FPSEL===t)?null:t;

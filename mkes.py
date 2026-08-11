@@ -90,6 +90,12 @@ LATER = {
     "Lost the floor — still trying. Your board is safe on this phone.":
         "Se perdió la conexión — seguimos intentando. Tu plano está a salvo en este teléfono.",
     "paste the link here": "pega el enlace aquí",
+    "At the table": "En la mesa",
+    "what guests ask for that is on no menu": "lo que piden los invitados y no está en ningún menú",
+    "Guest Wi-Fi": "Wi-Fi para invitados",
+    "The network guests join. One word for everybody — you can hand it out at the table.":
+        "La red a la que se conectan los invitados. Una sola palabra para todos — puedes darla en la mesa.",
+    "What": "Qué", "It is": "Es",
 }
 pairs.update(LATER)
 

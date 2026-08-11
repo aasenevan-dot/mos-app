@@ -30,6 +30,16 @@ const ENHANCE = [
    out and are deliberately not here. The asterisk is printed on the original and
    nobody has told us what it means, so it is left as-is rather than guessed at.
    [name, POS #] */
+/* Things guests ask for at the table that live on no menu. A list, so the next one —
+   a printer, a thermostat, whatever — drops in without new plumbing. The last field is
+   pure search bait: it never renders, it just makes the thing findable however you type
+   it, since the tokeniser splits "wi-fi" into "wi" and "fi". */
+const HOUSE_INFO = [
+ ["Guest Wi-Fi", "GreatSteaks",
+  "The network guests join. One word for everybody \u2014 you can hand it out at the table.",
+  "wifi wi-fi wi fi wireless internet network networks password passwords passcode pw code guest guests customer customers table login log sign signin join access connect connecting connection signal service hotspot ssid name info details restaurant house public free data laptop phone tablet ipad"]
+];
+
 const FRONT_POS = [
  ["Morgan B *","450"],
  ["Diana *","452"],

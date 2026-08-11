@@ -654,11 +654,22 @@ function calcBq(){}   /* the mini-tool folded into calcBQC above */
 /* ---------- GLOBAL SEARCH ---------- */
 /* Ask it questions: words match in any order, filler words are ignored,
    common floor terms map to menu vocabulary, and small typos still hit. */
-const SEARCH_STOP=new Set("what whats is in the a an on of for to do does did we have has had any with and or are it its how much many me my show tell about can could i you your price prices cost costs".split(" "));
-const SEARCH_SYN={works:"schedule",working:"schedule",shift:"schedule",mocktail:"non-alcoholic",virgin:"non-alcoholic",children:"kids",child:"kids",app:"starters",apps:"starters",appetizer:"starters",appetizers:"starters",sparkling:"champagne",bubbly:"champagne",bubbles:"champagne",veggie:"vegetable",veggies:"vegetable",glutenfree:"gf",sweets:"desserts",bday:"celebration",birthday:"celebration",anniversary:"celebration",percentages:"percent",percentage:"percent",tipout:"tip",tipouts:"tip",ounces:"oz",ounce:"oz",cheapest:"price",cheap:"price",priciest:"price",recipe:"ingredients",dressing:"dressings",earn:"earned",earnings:"earned",paycheck:"earned",payout:"earned",roster:"schedule",working:"schedule",works:"schedule",temp:"temperature",temps:"temperature",nuts:"nut",peanuts:"peanut",gf:"gluten"};
+const SEARCH_STOP=new Set(("what whats is in the a an on of for to do does did we have has had any with and or are it its "+
+  "how much many me my show tell about can could i you your price prices cost costs "+
+  /* every word below cost a real query in testing: "is there guest wifi", "do you guys have wifi",
+     "how do i connect to the internet here" all returned nothing because of one filler word */
+  "there here guys get got need needs want wants ask asks asked say says said give gives know "+
+  "please thanks at from this that they them their our us be was were will would should "+
+  "when where who whos wheres hows whats theres why if but so just like into over under again still even only also").split(" "));
+const SEARCH_SYN={internet:"wifi",wireless:"wifi",network:"wifi",hotspot:"wifi",ssid:"wifi",pw:"password",tonight:"today",passcode:"password",connexion:"connection",works:"schedule",working:"schedule",shift:"schedule",mocktail:"non-alcoholic",virgin:"non-alcoholic",children:"kids",child:"kids",app:"starters",apps:"starters",appetizer:"starters",appetizers:"starters",sparkling:"champagne",bubbly:"champagne",bubbles:"champagne",veggie:"vegetable",veggies:"vegetable",glutenfree:"gf",sweets:"desserts",bday:"celebration",birthday:"celebration",anniversary:"celebration",percentages:"percent",percentage:"percent",tipout:"tip",tipouts:"tip",ounces:"oz",ounce:"oz",cheapest:"price",cheap:"price",priciest:"price",recipe:"ingredients",dressing:"dressings",earn:"earned",earnings:"earned",paycheck:"earned",payout:"earned",roster:"schedule",working:"schedule",works:"schedule",temp:"temperature",temps:"temperature",nuts:"nut",peanuts:"peanut",gf:"gluten"};
 function nearWord(a,b){
   if(a===b)return true;
   const la=a.length,lb=b.length;
+  if(la===lb){
+    const d=[];
+    for(let k=0;k<la&&d.length<3;k++) if(a[k]!==b[k]) d.push(k);
+    if(d.length===2&&d[1]===d[0]+1&&a[d[0]]===b[d[1]]&&a[d[1]]===b[d[0]])return true;
+  }
   if(Math.abs(la-lb)>1)return false;
   let i=0,j=0,edits=0;
   while(i<la&&j<lb){
@@ -699,9 +710,28 @@ function search(q){
     return toks.every(t=>tokenIn(hay,getWords,t));
   };
   const hits=[];
+  /* A query that reads as ONE word to a person should beat a result that merely happens to
+     contain its pieces. "wi-fi" is one word at the table but two tokens to the tokeniser,
+     and it turns out "wine" contains a "wi" and "Ruffino" contains an "fi" — which put a
+     Ribera del Duero above the wifi password. Collapsing the query and the title to bare
+     letters and looking for the whole phrase fixes that, and helps anywhere else a name
+     gets split: "old fashioned", "new york", "creme brulee". */
+  const qflat=q.replace(/[^a-z0-9]/g,"");
   const add=(w,t,d,tab)=>{
     const name=(w+" "+t).toLowerCase();
-    hits.push({w,t,d,tab,score:toks.filter(x=>name.includes(x)).length});
+    /* Synonyms already decide WHETHER something matches, so they should decide ranking too.
+       Without this "who works today" scored the Schedule row at zero -- works maps to
+       schedule, and the row is literally called Schedule -- so ties fell to insertion order
+       and the Handbook came out on top. */
+    let score=toks.filter(x=>name.includes(x)||(SEARCH_SYN[x]&&name.includes(SEARCH_SYN[x]))).length;
+    /* Only when a SYNONYM lands on the category: "whos working" should reach the rows whose
+       category is literally Schedule rather than a handbook chapter that uses the word.
+       Restricted to synonyms on purpose — rewarding literal category hits made "mise en
+       place" return a dish's mise instead of the definition of the term. */
+    const cat=w.toLowerCase();
+    if(toks.some(x=>SEARCH_SYN[x]&&cat.includes(SEARCH_SYN[x])))score+=1;
+    if(qflat.length>=4&&name.replace(/[^a-z0-9]/g,"").includes(qflat))score+=3;
+    hits.push({w,t,d,tab,score});
   };
   WINES.forEach(x=>{if(matches([x.n,x.r,x.f,x.pair,x.pitch,x.p]))add("Wine",x.n+" — "+x.p,x.pitch,"wine");});
   COCKTAILS.forEach(x=>{if(matches([x.n,x.build,x.garnish,x.desc,x.p,x.grp]))add("Cocktail",x.n+" — "+x.p,"Garnish: "+x.garnish+" · "+x.build,"cocktails");});
@@ -718,6 +748,8 @@ function search(q){
   SOUPS_STANDING.forEach(s=>{if(matches([s[0],s[2]]))add("Standing soup",s[0]+" — "+s[1],s[2],"menu");});
   OFFMENU.forEach(s=>{if(matches([s[0],s[2]]))add("Off-menu",s[0]+" — "+s[1],s[2],"menu");});
   VOCAB.forEach(g=>g[1].forEach(r=>{if(matches([g[0],r[0],r[1]]))add("Vocabulary",r[0],r[1],"vocab");}));
+  if(typeof HOUSE_INFO!=="undefined")HOUSE_INFO.forEach(h=>{
+    if(matches([h[0],h[1],h[2],h[3]]))add("At the table",h[0],h[1]+" \u2014 "+h[2],"house");});
   /* The handbook sits behind the curtain, so search must not walk around it — while
      it is locked a hit shows only the section TITLE and says where to unlock it. */
   HANDBOOK.forEach(h=>{const txt=h[2].replace(/<[^>]+>/g," ");
@@ -812,9 +844,15 @@ function search(q){
     (SCHEDULE.days||[]).forEach((d,i)=>{
       const ab=String(d[1]||"").toLowerCase().slice(0,2);
       const full=DOWN.find(n=>n.slice(0,2)===ab)||"";
-      if(!matches(["who works schedule",full,d[0]]))return;
+      /* "who works today" and "whos on tonight" are among the commonest things anybody
+         types, and they used to return nothing at all: the day rows are titled "Wednesday
+         8/12", so the words today and tonight matched no field. Tag the day that IS today. */
+      const nowd=new Date(), isToday=(SCHEDULE.year===nowd.getFullYear())&&d[0]===((nowd.getMonth()+1)+"/"+nowd.getDate());
+      if(!matches(["who works schedule roster on floor",full,d[0],isToday?"today tonight now":""]))return;
       const on=rosterFor(SCHEDULE,i,true).replace(/<[^>]+>/g," ").replace(/\s+/g," ").trim();
-      if(on)add("Schedule",(full?full[0].toUpperCase()+full.slice(1):"")+" "+d[0],on.slice(0,150),"sched");
+      /* saying "today" in the title is both clearer to read and what makes it outrank the
+         handful of other rows that merely mention tonight */
+      if(on)add("Schedule",(full?full[0].toUpperCase()+full.slice(1):"")+" "+d[0]+(isToday?" \u2014 today":""),on.slice(0,150),"sched");
     });
   })();
   [WOTW.a,WOTW.b].forEach(w=>{if(w&&matches([w.n,w.tag,w.what,w.flavor,w.why,w.pair,w.pitch,w.p]))
@@ -1134,6 +1172,10 @@ function build(){
     <div id="houseMain">
     <div class="sechead"><h2>How we work</h2><span>Points of Passion, steps of service, and the house playbook</span></div>
     <div class="note gold"><b>Mission:</b> ${esc(HOUSE.mission)}</div>
+    ${(typeof HOUSE_INFO==="undefined")?"":`
+      <div class="sechead" id="sec-wifi"><h2>At the table</h2><span>what guests ask for that is on no menu</span></div>
+      ${tbl(["What","It is"],HOUSE_INFO.map(h=>[`<b>${esc(h[0])}</b><br><span style="color:var(--dim);font-size:12.5px">${esc(h[2])}</span>`,
+        `<span class="mono" style="font-size:15px;font-weight:800">${esc(h[1])}</span>`]))}`}
     <div class="bkcard" onclick="openBook()"><h3>&#128214; The Mo's Book</h3><p>The whole training course, in the order we teach it — every day of the original itinerary, front to back. Tap to read it chapter by chapter.</p></div>
     <div class="bkcard" onclick="openDeck()"><h3>&#128444;&#65039; The Training Slideshow</h3><p>The same ten days as a deck you swipe through one slide at a time. Tap to start, or jump to a day.</p></div>
     ${""/* Mise en Place: what has to ride out WITH the plate. Two views on purpose —

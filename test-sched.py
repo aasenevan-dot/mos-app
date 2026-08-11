@@ -759,6 +759,30 @@ async def main():
         await pg.evaluate("fpResetWho();FPMERGED=[];FPPARTY={};fpSave();renderFloor()")
         if await pg.evaluate("Object.keys(FPWHO).length"): bad.append("reset did not clear the section overrides")
 
+        # ---- guest wifi: in How We Work, and findable however anybody types it ----
+        if "GreatSteaks" not in await pg.evaluate("document.querySelector('#p-house').innerText"):
+            bad.append("wifi password missing from How We Work")
+        WIFI=["wifi","wi-fi","wi fi","WIFI","wifi password","password","internet","network",
+              "wireless","guest wifi","wifi code","wifi pw","free wifi","wifi info","network name",
+              "passcode","hotspot","greatsteaks","wifi?","what is the wifi password",
+              "netowrk","wifi passwrod","is there guest wifi","do you guys have wifi",
+              "how do i connect to the internet here","does the restaurant have free wifi for customers"]
+        wmiss=[]; wnot1=[]
+        for q in WIFI:
+            r=await pg.evaluate("q=>search(q).map(h=>h.w+'|'+h.t)", q)
+            idx=next((i for i,x in enumerate(r) if "At the table" in x), None)
+            if idx is None: wmiss.append(q)
+            elif idx!=0: wnot1.append(q)
+        if wmiss: bad.append(f"wifi unfindable for: {wmiss}")
+        if len(wnot1)>2: bad.append(f"wifi not the top hit for: {wnot1}")
+        # the search changes that made that work must not have moved anything else
+        for q,expect in [("mise en place","Vocabulary"),("old fashioned","Cocktail"),
+                         ("carajillo","Cocktail"),("jury duty","Handbook"),("caymus","Wine"),
+                         ("tomahawk","Allergens"),("table 23","Floor plan")]:
+            r=await pg.evaluate("q=>search(q).map(h=>h.w+' | '+h.t).slice(0,1)", q)
+            if not r or not r[0].startswith(expect):
+                bad.append(f"search moved: {q!r} -> {r[0] if r else '(none)'}, wanted {expect}")
+
         # ---- sharing the board ----
         # off by default: no service configured means no network, and the app is as it was
         if not await pg.evaluate("typeof FloorSync!=='undefined'"): bad.append("FloorSync client not built in")

@@ -543,7 +543,7 @@ footer{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
   .flip .back{display:block}
   details.acc{display:block}
   details.acc>.accbody{display:block}
-  .panel.on::after{content:"Mo's — updated 8/10/2026 — study copy, verify in Toast";display:block;margin-top:16px;padding-top:8px;border-top:1px solid #999;font-size:10px;color:#444}
+  .panel.on::after{content:"Mo's — updated 8/11/2026 — study copy, verify in Toast";display:block;margin-top:16px;padding-top:8px;border-top:1px solid #999;font-size:10px;color:#444}
 }
 .qprog{height:5px;background:var(--bg2);border-radius:99px;overflow:hidden;margin:2px 0 12px}
 .qprog i{display:block;height:100%;background:var(--gold);border-radius:99px;transition:width .25s ease}
@@ -2566,7 +2566,7 @@ const VOCAB=[
 
 /* ============================================================
    SCHEDULES — the posted week + every week since we opened.
-   Transcribed straight off the posted sheets (44 photos read).
+   Transcribed straight off the posted sheets (45 photos read).
    Cells are verbatim: blank = not scheduled, OFF = blacked-out
    box, RO/ro = requested off, numbers = start times as written
    (345 = 3:45). A trailing ? means the photo was hard to read.
@@ -2618,6 +2618,70 @@ const EVENTS=[
 const OFFSITE_NOTE="Fellowship, food, and fun — bringing a church family and the community together over a shared meal. Want to serve one? Email or text Yaris at admin@prime47carmel.com or 317.703.4284.";
 
 const SCHEDULE={
+ week:"Week of 8/12 – 8/18, 2026", year:2026, start:"2026-08-12",
+ days:[["8/12","We"],["8/13","Th"],["8/14","Fr"],["8/15","Sa"],["8/16","Su"],["8/17","Mo"],["8/18","Tu"]],
+ sections:[
+  ["Managers",[
+   ["Jeremiah","","","","","","","OFF"],
+   ["Mike","1","1","3","1","","","1"],
+   ["CJ","","2","1","3","1","1",""]
+  ]],
+  ["BQTs",[
+   ["Gavin","","","","","","",""]
+  ]],
+  ["Fronts",[
+   ["Alexis","345","330","3 MGR","330","","","345"],
+   ["Chad","","330","330","3 MGR","3","345",""],
+   ["Hunter","","OFF","330","RO","OFF","OFF","OFF"],
+   ["Diana","345","","330","330","3","",""],
+   ["MorganB","","","330","330","","345",""],
+   ["Calista","345","330","330","330","","OFF","OFF"],
+   ["Nathan","OFF","OFF","330","330","OFF","345","345"],
+   ["Fabian","","330","330","330","","345",""],
+   ["Alex","","","330","330","3","OFF","345"]
+  ],["15","41","39","31","2","2","2"]],
+  ["Backs",[
+   ["Lupe","","","","","","",""],
+   ["Morgan W","","330","330","330","","345","OFF"],
+   ["Evan","OFF","OFF","330","330","3","345","OFF"],
+   ["Erin","345","330","330","330","OFF","","OFF"],
+   ["J Fox","345","","330","330","","345","345"],
+   ["D","OFF","OFF","330","330","3","OFF","OFF"],
+   ["Meagan","OFF","","330","330","3","345","345"],
+   ["Abby","OFF","330","330","330","OFF","OFF","345"],
+   ["Barbie","345","330","330","330","","OFF",""]
+  ]],
+  ["Bar",[
+   ["Krista","","3","5","3","2","",""],
+   ["Christian","3","4","430","5","","3",""],
+   ["Jennea","5","OFF","3","430","","OFF","3"],
+   ["Eleisia","OFF","OFF","OFF","OFF","OFF","OFF","OFF"]
+  ]],
+  ["Cktail",[
+   ["Jenny","4","4","RO","RO","RO","4","345"],
+   ["Taylor","OFF","3","330","330","330","",""]
+  ]],
+  ["Host",[
+   ["Kalie","","4","5","OFF","5","4","OFF"],
+   ["Mackenzie","RO","RO","RO","RO","RO","RO","RO"],
+   ["AUDRINA","OFF","OFF","OFF","OFF","OFF","OFF","OFF"],
+   ["Leila","4","5","4","5","4","","OFF"]
+  ]],
+  ["Expo",[
+   ["CARTER","4","5","OFF","5 Busser","OFF","4",""],
+   ["Jackson","RO","4","4","4","4","","4"],
+   ["Rodrigo","RO","RO","RO","RO","RO","RO","RO"]
+  ]],
+  ["Busser",[
+   ["Dalton","OFF","5","4","4","4","4","OFF"],
+   ["Conner","5","","5","4","4","","5"],
+   ["LUCAS","OFF","OFF","OFF","OFF","OFF","OFF","OFF"]
+  ]]
+ ],
+ note:"", src:"IMG_6019.HEIC"
+};
+const SCHEDULE_HISTORY=[
+{
  week:"Week of 8/5 – 8/11, 2026", year:2026, start:"2026-08-05",
  days:[["8/5","We"],["8/6","Th"],["8/7","Fr"],["8/8","Sa"],["8/9","Su"],["8/10","Mo"],["8/11","Tu"]],
  sections:[
@@ -2679,8 +2743,7 @@ const SCHEDULE={
   ]]
  ],
  note:"", src:"IMG_5790 + IMG_5791"
-};
-const SCHEDULE_HISTORY=[
+},
 {
  week:"Week of 7/29 – 8/4, 2026", year:2026, start:"2026-07-29",
  days:[["7/29","We"],["7/30","Th"],["7/31","Fr"],["8/1","Sa"],["8/2","Su"],["8/3","Mo"],["8/4","Tu"]],
@@ -6644,7 +6707,7 @@ function build(){
     <div id="hbGate"></div>
 
     <div class="sechead"><h2>About this app</h2><span>read once</span></div>
-    <div class="note">Mo's Server Command Center — built by Evan (back server) as a training and money tool for the team. It is a STUDY COPY, not official house policy: menus, prices, and rules change, so when a dollar matters, verify in Toast or with a manager. The checkout math is proven against real graded checkouts. Spot something wrong or outdated? Tell Evan — corrections go in same-day. Updated <b>8/10/2026</b>.</div>
+    <div class="note">Mo's Server Command Center — built by Evan (back server) as a training and money tool for the team. It is a STUDY COPY, not official house policy: menus, prices, and rules change, so when a dollar matters, verify in Toast or with a manager. The checkout math is proven against real graded checkouts. Spot something wrong or outdated? Tell Evan — corrections go in same-day. Updated <b>8/11/2026</b>.</div>
     </div>`;
 
   /* ---------- REFERENCE & ARCHIVE ----------
@@ -7268,8 +7331,30 @@ function fillSched(){
     roster=`<div class="sechead"><h2>Today \u2014 ${DAYFULL[d[1]]} ${d[0]}</h2><span>flips itself at midnight</span></div>
       ${blocks||'<div class="note">Nobody on the sheet for today.</div>'}`;
   }else{
-    roster=`<div class="sechead"><h2>Today</h2><span>daily roster</span></div>
-      <div class="note"><b>Today (${todayStr}) isn't on the posted week.</b> This grid covers the ${esc(SCHEDULE.week)}. When the new sheet goes up, send a photo \u2014 it slides in here and this one drops into History below.</div>`;
+    /* Today falls outside the posted week, and that happens in BOTH directions: a new sheet
+       goes up before its week starts, and an old one stays up after its week ends. Somebody
+       is working tonight either way, so find whichever week actually covers today and show
+       that roster instead of nothing. */
+    let src=null, si=-1;
+    for(let i=0;i<SCHEDULE_HISTORY.length;i++){
+      const w=SCHEDULE_HISTORY[i];
+      const j=(t.getFullYear()===w.year)?w.days.findIndex(d=>d[0]===todayStr):-1;
+      if(j>=0){src=w;si=j;break;}
+    }
+    const sp=String(SCHEDULE.start||"").split("-").map(Number);
+    const ahead=sp.length===3 && new Date(sp[0],sp[1]-1,sp[2]) > new Date(t.getFullYear(),t.getMonth(),t.getDate());
+    const why=ahead
+      ? `<b>${esc(SCHEDULE.week)} is already posted below \u2014 it starts ${esc(SCHEDULE.days[0][0])}.</b>`
+      : `<b>Today (${todayStr}) isn't on the posted week.</b> This grid covers the ${esc(SCHEDULE.week)}. When the new sheet goes up, send a photo \u2014 it slides in here and this one drops into History below.`;
+    if(src){
+      const d=src.days[si], blocks=rosterFor(src,si,true);
+      roster=`<div class="sechead"><h2>Today \u2014 ${DAYFULL[d[1]]} ${d[0]}</h2><span>from the ${esc(src.week)} sheet</span></div>
+        ${blocks||'<div class="note">Nobody on the sheet for today.</div>'}
+        <div class="note">${why}</div>`;
+    }else{
+      roster=`<div class="sechead"><h2>Today</h2><span>daily roster</span></div>
+        <div class="note">${why}</div>`;
+    }
   }
   p.innerHTML=`${roster}
     <div class="sechead"><h2>${esc(SCHEDULE.week)}</h2><span>exactly as posted</span></div>

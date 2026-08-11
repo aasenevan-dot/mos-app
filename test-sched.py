@@ -37,7 +37,7 @@ async def main():
             if absent in roster: bad.append(f"roster wrongly lists {absent}")
         if "Evan <i>3:30</i>" not in roster: bad.append("Evan time not formatted 3:30")
         # master grid exactness
-        for cell in ['<span class="dw">We</span>8/5','class="off"','class="ro"','Barbie','2pm Carmel','Back Train','>15<','colspan="8">Managers','covrow','Covers \u00b7 Sun 8/2']:
+        for cell in ['<span class="dw">We</span>8/12','class="off"','class="ro"','Barbie','3 MGR','5 Busser','>15<','colspan="8">Managers','covrow','Covers \u00b7 Sun 8/9']:
             if cell not in grid: bad.append(f"grid missing {cell}")
         for gone in ["Jeremiah","Gavin","Lupe","Eleisia","AUDRINA","LUCAS"]:
             if f'"nm">{gone}<' in grid: bad.append(f"{gone} still has a row on current grid")
@@ -49,15 +49,35 @@ async def main():
             if gone in ops: bad.append(f"merged tool still shows {gone}")
         if "Tip %" not in ops: bad.append("Tip % input missing")
         if ops.count('class="out"')<3: pass
+        # The day selector defaults to TODAY when today falls inside the posted week, and to
+        # day 0 when it doesn't (e.g. next week's sheet goes up before the week starts). So
+        # drive it to the Friday explicitly rather than asserting whatever today happens to
+        # produce -- otherwise this test silently depends on the calendar.
+        await pg.evaluate("document.querySelector('#ipDay').value='2';ipPrefill();calcIP()")
+        # Staffing prefills come off whichever week is posted, so assert them against the
+        # roster in SCHEDULE rather than pinning last week's numbers. This still catches a
+        # broken prefill; it just doesn't break every time a new sheet goes up.
+        want=await pg.evaluate("""(function(){
+          const cnt=n=>{const s=SCHEDULE.sections.find(x=>x[0]===n); if(!s)return 0;
+            return s[1].filter(r=>{const c=String(r[3]||'').trim();
+              return c && c!=='?' && !/^off\\??$/i.test(c) && !/^ro\\??$/i.test(c);}).length;};
+          return {b:SCHEDULE.sections.find(x=>x[0]==='Fronts')[2][2],
+                  t:Math.min(cnt('Fronts'),cnt('Backs')), c:Math.min(3,cnt('Cktail')),
+                  bu:cnt('Busser'), ex:cnt('Expo'), br:cnt('Bar')};})()""")
         vals=await pg.evaluate("({d:document.querySelector('#ipDay').value,b:document.querySelector('#ipBooks').value,t:document.querySelector('#ipTeams').value,c:document.querySelector('#ipCk').value,bu:document.querySelector('#ipBus').value,ex:document.querySelector('#ipExpo').value,br:document.querySelector('#ipBar').value,g:document.querySelector('#bqcGratPct').value})")
-        if vals!={"d":"2","b":"39","t":"7","c":"2","bu":"2","ex":"2","br":"3","g":"23"}: bad.append(f"prefills wrong: {vals}")
+        exp={"d":"2","b":str(want["b"]),"t":str(want["t"]),"c":str(want["c"]),"bu":str(want["bu"]),"ex":str(want["ex"]),"br":str(want["br"]),"g":"23"}
+        if vals!=exp: bad.append(f"prefills wrong: {vals} != roster-derived {exp}")
         ipout=await pg.evaluate("document.querySelector('#ipOut').innerHTML")
         # "Staffing this night" was a sub-heading inside this output; it was removed 8/7
         # as redundant (this whole panel IS the night forecast). Rows below still assert.
-        for cell in ["CUT TERRITORY","$175","Night net","39 covers x $115","Bussers","Expo / food run","Bar","room to cut","bar-top tips"]:
+        for cell in ["CUT TERRITORY","$175","Night net",f"{want['b']} covers x $115","Bussers","Expo / food run","Bar","room to cut","bar-top tips"]:
             if cell not in ipout: bad.append(f"default forecast missing {cell}")
-        # real-net override: the verified 8000-net numbers must appear exactly
-        await pg.evaluate("document.querySelector('#ipNet').value='8000';calcIP()")
+        # Real-net override. The golden dollar figures below were computed for a specific
+        # staffing shape, so pin the staffing inputs explicitly — this is a check on the
+        # checkout MATH, and it must not move when a new week is posted.
+        await pg.evaluate("""(function(){const set=(id,v)=>{document.querySelector(id).value=v;};
+          set('#ipBooks','39');set('#ipTeams','7');set('#ipCk','2');set('#ipBus','2');
+          set('#ipExpo','2');set('#ipBar','3');set('#ipNet','8000');calcIP();})()""")
         ipout=await pg.evaluate("document.querySelector('#ipOut').innerHTML")
         for cell in ['typed in — the real number','>$952<','>$164<','Front $82','Back $82','>$63<','pool ÷ 2 on (1.5%)','>$22<','pool ÷ 2 on (0.5%)','>$28<','pool ÷ 3 on (1%)']:
             if cell not in ipout: bad.append(f"8000-net forecast missing {cell}")
@@ -625,7 +645,11 @@ async def main():
         if "Handbook" not in s3: bad.append(f"search miss jury: {s3[:80]}")
         # ---- schedule history browser ----
         nopts=await pg.evaluate("document.querySelectorAll('#schedWeek option').length")
-        if nopts!=37: bad.append(f"history week count {nopts} != 37")
+        hlen=await pg.evaluate("SCHEDULE_HISTORY.length")
+        # grows by one every time a week is posted, so assert the picker matches the data and
+        # never shrinks below what we already have, rather than pinning an exact number
+        if nopts!=hlen: bad.append(f"picker shows {nopts} weeks but history has {hlen}")
+        if nopts<38: bad.append(f"history week count {nopts} < 38 — a week was lost")
         target=await pg.evaluate("[...document.querySelectorAll('#schedWeek option')].findIndex(o=>o.textContent.includes('2/25'))")
         if target<0: bad.append("2/25 week missing from picker")
         else:
@@ -655,8 +679,8 @@ async def main():
         if "Chad" not in h2.split("exactly as posted")[0] or "2pm Carmel" not in h2.split("exactly as posted")[0]:
             bad.append("Saturday roster missing Chad 2pm Carmel")
         await ctx.close()
-        # ---- load 2: 8/12/2026 — off the posted week ----
-        t3=int(datetime.datetime(2026,8,12,15,0).timestamp()*1000)
+        # ---- load 2: 8/26/2026 — past the posted week, and no history week covers it ----
+        t3=int(datetime.datetime(2026,8,26,15,0).timestamp()*1000)
         ctx=await b.new_context(viewport={"width":393,"height":852},is_mobile=True,has_touch=True)
         pg=await ctx.new_page()
         await pg.add_init_script(MOCK % t3)
@@ -664,6 +688,21 @@ async def main():
         h3=await pg.evaluate("document.querySelector('#p-sched').innerHTML")
         if "isn't on the posted week" not in h3: bad.append("off-week message missing")
         if "Barbie" not in h3: bad.append("off-week still shows master grid? missing")
+        await ctx.close()
+        # ---- load 3: 8/11/2026 — the sheet for NEXT week is up, but somebody works tonight.
+        # The roster must still come from the history week that actually covers today, and
+        # the note must say the posted week hasn't started rather than "isn't on the week". --
+        t4=int(datetime.datetime(2026,8,11,15,0).timestamp()*1000)
+        ctx=await b.new_context(viewport={"width":393,"height":852},is_mobile=True,has_touch=True)
+        pg=await ctx.new_page()
+        await pg.add_init_script(MOCK % t4)
+        await pg.goto(url); await pg.wait_for_timeout(900)
+        h4=await pg.evaluate("document.querySelector('#p-sched').innerHTML")
+        head=h4.split("exactly as posted")[0]
+        if "Today — Tuesday 8/11" not in head: bad.append("8/11 roster not pulled from the history week")
+        if "is already posted below" not in head: bad.append("ahead-of-the-week note missing")
+        if "isn't on the posted week" in head: bad.append("still says today isn't on the posted week")
+        if "Alexis" not in head: bad.append("8/11 roster empty — nobody listed for tonight")
         await b.close()
     if bad:
         print("SCHED TEST FAILED:"); [print("  -",x) for x in bad]; sys.exit(1)

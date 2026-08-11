@@ -1810,8 +1810,30 @@ function fillSched(){
     roster=`<div class="sechead"><h2>Today \u2014 ${DAYFULL[d[1]]} ${d[0]}</h2><span>flips itself at midnight</span></div>
       ${blocks||'<div class="note">Nobody on the sheet for today.</div>'}`;
   }else{
-    roster=`<div class="sechead"><h2>Today</h2><span>daily roster</span></div>
-      <div class="note"><b>Today (${todayStr}) isn't on the posted week.</b> This grid covers the ${esc(SCHEDULE.week)}. When the new sheet goes up, send a photo \u2014 it slides in here and this one drops into History below.</div>`;
+    /* Today falls outside the posted week, and that happens in BOTH directions: a new sheet
+       goes up before its week starts, and an old one stays up after its week ends. Somebody
+       is working tonight either way, so find whichever week actually covers today and show
+       that roster instead of nothing. */
+    let src=null, si=-1;
+    for(let i=0;i<SCHEDULE_HISTORY.length;i++){
+      const w=SCHEDULE_HISTORY[i];
+      const j=(t.getFullYear()===w.year)?w.days.findIndex(d=>d[0]===todayStr):-1;
+      if(j>=0){src=w;si=j;break;}
+    }
+    const sp=String(SCHEDULE.start||"").split("-").map(Number);
+    const ahead=sp.length===3 && new Date(sp[0],sp[1]-1,sp[2]) > new Date(t.getFullYear(),t.getMonth(),t.getDate());
+    const why=ahead
+      ? `<b>${esc(SCHEDULE.week)} is already posted below \u2014 it starts ${esc(SCHEDULE.days[0][0])}.</b>`
+      : `<b>Today (${todayStr}) isn't on the posted week.</b> This grid covers the ${esc(SCHEDULE.week)}. When the new sheet goes up, send a photo \u2014 it slides in here and this one drops into History below.`;
+    if(src){
+      const d=src.days[si], blocks=rosterFor(src,si,true);
+      roster=`<div class="sechead"><h2>Today \u2014 ${DAYFULL[d[1]]} ${d[0]}</h2><span>from the ${esc(src.week)} sheet</span></div>
+        ${blocks||'<div class="note">Nobody on the sheet for today.</div>'}
+        <div class="note">${why}</div>`;
+    }else{
+      roster=`<div class="sechead"><h2>Today</h2><span>daily roster</span></div>
+        <div class="note">${why}</div>`;
+    }
   }
   p.innerHTML=`${roster}
     <div class="sechead"><h2>${esc(SCHEDULE.week)}</h2><span>exactly as posted</span></div>

@@ -1,7 +1,7 @@
 
 /* ============================================================
    SCHEDULES — the posted week + every week since we opened.
-   Transcribed straight off the posted sheets (44 photos read).
+   Transcribed straight off the posted sheets (45 photos read).
    Cells are verbatim: blank = not scheduled, OFF = blacked-out
    box, RO/ro = requested off, numbers = start times as written
    (345 = 3:45). A trailing ? means the photo was hard to read.
@@ -53,6 +53,70 @@ const EVENTS=[
 const OFFSITE_NOTE="Fellowship, food, and fun — bringing a church family and the community together over a shared meal. Want to serve one? Email or text Yaris at admin@prime47carmel.com or 317.703.4284.";
 
 const SCHEDULE={
+ week:"Week of 8/12 – 8/18, 2026", year:2026, start:"2026-08-12",
+ days:[["8/12","We"],["8/13","Th"],["8/14","Fr"],["8/15","Sa"],["8/16","Su"],["8/17","Mo"],["8/18","Tu"]],
+ sections:[
+  ["Managers",[
+   ["Jeremiah","","","","","","","OFF"],
+   ["Mike","1","1","3","1","","","1"],
+   ["CJ","","2","1","3","1","1",""]
+  ]],
+  ["BQTs",[
+   ["Gavin","","","","","","",""]
+  ]],
+  ["Fronts",[
+   ["Alexis","345","330","3 MGR","330","","","345"],
+   ["Chad","","330","330","3 MGR","3","345",""],
+   ["Hunter","","OFF","330","RO","OFF","OFF","OFF"],
+   ["Diana","345","","330","330","3","",""],
+   ["MorganB","","","330","330","","345",""],
+   ["Calista","345","330","330","330","","OFF","OFF"],
+   ["Nathan","OFF","OFF","330","330","OFF","345","345"],
+   ["Fabian","","330","330","330","","345",""],
+   ["Alex","","","330","330","3","OFF","345"]
+  ],["15","41","39","31","2","2","2"]],
+  ["Backs",[
+   ["Lupe","","","","","","",""],
+   ["Morgan W","","330","330","330","","345","OFF"],
+   ["Evan","OFF","OFF","330","330","3","345","OFF"],
+   ["Erin","345","330","330","330","OFF","","OFF"],
+   ["J Fox","345","","330","330","","345","345"],
+   ["D","OFF","OFF","330","330","3","OFF","OFF"],
+   ["Meagan","OFF","","330","330","3","345","345"],
+   ["Abby","OFF","330","330","330","OFF","OFF","345"],
+   ["Barbie","345","330","330","330","","OFF",""]
+  ]],
+  ["Bar",[
+   ["Krista","","3","5","3","2","",""],
+   ["Christian","3","4","430","5","","3",""],
+   ["Jennea","5","OFF","3","430","","OFF","3"],
+   ["Eleisia","OFF","OFF","OFF","OFF","OFF","OFF","OFF"]
+  ]],
+  ["Cktail",[
+   ["Jenny","4","4","RO","RO","RO","4","345"],
+   ["Taylor","OFF","3","330","330","330","",""]
+  ]],
+  ["Host",[
+   ["Kalie","","4","5","OFF","5","4","OFF"],
+   ["Mackenzie","RO","RO","RO","RO","RO","RO","RO"],
+   ["AUDRINA","OFF","OFF","OFF","OFF","OFF","OFF","OFF"],
+   ["Leila","4","5","4","5","4","","OFF"]
+  ]],
+  ["Expo",[
+   ["CARTER","4","5","OFF","5 Busser","OFF","4",""],
+   ["Jackson","RO","4","4","4","4","","4"],
+   ["Rodrigo","RO","RO","RO","RO","RO","RO","RO"]
+  ]],
+  ["Busser",[
+   ["Dalton","OFF","5","4","4","4","4","OFF"],
+   ["Conner","5","","5","4","4","","5"],
+   ["LUCAS","OFF","OFF","OFF","OFF","OFF","OFF","OFF"]
+  ]]
+ ],
+ note:"", src:"IMG_6019.HEIC"
+};
+const SCHEDULE_HISTORY=[
+{
  week:"Week of 8/5 – 8/11, 2026", year:2026, start:"2026-08-05",
  days:[["8/5","We"],["8/6","Th"],["8/7","Fr"],["8/8","Sa"],["8/9","Su"],["8/10","Mo"],["8/11","Tu"]],
  sections:[
@@ -114,8 +178,7 @@ const SCHEDULE={
   ]]
  ],
  note:"", src:"IMG_5790 + IMG_5791"
-};
-const SCHEDULE_HISTORY=[
+},
 {
  week:"Week of 7/29 – 8/4, 2026", year:2026, start:"2026-07-29",
  days:[["7/29","We"],["7/30","Th"],["7/31","Fr"],["8/1","Sa"],["8/2","Su"],["8/3","Mo"],["8/4","Tu"]],

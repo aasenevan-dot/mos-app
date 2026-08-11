@@ -1,0 +1,27 @@
+name = "mos-floor-sync"
+main = "src/worker.js"
+compatibility_date = "2026-08-01"
+
+# One Durable Object per room, and a room is one service day. Nothing to clear down
+# by hand, and yesterday's board cannot leak into tonight's.
+[[durable_objects.bindings]]
+name = "FLOOR_ROOM"
+class_name = "FloorRoom"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["FloorRoom"]
+
+[vars]
+# Comma-separated. Leave it pinned to the app's own origin — "*" would let any page
+# on the internet drive the board from a logged-in server's browser.
+ALLOW_ORIGIN = "https://aasenevan-dot.github.io"
+
+# Guest names are the one genuinely sensitive field on this board, and this endpoint
+# is reachable by anyone who reads the app source. Off means the server DROPS names
+# on arrival — they are never written down. Turn it on only deliberately.
+STORE_GUEST_NAMES = "off"
+
+# MOS_KEY is NOT set here on purpose — it would end up in the public repo.
+#   npx wrangler secret put MOS_KEY
+# With no MOS_KEY set the service refuses every request, which is the safe default.

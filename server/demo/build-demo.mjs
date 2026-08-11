@@ -1,0 +1,185 @@
+/* Generates demo/demo.html by inlining src/merge.mjs, so the demo opens straight from
+   the filesystem with no server and no deploy. One source of truth for the rules —
+   the demo runs the same merge code the Worker does.
+
+   Run:  node demo/build-demo.mjs   */
+import fs from "node:fs";
+import path from "node:path";
+
+const HERE = path.dirname(new URL(import.meta.url).pathname);
+const merge = fs.readFileSync(path.join(HERE, "..", "src", "merge.mjs"), "utf8")
+  .replace(/^export\s+/gm, "");            // plain script, same logic
+
+const html = `<!doctype html>
+<meta charset="utf-8">
+<title>Mo's floor sync — two phones, one board</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+  :root{--bg:#F7EFE4;--card:#FFFBF4;--line:#E3D7C4;--txt:#2C1A14;--dim:#7A6A5C;
+        --brand:#591F1C;--gold:#9B4A2F;--gold2:#C97B5A;--ok:#1F6B4F}
+  @media (prefers-color-scheme:dark){
+    :root{--bg:#191010;--card:#241816;--line:#3A2A24;--txt:#F3E7DC;--dim:#A99181;
+          --brand:#7A2E26;--gold:#E5A582;--gold2:#C97B5A}}
+  *{box-sizing:border-box}
+  body{margin:0;padding:18px;background:var(--bg);color:var(--txt);
+       font:15px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+  h1{font-family:Georgia,serif;font-size:22px;margin:0 0 4px;color:var(--brand)}
+  .sub{color:var(--dim);font-size:13px;margin:0 0 16px;max-width:70ch}
+  .wrap{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start}
+  @media (max-width:760px){.wrap{grid-template-columns:1fr}}
+  .phone{border:1px solid var(--line);border-radius:14px;background:var(--card);padding:12px}
+  .phone h2{font-size:14px;margin:0 0 8px;display:flex;align-items:center;gap:8px}
+  .dot{width:8px;height:8px;border-radius:50%;background:var(--ok);flex:0 0 auto}
+  .stage{position:relative;width:100%;aspect-ratio:1/.8;border:1px solid var(--line);
+         border-radius:10px;background:var(--bg);overflow:hidden}
+  .t{position:absolute;transform:translate(-50%,-50%);display:flex;align-items:center;
+     justify-content:center;background:var(--brand);color:#fff;font-weight:700;font-size:11px;
+     border:2px solid transparent;cursor:pointer;user-select:none}
+  .t.d{width:15%;aspect-ratio:1;border-radius:4px;transform:translate(-50%,-50%) rotate(45deg)}
+  .t.d span{transform:rotate(-45deg)}
+  .t.b{width:20%;height:12%;border-radius:4px}
+  .t.merged{border-radius:7px;border:2px dashed var(--gold)}
+  .t.seated{box-shadow:0 0 0 2px var(--gold2) inset}
+  .pty{position:absolute;transform:translate(-50%,0);white-space:nowrap;font-size:9px;
+       font-weight:800;padding:1px 5px;border-radius:999px;background:var(--gold);color:#fff;
+       pointer-events:none}
+  .row{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+  button{border:1px solid var(--line);background:var(--card);color:var(--txt);
+         border-radius:999px;padding:5px 11px;font-size:12.5px;cursor:pointer}
+  button.p{background:var(--brand);border-color:var(--brand);color:#fff}
+  .log{margin-top:14px;border:1px solid var(--line);border-radius:12px;background:var(--card);
+       padding:10px 12px;font:12px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;
+       color:var(--dim);max-height:190px;overflow:auto}
+  .log b{color:var(--txt)}
+  .note{margin-top:14px;border-left:3px solid var(--gold);padding:6px 0 6px 12px;
+        color:var(--dim);font-size:13px;max-width:78ch}
+</style>
+
+<h1>Two phones, one board</h1>
+<p class="sub">A working model of the shared floor plot, running entirely in this page —
+nothing is deployed and nothing leaves your machine. The box in the middle is the same
+merge code the server runs. Plot a table on one phone and watch the other.</p>
+
+<div class="wrap">
+  <div class="phone"><h2><span class="dot"></span>Phone A — Evan</h2>
+    <div class="stage" id="A"></div>
+    <div class="row">
+      <button class="p" onclick="plot('A')">Seat the selected table</button>
+      <button onclick="clr('A')">Clear it</button>
+      <button onclick="mrg('A')">Push 23+32 together</button>
+    </div>
+  </div>
+  <div class="phone"><h2><span class="dot"></span>Phone B — Alexis</h2>
+    <div class="stage" id="B"></div>
+    <div class="row">
+      <button class="p" onclick="plot('B')">Seat the selected table</button>
+      <button onclick="clr('B')">Clear it</button>
+      <button onclick="mrg('B')">Push 23+32 together</button>
+    </div>
+  </div>
+</div>
+
+<div class="row" style="margin-top:14px">
+  <button onclick="race()">Both phones edit table 23 at once</button>
+  <button onclick="offline('A')" id="offA">Take phone A offline</button>
+  <button onclick="reset()">Reset the night</button>
+</div>
+
+<div class="log" id="log"></div>
+
+<div class="note">
+  What to notice: edits to <b>different</b> tables both survive — the board merges per
+  table, not per document. Edits to the <b>same</b> table resolve by arrival order at the
+  server, never by the phone's own clock. And a phone that goes offline keeps working,
+  then catches up when it comes back.
+</div>
+
+<script>
+/* ---------- the merge core, inlined from src/merge.mjs ---------- */
+${merge}
+
+/* ---------- a stand-in for the Durable Object ---------- */
+var ROOM = emptyState(), CLOCK = 1000;
+var phones = {A:{on:true,view:null,sel:"23"}, B:{on:true,view:null,sel:"41"}};
+function serverApply(from, ops){
+  CLOCK += 1;
+  ROOM = pruneState(mergeState(ROOM, stripNames(sanitizeOps(ops)), CLOCK), CLOCK);
+  log("<b>"+from+"</b> &rarr; server, stamped t="+CLOCK);
+  broadcast();
+}
+function broadcast(){
+  var v = publicView(ROOM);
+  Object.keys(phones).forEach(function(p){ if(phones[p].on){ phones[p].view = v; draw(p); } });
+}
+
+/* ---------- one small room, enough to show the behaviour ---------- */
+var TABLES=[{t:"43",x:22,y:14,s:"b"},{t:"42",x:50,y:14,s:"b"},{t:"41",x:78,y:14,s:"b"},
+            {t:"32",x:38,y:44,s:"d"},{t:"31",x:64,y:44,s:"d"},
+            {t:"24",x:18,y:76,s:"d"},{t:"23",x:40,y:76,s:"d"},{t:"22",x:62,y:76,s:"d"},{t:"21",x:84,y:76,s:"d"}];
+
+function draw(p){
+  var st=document.getElementById(p), v=phones[p].view||{parties:{},merges:[]};
+  var merged = (v.merges||[]).indexOf("23+32")>=0;
+  var html="";
+  TABLES.forEach(function(tb){
+    if(merged && (tb.t==="23"||tb.t==="32")) return;
+    var pt=v.parties[tb.t];
+    html+='<div class="t '+tb.s+(pt?" seated":"")+'" style="left:'+tb.x+'%;top:'+tb.y+'%;'+
+          (phones[p].sel===tb.t?"border-color:var(--gold2)":"")+'" onclick="pick(\\''+p+'\\',\\''+tb.t+'\\')"><span>'+tb.t+'</span></div>';
+    if(pt) html+='<b class="pty" style="left:'+tb.x+'%;top:'+(tb.y+9)+'%">'+(pt.t||"")+(pt.n?" · "+pt.n:"")+'</b>';
+  });
+  if(merged){
+    var pt2=v.parties["23+32"];
+    html+='<div class="t merged'+(pt2?" seated":"")+'" style="left:39%;top:60%;width:17%;height:44%;'+
+          (phones[p].sel==="23+32"?"border-color:var(--gold2)":"")+'" onclick="pick(\\''+p+'\\',\\'23+32\\')"><span>23+32</span></div>';
+    if(pt2) html+='<b class="pty" style="left:39%;top:83%">'+(pt2.t||"")+(pt2.n?" · "+pt2.n:"")+'</b>';
+  }
+  st.innerHTML=html;
+}
+function pick(p,t){ phones[p].sel=t; draw(p); }
+function send(p,ops){
+  if(!phones[p].on){ (phones[p].queue=phones[p].queue||[]).push(ops); log("<b>"+p+"</b> is offline — held "+JSON.stringify(ops).slice(0,40)+"…"); return; }
+  serverApply(p,ops);
+}
+var TIMES=["5:45","6:00","6:30","7:15","8:00"], SIZES=[2,4,6,8];
+var seq=0;
+function plot(p){
+  var k=phones[p].sel, o={parties:{}};
+  o.parties[k]={n:SIZES[seq%4], t:TIMES[seq%5], name:"Guest"};
+  seq++;
+  send(p,o);
+}
+function clr(p){ var o={parties:{}}; o.parties[phones[p].sel]={del:true}; send(p,o); }
+function mrg(p){
+  var on=(publicView(ROOM).merges||[]).indexOf("23+32")>=0;
+  send(p,{merges:{"23+32":{on:!on}}});
+}
+function race(){
+  log("— both phones write table 23 in the same instant —");
+  send("A",{parties:{"23":{n:2,t:"5:00",name:"A"}}});
+  send("B",{parties:{"23":{n:9,t:"9:00",name:"B"}}});
+  var w=publicView(ROOM).parties["23"];
+  log("server kept the later arrival: <b>"+(w?w.t+" · "+w.n+" top":"(cleared)")+"</b>");
+}
+function offline(p){
+  phones[p].on=!phones[p].on;
+  document.getElementById("off"+p).textContent=(phones[p].on?"Take phone A offline":"Bring phone A back online");
+  log("<b>"+p+"</b> is now "+(phones[p].on?"online":"offline"));
+  if(phones[p].on){
+    (phones[p].queue||[]).forEach(function(o){ serverApply(p,o); });
+    phones[p].queue=[];
+    broadcast();
+  }
+}
+function reset(){ ROOM=emptyState(); CLOCK=1000; seq=0; document.getElementById("log").innerHTML=""; log("new service, clean board"); broadcast(); }
+function log(s){
+  var el=document.getElementById("log");
+  el.insertAdjacentHTML("afterbegin", s+"<br>");
+}
+log("new service, clean board");
+broadcast();
+</script>
+`;
+
+fs.writeFileSync(path.join(HERE, "demo.html"), html);
+console.log("  wrote demo/demo.html  (" + Math.round(html.length / 1024) + " KB, merge core inlined)");

@@ -50,7 +50,7 @@ const FLOORMAP = [
  ]},
  {room:"The Curry", sub:"semi-private — 72 seated, 125 cocktail", tables:[
    {t:"65", x:44, y:10, shape:"b", seats:4, seat1:"W"},
-   {t:"84", x:62, y:10, shape:"b", seats:4, seat1:"W"},
+   {t:"84", x:62, y:10, shape:"b", seats:4, seat1:"NW"},
    {t:"53", x:14, y:34, shape:"b", seats:4, seat1:"E"},
    {t:"52", x:14, y:52, shape:"b", seats:4, seat1:"E"},
    {t:"51", x:14, y:70, shape:"b", seats:4, seat1:"E"},
@@ -62,9 +62,9 @@ const FLOORMAP = [
    {t:"72", x:63, y:69, shape:"d", seats:4, seat1:"NE"},
    {t:"83", x:84, y:32, shape:"b", seats:2, seat1:"N"},
    {t:"82", x:84, y:68, shape:"b", seats:2, seat1:"N"},
-   {t:"61", x:34, y:88, shape:"b", seats:4, seat1:"N"},
-   {t:"71", x:53, y:88, shape:"b", seats:4, seat1:"N"},
-   {t:"81", x:72, y:88, shape:"b", seats:4, seat1:"N"}
+   {t:"61", x:34, y:88, shape:"b", seats:4, seat1:"NE"},
+   {t:"71", x:53, y:88, shape:"b", seats:4, seat1:"NE"},
+   {t:"81", x:72, y:88, shape:"b", seats:4, seat1:"NE"}
  ]},
  {room:"Smockton", sub:"the big private room — 70 seated, 125 cocktail", tables:[
    {t:"91", x:84, y:46, shape:"banq", seats:6, seat1:"N"},
@@ -112,3 +112,8 @@ const MERGEABLE = [
  {id:"31+22", a:"31", b:"22"},
  {id:"65+84", a:"65", b:"84"}
 ];
+
+/* Live sync with the rest of the floor. BLANK ON PURPOSE — with url or key empty the
+   client never starts, never touches the network, and the app behaves exactly as it did
+   before any of this existed. Fill both in after deploying server/ to turn it on. */
+const FLOOR_SYNC = { url: "", key: "" };

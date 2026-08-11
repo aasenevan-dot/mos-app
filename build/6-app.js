@@ -1266,6 +1266,8 @@ function build(){
     <div class="fpdetail" id="fpDetail"></div>
     <div class="sechead"><h2>Tonight's book</h2><span>what you have plotted</span></div>
     <div id="fpBook"></div>
+    <div class="sechead"><h2>Share this board</h2><span>one link, the whole floor</span></div>
+    <div id="fpShareBox"></div>
     ${acc("Who has which section","retype tonight's names — the plan recolours to match",
       `<div id="fpWhoBox"></div>`)}
     ${typeof FLOOR_CREW!=="undefined"?`<p class="sub" style="margin:10px 2px 0">${FLOOR_CREW.map(c=>`<b>${esc(c[0])}:</b> ${esc(c[1])}`).join(" &middot; ")}</p>`:""}
@@ -1291,7 +1293,7 @@ function build(){
     `;
 
   /* ---------- WIRE UP ---------- */
-  renderWines(); renderDrinks(); renderAllergens(); renderFloor(); hbRender(); pairingOut(0); calcSC(); calcBQC(); ipPrefill(); calcIP(); calcBq(); fillSched();
+  renderWines(); renderDrinks(); renderAllergens(); renderFloor(); hbRender(); fpBoardFromLink(); fpSyncStart(); pairingOut(0); calcSC(); calcBQC(); ipPrefill(); calcIP(); calcBq(); fillSched();
   applyLang();
 
   $("#p-shift").querySelector(".qa").onclick=e=>{
@@ -1366,6 +1368,7 @@ function dishPic(name){
    Rendered from FLOORMAP (positions) + SECTIONS (who has what tonight). Edit
    SECTIONS and the plan recolours — that is the daily update, no code change. */
 var FPROOM, FPSEL, FPSHOWSEC, FPMERGED, FPPARTY, FPWHO, FPDAY;
+var FPSENT, FPJOINED, FPINCOMING, FPSHAREMSG;
 var FPCOLORS=["#7A2E26","#1F6B4F","#2F5D8A","#8A5A12","#6B3E7A","#0F6E70","#9B4A2F","#4A6B1F","#7A2050","#3D5A80"];
 /* What the floor typed in tonight — merges, parties, who has which section. Kept in
    localStorage so a refresh mid-shift doesn't wipe the plot. Everything is wrapped:
@@ -1373,6 +1376,7 @@ var FPCOLORS=["#7A2E26","#1F6B4F","#2F5D8A","#8A5A12","#6B3E7A","#0F6E70","#9B4A
 function fpSave(){
   try{ localStorage.setItem("mos-floor-v1", JSON.stringify(
     {m:FPMERGED||[], p:FPPARTY||{}, w:FPWHO||{}, d:FPDAY==null?null:FPDAY})); }catch(e){}
+  fpSyncPush();
 }
 function fpLoad(){
   FPMERGED=[]; FPPARTY={}; FPWHO={};
@@ -1473,7 +1477,7 @@ function fpMergedBoxes(room){
 }
 function fpSeatDot(key,cx,cy,rx,ry,dir){
   const v=FPDIRV[dir]; if(!v)return "";
-  return `<i class="fpseat1${FPSEL===key?" sel":""}" style="left:${(cx+v[0]*rx).toFixed(2)}%;top:${(cy+v[1]*ry).toFixed(2)}%" title="Seat 1"></i>`;
+  return `<i class="fpseat1${FPSEL===key?" sel":""}" style="left:${(cx+v[0]*rx).toFixed(2)}%;top:${(cy+v[1]*ry).toFixed(2)}%" title="Seat 1" aria-label="Seat 1">1</i>`;
 }
 function fpBadge(key,cx,cy,h){
   const pt=(FPPARTY||{})[key]; if(!pt)return "";
@@ -1516,7 +1520,7 @@ function renderFloor(){
   $("#fpLegend").innerHTML=(typeof SECTIONS==="undefined")?"":
     `<button class="${FPSHOWSEC?"on":""}" onclick="fpToggleSections()">${FPSHOWSEC?"Hide sections":"Show tonight's sections"}</button>`+
     (FPSHOWSEC?SECTIONS.map((s,i)=>`<button onclick="fpPick('${s.tables[0]}')"><span class="sw" style="background:${FPCOLORS[i%FPCOLORS.length]}"></span>${esc(fpWhoOf(i))}</button>`).join(""):"");
-  fpDetail(); fpBook(); fpWhoBox();
+  fpDetail(); fpBook(); fpWhoBox(); fpShareBox();
 }
 function fpFind(key){
   const room=FLOORMAP[FPROOM];
@@ -1667,6 +1671,170 @@ function fpSetWho(i,v){
   if(FPSHOWSEC)renderFloor(); else { fpDetail(); }
 }
 function fpResetWho(){ FPWHO={}; fpSave(); renderFloor(); }
+/* ================= SHARING THE BOARD =================
+   Two ways in, because they answer different questions.
+
+   A SHARE CODE is the entire board squeezed into a link. No server, no account, no key,
+   nothing to deploy — it works right now. Set the night, send the link, everyone taps it.
+   That is the right shape for a board that gets set once a day.
+
+   LIVE SYNC is the same board on a service that pushes every change as it happens. It
+   stays completely dormant until FLOOR_SYNC has a url and a key, so with those blank the
+   app does not open a socket, does not touch the network, and behaves exactly as it did
+   before any of this existed.
+   ==================================================== */
+function fpB64e(str){
+  const b=new TextEncoder().encode(str); let out="";
+  for(let i=0;i<b.length;i++) out+=String.fromCharCode(b[i]);
+  return btoa(out).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
+}
+function fpB64d(code){
+  const t=String(code).replace(/-/g,"+").replace(/_/g,"/");
+  const bin=atob(t + (t.length%4 ? "=".repeat(4-(t.length%4)) : ""));
+  const b=new Uint8Array(bin.length);
+  for(let i=0;i<bin.length;i++) b[i]=bin.charCodeAt(i);
+  return new TextDecoder().decode(b);
+}
+/* Rows rather than objects: a full Friday fits in a link you can text. */
+function fpBoardCode(){
+  const p=Object.keys(FPPARTY||{}).map(k=>{
+    const v=FPPARTY[k]||{}; return [k, v.n||0, v.t||"", v.name||""];
+  });
+  return fpB64e(JSON.stringify({v:1, m:FPMERGED||[], p:p, w:FPWHO||{}, d:(FPDAY==null?-1:FPDAY)}));
+}
+function fpBoardLink(){
+  return location.origin+location.pathname+"#board="+fpBoardCode();
+}
+function fpApplyBoard(code){
+  const o=JSON.parse(fpB64d(code));
+  if(!o||o.v!==1) throw new Error("not a board");
+  FPMERGED=Array.isArray(o.m)?o.m.filter(x=>typeof x==="string"):[];
+  FPPARTY={};
+  (Array.isArray(o.p)?o.p:[]).forEach(r=>{
+    if(!Array.isArray(r)||!r[0])return;
+    FPPARTY[String(r[0])]={n:(+r[1])||null, t:String(r[2]||""), name:String(r[3]||"")};
+  });
+  FPWHO=(o.w&&typeof o.w==="object"&&!Array.isArray(o.w))?o.w:{};
+  if(typeof o.d==="number"&&o.d>=0&&o.d<7)FPDAY=o.d;
+  FPINCOMING=null;
+  fpSave(); renderFloor();
+}
+/* A link opened from the group chat. Loading it silently would wipe a plot somebody just
+   spent ten minutes on, so it only auto-applies to an empty board and otherwise asks. */
+function fpBoardFromLink(){
+  let m=null;
+  try{ m=/[#&]board=([A-Za-z0-9_-]+)/.exec(location.hash||""); }catch(e){ return; }
+  if(!m)return;
+  try{ history.replaceState(null,"",location.pathname+location.search); }catch(e){}
+  const local=Object.keys(FPPARTY||{}).length+(FPMERGED||[]).length+Object.keys(FPWHO||{}).length;
+  if(!local){ try{ fpApplyBoard(m[1]); }catch(e){ FPSHAREMSG="That link was not a board."; } return; }
+  FPINCOMING=m[1];
+  fpShareBox();
+}
+/* Tapping a shared link while the app is ALREADY open is a same-document hash change:
+   the page does not reload, so boot never runs again. Without this the link would look
+   like it did nothing, which is the normal case on a phone that already has Mo's open. */
+if(typeof window!=="undefined") window.addEventListener("hashchange", function(){ fpBoardFromLink(); });
+function fpTakeIncoming(){
+  try{ fpApplyBoard(FPINCOMING); FPSHAREMSG="Loaded the shared board."; }
+  catch(e){ FPSHAREMSG="That link was not a board."; FPINCOMING=null; }
+  fpShareBox();
+}
+function fpKeepMine(){ FPINCOMING=null; FPSHAREMSG=""; fpShareBox(); }
+function fpCopyBoard(){
+  const link=fpBoardLink();
+  const done=()=>{ FPSHAREMSG="Link copied — paste it to the floor."; fpShareBox(); };
+  try{
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(link).then(done,()=>{FPSHAREMSG="";fpShareBox();});
+      return;
+    }
+  }catch(e){}
+  FPSHAREMSG=""; fpShareBox();            /* no clipboard: the box shows the link to copy by hand */
+}
+function fpPasteBoard(){
+  const el=$("#fpPaste"); if(!el)return;
+  const v=String(el.value||"").trim();
+  const m=/[#&]board=([A-Za-z0-9_-]+)/.exec(v)||/^([A-Za-z0-9_-]{8,})$/.exec(v);
+  if(!m){ FPSHAREMSG="That does not look like a board link."; fpShareBox(); return; }
+  try{ fpApplyBoard(m[1]); FPSHAREMSG="Loaded the shared board."; }
+  catch(e){ FPSHAREMSG="That link was not a board."; }
+  fpShareBox();
+}
+function fpSyncStatus(){
+  return (typeof FloorSync!=="undefined"&&FloorSync.status)?FloorSync.status():"off";
+}
+function fpShareBox(){
+  const box=$("#fpShareBox"); if(!box)return;
+  const LIVE={connecting:"Connecting to the floor…", live:"Live with the floor — changes show up on every phone.",
+    polling:"Live with the floor, on a slow connection.", error:"Lost the floor — still trying. Your board is safe on this phone."};
+  const st=fpSyncStatus();
+  box.innerHTML=`
+    ${FPINCOMING?`<div class="note"><b>Somebody shared a board with you.</b> You already have tables plotted on this phone.
+      <p style="margin:8px 0 0"><button class="btn" onclick="fpTakeIncoming()">Load theirs</button>
+      <button class="btn sec" onclick="fpKeepMine()">Keep mine</button></p></div>`:""}
+    <div class="meta">${st==="off"
+      ? "This board lives on this phone. Share it and everyone gets the same one."
+      : esc(LIVE[st]||"")}</div>
+    <p style="margin:10px 0 0">
+      <button class="btn" onclick="fpCopyBoard()">Copy tonight's board</button>
+    </p>
+    <div class="frow" style="margin-top:10px">
+      <div class="f"><label for="fpPaste">Or paste a board somebody sent you</label>
+      <input type="text" id="fpPaste" placeholder="paste the link here" autocapitalize="off" autocorrect="off" spellcheck="false"></div>
+    </div>
+    <p style="margin:6px 0 0"><button class="btn sec" onclick="fpPasteBoard()">Load that board</button></p>
+    ${FPSHAREMSG?`<p class="sub" style="margin:8px 0 0"><b>${esc(FPSHAREMSG)}</b></p>`:""}
+    <details style="margin-top:10px"><summary class="sub">The link itself</summary>
+      <input class="fsearch" readonly onclick="this.select()" value="${esc(fpBoardLink())}" style="margin-top:6px"></details>`;
+  const el=$("#fpPaste");
+  if(el) el.onkeydown=e=>{ if(e.key==="Enter"){ e.preventDefault(); fpPasteBoard(); } };
+}
+/* Publishing to the live service. Sends the whole board every time — the server merges per
+   key, so this converges without the app having to track a changelog. Anything that WAS on
+   the board and no longer is has to go up as an explicit delete, or the server would keep
+   it forever on the strength of an older write. */
+function fpSyncPush(){
+  if(fpSyncStatus()==="off")return;
+  const parties={};
+  Object.keys(FPPARTY||{}).forEach(k=>{
+    const v=FPPARTY[k]||{}; parties[k]={n:v.n,t:v.t,name:v.name};
+  });
+  (FPSENT||[]).forEach(k=>{ if(!(k in parties)) parties[k]={del:true}; });
+  FPSENT=Object.keys(parties).filter(k=>!parties[k].del);
+  const merges={};
+  ((typeof MERGEABLE!=="undefined")?MERGEABLE:[]).forEach(m=>{
+    merges[m.id]={on:(FPMERGED||[]).indexOf(m.id)>=0};
+  });
+  const who={};
+  Object.keys(FPWHO||{}).forEach(k=>{ who[k]={v:FPWHO[k]}; });
+  FloorSync.push({parties:parties, merges:merges, who:who, day:{v:FPDAY||0}});
+}
+function fpSyncStart(){
+  if(typeof FloorSync==="undefined")return;
+  if(typeof FLOOR_SYNC==="undefined"||!FLOOR_SYNC.url||!FLOOR_SYNC.key)return;
+  const d=new Date(), pad=n=>String(n).padStart(2,"0");
+  FloorSync.start({
+    url:FLOOR_SYNC.url, key:FLOOR_SYNC.key,
+    room:"mos-"+d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate()),
+    onStatus:function(){ fpShareBox(); },
+    onState:function(v){
+      /* The first board back after connecting. If the floor has nothing yet and this phone
+         does, publish instead of adopting — otherwise joining would wipe a plot somebody
+         just put in. After that, the floor is the truth. */
+      const remoteEmpty=!v||(!Object.keys(v.parties||{}).length&&!(v.merges||[]).length&&!Object.keys(v.who||{}).length);
+      const localHas=Object.keys(FPPARTY||{}).length+(FPMERGED||[]).length+Object.keys(FPWHO||{}).length;
+      if(!FPJOINED&&remoteEmpty&&localHas){ FPJOINED=true; fpSyncPush(); return; }
+      FPJOINED=true;
+      FPPARTY=v.parties||{}; FPMERGED=v.merges||[]; FPWHO=v.who||{};
+      if(v.day!=null)FPDAY=v.day;
+      /* written straight through, NOT via fpSave() — that would push it back and loop */
+      try{ localStorage.setItem("mos-floor-v1", JSON.stringify(
+        {m:FPMERGED,p:FPPARTY,w:FPWHO,d:FPDAY==null?null:FPDAY})); }catch(e){}
+      renderFloor();
+    }
+  });
+}
 function fpPick(t){
   if(!FLOORMAP[FPROOM]||!fpFind(t)){
     const ri=FLOORMAP.findIndex(r=>r.tables.some(x=>x.t===t)||fpMergedBoxes(r).some(g=>g.id===t));

@@ -685,13 +685,21 @@ async def main():
                   s11:a['11'].shape,d11:a['11'].seat1,s14:a['14'].shape,d14:a['14'].seat1,
                   c65:a['65'].seat1,c84:a['84'].seat1,b91:a['91'].seat1};})()""")
         want={"b43":"W","b42":"W","b41":"W","s11":"bv","d11":"NE","s14":"bv","d14":"NE",
-              "c65":"W","c84":"W","b91":"N"}
+              "c65":"W","c84":"NW","b91":"N"}
         if seats!=want: bad.append(f"seat-1 / shapes wrong: {seats} != {want}")
         # an earlier block picked table 74, which leaves the plan on The Curry -- pin the
         # room rather than inheriting whatever the last assertion happened to leave selected
         await pg.evaluate("go('ops');fpRoom(0)"); await pg.wait_for_timeout(400)
         dots=await pg.evaluate("document.querySelectorAll('#fpStage .fpseat1').length")
         if dots!=13: bad.append(f"Main should draw 13 seat-1 dots, drew {dots}")
+        # the marker is a numeral, not a bare dot -- a dot says a chair is there, a "1" says
+        # which chair, and that is the only thing anybody is looking at it for
+        if not await pg.evaluate("[...document.querySelectorAll('#fpStage .fpseat1')].every(e=>e.textContent==='1')"):
+            bad.append("seat-1 markers are not labelled 1")
+        cur=await pg.evaluate("""(()=>{const a={};FLOORMAP.forEach(r=>r.tables.forEach(t=>a[t.t]=t));
+          return ['61','71','81'].map(t=>a[t].seat1).join(',');})()""")
+        if cur!="NE,NE,NE": bad.append(f"Curry 61/71/81 seat 1 should be NE, got {cur}")
+        if not await pg.evaluate("MERGEABLE.some(m=>m.id==='65+84')"): bad.append("65+84 not pushable")
         # merge -> one element replaces two, party rides across, split puts it back
         await pg.evaluate("FPMERGED=[];FPPARTY={};fpPick('23');fpMerge('23+32')")
         await pg.wait_for_timeout(300)
@@ -715,6 +723,42 @@ async def main():
             bad.append("renamed section missing from the legend")
         await pg.evaluate("fpResetWho();FPMERGED=[];FPPARTY={};fpSave();renderFloor()")
         if await pg.evaluate("Object.keys(FPWHO).length"): bad.append("reset did not clear the section overrides")
+
+        # ---- sharing the board ----
+        # off by default: no service configured means no network, and the app is as it was
+        if not await pg.evaluate("typeof FloorSync!=='undefined'"): bad.append("FloorSync client not built in")
+        if await pg.evaluate("FLOOR_SYNC.url||FLOOR_SYNC.key"): bad.append("FLOOR_SYNC shipped with a live endpoint")
+        if await pg.evaluate("FloorSync.status()!=='off'"): bad.append("sync started without being configured")
+        # a board round-trips through a link
+        await pg.evaluate("""(()=>{FPMERGED=[];FPPARTY={};FPWHO={};fpMerge('23+32');
+          FPPARTY={'23+32':{n:8,t:'6:30',name:'Smith'},'41':{n:2,t:'5:45',name:''}};
+          fpSetWho(9,'ZZShare');fpSave();renderFloor();})()""")
+        code=await pg.evaluate("fpBoardCode()")
+        await pg.evaluate("""(()=>{FPMERGED=[];FPPARTY={};FPWHO={};fpSave();renderFloor();})()""")
+        await pg.evaluate(f"fpApplyBoard({code!r})")
+        rt=await pg.evaluate("JSON.stringify({p:Object.keys(FPPARTY).sort(),m:FPMERGED,w:FPWHO['9'],n:FPPARTY['23+32'].n})")
+        if rt!='{"p":["23+32","41"],"m":["23+32"],"w":"ZZShare","n":8}':
+            bad.append(f"board did not survive the link round trip: {rt}")
+        if len(await pg.evaluate("fpBoardLink()"))>1200: bad.append("share link too long to text")
+        # junk must not throw
+        for junk in ["", "notbase64!!", "eyJ2Ijo5OTl9"]:
+            try:
+                await pg.evaluate(f"(()=>{{try{{fpApplyBoard({junk!r})}}catch(e){{}}}})()")
+            except Exception as ex:
+                bad.append(f"junk board code {junk!r} escaped: {ex}")
+        if await pg.evaluate("!FPPARTY['23+32']"): bad.append("junk board code wiped a good board")
+        # an already-open app must react to a pasted link (hashchange, not a reload)
+        if not await pg.evaluate("""(()=>{const s=Object.getOwnPropertyNames(window);return typeof fpBoardFromLink==='function';})()"""):
+            bad.append("fpBoardFromLink missing")
+        await pg.evaluate("""(()=>{FPPARTY={'21':{n:4,t:'7:00',name:''}};FPMERGED=[];FPWHO={};fpSave();
+          FPINCOMING=null;location.hash='#board='+%s;})()""" % repr(code).replace("'", '"'))
+        await pg.wait_for_timeout(250)
+        if not await pg.evaluate("!!FPINCOMING"): bad.append("hashchange did not pick up a shared board")
+        if await pg.evaluate("!FPPARTY['21']"): bad.append("a shared link silently clobbered the local plot")
+        await pg.evaluate("fpTakeIncoming()")
+        if await pg.evaluate("!FPPARTY['23+32']"): bad.append("'Load theirs' did not apply the board")
+        await pg.evaluate("""(()=>{FPMERGED=[];FPPARTY={};FPWHO={};FPINCOMING=null;fpSave();
+          history.replaceState(null,'',location.pathname);renderFloor();})()""")
 
         # ---- midnight flip: advance mocked clock to Sat 8/8, wait out the 60s watcher ----
         t2=int(datetime.datetime(2026,8,8,0,0,30).timestamp()*1000)

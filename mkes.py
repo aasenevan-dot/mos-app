@@ -66,6 +66,30 @@ LATER = {
         "El asiento 1 suele dar a la puerta principal. Numera en sentido horario desde ahí, salvo en los booths. Toca una mesa para marcar un grupo.",
     "Hide sections": "Ocultar secciones",
     "Show tonight's sections": "Ver las secciones de esta noche",
+    "Share this board": "Compartir este plano",
+    "one link, the whole floor": "un enlace, todo el salón",
+    "Copy tonight's board": "Copiar el plano de esta noche",
+    "Or paste a board somebody sent you": "O pega un plano que te hayan enviado",
+    "Load that board": "Cargar ese plano",
+    "The link itself": "El enlace",
+    "This board lives on this phone. Share it and everyone gets the same one.":
+        "Este plano vive en este teléfono. Compártelo y todos tendrán el mismo.",
+    "Somebody shared a board with you.": "Alguien te compartió un plano.",
+    "You already have tables plotted on this phone.":
+        "Ya tienes mesas marcadas en este teléfono.",
+    "Load theirs": "Cargar el suyo", "Keep mine": "Quedarme con el mío",
+    "Link copied — paste it to the floor.": "Enlace copiado — pégalo al equipo.",
+    "Loaded the shared board.": "Plano compartido cargado.",
+    "That link was not a board.": "Ese enlace no era un plano.",
+    "That does not look like a board link.": "Eso no parece un enlace de plano.",
+    "Connecting to the floor…": "Conectando con el salón…",
+    "Live with the floor — changes show up on every phone.":
+        "En vivo con el salón — los cambios aparecen en todos los teléfonos.",
+    "Live with the floor, on a slow connection.":
+        "En vivo con el salón, con conexión lenta.",
+    "Lost the floor — still trying. Your board is safe on this phone.":
+        "Se perdió la conexión — seguimos intentando. Tu plano está a salvo en este teléfono.",
+    "paste the link here": "pega el enlace aquí",
 }
 pairs.update(LATER)
 

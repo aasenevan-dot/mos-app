@@ -38,9 +38,14 @@ for f in ["2-data-wine.js", "3-data-drinks.js", "4-data-food.js",
           "5e-data-deck.js",
           "5f-data-floor.js",
           "5h-data-floormap.js",
-          "5g-data-es.js",
-          "6-app.js"]:
+          "5g-data-es.js"]:
     parts.append((B / f).read_text().replace("__BUILDDATE__", f"{d.month}/{d.day}/{d.year}"))
+
+# The live-sync client ships straight out of server/client/ rather than a copy in build/.
+# Its test suite drives that exact file, so shipping a duplicate would let the tested code
+# and the running code drift apart. It must land before 6-app.js, which calls it at boot.
+parts.append((ROOT / "server" / "client" / "floor-sync.js").read_text())
+parts.append((B / "6-app.js").read_text().replace("__BUILDDATE__", f"{d.month}/{d.day}/{d.year}"))
 
 html = "\n".join(p.rstrip("\n") for p in parts) + "\n\n</script>\n</body>\n</html>\n"
 for ph in ("__APPLETOUCHICON__", "__MOSLOGO__", "__BUILDDATE__"):

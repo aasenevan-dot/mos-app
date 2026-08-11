@@ -699,6 +699,11 @@ async def main():
         cur=await pg.evaluate("""(()=>{const a={};FLOORMAP.forEach(r=>r.tables.forEach(t=>a[t.t]=t));
           return ['61','71','81'].map(t=>a[t].seat1).join(',');})()""")
         if cur!="NE,NE,NE": bad.append(f"Curry 61/71/81 seat 1 should be NE, got {cur}")
+        # lounge booths + Curry wall booths seat 1 on the left; the lounge rounds top-right
+        rest=await pg.evaluate("""(()=>{const a={};FLOORMAP.forEach(r=>r.tables.forEach(t=>a[t.t]=t));
+          return ['103','102','101','203','202','201','53','52','51'].map(t=>t+':'+a[t].seat1).join(' ');})()""")
+        want="103:W 102:W 101:W 203:NE 202:NE 201:NE 53:W 52:W 51:W"
+        if rest!=want: bad.append(f"lounge/Curry seat 1 wrong:\n      {rest}\n      {want}")
         if not await pg.evaluate("MERGEABLE.some(m=>m.id==='65+84')"): bad.append("65+84 not pushable")
         # merge -> one element replaces two, party rides across, split puts it back
         await pg.evaluate("FPMERGED=[];FPPARTY={};fpPick('23');fpMerge('23+32')")

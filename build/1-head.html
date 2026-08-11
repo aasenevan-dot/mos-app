@@ -331,6 +331,10 @@ html.dark .fpstage{background:var(--card2)}
 .fptable.b{width:13%;height:8%;border-radius:4px}
 .fptable.r{width:9%;aspect-ratio:1;border-radius:50%}
 .fptable.bv{width:8%;height:13%;border-radius:4px}
+/* The Vault is a whole room sitting on the Main plan, so it reads as a room: bigger, and
+   ringed rather than filled, so it never gets mistaken for a four-top. */
+.fptable.vault{width:12%;height:17%;border-radius:7px;border-width:3px;border-color:var(--gold);
+  font-size:9.5px;letter-spacing:.02em}
 /* a merged table is one shape spanning both positions -- size comes from the renderer */
 .fptable.merged{border-radius:7px;border-style:dashed;border-width:2px;border-color:var(--gold)}
 .fptable.merged span{font-size:11px;letter-spacing:.02em}

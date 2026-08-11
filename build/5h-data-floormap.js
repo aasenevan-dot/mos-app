@@ -17,6 +17,8 @@ const FLOORMAP = [
    {t:"41", x:74, y:12, shape:"b", seats:4, seat1:"W"},
    {t:"32", x:42, y:36, shape:"d", seats:4, seat1:"NE"},
    {t:"31", x:60, y:36, shape:"d", seats:4, seat1:"NE"},
+   {t:"100", lbl:"Vault", x:7, y:57, shape:"vault", seats:15, seat1:"SE",
+    note:"The private room. Seats horseshoe clockwise from seat 1 at the bottom right — the entrance side is a door, so nobody sits there."},
    {t:"24", x:20, y:57, shape:"d", seats:4, seat1:"NE"},
    {t:"23", x:40, y:57, shape:"d", seats:4, seat1:"NE"},
    {t:"22", x:60, y:57, shape:"d", seats:4, seat1:"NE"},
@@ -75,26 +77,25 @@ const FLOORMAP = [
    {t:"95", x:18, y:60, shape:"d", seats:4, seat1:"NE"},
    {t:"94", x:35, y:60, shape:"d", seats:4, seat1:"NE"},
    {t:"93", x:52, y:60, shape:"d", seats:4, seat1:"NE"},
-   {t:"92", x:69, y:60, shape:"d", seats:4, seat1:"NE"}
+   {t:"92", x:69, y:60, shape:"d", seats:4, seat1:"NE"},
+   {t:"91B", x:18, y:85, shape:"d", seats:4, seat1:"NE"}
  ]},
- {room:"The Vault", sub:"15 seated", tables:[
-   {t:"100", x:50, y:50, shape:"r", seats:15, seat1:"N"}
- ]}
 ];
 
-/* Tonight's sections. Edit this list and the plan recolours — that is the whole
-   point of it. Taken from the marked-up sheet as a worked example. */
+/* THE SECTIONS, as the floor actually splits. `name` is the section itself and does not
+   change; `who` is whoever has it tonight and is what the Money tab lets you retype.
+   Main always runs as two teams. The Vault belongs to the back. */
 const SECTIONS = [
- {who:"Alexis + Morgan", tables:["96","97","98","99","92","93","94","95","91"]},
- {who:"Fabian + Barbie", tables:["203","202","201","103","102","101"]},
- {who:"Kristen + Christian", tables:["404","403","402","401","302","301"]},
- {who:"Jenny", tables:["B1","B2","B3","B4","B5","B6","B7","B8","B9","B10","B11","B12","B13","B14"]},
- {who:"Hunter + Abby", tables:["43","42","41","14","13"]},
- {who:"Diana + JJ", tables:["32","31","12","11"]},
- {who:"Nate + Dee", tables:["65","84","53","52","51"]},
- {who:"Taylor + Meagan", tables:["74","73","72","83","82"]},
- {who:"Alex + Evan", tables:["64","63","62","61","71","81"]},
- {who:"Unassigned", tables:["24","23","22","21","100"]}
+ {name:"Back of Main",  who:"", tables:["100","43","32","24","23","14","13"]},
+ {name:"Front of Main", who:"", tables:["42","41","31","22","21","12","11"]},
+ {name:"Smockton",      who:"", tables:["91","99","98","97","96","95"]},
+ {name:"Smockton cocktail", who:"", tables:["94","93","92","91B"]},
+ {name:"Curry — 65/84", who:"", tables:["65","84","53","64","74","83"]},
+ {name:"Curry — 51/52", who:"", tables:["51","52","61","62","63"]},
+ {name:"Curry — 71/81", who:"", tables:["81","71","72","73","82"]},
+ {name:"New Lounge",    who:"", tables:["203","202","201","103","102","101"]},
+ {name:"Lounge",        who:"", tables:["404","403","402","401","302","301"]},
+ {name:"Bar",           who:"", tables:["B1","B2","B3","B4","B5","B6","B7","B8","B9","B10","B11","B12","B13","B14"]}
 ];
 
 /* Who else is on, off the same sheet. */
@@ -110,7 +111,8 @@ const FLOOR_CREW = [
 const MERGEABLE = [
  {id:"23+32", a:"23", b:"32"},
  {id:"31+22", a:"31", b:"22"},
- {id:"65+84", a:"65", b:"84"}
+ {id:"65+84", a:"65", b:"84"},
+ {id:"51+52", a:"51", b:"52"}
 ];
 
 /* Live sync with the rest of the floor. BLANK ON PURPOSE — with url or key empty the

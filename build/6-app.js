@@ -1402,7 +1402,8 @@ function fpPartnerOf(t){
 }
 function fpSectionOf(t){
   if(typeof SECTIONS==="undefined")return null;
-  for(let i=0;i<SECTIONS.length;i++) if(SECTIONS[i].tables.indexOf(t)>=0) return {i:i,who:fpWhoOf(i)};
+  for(let i=0;i<SECTIONS.length;i++) if(SECTIONS[i].tables.indexOf(t)>=0)
+    return {i:i, who:fpWhoOf(i), name:SECTIONS[i].name||SECTIONS[i].who||("Section "+(i+1))};
   return null;
 }
 function fpSeatRing(tb){
@@ -1460,9 +1461,9 @@ function hbLock(){ HBOPEN=false; hbRender(); }
    SZ is each shape's footprint as a % of the stage. A diamond is a square rotated 45deg,
    so its BOUNDING box is the diagonal, not the side — using the side would draw a merged
    pair narrower than the tables it replaces. */
-var FPSZ={d:[13.4,13.4],b:[13,8],bv:[8,13],r:[9,9],bar:[5.4,5.4],banq:[8,22]};
+var FPSZ={d:[13.4,13.4],b:[13,8],bv:[8,13],r:[9,9],bar:[5.4,5.4],banq:[8,22],vault:[12,17]};
 var FPDIRV={N:[0,-1],NE:[.72,-.72],E:[1,0],SE:[.72,.72],S:[0,1],SW:[-.72,.72],W:[-1,0],NW:[-.72,-.72]};
-var FPRAD={d:[6.4,6.9],b:[8,5.6],bv:[6,9],r:[5.6,6.1],banq:[5,13],bar:[0,0]};
+var FPRAD={d:[6.4,6.9],b:[8,5.6],bv:[6,9],r:[5.6,6.1],banq:[5,13],bar:[0,0],vault:[7.2,10.2]};
 
 function fpMergedBoxes(room){
   return fpActiveMerges().map(m=>{
@@ -1501,7 +1502,7 @@ function renderFloor(){
     const dot=(r&&tb.seats>1&&tb.shape!=="bar")?fpSeatDot(tb.t,tb.x,tb.y,r[0],r[1],tb.seat1):"";
     const sz=FPSZ[tb.shape]||[9,9];
     return `<div class="fptable ${tb.shape}${FPSEL===tb.t?" sel":""}${seated}" style="left:${tb.x}%;top:${tb.y}%;${bg}"
-      onclick="fpPick('${tb.t}')" role="button" aria-label="Table ${esc(tb.t)}"><span>${esc(tb.t)}</span></div>${dot}${fpBadge(tb.t,tb.x,tb.y,sz[1])}`;
+      onclick="fpPick('${tb.t}')" role="button" aria-label="Table ${esc(tb.lbl||tb.t)}"><span>${esc(tb.lbl||tb.t)}</span></div>${dot}${fpBadge(tb.t,tb.x,tb.y,sz[1])}`;
   }).join("");
 
   const groups=boxes.map(g=>{
@@ -1519,7 +1520,8 @@ function renderFloor(){
     `<button class="${i===FPROOM?"on":""}" onclick="fpRoom(${i})">${esc(r.room)}</button>`).join("");
   $("#fpLegend").innerHTML=(typeof SECTIONS==="undefined")?"":
     `<button class="${FPSHOWSEC?"on":""}" onclick="fpToggleSections()">${FPSHOWSEC?"Hide sections":"Show tonight's sections"}</button>`+
-    (FPSHOWSEC?SECTIONS.map((s,i)=>`<button onclick="fpPick('${s.tables[0]}')"><span class="sw" style="background:${FPCOLORS[i%FPCOLORS.length]}"></span>${esc(fpWhoOf(i))}</button>`).join(""):"");
+    (FPSHOWSEC?SECTIONS.map((s,i)=>{const w=fpWhoOf(i);
+      return `<button onclick="fpPick('${s.tables[0]}')"><span class="sw" style="background:${FPCOLORS[i%FPCOLORS.length]}"></span>${esc(s.name||"")}${w?' <i style="font-style:normal;color:var(--dim)">'+esc(w)+'</i>':""}</button>`;}).join(""):"");
   fpDetail(); fpBook(); fpWhoBox(); fpShareBox();
 }
 function fpFind(key){
@@ -1538,8 +1540,9 @@ function fpDetail(){
     box.innerHTML=`<div class="meta">${esc(room.sub)} &middot; ${room.tables.length} tables. Tap any table to seat it, see who has it, and find seat 1.</div>`;
     return;
   }
-  const SHAPE={d:"Four-top",b:"Booth",bv:"Booth",r:"Round",bar:"Bar seat",banq:"Banquette"};
+  const SHAPE={d:"Four-top",b:"Booth",bv:"Booth",r:"Round",bar:"Bar seat",banq:"Banquette",vault:"Private room"};
   const kind=f.merged?"Pushed together":(SHAPE[f.tb.shape]||f.tb.shape);
+  if(!f.merged&&f.tb.lbl)f.label=f.tb.lbl;
   const sec=fpSectionOf(f.merged?f.g.a.t:f.tb.t);
   const ring=fpSeatRing({seat1:f.seat1,seats:f.seats});
   const pt=(FPPARTY||{})[FPSEL]||{};
@@ -1547,8 +1550,10 @@ function fpDetail(){
   const mergeBtn=f.merged
     ? `<button class="btn sec" onclick="fpUnmerge('${f.g.id}')">Split ${esc(f.g.a.t)} and ${esc(f.g.b.t)} back apart</button>`
     : (pair?`<button class="btn sec" onclick="fpMerge('${pair.m.id}')">Push together with ${esc(pair.other)}</button>`:"");
+  const note=(!f.merged&&f.tb.note)?f.tb.note:"";
   box.innerHTML=`<div class="n">${esc(f.label)}</div>
-    <div class="meta">${esc(kind)} &middot; sits ${f.seats} &middot; ${esc(room.room)}${sec?" &middot; "+esc(sec.who):""}</div>
+    <div class="meta">${esc(kind)} &middot; sits ${f.seats} &middot; ${esc(room.room)}${sec?" &middot; "+esc(sec.name)+(sec.who?" ("+esc(sec.who)+")":""):""}</div>
+    ${note?`<div class="meta" style="margin-top:6px">${esc(note)}</div>`:""}
     ${f.seats>1&&ring?`<div class="meta" style="margin-top:6px"><b>Seat 1</b> is ${esc(ring)} — number clockwise from there.</div>
     <div class="fpseats">${Array.from({length:Math.min(f.seats,10)},(_,i)=>`<i>Seat ${i+1}</i>`).join("")}</div>`:""}
     <div class="frow" style="margin-top:12px">
@@ -1658,8 +1663,9 @@ function fpWhoBox(){
     <datalist id="fpNames">${names.map(n=>`<option value="${esc(n)}"></option>`).join("")}</datalist>
     <p class="sub" style="margin:0 0 8px">${names.length?`${names.length} on that day — start typing and they autocomplete.`:"Nobody scheduled that day."}</p>
     ${SECTIONS.map((s,i)=>`<div class="frow" style="margin-bottom:6px"><div class="f">
-      <label for="fpw${i}"><span class="sw" style="display:inline-block;width:10px;height:10px;border-radius:3px;background:${FPCOLORS[i%FPCOLORS.length]};margin-right:6px"></span>${esc(s.tables.join(", "))}</label>
-      <input type="text" id="fpw${i}" list="fpNames" value="${esc(fpWhoOf(i))}" placeholder="${esc(s.who)}" onchange="fpSetWho(${i},this.value)">
+      <label for="fpw${i}"><span class="sw" style="display:inline-block;width:10px;height:10px;border-radius:3px;background:${FPCOLORS[i%FPCOLORS.length]};margin-right:6px"></span>${esc(s.name||"")}
+        <span style="color:var(--dim);font-weight:400"> &middot; ${esc(s.tables.map(t=>t==="100"?"Vault":t).join(", "))}</span></label>
+      <input type="text" id="fpw${i}" list="fpNames" value="${esc(fpWhoOf(i))}" placeholder="nobody yet" onchange="fpSetWho(${i},this.value)">
     </div></div>`).join("")}
     <p style="margin:8px 0 0"><button class="btn sec" onclick="fpResetWho()">Put the posted names back</button></p>`;
 }

@@ -320,7 +320,8 @@ async def main():
             if(s.has(t.t))d.push(t.t); s.add(t.t);}));return d;})(),
           offGrid:FLOORMAP.flatMap(r=>r.tables.filter(t=>t.x<3||t.x>97||t.y<3||t.y>97).map(t=>t.t))
         }))()""")
-        if fp["rooms"]!=5: bad.append(f"floor plan shows {fp['rooms']} rooms, expected 5")
+        # 4 since the Vault stopped being a room of its own and moved onto the Main plan
+        if fp["rooms"]!=4: bad.append(f"floor plan shows {fp['rooms']} rooms, expected 4")
         if fp["dupes"]: bad.append(f"a table number appears twice on the plan: {fp['dupes']}")
         if fp["offGrid"]: bad.append(f"tables plotted off the stage: {fp['offGrid']}")
         if fp["total"]<64: bad.append(f"floor plan only has {fp['total']} tables")
@@ -691,7 +692,7 @@ async def main():
         # room rather than inheriting whatever the last assertion happened to leave selected
         await pg.evaluate("go('ops');fpRoom(0)"); await pg.wait_for_timeout(400)
         dots=await pg.evaluate("document.querySelectorAll('#fpStage .fpseat1').length")
-        if dots!=13: bad.append(f"Main should draw 13 seat-1 dots, drew {dots}")
+        if dots!=14: bad.append(f"Main should draw 14 seat-1 dots (13 tables + the Vault), drew {dots}")
         # the marker is a numeral, not a bare dot -- a dot says a chair is there, a "1" says
         # which chair, and that is the only thing anybody is looking at it for
         if not await pg.evaluate("[...document.querySelectorAll('#fpStage .fpseat1')].every(e=>e.textContent==='1')"):
@@ -705,6 +706,28 @@ async def main():
         want="103:W 102:W 101:W 203:NE 202:NE 201:NE 53:W 52:W 51:W"
         if rest!=want: bad.append(f"lounge/Curry seat 1 wrong:\n      {rest}\n      {want}")
         if not await pg.evaluate("MERGEABLE.some(m=>m.id==='65+84')"): bad.append("65+84 not pushable")
+        if not await pg.evaluate("MERGEABLE.some(m=>m.id==='51+52')"): bad.append("51+52 not pushable")
+        # the Vault moved onto the Main plan, left of 24, seat 1 bottom-right
+        v=await pg.evaluate("""(()=>{const m=FLOORMAP.find(r=>r.room==='Main');
+          const t=m&&m.tables.find(x=>x.t==='100'); const t24=m&&m.tables.find(x=>x.t==='24');
+          return t?{lbl:t.lbl,seat1:t.seat1,seats:t.seats,leftOf24:t.x<t24.x}:null;})()""")
+        if v!={"lbl":"Vault","seat1":"SE","seats":15,"leftOf24":True}:
+            bad.append(f"Vault not placed on Main correctly: {v}")
+        if await pg.evaluate("FLOORMAP.some(r=>r.room==='The Vault')"): bad.append("The Vault is still a separate room")
+        if not await pg.evaluate("FLOORMAP.some(r=>r.tables.some(t=>t.t==='91B'))"): bad.append("Smockton 91B missing")
+        # every table belongs to exactly one section
+        secs=await pg.evaluate("""(()=>{const all={};FLOORMAP.forEach(r=>r.tables.forEach(t=>all[t.t]=1));
+          const seen={};SECTIONS.forEach(s=>s.tables.forEach(t=>seen[t]=(seen[t]||0)+1));
+          return {dupes:Object.keys(seen).filter(t=>seen[t]>1),
+                  orphans:Object.keys(all).filter(t=>!seen[t]),
+                  ghosts:Object.keys(seen).filter(t=>!all[t]),
+                  named:SECTIONS.every(s=>!!s.name)};})()""")
+        if secs["dupes"]: bad.append(f"tables in two sections: {secs['dupes']}")
+        if secs["orphans"]: bad.append(f"tables with no section: {secs['orphans']}")
+        if secs["ghosts"]: bad.append(f"sections name a table that does not exist: {secs['ghosts']}")
+        if not secs["named"]: bad.append("a section has no name")
+        if await pg.evaluate("SECTIONS.find(s=>s.name==='Back of Main').tables.indexOf('100')<0"):
+            bad.append("the Vault is not in Back of Main")
         # merge -> one element replaces two, party rides across, split puts it back
         await pg.evaluate("FPMERGED=[];FPPARTY={};fpPick('23');fpMerge('23+32')")
         await pg.wait_for_timeout(300)

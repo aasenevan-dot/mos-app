@@ -98,4 +98,66 @@ if problems:
     print(f"\nQC FAILED — {len(problems)} problem(s):")
     for p in problems: print("  - " + p)
     sys.exit(1)
+
+# ---------------------------------------------------------------------------
+# Cross-file agreement. The menu/allergen data lives in 4-data-food.js, but the
+# things servers STUDY from -- the quiz answer key, the Mo's Book, the training
+# deck -- carry their own copies. Three of those copies went stale without anyone
+# noticing: the Porterhouse was $170 in one place and $150 in three, the Tomahawk
+# $140 against $180, and the whole steak-temperature ladder was corrected in the
+# menu but left one doneness step off everywhere a server actually revises from.
+# A server quoting a price $20 low, or describing the wrong steak, is exactly what
+# this app exists to prevent, so it is worth failing the build over.
+# ---------------------------------------------------------------------------
+import re as _re
+def _nocomments(t):
+    """Strip JS comments before checking. The comment in 4-data-food.js that EXPLAINS the
+    old temperature bug quotes the wrong wording verbatim, and the guard was flagging the
+    explanation as the defect."""
+    t = _re0.sub(r"/\*.*?\*/", " ", t, flags=_re0.S)
+    return _re0.sub(r"(?m)^\s*//.*$", " ", t)
+
+import re as _re0
+_files = {n: _nocomments((ROOT / "build" / n).read_text()) for n in
+          ["4-data-food.js", "5-data-quiz.js", "5c-data-book.js", "5e-data-deck.js"]}
+
+# (label, regex, the value every file must agree on, files allowed to differ and why)
+_AGREE = [
+    # the window has to reach past the whole breakdown sentence -- "Porterhouse break down?
+    # ... 22 oz NY strip + a 12 oz filet + a 10 oz bone, $150" is 62 chars, and a 40-char
+    # window silently matched nothing at all
+    # A bounded "." window, not [^"<]: the quiz phrases it as
+    #   Porterhouse break down?",o:["USDA Choice: ... a 10 oz bone, $150
+    # so the run between the name and the price contains quotes and brackets, and a class
+    # that excluded them matched nothing while looking like it worked.
+    ("48 oz Porterhouse price", r"Porterhouse.{0,160}?\$(1\d\d)", "170",
+     {"4-data-food.js"}),          # food.js also carries the archive note about the old $180 name
+    # food.js is exempt on both: it is the file that carries the history -- the retired
+    # "Tomahawk Tuesday" $180 package, and the old "Australian Wagyu Porterhouse at $180"
+    # name. Those are deliberate archive entries, not stale copies.
+    ("Australian Wagyu Tomahawk price", r"Wagyu Tomahawk.{0,160}?\$(1\d\d)", "140",
+     {"4-data-food.js"}),
+]
+for label, rx, want, skip in _AGREE:
+    for name, txt in _files.items():
+        if name in skip:
+            continue
+        for m in _re.finditer(rx, txt):
+            if m.group(1) != want:
+                problems.append(f"{label}: {name} says ${m.group(1)}, everything else says ${want}")
+
+# the study surfaces must teach the ladder in 4-data-food.js, not the pre-correction one
+_OLD_TEMPS = ["medium warm pink", "Medium is warm pink", "Medium: warm pink",
+              "medium well slight pink", "Medium well is slight", "Medium well: slight"]
+for name, txt in _files.items():
+    for phrase in _OLD_TEMPS:
+        if phrase in txt:
+            problems.append(f"pre-correction steak temperature wording in {name}: {phrase!r}")
+
+
+if problems:
+    print(f"\nQC FAILED — {len(problems)} problem(s):")
+    for p in problems: print("  - " + p)
+    sys.exit(1)
+
 print("\nQC CLEAN — no empty fields, no orphans, no duplicates, no stamps.")

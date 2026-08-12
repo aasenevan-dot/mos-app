@@ -1605,7 +1605,7 @@ function fpDetail(){
     </div>
     <p style="margin:8px 0 0">
       <button class="btn" onclick="fpSeat()">${pt.n?"Update this table":"Seat this table"}</button>
-      ${pt.n?`<button class="btn sec" onclick="fpClear('${FPSEL}')">Clear it</button>`:""}
+      ${pt.n?`<button class="btn sec" onclick="fpClearSel()">Clear it</button>`:""}
       ${mergeBtn}
     </p>`;
   const go=e=>{ if(e.key==="Enter"){ e.preventDefault(); fpSeat(); } };
@@ -1622,6 +1622,7 @@ function fpSeat(){
   fpSave(); renderFloor();
 }
 function fpClear(key){ if(FPPARTY)delete FPPARTY[key]; fpSave(); renderFloor(); }
+function fpClearSel(){ if(FPSEL)fpClear(FPSEL); }
 function fpMerge(id){
   FPMERGED=FPMERGED||[];
   if(FPMERGED.indexOf(id)<0)FPMERGED.push(id);
@@ -1669,9 +1670,11 @@ function fpBook(){
       <span class="tm">${esc(r.t||"—")}</span>
       <span class="tb">${esc(r.key)}</span>
       <span class="sz">${r.n?esc(r.n)+" top":""}${r.name?" &middot; "+esc(r.name):""}${r.room?" &middot; "+esc(r.room):""}</span>
-      <span class="x"><button class="btn sec" onclick="fpPick('${esc(r.key)}')">Show</button></span>
+      <span class="x"><button class="btn sec" data-k="${esc(r.key)}">Show</button></span>
     </div>`).join("")}</div>
     <p style="margin:10px 0 0"><button class="btn sec" onclick="fpClearAll()">Clear the whole book</button></p>`;
+  /* delegated, so a table id never has to survive a trip through a JS string literal */
+  box.onclick=e=>{ const b=e.target.closest("button[data-k]"); if(b)fpPick(b.dataset.k); };
 }
 function fpClearAll(){ FPPARTY={}; fpSave(); renderFloor(); }
 /* ---------- who has which section ----------
@@ -1753,16 +1756,31 @@ function fpBoardCode(){
 function fpBoardLink(){
   return location.origin+location.pathname+"#board="+fpBoardCode();
 }
+/* A board arrives from a link somebody was sent, so it is untrusted input. Keys are held
+   to the same shape the server enforces, and checked against tables that actually exist.
+   This is the fix that matters: a key like  x');alert(1)//  reached an onclick attribute
+   and ran when a server tapped Show in the book. Escaping the render site alone would
+   have patched one symptom and left the next interpolation to find. */
+function fpKnownKey(k){
+  if(!/^[A-Za-z0-9+_-]{1,16}$/.test(k))return false;
+  if(typeof MERGEABLE!=="undefined"&&MERGEABLE.some(m=>m.id===k))return true;
+  return typeof FLOORMAP!=="undefined"&&FLOORMAP.some(r=>r.tables.some(t=>t.t===k));
+}
 function fpApplyBoard(code){
   const o=JSON.parse(fpB64d(code));
   if(!o||o.v!==1) throw new Error("not a board");
-  FPMERGED=Array.isArray(o.m)?o.m.filter(x=>typeof x==="string"):[];
+  FPMERGED=Array.isArray(o.m)?o.m.filter(x=>typeof x==="string"&&
+    (typeof MERGEABLE==="undefined"||MERGEABLE.some(m=>m.id===x))):[];
   FPPARTY={};
   (Array.isArray(o.p)?o.p:[]).forEach(r=>{
     if(!Array.isArray(r)||!r[0])return;
-    FPPARTY[String(r[0])]={n:(+r[1])||null, t:String(r[2]||""), name:String(r[3]||"")};
+    const k=String(r[0]);
+    if(!fpKnownKey(k))return;
+    FPPARTY[k]={n:(+r[1])||null, t:String(r[2]||"").slice(0,10), name:String(r[3]||"").slice(0,40)};
   });
-  FPWHO=(o.w&&typeof o.w==="object"&&!Array.isArray(o.w))?o.w:{};
+  FPWHO={};
+  if(o.w&&typeof o.w==="object"&&!Array.isArray(o.w))
+    Object.keys(o.w).forEach(k=>{ if(/^\d{1,2}$/.test(k)&&+k<40)FPWHO[k]=String(o.w[k]).slice(0,60); });
   if(typeof o.d==="number"&&o.d>=0&&o.d<7)FPDAY=o.d;
   FPINCOMING=null;
   fpSave(); renderFloor();

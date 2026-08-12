@@ -219,7 +219,7 @@ The cocktail fork goes down BEFORE the food on shrimp cocktail, king crab legs, 
 
 ## Temperatures — the language of doneness
 
-Blue rare is a cold red center. Rare is cool red. Medium rare is warm red — the house sweet spot for almost everything. Medium is warm pink. Medium well is slight, hot pink. Well done is little to no pink — and **well-done filets get butterflied**: offer it every time, because it cooks faster and comes out juicier, and the guest hears you protecting their dinner instead of judging their order.
+Blue is very red and very cold. Center rare is a cold red center. Medium rare is cool red — the house sweet spot for almost everything. Medium is warm to hot red center. Medium well is a hot pink center. Well done is little to no pink — and **well-done filets get butterflied**: offer it every time, because it cooks faster and comes out juicier, and the guest hears you protecting their dinner instead of judging their order.
 
 Two standing rules. Every steak is **cooked with butter by default, and the kitchen can cook any steak completely butter-free** for a dairy allergy — the guest just has to ask. And when a steak looks wrong in our dim dining room, **flashlight first** — the lighting creates illusions of undercooked steaks.
 
@@ -243,7 +243,7 @@ Two standing rules. Every steak is **cooked with butter by default, and the kitc
 
 **Japanese A5 Wagyu — $25 an ounce.** From Kagoshima Prefecture. This is the one you learn as a story, not a spec sheet — the full pitch: Japanese farmers can spend a lifetime chasing A5 grade. Generations of breeding go into cattle this rich. The stories are real selling points — cows kept calm and unstressed, classical music, no roaming so no fat burns off — but the diet is the real secret: grain only in the final months, rich in oleic acid. The fat is so ready to melt that a fingertip drawn across the steak leaves a shine on your skin from body heat alone. That is why it is served rare to medium rare. Eating it is closer to bone marrow or butter than to steak — an extremely soft texture, juices with every bite, a beefy richness unmatched by any cut in the city. A manager slices it tableside on a butcher's block with a Japanese knife, torch-finishes it with rosemary salt, and tells that story. Preset the special Kobe Hanzo steak knives.
 
-**48 oz USDA Choice Porterhouse — $150 when it runs.** Not wagyu — USDA Choice, and honest about it. About 22 oz of NY strip, 12 oz of filet, and a 10 oz bone. Board service, manager slices tableside. The move: two people split it for a high-class manager-cut experience at a great value. Know the cut: a porterhouse is a T-bone where the filet side has to be nearly as big as the strip side — that is rare, and it is why good porterhouses are hard to find.
+**48 oz USDA Choice Porterhouse — $170 when it runs.** Not wagyu — USDA Choice, and honest about it. About 22 oz of NY strip, 12 oz of filet, and a 10 oz bone. Board service, manager slices tableside. The move: two people split it for a high-class manager-cut experience at a great value. Know the cut: a porterhouse is a T-bone where the filet side has to be nearly as big as the strip side — that is rare, and it is why good porterhouses are hard to find.
 
 **Spinalis / Ribeye Cap — $14 an ounce, minimum 6 oz.** The cap of the ribeye — rivals filet tenderness while keeping ribeye richness. Spinalis Sunday runs it at $10 an ounce.
 
@@ -275,7 +275,7 @@ Every steak order is an enhancement conversation: Oscar it, 47 it, tail it, butt
 
 ## Off-menu items
 
-Four cut specials typically always run: the **48 oz USDA Choice Porterhouse** at $150, the **Spinalis** at $14 an ounce ($10 on Spinalis Sunday), the **Australian Wagyu Tomahawk** — 32 oz at $180 — and the **45-Day Dry-Aged Bone-In Ribeye** at 22 oz. They live on the cut board, not the printed menu, which is exactly why mentioning them makes a guest feel like an insider.
+Four cut specials typically always run: the **48 oz USDA Choice Porterhouse** at $170, the **Spinalis** at $14 an ounce ($10 on Spinalis Sunday), the **Australian Wagyu Tomahawk** — 32 oz at $140 — and the **45-Day Dry-Aged Bone-In Ribeye** at 22 oz. They live on the cut board, not the printed menu, which is exactly why mentioning them makes a guest feel like an insider.
 
 ## How to talk about specials
 

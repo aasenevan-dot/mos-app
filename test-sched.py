@@ -759,6 +759,31 @@ async def main():
         await pg.evaluate("fpResetWho();FPMERGED=[];FPPARTY={};fpSave();renderFloor()")
         if await pg.evaluate("Object.keys(FPWHO).length"): bad.append("reset did not clear the section overrides")
 
+        # ---- Spanish must SURVIVE a repaint ----
+        # applyLang ran once inside build(); every panel that repainted on interaction
+        # (a filter, the quiz, the plotter, the checkout) came back English -- ~400 nodes
+        # on the cocktails list alone. A MutationObserver now re-translates repainted
+        # subtrees. Repaint several panels in ES and assert nothing reverts.
+        await pg.evaluate("setLang('es')"); await pg.wait_for_timeout(700)
+        revert={}
+        for call,sel in [("wineFilter.v='chard';renderWines()","#wineGrid"),
+                         ("renderDrinks()","#drinkGrid"),
+                         ("allergySel.add('gluten');renderAllergens()","#p-allergens"),
+                         ("go('ops');calcSC()","#scOut"),
+                         ("fpPick('23')","#fpDetail")]:
+            await pg.evaluate(call); await pg.wait_for_timeout(120)
+            n=await pg.evaluate("""sel=>{const el=document.querySelector(sel);if(!el)return -1;
+              let eng=0;const w=document.createTreeWalker(el,NodeFilter.SHOW_TEXT);let x;
+              while(x=w.nextNode()){const k=x.textContent.trim();if(ES[k]&&ES[k]!==k&&!x.textContent.includes(ES[k]))eng++;}
+              return eng;}""", sel)
+            if n>0: revert[sel]=n
+        if revert: bad.append(f"Spanish reverted to English after repaint: {revert}")
+        # and switching back leaves nothing in Spanish
+        await pg.evaluate("setLang('en')"); await pg.wait_for_timeout(600)
+        spleft=await pg.evaluate("""(()=>{let sp=0;const w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);let n;
+          while(n=w.nextNode()){const t=n.textContent.trim();if(t.length<3)continue;for(const k in ES){if(ES[k]===t&&k!==t){sp++;break;}}if(sp>3)break;}return sp;})()""")
+        if spleft: bad.append(f"Spanish text left over after switching back to English: {spleft}")
+
         # ---- guest wifi: in How We Work, and findable however anybody types it ----
         if "GreatSteaks" not in await pg.evaluate("document.querySelector('#p-house').innerText"):
             bad.append("wifi password missing from How We Work")

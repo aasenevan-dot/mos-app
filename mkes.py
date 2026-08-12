@@ -96,6 +96,16 @@ LATER = {
     "The network guests join. One word for everybody — you can hand it out at the table.":
         "La red a la que se conectan los invitados. Una sola palabra para todos — puedes darla en la mesa.",
     "What": "Qué", "It is": "Es",
+    "Garnish": "Guarnición", "Garnishes": "Guarniciones",
+    "the easiest to get wrong": "lo más fácil de equivocarse",
+    "every drink's garnish and glass": "la guarnición y la copa de cada bebida",
+    "Build": "Preparación", "Pour": "Servir", "Bottle": "Botella",
+    "Pairing": "Maridaje", "Structure": "Estructura",
+    "Wine menu": "Menú de vinos",
+    "Correct": "Correcto", "Not quite": "Casi", "Try again": "Inténtalo de nuevo",
+    "Next question": "Siguiente pregunta", "New quiz": "Nuevo examen",
+    "Play again": "Jugar de nuevo", "Score": "Puntuación",
+    "Getting there": "Vas mejorando", "Floor ready": "Listo para el salón",
 }
 pairs.update(LATER)
 

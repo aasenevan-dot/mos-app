@@ -1337,6 +1337,7 @@ function build(){
   /* ---------- WIRE UP ---------- */
   renderWines(); renderDrinks(); renderAllergens(); renderFloor(); hbRender(); fpBoardFromLink(); fpSyncStart(); pairingOut(0); calcSC(); calcBQC(); ipPrefill(); calcIP(); calcBq(); fillSched();
   applyLang();
+  startLangObserver();
 
   $("#p-shift").querySelector(".qa").onclick=e=>{
     const b=e.target.closest("button[data-qa]"); if(!b)return;
@@ -2078,8 +2079,8 @@ $("#darkT").onclick=()=>{
 var LANG;
 var ORIG = new WeakMap();
 
-function langWalk(fn){
-  const w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,{
+function langWalk(fn,root){
+  const w=document.createTreeWalker(root||document.body,NodeFilter.SHOW_TEXT,{
     acceptNode(n){
       const p=n.parentElement;
       if(!p||/SCRIPT|STYLE|TEXTAREA/.test(p.tagName)) return NodeFilter.FILTER_REJECT;
@@ -2089,7 +2090,7 @@ function langWalk(fn){
   while(n=w.nextNode()) hits.push(n);
   hits.forEach(fn);
 }
-function applyLang(){
+function applyLang(root){
   if(LANG!=="es"||typeof ES==="undefined") return;
   langWalk(n=>{
     const raw=n.textContent, k=raw.trim();
@@ -2097,11 +2098,35 @@ function applyLang(){
     if(!hit) return;
     if(!ORIG.has(n)) ORIG.set(n,raw);
     n.textContent=raw.replace(k,hit);
-  });
-  document.querySelectorAll("input[placeholder]").forEach(i=>{
+  },root);
+  const inputs=(root instanceof Element)
+    ? [...(root.tagName==="INPUT"?[root]:[]), ...root.querySelectorAll("input[placeholder]")]
+    : [...document.querySelectorAll("input[placeholder]")];
+  inputs.forEach(i=>{
     const v=ES[i.placeholder];
     if(v){ if(!i.dataset.enPh) i.dataset.enPh=i.placeholder; i.placeholder=v; }
   });
+}
+/* THE PROBLEM: applyLang() ran once at the end of build(), but the app repaints small
+   regions constantly — a wine filter, the quiz, the floor-plan plotter, the checkout —
+   by writing fresh innerHTML that build() never sees. Every one of those came back in
+   English mid-shift, which for the cocktails list meant ~400 nodes silently reverting.
+   Rather than thread an applyLang() call through 60-odd render sites (and miss the 61st),
+   watch the DOM: whenever something new is painted while Spanish is on, translate just
+   that subtree. Safe from looping because applyLang only edits text-node data and input
+   placeholders — neither is a childList change, so it cannot retrigger this observer. */
+var LANGOBS;
+function startLangObserver(){
+  if(LANGOBS||typeof MutationObserver==="undefined") return;
+  let pending=new Set(), queued=false;
+  const flush=()=>{ queued=false; const nodes=[...pending]; pending.clear();
+    nodes.forEach(n=>{ if(n.isConnected) applyLang(n); }); };
+  LANGOBS=new MutationObserver(muts=>{
+    if(LANG!=="es") return;
+    for(const m of muts) for(const nd of m.addedNodes) if(nd.nodeType===1) pending.add(nd);
+    if(pending.size && !queued){ queued=true; Promise.resolve().then(flush); }
+  });
+  LANGOBS.observe(document.body,{childList:true,subtree:true});
 }
 function restoreLang(){
   langWalk(n=>{ if(ORIG.has(n)) n.textContent=ORIG.get(n); });

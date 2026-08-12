@@ -807,6 +807,15 @@ async def main():
             r=await pg.evaluate("q=>search(q).map(h=>h.w+' | '+h.t).slice(0,1)", q)
             if not r or not r[0].startswith(expect):
                 bad.append(f"search moved: {q!r} -> {r[0] if r else '(none)'}, wanted {expect}")
+        # word-boundary ranking: a partial-substring must not beat the real word match
+        for q,want in [("86","Vocabulary"),("evan","Front POS"),("tomahwak","Allergens"),
+                       ("wine of the week","Wine of the Week"),("evan schedule","Schedule")]:
+            r=await pg.evaluate("q=>search(q).map(h=>h.w).slice(0,1)", q)
+            if not r or not r[0].startswith(want):
+                bad.append(f"word-boundary rank: {q!r} top {r[0] if r else '(none)'}, wanted {want}")
+        # a table appears once, not twice (FLOORMAP + the old photo list both indexed it)
+        n=await pg.evaluate("search('table 23').filter(h=>/Table 23$/.test(h.t)).length")
+        if n!=1: bad.append(f"table 23 listed {n} times, expected 1")
 
         # ---- sharing the board ----
         # off by default: no service configured means no network, and the app is as it was

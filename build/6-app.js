@@ -660,7 +660,7 @@ const SEARCH_STOP=new Set(("what whats is in the a an on of for to do does did w
      "how do i connect to the internet here" all returned nothing because of one filler word */
   "there here guys get got need needs want wants ask asks asked say says said give gives know "+
   "please thanks at from this that they them their our us be was were will would should "+
-  "when where who whos wheres hows whats theres why if but so just like into over under again still even only also").split(" "));
+  "when where who whos wheres hows whats theres why if but so just like into over under again even only also").split(" "));
 const SEARCH_SYN={internet:"wifi",wireless:"wifi",network:"wifi",hotspot:"wifi",ssid:"wifi",pw:"password",tonight:"today",passcode:"password",connexion:"connection",works:"schedule",working:"schedule",shift:"schedule",mocktail:"non-alcoholic",virgin:"non-alcoholic",children:"kids",child:"kids",app:"starters",apps:"starters",appetizer:"starters",appetizers:"starters",sparkling:"champagne",bubbly:"champagne",bubbles:"champagne",veggie:"vegetable",veggies:"vegetable",glutenfree:"gf",sweets:"desserts",bday:"celebration",birthday:"celebration",anniversary:"celebration",percentages:"percent",percentage:"percent",tipout:"tip",tipouts:"tip",ounces:"oz",ounce:"oz",cheapest:"price",cheap:"price",priciest:"price",recipe:"ingredients",dressing:"dressings",earn:"earned",earnings:"earned",paycheck:"earned",payout:"earned",roster:"schedule",working:"schedule",works:"schedule",temp:"temperature",temps:"temperature",nuts:"nut",peanuts:"peanut",gf:"gluten"};
 function nearWord(a,b){
   if(a===b)return true;
@@ -731,6 +731,17 @@ function search(q){
     const cat=w.toLowerCase();
     if(toks.some(x=>SEARCH_SYN[x]&&cat.includes(SEARCH_SYN[x])))score+=1;
     if(qflat.length>=4&&name.replace(/[^a-z0-9]/g,"").includes(qflat))score+=3;
+    /* Additive, on purpose. The base score above counts bare substrings, which rewards
+       "tea" for chaTEAu, "86" for $1TEA6, "evan" for griEVANces. Rather than tear that out
+       (and re-tune every ranking that leans on it), LIFT genuine word matches above the
+       incidental ones. A whole-word or word-start hit is worth more; a fuzzy word hit
+       (so a typo's real target — "tomahwak" -> "tomahawk" — climbs over fuzzy bycatch)
+       is worth a little. Purely additive, so equal-scoring ties keep their order. */
+    const nameWords=name.split(/[^a-z0-9$&%]+/).filter(Boolean);
+    const wordHit=x=>{const syn=SEARCH_SYN[x];
+      return nameWords.some(wd=>wd===x||(x.length>=2&&wd.startsWith(x))||(syn&&(wd===syn||wd.startsWith(syn))));};
+    score += toks.filter(wordHit).length*2;
+    score += toks.filter(x=>!wordHit(x)&&x.length>=4&&nameWords.some(wd=>nearWord(wd,x))).length;
     hits.push({w,t,d,tab,score});
   };
   WINES.forEach(x=>{if(matches([x.n,x.r,x.f,x.pair,x.pitch,x.p]))add("Wine",x.n+" — "+x.p,x.pitch,"wine");});
@@ -773,7 +784,9 @@ function search(q){
       add("Floor plan · "+r.room,"Table "+tb.t,
           "Sits "+tb.seats+(sec?" · "+sec:"")+" · tap it on the plan","house");}));
   if(typeof FLOOR!=="undefined") FLOOR.forEach(r=>{
-    r.groups.forEach(g=>g[1].forEach(t=>{
+    /* FLOORMAP already indexes every table above; the old photo list would double each
+       one. Only fall back to it when the live map is absent. */
+    if(typeof FLOORMAP==="undefined") r.groups.forEach(g=>g[1].forEach(t=>{
       if(matches(["table "+t,t,r.n,g[0],"floor plan","seat"]))
         add("Floor plan · "+r.n,"Table "+t,g[0]+" in the "+r.n,"house");}));
     if(matches([r.n,"floor plan","tables","seat 1"]))
@@ -855,7 +868,7 @@ function search(q){
       if(on)add("Schedule",(full?full[0].toUpperCase()+full.slice(1):"")+" "+d[0]+(isToday?" \u2014 today":""),on.slice(0,150),"sched");
     });
   })();
-  [WOTW.a,WOTW.b].forEach(w=>{if(w&&matches([w.n,w.tag,w.what,w.flavor,w.why,w.pair,w.pitch,w.p]))
+  [WOTW.a,WOTW.b].forEach(w=>{if(w&&matches(["wine of the week",w.n,w.tag,w.what,w.flavor,w.why,w.pair,w.pitch,w.p]))
     add("Wine of the Week",w.n+" — "+w.p,w.what,"wine");});
   MC.forEach(m=>{if(matches([m.q,m.o[0],m.t]))add("Quiz",m.q,"Answer: "+m.o[0],"study");});
   if(typeof LIVE_MUSIC!=="undefined")Object.entries(LIVE_MUSIC).forEach(([d,act])=>{
@@ -865,8 +878,9 @@ function search(q){
       add("Meals & Moments",o.where,o.d+" · "+o.t+" · "+o.addr,"sched");});
   /* the posted week, by person — searching a name shows you their shifts */
   (SCHEDULE.sections||[]).forEach(([sec,rows])=>rows.forEach(r=>{
+    /* "evan schedule" / "when does lupe work" -- give each person row the intent words */
     if(String(r[0]).startsWith("("))return;
-    if(!matches([r[0],sec]))return;
+    if(!matches([r[0],sec,"schedule shifts works hours on the floor"]))return;
     const on=SCHEDULE.days.map((d,i)=>{const c=String(r[i+1]||"").trim();
       return c?`${d[1]} ${/^(off|ro)\??$/i.test(c)?c.toUpperCase():schedTime(c)}`:null;}).filter(Boolean);
     add("Schedule · "+sec,r[0],on.length?on.join(" · "):"not on the posted week","sched");}));

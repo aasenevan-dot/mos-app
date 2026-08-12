@@ -6455,7 +6455,7 @@ function search(q){
     hits.push({w,t,d,tab,score});
   };
   WINES.forEach(x=>{if(matches([x.n,x.r,x.f,x.pair,x.pitch,x.p]))add("Wine",x.n+" — "+x.p,x.pitch,"wine");});
-  COCKTAILS.forEach(x=>{if(matches([x.n,x.build,x.garnish,x.desc,x.p,x.grp]))add("Cocktail",x.n+" — "+x.p,"Garnish: "+x.garnish+" · "+x.build,"cocktails");});
+  COCKTAILS.forEach(x=>{if(matches([x.n,x.build,x.garnish,x.desc,x.p,x.grp,"garnish"]))add("Cocktail",x.n+" — "+x.p,"Garnish: "+x.garnish+" · "+x.build,"cocktails");});
   Object.entries(MENU).forEach(([sec,items])=>items.forEach(i=>{if(matches([sec,i[0],i[1],i[2],i[3]]))add(sec,i[0]+" — "+i[1],i[2],"menu");}));
   ENHANCE.forEach(e=>{if(matches([e[0],e[1],e[2],e[3]]))add("Enhancement",e[0]+" — "+e[1],e[2],"menu");});
   ALLERGENS.forEach(r=>{if(matches([r[0],r[2].join(" "),r[3]]))add("Allergens",r[0],"Contains: "+(r[2].join(", ")||"none listed")+". "+r[3],"allergens");});
@@ -6540,7 +6540,7 @@ function search(q){
   DRINK_PITCH.forEach(r=>{if(matches([r[0],r[1]]))add("Guest says / you say",r[0],r[1],"cocktails");});
   FASTANSWERS.forEach(r=>{if(matches([r[0],r[1],r[2]]))add("Fast guest answer",r[0],r[1]+" — "+r[2],"wine");});
   REGIONS.forEach(r=>{if(matches([r[0],r[1],r[2]]))add("Wine region",r[0],r[1]+" — "+r[2],"wine");});
-  TEMPS.forEach(r=>{if(matches(["steak temperature",r[0],r[1]]))add("Steak temp",r[0],r[1],"menu");});
+  TEMPS.forEach(r=>{if(matches(["steak temperature doneness ribeye filet strip tomahawk porterhouse cut",r[0],r[1]]))add("Steak temp",r[0],r[1],"menu");});
   A5PITCH.forEach(t=>{if(matches(["A5 wagyu pitch",t]))add("A5 pitch","The A5 pitch",t,"menu");});
   DRESSINGS.forEach(t=>{if(matches(["salad dressing",t]))add("Dressing",t,"One of the 11 dressings — the house dressing is the vinaigrette.","menu");});
   PROTOCOL.forEach((t,i)=>{if(matches(["allergy protocol",t]))add("Allergy protocol","Step "+(i+1),t,"allergens");});
@@ -7288,7 +7288,7 @@ function renderFloor(){
   $("#fpLegend").innerHTML=(typeof SECTIONS==="undefined")?"":
     `<button class="${FPSHOWSEC?"on":""}" onclick="fpToggleSections()">${FPSHOWSEC?"Hide sections":"Show tonight's sections"}</button>`+
     (FPSHOWSEC?SECTIONS.map((s,i)=>{const w=fpWhoOf(i);
-      return `<button onclick="fpPick('${s.tables[0]}')"><span class="sw" style="background:${FPCOLORS[i%FPCOLORS.length]}"></span>${esc(s.name||"")}${w?' <i style="font-style:normal;color:var(--dim)">'+esc(w)+'</i>':""}</button>`;}).join(""):"");
+      return `<button onclick="fpPick('${fpKey(s.tables[0])}')"><span class="sw" style="background:${FPCOLORS[i%FPCOLORS.length]}"></span>${esc(s.name||"")}${w?' <i style="font-style:normal;color:var(--dim)">'+esc(w)+'</i>':""}</button>`;}).join(""):"");
   fpDetail(); fpBook(); fpWhoBox(); fpShareBox();
 }
 function fpFind(key){
@@ -7322,7 +7322,7 @@ function fpDetail(){
     <div class="meta">${esc(kind)} &middot; sits ${f.seats} &middot; ${esc(room.room)}${sec?" &middot; "+esc(sec.name)+(sec.who?" ("+esc(sec.who)+")":""):""}</div>
     ${note?`<div class="meta" style="margin-top:6px">${esc(note)}</div>`:""}
     ${f.seats>1&&ring?`<div class="meta" style="margin-top:6px"><b>Seat 1</b> is ${esc(ring)} — number clockwise from there.</div>
-    <div class="fpseats">${Array.from({length:Math.min(f.seats,10)},(_,i)=>`<i>Seat ${i+1}</i>`).join("")}</div>`:""}
+    <div class="fpseats">${Array.from({length:Math.min(f.seats,16)},(_,i)=>`<i>Seat ${i+1}</i>`).join("")}</div>`:""}
     <div class="frow" style="margin-top:12px">
       <div class="f"><label for="fpN">Party of</label><input type="number" inputmode="numeric" id="fpN" min="1" max="40" value="${pt.n||""}" placeholder="how many"></div>
       <div class="f"><label for="fpT">Time</label><input type="text" id="fpT" value="${esc(pt.t||"")}" placeholder="6:30" autocapitalize="off"></div>

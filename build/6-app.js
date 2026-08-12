@@ -289,7 +289,7 @@ function renderQuiz(){
       <div class="tags" style="justify-content:center;margin-bottom:16px">${topics}</div>
       <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
         <button class="btn" onclick="startQuiz()">New quiz</button>
-        ${quiz.missed.length?`<button class="btn sec" onclick="startQuiz(quiz.missed.slice())">Review the ${quiz.missed.length} missed</button>`:""}
+        ${quiz.missed.length?`<button class="btn sec" onclick="startQuiz(quiz.missed.slice(),QBANK===MC?null:QBANK)">Review the ${quiz.missed.length} missed</button>`:""}
       </div></div>`;
     $("#quizScore").innerHTML=`<b>${pct}%</b> final`;
     return;
@@ -308,7 +308,7 @@ function renderQuiz(){
     box.querySelectorAll(".opt").forEach((x,j)=>{x.disabled=true;if(opts[j].ok)x.classList.add("right");});
     if(!ok)b.classList.add("wrong");
     $("#qfb").innerHTML=`<div style="margin-top:11px;display:flex;gap:10px;align-items:center;flex-wrap:wrap">
-      <span style="color:${ok?'var(--green2)':'#A33C35'};font-weight:650;font-size:13.5px">${ok?'Correct':'Not quite'}</span>
+      <span style="color:${ok?'var(--green2)':'var(--red)'};font-weight:650;font-size:13.5px">${ok?'Correct':'Not quite'}</span>
       <button class="btn sec" id="qnext">${quiz.i+1>=quiz.order.length?"Finish":"Next question"}</button></div>`;
     $("#qnext").onclick=()=>{quiz.i++;renderQuiz();};
     $("#quizScore").innerHTML=`<b>${quiz.score}</b> / ${quiz.answered} &nbsp;·&nbsp; question ${quiz.i+1} of ${quiz.order.length}`;
@@ -322,7 +322,7 @@ function vocabQuiz(){
     const wrong=shuffled(all.filter(x=>x[0]!==t[0])).slice(0,3).map(x=>x[1]);
     return {q:`\u201c${t[0]}\u201d means\u2026`,o:[t[1],...wrong],t:"vocab"};
   });
-  startQuiz(qs.map((_,i)=>i),qs);
+  QMODE="game"; startQuiz(qs.map((_,i)=>i),qs);
 }
 function todaysTen(){
   const t=new Date(), seed=t.getFullYear()*10000+(t.getMonth()+1)*100+t.getDate();

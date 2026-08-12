@@ -106,6 +106,9 @@ LATER = {
     "Next question": "Siguiente pregunta", "New quiz": "Nuevo examen",
     "Play again": "Jugar de nuevo", "Score": "Puntuación",
     "Getting there": "Vas mejorando", "Floor ready": "Listo para el salón",
+    # the machine turned the Wednesday abbreviation "We" into the pronoun "Nosotros";
+    # the schedule header wants the day, matching the two-letter set Lu/Ma/Mi/Ju/Vi/Sá/Do
+    "We": "Mi",
 }
 pairs.update(LATER)
 

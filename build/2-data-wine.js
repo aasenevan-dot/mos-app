@@ -168,7 +168,7 @@ const PAIRINGS = [
  best:["Louis Roederer Cristal"]},
  {d:"Miso Seabass / Chilean Sea Bass / Scallops", line:"Stay crisp unless they want a richer Chardonnay.",
  good:["Drouhin-Vaudon Chablis","Buehler Chardonnay","Chateau de Campuget Rose"],
- better:["Post & Beam Chardonnay","Auntsfield Sauvignon Blanc","Domaine Drouhin \"Dundee Hills\""],
+ better:["Post & Beam Chardonnay","Auntsfield Single Vineyard Sauvignon Blanc","Domaine Drouhin \"Dundee Hills\""],
  best:["Joseph Drouhin Gevry-Chambertin","Louis Roederer Cristal"]},
  {d:"Blackened Creole Salmon", line:"Blackened spice likes bright acid or a lighter red.",
  good:["Dr. L Riesling","Cloudline Pinot Noir","Chateau de Campuget Rose"],

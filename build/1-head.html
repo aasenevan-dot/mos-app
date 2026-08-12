@@ -250,6 +250,7 @@ tr:hover td{background:rgba(255,255,255,.017)}
 .q{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:15px;margin-bottom:11px}
 .qq{font-weight:600;font-size:14.5px;margin-bottom:11px}
 .qq span{color:var(--dim2);font-weight:600;margin-right:7px}
+html.dark .qq .tag{color:var(--dim)}
 .opt{
   display:block;width:100%;text-align:left;background:var(--bg2);border:1px solid var(--line2);
   color:var(--txt);padding:9px 12px;border-radius:12px;margin-bottom:6px;font-size:13.3px;cursor:pointer;
@@ -356,6 +357,7 @@ html.dark .fppty{background:var(--gold2);color:#20140f;border-color:rgba(255,255
 .fpbook .x{margin-left:auto}
 
 .fptable.bar{width:5.4%;aspect-ratio:1;border-radius:50%;font-size:8px}
+.fptable.bar::after{content:"";position:absolute;inset:-8px}
 .fptable.banq{width:8%;height:22%;border-radius:8px}
 .fpdetail{margin-top:12px;border:1px solid var(--line);border-radius:12px;background:var(--card);padding:13px 15px}
 .fpdetail .n{font-family:Georgia,serif;font-size:22px;font-weight:800;color:var(--gold);line-height:1}
@@ -363,7 +365,7 @@ html.dark .fppty{background:var(--gold2);color:#20140f;border-color:rgba(255,255
 .fpseats{display:flex;flex-wrap:wrap;gap:5px;margin-top:9px}
 .fpseats i{font-style:normal;font-size:11px;font-weight:700;padding:3px 8px;border-radius:999px;
   background:rgba(122,46,38,.10);color:var(--gold);border:1px solid rgba(122,46,38,.18)}
-html.dark .fpseats i{background:rgba(201,123,90,.16);border-color:rgba(201,123,90,.30)}
+html.dark .fpseats i{background:rgba(201,123,90,.16);border-color:rgba(201,123,90,.30);color:var(--gold2)}
 /* the chair at seat 1 — small, quiet, and it lifts when the table is selected */
 /* Seat 1 is marked with an actual numeral, not a plain dot — a dot tells you a chair is
    there, a "1" tells you which chair it is, which is the thing anybody is looking for. */
@@ -477,6 +479,7 @@ details.acc>.accbody .sechead{margin-top:18px}
 .receipt .rhead{text-align:center;font-weight:800;letter-spacing:.08em;border-bottom:1.5px dashed #a4977f;padding-bottom:8px;margin-bottom:4px}
 .receipt .rsub{text-align:center;font-size:11px;color:#6b5f4c;margin-bottom:8px}
 .receipt .rrow{display:flex;justify-content:space-between;gap:10px;padding:3.5px 0}
+.receipt .rrow>span:last-child,.receipt .rrow>b:last-child{white-space:nowrap}
 .receipt .rrow span:first-child{color:#4a4133}
 .receipt .rrow b{font-weight:700}
 .receipt .rrow.neg span:last-child{color:#8c2f39;font-weight:600}
@@ -626,7 +629,9 @@ html.dark .bkbody .bkh2,
 html.dark .getline,
 html.dark .dkdisc,
 html.dark .dkrows li b,
-html.dark .mitem .mchev{color:var(--gold)}
+html.dark .mitem .mchev,
+html.dark .dkcard h4,html.dark .dkstage h5,html.dark .dknote b,
+html.dark .dkshout,html.dark .dkquote,html.dark .dkswap b,html.dark .dkshot .big{color:var(--gold)}
 html.dark .bkrow .n,
 html.dark .dkdisc{background:rgba(201,123,90,.14)}
 /* the garnish line used the deep house green as text on a dark card: 2.6 */
@@ -643,6 +648,8 @@ html.dark .schedwrap td.off{background:#0F0907;color:#9A7263}
 html.dark .schedwrap th.tdy,html.dark .schedwrap td.tdy{background:#3A2A16}
 html.dark .schedwrap td.off.tdy{background:#241009}
 html.dark .schedwrap td.ro{background:#4A3B1C;color:#E8CF8F}
+.schedwrap td.ro.tdy{background:#E4D0A6;color:#6E5716}
+html.dark .schedwrap td.ro.tdy{background:#463415;color:#E8CF8F}
 /* the one spot --gold is a FILL instead of text — hold it dark so cream still reads on it */
 html.dark .schedwrap tr.secrow td{background:var(--brand2);color:var(--cream)}
 /* the quote block kept its light-mode ink (#4A2723) over a dark card: 1.2 contrast */
@@ -690,6 +697,7 @@ html.dark .totop{background:var(--brand2);color:var(--cream)}
   .flip{min-height:120px}
   .f select,.f input{padding:11px 12px}
   td{padding:11px 12px}
+  .jumper button,.fproom button{padding:9px 14px}
 }
 /* A touchscreen laptop or an iPad in landscape is still a wide screen — the
    fat-finger tab sizing above would wrap the row, so the desktop sizing wins

@@ -6570,7 +6570,7 @@ function search(q){
       /* "who works today" and "whos on tonight" are among the commonest things anybody
          types, and they used to return nothing at all: the day rows are titled "Wednesday
          8/12", so the words today and tonight matched no field. Tag the day that IS today. */
-      const nowd=new Date(), isToday=(SCHEDULE.year===nowd.getFullYear())&&d[0]===((nowd.getMonth()+1)+"/"+nowd.getDate());
+      const nowd=new Date(), isToday=schedIsDay(SCHEDULE,d[0],nowd);
       if(!matches(["who works schedule roster on floor",full,d[0],isToday?"today tonight now":""]))return;
       const on=rosterFor(SCHEDULE,i,true).replace(/<[^>]+>/g," ").replace(/\s+/g," ").trim();
       /* saying "today" in the title is both clearer to read and what makes it outrank the
@@ -7352,11 +7352,16 @@ function fpMerge(id){
   FPMERGED=FPMERGED||[];
   if(FPMERGED.indexOf(id)<0)FPMERGED.push(id);
   const m=fpMergeList().find(x=>x.id===id);
-  /* a party already sitting on either half follows the pair onto the merged table */
+  /* a party already sitting on either half follows the pair onto the merged table; if
+     BOTH halves are seated, combine them onto the pair rather than silently dropping one
+     -- the covers total in the book has to stay honest. */
   if(m&&FPPARTY){
-    const keep=FPPARTY[m.a]||FPPARTY[m.b];
+    const A=FPPARTY[m.a], B=FPPARTY[m.b];
     delete FPPARTY[m.a]; delete FPPARTY[m.b];
-    if(keep)FPPARTY[id]=keep;
+    if(A&&B)FPPARTY[id]={n:((+A.n||0)+(+B.n||0))||null,
+      t:(fpTimeVal(A.t)<=fpTimeVal(B.t)?A.t:B.t),
+      name:[A.name,B.name].filter(Boolean).join(" + ")};
+    else if(A||B)FPPARTY[id]=A||B;
   }
   FPSEL=id; fpSave(); renderFloor();
 }
@@ -7985,12 +7990,21 @@ function rosterFor(S,idx,cur){
     return `<div class="rosec"><b>${esc(label)}</b><div class="who">${on.map(x=>`${esc(x.n)} <i>${esc(schedTime(x.c))}</i>`).join(" &nbsp;\u00b7&nbsp; ")}</div></div>`;
   }).join("");
 }
+/* A posted week can straddle New Year -- the Jan days belong to year+1, not SCHEDULE.year.
+   Comparing on the bare year sent "today" off the week for the whole first week of January.
+   For any same-year week this returns exactly what the old check did. */
+function schedIsDay(w,dayStr,now){
+  const parts=String(dayStr).split("/").map(Number), m=parts[0], dd=parts[1];
+  const sm=Number(String(w.days[0][0]).split("/")[0]);
+  const yr=(w.year||now.getFullYear())+(m<sm?1:0);
+  return now.getFullYear()===yr && (now.getMonth()+1)===m && now.getDate()===dd;
+}
 function fillSched(){
   const p=$("#p-sched"); if(!p)return;
   SCHED_DAY=schedToday();
   if(SCHED_SEL==null||!SCHEDULE_HISTORY[SCHED_SEL])SCHED_SEL=0;
   const t=new Date(), todayStr=(t.getMonth()+1)+"/"+t.getDate();
-  const idx=(t.getFullYear()===SCHEDULE.year)?SCHEDULE.days.findIndex(d=>d[0]===todayStr):-1;
+  const idx=SCHEDULE.days.findIndex(d=>schedIsDay(SCHEDULE,d[0],t));
   const DAYFULL={We:"Wednesday",Th:"Thursday",Fr:"Friday",Sa:"Saturday",Su:"Sunday",Mo:"Monday",Tu:"Tuesday"};
   let roster;
   if(idx>=0){
@@ -8006,7 +8020,7 @@ function fillSched(){
     let src=null, si=-1;
     for(let i=0;i<SCHEDULE_HISTORY.length;i++){
       const w=SCHEDULE_HISTORY[i];
-      const j=(t.getFullYear()===w.year)?w.days.findIndex(d=>d[0]===todayStr):-1;
+      const j=w.days.findIndex(d=>schedIsDay(w,d[0],t));
       if(j>=0){src=w;si=j;break;}
     }
     const sp=String(SCHEDULE.start||"").split("-").map(Number);

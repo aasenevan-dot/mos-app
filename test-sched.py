@@ -813,6 +813,20 @@ async def main():
             r=await pg.evaluate("q=>search(q).map(h=>h.w).slice(0,1)", q)
             if not r or not r[0].startswith(want):
                 bad.append(f"word-boundary rank: {q!r} top {r[0] if r else '(none)'}, wanted {want}")
+        # merging two SEATED halves must combine, not drop the second party
+        await pg.evaluate("""(()=>{FPMERGED=[];FPPARTY={'51':{n:4,t:'6:30',name:'A'},'52':{n:2,t:'7:00',name:'B'}};fpMerge('51+52');})()""")
+        cw=await pg.evaluate("FPPARTY['51+52']&&FPPARTY['51+52'].n")
+        if cw!=6: bad.append(f"merging two seated halves lost covers: got {cw}, want 6")
+        await pg.evaluate("FPMERGED=[];FPPARTY={};fpSave();renderFloor()")
+        # a posted week that straddles New Year must still match 'today' in January
+        ny=await pg.evaluate("""(()=>{const w={year:2026,days:[['12/29','Mo'],['12/30','Tu'],['12/31','We'],['1/1','Th'],['1/2','Fr'],['1/3','Sa'],['1/4','Su']]};
+          return {jan:w.days.findIndex(d=>schedIsDay(w,d[0],new Date(2027,0,2))),
+                  dec:w.days.findIndex(d=>schedIsDay(w,d[0],new Date(2026,11,30))),
+                  wrongYr:schedIsDay(w,'1/2',new Date(2026,0,2))};})()""")
+        if ny["jan"]!=4: bad.append(f"New Year week: Jan 2 resolved to day {ny['jan']}, want 4")
+        if ny["dec"]!=1: bad.append(f"New Year week: Dec 30 resolved to day {ny['dec']}, want 1")
+        if ny["wrongYr"]: bad.append("schedIsDay matched a January day in the wrong year")
+
         # a table appears once, not twice (FLOORMAP + the old photo list both indexed it)
         n=await pg.evaluate("search('table 23').filter(h=>/Table 23$/.test(h.t)).length")
         if n!=1: bad.append(f"table 23 listed {n} times, expected 1")

@@ -41,7 +41,7 @@ const OFFSITE=[
 /* Dated house events. Same "M/D" storage and same drop-off-when-past behavior as the rest
    of this file — they live here, not on the food menu. */
 const EVENTS=[
- {d:"9/6", when:"Aug 24 – Sep 6 · both locations · running now", n:"DEVOUR Indy Summerfest",
+ {d:"9/6", when:"Aug 24 – Sep 6 · both locations", n:"DEVOUR Indy Summerfest",
   w:"Our three-course prix-fixe with Prime 47 Carmel, from $45 per person (tax and gratuity not included). Full menu and how to pitch it are on the Food Menu tab — study it. Steer to the Spinalis and Filet, and always offer an enhancement."},
  {d:"8/13", when:"Thu · 5–10 pm · the Lounge", n:"Sundresses & Sangria",
   w:"One more summer girls' night out — slip into your favorite sundress and join us in the lounge. Sangria flowing 5 to 10."},

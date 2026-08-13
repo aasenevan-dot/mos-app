@@ -975,14 +975,27 @@ async def devour():
         if await pg.evaluate("!!document.querySelector('.dvwrap')"): bad.append("Devour popup reappeared after dismissal")
         await pg.evaluate("go('menu')"); await pg.wait_for_timeout(300)
         mt=await pg.evaluate("document.querySelector('#p-menu').innerText")
-        for want in ["DEVOUR Indy Summerfest","How to pitch it","ALWAYS offer an enhancement","Spinalis","Vegan Stuffed Tomatoes"]:
+        # The picture IS the menu now (clearer than a re-typed table); under it the two dropdowns.
+        for want in ["DEVOUR Indy Summerfest","The deal, in plain terms","The upsell blueprint",
+                     "Spinalis","Vegan Stuffed Tomatoes","Always plant an enhancement"]:
             if want not in mt: bad.append(f"Devour section missing {want!r}")
+        if not await pg.evaluate("(()=>{const im=document.querySelector('#p-menu img.menupic');return im&&im.complete&&im.naturalWidth>0;})()"):
+            bad.append("Devour menu picture did not render")
+        # the picture opens in a full-screen lightbox
+        await pg.evaluate("openDevour()"); await pg.wait_for_timeout(150)
+        if await pg.evaluate("(()=>{const w=document.querySelector('.picwrap');return w?getComputedStyle(w).position:'';})()")!="fixed":
+            bad.append("Devour lightbox is not a fixed-position overlay")
+        await pg.evaluate("(()=>{const w=document.querySelector('.picwrap');if(w)w.remove();})()")
         if "DEVOUR Indy — 3-course" not in mt: bad.append("Devour not on the specials board")
         if not await pg.evaluate("search('devour spinalis').length"): bad.append("Devour not searchable")
-        # still listed in upcoming events during the run
+        # still listed in upcoming events during the run, with the "See the Devour menu" button,
+        # and WITHOUT the stale "running now" text (it is upcoming until 8/24)
         await pg.evaluate("go('sched')"); await pg.wait_for_timeout(200)
-        if "DEVOUR Indy Summerfest" not in await pg.evaluate("document.querySelector('#p-sched').innerText"):
-            bad.append("Devour dropped from upcoming events mid-run")
+        sch=await pg.evaluate("document.querySelector('#p-sched').innerText")
+        if "DEVOUR Indy Summerfest" not in sch: bad.append("Devour dropped from upcoming events mid-run")
+        if "running now" in sch.lower(): bad.append("Schedule still says 'running now'")
+        if not await pg.evaluate("!!document.querySelector('#p-sched button[onclick*=openDevour]')"):
+            bad.append("'See the Devour menu' button missing from Events")
         await ctx.close()
         # BEFORE the window is fully open (Aug 12) -> no section, no popup
         ctx=await b.new_context(viewport={"width":393,"height":852})
@@ -1008,8 +1021,14 @@ async def devour():
         await pg.evaluate("if(document.querySelector('.dvwrap .dvx'))document.querySelector('.dvwrap .dvx').click()")
         await pg.evaluate("setLang('es')"); await pg.wait_for_timeout(700)
         await pg.evaluate("go('menu')"); await pg.wait_for_timeout(300)
-        est=await pg.evaluate("document.querySelector('#p-menu').innerText")
-        if "Cómo venderlo" not in est: bad.append("Devour pitch header not translated to Spanish")
+        # scope the Spanish check to the section's own nodes (the specials-board card body
+        # stays English by design, so #p-menu innerText would give false positives)
+        summaries=await pg.evaluate("[...document.querySelectorAll('#p-menu details.acc summary')].map(s=>s.textContent).join(' | ')")
+        for want_es in ["El plan para subir la venta","La oferta, en palabras sencillas"]:
+            if want_es not in summaries: bad.append(f"Devour dropdown not translated: {want_es!r}")
+        bp=await pg.evaluate("[...document.querySelectorAll('#p-menu ol.steps li b')].map(x=>x.textContent).join(' | ')")
+        if "Empieza por el valor." not in bp: bad.append("Devour blueprint step not translated to Spanish")
+        if "Frame the value first." in bp: bad.append("Devour blueprint left in English (es)")
         await ctx.close()
         await b.close()
     if bad:

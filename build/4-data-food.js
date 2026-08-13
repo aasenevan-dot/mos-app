@@ -444,19 +444,39 @@ const DEVOUR = {
  year: 2026, start: "8/24", end: "9/6",
  title: "DEVOUR Indy Summerfest",
  window: "August 24 \u2013 September 6",
- blurb: "A three-course prix-fixe with Prime 47 Carmel, part of DEVOUR Indy Summerfest. Starts at $45 per person \u2014 tax and gratuity NOT included. Per-person price is the entree.",
+ img: "__DEVOURIMG__",
+ blurb: "Our three-course prix-fixe with Prime 47 Carmel, part of DEVOUR Indy Summerfest. Starts at $45 per person \u2014 tax and gratuity NOT included. The entree they pick sets the per-person price.",
+ /* Plain-English "what is this deal" — the version to actually say to a guest or a new hire. */
+ plain: [
+  "DEVOUR Indy is a citywide restaurant-week deal. Ours runs Aug 24 \u2013 Sep 6 with Prime 47 Carmel.",
+  "It is a SET three-course menu: they choose a soup or salad, an entree, one accessory (side), and a dessert.",
+  "The price per person is whatever ENTREE they pick \u2014 from $45 (Vegan Stuffed Tomatoes) up to $65 (6 oz Spinalis). Tax and gratuity are on top.",
+  "Enhancements (lobster tail, scallops, filet upgrade, etc.) are add-ons ON TOP of the per-person price.",
+  "Nearly everything is gluten-free; there is a vegan entree and a GF/vegan sorbet, so a mixed-needs table is easy. For a celiac, still confirm the exact dish with the kitchen — the a-la-carte House Salad and Seabass carry gluten."
+ ],
+ /* The upsell blueprint — how we actually maximize a Devour check, step by step. */
+ blueprint: [
+  ["Frame the value first", "Lead with what they GET: \"It is a full three-course experience \u2014 soup or salad, your entree, a side, and dessert \u2014 starting at $45.\" Let them feel the deal before you trade them up."],
+  ["Steer the entree up \u2014 it IS the check", "The per-person price is the entree. Guide to the 6 oz Spinalis ($65) and the Filet ($55): \"If you are doing Devour, the Spinalis is the one people come back for.\" Same menu, $20 more a head."],
+  ["Always plant an enhancement \u2014 this is the money", "Right after they pick the entree: \"Want to make it an occasion \u2014 add a lobster tail or a couple of scallops?\" Lead with the Lobster Tail ($50), then Scallops ($24), the 10 oz filet upgrade ($22), Crab Oscar ($14), Lobster Mac ($10). One add-on a head can beat the base price."],
+  ["Sell the wine \u2014 Devour tables are celebrating", "A prix-fixe crowd came out to spend. Pair a bottle to the table\u2019s entrees; it is the fastest lift to the check and your tip."],
+  ["Set the number up front", "Say tax and gratuity are not in the per-person price, so the check lands clean and there is no friction at the end."],
+  ["Own the dietary table", "Nearly everything is GF, and the Vegan Stuffed Tomatoes plus the sorbet cover vegan \u2014 so a mixed-needs group books without hesitation. For a true celiac, confirm the specific dish's Devour build with the kitchen before promising GF."],
+  ["Create urgency", "\"We are only doing Devour through September 6.\" A limited window is a reason to come THIS week and to bring people."]
+ ],
+ mathLine: "Base Devour is $45. A Spinalis Devour with a lobster tail is $65 + $50 = $115 a head before wine \u2014 steering up plus one enhancement more than doubles the per-person check.",
  courses: [
   ["Soup or Salad \u2014 choose one", [
    ["House Salad", "GF", "Ranch or House Italian"],
    ["Watermelon Salad", "GF", "Feta, cucumbers, mint"]
   ]],
-  ["Entree \u2014 choose one (this sets the per-person price)", [
-   ["6 oz Spinalis", "$65 / person \u00b7 GF", "The top check \u2014 steer here. Ribeye cap, manager-cut tenderness."],
+  ["Entree \u2014 choose one (sets the per-person price)", [
+   ["6 oz Spinalis", "$65 / person \u00b7 GF", "The top check \u2014 steer here."],
    ["Filet Mignon", "$55 / person \u00b7 GF", "The classic upsell from the $45 floor."],
    ["Miso Glazed Seabass", "$50 / person \u00b7 GF", "Coconut risotto garnish."],
    ["Chicken Alfredo Pasta", "$47 / person", "Grilled chicken, creamy Alfredo."],
    ["Chicken Parmesan", "$47 / person", "Fried chicken breast, linguine, tomato diavolo, melted cheese pour-over."],
-   ["Vegan Stuffed Tomatoes", "$45 / person \u00b7 GF \u00b7 vegan", "The vegan option \u2014 and the $45 floor price."]
+   ["Vegan Stuffed Tomatoes", "$45 / person \u00b7 GF \u00b7 vegan", "The vegan option and the $45 floor."]
   ]],
   ["Accessory \u2014 choose one \u00b7 ALL GF", [
    ["Creamed Corn", "", ""], ["Roasted Mushrooms", "", ""],
@@ -471,14 +491,6 @@ const DEVOUR = {
  enhancements: [
   ["Lobster Tail", "$50"], ["(2) Scallops", "$24"], ["Upgrade filet to 10 oz", "$22"],
   ["Crab Oscar", "$14"], ["Lobster Mac N Cheese", "$10"], ["Brandy Peppercorn", "$6"]
- ],
- pitch: [
-  "Lead with the VALUE, then trade up. It is four courses \u2014 soup or salad, entree, an accessory, and dessert \u2014 starting at $45.",
-  "The per-person price IS the entree. Steer to the Spinalis ($65) and Filet ($55): same menu, bigger check, better experience.",
-  "ALWAYS offer an enhancement \u2014 this is where the check grows. Lobster Tail ($50) is the big one; then Scallops ($24), the 10 oz filet upgrade ($22), Crab Oscar ($14), Lobster Mac ($10).",
-  "Say up front that tax and gratuity are NOT in the per-person price, so the check reads right.",
-  "Almost everything is gluten-free, and the Vegan Stuffed Tomatoes plus the sorbet cover vegan \u2014 a great fit for a table with dietary needs.",
-  "It runs Aug 24 \u2013 Sep 6 only. \"We are doing DEVOUR right now\" is a reason to come in this week."
  ]
 };
 
@@ -491,7 +503,7 @@ const SPECIALS_ON=[
  ["Australian Wagyu Tomahawk","$140","32 oz, cut tableside by a manager. Wagyu rule: serve rare to med-rare — nudge, don't argue.","Manager cut"],
  ["45-Day 22 oz Dry-Aged Bone-In Ribeye","$110","Forty-five days of cold, moving air pulls the moisture out and concentrates the beef, while the meat's own enzymes break proteins down into amino acids and soften the connective tissue. That is where the deep, nutty, brown-butter richness comes from — savory and profound rather than just beefy, with the bone adding even more depth.",""],
  ["Ladies Night — every Thursday","$10 martinis + \u00bd-off apps","Ladies get $10 martinis and half-price appetizers in the lounge, every Thursday night.","weekly feature"],
- ["DEVOUR Indy — 3-course prix-fixe","Aug 24 – Sep 6 · from $45/pp","A limited-time three-course menu with Prime 47 Carmel. Per-person price is the entrée (Spinalis $65, Filet $55, Seabass $50, the chickens $47, Vegan Tomatoes $45). Tax and gratuity not included. Full menu + how to pitch it on the Food Menu tab.","Limited time"],
+ ["DEVOUR Indy — 3-course prix-fixe","Aug 24 – Sep 6 · from $45/pp","Menu picture, the deal in plain terms, and the upsell blueprint are in the Devour section at the top of this tab — and you can open the picture from Events too. Per-person price is the entrée — steer to Spinalis $65 / Filet $55, and always add an enhancement.","Limited time"],
 ];
 /* Rotating entree specials seen before — ask a manager if one is running tonight. */
 const SPECIALS_ROTATION=[
@@ -513,7 +525,6 @@ const SPECIALS_PAST=[
  ["Heart of Ribeye Skewers","$45","Bourbon glaze mixed with onions and peppers. One of the most underrated things we ever ran.","not running"],
  ["Flank Steak with Chimichurri","was ~$35","Ran earlier this summer. Not on the current list.","not running"],
  ["14 oz Bone-In Filet","past special","Bone marrow add-on was +$25; sometimes came with roasted red potatoes.","not running"],
- ["Devour Menu","started at $45/person","Devour restaurant-week prix fixe (menu photo dated 12/31/25). Soup or salad to start, entree sets the per-person price: Filet Mignon with Bordelaise $54, Eye of Ribeye with Bordelaise $54, Faroe Salmon with remoulade and trinity slaw $47, Chicken Truffled Alfredo $47, Chicken Parmesan $47, Vegan Stuffed Tomatoes $45. One accessory: cheddar mash, brussels, creamed corn, or green beans. Dessert: chocolate brownie with ice cream, strawberry shortcake, or a gluten-free vegan sorbet. Enhancements: Crab Oscar $14, Brandy Peppercorn $6, Lobster Tail $50, 2 Scallops $24, filet upgrade to 10 oz $22.","archive"],
  ["Chicken Marsala","$35 when it ran","White cheddar mash and asparagus with an au jus gravy over the top of all of it. Off the rotation for now — it may well come back.","archive"],
  ["Buffalo Trace Dinner","past event","Five-course bourbon dinner with Buffalo Trace: salmon cucumber canape, strawberry salad, BT-glazed chicken with truffled cauliflower, eye of ribeye with marsala mash, berry verrine — with tastings of Weller Special Reserve, Eagle Rare 10, EH Taylor Small Batch, and Blanton's. Proof we run bourbon dinners.","archive"],
  ["Retired printed cocktails","see Drinks tab","Sunny Day, Tito's & Cran X Ten Again, Mo's Paper Plane, Hugo Empress, Cherry Blossom, Christian's Cucumber Kick — all archived in the Drinks tab under Archive.","archive"],

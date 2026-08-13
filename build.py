@@ -39,7 +39,10 @@ for f in ["2-data-wine.js", "3-data-drinks.js", "4-data-food.js",
           "5f-data-floor.js",
           "5h-data-floormap.js",
           "5g-data-es.js"]:
-    parts.append((B / f).read_text().replace("__BUILDDATE__", f"{d.month}/{d.day}/{d.year}"))
+    _part = (B / f).read_text().replace("__BUILDDATE__", f"{d.month}/{d.day}/{d.year}")
+    if "__DEVOURIMG__" in _part:
+        _part = _part.replace("__DEVOURIMG__", (B / "devour.b64").read_text().strip())
+    parts.append(_part)
 
 # The live-sync client ships straight out of server/client/ rather than a copy in build/.
 # Its test suite drives that exact file, so shipping a duplicate would let the tested code
@@ -48,7 +51,7 @@ parts.append((ROOT / "server" / "client" / "floor-sync.js").read_text())
 parts.append((B / "6-app.js").read_text().replace("__BUILDDATE__", f"{d.month}/{d.day}/{d.year}"))
 
 html = "\n".join(p.rstrip("\n") for p in parts) + "\n\n</script>\n</body>\n</html>\n"
-for ph in ("__APPLETOUCHICON__", "__MOSLOGO__", "__BUILDDATE__"):
+for ph in ("__APPLETOUCHICON__", "__MOSLOGO__", "__BUILDDATE__", "__DEVOURIMG__"):
     assert ph not in html, f"placeholder {ph} was not replaced"
 OUT.write_text(html)
 print(f"built {OUT} ({OUT.stat().st_size:,} bytes)")

@@ -295,7 +295,7 @@ function renderQuiz(){
     return;
   }
   const qi=quiz.order[quiz.i], m=QBANK[qi], opts=quiz.opts[quiz.i];
-  $("#quizScore").innerHTML=`<b>${quiz.score}</b> / ${quiz.answered} &nbsp;·&nbsp; question ${quiz.i+1} of ${quiz.order.length}`;
+  $("#quizScore").innerHTML=`<b>${quiz.score}</b> / ${quiz.answered}  ·  question ${quiz.i+1} of ${quiz.order.length}`;
   box.innerHTML=`<div class="q">
     <div class="qprog"><i style="width:${Math.round(quiz.i/quiz.order.length*100)}%"></i></div>
     <div class="qq"><span>${quiz.i+1}.</span>${esc(m.q)} <span class="tag" style="margin-left:6px">${m.t}</span></div>
@@ -311,7 +311,7 @@ function renderQuiz(){
       <span style="color:${ok?'var(--green2)':'var(--red)'};font-weight:650;font-size:13.5px">${ok?'Correct':'Not quite'}</span>
       <button class="btn sec" id="qnext">${quiz.i+1>=quiz.order.length?"Finish":"Next question"}</button></div>`;
     $("#qnext").onclick=()=>{quiz.i++;renderQuiz();};
-    $("#quizScore").innerHTML=`<b>${quiz.score}</b> / ${quiz.answered} &nbsp;·&nbsp; question ${quiz.i+1} of ${quiz.order.length}`;
+    $("#quizScore").innerHTML=`<b>${quiz.score}</b> / ${quiz.answered}  ·  question ${quiz.i+1} of ${quiz.order.length}`;
   });
 }
 
@@ -752,7 +752,11 @@ function search(q){
   Object.entries(SPIRITS).forEach(([sec,rows])=>rows.forEach(r=>{if(matches([sec,r[0],r[1],r[2]]))add(sec,r[0]+" — "+r[1],r[2],"cocktails");}));
   BEER.forEach(b=>{if(matches([b[0],b[2],b[3]]))add("Beer",b[0]+" — "+b[1],b[2]+". "+b[3],"cocktails");});
   OPEN.forEach(o=>{if(matches([o[0],o[1]]))add("Test answer",o[0],o[1],"study");});
-  SPECIALS_ON.forEach(s=>{if(matches([s[0],s[2]]))add("Ongoing special",s[0]+" — "+s[1],s[2],"menu");});
+  SPECIALS_ON.forEach(s=>{
+    /* the Devour special is date-gated like its section — off-window it should not surface
+       as an "ongoing special" (it has its own Devour search branch while it is live) */
+    if(/^DEVOUR/i.test(s[0])&&!(typeof devourActive==="function"&&devourActive()))return;
+    if(matches([s[0],s[2]]))add("Ongoing special",s[0]+" — "+s[1],s[2],"menu");});
   if(typeof DEVOUR!=="undefined"&&devourActive()){
     const D=DEVOUR;
     if(matches(["devour","devour menu","prix fixe","summerfest",D.title,D.blurb]))
@@ -760,7 +764,8 @@ function search(q){
     D.courses.forEach(c=>c[1].forEach(r=>{
       if(matches(["devour",c[0],r[0],r[1],r[2]]))add("Devour · "+c[0].split(" —")[0],r[0]+(r[1]?" — "+r[1]:""),r[2]||c[0],"menu");}));
     D.enhancements.forEach(e=>{if(matches(["devour enhancement",e[0],e[1]]))add("Devour enhancement",e[0]+" — "+e[1],"Devour event price","menu");});
-    D.pitch.forEach(x=>{if(matches(["devour pitch how to sell",x]))add("Devour pitch","How to pitch Devour",x,"menu");});
+    (D.plain||[]).forEach(x=>{if(matches(["devour deal what is it",x]))add("Devour","The Devour deal",x,"menu");});
+    (D.blueprint||[]).forEach(b=>{if(matches(["devour pitch upsell how to sell",b[0],b[1]]))add("Devour blueprint",b[0],b[1],"menu");});
   }
   SPECIALS_ROTATION.forEach(s=>{if(matches([s[0],s[2]]))add("Rotating special",s[0],s[2],"menu");});
   SPECIALS_PAST.forEach(s=>{if(matches([s[0],s[2]]))add("Past special",s[0]+" ("+s[3]+")",s[2],"menu");});
@@ -800,9 +805,19 @@ function search(q){
         add("Floor plan · "+r.n,"Table "+t,g[0]+" in the "+r.n,"house");}));
     if(matches([r.n,"floor plan","tables","seat 1"]))
       add("Floor plan",r.n,r.sub+" — "+r.tables.length+" tables","house");});
-  if(typeof EVENTS!=="undefined") EVENTS.forEach(e=>{
-    if(matches([e.n,e.when,e.w,e.d,"event","party"]))
-      add("Event · "+e.d,e.n,e.when+" — "+e.w,"sched");});
+  if(typeof EVENTS!=="undefined"){
+    /* Past events drop out of search the same way eventsBlock() drops them from the
+       Schedule tab — otherwise a search for "devour"/"summerfest" keeps returning
+       "running now" for weeks after the event is over. */
+    const _now=new Date(), _today=new Date(_now.getFullYear(),_now.getMonth(),_now.getDate());
+    const _yr=(typeof SCHEDULE!=="undefined"&&SCHEDULE.year)||_now.getFullYear();
+    EVENTS.forEach(e=>{
+      const [em,ed]=String(e.d).split("/").map(Number);
+      const eat=new Date(_yr,em-1,ed);
+      if(!isNaN(eat.getTime())&&eat<_today)return;
+      if(matches([e.n,e.when,e.w,e.d,"event","party"]))
+        add("Event · "+e.d,e.n,e.when+" — "+e.w,"sched");});
+  }
   if(typeof MISE!=="undefined") MISE.forEach(m=>{
     const tools=m[1].join(", ");
     if(matches([m[0],tools,m[2],"mise en place","silverware","set with"]))
@@ -946,8 +961,8 @@ function devourPopup(){
   const close=()=>{ try{ localStorage.setItem("mos-devour-"+DEVOUR.start+"-"+DEVOUR.end,"1"); }catch(e){} wrap.remove(); };
   wrap.innerHTML=`<div class="dvcard" role="dialog" aria-label="Devour menu">
     <button class="dvx" aria-label="Close">&times;</button>
-    <h3>&#127860; Study the Devour menu</h3>
-    <p>${esc(DEVOUR.window)}. Our three-course prix-fixe with Prime 47 is running — know the menu and how to pitch it. Steer to the Spinalis and Filet, and always offer an enhancement.</p>
+    <h3><span aria-hidden="true">&#127860;</span> Study the Devour menu</h3>
+    <p>${esc(DEVOUR.window)}. Our three-course prix-fixe with Prime 47 Carmel — learn the menu and how to pitch it. Steer to the Spinalis and Filet, and always offer an enhancement.</p>
     <button class="btn dvgo">Take me to it</button></div>`;
   wrap.addEventListener("click",e=>{ if(e.target===wrap)close(); });
   wrap.querySelector(".dvx").onclick=close;
@@ -955,28 +970,29 @@ function devourPopup(){
   document.body.appendChild(wrap);
   if(LANG==="es")applyLang(wrap);
 }
+function openDevour(){
+  if(typeof DEVOUR==="undefined"||!DEVOUR.img)return;
+  const w=document.createElement("div"); w.className="picwrap"; w.onclick=()=>w.remove();
+  w.innerHTML=`<img src="${DEVOUR.img}" alt="Devour menu"><div class="piccap">Devour menu \u2014 tap anywhere to close</div>`;
+  document.body.appendChild(w);
+}
+/* The Devour picture IS the menu (clearer than a re-typed table). Under it: the deal in
+   plain terms, and the upsell blueprint. Both open by default so the floor actually reads
+   them. The course/enhancement data still feeds search; it is just not dumped as a table. */
 function devourBlock(){
   if(typeof DEVOUR==="undefined"||!devourActive())return "";
   const D=DEVOUR;
-  const course=(name,rows)=>`<p class="sub" style="margin:12px 0 4px"><b>${esc(name)}</b></p>
-    ${tbl(["","",""],rows.map(r=>[`<b>${esc(r[0])}</b>`,`<span class="n">${esc(r[1]||"")}</span>`,
-      `<span style="color:var(--dim)">${esc(r[2]||"")}</span>`]))}`;
+  const plain=`<ul class="steps">${D.plain.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>`;
+  const blue=`<ol class="steps">${D.blueprint.map(b=>`<li><b>${esc(b[0])}.</b> ${esc(b[1])}</li>`).join("")}</ol>
+    ${D.mathLine?`<div class="note gold" style="margin-top:8px">${esc(D.mathLine)}</div>`:""}`;
   return `
-    <div class="sechead" id="sec-devour"><h2>&#127860; ${esc(D.title)}</h2><span>${esc(D.window)} — study it, pitch it</span></div>
+    <div class="sechead" id="sec-devour"><h2>&#127860; ${esc(D.title)}</h2><span>${esc(D.window)} \u2014 the menu, the deal, the blueprint</span></div>
     <div class="note gold"><b>${esc(D.window)}.</b> ${esc(D.blurb)}</div>
-    <div class="tool">
-      <h3>How to pitch it — maximize the check</h3>
-      <ol class="steps">${D.pitch.map(x=>`<li>${esc(x)}</li>`).join("")}</ol>
-    </div>
-    ${D.courses.map(c=>course(c[0],c[1])).join("")}
-    <p class="sub" style="margin:10px 0 4px"><b>Dessert note</b></p>
-    <div class="note">${esc(D.dessertNote)}</div>
-    <p class="sub" style="margin:12px 0 4px"><b>Entrée enhancements — always offer one</b> <span style="color:var(--dim)">(Devour event prices)</span></p>
-    ${tbl(["Add","Price"],D.enhancements.map(e=>[`<b>${esc(e[0])}</b>`,`<span class="n">${esc(e[1])}</span>`]))}
+    <img class="menupic" src="${D.img}" alt="Devour menu \u2014 tap to open" loading="lazy" onclick="openDevour()">
+    ${acc("The deal, in plain terms","what to actually say to a guest",plain,true)}
+    ${acc("The upsell blueprint","how we maximize the check",blue,true)}
   `;
 }
-
-
 function build(){
   const M=$("#main");
   M.innerHTML = `<div id="searchPanel" style="display:none"></div>` + TABS.map(([k])=>`<section class="panel${k===TAB?" on":""}" id="p-${k}"></section>`).join("");
@@ -1133,12 +1149,15 @@ function build(){
     const today=new Date().getDay();
     const DAYNM=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
     const gate=s=>typeof SPECIAL_DAYS!=="undefined"?SPECIAL_DAYS[s[0]]:undefined;
+    /* Devour is date-gated (a week of study lead-in, gone the day after it ends). Without
+       this it lands in onNow year-round because SPECIAL_DAYS has no weekday key for it. */
+    const devOk=s=>!/^DEVOUR/i.test(s[0])||(typeof devourActive==="function"&&devourActive());
     return {
-      onNow:SPECIALS_ON.filter(s=>{const d=gate(s);
+      onNow:SPECIALS_ON.filter(s=>{if(!devOk(s))return false; const d=gate(s);
         if(d===undefined)return true;
         if(typeof d==="string"&&d[0]==="!")return today!==+d.slice(1);
         return d===today;}),
-      notNow:SPECIALS_ON.filter(s=>{const d=gate(s);
+      notNow:SPECIALS_ON.filter(s=>{if(!devOk(s))return false; const d=gate(s);
         if(d===undefined)return false;
         if(typeof d==="string"&&d[0]==="!")return today===+d.slice(1);
         return d!==today;})
@@ -2354,10 +2373,12 @@ function eventsBlock(){
     return Object.assign({},e,{at:new Date(yr,m-1,d)});
   }).filter(x=>!isNaN(x.at)&&x.at>=today).sort((a,b)=>a.at-b.at);
   if(!rows.length)return "";
+  const devourCard=(typeof DEVOUR!=="undefined"&&devourActive()&&DEVOUR.img)?`
+      <button class="btn sec" style="margin-top:8px" onclick="openDevour()">See the Devour menu</button>` : "";
   return `<div class="sechead"><h2>Events coming up</h2><span>${rows.length} on the books</span></div>
     <div class="grid wide">${rows.map(e=>`<div class="card hl">
       <div class="crow"><div class="cname">${esc(e.n)}</div><div class="cprice">${esc(e.d)}</div></div>
-      <div class="cbody"><b>${esc(e.when)}</b><br>${esc(e.w)}</div></div>`).join("")}</div>`;
+      <div class="cbody"><b>${esc(e.when)}</b><br>${esc(e.w)}</div>${/DEVOUR/i.test(e.n)?devourCard:""}</div>`).join("")}</div>`;
 }
 /* Meals & Moments — same idea as the music block: only what is still ahead of us. */
 function offsiteBlock(){

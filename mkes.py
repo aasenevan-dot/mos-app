@@ -149,26 +149,60 @@ LATER = {
     "nobody yet": "nadie aún",
     "overrides covers": "reemplaza los covers",
     "real number wins": "gana el número real",
-    # --- Devour menu (Aug 24 – Sep 6): UI + pitch. Dish names stay as printed. ---
-    "How to pitch it — maximize the check": "Cómo venderlo — maximiza la cuenta",
-    "Dessert note": "Nota del postre",
-    "GF & vegan sorbet available on request.": "Sorbete sin gluten y vegano disponible a pedido.",
-    "Soup or Salad — choose one": "Sopa o ensalada — elige una",
-    "Entrée — choose one (this sets the per-person price)": "Plato fuerte — elige uno (esto fija el precio por persona)",
-    "Accessory — choose one · ALL GF": "Guarnición — elige una · TODAS sin gluten",
-    "Dessert — choose one": "Postre — elige uno",
-    "A three-course prix-fixe with Prime 47 Carmel, part of DEVOUR Indy Summerfest. Starts at $45 per person — tax and gratuity NOT included. Per-person price is the entrée.":
-        "Un menú de tres tiempos a precio fijo con Prime 47 Carmel, parte de DEVOUR Indy Summerfest. Desde $45 por persona — impuestos y propina NO incluidos. El precio por persona es el plato fuerte.",
-    "Lead with the VALUE, then trade up. It is four courses — soup or salad, entrée, an accessory, and dessert — starting at $45.":
-        "Empieza por el VALOR, luego sube la venta. Son cuatro tiempos — sopa o ensalada, plato fuerte, una guarnición y postre — desde $45.",
-    "The per-person price IS the entrée. Steer to the Spinalis ($65) and Filet ($55): same menu, bigger check, better experience.":
-        "El precio por persona ES el plato fuerte. Dirígelos al Spinalis ($65) y al Filet ($55): mismo menú, cuenta más grande, mejor experiencia.",
-    "ALWAYS offer an enhancement — this is where the check grows. Lobster Tail ($50) is the big one; then Scallops ($24), the 10 oz filet upgrade ($22), Crab Oscar ($14), Lobster Mac ($10).":
-        "SIEMPRE ofrece un adicional — aquí crece la cuenta. La cola de langosta ($50) es la grande; luego vieiras ($24), subir el filet a 10 oz ($22), Crab Oscar ($14), Lobster Mac ($10).",
-    "Say up front that tax and gratuity are NOT in the per-person price, so the check reads right.":
-        "Aclara desde el inicio que impuestos y propina NO están en el precio por persona, para que la cuenta cuadre.",
-    "Almost everything is gluten-free, and the Vegan Stuffed Tomatoes plus the sorbet cover vegan — a great fit for a table with dietary needs.":
-        "Casi todo es sin gluten, y los Tomates Rellenos Veganos más el sorbete cubren lo vegano — ideal para una mesa con necesidades alimentarias.",
+    # --- Devour menu (Aug 24 – Sep 6): the rendered section, the events button, the picture
+    #     lightbox, and the open-app popup. Dish names and "DEVOUR Indy" stay as printed.
+    #     Keys must match the rendered TEXT NODES exactly (build/4-data-food.js DEVOUR +
+    #     devourBlock/devourPopup/openDevour in 6-app.js) — a Spanish-mode server reads this
+    #     whole section during the event, so it is translated top to bottom. ---
+    "August 24 – September 6 — the menu, the deal, the blueprint":
+        "24 de agosto – 6 de septiembre — el menú, la oferta y el plan de venta",
+    "August 24 – September 6.": "24 de agosto – 6 de septiembre.",
+    "Our three-course prix-fixe with Prime 47 Carmel, part of DEVOUR Indy Summerfest. Starts at $45 per person — tax and gratuity NOT included. The entree they pick sets the per-person price.":
+        "Nuestro menú de tres tiempos a precio fijo con Prime 47 Carmel, parte de DEVOUR Indy Summerfest. Desde $45 por persona — impuestos y propina NO incluidos. El plato fuerte que elijan fija el precio por persona.",
+    # The deal, in plain terms (the first dropdown)
+    "The deal, in plain terms": "La oferta, en palabras sencillas",
+    "what to actually say to a guest": "qué decirle de verdad a un cliente",
+    "DEVOUR Indy is a citywide restaurant-week deal. Ours runs Aug 24 – Sep 6 with Prime 47 Carmel.":
+        "DEVOUR Indy es una oferta de semana gastronómica en toda la ciudad. La nuestra va del 24 de agosto al 6 de septiembre con Prime 47 Carmel.",
+    "It is a SET three-course menu: they choose a soup or salad, an entree, one accessory (side), and a dessert.":
+        "Es un menú FIJO de tres tiempos: eligen una sopa o ensalada, un plato fuerte, una guarnición (accesorio) y un postre.",
+    "The price per person is whatever ENTREE they pick — from $45 (Vegan Stuffed Tomatoes) up to $65 (6 oz Spinalis). Tax and gratuity are on top.":
+        "El precio por persona es el PLATO FUERTE que elijan — desde $45 (Vegan Stuffed Tomatoes) hasta $65 (Spinalis de 6 oz). Impuestos y propina van aparte.",
+    "Enhancements (lobster tail, scallops, filet upgrade, etc.) are add-ons ON TOP of the per-person price.":
+        "Los adicionales (cola de langosta, vieiras, subir el filet, etc.) van POR ENCIMA del precio por persona.",
+    "Nearly everything is gluten-free; there is a vegan entree and a GF/vegan sorbet, so a mixed-needs table is easy. For a celiac, still confirm the exact dish with the kitchen — the a-la-carte House Salad and Seabass carry gluten.":
+        "Casi todo es sin gluten; hay un plato fuerte vegano y un sorbete sin gluten/vegano, así que una mesa con necesidades mixtas es fácil. Para un celíaco, confirma el plato exacto con la cocina — la House Salad y el Seabass a la carta llevan gluten.",
+    # The upsell blueprint (the second dropdown — each step is <b>Title.</b> then the text)
+    "The upsell blueprint": "El plan para subir la venta",
+    "how we maximize the check": "cómo maximizamos la cuenta",
+    "Frame the value first.": "Empieza por el valor.",
+    "Lead with what they GET: \"It is a full three-course experience — soup or salad, your entree, a side, and dessert — starting at $45.\" Let them feel the deal before you trade them up.":
+        "Empieza por lo que RECIBEN: \"Es una experiencia completa de tres tiempos — sopa o ensalada, tu plato fuerte, una guarnición y postre — desde $45.\" Deja que sientan la oferta antes de subirles la venta.",
+    "Steer the entree up — it IS the check.": "Sube el plato fuerte — ESE es el total.",
+    "The per-person price is the entree. Guide to the 6 oz Spinalis ($65) and the Filet ($55): \"If you are doing Devour, the Spinalis is the one people come back for.\" Same menu, $20 more a head.":
+        "El precio por persona es el plato fuerte. Guíalos al Spinalis de 6 oz ($65) y al Filet ($55): \"Si van a hacer Devour, el Spinalis es por el que la gente regresa.\" Mismo menú, $20 más por persona.",
+    "Always plant an enhancement — this is the money.": "Siempre siembra un adicional — aquí está el dinero.",
+    "Right after they pick the entree: \"Want to make it an occasion — add a lobster tail or a couple of scallops?\" Lead with the Lobster Tail ($50), then Scallops ($24), the 10 oz filet upgrade ($22), Crab Oscar ($14), Lobster Mac ($10). One add-on a head can beat the base price.":
+        "Justo después de que eligen el plato fuerte: \"¿Quieren hacerlo una ocasión especial — agregar una cola de langosta o un par de vieiras?\" Empieza con la Lobster Tail ($50), luego Scallops ($24), subir el filet a 10 oz ($22), Crab Oscar ($14), Lobster Mac ($10). Un solo adicional por persona puede superar el precio base.",
+    "Sell the wine — Devour tables are celebrating.": "Vende el vino — las mesas de Devour están celebrando.",
+    "A prix-fixe crowd came out to spend. Pair a bottle to the table’s entrees; it is the fastest lift to the check and your tip.":
+        "Una mesa de precio fijo salió a gastar. Marida una botella con los platos fuertes de la mesa; es la forma más rápida de subir la cuenta y tu propina.",
+    "Set the number up front.": "Aclara el número desde el inicio.",
+    "Say tax and gratuity are not in the per-person price, so the check lands clean and there is no friction at the end.":
+        "Aclara que impuestos y propina no están en el precio por persona, para que la cuenta llegue limpia y no haya fricción al final.",
+    "Own the dietary table.": "Domina la mesa con dietas especiales.",
+    "Nearly everything is GF, and the Vegan Stuffed Tomatoes plus the sorbet cover vegan — so a mixed-needs group books without hesitation. For a true celiac, confirm the specific dish's Devour build with the kitchen before promising GF.":
+        "Casi todo es sin gluten, y los Vegan Stuffed Tomatoes más el sorbete cubren lo vegano — así un grupo con necesidades mixtas reserva sin dudar. Para un celíaco de verdad, confirma con la cocina la preparación Devour del plato antes de prometer sin gluten.",
+    "Create urgency.": "Crea urgencia.",
+    "\"We are only doing Devour through September 6.\" A limited window is a reason to come THIS week and to bring people.":
+        "\"Solo hacemos Devour hasta el 6 de septiembre.\" Una ventana limitada es una razón para venir ESTA semana y traer gente.",
+    "Base Devour is $45. A Spinalis Devour with a lobster tail is $65 + $50 = $115 a head before wine — steering up plus one enhancement more than doubles the per-person check.":
+        "El Devour base es $45. Un Devour de Spinalis con una cola de langosta son $65 + $50 = $115 por persona antes del vino — subir la venta más un adicional más que duplica la cuenta por persona.",
+    # events button + picture lightbox caption + the open-app popup
+    "See the Devour menu": "Ver el menú Devour",
+    "Devour menu — tap anywhere to close": "Menú Devour — toca en cualquier lugar para cerrar",
+    "August 24 – September 6. Our three-course prix-fixe with Prime 47 Carmel — learn the menu and how to pitch it. Steer to the Spinalis and Filet, and always offer an enhancement.":
+        "24 de agosto – 6 de septiembre. Nuestro menú de tres tiempos a precio fijo con Prime 47 Carmel — aprende el menú y cómo venderlo. Dirígete al Spinalis y al Filet, y siempre ofrece un adicional.",
     "Study the Devour menu": "Estudia el menú Devour",
     "Take me to it": "Llévame ahí",
     "Show all answers": "Ver todas las respuestas",
@@ -207,6 +241,14 @@ if _comp.exists():
     pairs.update({k: v for k, v in _c.items()
                   if k and v and k.strip() != v.strip() and k.count("◊") == v.count("◊")})
     print(f"  merged {len(_c):,} composite templates from composite-es.json")
+
+# Cocktail names are proper nouns: a server calls the drink to the bar under the exact name
+# Toast prints. The translation pass rendered "Sweet & Salty" as "Dulce & Salado" (it is the
+# only cocktail name that picked up a translation), which put the same drink under two names on
+# one tab. Drop it so the printed name stays English everywhere, matching every other cocktail.
+for _pn in ("Sweet & Salty",):
+    if pairs.pop(_pn, None) is not None:
+        print(f"  dropped cocktail-name translation (stays English): {_pn!r}")
 
 def strip_ident(s: str) -> str:
     """'gluten (gluten)' -> 'gluten'. The English gloss earns its place only when the

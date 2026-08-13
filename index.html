@@ -1685,7 +1685,10 @@ const ALLERGENS = [
  ["Spinalis / Ribeye Cap","$14/oz",["beef","dairy"],"Cooked with butter by default — but the kitchen CAN cook any steak fully butter-free for a dairy allergy, the guest just has to ask."],
  ["Australian Wagyu Tomahawk","$140",["beef","dairy"],"Manager-cut special. Cooked with butter by default — but the kitchen CAN cook any steak fully butter-free for a dairy allergy, the guest just has to ask."],
  ["45-Day 22 oz Dry-Aged Bone-In Ribeye","$110",["beef","dairy"],"Cooked with butter by default — but the kitchen CAN cook any steak fully butter-free for a dairy allergy, the guest just has to ask."],
- ["Filet Sliders (2)","$18",["beef","gluten","dairy","egg","allium"],"Slider buns (gluten), provolone (dairy), smoked garlic aioli (egg, allium), crispy onion strings."],
+ ["Filet Sliders (2)","$18",["beef","gluten","dairy","egg","allium","cross-contact"],"Slider buns (gluten), provolone (dairy), smoked garlic aioli (egg, allium), crispy onion strings. Same slider as the lounge listing."],
+ ["Add 2 Scallops","$14",["shellfish"],"Scallops are shellfish."],
+ ["Garlic Butter","$6",["dairy","allium"],"Butter (dairy) and garlic (allium)."],
+ ["Roasted Mushrooms","$8",["dairy"],"Finished in butter (dairy)."],
  ["Crab Oscar","$14",["crab","shellfish","dairy","egg","allium"],"GF."],
  ["Horseradish-Bleu Cheese Crust","$4",["dairy","allium"],""],
  ["Add 5 oz Lobster Tail","$50",["shellfish","dairy"],"GF. Dairy if served with butter."],
@@ -2010,7 +2013,7 @@ const MC = [
  {"q": "Isaac's Non-Negotiables — how many?", "o": ["11", "7", "13", "15"], "t": "house"},
  {"q": "The private rooms hold…", "o": ["Smockton 70 seated/125 cocktail · Curry 72/125 · Lounge 25 · Vault 15", "About 100 each", "Vault seats 50", "There's one private room"], "t": "house"},
  {"q": "Private dining books through…", "o": ["Lillian Speedy, Director of Sales — Lillian@mosgreenwood.com", "The host stand", "OpenTable", "Chef Miguel"], "t": "house"},
- {"q": "The next three events are…", "o": ["Sundresses & Sangria 8/13, the Surf & Turf Cup golf outing 9/8, the Prisoner Wine Dinner 9/17", "All in October", "A weekly wine dinner", "Nothing's booked"], "t": "house"},
+ {"q": "The next three events are…", "o": ["Sundresses & Sangria 8/13, the Staff Labor Day Party 9/7, the Surf & Turf Cup golf outing 9/8", "All in October", "A weekly wine dinner", "Nothing's booked"], "t": "house"},
  {"q": "The Prisoner Wine Dinner is…", "o": ["Five courses, 6:30 pm, $150 a person — RSVP Lillian@mosgreenwood.com", "A free tasting", "$50 with two courses", "Walk-in only"], "t": "house"},
  {"q": "The schedule posts…", "o": ["By Wednesday for the following week — and shift switches are approved by the GM ONLY", "Friday nights", "A month ahead", "Whenever it's ready"], "t": "house"},
  {"q": "Server uniform (men) is…", "o": ["Black vest, black tie, long white shirt, black pants, black shoes", "All-black tee and jeans", "Black apron over anything", "Blue oxford and khakis"], "t": "house"},
@@ -7436,7 +7439,11 @@ function fpDayNames(di){
 }
 function fpWhoBox(){
   const box=$("#fpWhoBox"); if(!box||typeof SECTIONS==="undefined")return;
-  if(FPDAY==null)FPDAY=(typeof IPD0!=="undefined")?IPD0:0;
+  if(FPDAY==null){ const t=new Date();
+    /* default to today's column, computed fresh -- IPD0 is built once and can be stale or
+       undefined by the time this first runs, which pinned it to Wednesday */
+    let di=SCHEDULE.days.findIndex(d=>schedIsDay(SCHEDULE,d[0],t));
+    FPDAY=di>=0?di:((typeof IPD0!=="undefined")?IPD0:0); }
   const names=fpDayNames(FPDAY);
   box.innerHTML=`
     <div class="frow"><div class="f"><label for="fpDay">Suggest names from</label>
@@ -7931,6 +7938,9 @@ function schedGrid(S,ti,cur){
   const body=S.sections.map(sec=>{
     const name=sec[0],nums=sec[2];
     let rows=cur?sec[1].filter(r=>!schedGone(r)):sec[1];
+    /* a few history weeks carry a placeholder person with a name and seven blank cells;
+       shown, it is just an empty grid row. Drop any row with no name AND no shift. */
+    rows=rows.filter(r=>String(r[0]).trim() || r.slice(1).some(c=>String(c).trim()));
     /* live music rides with the banquet block — same idea, an event on the floor that
        night. Pulled by date so the right act lands on the right column every week. */
     if(/^bqts?$/i.test(name)&&typeof LIVE_MUSIC!=="undefined"){

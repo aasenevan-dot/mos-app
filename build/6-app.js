@@ -1719,7 +1719,11 @@ function fpDayNames(di){
 }
 function fpWhoBox(){
   const box=$("#fpWhoBox"); if(!box||typeof SECTIONS==="undefined")return;
-  if(FPDAY==null)FPDAY=(typeof IPD0!=="undefined")?IPD0:0;
+  if(FPDAY==null){ const t=new Date();
+    /* default to today's column, computed fresh -- IPD0 is built once and can be stale or
+       undefined by the time this first runs, which pinned it to Wednesday */
+    let di=SCHEDULE.days.findIndex(d=>schedIsDay(SCHEDULE,d[0],t));
+    FPDAY=di>=0?di:((typeof IPD0!=="undefined")?IPD0:0); }
   const names=fpDayNames(FPDAY);
   box.innerHTML=`
     <div class="frow"><div class="f"><label for="fpDay">Suggest names from</label>
@@ -2214,6 +2218,9 @@ function schedGrid(S,ti,cur){
   const body=S.sections.map(sec=>{
     const name=sec[0],nums=sec[2];
     let rows=cur?sec[1].filter(r=>!schedGone(r)):sec[1];
+    /* a few history weeks carry a placeholder person with a name and seven blank cells;
+       shown, it is just an empty grid row. Drop any row with no name AND no shift. */
+    rows=rows.filter(r=>String(r[0]).trim() || r.slice(1).some(c=>String(c).trim()));
     /* live music rides with the banquet block — same idea, an event on the floor that
        night. Pulled by date so the right act lands on the right column every week. */
     if(/^bqts?$/i.test(name)&&typeof LIVE_MUSIC!=="undefined"){

@@ -145,7 +145,7 @@ const MC = [
  {"q": "Isaac's Non-Negotiables — how many?", "o": ["11", "7", "13", "15"], "t": "house"},
  {"q": "The private rooms hold…", "o": ["Smockton 70 seated/125 cocktail · Curry 72/125 · Lounge 25 · Vault 15", "About 100 each", "Vault seats 50", "There's one private room"], "t": "house"},
  {"q": "Private dining books through…", "o": ["Lillian Speedy, Director of Sales — Lillian@mosgreenwood.com", "The host stand", "OpenTable", "Chef Miguel"], "t": "house"},
- {"q": "The next three events are…", "o": ["Sundresses & Sangria 8/13, the Surf & Turf Cup golf outing 9/8, the Prisoner Wine Dinner 9/17", "All in October", "A weekly wine dinner", "Nothing's booked"], "t": "house"},
+ {"q": "The next three events are…", "o": ["Sundresses & Sangria 8/13, the Staff Labor Day Party 9/7, the Surf & Turf Cup golf outing 9/8", "All in October", "A weekly wine dinner", "Nothing's booked"], "t": "house"},
  {"q": "The Prisoner Wine Dinner is…", "o": ["Five courses, 6:30 pm, $150 a person — RSVP Lillian@mosgreenwood.com", "A free tasting", "$50 with two courses", "Walk-in only"], "t": "house"},
  {"q": "The schedule posts…", "o": ["By Wednesday for the following week — and shift switches are approved by the GM ONLY", "Friday nights", "A month ahead", "Whenever it's ready"], "t": "house"},
  {"q": "Server uniform (men) is…", "o": ["Black vest, black tie, long white shirt, black pants, black shoes", "All-black tee and jeans", "Black apron over anything", "Blue oxford and khakis"], "t": "house"},

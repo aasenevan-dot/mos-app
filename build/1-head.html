@@ -3,6 +3,16 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- Security headers, meta form (GitHub Pages serves a static file and cannot set real
+     response headers). The app is ONE self-contained file with no external scripts, fonts,
+     or images and no network calls except the opt-in floor-sync worker, so this CSP is
+     tight without breaking anything. Its real value: even if some injection slipped past
+     the escaping, connect-src bars it from phoning data home, object/base/frame are shut,
+     and everything is forced onto HTTPS. (frame-ancestors/clickjacking needs a real header, which GitHub Pages cannot set.)
+     NOTE: if you ever point floor-sync at a custom
+     domain instead of *.workers.dev, add that origin to connect-src. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self' https://*.workers.dev wss://*.workers.dev; base-uri 'none'; form-action 'none'; object-src 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="theme-color" content="#59201C">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
@@ -160,6 +170,20 @@ tr:hover td{background:rgba(255,255,255,.017)}
 }
 .note.warn{border-color:rgba(163,60,53,.45);background:rgba(163,60,53,.06)}
 .note.gold{border-color:rgba(89,31,28,.4);background:rgba(89,31,28,.045)}
+/* Devour study nudge — appears once per phone during the event, X to dismiss. Kept small
+   and out of the way; it never blocks the app for more than a tap. */
+.dvwrap{position:fixed;inset:0;z-index:9000;display:flex;align-items:flex-end;justify-content:center;
+  background:rgba(20,12,10,.5);padding:16px;animation:dvfade .18s ease}
+@keyframes dvfade{from{opacity:0}to{opacity:1}}
+.dvcard{background:var(--card);border:1px solid var(--line);border-radius:18px;max-width:460px;width:100%;
+  padding:18px 18px 16px;box-shadow:0 14px 40px rgba(0,0,0,.35);position:relative}
+.dvcard h3{margin:0 0 4px;font-family:Georgia,serif;font-size:20px;color:var(--gold)}
+.dvcard p{margin:0 0 12px;color:var(--dim);font-size:13.5px;line-height:1.45}
+.dvcard .dvx{position:absolute;top:8px;right:10px;border:none;background:none;color:var(--dim);
+  font-size:22px;line-height:1;cursor:pointer;padding:6px}
+.dvcard .dvgo{width:100%}
+@media(min-width:520px){.dvwrap{align-items:center}}
+
 .bkcard{border:1.5px solid rgba(89,31,28,.45);background:linear-gradient(135deg,rgba(89,31,28,.07),rgba(0,54,34,.05));border-radius:16px;padding:16px 18px;margin:14px 0;cursor:pointer}
 .bkcard h3{margin:0 0 4px;font-size:1.05rem;color:var(--brand)}
 .bkcard p{margin:0;font-size:.85rem;color:var(--dim)}

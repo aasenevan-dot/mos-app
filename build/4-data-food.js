@@ -370,7 +370,7 @@ const ALLERGENS = [
  ["NY Style Cheesecake","$10",["dairy","egg","gluten"],""],
  ["Bailey's Creme Brulee","$10",["alcohol","egg","dairy"],""],
  ["Colossal Carrot Cake","$14",["egg","dairy","soy","tree nuts","gluten","pineapple"],""],
- ["Molten Lava Cake","$13",["egg","dairy","soy","alcohol","gluten"],"GF-marked / flourless — still has egg, dairy, soy, and the flaming orange liqueur poured over the dome tableside is the alcohol."],
+ ["Molten Lava Cake","$13",["egg","dairy","soy","alcohol"],"Flourless — genuinely gluten-free (shared kitchen aside) — still has egg, dairy, soy, and the flaming orange liqueur poured over the dome tableside is the alcohol."],
  ["Brown Butter Cake","$14",["egg","dairy","soy","gluten"],""],
  ["Cotton Candy","$12",[],"GF. Flavors run every color of the rainbow and they all taste like sugar — just say 'pick your color.'"],
  ["Pistachio Gelato","varies",["dairy","tree nuts"],""],

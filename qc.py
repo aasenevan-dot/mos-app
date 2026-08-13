@@ -169,6 +169,16 @@ for name, txt in _files_es.items():
         if _reT.search(phrase, txt):
             problems.append(f"pre-correction steak temperature wording in {name}: {phrase!r}")
 
+# A dish the menu marks GF must not also carry a gluten allergen flag -- the two surfaces
+# would tell a celiac opposite things. Molten Lava Cake did exactly that.
+import re as _reG
+_food = _files["4-data-food.js"]
+_gf_menu = set(_reG.findall(r'\["([^"]+)","[^"]*","[^"]*","GF"\]', _food))
+for m in _reG.finditer(r'\["([^"]+)","[^"]*",\[([^\]]*)\],"[^"]*"\]', _food):
+    dish, tags = m.group(1), m.group(2)
+    if dish in _gf_menu and '"gluten"' in tags:
+        problems.append(f"{dish!r} is tagged GF on the menu but its allergen flags include gluten")
+
 
 if problems:
     print(f"\nQC FAILED — {len(problems)} problem(s):")

@@ -2114,11 +2114,32 @@ function langWalk(fn,root){
   while(n=w.nextNode()) hits.push(n);
   hits.forEach(fn);
 }
+/* A string with a live number spliced into it — "94 matches", "5 of 10 correct",
+   "150 questions in the bank" — can never match a fixed dictionary key. So the dictionary
+   also carries TEMPLATES: the same phrase with every number replaced by ◊ ("◊ matches").
+   Runtime text is templated the same way, looked up, and the real numbers dropped back in.
+   Falls through untouched when there is no template, so a proper noun like "Caymus 2022"
+   stays English rather than being mangled. */
+function langTemplate(s){
+  const nums=[];
+  const t=s.replace(/\d[\d,]*(?:\.\d+)?/g, m=>{ nums.push(m); return "◊"; });
+  return [t, nums];
+}
+function langLookup(k){
+  const hit=ES[k];
+  if(hit) return hit;
+  if(!/\d/.test(k)) return null;
+  const [t,nums]=langTemplate(k);
+  const tpl=ES[t];
+  if(!tpl) return null;
+  let i=0;
+  return tpl.replace(/◊/g, ()=> i<nums.length ? nums[i++] : "");
+}
 function applyLang(root){
   if(LANG!=="es"||typeof ES==="undefined") return;
   langWalk(n=>{
     const raw=n.textContent, k=raw.trim();
-    const hit=ES[k];
+    const hit=langLookup(k);
     if(!hit) return;
     if(!ORIG.has(n)) ORIG.set(n,raw);
     n.textContent=raw.replace(k,hit);

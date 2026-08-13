@@ -575,7 +575,7 @@ footer{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
   .flip .back{display:block}
   details.acc{display:block}
   details.acc>.accbody{display:block}
-  .panel.on::after{content:"Mo's — updated 8/12/2026 — study copy, verify in Toast";display:block;margin-top:16px;padding-top:8px;border-top:1px solid #999;font-size:10px;color:#444}
+  .panel.on::after{content:"Mo's — updated 8/13/2026 — study copy, verify in Toast";display:block;margin-top:16px;padding-top:8px;border-top:1px solid #999;font-size:10px;color:#444}
 }
 .qprog{height:5px;background:var(--bg2);border-radius:99px;overflow:hidden;margin:2px 0 12px}
 .qprog i{display:block;height:100%;background:var(--gold);border-radius:99px;transition:width .25s ease}
@@ -1731,7 +1731,7 @@ const ALLERGENS = [
  ["NY Style Cheesecake","$10",["dairy","egg","gluten"],""],
  ["Bailey's Creme Brulee","$10",["alcohol","egg","dairy"],""],
  ["Colossal Carrot Cake","$14",["egg","dairy","soy","tree nuts","gluten","pineapple"],""],
- ["Molten Lava Cake","$13",["egg","dairy","soy","alcohol","gluten"],"GF-marked / flourless — still has egg, dairy, soy, and the flaming orange liqueur poured over the dome tableside is the alcohol."],
+ ["Molten Lava Cake","$13",["egg","dairy","soy","alcohol"],"Flourless — genuinely gluten-free (shared kitchen aside) — still has egg, dairy, soy, and the flaming orange liqueur poured over the dome tableside is the alcohol."],
  ["Brown Butter Cake","$14",["egg","dairy","soy","gluten"],""],
  ["Cotton Candy","$12",[],"GF. Flavors run every color of the rainbow and they all taste like sugar — just say 'pick your color.'"],
  ["Pistachio Gelato","varies",["dairy","tree nuts"],""],
@@ -6953,7 +6953,7 @@ function build(){
     <div id="hbGate"></div>
 
     <div class="sechead"><h2>About this app</h2><span>read once</span></div>
-    <div class="note">Mo's Server Command Center — built by Evan (back server) as a training and money tool for the team. It is a STUDY COPY, not official house policy: menus, prices, and rules change, so when a dollar matters, verify in Toast or with a manager. The checkout math is proven against real graded checkouts. Spot something wrong or outdated? Tell Evan — corrections go in same-day. Updated <b>8/12/2026</b>.</div>
+    <div class="note">Mo's Server Command Center — built by Evan (back server) as a training and money tool for the team. It is a STUDY COPY, not official house policy: menus, prices, and rules change, so when a dollar matters, verify in Toast or with a manager. The checkout math is proven against real graded checkouts. Spot something wrong or outdated? Tell Evan — corrections go in same-day. Updated <b>8/13/2026</b>.</div>
     </div>`;
 
   /* ---------- REFERENCE & ARCHIVE ----------
@@ -7834,11 +7834,32 @@ function langWalk(fn,root){
   while(n=w.nextNode()) hits.push(n);
   hits.forEach(fn);
 }
+/* A string with a live number spliced into it — "94 matches", "5 of 10 correct",
+   "150 questions in the bank" — can never match a fixed dictionary key. So the dictionary
+   also carries TEMPLATES: the same phrase with every number replaced by ◊ ("◊ matches").
+   Runtime text is templated the same way, looked up, and the real numbers dropped back in.
+   Falls through untouched when there is no template, so a proper noun like "Caymus 2022"
+   stays English rather than being mangled. */
+function langTemplate(s){
+  const nums=[];
+  const t=s.replace(/\d[\d,]*(?:\.\d+)?/g, m=>{ nums.push(m); return "◊"; });
+  return [t, nums];
+}
+function langLookup(k){
+  const hit=ES[k];
+  if(hit) return hit;
+  if(!/\d/.test(k)) return null;
+  const [t,nums]=langTemplate(k);
+  const tpl=ES[t];
+  if(!tpl) return null;
+  let i=0;
+  return tpl.replace(/◊/g, ()=> i<nums.length ? nums[i++] : "");
+}
 function applyLang(root){
   if(LANG!=="es"||typeof ES==="undefined") return;
   langWalk(n=>{
     const raw=n.textContent, k=raw.trim();
-    const hit=ES[k];
+    const hit=langLookup(k);
     if(!hit) return;
     if(!ORIG.has(n)) ORIG.set(n,raw);
     n.textContent=raw.replace(k,hit);

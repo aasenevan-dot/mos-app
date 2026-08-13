@@ -176,6 +176,16 @@ if _quiz.exists():
     pairs.update({k: v for k, v in _q.items() if k and v and k.strip() != v.strip()})
     print(f"  merged {len(_q):,} quiz translations from quiz-es.json")
 
+# Composite frames: the same phrase with each number replaced by ◊, so a string carrying a
+# live count ("94 matches") can be matched by template. applyLang substitutes the numbers
+# back. Same idea as quiz-es.json, its own file so it stays reproducible and correctable.
+_comp = pathlib.Path(__file__).parent / "composite-es.json"
+if _comp.exists():
+    _c = json.loads(_comp.read_text())
+    pairs.update({k: v for k, v in _c.items()
+                  if k and v and k.strip() != v.strip() and k.count("◊") == v.count("◊")})
+    print(f"  merged {len(_c):,} composite templates from composite-es.json")
+
 def strip_ident(s: str) -> str:
     """'gluten (gluten)' -> 'gluten'. The English gloss earns its place only when the
        two words actually differ; otherwise it is noise in a narrow phone cell."""

@@ -784,6 +784,19 @@ async def main():
           while(n=w.nextNode()){const t=n.textContent.trim();if(t.length<3)continue;for(const k in ES){if(ES[k]===t&&k!==t){sp++;break;}}if(sp>3)break;}return sp;})()""")
         if spleft: bad.append(f"Spanish text left over after switching back to English: {spleft}")
 
+        # ---- composite (number-templated) Spanish: numbers must land in the right slots ----
+        await pg.evaluate("setLang('es')"); await pg.wait_for_timeout(400)
+        comp={"94 matches":"94 resultados","5 of 10 correct":"5 de 10 correctas",
+              "65 tables across 5 rooms":"65 mesas en 5 salas","food: 3/5":"comida: 3/5",
+              "45-Day 22 oz Dry-Aged Bone-In Ribeye":"por 45 días, de 22 oz"}
+        for en,want in comp.items():
+            got=await pg.evaluate("k=>langLookup(k)", en)
+            if not got or want not in got: bad.append(f"composite {en!r} -> {got!r}, wanted {want!r}")
+        # a number-bearing proper noun must NOT be templated/mangled
+        if await pg.evaluate("langLookup('A5 Nigiri')") is not None:
+            bad.append("composite fallback mangled a proper noun (A5 Nigiri)")
+        await pg.evaluate("setLang('en')"); await pg.wait_for_timeout(400)
+
         # ---- Spanish: checkout, handbook gate, and toggle labels that used to revert ----
         await pg.evaluate("setLang('es')"); await pg.wait_for_timeout(500)
         await pg.evaluate("go('ops');document.querySelector('#scSales').value='2400';calcSC()"); await pg.wait_for_timeout(300)

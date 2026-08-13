@@ -147,11 +147,26 @@ for label, rx, want, skip in _AGREE:
                 problems.append(f"{label}: {name} says ${m.group(1)}, everything else says ${want}")
 
 # the study surfaces must teach the ladder in 4-data-food.js, not the pre-correction one
-_OLD_TEMPS = ["medium warm pink", "Medium is warm pink", "Medium: warm pink",
-              "medium well slight pink", "Medium well is slight", "Medium well: slight"]
-for name, txt in _files.items():
+# The corrected ladder renamed the second step Rare -> "Center Rare" and moved every
+# description down one. Guard on BOTH the prose forms AND the deck's HTML-split card form
+# ("Medium" as a card title with "warm pink" as its body) -- the deck slipped past a
+# prose-only guard once because it splits name and description across <h4>/<p> tags. Also
+# scan the Spanish file, since a stale translation of the old ladder is just as wrong.
+import re as _reT
+_files_es = dict(_files); _files_es["5g-data-es.js"] = (ROOT / "build" / "5g-data-es.js").read_text()
+_OLD_TEMPS = [
+    "medium warm pink", "Medium is warm pink", "Medium: warm pink",
+    "medium well slight pink", "Medium well is slight", "Medium well: slight",
+    # the deck renders cards as HTML <h4>name</h4><p>body</p>, so match THAT form -- a
+    # prose-only guard slipped past it once
+    r'<h4>Medium</h4><p>warm pink', r'<h4>Medium well</h4><p>slight',
+    r'<h4>Blue rare</h4>', r'<h4>Rare</h4><p>cool red',
+    # the old summary string and any Spanish echo of it
+    "medium rare warm red; medium warm pink",
+]
+for name, txt in _files_es.items():
     for phrase in _OLD_TEMPS:
-        if phrase in txt:
+        if _reT.search(phrase, txt):
             problems.append(f"pre-correction steak temperature wording in {name}: {phrase!r}")
 
 

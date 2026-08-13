@@ -376,7 +376,7 @@ const ALLERGENS = [
  ["Kids Chicken Tenders","$10",["gluten","egg","dairy","cross-contact"],"Breaded and fried in the SHARED fryer. Standard breading assumed — egg flag stays."],
  ["Kids Buttered Noodles","$10",["gluten","dairy","egg"],"Standard pasta assumed — egg flag stays until the kitchen says otherwise."],
  ["Kids Mac N Cheese","$10",["gluten","dairy"],""],
- ["Prime Beef Burger","$23",["beef","gluten","dairy","egg","soy","allium","nightshade"],"Bun and condiments drive most allergens."],
+ ["Prime Beef Burger","$23",["beef","gluten","dairy","egg","soy","allium","nightshade","pork"],"Comes with BACON (pork). Bun and condiments drive the rest."],
  ["Chicken Teriyaki","$15",["soy","gluten","sesame","allium"],"Soy and wheat."]
 ];
 

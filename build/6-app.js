@@ -2138,14 +2138,32 @@ var LANGOBS;
 function startLangObserver(){
   if(LANGOBS||typeof MutationObserver==="undefined") return;
   let pending=new Set(), queued=false;
-  const flush=()=>{ queued=false; const nodes=[...pending]; pending.clear();
-    nodes.forEach(n=>{ if(n.isConnected) applyLang(n); }); };
+  const flush=()=>{
+    queued=false; const nodes=[...pending]; pending.clear();
+    nodes.forEach(n=>{ if(n.isConnected) applyLang(n); });
+    /* applyLang edits text-node data, which is itself a characterData mutation the observer
+       would otherwise re-deliver and re-process. Drain those records here so translating a
+       subtree does not schedule a second, pointless pass over it. */
+    if(LANGOBS) LANGOBS.takeRecords();
+  };
   LANGOBS=new MutationObserver(muts=>{
     if(LANG!=="es") return;
-    for(const m of muts) for(const nd of m.addedNodes) if(nd.nodeType===1) pending.add(nd);
+    for(const m of muts){
+      if(m.type==="childList"){
+        for(const nd of m.addedNodes){
+          if(nd.nodeType===1) pending.add(nd);
+          /* Setting el.textContent = "..." (a toggle relabelling itself: Show/Hide all
+             answers, the dark-mode button) removes the old text node and ADDS a new one, so
+             it arrives here as an added TEXT node, not as characterData. Queue its parent
+             element -- missing this snapped those labels back to English on tap. */
+          else if(nd.nodeType===3 && m.target && m.target.nodeType===1) pending.add(m.target);
+        }
+      }
+      else if(m.type==="characterData"){ const p=m.target.parentNode; if(p&&p.nodeType===1) pending.add(p); }
+    }
     if(pending.size && !queued){ queued=true; Promise.resolve().then(flush); }
   });
-  LANGOBS.observe(document.body,{childList:true,subtree:true});
+  LANGOBS.observe(document.body,{childList:true,subtree:true,characterData:true});
 }
 function restoreLang(){
   langWalk(n=>{ if(ORIG.has(n)) n.textContent=ORIG.get(n); });

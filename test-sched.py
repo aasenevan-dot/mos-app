@@ -784,6 +784,24 @@ async def main():
           while(n=w.nextNode()){const t=n.textContent.trim();if(t.length<3)continue;for(const k in ES){if(ES[k]===t&&k!==t){sp++;break;}}if(sp>3)break;}return sp;})()""")
         if spleft: bad.append(f"Spanish text left over after switching back to English: {spleft}")
 
+        # ---- Spanish: checkout, handbook gate, and toggle labels that used to revert ----
+        await pg.evaluate("setLang('es')"); await pg.wait_for_timeout(500)
+        await pg.evaluate("go('ops');document.querySelector('#scSales').value='2400';calcSC()"); await pg.wait_for_timeout(300)
+        sc=await pg.evaluate("document.querySelector('#scOut').innerText")
+        if "Ventas netas" not in sc or "GANADO" not in sc: bad.append("checkout output not translated")
+        await pg.evaluate("go('house');HBOPEN=false;hbRender()"); await pg.wait_for_timeout(300)
+        if "solo para el personal" not in await pg.evaluate("document.querySelector('#hbGate').innerText"):
+            bad.append("handbook gate not translated")
+        # a self-relabelling toggle must STAY Spanish across taps (the characterData/observer fix)
+        await pg.evaluate("go('study')"); await pg.wait_for_timeout(200)
+        tog=[await pg.evaluate("document.querySelector('#ansToggle').textContent")]
+        for _ in range(2):
+            await pg.evaluate("document.querySelector('#ansToggle').click()"); await pg.wait_for_timeout(200)
+            tog.append(await pg.evaluate("document.querySelector('#ansToggle').textContent"))
+        if any(t not in ("Ver todas las respuestas","Ocultar todas las respuestas") for t in tog):
+            bad.append(f"answer toggle reverted to English across taps: {tog}")
+        await pg.evaluate("setLang('en')"); await pg.wait_for_timeout(400)
+
         # ---- the 150-question quiz renders in Spanish ----
         await pg.evaluate("setLang('es')"); await pg.wait_for_timeout(600)
         await pg.evaluate("go('study');startQuiz()"); await pg.wait_for_timeout(400)

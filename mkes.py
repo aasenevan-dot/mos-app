@@ -109,6 +109,49 @@ LATER = {
     # the machine turned the Wednesday abbreviation "We" into the pronoun "Nosotros";
     # the schedule header wants the day, matching the two-letter set Lu/Ma/Mi/Ju/Vi/Sá/Do
     "We": "Mi",
+    # --- checkout output labels (only render after you type sales, so the journal missed them) ---
+    "MO'S — TEAM CHECKOUT": "MO'S — CHECKOUT DEL EQUIPO",
+    "tips estimated at 20.8% of sales": "propinas estimadas al 20.8% de las ventas",
+    "Team net sales": "Ventas netas del equipo",
+    "Credit tips (est.)": "Propinas de tarjeta (est.)",
+    "Tips withheld (2%)": "Propinas retenidas (2%)",
+    "Team pool": "Fondo del equipo",
+    "Tip out — Bar (1% of sales)": "Tip out — Bar (1% de las ventas)",
+    "Tip out — Busser (1.5% of sales)": "Tip out — Busser (1.5% de las ventas)",
+    "Tip out — Expo (0.5% of sales)": "Tip out — Expo (0.5% de las ventas)",
+    "Total tip out": "Tip out total",
+    "EARNED (after tip out)": "GANADO (después del tip out)",
+    "FRONT": "FRONT", "BACK": "BACK",
+    "50/50 split · back takes the greater dollar · whole dollars only":
+        "División 50/50 · el back se lleva el dólar de más · solo dólares enteros",
+    "every tip-out line rounds UP · earned drops the cents":
+        "cada línea de tip out redondea hacia ARRIBA · lo ganado quita los centavos",
+    "Rule of thumb:": "Regla general:",
+    # --- handbook gate ---
+    "The handbook is staff only. Ask a manager for the word if you do not have it.":
+        "El manual es solo para el personal. Pídele la palabra a un gerente si no la tienes.",
+    "Password": "Contraseña", "Open the handbook": "Abrir el manual",
+    "That is not it. Try again.": "Esa no es. Inténtalo de nuevo.",
+    "staff password": "contraseña del personal",
+    # --- empty states + placeholders ---
+    "Nothing in that lane. Widen the price or pick another chip.":
+        "Nada en esa categoría. Amplía el precio o elige otra opción.",
+    "Nothing in that lane. Widen the price, the type, or the glass filter.":
+        "Nada en esa categoría. Amplía el precio, el tipo o el filtro de copa.",
+    "Search a dish...": "Busca un platillo...",
+    "Search drink, bottle, spirit, or garnish...": "Busca bebida, botella, licor o guarnición...",
+    "Search wine, region, flavor, or dish...": "Busca vino, región, sabor o platillo...",
+    "blank = 20.8% est.": "vacío = 20.8% est.",
+    "blank = no minimum": "vacío = sin mínimo",
+    "from SevenRooms": "de SevenRooms", "from Toast": "de Toast",
+    "from the banquet sheet": "de la hoja del banquete",
+    "how many guests": "cuántos invitados",
+    "nobody yet": "nadie aún",
+    "overrides covers": "reemplaza los covers",
+    "real number wins": "gana el número real",
+    "Show all answers": "Ver todas las respuestas",
+    "Hide all answers": "Ocultar todas las respuestas",
+    "Dark": "Oscuro", "Light": "Claro",
     # the old one-step-shifted steak ladder was corrected in the data but a stale translation
     # of the old summary lingered in the journal; override it to the corrected wording so a
     # Spanish reader never sees the wrong ladder either

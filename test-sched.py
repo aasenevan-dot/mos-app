@@ -784,6 +784,23 @@ async def main():
           while(n=w.nextNode()){const t=n.textContent.trim();if(t.length<3)continue;for(const k in ES){if(ES[k]===t&&k!==t){sp++;break;}}if(sp>3)break;}return sp;})()""")
         if spleft: bad.append(f"Spanish text left over after switching back to English: {spleft}")
 
+        # ---- the 150-question quiz renders in Spanish ----
+        await pg.evaluate("setLang('es')"); await pg.wait_for_timeout(600)
+        await pg.evaluate("go('study');startQuiz()"); await pg.wait_for_timeout(400)
+        qeng=await pg.evaluate("""(()=>{let en=0;const box=document.querySelector('#quizBox');
+          const w=document.createTreeWalker(box,NodeFilter.SHOW_TEXT);let n;
+          while(n=w.nextNode()){const k=n.textContent.trim();
+            if(k.length>4&&ES[k]&&ES[k]!==k&&!n.textContent.includes(ES[k]))en++;}
+          return en;})()""")
+        if qeng>0: bad.append(f"quiz left {qeng} strings in English in Spanish mode")
+        await pg.evaluate("document.querySelector('#quizBox .opt').click()"); await pg.wait_for_timeout(300)
+        fb=await pg.evaluate("!![...document.querySelectorAll('#quizBox span')].find(x=>/Correcto|Casi/.test(x.textContent))")
+        if not fb: bad.append("quiz feedback word did not translate")
+        # a couple of known question translations must be present in the dictionary
+        for en in ["Correct ticket timing?","Which enhancement is $25?"]:
+            if not await pg.evaluate(f"!!ES[{en!r}]"): bad.append(f"quiz string not translated: {en!r}")
+        await pg.evaluate("setLang('en')"); await pg.wait_for_timeout(500)
+
         # ---- guest wifi: in How We Work, and findable however anybody types it ----
         if "GreatSteaks" not in await pg.evaluate("document.querySelector('#p-house').innerText"):
             bad.append("wifi password missing from How We Work")

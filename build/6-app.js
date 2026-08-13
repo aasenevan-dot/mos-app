@@ -263,12 +263,12 @@ function shuffled(arr){
   for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}
   return a;
 }
-function startQuiz(subset,bank){
-  clearQTimer(); QMODE=bank?QMODE:"";
+function startQuiz(subset,bank,review){
+  clearQTimer(); if(!review)QMODE=bank?QMODE:""; if(QMODE==="blitz"&&review)QMODE="game";
   QBANK=bank||MC;
   let src = subset && subset.length ? subset : QBANK.map((_,i)=>i);
   src=shuffled(src);
-  if(!bank&&QLEN>0&&src.length>QLEN)src=src.slice(0,QLEN);
+  if(!bank&&!review&&QLEN>0&&src.length>QLEN)src=src.slice(0,QLEN);
   quiz.order=src;
   quiz.opts=quiz.order.map(i=>shuffled(QBANK[i].o.map((txt,k)=>({txt,ok:k===0}))));
   quiz.i=0;quiz.score=0;quiz.answered=0;quiz.missed=[];quiz.topics={};
@@ -289,7 +289,7 @@ function renderQuiz(){
       <div class="tags" style="justify-content:center;margin-bottom:16px">${topics}</div>
       <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
         <button class="btn" onclick="startQuiz()">New quiz</button>
-        ${quiz.missed.length?`<button class="btn sec" onclick="startQuiz(quiz.missed.slice(),QBANK===MC?null:QBANK)">Review the ${quiz.missed.length} missed</button>`:""}
+        ${quiz.missed.length?`<button class="btn sec" onclick="startQuiz(quiz.missed.slice(),QBANK===MC?null:QBANK,true)">Review the ${quiz.missed.length} missed</button>`:""}
       </div></div>`;
     $("#quizScore").innerHTML=`<b>${pct}%</b> final`;
     return;
@@ -691,7 +691,7 @@ function search(q){
     const syn=SEARCH_SYN[t];
     if(syn&&hay.includes(syn))return true;
     if(t.length>=4&&t.endsWith("s")&&hay.includes(t.slice(0,-1)))return true;
-    if(t.length>=5)return words().some(w=>w[0]===t[0]&&nearWord(w,t));
+    if(t.length>=4)return words().some(w=>w[0]===t[0]&&nearWord(w,t));
     return false;
   };
   /* Same matcher, but bare numbers are ignored. "how much do i make on 4000" is a money
@@ -862,7 +862,7 @@ function search(q){
          8/12", so the words today and tonight matched no field. Tag the day that IS today. */
       const nowd=new Date(), isToday=schedIsDay(SCHEDULE,d[0],nowd);
       if(!matches(["who works schedule roster on floor",full,d[0],isToday?"today tonight now":""]))return;
-      const on=rosterFor(SCHEDULE,i,true).replace(/<[^>]+>/g," ").replace(/\s+/g," ").trim();
+      const on=rosterFor(SCHEDULE,i,true).replace(/<[^>]+>/g," ").replace(/&nbsp;|&middot;/g," ").replace(/&amp;/g,"&").replace(/\s+/g," ").trim();
       /* saying "today" in the title is both clearer to read and what makes it outrank the
          handful of other rows that merely mention tonight */
       if(on)add("Schedule",(full?full[0].toUpperCase()+full.slice(1):"")+" "+d[0]+(isToday?" \u2014 today":""),on.slice(0,150),"sched");
@@ -1694,7 +1694,7 @@ function fpBook(){
     </div>`).join("")}</div>
     <p style="margin:10px 0 0"><button class="btn sec" onclick="fpClearAll()">Clear the whole book</button></p>`;
   /* delegated, so a table id never has to survive a trip through a JS string literal */
-  box.onclick=e=>{ const b=e.target.closest("button[data-k]"); if(b)fpPick(b.dataset.k); };
+  box.onclick=e=>{ const b=e.target.closest("button[data-k]"); if(b){ FPSEL=null; fpPick(b.dataset.k); } };
 }
 function fpClearAll(){ FPPARTY={}; fpSave(); renderFloor(); }
 /* ---------- who has which section ----------
@@ -1800,7 +1800,8 @@ function fpApplyBoard(code){
     if(!Array.isArray(r)||!r[0])return;
     const k=String(r[0]);
     if(!fpKnownKey(k))return;
-    FPPARTY[k]={n:(+r[1])||null, t:String(r[2]||"").slice(0,10), name:String(r[3]||"").slice(0,40)};
+    const pn=Math.floor(+r[1]);
+    FPPARTY[k]={n:(Number.isFinite(pn)&&pn>0)?Math.min(pn,40):null, t:String(r[2]||"").slice(0,10), name:String(r[3]||"").slice(0,40)};
   });
   FPWHO={};
   if(o.w&&typeof o.w==="object"&&!Array.isArray(o.w))

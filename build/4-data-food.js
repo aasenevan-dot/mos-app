@@ -37,7 +37,7 @@ const ENHANCE = [
 const HOUSE_INFO = [
  ["Guest Wi-Fi", "GreatSteaks",
   "The network guests join. One word for everybody \u2014 you can hand it out at the table.",
-  "wifi wi-fi wi fi wireless internet network networks password passwords passcode pw code guest guests customer customers table login log sign signin join access connect connecting connection signal service hotspot ssid name info details restaurant house public free data laptop phone tablet ipad"]
+  "wifi wi-fi wi fi wireless internet network networks password passwords passcode pw code guest guests customer customers table login log sign signin join access connect connecting connection signal service hotspot ssid name info details restaurant house public free data phone tablet"]
 ];
 
 const FRONT_POS = [

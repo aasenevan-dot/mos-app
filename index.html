@@ -1322,7 +1322,7 @@ const SPIRITS = {
 /* ============ BEER ============ */
 SPIRITS["On Draft — the two lines"]=[
  ["Smoked Draft Old Fashioned","$17","Signature — full build up in the cocktail list."],
- ["Tito's and Cranberry","on tap","The second line. Poured, not built — it comes off the tap ready."]
+ ["Sweet & Salty (the Transfusion)","on tap","The second line. Grapefruit and Tito's on the draft, salted rim, topped with Sprite. Poured off the tap, not built."]
 ];
 
 SPIRITS["Cordials on the rail (after-dinner asks)"]=[
@@ -1680,6 +1680,12 @@ const ALLERGENS = [
  ["Japanese A5 Wagyu","$25/oz",["beef","dairy"],"Manager slices tableside. Cooked with butter by default — but the kitchen CAN cook any steak fully butter-free for a dairy allergy, the guest just has to ask."],
  ["Denver Cut","$58",["beef","dairy"],"Chuck cut. Cooked with butter by default — the kitchen can go butter-free for a dairy allergy if the guest asks."],
  ["48 oz USDA Choice Porterhouse","$170",["beef","dairy"],"NOT wagyu. Board service, manager slices."],
+ ["The PD — 15 oz Hand-Cut Filet","$115",["beef","dairy"],"Cooked with butter by default — but the kitchen CAN cook any steak fully butter-free for a dairy allergy, the guest just has to ask."],
+ ["4 oz Filet Mignon","$30",["beef","dairy"],"Cooked with butter by default — but the kitchen CAN cook any steak fully butter-free for a dairy allergy, the guest just has to ask."],
+ ["Spinalis / Ribeye Cap","$14/oz",["beef","dairy"],"Cooked with butter by default — but the kitchen CAN cook any steak fully butter-free for a dairy allergy, the guest just has to ask."],
+ ["Australian Wagyu Tomahawk","$140",["beef","dairy"],"Manager-cut special. Cooked with butter by default — but the kitchen CAN cook any steak fully butter-free for a dairy allergy, the guest just has to ask."],
+ ["45-Day 22 oz Dry-Aged Bone-In Ribeye","$110",["beef","dairy"],"Cooked with butter by default — but the kitchen CAN cook any steak fully butter-free for a dairy allergy, the guest just has to ask."],
+ ["Filet Sliders (2)","$18",["beef","gluten","dairy","egg","allium"],"Slider buns (gluten), provolone (dairy), smoked garlic aioli (egg, allium), crispy onion strings."],
  ["Crab Oscar","$14",["crab","shellfish","dairy","egg","allium"],"GF."],
  ["Horseradish-Bleu Cheese Crust","$4",["dairy","allium"],""],
  ["Add 5 oz Lobster Tail","$50",["shellfish","dairy"],"GF. Dairy if served with butter."],
@@ -1988,7 +1994,7 @@ const MC = [
  {"q": "Pomerol is…", "o": ["Merlot country — Bordeaux's right bank", "Cabernet country", "A white Burgundy", "An Italian region"], "t": "wine"},
  {"q": "Cristal…", "o": ["Is in the building — Louis Roederer, for the big moment", "Isn't carried here", "Pours by the glass", "Was discontinued"], "t": "wine"},
  {"q": "The Smoked Draft Old Fashioned is…", "o": ["Vanilla extract, bitters, smoked water, Buffalo Trace — our one confirmed tap line", "A gin drink", "Served flaming", "One of six draft lines"], "t": "cocktail"},
- {"q": "Our draft cocktail situation is…", "o": ["Two lines total — Smoked OF confirmed, and the second is a mystery that is NOT Sweet & Salty", "Six rotating lines", "No taps at all", "Both lines are Old Fashioneds"], "t": "cocktail"},
+ {"q": "Our draft cocktail situation is…", "o": ["Two lines total — the Smoked Draft Old Fashioned, and the Sweet & Salty (the Transfusion): grapefruit and Tito's on tap, salted rim, topped with Sprite", "Six rotating lines", "No taps at all", "Both lines are Old Fashioneds"], "t": "cocktail"},
  {"q": "A guest wants a mocktail. You…", "o": ["Sell it at $12 and ask their lane — citrus, berry, tropical, or herbal", "Say we don't make them", "Offer only Shirley Temples", "Charge $6"], "t": "cocktail"},
  {"q": "The Coco Caramel Carajillo build is…", "o": ["Werther's caramel-infused Hard Truth toasted coconut rum, Licor 43 Vanilla, espresso", "Kahlua, cream, vodka", "Rum and cold brew only", "Baileys with a caramel rim"], "t": "cocktail"},
  {"q": "The Esso Affo build is…", "o": ["Espresso-martini style with NO simple syrup, plus a scoop of vanilla ice cream", "A standard espresso martini with whip", "An affogato — no alcohol", "Cold brew and Baileys"], "t": "cocktail"},
@@ -2025,7 +2031,7 @@ const OPEN = [
  ["What is the time frame for salads and soups? For entrees?","Soups, salads, and desserts 5-7 minutes, 10 minutes max. Entrees 22-27 minutes."],
  ["What does the Roasted Pear Salad consist of?","Arugula, roasted pear, Gorgonzola, candied walnuts, dried cherries, maple balsamic."],
  ["How is the Baked French Onion prepared?","Vidalia onions caramelized in veal/beef broth for 48-72 hours, served in a brown crock with an herb crouton, provolone, and parsley, then broiled. Mirepoix is onion, carrot, celery."],
- ["Name all filet cuts and oz, including Australian and Japanese.","Filet mignon 6, 8, 10, 15 oz. Australian Wagyu filet 6 and 10 oz. Japanese A5 by the ounce. Filet Duo: two 3 oz end-cut medallions."],
+ ["Name all filet cuts and oz, including Australian and Japanese.","Filet mignon 6, 10, 15 oz. Australian Wagyu filet 6 and 10 oz. Japanese A5 by the ounce. Filet Duo: two 3 oz end-cut medallions."],
  ["Describe our steak temperatures.","Blue very red and very cold; center rare cold red center; medium rare cool red center; medium warm to hot red center; medium well hot pink center; well hot center with little to no pink. Butterfly well-done filets."],
  ["What are our off-menu steak cuts?","48 oz porterhouse (NY strip and filet in one cut), 45-day dry-aged bone-in ribeye, spinalis/ribeye cap, K.D.'s Tomahawk, 15 oz hand-cut/TMP filet, 14 oz bone-in filet."],
  ["Sell the Japanese A5.","Kagoshima, sold by the ounce. Highest grade of Wagyu, extreme marbling from generations of breeding, low-stress handling, and a specific grain finishing diet. The fat renders like butter — best rare to medium rare. A manager slices it tableside."],
@@ -2287,7 +2293,8 @@ mise:[
  "B&B plates go down after the front greets — the back server's first touch on the table.",
  "Presetting the next course is the whole game. All the items the guest needs, none they do not."]],
 ["Starters","what rides out with each one",[
- "<b>Tongs:</b> calamari, wagyu tacos, crispy ahi tuna bites.",
+ "<b>Tongs:</b> calamari, wagyu tacos.",
+ "<b>Two metal Japanese chopsticks (per person):</b> crispy ahi tuna bites, A5 nigiri.",
  "<b>Spatula:</b> crab cake, seared scallops.",
  "<b>Serving spoon:</b> prime meatballs, creamy spicy crab dip.",
  "<b>Spreading knife:</b> goat cheese spread — it is going onto crostini with the honey.",

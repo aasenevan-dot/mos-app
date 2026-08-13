@@ -216,7 +216,7 @@ const SPIRITS = {
 /* ============ BEER ============ */
 SPIRITS["On Draft — the two lines"]=[
  ["Smoked Draft Old Fashioned","$17","Signature — full build up in the cocktail list."],
- ["Tito's and Cranberry","on tap","The second line. Poured, not built — it comes off the tap ready."]
+ ["Sweet & Salty (the Transfusion)","on tap","The second line. Grapefruit and Tito's on the draft, salted rim, topped with Sprite. Poured off the tap, not built."]
 ];
 
 SPIRITS["Cordials on the rail (after-dinner asks)"]=[

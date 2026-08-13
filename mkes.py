@@ -149,6 +149,28 @@ LATER = {
     "nobody yet": "nadie aún",
     "overrides covers": "reemplaza los covers",
     "real number wins": "gana el número real",
+    # --- Devour menu (Aug 24 – Sep 6): UI + pitch. Dish names stay as printed. ---
+    "How to pitch it — maximize the check": "Cómo venderlo — maximiza la cuenta",
+    "Dessert note": "Nota del postre",
+    "GF & vegan sorbet available on request.": "Sorbete sin gluten y vegano disponible a pedido.",
+    "Soup or Salad — choose one": "Sopa o ensalada — elige una",
+    "Entrée — choose one (this sets the per-person price)": "Plato fuerte — elige uno (esto fija el precio por persona)",
+    "Accessory — choose one · ALL GF": "Guarnición — elige una · TODAS sin gluten",
+    "Dessert — choose one": "Postre — elige uno",
+    "A three-course prix-fixe with Prime 47 Carmel, part of DEVOUR Indy Summerfest. Starts at $45 per person — tax and gratuity NOT included. Per-person price is the entrée.":
+        "Un menú de tres tiempos a precio fijo con Prime 47 Carmel, parte de DEVOUR Indy Summerfest. Desde $45 por persona — impuestos y propina NO incluidos. El precio por persona es el plato fuerte.",
+    "Lead with the VALUE, then trade up. It is four courses — soup or salad, entrée, an accessory, and dessert — starting at $45.":
+        "Empieza por el VALOR, luego sube la venta. Son cuatro tiempos — sopa o ensalada, plato fuerte, una guarnición y postre — desde $45.",
+    "The per-person price IS the entrée. Steer to the Spinalis ($65) and Filet ($55): same menu, bigger check, better experience.":
+        "El precio por persona ES el plato fuerte. Dirígelos al Spinalis ($65) y al Filet ($55): mismo menú, cuenta más grande, mejor experiencia.",
+    "ALWAYS offer an enhancement — this is where the check grows. Lobster Tail ($50) is the big one; then Scallops ($24), the 10 oz filet upgrade ($22), Crab Oscar ($14), Lobster Mac ($10).":
+        "SIEMPRE ofrece un adicional — aquí crece la cuenta. La cola de langosta ($50) es la grande; luego vieiras ($24), subir el filet a 10 oz ($22), Crab Oscar ($14), Lobster Mac ($10).",
+    "Say up front that tax and gratuity are NOT in the per-person price, so the check reads right.":
+        "Aclara desde el inicio que impuestos y propina NO están en el precio por persona, para que la cuenta cuadre.",
+    "Almost everything is gluten-free, and the Vegan Stuffed Tomatoes plus the sorbet cover vegan — a great fit for a table with dietary needs.":
+        "Casi todo es sin gluten, y los Tomates Rellenos Veganos más el sorbete cubren lo vegano — ideal para una mesa con necesidades alimentarias.",
+    "Study the Devour menu": "Estudia el menú Devour",
+    "Take me to it": "Llévame ahí",
     "Show all answers": "Ver todas las respuestas",
     "Hide all answers": "Ocultar todas las respuestas",
     "Dark": "Oscuro", "Light": "Claro",

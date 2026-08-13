@@ -15,6 +15,7 @@ MOCK = """
 async def main():
     # resolve index.html next to this script, so the suite runs on any machine
     # (it was pinned to the Cowork container path and could only ever run there)
+    global url
     url=(pathlib.Path(__file__).parent/"index.html").resolve().as_uri(); bad=[]
     async with async_playwright() as pw:
         b=await pw.chromium.launch()
@@ -953,4 +954,67 @@ async def main():
         print("SCHED TEST FAILED:"); [print("  -",x) for x in bad]; sys.exit(1)
     print("SCHED TEST ALL GOOD — Friday roster right, midnight flip re-rendered to Saturday, off-week message shows.")
 
+async def devour():
+    """Devour menu (Aug 24 - Sep 6): the gate, the section, the pitch, the popup-once, Spanish."""
+    import datetime as _dt
+    bad=[]
+    async with async_playwright() as pw:
+        b=await pw.chromium.launch()
+        MK=lambda d:int(_dt.datetime.fromisoformat(d).timestamp()*1000)
+        # DURING the window
+        ctx=await b.new_context(viewport={"width":393,"height":852})
+        pg=await ctx.new_page(); errs=[]; pg.on("pageerror",lambda e:errs.append(str(e)[:120]))
+        await pg.add_init_script(MOCK % MK("2026-08-26T13:00"))
+        await pg.goto(url); await pg.wait_for_timeout(1200)
+        if errs: bad.append("devour JS errors: "+str(errs))
+        if not await pg.evaluate("devourActive()"): bad.append("Devour not active on 8/26")
+        if not await pg.evaluate("!!document.querySelector('.dvwrap')"): bad.append("Devour popup did not show during the window")
+        # dismiss -> must not come back on reload (localStorage)
+        await pg.evaluate("document.querySelector('.dvwrap .dvx').click()")
+        await pg.reload(); await pg.wait_for_timeout(1000)
+        if await pg.evaluate("!!document.querySelector('.dvwrap')"): bad.append("Devour popup reappeared after dismissal")
+        await pg.evaluate("go('menu')"); await pg.wait_for_timeout(300)
+        mt=await pg.evaluate("document.querySelector('#p-menu').innerText")
+        for want in ["DEVOUR Indy Summerfest","How to pitch it","ALWAYS offer an enhancement","Spinalis","Vegan Stuffed Tomatoes"]:
+            if want not in mt: bad.append(f"Devour section missing {want!r}")
+        if "DEVOUR Indy — 3-course" not in mt: bad.append("Devour not on the specials board")
+        if not await pg.evaluate("search('devour spinalis').length"): bad.append("Devour not searchable")
+        # still listed in upcoming events during the run
+        await pg.evaluate("go('sched')"); await pg.wait_for_timeout(200)
+        if "DEVOUR Indy Summerfest" not in await pg.evaluate("document.querySelector('#p-sched').innerText"):
+            bad.append("Devour dropped from upcoming events mid-run")
+        await ctx.close()
+        # BEFORE the window is fully open (Aug 12) -> no section, no popup
+        ctx=await b.new_context(viewport={"width":393,"height":852})
+        pg=await ctx.new_page()
+        await pg.add_init_script(MOCK % MK("2026-08-12T13:00"))
+        await pg.goto(url); await pg.wait_for_timeout(1000)
+        if await pg.evaluate("!!document.querySelector('.dvwrap')"): bad.append("Devour popup showed too early (8/12)")
+        await pg.evaluate("go('menu')"); await pg.wait_for_timeout(200)
+        if await pg.evaluate("!!document.querySelector('#sec-devour')"): bad.append("Devour section showed too early")
+        await ctx.close()
+        # AFTER (Sep 10) -> gone
+        ctx=await b.new_context(viewport={"width":393,"height":852})
+        pg=await ctx.new_page()
+        await pg.add_init_script(MOCK % MK("2026-09-10T13:00"))
+        await pg.goto(url); await pg.wait_for_timeout(1000)
+        if await pg.evaluate("devourActive()"): bad.append("Devour still active after 9/6")
+        await ctx.close()
+        # Spanish: the pitch header + a pitch line translate
+        ctx=await b.new_context(viewport={"width":393,"height":852})
+        pg=await ctx.new_page()
+        await pg.add_init_script(MOCK % MK("2026-08-26T13:00"))
+        await pg.goto(url); await pg.wait_for_timeout(1000)
+        await pg.evaluate("if(document.querySelector('.dvwrap .dvx'))document.querySelector('.dvwrap .dvx').click()")
+        await pg.evaluate("setLang('es')"); await pg.wait_for_timeout(700)
+        await pg.evaluate("go('menu')"); await pg.wait_for_timeout(300)
+        est=await pg.evaluate("document.querySelector('#p-menu').innerText")
+        if "Cómo venderlo" not in est: bad.append("Devour pitch header not translated to Spanish")
+        await ctx.close()
+        await b.close()
+    if bad:
+        print("DEVOUR TEST FAILED:"); [print("  -",x) for x in bad]; sys.exit(1)
+    print("DEVOUR TEST ALL GOOD — gate, section, pitch, popup-once, upcoming, Spanish.")
+
 asyncio.run(main())
+asyncio.run(devour())

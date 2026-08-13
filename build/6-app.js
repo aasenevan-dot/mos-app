@@ -753,6 +753,15 @@ function search(q){
   BEER.forEach(b=>{if(matches([b[0],b[2],b[3]]))add("Beer",b[0]+" — "+b[1],b[2]+". "+b[3],"cocktails");});
   OPEN.forEach(o=>{if(matches([o[0],o[1]]))add("Test answer",o[0],o[1],"study");});
   SPECIALS_ON.forEach(s=>{if(matches([s[0],s[2]]))add("Ongoing special",s[0]+" — "+s[1],s[2],"menu");});
+  if(typeof DEVOUR!=="undefined"&&devourActive()){
+    const D=DEVOUR;
+    if(matches(["devour","devour menu","prix fixe","summerfest",D.title,D.blurb]))
+      add("Devour menu",D.title+" — "+D.window,D.blurb,"menu");
+    D.courses.forEach(c=>c[1].forEach(r=>{
+      if(matches(["devour",c[0],r[0],r[1],r[2]]))add("Devour · "+c[0].split(" —")[0],r[0]+(r[1]?" — "+r[1]:""),r[2]||c[0],"menu");}));
+    D.enhancements.forEach(e=>{if(matches(["devour enhancement",e[0],e[1]]))add("Devour enhancement",e[0]+" — "+e[1],"Devour event price","menu");});
+    D.pitch.forEach(x=>{if(matches(["devour pitch how to sell",x]))add("Devour pitch","How to pitch Devour",x,"menu");});
+  }
   SPECIALS_ROTATION.forEach(s=>{if(matches([s[0],s[2]]))add("Rotating special",s[0],s[2],"menu");});
   SPECIALS_PAST.forEach(s=>{if(matches([s[0],s[2]]))add("Past special",s[0]+" ("+s[3]+")",s[2],"menu");});
   SOTD.forEach(s=>{if(matches([s[0],s[1]]))add("Soup of the day",s[0],s[1],"menu");});
@@ -918,6 +927,55 @@ function addJumps(key){
   });
   p.prepend(bar);
 }
+
+function devourActive(){
+  if(typeof DEVOUR==="undefined")return false;
+  const now=new Date(), yr=DEVOUR.year||now.getFullYear();
+  const mk=(md)=>{const[m,d]=md.split("/").map(Number);return new Date(yr,m-1,d);};
+  const from=mk(DEVOUR.start); from.setDate(from.getDate()-7);   // a week of lead time to learn it
+  const to=mk(DEVOUR.end); to.setDate(to.getDate()+1);
+  const t=new Date(now.getFullYear(),now.getMonth(),now.getDate());
+  return t>=from && t<to;
+}
+function devourPopup(){
+  if(typeof DEVOUR==="undefined"||!devourActive())return;
+  let seen=false;
+  try{ seen=localStorage.getItem("mos-devour-"+DEVOUR.start+"-"+DEVOUR.end)==="1"; }catch(e){}
+  if(seen)return;
+  const wrap=document.createElement("div"); wrap.className="dvwrap";
+  const close=()=>{ try{ localStorage.setItem("mos-devour-"+DEVOUR.start+"-"+DEVOUR.end,"1"); }catch(e){} wrap.remove(); };
+  wrap.innerHTML=`<div class="dvcard" role="dialog" aria-label="Devour menu">
+    <button class="dvx" aria-label="Close">&times;</button>
+    <h3>&#127860; Study the Devour menu</h3>
+    <p>${esc(DEVOUR.window)}. Our three-course prix-fixe with Prime 47 is running — know the menu and how to pitch it. Steer to the Spinalis and Filet, and always offer an enhancement.</p>
+    <button class="btn dvgo">Take me to it</button></div>`;
+  wrap.addEventListener("click",e=>{ if(e.target===wrap)close(); });
+  wrap.querySelector(".dvx").onclick=close;
+  wrap.querySelector(".dvgo").onclick=()=>{ close(); go("menu"); const el=$("#sec-devour"); if(el)setTimeout(()=>el.scrollIntoView({behavior:"smooth"}),60); };
+  document.body.appendChild(wrap);
+  if(LANG==="es")applyLang(wrap);
+}
+function devourBlock(){
+  if(typeof DEVOUR==="undefined"||!devourActive())return "";
+  const D=DEVOUR;
+  const course=(name,rows)=>`<p class="sub" style="margin:12px 0 4px"><b>${esc(name)}</b></p>
+    ${tbl(["","",""],rows.map(r=>[`<b>${esc(r[0])}</b>`,`<span class="n">${esc(r[1]||"")}</span>`,
+      `<span style="color:var(--dim)">${esc(r[2]||"")}</span>`]))}`;
+  return `
+    <div class="sechead" id="sec-devour"><h2>&#127860; ${esc(D.title)}</h2><span>${esc(D.window)} — study it, pitch it</span></div>
+    <div class="note gold"><b>${esc(D.window)}.</b> ${esc(D.blurb)}</div>
+    <div class="tool">
+      <h3>How to pitch it — maximize the check</h3>
+      <ol class="steps">${D.pitch.map(x=>`<li>${esc(x)}</li>`).join("")}</ol>
+    </div>
+    ${D.courses.map(c=>course(c[0],c[1])).join("")}
+    <p class="sub" style="margin:10px 0 4px"><b>Dessert note</b></p>
+    <div class="note">${esc(D.dessertNote)}</div>
+    <p class="sub" style="margin:12px 0 4px"><b>Entrée enhancements — always offer one</b> <span style="color:var(--dim)">(Devour event prices)</span></p>
+    ${tbl(["Add","Price"],D.enhancements.map(e=>[`<b>${esc(e[0])}</b>`,`<span class="n">${esc(e[1])}</span>`]))}
+  `;
+}
+
 
 function build(){
   const M=$("#main");
@@ -1091,7 +1149,10 @@ function build(){
         .concat(SPECIALS_ROTATION.map(s=>[s[0],s[1],s[2],"not on tonight unless a manager says so"]))
     };
   })();
+/* Devour runs Aug 24 – Sep 6 only. Show it a week early so the floor can study, and let it
+   drop on its own the day after it ends — nothing to switch off by hand. */
   $("#p-menu").innerHTML=`
+    ${devourBlock()}
     ${SPX.onNow.length?`<div class="sechead" id="sec-specials"><h2>&#9733; Specials</h2><span>${SPX.onNow.length} on the board</span></div>
     <div class="grid wide">${SPX.onNow.map(s=>mCard(s[0],s[1],s[2],s[3],"hl")).join("")}</div>`
     :`<div class="sechead" id="sec-specials"><h2>&#9733; Specials</h2><span>nothing on the board</span></div>
@@ -1352,6 +1413,7 @@ function build(){
   renderWines(); renderDrinks(); renderAllergens(); renderFloor(); hbRender(); fpBoardFromLink(); fpSyncStart(); pairingOut(0); calcSC(); calcBQC(); ipPrefill(); calcIP(); calcBq(); fillSched();
   applyLang();
   startLangObserver();
+  devourPopup();
 
   $("#p-shift").querySelector(".qa").onclick=e=>{
     const b=e.target.closest("button[data-qa]"); if(!b)return;

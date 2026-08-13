@@ -434,6 +434,54 @@ const SPECIAL_DAYS={
  "Spinalis Sunday":0,
  "Ladies Night — every Thursday":4
 };
+/* ============ DEVOUR INDY SUMMERFEST — the prix-fixe, Aug 24 – Sep 6 ============
+   A limited-time three-course menu with Prime 47 Carmel. Transcribed from the posted
+   Devour menu. start/end are M/D; the app shows it only inside that window (plus a week of
+   lead time to study) and drops it on its own afterward. NOTE: several enhancement prices
+   here are DEVOUR-EVENT prices and differ from the a-la-carte enhancements (Scallops $24
+   vs $14, Lobster Mac $10 vs $26) — pitch the Devour numbers during the event. ============ */
+const DEVOUR = {
+ year: 2026, start: "8/24", end: "9/6",
+ title: "DEVOUR Indy Summerfest",
+ window: "August 24 \u2013 September 6",
+ blurb: "A three-course prix-fixe with Prime 47 Carmel, part of DEVOUR Indy Summerfest. Starts at $45 per person \u2014 tax and gratuity NOT included. Per-person price is the entree.",
+ courses: [
+  ["Soup or Salad \u2014 choose one", [
+   ["House Salad", "GF", "Ranch or House Italian"],
+   ["Watermelon Salad", "GF", "Feta, cucumbers, mint"]
+  ]],
+  ["Entree \u2014 choose one (this sets the per-person price)", [
+   ["6 oz Spinalis", "$65 / person \u00b7 GF", "The top check \u2014 steer here. Ribeye cap, manager-cut tenderness."],
+   ["Filet Mignon", "$55 / person \u00b7 GF", "The classic upsell from the $45 floor."],
+   ["Miso Glazed Seabass", "$50 / person \u00b7 GF", "Coconut risotto garnish."],
+   ["Chicken Alfredo Pasta", "$47 / person", "Grilled chicken, creamy Alfredo."],
+   ["Chicken Parmesan", "$47 / person", "Fried chicken breast, linguine, tomato diavolo, melted cheese pour-over."],
+   ["Vegan Stuffed Tomatoes", "$45 / person \u00b7 GF \u00b7 vegan", "The vegan option \u2014 and the $45 floor price."]
+  ]],
+  ["Accessory \u2014 choose one \u00b7 ALL GF", [
+   ["Creamed Corn", "", ""], ["Roasted Mushrooms", "", ""],
+   ["Green Beans", "", ""], ["Cheddar Mashed Potatoes", "", ""]
+  ]],
+  ["Dessert \u2014 choose one", [
+   ["Strawberry Cheesecake", "", "Whipped cream."],
+   ["Chocolate Brownie", "", "Caramel sauce & whipped cream."]
+  ]]
+ ],
+ dessertNote: "GF & vegan sorbet available on request.",
+ enhancements: [
+  ["Lobster Tail", "$50"], ["(2) Scallops", "$24"], ["Upgrade filet to 10 oz", "$22"],
+  ["Crab Oscar", "$14"], ["Lobster Mac N Cheese", "$10"], ["Brandy Peppercorn", "$6"]
+ ],
+ pitch: [
+  "Lead with the VALUE, then trade up. It is four courses \u2014 soup or salad, entree, an accessory, and dessert \u2014 starting at $45.",
+  "The per-person price IS the entree. Steer to the Spinalis ($65) and Filet ($55): same menu, bigger check, better experience.",
+  "ALWAYS offer an enhancement \u2014 this is where the check grows. Lobster Tail ($50) is the big one; then Scallops ($24), the 10 oz filet upgrade ($22), Crab Oscar ($14), Lobster Mac ($10).",
+  "Say up front that tax and gratuity are NOT in the per-person price, so the check reads right.",
+  "Almost everything is gluten-free, and the Vegan Stuffed Tomatoes plus the sorbet cover vegan \u2014 a great fit for a table with dietary needs.",
+  "It runs Aug 24 \u2013 Sep 6 only. \"We are doing DEVOUR right now\" is a reason to come in this week."
+ ]
+};
+
 const SPECIALS_ON=[
  ["K.D.'s Tomahawk","32 oz $160","A ribeye that keeps the whole rib bone. Even more heavily marbled than the Delmonico. The bone lets marrow render during cooking, adding a butteriness you can only get by keeping the rib bone. The juiciest, most flavorful cut we offer besides the Japanese A5.","K.D. = Kevin Dickey, former owner · largest oval plate"],
  ["Denver Cut","$58","Running in place of the Dry Aged New York Strip, at the same price. A chuck cut — prime, fattier and heartier through the belly, with less marbling than the strip. Serve it rare, medium-rare or medium; past that it turns gamey.","cut special"],
@@ -442,7 +490,8 @@ const SPECIALS_ON=[
  ["Spinalis Sunday","$10/oz every Sunday","The same ribeye cap, four dollars an ounce cheaper, one day a week. Minimum 6 oz. It is on the restaurant's own weekly-features page — the easiest upsell we have on a Sunday.","weekly feature"],
  ["Australian Wagyu Tomahawk","$140","32 oz, cut tableside by a manager. Wagyu rule: serve rare to med-rare — nudge, don't argue.","Manager cut"],
  ["45-Day 22 oz Dry-Aged Bone-In Ribeye","$110","Forty-five days of cold, moving air pulls the moisture out and concentrates the beef, while the meat's own enzymes break proteins down into amino acids and soften the connective tissue. That is where the deep, nutty, brown-butter richness comes from — savory and profound rather than just beefy, with the bone adding even more depth.",""],
- ["Ladies Night — every Thursday","$10 martinis + \u00bd-off apps","Ladies get $10 martinis and half-price appetizers in the lounge, every Thursday night.","weekly feature"]
+ ["Ladies Night — every Thursday","$10 martinis + \u00bd-off apps","Ladies get $10 martinis and half-price appetizers in the lounge, every Thursday night.","weekly feature"],
+ ["DEVOUR Indy — 3-course prix-fixe","Aug 24 – Sep 6 · from $45/pp","A limited-time three-course menu with Prime 47 Carmel. Per-person price is the entrée (Spinalis $65, Filet $55, Seabass $50, the chickens $47, Vegan Tomatoes $45). Tax and gratuity not included. Full menu + how to pitch it on the Food Menu tab.","Limited time"],
 ];
 /* Rotating entree specials seen before — ask a manager if one is running tonight. */
 const SPECIALS_ROTATION=[

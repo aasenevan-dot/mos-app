@@ -170,8 +170,8 @@ LATER = {
         "El precio por persona es el PLATO FUERTE que elijan — desde $45 (Vegan Stuffed Tomatoes) hasta $65 (Spinalis de 6 oz). Impuestos y propina van aparte.",
     "Enhancements (lobster tail, scallops, filet upgrade, etc.) are add-ons ON TOP of the per-person price.":
         "Los adicionales (cola de langosta, vieiras, subir el filet, etc.) van POR ENCIMA del precio por persona.",
-    "Nearly everything is gluten-free; there is a vegan entree and a GF/vegan sorbet, so a mixed-needs table is easy. For a celiac, still confirm the exact dish with the kitchen — the a-la-carte House Salad and Seabass carry gluten.":
-        "Casi todo es sin gluten; hay un plato fuerte vegano y un sorbete sin gluten/vegano, así que una mesa con necesidades mixtas es fácil. Para un celíaco, confirma el plato exacto con la cocina — la House Salad y el Seabass a la carta llevan gluten.",
+    "Nearly everything is gluten-free; there is a vegan entree and a GF/vegan sorbet, so a mixed-needs table is easy. The Devour build drops the two gluten sources the a-la-carte plates have — the house salad comes without croutons, and the seabass without the fried Brussels sprouts. For a true celiac, still confirm the seabass, since the miso can carry wheat.":
+        "Casi todo es sin gluten; hay un plato fuerte vegano y un sorbete sin gluten/vegano, así que una mesa con necesidades mixtas es fácil. La preparación Devour quita las dos fuentes de gluten que tienen los platos a la carta — la house salad va sin croutons, y el seabass sin los Brussels sprouts fritos. Para un celíaco de verdad, confirma el seabass, ya que el miso puede llevar trigo.",
     # The upsell blueprint (the second dropdown — each step is <b>Title.</b> then the text)
     "The upsell blueprint": "El plan para subir la venta",
     "how we maximize the check": "cómo maximizamos la cuenta",
@@ -205,6 +205,32 @@ LATER = {
         "24 de agosto – 6 de septiembre. Nuestro menú de tres tiempos a precio fijo con Prime 47 Carmel — aprende el menú y cómo venderlo. Dirígete al Spinalis y al Filet, y siempre ofrece un adicional.",
     "Study the Devour menu": "Estudia el menú Devour",
     "Take me to it": "Llévame ahí",
+    # Search-hit variants: the section renders each blueprint title WITH a trailing period
+    # (<b>Title.</b>) but the search panel emits the bare title, so it needs its own period-less
+    # key; likewise the search-only labels/descriptions the section never shows.
+    "Frame the value first": "Empieza por el valor",
+    "Steer the entree up — it IS the check": "Sube el plato fuerte — ESE es el total",
+    "Always plant an enhancement — this is the money": "Siempre siembra un adicional — aquí está el dinero",
+    "Sell the wine — Devour tables are celebrating": "Vende el vino — las mesas de Devour están celebrando",
+    "Set the number up front": "Aclara el número desde el inicio",
+    "Own the dietary table": "Domina la mesa con dietas especiales",
+    "Create urgency": "Crea urgencia",
+    "The Devour deal": "La oferta Devour",
+    "Devour event price": "Precio del evento Devour",
+    "Devour · Soup or Salad": "Devour · Sopa o ensalada",
+    "Devour · Entree": "Devour · Plato fuerte",
+    "Devour · Accessory": "Devour · Guarnición",
+    "Devour · Dessert": "Devour · Postre",
+    # Allergen-guide notes rewritten for the Devour GF reconciliation. The celiac caveat is the
+    # whole point of the change, so it must read in Spanish too (rewriting the English orphaned
+    # the old journal translations). These render on the Allergens tab and the Devour search row;
+    # keys must match build/4-data-food.js lines 304, 339 and 476 exactly.
+    "Croutons are the only gluten — hold the croutons and it is gluten-free (that is how the Devour house salad comes). Tomatoes are the nightshade; dressing changes the allergens.":
+        "Los croutons son el único gluten — pídela sin croutons y queda sin gluten (así viene la house salad de Devour). Los tomates son la solanácea; el aderezo cambia los alérgenos.",
+    "Miso, mirin, sake, coconut risotto, with fried Brussels sprouts on top — those come out of the SHARED fryer, so they are the main gluten (cross-contact). The Devour build drops the Brussels sprouts (coconut risotto only). Miso can still carry wheat/barley, so for a celiac confirm the fish with the kitchen before promising GF.":
+        "Miso, mirin, sake, risotto de coco, con Brussels sprouts fritos encima — esos salen de la freidora COMPARTIDA, así que son el gluten principal (contacto cruzado). La preparación Devour quita los Brussels sprouts (solo risotto de coco). El miso todavía puede llevar trigo/cebada, así que para un celíaco confirma el pescado con la cocina antes de prometer sin gluten.",
+    "Coconut risotto — the Devour build has no fried Brussels sprouts. Miso can still carry wheat, so confirm for a celiac.":
+        "Risotto de coco — la preparación Devour no lleva Brussels sprouts fritos. El miso todavía puede llevar trigo, así que confirma para un celíaco.",
     "Show all answers": "Ver todas las respuestas",
     "Hide all answers": "Ocultar todas las respuestas",
     "Dark": "Oscuro", "Light": "Claro",

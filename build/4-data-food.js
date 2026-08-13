@@ -301,7 +301,7 @@ const ALLERGENS = [
  ["Prime Beef Chili","off menu",["beef","allium","capsaicin","nightshade","legumes","alcohol","gluten"],"Currently OFF the menu — reappears as a SOTD or bonus $4 soup. Beer deglaze means gluten — alcohol cooks off, gluten stays."],
  ["Lobster Bisque","$11",["shellfish","gluten","alcohol","dairy","nightshade"],"Roux, tomato, white wine, sherry vinegar."],
  ["Baked French Onion","$13",["dairy","allium","MSG","gluten","alcohol","beef"],"Beef stock, crouton, provolone."],
- ["House Salad","$7",["gluten","nightshade"],"Croutons and tomatoes. Dressing changes the allergens."],
+ ["House Salad","$7",["gluten","nightshade"],"Croutons are the only gluten — hold the croutons and it is gluten-free (that is how the Devour house salad comes). Tomatoes are the nightshade; dressing changes the allergens."],
  ["Roasted Pear Salad","$16",["dairy","tree nuts"],"Gorgonzola and walnuts, maple balsamic."],
  ["Caesar / Gem Caesar","$15",["dairy","egg","gluten","fin fish"],"Sous-vide egg dressing with bonito flakes — the fin fish flag stays even if the guest skips the optional anchovies."],
  ["Chopped Wedge Salad","$15",["dairy","pork","nightshade","egg"],"Blue cheese, bacon, marinated tomatoes. Blue cheese dressing is usually mayo-based — that is egg, ask the chef."],
@@ -336,7 +336,7 @@ const ALLERGENS = [
  ["Bearnaise Sauce","$2",["egg","dairy","allium","alcohol"],"GF. Verify the vinegar/wine/shallot base."],
  ["Stuffed Chicken Breast","$38",["dairy","chicken","allium","alcohol"],"Off the menu. Halal option was noted when it ran."],
  ["Primavera Pasta","$40",["gluten","dairy","allium","nightshade","tree nuts"],"Verify pesto nut content."],
- ["Miso Sea Bass","$46",["white fish","fin fish","soy","alcohol","gluten"],"Miso, mirin, sake, coconut risotto. Miso and soy elements often carry wheat or barley — confirm before promising GF."],
+ ["Miso Sea Bass","$46",["white fish","fin fish","soy","alcohol","gluten","cross-contact"],"Miso, mirin, sake, coconut risotto, with fried Brussels sprouts on top — those come out of the SHARED fryer, so they are the main gluten (cross-contact). The Devour build drops the Brussels sprouts (coconut risotto only). Miso can still carry wheat/barley, so for a celiac confirm the fish with the kitchen before promising GF."],
  ["Short Rib Pasta","$52",["beef","gluten","dairy","alcohol","allium"],"Off the menu. Orecchiette, vermouth cream sauce."],
  ["Sea Scallops","$48",["shellfish","pork","dairy","allium"],"GF. Prosciutto, mushrooms, squash puree."],
  ["Chilean Sea Bass","$46",["white fish","fin fish","dairy","alcohol","allium","nightshade"],"GF. Lemon-caper white wine butter sauce."],
@@ -452,7 +452,7 @@ const DEVOUR = {
   "It is a SET three-course menu: they choose a soup or salad, an entree, one accessory (side), and a dessert.",
   "The price per person is whatever ENTREE they pick \u2014 from $45 (Vegan Stuffed Tomatoes) up to $65 (6 oz Spinalis). Tax and gratuity are on top.",
   "Enhancements (lobster tail, scallops, filet upgrade, etc.) are add-ons ON TOP of the per-person price.",
-  "Nearly everything is gluten-free; there is a vegan entree and a GF/vegan sorbet, so a mixed-needs table is easy. For a celiac, still confirm the exact dish with the kitchen — the a-la-carte House Salad and Seabass carry gluten."
+  "Nearly everything is gluten-free; there is a vegan entree and a GF/vegan sorbet, so a mixed-needs table is easy. The Devour build drops the two gluten sources the a-la-carte plates have — the house salad comes without croutons, and the seabass without the fried Brussels sprouts. For a true celiac, still confirm the seabass, since the miso can carry wheat."
  ],
  /* The upsell blueprint — how we actually maximize a Devour check, step by step. */
  blueprint: [
@@ -473,7 +473,7 @@ const DEVOUR = {
   ["Entree \u2014 choose one (sets the per-person price)", [
    ["6 oz Spinalis", "$65 / person \u00b7 GF", "The top check \u2014 steer here."],
    ["Filet Mignon", "$55 / person \u00b7 GF", "The classic upsell from the $45 floor."],
-   ["Miso Glazed Seabass", "$50 / person \u00b7 GF", "Coconut risotto garnish."],
+   ["Miso Glazed Seabass", "$50 / person \u00b7 GF", "Coconut risotto \u2014 the Devour build has no fried Brussels sprouts. Miso can still carry wheat, so confirm for a celiac."],
    ["Chicken Alfredo Pasta", "$47 / person", "Grilled chicken, creamy Alfredo."],
    ["Chicken Parmesan", "$47 / person", "Fried chicken breast, linguine, tomato diavolo, melted cheese pour-over."],
    ["Vegan Stuffed Tomatoes", "$45 / person \u00b7 GF \u00b7 vegan", "The vegan option and the $45 floor."]

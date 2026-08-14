@@ -11,7 +11,7 @@ const MC = [
  {q:"Mirepoix is pronounced and means:",o:["meer-PWAH: onion, carrot, celery","myer-pox: garlic, tomato, pepper","meer-pwah: cream, butter, flour","mire-pwa: parsley, thyme, bay"],t:"food"},
  {q:"Which filet pricing set is current?",o:["Filet 6 oz $54 / 10 oz $79; Wagyu Filet 6 oz $95 / 10 oz $135; A5 $25/oz","Filet 6 oz $40 / 10 oz $60; A5 $32/oz","All filets are only 8 oz","Farbuckle is only a 15 oz cut"],t:"steak"},
  {q:"Well-done filet note:",o:["Offer or expect to butterfly it so it cooks evenly","Never butterfly any filet","Serve blue rare by default","Only cook in the oven, no sear"],t:"steak"},
- {q:"Which is a strong off-menu / special cut answer?",o:["48 oz Porterhouse, 15 oz Hand-Cut/TMP, 45-day dry-aged bone-in ribeye, spinalis, K.D.'s Tomahawk","Only Delmonico and salmon","Only crab Oscar and lobster tail","Only chicken parmesan and primavera"],t:"steak"},
+ {q:"Which is a strong off-menu / special cut answer?",o:["48 oz Porterhouse, 15 oz Hand-Cut/TMP, 45-day dry-aged bone-in ribeye, spinalis, Australian Wagyu","Only Delmonico and salmon","Only crab Oscar and lobster tail","Only chicken parmesan and primavera"],t:"steak"},
  {q:"Best Japanese A5 sell point:",o:["Kagoshima, $25/oz, extreme marbling, low-stress care, manager slices tableside","Leanest steak with no fat","Best well done with ketchup","Always served ground in tacos"],t:"steak"},
  {q:"Which enhancement is $25?",o:["Steak 47 topping","Bearnaise","Horseradish-Bleu Cheese Crust","Roasted Mushrooms"],t:"steak"},
  {q:"Sea Scallops entree includes:",o:["U-10 scallops, butternut squash puree, prosciutto, wild mushrooms","Scallops, pasta, diavolo, brioche","Scallops, arugula, Gorgonzola, walnuts","Scallops only, no sides"],t:"food"},
@@ -54,7 +54,6 @@ const MC = [
  {q:"Warm-water vs cold-water oysters:",o:["Warm: larger, sweeter, more tender. Cold: smaller, brinier, firmer","Warm: smaller and brinier. Cold: larger and sweeter","They taste identical — only the shells differ","Cold-water oysters cannot be served raw"],t:"food"},
  {q:"How many sides for a table of six?",o:["Suggest 3-4 — every side comfortably feeds 2-3 people","One per guest, always six","Two max so plates stay clear","Sides are not suggested at Mo's"],t:"ops"},
  {q:"The five things to hit in your menu spiel:",o:["Names (yours + your teammate's), first time or returning, allergies, specials and features, wine/app suggestions — and always ask about celebrations","Just the specials and the soup","Prices of the three cheapest entrees","The dessert list first"],t:"ops"},
- {q:"K.D.'s Tomahawk — who is K.D.?",o:["Kevin Dickey, a former owner","The head butcher","A Kagoshima cattle rancher","The Carmel bar manager"],t:"steak"},
  {q:"What makes the house Caesar dressing unusual?",o:["An hour-long sous-vide egg blended in for creaminess, and bonito for depth alongside the anchovy profile","It is bottled and imported from Italy","It has no egg at all","Blue cheese is the secret base"],t:"food"},
  /* extra questions built from the wine + cocktail material */
  {q:"A guest wants a red that will not overpower the Chilean Sea Bass. Best call?",o:["Gary Farrell Russian River Pinot Noir — silky, bright, food friendly","Caymus Special Selection — plush and concentrated","Cade Howell Mountain — mountain tannin","Patrimony by Daou — luxury Paso power"],t:"wine"},
@@ -120,7 +119,7 @@ const MC = [
  {"q": "Steaks and butter — the rule is…", "o": ["Every steak is buttered by default, and the kitchen CAN go fully butter-free if the guest asks", "Butter-free by default", "Butter can never come off", "Only filets get butter"], "t": "steak"},
  {"q": "Serving temperature for A5 wagyu…", "o": ["Rare to med-rare — nudge gently, never argue", "Well-done brings the fat out", "Always exactly medium", "The kitchen decides"], "t": "steak"},
  {"q": "The A5 tableside show is…", "o": ["A manager cut with the Hanzo knife on a butcher's block, torch + rosemary salt, Kobe Hanzo knives preset", "The server slices at the table", "Kitchen-sliced, no show", "Just a fancy plate"], "t": "steak"},
- {"q": "The Tomahawk is…", "o": ["32 oz Australian Wagyu at $140", "24 oz USDA Choice at $120", "A 40 oz share cut at $220", "Another name for the porterhouse"], "t": "steak"},
+ {"q": "The Australian Wagyu is…", "o": ["32 oz at $140", "24 oz USDA Choice at $120", "A 40 oz share cut at $220", "Another name for the porterhouse"], "t": "steak"},
  {"q": "The 45-day is…", "o": ["A 22 oz bone-in ribeye, dry-aged a full 45 days", "A 16 oz strip", "A boneless ribeye", "Aged 30 days"], "t": "steak"},
  {"q": "Advice From John is…", "o": ["Orin Swift Merlot — the label is real bathroom-graffiti advice", "A Buehler Cabernet", "A house blend nobody makes", "An Oregon Pinot"], "t": "wine"},
  {"q": "The volume sellers on the wine list are…", "o": ["Caymus, Advice From John, and Kim Crawford — with the goal of stepping guests toward Silver Oak tier", "Cristal and Opus One", "Only by-the-glass pours", "The house red"], "t": "wine"},
@@ -153,7 +152,6 @@ const MC = [
  {"q": "The discipline ladder is…", "o": ["Verbal warning → written warning → termination, with violations on record six months", "Three strikes in a year", "One warning then done", "Fines first"], "t": "house"},
  {"q": "Probation for new hires runs…", "o": ["120 days", "30 days", "60 days", "A full year"], "t": "house"},
  {"q": "Paychecks come…", "o": ["Every other Wednesday — the pay period runs Wednesday through Tuesday", "Every Friday", "Twice a month on the 1st and 15th", "Monthly"], "t": "house"},
- {"q": "K.D.'s Tomahawk is named for…", "o": ["Kevin Dickey, a former owner", "the Kitchen Director", "a butcher in Kansas", "the knife brand"], "t": "house"}
 ];
 
 /* THE REAL 30-QUESTION TEST (graded 7/10, corrected answers) */
@@ -168,7 +166,7 @@ const OPEN = [
  ["How is the Baked French Onion prepared?","Vidalia onions caramelized in veal/beef broth for 48-72 hours, served in a brown crock with an herb crouton, provolone, and parsley, then broiled. Mirepoix is onion, carrot, celery."],
  ["Name all filet cuts and oz, including Australian and Japanese.","Filet mignon 6, 10, 15 oz. Australian Wagyu filet 6 and 10 oz. Japanese A5 by the ounce. Filet Duo: two 3 oz end-cut medallions."],
  ["Describe our steak temperatures.","Blue very red and very cold; center rare cold red center; medium rare cool red center; medium warm to hot red center; medium well hot pink center; well hot center with little to no pink. Butterfly well-done filets."],
- ["What are our off-menu steak cuts?","48 oz porterhouse (NY strip and filet in one cut), 45-day dry-aged bone-in ribeye, spinalis/ribeye cap, K.D.'s Tomahawk, 15 oz hand-cut/TMP filet, 14 oz bone-in filet."],
+ ["What are our off-menu steak cuts?","48 oz porterhouse (NY strip and filet in one cut), 45-day dry-aged bone-in ribeye, spinalis/ribeye cap, Australian Wagyu, 15 oz hand-cut/TMP filet, 14 oz bone-in filet."],
  ["Sell the Japanese A5.","Kagoshima, sold by the ounce. Highest grade of Wagyu, extreme marbling from generations of breeding, low-stress handling, and a specific grain finishing diet. The fat renders like butter — best rare to medium rare. A manager slices it tableside."],
  ["List and describe all enhancements.","Crab Oscar $14, horseradish-bleu cheese crust $4, bearnaise $2, 5 oz lobster tail $50, two scallops $14, brandy peppercorn $6, black truffle butter $6, garlic butter $6, roasted mushrooms $8, Steak 47 $25."],
  ["Describe the Sea Scallops entree.","U-10 scallops pan-seared for a golden crust, with butternut squash puree, prosciutto, and wild mushrooms."],
@@ -471,7 +469,7 @@ facts:[
 ["Uniform","Men: black vest, black tie, long white shirt, black pants, black shoes. Women: black shirt, black pants, black shoes."],
 ["Suggest sides","3-4 shared sides for a table of six. Every side feeds 2-3."],
 ["Wine math","One $90 bottle a night at 20% grat is $18. Ten tables a night, five nights a week — bottle sales are a five-figure raise. That is why the wine tab exists."],
-["House trivia","K.D.'s Tomahawk = Kevin Dickey, former owner. The old Kristen Sundae = named for a former owner's wife. Chef Miguel Garatachea runs this kitchen."],
+["House trivia","The old Kristen Sundae = named for a former owner's wife. Chef Miguel Garatachea runs this kitchen."],
 ["The rooms","Boxing station: kitchen back-left, cleaned nightly, stocked mornings. Gift cards: at the BAR TOP, not the host stand. Pre-shift: 4:15 daily with the MOD."],
  ["Who runs the building","Head Chef Miguel Garatachea. General Manager Mike Pavey — shift switches are approved by the GM only. Assistant General Manager Craig DeVaney. Lillian Speedy handles HR and books the banquets."]]
 };

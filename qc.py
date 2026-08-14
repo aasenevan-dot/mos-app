@@ -133,9 +133,9 @@ _AGREE = [
     ("48 oz Porterhouse price", r"Porterhouse.{0,160}?\$(1\d\d)", "170",
      {"4-data-food.js"}),          # food.js also carries the archive note about the old $180 name
     # food.js is exempt on both: it is the file that carries the history -- the retired
-    # "Tomahawk Tuesday" $180 package, and the old "Australian Wagyu Porterhouse at $180"
+    # "Australian Wagyu Tuesday" $180 package, and the old "Australian Wagyu Porterhouse at $180"
     # name. Those are deliberate archive entries, not stale copies.
-    ("Australian Wagyu Tomahawk price", r"Wagyu Tomahawk.{0,160}?\$(1\d\d)", "140",
+    ("Australian Wagyu price", r"Australian Wagyu(?! Filet).{0,160}?\$(1\d\d)", "140",
      {"4-data-food.js"}),
 ]
 for label, rx, want, skip in _AGREE:

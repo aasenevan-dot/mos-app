@@ -714,12 +714,12 @@ divider(3, "Surf and Turf and the Prime Cuts", "Steak and seafood descriptions, 
 {
   const s = page("Temperatures", "The language of doneness", D3);
   const temps = [
-    ["Blue rare", "cold red center"],
-    ["Rare", "cool red"],
-    ["Medium rare", "warm red — the house sweet spot"],
-    ["Medium", "warm pink"],
-    ["Medium well", "slight, hot pink"],
-    ["Well done", "little to no pink"]
+    ["Blue", "very red and very cold"],
+    ["Center Rare", "cold red center"],
+    ["Medium Rare", "cool red center — the house sweet spot"],
+    ["Medium", "warm to hot red center"],
+    ["Medium Well", "hot pink center"],
+    ["Well", "hot center, little to no pink"]
   ];
   blk("cards", temps.map(t => [t[0], "", t[1]]));
   const w = (CW - 0.18 * 5) / 6;
@@ -750,7 +750,7 @@ placeholder(D3, "each temperature, cut open",
   "Six cross-sections side by side, same cut, same lighting. Nothing teaches temps like a photo lineup.");
 
 {
-  const s = page("The Prime Cuts", "Filet through tomahawk", D3);
+  const s = page("The Prime Cuts", "Filet through Australian Wagyu", D3);
   rows(s, [
     ["•", "Filet Mignon  6 oz $54 / 10 oz $79.  ", "Center cut, almost no marbling — you order it for pure tenderness. At medium rare it practically cuts with a fork. Rosemary Maldon salt to finish."],
     ["•", "Farbuckle Filet  6 oz $63 / 10 oz $87.  ", "The show filet, seared and finished at the table. Any cut can be Farbuckled for roughly a $9 upcharge."],
@@ -764,10 +764,10 @@ placeholder(D3, "each temperature, cut open",
 {
   const s = page("The Prime Cuts", "The big ones", D3);
   rows(s, [
-    ["•", "K.D.'s Tomahawk  32 oz $160.  ", "A ribeye that keeps the whole rib bone — K.D. is Kevin Dickey, a former owner. The bone lets marrow render into the meat, a butteriness you can only get this way."],
+    ["•", "Australian Wagyu  32 oz $140.  ", "A ribeye that keeps the whole rib bone. The bone lets marrow render into the meat, a butteriness you can only get this way."],
     ["•", "Australian Wagyu Filet  6 oz $95 / 10 oz $135.  ", "Australian cattle crossbred with Japanese wagyu — even one generation lifts the marbling. Wagyu fat melts lower, so it runs juicy at rare. The easy level-up for a filet person."],
     ["•", "Japanese A5 Wagyu  $25 an ounce.  ", "Kagoshima Prefecture. Learn it as a story, not a spec sheet — see the next slide."],
-    ["•", "48 oz USDA Choice Porterhouse  $150.  ", "Not wagyu, and honest about it. About 26 oz of strip, 12 oz of filet, roughly a 10 oz bone. Two people split it for a manager-cut experience at a great value."],
+    ["•", "48 oz USDA Choice Porterhouse  $170.  ", "Not wagyu, and honest about it. About 22 oz of strip, 12 oz of filet, roughly a 10 oz bone. Two people split it for a manager-cut experience at a great value."],
     ["•", "Spinalis / Ribeye Cap  $14 an ounce, 6 oz minimum.  ", "The cap of the ribeye — rivals filet tenderness while keeping ribeye richness. Spinalis Sunday runs it at $10 an ounce."],
     ["•", "45-Day 22 oz Dry-Aged Bone-In Ribeye.  ", "Forty-five days of cold moving air pulls moisture out and concentrates the beef while enzymes soften the connective tissue. Deep, nutty, brown-butter richness."]
   ], { top: 1.62, fs: 12 });
@@ -828,7 +828,7 @@ placeholder(D3, "each temperature, cut open",
     ["The Farbuckle", "front and back run it together",
       "Ring the steak at the guest's temperature. Bring the sizzling skillet, tongs, gloves, tray, rosemary salt, beef tallow, warm butter. At the table: steaks into the skillet, let them work while you talk, butter them, tallow before pulling, finish with rosemary salt, serve."],
     ["A5 and Porterhouse", "the manager slices",
-      "Butcher block, Japanese knife, honing iron, gloves, rosemary salt. The manager slices and tells the story. Your job is a flawless setup and the Hanzo knives preset. The porterhouse, the spinalis, the tomahawk and the A5 are all manager-cut tableside."],
+      "Butcher block, Japanese knife, honing iron, gloves, rosemary salt. The manager slices and tells the story. Your job is a flawless setup and the Hanzo knives preset. The porterhouse, the spinalis, the Australian Wagyu and the A5 are all manager-cut tableside."],
     ["The smoke show", "+$3, huge reaction",
       "The Smoked Draft Old Fashioned and the Pittsburghed Peach can be smoked. The bartender builds it, you smoke it under the lid on your tray, and you lift the lid at the table. Cheap theater, big payoff."]
   ], { cols: 3, top: 1.72, h: 2.7, bodyFs: 11 });
@@ -845,9 +845,9 @@ placeholder(D3, "every tableside setup, tray by tray",
     {
       head: "The four that typically always run",
       items: [
-        "48 oz USDA Choice Porterhouse — $150.",
+        "48 oz USDA Choice Porterhouse — $170.",
         "Spinalis / Ribeye Cap — $14 an ounce, $10 on Spinalis Sunday.",
-        "Australian Wagyu Tomahawk — 32 oz, $180.",
+        "Australian Wagyu — 32 oz, $140.",
         "45-Day Dry-Aged Bone-In Ribeye — 22 oz.",
         "They live on the cut board, not the printed menu — mentioning them makes a guest feel like an insider."
       ]
@@ -1339,7 +1339,7 @@ placeholder(D9, "the straight tequila page from Toast",
   const s = page("The regions", "One breath each", D9);
   const regions = [
     ["Napa Valley", "", "big steak red"],
-    ["Mountain Napa", "", "Howell, Spring, Veeder — darker and firmer. Ribeye and tomahawk."],
+    ["Mountain Napa", "", "Howell, Spring, Veeder — darker and firmer. Ribeye and Australian Wagyu."],
     ["Russian River", "", "silky, fog-cooled Pinot. Fish or filet."],
     ["Willamette", "", "elegant, not heavy."],
     ["Burgundy & Chablis", "", "refined and food-driven — earth, mineral, acid."],

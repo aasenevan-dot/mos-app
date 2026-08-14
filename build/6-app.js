@@ -748,7 +748,10 @@ function search(q){
   COCKTAILS.forEach(x=>{if(matches([x.n,x.build,x.garnish,x.desc,x.p,x.grp,"garnish"]))add("Cocktail",x.n+" — "+x.p,"Garnish: "+x.garnish+" · "+x.build,"cocktails");});
   Object.entries(MENU).forEach(([sec,items])=>items.forEach(i=>{if(matches([sec,i[0],i[1],i[2],i[3]]))add(sec,i[0]+" — "+i[1],i[2],"menu");}));
   ENHANCE.forEach(e=>{if(matches([e[0],e[1],e[2],e[3]]))add("Enhancement",e[0]+" — "+e[1],e[2],"menu");});
-  ALLERGENS.forEach(r=>{if(matches([r[0],r[2].join(" "),r[3]]))add("Allergens",r[0],"Contains: "+(r[2].join(", ")||"none listed")+". "+r[3],"allergens");});
+  ALLERGENS.forEach(r=>{
+    const oldNameAlias=r[0]==="Australian Wagyu"?"tomahawk tomahwak":"";
+    if(matches([r[0],r[2].join(" "),r[3],oldNameAlias]))add("Allergens",r[0],"Contains: "+(r[2].join(", ")||"none listed")+". "+r[3],"allergens");
+  });
   Object.entries(SPIRITS).forEach(([sec,rows])=>rows.forEach(r=>{if(matches([sec,r[0],r[1],r[2]]))add(sec,r[0]+" — "+r[1],r[2],"cocktails");}));
   BEER.forEach(b=>{if(matches([b[0],b[2],b[3]]))add("Beer",b[0]+" — "+b[1],b[2]+". "+b[3],"cocktails");});
   OPEN.forEach(o=>{if(matches([o[0],o[1]]))add("Test answer",o[0],o[1],"study");});
@@ -782,9 +785,9 @@ function search(q){
       add("Handbook",h[0], (typeof HBOPEN!=="undefined"&&HBOPEN)
         ? txt.trim().slice(0,140)+"…"
         : "Staff only — open the Employee Handbook in How We Work to read it.","house");});
-  /* the book is searchable too — a hit sends you to How We Work, where the book card lives */
+  /* the book is searchable too — a hit sends you to Reference & Archive, where the book card lives */
   BOOK.forEach(c=>{const txt=c.h.replace(/<[^>]+>/g," ").replace(/\s+/g," ");
-    if(matches([c.t,"mo's book",txt]))add("Mo's Book",c.t,txt.trim().slice(0,140)+"…","house");});
+    if(matches([c.t,"mo's book",txt]))add("Mo's Book",c.t,txt.trim().slice(0,140)+"…","extra");});
   /* The 79-slide training slideshow shipped indexed-nowhere, so nothing in it was
      findable from the search bar the way the book already was. */
   /* dated house events — the Labor Day party, wine dinners, the golf outing —
@@ -796,15 +799,15 @@ function search(q){
     const sec=(typeof SECTIONS!=="undefined"?(SECTIONS.find(x=>x.tables.indexOf(tb.t)>=0)||{}).who:"")||"";
     if(matches(["table "+tb.t,tb.t,r.room,sec,"floor plan","seat"]))
       add("Floor plan · "+r.room,"Table "+tb.t,
-          "Sits "+tb.seats+(sec?" · "+sec:"")+" · tap it on the plan","house");}));
+          "Sits "+tb.seats+(sec?" · "+sec:"")+" · tap it on the plan","ops");}));
   if(typeof FLOOR!=="undefined") FLOOR.forEach(r=>{
     /* FLOORMAP already indexes every table above; the old photo list would double each
        one. Only fall back to it when the live map is absent. */
     if(typeof FLOORMAP==="undefined") r.groups.forEach(g=>g[1].forEach(t=>{
       if(matches(["table "+t,t,r.n,g[0],"floor plan","seat"]))
-        add("Floor plan · "+r.n,"Table "+t,g[0]+" in the "+r.n,"house");}));
+        add("Floor plan · "+r.n,"Table "+t,g[0]+" in the "+r.n,"extra");}));
     if(matches([r.n,"floor plan","tables","seat 1"]))
-      add("Floor plan",r.n,r.sub+" — "+r.tables.length+" tables","house");});
+      add("Floor plan",r.n,r.sub+" — "+r.tables.length+" tables","ops");});
   if(typeof EVENTS!=="undefined"){
     /* Past events drop out of search the same way eventsBlock() drops them from the
        Schedule tab — otherwise a search for "devour"/"summerfest" keeps returning
@@ -825,7 +828,7 @@ function search(q){
   if(typeof DECK!=="undefined") DECK.forEach((c,j)=>{
     const txt=String(c.h||"").replace(/<[^>]+>/g," ").replace(/\s+/g," ").trim();
     if(matches([c.t,c.s,c.d,"training slideshow","slideshow",txt]))
-      add("Slideshow"+(c.d?" · "+c.d:""),c.t,(c.s?c.s+" — ":"")+txt.slice(0,120)+(txt.length>120?"…":""),"house");});
+      add("Slideshow"+(c.d?" · "+c.d:""),c.t,(c.s?c.s+" — ":"")+txt.slice(0,120)+(txt.length>120?"…":""),"extra");});
   /* How We Work was never indexed — the mission, the Points of Passion, the
      non-negotiables, every steps-of-service list, the side work and the house facts
      were all invisible to search. "uniform", "boxing station", the chef's name: nothing. */
@@ -1262,16 +1265,12 @@ function build(){
 
   /* ---------- SALES CALCULATOR ---------- */
   $("#p-house").innerHTML=`
-    <div id="bkWrap" style="display:none"></div>
-    <div id="houseMain">
     <div class="sechead"><h2>How we work</h2><span>Points of Passion, steps of service, and the house playbook</span></div>
     <div class="note gold"><b>Mission:</b> ${esc(HOUSE.mission)}</div>
     ${(typeof HOUSE_INFO==="undefined")?"":`
       <div class="sechead" id="sec-wifi"><h2>At the table</h2><span>what guests ask for that is on no menu</span></div>
       ${tbl(["What","It is"],HOUSE_INFO.map(h=>[`<b>${esc(h[0])}</b><br><span style="color:var(--dim);font-size:12.5px">${esc(h[2])}</span>`,
         `<span class="mono" style="font-size:15px;font-weight:800">${esc(h[1])}</span>`]))}`}
-    <div class="bkcard" onclick="openBook()"><h3>&#128214; The Mo's Book</h3><p>The whole training course, in the order we teach it — every day of the original itinerary, front to back. Tap to read it chapter by chapter.</p></div>
-    <div class="bkcard" onclick="openDeck()"><h3>&#128444;&#65039; The Training Slideshow</h3><p>The same ten days as a deck you swipe through one slide at a time. Tap to start, or jump to a day.</p></div>
     ${""/* Mise en Place: what has to ride out WITH the plate. Two views on purpose —
           the grab list is how an expo builds a tray, the table is how you look one dish up. */}
     <div class="sechead" id="sec-mise"><h2>Mise en Place</h2><span>${MISE.length} items that need something set with them</span></div>
@@ -1288,10 +1287,6 @@ function build(){
     ${acc("Every item, one at a time","look a single dish up",
       tbl(["Dish","Set with it","Note"],MISE.map(m=>[`<b>${esc(m[0])}</b>`,esc(m[1].join(" + ")),
         `<span style="color:var(--dim)">${esc(m[2]||"")}</span>`])))}
-
-    ${acc("The printed floor plans","photographed off the wall — the live, tappable plan lives on the Money tab",
-      FLOOR.map(r=>`<p class="sub" style="margin:10px 0 4px"><b>${esc(r.n)}</b> — ${esc(r.sub)}</p>
-        <img class="floorimg" src="${r.img}" alt="${esc(r.n)} floor plan" loading="lazy" onclick="openFloor('${esc(r.n)}')">`).join(""))}
 
     ${acc("Points of Passion — the 16","the Mo's service philosophy, word for word where it counts",`<ol class="steps">${HOUSE.points.map(([t,d])=>`<li><b>${esc(t)}.</b> ${esc(d)}</li>`).join("")}</ol>`)}
     ${acc("Isaac's Non-Negotiables — the 11","the standards that never bend",`<ol class="steps">${HOUSE.isaacs.map(d=>`<li>${esc(d)}</li>`).join("")}</ol>`)}
@@ -1310,18 +1305,19 @@ function build(){
     ${acc("Bar steps + timing standards","the 20-step bar bible — the timing rules apply everywhere",`<ul class="steps">${HOUSE.barsteps.map(d=>`<li>${esc(d)}</li>`).join("")}</ul>`)}
     ${acc("House facts","uniform, trivia, and the little rules",`<ul class="steps">${HOUSE.facts.map(([t,d])=>`<li><b>${esc(t)}:</b> ${esc(d)}</li>`).join("")}</ul>`)}
     <div class="sechead"><h2>Employee Handbook</h2><span>staff only</span></div>
-    <div id="hbGate"></div>
-
-    <div class="sechead"><h2>About this app</h2><span>read once</span></div>
-    <div class="note">Mo's Server Command Center — built by Evan (back server) as a training and money tool for the team. It is a STUDY COPY, not official house policy: menus, prices, and rules change, so when a dollar matters, verify in Toast or with a manager. The checkout math is proven against real graded checkouts. Spot something wrong or outdated? Tell Evan — corrections go in same-day. Updated <b>__BUILDDATE__</b>.</div>
-    </div>`;
+    <div id="hbGate"></div>`;
 
   /* ---------- REFERENCE & ARCHIVE ----------
      Good material that does not belong in a working tab. Same collapsed-row feel as the
      food menu: everything is shut until you tap it. */
   $("#p-extra").innerHTML=`
+    <div id="bkWrap" style="display:none"></div>
+    <div id="houseMain">
     <div class="sechead"><h2>Reference &amp; Archive</h2><span>worth keeping, out of the way</span></div>
     <p class="lede">Nothing here changes shift to shift. Open what you want.</p>
+
+    <div class="bkcard" onclick="openBook()"><h3>&#128214; The Mo's Book</h3><p>The whole training course, in the order we teach it — every day of the original itinerary, front to back. Tap to read it chapter by chapter.</p></div>
+    <div class="bkcard" onclick="openDeck()"><h3>&#128444;&#65039; The Training Slideshow</h3><p>The same ten days as a deck you swipe through one slide at a time. Tap to start, or jump to a day.</p></div>
 
     ${acc(WOTW.title,"the feature, both bottles",`
       <div class="grid wide">${[WOTW.a,WOTW.b].map(w=>`<div class="card hl">
@@ -1335,8 +1331,20 @@ function build(){
         <div class="crow"><div class="cname">${esc(c.n)}</div><div class="cprice">${esc(c.p)}</div></div>
         <div class="cbody"><b>Was:</b> ${esc(c.build)}</div></div>`).join("")}</div>`)}
 
+    ${acc("The printed floor plans","photographed off the wall — the live, tappable plan lives on the Money tab",
+      FLOOR.map(r=>`<p class="sub" style="margin:10px 0 4px"><b>${esc(r.n)}</b> — ${esc(r.sub)}</p>
+        <img class="floorimg" src="${r.img}" alt="${esc(r.n)} floor plan" loading="lazy" onclick="openFloor('${esc(r.n)}')">`).join(""))}
+
     ${acc("Private dining rooms","headcounts — Lillian books them",
-      tbl(["Room","Capacity"],ROOMS.map(r=>[`<b>${esc(r[0])}</b>`,esc(r[1])])))}`;
+      tbl(["Room","Capacity"],ROOMS.map(r=>[`<b>${esc(r[0])}</b>`,esc(r[1])])))}
+
+    ${acc("House history & names","where a couple of our names came from",`<ul class="steps">
+      <li>The Australian Wagyu (32 oz, manager-cut) used to be called K.D.'s Tomahawk, after Kevin Dickey, a former owner. Same cut — we just use the current name now.</li>
+      <li>The old Kristen Sundae was named for a former owner's wife.</li></ul>`)}
+
+    <div class="sechead"><h2>About this app</h2><span>read once</span></div>
+    <div class="note">Mo's Server Command Center — built by Evan (back server) as a training and money tool for the team. It is a STUDY COPY, not official house policy: menus, prices, and rules change, so when a dollar matters, verify in Toast or with a manager. The checkout math is proven against real graded checkouts. Spot something wrong or outdated? Tell Evan — corrections go in same-day. Updated <b>__BUILDDATE__</b>.</div>
+    </div>`;
 
   /* ---------- VOCABULARY ---------- */
   $("#p-vocab").innerHTML=`
@@ -2058,7 +2066,7 @@ function openBook(i){
     BOOKCH=null;
     w.innerHTML=`<div class="sechead"><h2>The Mo's Book</h2><span>everything we teach, in the order we teach it</span></div>
     <div class="card"><div class="cbody">${BOOK.map((c,j)=>`<div class="bkrow" onclick="openBook(${j})"><div class="n">${j===0?"&#9733;":(j===BOOK.length-1?"&#9873;":j)}</div><div class="t">${esc(c.t)}</div></div>`).join("")}</div></div>
-    <div class="bknav"><button onclick="closeBook()">&#8592; Back to How We Work</button></div>`;
+    <div class="bknav"><button onclick="closeBook()">&#8592; Back to Reference &amp; Archive</button></div>`;
   } else {
     BOOKCH=i;
     const c=BOOK[i];
@@ -2100,7 +2108,7 @@ function openDeck(i){
     DECKI=null;
     w.innerHTML=`<div class="sechead"><h2>The Training Slideshow</h2><span>${DECK.length} slides, one at a time</span></div>
       ${dkTOC()}
-      <div class="bknav"><button onclick="closeDeck()">&#8592; Back to How We Work</button>
+      <div class="bknav"><button onclick="closeDeck()">&#8592; Back to Reference &amp; Archive</button>
       <button class="bkc" onclick="openDeck(0)">Start &#8594;</button></div>`;
     window.scrollTo(0,0); return;
   }

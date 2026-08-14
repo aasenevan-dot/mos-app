@@ -237,7 +237,7 @@ Two standing rules. Every steak is **cooked with butter by default, and the kitc
 
 **Delmonico Ribeye — 16 oz $80.** Named for Delmonico's, the old New York steakhouse that made the style famous. Our most marbled prime cut — rich, buttery, beefy fat rendering between the cap and the eye with every bite. The old-school steakhouse ribeye.
 
-**K.D.'s Tomahawk — 32 oz $160.** A ribeye that keeps the whole rib bone — K.D. is Kevin Dickey, a former owner. Even more heavily marbled than the Delmonico, and the bone lets marrow render into the meat as it cooks, a butteriness you can only get this way. The juiciest, most flavorful cut we offer besides the Japanese A5.
+**Australian Wagyu — 32 oz $140.** A ribeye that keeps the whole rib bone. Even more heavily marbled than the Delmonico, and the bone lets marrow render into the meat as it cooks, a butteriness you can only get this way. The juiciest, most flavorful cut we offer besides the Japanese A5.
 
 **Australian Wagyu Filet — 6 oz $95 / 10 oz $135.** Australian cattle crossbred with Japanese wagyu — even one generation lifts the marbling dramatically. Wagyu fat melts at a lower temperature, so it runs juicy even at rare. Just as tender as the prime filet with more richness — the easy level-up for a filet person. Serve rare to medium rare; nudge, never argue.
 
@@ -247,7 +247,7 @@ Two standing rules. Every steak is **cooked with butter by default, and the kitc
 
 **Spinalis / Ribeye Cap — $14 an ounce, minimum 6 oz.** The cap of the ribeye — rivals filet tenderness while keeping ribeye richness. Spinalis Sunday runs it at $10 an ounce.
 
-**45-Day 22 oz Dry-Aged Bone-In Ribeye — price being verified.** Forty-five days of cold, moving air pulls the moisture out and concentrates the beef, while the meat's own enzymes break proteins down into amino acids and soften the connective tissue. That is where the deep, nutty, brown-butter richness comes from — savory and profound rather than just beefy, with the bone adding even more depth.
+**45-Day 22 oz Dry-Aged Bone-In Ribeye — $110.** Forty-five days of cold, moving air pulls the moisture out and concentrates the beef, while the meat's own enzymes break proteins down into amino acids and soften the connective tissue. That is where the deep, nutty, brown-butter richness comes from — savory and profound rather than just beefy, with the bone adding even more depth.
 
 ## Surf and Turf
 
@@ -275,7 +275,7 @@ Every steak order is an enhancement conversation: Oscar it, 47 it, tail it, butt
 
 ## Off-menu items
 
-Four cut specials typically always run: the **48 oz USDA Choice Porterhouse** at $170, the **Spinalis** at $14 an ounce ($10 on Spinalis Sunday), the **Australian Wagyu Tomahawk** — 32 oz at $140 — and the **45-Day Dry-Aged Bone-In Ribeye** at 22 oz. They live on the cut board, not the printed menu, which is exactly why mentioning them makes a guest feel like an insider.
+Four cut specials typically always run: the **48 oz USDA Choice Porterhouse** at $170, the **Spinalis** at $14 an ounce ($10 on Spinalis Sunday), the **Australian Wagyu** — 32 oz at $140 — and the **45-Day Dry-Aged Bone-In Ribeye** at 22 oz. They live on the cut board, not the printed menu, which is exactly why mentioning them makes a guest feel like an insider.
 
 ## How to talk about specials
 
@@ -497,7 +497,7 @@ Seasonal note: specialty lists rotate by season — the archive of retired cockt
 
 ## The regions in one breath each
 
-Napa Valley: big steak red. Mountain Napa — Howell, Spring, Veeder: darker and firmer, best for ribeye and tomahawk. Russian River: silky, fog-cooled Pinot that works with fish or filet. Willamette: elegant, not heavy. Burgundy and Chablis: refined and food-driven — earth, mineral, acid. Bordeaux and Pomerol: classic steakhouse restraint; Pomerol is the softer Merlot side. The Rhône: pepper and savory warmth — bold without being Cabernet. Rioja and Ribera: vanilla and tobacco Tempranillo, the food-friendly savory steak red. Tuscany and the Super Tuscans: powerful but built for the table. Champagne: acid and bubbles that cut richness — oysters, seafood, wagyu, even truffle fries. Marlborough: the crisp seafood white.
+Napa Valley: big steak red. Mountain Napa — Howell, Spring, Veeder: darker and firmer, best for ribeye and Australian Wagyu. Russian River: silky, fog-cooled Pinot that works with fish or filet. Willamette: elegant, not heavy. Burgundy and Chablis: refined and food-driven — earth, mineral, acid. Bordeaux and Pomerol: classic steakhouse restraint; Pomerol is the softer Merlot side. The Rhône: pepper and savory warmth — bold without being Cabernet. Rioja and Ribera: vanilla and tobacco Tempranillo, the food-friendly savory steak red. Tuscany and the Super Tuscans: powerful but built for the table. Champagne: acid and bubbles that cut richness — oysters, seafood, wagyu, even truffle fries. Marlborough: the crisp seafood white.
 
 ## Selling the list
 
@@ -505,7 +505,7 @@ What actually sells: **Caymus Cabernet is the volume king.** Advice From John mo
 
 The wine move, every time: ask whether they are leaning **lighter and smoother or bigger and richer**, then give two confident choices. Four people ordering glasses? A bottle is usually the better value — move them up the ladder. The math that should motivate you: one $90 bottle a night at 20% is $18; ten tables a night, five nights a week, and bottle sales are a five-figure raise.
 
-Pairing instincts to memorize: filet loves Pinot Noir — lighter wine, tender steak. Ribeye and tomahawk love Cabernet — tannin versus marbling. Dry-aged strip loves savory old world or structured Napa. A5 and celebration tables love Champagne. Seafood and oysters love Chablis, Sauvignon Blanc, and bubbles. Blackened salmon likes bright acid or lighter red — Riesling, rosé, Pinot. Tomato and cream pastas want acid and spice — Rioja, Rhône, Super Tuscan — never jam. "Cabernet is too dry" means pour them Merlot. The app's pairing finder holds the full good-better-best ladders for every dish.
+Pairing instincts to memorize: filet loves Pinot Noir — lighter wine, tender steak. Ribeye and Australian Wagyu love Cabernet — tannin versus marbling. Dry-aged strip loves savory old world or structured Napa. A5 and celebration tables love Champagne. Seafood and oysters love Chablis, Sauvignon Blanc, and bubbles. Blackened salmon likes bright acid or lighter red — Riesling, rosé, Pinot. Tomato and cream pastas want acid and spice — Rioja, Rhône, Super Tuscan — never jam. "Cabernet is too dry" means pour them Merlot. The app's pairing finder holds the full good-better-best ladders for every dish.
 
 Service ritual, non-negotiable: the front server sets the glasses; a **manager opens and pours every bottle** at the table. Over $250 gets the big Bordeaux glasses. Champagne and the sweet Moscato live cold; trophy reds get presented, not rushed.
 

@@ -266,13 +266,13 @@ const LEADS = {
  "Oysters Rockefeller":"The cooked oyster — baked with butter, breadcrumbs and a green herb puree.",
  "Crispy Ahi Tuna Bites":"Crispy sushi rice, avocado, ponzu, cilantro and jalapeno.",
  "45-Day 22 oz Dry-Aged Bone-In Ribeye":"Forty-five days of aging — deep, nutty, brown-butter richness on the bone.",
- "Tomahawk Tuesday":"The 32 oz wagyu tomahawk with wine, soup or salad, and dessert for $180.",
+ "Australian Wagyu Tuesday":"The 32 oz Australian Wagyu with wine, soup or salad, and dessert for $180.",
  "Buffalo Trace Dinner":"A five-course bourbon dinner — proof we run them.",
  "Retired printed cocktails":"Six specialty cocktails that came off the printed list.",
  "Spinalis Sunday":"The ribeye cap at $10/oz, one day a week.",
  "Spinalis / Ribeye Cap":"The cap of the ribeye — filet tenderness with ribeye richness. Manager cut.",
  "48 oz USDA Choice Porterhouse":"48 oz for two, cut tableside by a manager.",
- "Australian Wagyu Tomahawk":"32 oz of wagyu, cut tableside by a manager.",
+ "Australian Wagyu":"32 oz bone-in wagyu, cut tableside by a manager.",
  "Japanese A5 Wagyu":"From Kagoshima. A manager slices it tableside — the best cut in the city."
 };
 
@@ -312,7 +312,6 @@ const ALLERGENS = [
  ["Filet Duo","$47",["beef","crab","shellfish","dairy","egg","allium"],"Crab Oscar and horseradish bleu cheese crust."],
  ["Farbuckle Filet","6/10 oz",["beef","dairy"],"Chef sizzling butter, beef tallow, rosemary salt."],
  ["Filet Mignon","6 oz $54 / 10 oz $79",["beef","dairy"],"Plain steak allergen is beef. Cooked with butter by default — but the kitchen CAN cook any steak fully butter-free for a dairy allergy, the guest just has to ask."],
- ["K.D.'s Tomahawk","$160",["beef","dairy"],"Cooked with butter by default — but the kitchen CAN cook any steak fully butter-free for a dairy allergy, the guest just has to ask."],
  ["Dry Aged NY Strip","$58",["beef","dairy"],"Cooked with butter by default — but the kitchen CAN cook any steak fully butter-free for a dairy allergy, the guest just has to ask."],
  ["Delmonico Ribeye","$80",["beef","dairy"],"Cooked with butter by default — but the kitchen CAN cook any steak fully butter-free for a dairy allergy, the guest just has to ask."],
  ["Australian Wagyu Filet","6 oz $95 / 10 oz $135",["beef","dairy"],"Cooked with butter by default — but the kitchen CAN cook any steak fully butter-free for a dairy allergy, the guest just has to ask."],
@@ -322,7 +321,7 @@ const ALLERGENS = [
  ["The PD — 15 oz Hand-Cut Filet","$115",["beef","dairy"],"Cooked with butter by default — but the kitchen CAN cook any steak fully butter-free for a dairy allergy, the guest just has to ask."],
  ["4 oz Filet Mignon","$30",["beef","dairy"],"Cooked with butter by default — but the kitchen CAN cook any steak fully butter-free for a dairy allergy, the guest just has to ask."],
  ["Spinalis / Ribeye Cap","$14/oz",["beef","dairy"],"Cooked with butter by default — but the kitchen CAN cook any steak fully butter-free for a dairy allergy, the guest just has to ask."],
- ["Australian Wagyu Tomahawk","$140",["beef","dairy"],"Manager-cut special. Cooked with butter by default — but the kitchen CAN cook any steak fully butter-free for a dairy allergy, the guest just has to ask."],
+ ["Australian Wagyu","$140",["beef","dairy"],"32 oz bone-in manager-cut special. Cooked with butter by default — but the kitchen CAN cook any steak fully butter-free for a dairy allergy, the guest just has to ask."],
  ["45-Day 22 oz Dry-Aged Bone-In Ribeye","$110",["beef","dairy"],"Cooked with butter by default — but the kitchen CAN cook any steak fully butter-free for a dairy allergy, the guest just has to ask."],
  ["Filet Sliders (2)","$18",["beef","gluten","dairy","egg","allium","cross-contact"],"Slider buns (gluten), provolone (dairy), smoked garlic aioli (egg, allium), crispy onion strings. Same slider as the lounge listing."],
  ["Add 2 Scallops","$14",["shellfish"],"Scallops are shellfish."],
@@ -495,12 +494,11 @@ const DEVOUR = {
 };
 
 const SPECIALS_ON=[
- ["K.D.'s Tomahawk","32 oz $160","A ribeye that keeps the whole rib bone. Even more heavily marbled than the Delmonico. The bone lets marrow render during cooking, adding a butteriness you can only get by keeping the rib bone. The juiciest, most flavorful cut we offer besides the Japanese A5.","K.D. = Kevin Dickey, former owner · largest oval plate"],
- ["Denver Cut","$58","Running in place of the Dry Aged New York Strip, at the same price. A chuck cut — prime, fattier and heartier through the belly, with less marbling than the strip. Serve it rare, medium-rare or medium; past that it turns gamey.","cut special"],
+ ["Australian Wagyu","$140","32 oz wagyu ribeye with the whole rib bone, cut tableside by a manager. The bone lets marrow render during cooking, and the heavy marbling makes it the richest cut after Japanese A5. Wagyu rule: serve rare to med-rare — nudge, don't argue.","Manager cut"],
+ ["Denver Cut","$58","Running in place of the Dry Aged New York Strip, at the same price. A chuck cut — prime, fattier and heartier through the belly, with less marbling than the strip. Serve it rare, medium-rare or medium; past that it turns gamey.",""],
  ["48 oz USDA Choice Porterhouse","$170 when it runs","NOT wagyu — USDA Choice. 48 oz total: roughly a 22 oz NY strip, a 12 oz filet, and about a 10 oz bone — it varies a little with the cut. A manager slices it tableside off the board. The pitch: two people split it for a high-class manager-cut steak experience at a serious value — and there's no split-plate charge.","Manager cut"],
  ["Spinalis / Ribeye Cap","$14/oz","Minimum 6 oz. The cap of the ribeye — it rivals filet tenderness while keeping ribeye richness. A manager cuts it tableside.","Manager cut"],
  ["Spinalis Sunday","$10/oz every Sunday","The same ribeye cap, four dollars an ounce cheaper, one day a week. Minimum 6 oz. It is on the restaurant's own weekly-features page — the easiest upsell we have on a Sunday.","weekly feature"],
- ["Australian Wagyu Tomahawk","$140","32 oz, cut tableside by a manager. Wagyu rule: serve rare to med-rare — nudge, don't argue.","Manager cut"],
  ["45-Day 22 oz Dry-Aged Bone-In Ribeye","$110","Forty-five days of cold, moving air pulls the moisture out and concentrates the beef, while the meat's own enzymes break proteins down into amino acids and soften the connective tissue. That is where the deep, nutty, brown-butter richness comes from — savory and profound rather than just beefy, with the bone adding even more depth.",""],
  ["Ladies Night — every Thursday","$10 martinis + \u00bd-off apps","Ladies get $10 martinis and half-price appetizers in the lounge, every Thursday night.","weekly feature"],
  ["DEVOUR Indy — 3-course prix-fixe","Aug 24 – Sep 6 · from $45/pp","Menu picture, the deal in plain terms, and the upsell blueprint are in the Devour section at the top of this tab — and you can open the picture from Events too. Per-person price is the entrée — steer to Spinalis $65 / Filet $55, and always add an enhancement.","Limited time"],
@@ -521,7 +519,7 @@ const SPECIALS_PAST=[
  ["Stuffed Chicken Breast","$38","Stuffed with cream cheese, goat cheese, Parmesan, and white cheddar under a creamy thyme-rosemary herb sauce.","off the current menu"],
  ["Ahi Tuna & Wagyu Beef","$68","4 oz Hawaiian ahi crusted in black and white sesame with hoisin glaze, plus a 4 oz Australian wagyu filet, sliced. Eight ounces of surf and turf on one plate.","off the current menu"],
  ["Australian Wagyu Porterhouse (old name)","now the USDA Choice Porterhouse","For a while the 48 oz porterhouse was called an Australian Wagyu Porterhouse at $180. Same cut, right name and price now: USDA CHOICE, $170 — roughly a 22 oz NY strip, a 12 oz filet, and about a 10 oz bone, built for two to split.","renamed"],
- ["Tomahawk Tuesday","$180 package","The 32 oz Australian Wagyu Tomahawk plus two glasses of wine, two soups or salads, and a signature Brown Butter Cake to finish — a full night out for $180. Not running anymore, but worth knowing we did it.","not running"],
+ ["Australian Wagyu Tuesday","$180 package","The 32 oz Australian Wagyu plus two glasses of wine, two soups or salads, and a signature Brown Butter Cake to finish — a full night out for $180. Not running anymore, but worth knowing we did it.","not running"],
  ["Heart of Ribeye Skewers","$45","Bourbon glaze mixed with onions and peppers. One of the most underrated things we ever ran.","not running"],
  ["Flank Steak with Chimichurri","was ~$35","Ran earlier this summer. Not on the current list.","not running"],
  ["14 oz Bone-In Filet","past special","Bone marrow add-on was +$25; sometimes came with roasted red potatoes.","not running"],

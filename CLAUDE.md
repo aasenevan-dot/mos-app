@@ -278,9 +278,9 @@ The app is shared with coworkers and may sit in a PUBLIC repo. So:
 ## Open items (Evan is chasing these at work)
 
 - Big 8/4 verification round CLOSED: porterhouse ($150 USDA Choice, 15 oz strip + 8 oz
-  filet + 25 oz bone), tomahawk (32 oz $180), A5 $25/oz, PD on menu, Marsala build,
+  filet + 25 oz bone), Australian Wagyu (32 oz $140), A5 $25/oz, PD on menu, Marsala build,
   banquet 23%/Lillian 3%, shared fryer, wonton egg, kung pao = treat as peanuts,
-  Advice From John = Orin Swift (not Buehler). Tomahawk Tuesday + 14 oz bone-in filet +
+  Advice From John = Orin Swift (not Buehler). Australian Wagyu Tuesday + 14 oz bone-in filet +
   six printed cocktails retired to archives.
 - STILL OPEN (see 2026-08-04-allergen-chef-check.md in the parent folder): ponzu and miso
   soy-sauce wheat, blue cheese/crab dip mayo, demi and au gratin flour, calamari breading
@@ -303,7 +303,7 @@ The app is shared with coworkers and may sit in a PUBLIC repo. So:
   Isaac's 11 Non-Negotiables, back + front server steps of service, expo side work,
   tableside mise en place master list, uniform + house facts. Enrichments: Farbuckle
   full show, tower pasta procedure, king crab setup, house salad build, ranch recipe
-  flags, oyster warm/cold, K.D. + Kristen trivia, Nutty Martinez build, Buffalo Trace
+  flags, oyster warm/cold, Kristen trivia, Nutty Martinez build, Buffalo Trace
   Dinner archived, premium-wine selling lines, +8 quiz questions (65 MC total).
 - Evan will dictate his back-server SIDE WORK list and the manager CLOSING TASKS —
   side work goes under the More group, not a main tab (his call, 8/4).
@@ -719,7 +719,7 @@ beats any document:
 | Item | 8/4 said | 8/10 note, confirmed |
 |---|---|---|
 | 48 oz USDA Choice Porterhouse | $150 | **$170** |
-| 32 oz Australian Wagyu Tomahawk | $180 | **$140** |
+| Australian Wagyu | $140 | **$140** |
 | 45-Day 22 oz Dry-Aged Bone-In Ribeye | $120 (VERIFY) | **$110** |
 
 Also closed off that note: both rotating salmons are **$45** (the Cajun one had been
@@ -733,7 +733,7 @@ heartier through the belly, less marbling than the strip, served rare / medium-r
 medium. The Dry Aged New York Strip is still on the printed menu in the app — ask Evan
 whether it should come off while the Denver runs.
 
-The archived Tomahawk Tuesday package stays at $180 — that was the package price when it
+The archived Australian Wagyu Tuesday package stays at $180 — that was the package price when it
 ran, and it is history, not a live price.
 
 ## Spanish mode — content changes need a dictionary update
@@ -773,7 +773,6 @@ STILL NEEDS EVAN OR A MANAGER — do not guess these:
 6. **Halal** — the menu footer claims it broadly; the app says filet-family and chicken
    only, manager confirmation otherwise.
 7. Not on any printed page, so unverified rather than gone: Oysters Rockefeller $45,
-   A5 Nigiri $35, King Crab Legs MP, K.D.'s Tomahawk $160, Filet Duo $47, Filet &
+   A5 Nigiri $35, King Crab Legs MP, Australian Wagyu $140, Filet Duo $47, Filet &
    Lobster $105, Filet & Scallops $82, the Steak 47 **entree** $58 (the $25 topping IS
    printed), and Garlic Butter $6. No lounge or kids menu was photographed at all.
-

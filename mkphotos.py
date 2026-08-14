@@ -13,7 +13,7 @@ import io, os, json, base64, pathlib
 from PIL import Image
 
 PX, Q = 200, 70
-SRC = "/mnt/user-data/uploads/Mos-Dish-Photos/Web ready/thumbs"
+SRC = "/Users/evanaasen/Desktop/Mos-Dish-Photos/Web ready/thumbs"
 ROOT = pathlib.Path(__file__).parent
 
 # photo file (no .jpg)  ->  the EXACT menu item name in 4-data-food.js
@@ -39,7 +39,7 @@ DISHES = {
  "house-salad":"House Salad",
  "jalapeno-potatoes-au-gratin":"Jalapeno Potatoes Au Gratin",
  "japanese-a5-wagyu":"Japanese A5 Wagyu",
- "k-d-s-tomahawk":"K.D.'s Tomahawk",
+ "k-d-s-tomahawk":"Australian Wagyu",
  "lobster-bisque":"Lobster Bisque",
  "lobster-mac-n-cheese":"Lobster Mac N' Cheese",
  "mo-s-cookie":"Mo's Cookie / Prime Cookie",
@@ -50,7 +50,7 @@ DISHES = {
  "roasted-pear-salad":"Roasted Pear Salad",
  "short-rib-pasta":"Short Rib Pasta",
  "shrimp-cocktail":"Shrimp Cocktail",
- "steak-47":"Steak 47",
+ "steak-47":"Steak 47 (as an entree)",
  "the-mo-s-sundae":"The Mo's Sundae",
  "truffle-fries":"Truffle Fries",
  "white-cheddar-mashed-potatoes":"White Cheddar Mashed Potatoes",

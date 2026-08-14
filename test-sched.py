@@ -148,7 +148,8 @@ async def main():
 
         # ---- distribution round: about + events + lillian email ----
         h2v=await pg.evaluate("document.querySelector('#p-house').innerHTML")
-        if "About this app" not in h2v: bad.append("About section missing")
+        xtv=await pg.evaluate("document.querySelector('#p-extra').innerHTML")
+        if "About this app" not in xtv: bad.append("About section missing from Reference & Archive")
         if "Lillian@mosgreenwood.com" not in h2v: bad.append("Lillian email missing from handbook")
         spv=await pg.evaluate("document.querySelector('#p-sched').innerHTML")
         for cell in ["Sundresses &amp; Sangria","Surf &amp; Turf Cup","Prisoner Wine Dinner","Lillian@mosgreenwood.com"]:
@@ -270,10 +271,10 @@ async def main():
         bg=await pg.evaluate("JSON.stringify(MENU['Lounge'].find(x=>x[0]==='Prime Beef Burger'))")
         if "ranch" not in bg.lower(): bad.append("burger ranch suggestion missing")
         if "ketchup" not in bg.lower(): bad.append("burger ketchup missing")
-        # 8/7: the training slideshow lives under the book in How We Work
-        await pg.evaluate("go('house')")
+        # 8/13: the book + training slideshow moved to Reference & Archive (How We Work slimmed to the active playbook)
+        await pg.evaluate("go('extra')")
         await pg.wait_for_timeout(300)
-        cards=await pg.evaluate("[...document.querySelectorAll('#p-house .bkcard h3')].map(x=>x.textContent)")
+        cards=await pg.evaluate("[...document.querySelectorAll('#p-extra .bkcard h3')].map(x=>x.textContent)")
         if len(cards)<2 or "Slideshow" not in cards[1]:
             bad.append(f"slideshow card is not under the book: {cards}")
         if "Built on the original" in await pg.evaluate("document.body.innerHTML"):
@@ -429,8 +430,9 @@ async def main():
         ex=await pg.evaluate("""(function(){const p=document.querySelector('#p-extra');
           const d=[...p.querySelectorAll('details.acc')];
           return {n:d.length, open:d.filter(x=>x.open).length, html:p.innerHTML};})()""")
-        # regions moved to the Wine tab and Conflicts was deleted (8/7), so 3 remain
-        if ex["n"]<3: bad.append(f"reference tab has {ex['n']} sections, expected 3")
+        # 8/13: Reference & Archive now holds WOTW, archived cocktails, printed floor plans,
+        # private rooms, and house history (5 accordions) + the Book/Slideshow launcher cards
+        if ex["n"]<5: bad.append(f"reference tab has {ex['n']} accordions, expected 5")
         if ex["open"]: bad.append("reference tab sections start open")
         for cell in ["Caymus Special","Sunny Day","Smockton"]:
             if cell not in ex["html"]: bad.append(f"reference tab missing {cell}")
@@ -457,7 +459,7 @@ async def main():
             bad.append("the 45-day should carry NO flag at all")
         if not await pg.evaluate("SPECIALS_ON.filter(s=>s[3]==='Manager cut').length===3"):
             bad.append("expected exactly 3 Manager cut specials")
-        for cut in ["48 oz USDA Choice Porterhouse","Australian Wagyu Tomahawk","Spinalis / Ribeye Cap"]:
+        for cut in ["48 oz USDA Choice Porterhouse","Australian Wagyu","Spinalis / Ribeye Cap"]:
             if not await pg.evaluate(f"SPECIALS_ON.some(s=>s[0]==={cut!r}&&/manager/i.test(s[2]))"):
                 bad.append(f"{cut} does not say a manager cuts it")
         # 8/10: both salmons confirmed at $45 off the pre-shift note, so the VERIFY is gone
@@ -467,7 +469,7 @@ async def main():
             bad.append("a salmon special still carries a VERIFY flag")
         # the three prices the 8/10 note corrected — pinned so a sync cannot walk them back
         for cut, price in [("48 oz USDA Choice Porterhouse","$170"),
-                           ("Australian Wagyu Tomahawk","$140"),
+                           ("Australian Wagyu","$140"),
                            ("45-Day 22 oz Dry-Aged Bone-In Ribeye","$110")]:
             if not await pg.evaluate(f"SPECIALS_ON.some(s=>s[0]==={cut!r}&&s[1].indexOf({price!r})===0)"):
                 bad.append(f"{cut} is not {price} (8/10 note)")
@@ -607,8 +609,9 @@ async def main():
         titles=await pg.evaluate("BOOK.map(c=>c.t).join('|')")
         for t in ["Start Here","Day 1","Day 10","The Get List"]:
             if t not in titles: bad.append(f"BOOK missing chapter {t}")
-        if not await pg.evaluate("document.querySelector('#p-house .bkcard')!==null"):
-            bad.append("book launcher card missing from How We Work")
+        await pg.evaluate("go('extra')"); await pg.wait_for_timeout(200)
+        if not await pg.evaluate("document.querySelector('#p-extra .bkcard')!==null"):
+            bad.append("book launcher card missing from Reference & Archive")
         rows=await pg.evaluate("(function(){openBook();return document.querySelectorAll('#bkWrap .bkrow').length;})()")
         if rows!=12: bad.append(f"contents shows {rows} rows, expected 12")
         hid=await pg.evaluate("document.querySelector('#houseMain').style.display==='none'")
@@ -622,9 +625,9 @@ async def main():
           return document.querySelector('#bkWrap').innerHTML;})()""")
         if "Bananas Foster" not in nxt: bad.append("next-chapter nav did not reach Day 4 content")
         if "chapter 5 of 12" not in nxt: bad.append("next-chapter nav landed on the wrong chapter")
-        back=await pg.evaluate("(function(){closeBook();return [document.querySelector('#houseMain').style.display,document.querySelector('#bkWrap').style.display,document.querySelector('#p-house').innerHTML.includes('Points of Passion')];})()")
+        back=await pg.evaluate("(function(){closeBook();return [document.querySelector('#houseMain').style.display,document.querySelector('#bkWrap').style.display,document.querySelector('#p-extra').innerHTML.includes('Private dining rooms')];})()")
         if back[0]=="none" or back[1]!="none" or not back[2]:
-            bad.append(f"closeBook did not restore How We Work: {back}")
+            bad.append(f"closeBook did not restore Reference & Archive: {back}")
         sb=await pg.evaluate("search('points of passion').map(h=>h.w).join('|')")
         if "Mo's Book" not in sb: bad.append(f"search miss book: {sb[:90]}")
         await pg.evaluate("openBook(6)")

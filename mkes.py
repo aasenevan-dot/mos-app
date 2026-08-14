@@ -200,6 +200,31 @@ LATER = {
         "El Devour base es $45. Un Devour de Spinalis con una cola de langosta son $65 + $50 = $115 por persona antes del vino — subir la venta más un adicional más que duplica la cuenta por persona.",
     # events button + picture lightbox caption + the open-app popup
     "See the Devour menu": "Ver el menú Devour",
+    # Devour TEXT-menu modal (openDevourMenu): title, intro, course headers, item notes, labels.
+    # Dish NAMES stay English as printed; the frame and descriptors translate.
+    "See the menu as text": "Ver el menú en texto",
+    "Devour Menu": "Menú Devour",
+    "August 24 – September 6": "24 de agosto – 6 de septiembre",
+    "Three courses, from $45 per person. The entree they pick sets the per-person price; tax and gratuity are on top.":
+        "Tres tiempos, desde $45 por persona. El plato fuerte que elijan fija el precio por persona; impuestos y propina van aparte.",
+    "Soup or Salad — choose one": "Sopa o ensalada — elige una",
+    "Entree — choose one (sets the per-person price)": "Plato fuerte — elige uno (fija el precio por persona)",
+    "Accessory — choose one · ALL GF": "Guarnición — elige una · TODAS sin gluten",
+    "Dessert — choose one": "Postre — elige uno",
+    "Enhancements — add-ons, on top of the per-person price": "Adicionales — extras, por encima del precio por persona",
+    "GF & vegan sorbet available on request.": "Sorbete sin gluten y vegano disponible a pedido.",
+    "Close": "Cerrar",
+    "Ranch or House Italian": "Ranch o italiana de la casa",
+    "Feta, cucumbers, mint": "Feta, pepino, menta",
+    "The top check — steer here.": "La cuenta más alta — dirígete aquí.",
+    "The classic upsell from the $45 floor.": "El clásico paso arriba desde el piso de $45.",
+    "Grilled chicken, creamy Alfredo.": "Pollo a la parrilla, Alfredo cremoso.",
+    "Fried chicken breast, linguine, tomato diavolo, melted cheese pour-over.":
+        "Pechuga de pollo frita, linguine, tomato diavolo, queso derretido por encima.",
+    "The vegan option and the $45 floor.": "La opción vegana y el piso de $45.",
+    "Whipped cream.": "Crema batida.",
+    "Caramel sauce & whipped cream.": "Salsa de caramelo y crema batida.",
+    "Upgrade filet to 10 oz": "Subir el filet a 10 oz",
     "Devour menu — tap anywhere to close": "Menú Devour — toca en cualquier lugar para cerrar",
     "August 24 – September 6. Our three-course prix-fixe with Prime 47 Carmel — learn the menu and how to pitch it. Steer to the Spinalis and Filet, and always offer an enhancement.":
         "24 de agosto – 6 de septiembre. Nuestro menú de tres tiempos a precio fijo con Prime 47 Carmel — aprende el menú y cómo venderlo. Dirígete al Spinalis y al Filet, y siempre ofrece un adicional.",

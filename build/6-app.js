@@ -717,7 +717,7 @@ function search(q){
      letters and looking for the whole phrase fixes that, and helps anywhere else a name
      gets split: "old fashioned", "new york", "creme brulee". */
   const qflat=q.replace(/[^a-z0-9]/g,"");
-  const add=(w,t,d,tab)=>{
+  const add=(w,t,d,tab,act)=>{
     const name=(w+" "+t).toLowerCase();
     /* Synonyms already decide WHETHER something matches, so they should decide ranking too.
        Without this "who works today" scored the Schedule row at zero -- works maps to
@@ -742,7 +742,7 @@ function search(q){
       return nameWords.some(wd=>wd===x||(x.length>=2&&wd.startsWith(x))||(syn&&(wd===syn||wd.startsWith(syn))));};
     score += toks.filter(wordHit).length*2;
     score += toks.filter(x=>!wordHit(x)&&x.length>=4&&nameWords.some(wd=>nearWord(wd,x))).length;
-    hits.push({w,t,d,tab,score});
+    hits.push({w,t,d,tab,score,act});
   };
   WINES.forEach(x=>{if(matches([x.n,x.r,x.f,x.pair,x.pitch,x.p]))add("Wine",x.n+" — "+x.p,x.pitch,"wine");});
   COCKTAILS.forEach(x=>{if(matches([x.n,x.build,x.garnish,x.desc,x.p,x.grp,"garnish"]))add("Cocktail",x.n+" — "+x.p,"Garnish: "+x.garnish+" · "+x.build,"cocktails");});
@@ -760,15 +760,23 @@ function search(q){
        as an "ongoing special" (it has its own Devour search branch while it is live) */
     if(/^DEVOUR/i.test(s[0])&&!(typeof devourActive==="function"&&devourActive()))return;
     if(matches([s[0],s[2]]))add("Ongoing special",s[0]+" — "+s[1],s[2],"menu");});
-  if(typeof DEVOUR!=="undefined"&&devourActive()){
+  if(typeof DEVOUR!=="undefined"){
     const D=DEVOUR;
-    if(matches(["devour","devour menu","prix fixe","summerfest",D.title,D.blurb]))
-      add("Devour menu",D.title+" — "+D.window,D.blurb,"menu");
-    D.courses.forEach(c=>c[1].forEach(r=>{
-      if(matches(["devour",c[0],r[0],r[1],r[2]]))add("Devour · "+c[0].split(" —")[0],r[0]+(r[1]?" — "+r[1]:""),r[2]||c[0],"menu");}));
-    D.enhancements.forEach(e=>{if(matches(["devour enhancement",e[0],e[1]]))add("Devour enhancement",e[0]+" — "+e[1],"Devour event price","menu");});
-    (D.plain||[]).forEach(x=>{if(matches(["devour deal what is it",x]))add("Devour","The Devour deal",x,"menu");});
-    (D.blueprint||[]).forEach(b=>{if(matches(["devour pitch upsell how to sell",b[0],b[1]]))add("Devour blueprint",b[0],b[1],"menu");});
+    /* The full text menu is findable from now THROUGH the event (it self-expires the day after
+       it ends), so the whole prix-fixe can be pulled up before the study window even opens.
+       Tapping any of these opens the clean text-menu modal — not the picture, not a page jump. */
+    const _n=new Date(), _yr=D.year||_n.getFullYear();
+    const [_em,_ed]=String(D.end).split("/").map(Number);
+    const upcoming=new Date(_n.getFullYear(),_n.getMonth(),_n.getDate())<=new Date(_yr,_em-1,_ed);
+    if(upcoming&&matches(["devour","devour menu","prix fixe","summerfest",D.title,D.blurb]))
+      add("Devour menu",D.title+" — "+D.window,"The full menu in plain text — tap to open it.","menu","openDevourMenu()");
+    if(devourActive()){
+      D.courses.forEach(c=>c[1].forEach(r=>{
+        if(matches(["devour",c[0],r[0],r[1],r[2]]))add("Devour · "+c[0].split(" —")[0],r[0]+(r[1]?" — "+r[1]:""),r[2]||c[0],"menu","openDevourMenu()");}));
+      D.enhancements.forEach(e=>{if(matches(["devour enhancement",e[0],e[1]]))add("Devour enhancement",e[0]+" — "+e[1],"Devour event price","menu","openDevourMenu()");});
+      (D.plain||[]).forEach(x=>{if(matches(["devour deal what is it",x]))add("Devour","The Devour deal",x,"menu");});
+      (D.blueprint||[]).forEach(b=>{if(matches(["devour pitch upsell how to sell",b[0],b[1]]))add("Devour blueprint",b[0],b[1],"menu");});
+    }
   }
   SPECIALS_ROTATION.forEach(s=>{if(matches([s[0],s[2]]))add("Rotating special",s[0],s[2],"menu");});
   SPECIALS_PAST.forEach(s=>{if(matches([s[0],s[2]]))add("Past special",s[0]+" ("+s[3]+")",s[2],"menu");});
@@ -919,7 +927,7 @@ function renderSearch(q){
   document.querySelectorAll(".panel").forEach(p=>p.classList.remove("on"));
   box.style.display="block";
   box.innerHTML=`<div class="sechead"><h2>${hits.length} result${hits.length===1?"":"s"} for &ldquo;${esc(q)}&rdquo;</h2><span>clear the box to go back</span></div>
-  <div class="hits">${hits.length?hits.map(h=>`<div class="hit" onclick="$('#gsearch').value='';renderSearch('');go('${h.tab}')" style="cursor:pointer">
+  <div class="hits">${hits.length?hits.map(h=>`<div class="hit" onclick="$('#gsearch').value='';renderSearch('');${h.act||("go('"+h.tab+"')")}" style="cursor:pointer">
     <div class="w">${esc(h.w)}</div><div class="t">${esc(h.t)}</div><div class="d">${esc(h.d)}</div></div>`).join(""):'<div class="empty">Nothing found. Try fewer or different words.</div>'}</div>`;
 }
 
@@ -979,6 +987,32 @@ function openDevour(){
   w.innerHTML=`<img src="${DEVOUR.img}" alt="Devour menu"><div class="piccap">Devour menu \u2014 tap anywhere to close</div>`;
   document.body.appendChild(w);
 }
+/* The picture is the menu at a glance; this is the SAME menu as clean, searchable text \u2014
+   courses, choices, prices \u2014 for a quick phone read. Opened from a "devour" search and from a
+   button in the section. Self-contained, so it works before the study window even opens. */
+function openDevourMenu(){
+  if(typeof DEVOUR==="undefined")return;
+  const D=DEVOUR;
+  const row=(name,price,note)=>`<div class="dvmrow"><div class="dvmhd"><span class="dvmn">${esc(name)}</span>${price?`<span class="dvmp">${esc(price)}</span>`:""}</div>${note?`<div class="dvmd">${esc(note)}</div>`:""}</div>`;
+  const courses=D.courses.map(c=>`<div class="dvmsec"><h4>${esc(c[0])}</h4>${c[1].map(r=>row(r[0],r[1],r[2])).join("")}</div>`).join("");
+  const enh=`<div class="dvmsec"><h4>Enhancements \u2014 add-ons, on top of the per-person price</h4>${D.enhancements.map(e=>row(e[0],e[1],"")).join("")}</div>`;
+  const w=document.createElement("div"); w.className="dvmwrap";
+  const close=()=>w.remove();
+  w.innerHTML=`<div class="dvmcard" role="dialog" aria-label="Devour menu">
+    <button class="dvx" aria-label="Close">&times;</button>
+    <h3><span aria-hidden="true">&#127860;</span> Devour Menu</h3>
+    <p class="sub">${esc(D.window)}</p>
+    <p class="sub">Three courses, from $45 per person. The entree they pick sets the per-person price; tax and gratuity are on top.</p>
+    ${courses}
+    ${enh}
+    ${D.dessertNote?`<p class="sub" style="margin-top:12px">${esc(D.dessertNote)}</p>`:""}
+    <button class="btn dvmclose">Close</button></div>`;
+  w.addEventListener("click",e=>{ if(e.target===w)close(); });
+  w.querySelector(".dvx").onclick=close;
+  w.querySelector(".dvmclose").onclick=close;
+  document.body.appendChild(w);
+  if(LANG==="es")applyLang(w);
+}
 /* The Devour picture IS the menu (clearer than a re-typed table). Under it: the deal in
    plain terms, and the upsell blueprint. Both open by default so the floor actually reads
    them. The course/enhancement data still feeds search; it is just not dumped as a table. */
@@ -992,6 +1026,7 @@ function devourBlock(){
     <div class="sechead" id="sec-devour"><h2>&#127860; ${esc(D.title)}</h2><span>${esc(D.window)} \u2014 the menu, the deal, the blueprint</span></div>
     <div class="note gold"><b>${esc(D.window)}.</b> ${esc(D.blurb)}</div>
     <img class="menupic" src="${D.img}" alt="Devour menu \u2014 tap to open" loading="lazy" onclick="openDevour()">
+    <div style="margin:2px 0 6px"><button class="btn sec" onclick="openDevourMenu()">See the menu as text</button></div>
     ${acc("The deal, in plain terms","what to actually say to a guest",plain,true)}
     ${acc("The upsell blueprint","how we maximize the check",blue,true)}
   `;

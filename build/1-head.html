@@ -416,6 +416,25 @@ html.dark .floorimg{filter:invert(1) hue-rotate(180deg) brightness(.92);border-c
   align-items:center;justify-content:center;padding:14px;cursor:zoom-out;overflow:auto}
 .picwrap img{max-width:100%;max-height:86vh;border-radius:8px;box-shadow:0 12px 44px rgba(0,0,0,.55)}
 .piccap{color:#e8dccb;font-size:13px;margin-top:12px;text-align:center}
+/* Devour TEXT menu — the same prix-fixe as a clean, scannable read (courses, choices, prices),
+   opened from search or the section. Scrolls, unlike the picture lightbox, because it is a list. */
+.dvmwrap{position:fixed;inset:0;z-index:9500;background:rgba(20,12,10,.62);display:flex;
+  align-items:flex-start;justify-content:center;padding:18px 12px;overflow-y:auto;
+  -webkit-overflow-scrolling:touch;animation:dvfade .18s ease}
+.dvmcard{background:var(--card);border:1px solid var(--line);border-radius:16px;max-width:520px;width:100%;
+  padding:18px 18px 20px;box-shadow:0 14px 44px rgba(0,0,0,.4);position:relative;margin:auto}
+.dvmcard h3{margin:0 0 2px;font-family:Georgia,serif;font-size:21px;color:var(--gold)}
+.dvmcard .sub{margin:0 0 4px;color:var(--dim);font-size:13px;line-height:1.42}
+.dvmcard .dvx{position:absolute;top:8px;right:10px;border:none;background:none;color:var(--dim);
+  font-size:24px;line-height:1;cursor:pointer;padding:6px}
+.dvmsec{margin-top:15px}
+.dvmsec h4{margin:0 0 4px;font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--gold2);font-weight:750}
+.dvmrow{padding:6px 0;border-top:1px solid var(--line)}
+.dvmrow .dvmhd{display:flex;justify-content:space-between;gap:12px;align-items:baseline}
+.dvmn{font-weight:650;font-size:14.5px}
+.dvmp{color:var(--gold2);font-weight:700;font-size:13.5px;white-space:nowrap}
+.dvmd{color:var(--dim);font-size:12.5px;margin-top:2px}
+.dvmcard .dvmclose{width:100%;margin-top:16px}
 /* A menu PHOTO (Devour). Unlike the line-art floor plans it must NOT be colour-inverted in
    dark mode -- that mangles the printed colours -- so it gets its own class, gently dimmed. */
 .menupic{width:100%;max-width:560px;display:block;margin:4px auto 2px;border-radius:12px;

@@ -108,6 +108,18 @@ main{max-width:1180px;margin:0 auto;padding:20px 16px 40px;overflow-x:clip}
 /* ---------- cards / grid ---------- */
 .grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(290px,1fr))}
 .grid.wide{grid-template-columns:repeat(auto-fill,minmax(340px,1fr))}
+/* Alphabetised wine list: full-width letter dividers + a right-edge A-Z index (iOS-style). */
+.wlhdr{grid-column:1/-1;font-family:Georgia,serif;font-size:15px;font-weight:750;color:var(--gold);
+  padding:8px 2px 3px;border-bottom:1px solid var(--line);margin:6px 0 -2px;scroll-margin-top:78px}
+#wineGrid{padding-right:20px}
+.azbar{position:fixed;right:2px;top:50%;transform:translateY(-50%);z-index:40;display:none;
+  flex-direction:column;align-items:center;background:rgba(251,246,235,.78);border:1px solid var(--line);
+  border-radius:11px;padding:4px 0;-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);
+  box-shadow:0 2px 8px rgba(41,37,37,.14);touch-action:none}
+.panel.on .azbar{display:flex}
+.azbar button{border:none;background:none;color:var(--gold2);font-size:10.5px;font-weight:800;
+  line-height:1;padding:2px 5px;cursor:pointer;font-family:inherit}
+.azbar button:disabled{color:var(--line2);cursor:default}
 .card{
   background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;
 }
@@ -632,7 +644,7 @@ footer{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
   .flip .back{display:block}
   details.acc{display:block}
   details.acc>.accbody{display:block}
-  .panel.on::after{content:"Mo's — updated 8/13/2026 — study copy, verify in Toast";display:block;margin-top:16px;padding-top:8px;border-top:1px solid #999;font-size:10px;color:#444}
+  .panel.on::after{content:"Mo's — updated 8/15/2026 — study copy, verify in Toast";display:block;margin-top:16px;padding-top:8px;border-top:1px solid #999;font-size:10px;color:#444}
 }
 .qprog{height:5px;background:var(--bg2);border-radius:99px;overflow:hidden;margin:2px 0 12px}
 .qprog i{display:block;height:100%;background:var(--gold);border-radius:99px;transition:width .25s ease}
@@ -843,7 +855,7 @@ W("Mt. Veeder Napa Valley 2022","cab","Better","$150","Mt. Veeder, Napa — dark
 W("Opus \"Overture\" NV/2021","cab","Best","$300","Napa — Mondavi & Rothschild prestige","Blackberry, cassis, dark cherry, cedar, cocoa, espresso","Med-High","Med","Full","Fine tannins, layered, polished","Filet, NY Strip, anniversary/business dinner","From Opus One; prestige and polish without full Opus pricing. Training-sheet line: incredibly layered and polished — it is about elegance and refinement, not just being a huge Napa Cab."),
 W("Opus One Napa Valley 2021","cab","Best","$900","Napa — the trophy name","Cassis, blackberry, plum, violet, cedar, baking spice","High","Med-High","Full","Extremely long, refined, trophy Napa","Australian Wagyu, A5 Wagyu, milestone anniversary","The Napa trophy name: story, recognition, polish, special occasion."),
 W("Orin Swift \"8 Years in the Desert\" 2023","cab","Good","$85","Orin Swift / Dave Phinney bold label","Blackberry jam, raspberry, cherry, vanilla, spice","Med","Med","Full","Big, ripe, crowd-pleasing","Prime Meatballs, Short Rib Pasta, ribeye table sharing a bottle","Bold Orin Swift red blend; great for guests who like Prisoner-style wines."),
-W("Orin Swift \"Palermo\" 2022","cab","Better","$120 / $350","Orin Swift Cabernet lane","Blackberry, currant, dark plum, chocolate, oak spice","Med-High","Med","Full","Dramatic, rich, fruit-forward Cabernet finish","Delmonico, NY Strip, Australian Wagyu","Orin Swift's Cabernet lane: bold packaging, big fruit, steakhouse style."),
+W("Orin Swift \"Palermo\" 2022","cab","Better","$130","Orin Swift Cabernet lane","Blackberry, currant, dark plum, chocolate, oak spice","Med-High","Med","Full","Dramatic, rich, fruit-forward Cabernet finish","Delmonico, NY Strip, Australian Wagyu","Orin Swift's Cabernet lane: bold packaging, big fruit, steakhouse style."),
 W("Patrimony by Daou","cab","Best","$550","Paso Robles — Daou family power","Black cherry, cassis, blackberry, cocoa, graphite, sweet spice","High","Med","Full","Powerful, plush, luxury Paso","Australian Wagyu, Porterhouse, high-check Cabernet guest","The high-end Daou bottle: powerful luxury Cabernet experience."),
 W("PlumpJack Oakville Estate 2019","cab","Best","$350","Oakville, Napa","Blackberry, cassis, plum, cocoa, vanilla, cedar","High","Med","Full","Deep, polished Oakville finish","Ribeye, NY Strip, special occasion steak table","Premium Oakville Cabernet with a strong reputation and real depth."),
 W("Quintessa Napa Valley 2022","cab","Best","$550","Rutherford, Napa — single biodynamic estate","Black cherry, cassis, plum, cocoa, graphite, subtle spice","Med-High","Med-High","Full","Refined, layered, polished tannins","Wagyu, Australian Wagyu, anniversary table","Single biodynamic Rutherford estate; powerful but elegant. Training-sheet line: an experience wine — biodynamic single estate in Rutherford, balance over power, built to elevate a premium steak rather than overpower it."),
@@ -5962,6 +5974,10 @@ function wineCard(w){
   </div>`;
 }
 let wineFilter={v:"all",serve:"all",tier:"all",q:"",price:"all",color:"all"};
+/* Alphabetise by name. The letter ignores a leading quote/vintage so &ldquo;Halo&rdquo; files
+   under H and a producer like Chateau files under C. */
+const wineLetter=w=>{const m=String(w.n).match(/[A-Za-z]/);return m?m[0].toUpperCase():"#";};
+const wineSortKey=w=>String(w.n).replace(/^[^A-Za-z0-9]+/,"").toLowerCase();
 function renderWines(){
   const q=wineFilter.q.toLowerCase();
   let [lo,hi]=[0,1e9];
@@ -5972,9 +5988,26 @@ function renderWines(){
     (wineFilter.tier==="all"||w.t===wineFilter.tier)&&
     (wineFilter.color==="all"||wineColor(w)===wineFilter.color)&&
     (wineFilter.price==="all"||(winePrice(w)>=lo&&winePrice(w)<=hi))&&
-    (!q||(w.n+w.r+w.f+w.pair+w.pitch).toLowerCase().includes(q)));
+    (!q||(w.n+w.r+w.f+w.pair+w.pitch).toLowerCase().includes(q)))
+    .sort((a,b)=>wineSortKey(a).localeCompare(wineSortKey(b)));
   $("#wineCount").textContent = list.length+" match"+(list.length===1?"":"es");
-  $("#wineGrid").innerHTML = list.length?list.map(wineCard).join(""):'<div class="empty">Nothing in that lane. Widen the price, the type, or the glass filter.</div>';
+  /* Alphabetical, with a letter divider before each group so the A-Z index can jump to it. */
+  let out="",lastL=null;
+  list.forEach(w=>{const L=wineLetter(w);
+    if(L!==lastL){out+=`<div class="wlhdr" id="wl-${L}">${L}</div>`;lastL=L;}
+    out+=wineCard(w);});
+  $("#wineGrid").innerHTML = list.length?out:'<div class="empty">Nothing in that lane. Widen the price, the type, or the glass filter.</div>';
+  /* Dim the letters with nothing in the current filter so the index tracks the list. */
+  const present=new Set(list.map(wineLetter)); const az=$("#wineAZ");
+  if(az)az.querySelectorAll("button").forEach(b=>{b.disabled=!present.has(b.dataset.l);});
+  wireWineAZ();
+}
+function wineJump(L){const el=$("#wl-"+L); if(el)el.scrollIntoView({block:"start"});}
+/* Drag a finger down the A-Z index to scrub (the "slider" feel); tapping a letter also works. */
+function wireWineAZ(){
+  const az=$("#wineAZ"); if(!az||az.dataset.wired)return; az.dataset.wired="1";
+  const at=y=>{for(const b of az.querySelectorAll("button")){const r=b.getBoundingClientRect(); if(y>=r.top&&y<=r.bottom)return b;} return null;};
+  az.addEventListener("touchmove",e=>{const t=e.touches[0]; const b=at(t.clientY); if(b&&!b.disabled){e.preventDefault(); wineJump(b.dataset.l);}},{passive:false});
 }
 function pairingOut(i){
   const p=PAIRINGS[i];
@@ -6924,6 +6957,7 @@ function build(){
     <div class="filters" id="wineType">${WINE_TYPES.map(c=>`<button data-v="${c[0]}"${c[0]==="all"?' class="on"':''}>${c[1]}</button>`).join("")}</div>
     <div class="filters" id="wineTiers">${["all","Good","Better","Best"].map(t=>`<button data-t="${t}"${t==="all"?' class="on"':''}>${t==="all"?"All tiers":t}</button>`).join("")}</div>
     <div class="grid wide" id="wineGrid"></div>
+    <div class="azbar" id="wineAZ" aria-label="Jump to a letter">${"ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").map(L=>`<button type="button" data-l="${L}" onclick="wineJump('${L}')">${L}</button>`).join("")}</div>
 
     <div class="sechead" id="sec-pair"><h2>Pairing Finder</h2><span>pick what they ordered</span></div>
     <div class="tool">
@@ -7213,7 +7247,7 @@ function build(){
       <li>The old Kristen Sundae was named for a former owner's wife.</li></ul>`)}
 
     <div class="sechead"><h2>About this app</h2><span>read once</span></div>
-    <div class="note">Mo's Server Command Center — built by Evan (back server) as a training and money tool for the team. It is a STUDY COPY, not official house policy: menus, prices, and rules change, so when a dollar matters, verify in Toast or with a manager. The checkout math is proven against real graded checkouts. Spot something wrong or outdated? Tell Evan — corrections go in same-day. Updated <b>8/13/2026</b>.</div>
+    <div class="note">Mo's Server Command Center — built by Evan (back server) as a training and money tool for the team. It is a STUDY COPY, not official house policy: menus, prices, and rules change, so when a dollar matters, verify in Toast or with a manager. The checkout math is proven against real graded checkouts. Spot something wrong or outdated? Tell Evan — corrections go in same-day. Updated <b>8/15/2026</b>.</div>
     </div>`;
 
   /* ---------- VOCABULARY ---------- */

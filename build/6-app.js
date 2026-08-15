@@ -127,6 +127,10 @@ function wineCard(w){
   </div>`;
 }
 let wineFilter={v:"all",serve:"all",tier:"all",q:"",price:"all",color:"all"};
+/* Alphabetise by name. The letter ignores a leading quote/vintage so &ldquo;Halo&rdquo; files
+   under H and a producer like Chateau files under C. */
+const wineLetter=w=>{const m=String(w.n).match(/[A-Za-z]/);return m?m[0].toUpperCase():"#";};
+const wineSortKey=w=>String(w.n).replace(/^[^A-Za-z0-9]+/,"").toLowerCase();
 function renderWines(){
   const q=wineFilter.q.toLowerCase();
   let [lo,hi]=[0,1e9];
@@ -137,9 +141,26 @@ function renderWines(){
     (wineFilter.tier==="all"||w.t===wineFilter.tier)&&
     (wineFilter.color==="all"||wineColor(w)===wineFilter.color)&&
     (wineFilter.price==="all"||(winePrice(w)>=lo&&winePrice(w)<=hi))&&
-    (!q||(w.n+w.r+w.f+w.pair+w.pitch).toLowerCase().includes(q)));
+    (!q||(w.n+w.r+w.f+w.pair+w.pitch).toLowerCase().includes(q)))
+    .sort((a,b)=>wineSortKey(a).localeCompare(wineSortKey(b)));
   $("#wineCount").textContent = list.length+" match"+(list.length===1?"":"es");
-  $("#wineGrid").innerHTML = list.length?list.map(wineCard).join(""):'<div class="empty">Nothing in that lane. Widen the price, the type, or the glass filter.</div>';
+  /* Alphabetical, with a letter divider before each group so the A-Z index can jump to it. */
+  let out="",lastL=null;
+  list.forEach(w=>{const L=wineLetter(w);
+    if(L!==lastL){out+=`<div class="wlhdr" id="wl-${L}">${L}</div>`;lastL=L;}
+    out+=wineCard(w);});
+  $("#wineGrid").innerHTML = list.length?out:'<div class="empty">Nothing in that lane. Widen the price, the type, or the glass filter.</div>';
+  /* Dim the letters with nothing in the current filter so the index tracks the list. */
+  const present=new Set(list.map(wineLetter)); const az=$("#wineAZ");
+  if(az)az.querySelectorAll("button").forEach(b=>{b.disabled=!present.has(b.dataset.l);});
+  wireWineAZ();
+}
+function wineJump(L){const el=$("#wl-"+L); if(el)el.scrollIntoView({block:"start"});}
+/* Drag a finger down the A-Z index to scrub (the "slider" feel); tapping a letter also works. */
+function wireWineAZ(){
+  const az=$("#wineAZ"); if(!az||az.dataset.wired)return; az.dataset.wired="1";
+  const at=y=>{for(const b of az.querySelectorAll("button")){const r=b.getBoundingClientRect(); if(y>=r.top&&y<=r.bottom)return b;} return null;};
+  az.addEventListener("touchmove",e=>{const t=e.touches[0]; const b=at(t.clientY); if(b&&!b.disabled){e.preventDefault(); wineJump(b.dataset.l);}},{passive:false});
 }
 function pairingOut(i){
   const p=PAIRINGS[i];
@@ -1089,6 +1110,7 @@ function build(){
     <div class="filters" id="wineType">${WINE_TYPES.map(c=>`<button data-v="${c[0]}"${c[0]==="all"?' class="on"':''}>${c[1]}</button>`).join("")}</div>
     <div class="filters" id="wineTiers">${["all","Good","Better","Best"].map(t=>`<button data-t="${t}"${t==="all"?' class="on"':''}>${t==="all"?"All tiers":t}</button>`).join("")}</div>
     <div class="grid wide" id="wineGrid"></div>
+    <div class="azbar" id="wineAZ" aria-label="Jump to a letter">${"ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").map(L=>`<button type="button" data-l="${L}" onclick="wineJump('${L}')">${L}</button>`).join("")}</div>
 
     <div class="sechead" id="sec-pair"><h2>Pairing Finder</h2><span>pick what they ordered</span></div>
     <div class="tool">

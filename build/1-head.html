@@ -120,6 +120,13 @@ main{max-width:1180px;margin:0 auto;padding:20px 16px 40px;overflow-x:clip}
 .azbar button{border:none;background:none;color:var(--gold2);font-size:10.5px;font-weight:800;
   line-height:1;padding:2px 5px;cursor:pointer;font-family:inherit}
 .azbar button:disabled{color:var(--line2);cursor:default}
+/* Dark mode: the pill kept a hardcoded light background, which inverted the affordance —
+   enabled letters ghosted, disabled ones boldest. Give it a dark pill so enabled stays legible. */
+html.dark .azbar{background:rgba(28,20,18,.86);border-color:var(--line2)}
+/* The A-Z bar is fixed at the right edge; keep the search box and filter chips out from under it
+   (only #wineGrid had a right gutter, so cards cleared it but the controls above did not). */
+#p-wine .fsearch{max-width:calc(100% - 24px)}
+#p-wine .filters{padding-right:22px}
 .card{
   background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;
 }

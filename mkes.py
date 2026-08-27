@@ -316,13 +316,16 @@ if _comp.exists():
                   if k and v and k.strip() != v.strip() and k.count("◊") == v.count("◊")})
     print(f"  merged {len(_c):,} composite templates from composite-es.json")
 
-# Cocktail names are proper nouns: a server calls the drink to the bar under the exact name
-# Toast prints. The translation pass rendered "Sweet & Salty" as "Dulce & Salado" (it is the
-# only cocktail name that picked up a translation), which put the same drink under two names on
-# one tab. Drop it so the printed name stays English everywhere, matching every other cocktail.
-for _pn in ("Sweet & Salty",):
+# Keep these English on purpose:
+#  - "Sweet & Salty": a cocktail name — a server calls it to the bar under the name Toast prints.
+#  - "Good"/"Better"/"Best": the house selling-lane jargon. The tab's own lede keeps them English
+#    ("Good / Better / Best es un carril de venta"), and "Better" and "Best" BOTH translated to
+#    "Mejor", making the two tier filter buttons and the card tier chips indistinguishable in ES.
+#  - "Advice From John Merlot": a wine name — translating it ("Consejo de John Merlot") misfiled a
+#    C-name under the A divider and clashed with its own bottle sibling card.
+for _pn in ("Sweet & Salty", "Good", "Better", "Best", "Advice From John Merlot"):
     if pairs.pop(_pn, None) is not None:
-        print(f"  dropped cocktail-name translation (stays English): {_pn!r}")
+        print(f"  kept English (dropped translation): {_pn!r}")
 
 def strip_ident(s: str) -> str:
     """'gluten (gluten)' -> 'gluten'. The English gloss earns its place only when the

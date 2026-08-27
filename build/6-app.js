@@ -83,6 +83,9 @@ function syncBars(){
 }
 function go(t,sel){
   TAB=t; closeSheet();
+  /* The Mo's Book / Slideshow reader lives over #houseMain in Reference & Archive; reset it on
+     every navigation so a search hit (or a tab switch) never lands on a stale open chapter. */
+  if(typeof closeBook==="function")closeBook();
   document.querySelectorAll(".panel").forEach(p=>p.classList.toggle("on",p.id==="p-"+t));
   syncBars();
   if(sel){setTimeout(()=>{const el=document.querySelector(sel); if(el)el.scrollIntoView({behavior:"smooth"});},80);}

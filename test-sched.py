@@ -38,9 +38,9 @@ async def main():
             if absent in roster: bad.append(f"roster wrongly lists {absent}")
         if "Evan <i>3:30</i>" not in roster: bad.append("Evan time not formatted 3:30")
         # master grid exactness
-        for cell in ['<span class="dw">We</span>8/19','class="off"','class="ro"','Barbie','4 MGR','5 Busser','>15<','colspan="8">Managers','covrow','Covers \u00b7 Sun 8/16']:
+        for cell in ['<span class="dw">We</span>8/26','class="off"','class="ro"','Barbie','4 MGR','5 Busser','>15<','colspan="8">Managers','covrow','Covers \u00b7 Sun 8/23']:
             if cell not in grid: bad.append(f"grid missing {cell}")
-        for gone in ["Jeremiah","Gavin","Lupe","LUCAS","Victoria"]:
+        for gone in ["Jeremiah","Gavin","Lupe","LUCAS","Victoria","Eleisia","AUDRINA"]:
             if f'"nm">{gone}<' in grid: bad.append(f"{gone} still has a row on current grid")
         if "Not on this week:" in html: bad.append("gone-note is back (Evan removed it 8/6)")
         # ---- merged night forecast: one machine ----
@@ -928,8 +928,8 @@ async def main():
         if "Chad" not in h2.split("exactly as posted")[0] or "2pm Carmel" not in h2.split("exactly as posted")[0]:
             bad.append("Saturday roster missing Chad 2pm Carmel")
         await ctx.close()
-        # ---- load 2: 8/26/2026 — past the posted week, and no history week covers it ----
-        t3=int(datetime.datetime(2026,8,26,15,0).timestamp()*1000)
+        # ---- load 2: 9/2/2026 — past the posted week (8/26–9/1), and no history week covers it ----
+        t3=int(datetime.datetime(2026,9,2,15,0).timestamp()*1000)
         ctx=await b.new_context(viewport={"width":393,"height":852},is_mobile=True,has_touch=True)
         pg=await ctx.new_page()
         await pg.add_init_script(MOCK % t3)

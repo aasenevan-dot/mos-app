@@ -170,8 +170,8 @@ LATER = {
         "El precio por persona es el PLATO FUERTE que elijan — desde $45 (Vegan Stuffed Tomatoes) hasta $65 (Spinalis de 6 oz). Impuestos y propina van aparte.",
     "Enhancements (lobster tail, scallops, filet upgrade, etc.) are add-ons ON TOP of the per-person price.":
         "Los adicionales (cola de langosta, vieiras, subir el filet, etc.) van POR ENCIMA del precio por persona.",
-    "Nearly everything is gluten-free; there is a vegan entree and a GF/vegan sorbet, so a mixed-needs table is easy. The Devour build drops the two gluten sources the a-la-carte plates have — the house salad comes without croutons, and the seabass without the fried Brussels sprouts. For a true celiac, still confirm the seabass, since the miso can carry wheat.":
-        "Casi todo es sin gluten; hay un plato fuerte vegano y un sorbete sin gluten/vegano, así que una mesa con necesidades mixtas es fácil. La preparación Devour quita las dos fuentes de gluten que tienen los platos a la carta — la house salad va sin croutons, y el seabass sin los Brussels sprouts fritos. Para un celíaco de verdad, confirma el seabass, ya que el miso puede llevar trigo.",
+    "Nearly everything is gluten-free; there is a vegan entree and a GF/vegan sorbet, so a mixed-needs table is easy. The Devour builds drop the two gluten sources the a-la-carte plates have — the house salad comes without croutons, and the seabass without the fried Brussels sprouts — so the Devour menu is gluten-free.":
+        "Casi todo es sin gluten; hay un plato fuerte vegano y un sorbete sin gluten/vegano, así que una mesa con necesidades mixtas es fácil. Las preparaciones Devour quitan las dos fuentes de gluten que tienen los platos a la carta — la house salad va sin croutons, y el seabass sin los Brussels sprouts fritos — así que el menú Devour es sin gluten.",
     # The upsell blueprint (the second dropdown — each step is <b>Title.</b> then the text)
     "The upsell blueprint": "El plan para subir la venta",
     "how we maximize the check": "cómo maximizamos la cuenta",
@@ -191,8 +191,8 @@ LATER = {
     "Say tax and gratuity are not in the per-person price, so the check lands clean and there is no friction at the end.":
         "Aclara que impuestos y propina no están en el precio por persona, para que la cuenta llegue limpia y no haya fricción al final.",
     "Own the dietary table.": "Domina la mesa con dietas especiales.",
-    "Nearly everything is GF, and the Vegan Stuffed Tomatoes plus the sorbet cover vegan — so a mixed-needs group books without hesitation. For a true celiac, confirm the specific dish's Devour build with the kitchen before promising GF.":
-        "Casi todo es sin gluten, y los Vegan Stuffed Tomatoes más el sorbete cubren lo vegano — así un grupo con necesidades mixtas reserva sin dudar. Para un celíaco de verdad, confirma con la cocina la preparación Devour del plato antes de prometer sin gluten.",
+    "Nearly everything is GF, and the Vegan Stuffed Tomatoes plus the sorbet cover vegan — so a mixed-needs group books without hesitation.":
+        "Casi todo es sin gluten, y los Vegan Stuffed Tomatoes más el sorbete cubren lo vegano — así un grupo con necesidades mixtas reserva sin dudar.",
     "Create urgency.": "Crea urgencia.",
     "\"We are only doing Devour through September 6.\" A limited window is a reason to come THIS week and to bring people.":
         "\"Solo hacemos Devour hasta el 6 de septiembre.\" Una ventana limitada es una razón para venir ESTA semana y traer gente.",
@@ -252,10 +252,14 @@ LATER = {
     # keys must match build/4-data-food.js lines 304, 339 and 476 exactly.
     "Croutons are the only gluten — hold the croutons and it is gluten-free (that is how the Devour house salad comes). Tomatoes are the nightshade; dressing changes the allergens.":
         "Los croutons son el único gluten — pídela sin croutons y queda sin gluten (así viene la house salad de Devour). Los tomates son la solanácea; el aderezo cambia los alérgenos.",
-    "Miso, mirin, sake, coconut risotto, with fried Brussels sprouts on top — those come out of the SHARED fryer, so they are the main gluten (cross-contact). The Devour build drops the Brussels sprouts (coconut risotto only). Miso can still carry wheat/barley, so for a celiac confirm the fish with the kitchen before promising GF.":
-        "Miso, mirin, sake, risotto de coco, con Brussels sprouts fritos encima — esos salen de la freidora COMPARTIDA, así que son el gluten principal (contacto cruzado). La preparación Devour quita los Brussels sprouts (solo risotto de coco). El miso todavía puede llevar trigo/cebada, así que para un celíaco confirma el pescado con la cocina antes de prometer sin gluten.",
-    "Coconut risotto — the Devour build has no fried Brussels sprouts. Miso can still carry wheat, so confirm for a celiac.":
-        "Risotto de coco — la preparación Devour no lleva Brussels sprouts fritos. El miso todavía puede llevar trigo, así que confirma para un celíaco.",
+    "Miso, mirin, sake, coconut risotto, with fried Brussels sprouts on top — those come out of the SHARED fryer, so they are the gluten (cross-contact). The Devour build drops the Brussels sprouts (coconut risotto only) and is gluten-free.":
+        "Miso, mirin, sake, risotto de coco, con Brussels sprouts fritos encima — esos salen de la freidora COMPARTIDA, así que son el gluten (contacto cruzado). La preparación Devour quita los Brussels sprouts (solo risotto de coco) y es sin gluten.",
+    "Coconut risotto — no fried Brussels sprouts, so this Devour build is gluten-free.":
+        "Risotto de coco — sin Brussels sprouts fritos, así que esta preparación Devour es sin gluten.",
+    # Allergen search hits render "Contains:" + each allergen + note as separate spans so Spanish
+    # mode can translate each piece (a single concatenated string could never match a key).
+    "Contains:": "Contiene:",
+    "none listed": "ninguno",
     # Reference & Archive — the house-history note (moved/added when How We Work was slimmed down)
     "House history & names": "Historia y nombres de la casa",
     "where a couple of our names came from": "de dónde vienen un par de nuestros nombres",

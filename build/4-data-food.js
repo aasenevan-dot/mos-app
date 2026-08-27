@@ -335,7 +335,7 @@ const ALLERGENS = [
  ["Bearnaise Sauce","$2",["egg","dairy","allium","alcohol"],"GF. Verify the vinegar/wine/shallot base."],
  ["Stuffed Chicken Breast","$38",["dairy","chicken","allium","alcohol"],"Off the menu. Halal option was noted when it ran."],
  ["Primavera Pasta","$40",["gluten","dairy","allium","nightshade","tree nuts"],"Verify pesto nut content."],
- ["Miso Sea Bass","$46",["white fish","fin fish","soy","alcohol","gluten","cross-contact"],"Miso, mirin, sake, coconut risotto, with fried Brussels sprouts on top — those come out of the SHARED fryer, so they are the main gluten (cross-contact). The Devour build drops the Brussels sprouts (coconut risotto only). Miso can still carry wheat/barley, so for a celiac confirm the fish with the kitchen before promising GF."],
+ ["Miso Sea Bass","$46",["white fish","fin fish","soy","alcohol","gluten","cross-contact"],"Miso, mirin, sake, coconut risotto, with fried Brussels sprouts on top — those come out of the SHARED fryer, so they are the gluten (cross-contact). The Devour build drops the Brussels sprouts (coconut risotto only) and is gluten-free."],
  ["Short Rib Pasta","$52",["beef","gluten","dairy","alcohol","allium"],"Off the menu. Orecchiette, vermouth cream sauce."],
  ["Sea Scallops","$48",["shellfish","pork","dairy","allium"],"GF. Prosciutto, mushrooms, squash puree."],
  ["Chilean Sea Bass","$46",["white fish","fin fish","dairy","alcohol","allium","nightshade"],"GF. Lemon-caper white wine butter sauce."],
@@ -451,7 +451,7 @@ const DEVOUR = {
   "It is a SET three-course menu: they choose a soup or salad, an entree, one accessory (side), and a dessert.",
   "The price per person is whatever ENTREE they pick \u2014 from $45 (Vegan Stuffed Tomatoes) up to $65 (6 oz Spinalis). Tax and gratuity are on top.",
   "Enhancements (lobster tail, scallops, filet upgrade, etc.) are add-ons ON TOP of the per-person price.",
-  "Nearly everything is gluten-free; there is a vegan entree and a GF/vegan sorbet, so a mixed-needs table is easy. The Devour build drops the two gluten sources the a-la-carte plates have — the house salad comes without croutons, and the seabass without the fried Brussels sprouts. For a true celiac, still confirm the seabass, since the miso can carry wheat."
+  "Nearly everything is gluten-free; there is a vegan entree and a GF/vegan sorbet, so a mixed-needs table is easy. The Devour builds drop the two gluten sources the a-la-carte plates have — the house salad comes without croutons, and the seabass without the fried Brussels sprouts — so the Devour menu is gluten-free."
  ],
  /* The upsell blueprint — how we actually maximize a Devour check, step by step. */
  blueprint: [
@@ -460,7 +460,7 @@ const DEVOUR = {
   ["Always plant an enhancement \u2014 this is the money", "Right after they pick the entree: \"Want to make it an occasion \u2014 add a lobster tail or a couple of scallops?\" Lead with the Lobster Tail ($50), then Scallops ($24), the 10 oz filet upgrade ($22), Crab Oscar ($14), Lobster Mac ($10). One add-on a head can beat the base price."],
   ["Sell the wine \u2014 Devour tables are celebrating", "A prix-fixe crowd came out to spend. Pair a bottle to the table\u2019s entrees; it is the fastest lift to the check and your tip."],
   ["Set the number up front", "Say tax and gratuity are not in the per-person price, so the check lands clean and there is no friction at the end."],
-  ["Own the dietary table", "Nearly everything is GF, and the Vegan Stuffed Tomatoes plus the sorbet cover vegan \u2014 so a mixed-needs group books without hesitation. For a true celiac, confirm the specific dish's Devour build with the kitchen before promising GF."],
+  ["Own the dietary table", "Nearly everything is GF, and the Vegan Stuffed Tomatoes plus the sorbet cover vegan \u2014 so a mixed-needs group books without hesitation."],
   ["Create urgency", "\"We are only doing Devour through September 6.\" A limited window is a reason to come THIS week and to bring people."]
  ],
  mathLine: "Base Devour is $45. A Spinalis Devour with a lobster tail is $65 + $50 = $115 a head before wine \u2014 steering up plus one enhancement more than doubles the per-person check.",
@@ -472,7 +472,7 @@ const DEVOUR = {
   ["Entree \u2014 choose one (sets the per-person price)", [
    ["6 oz Spinalis", "$65 / person \u00b7 GF", "The top check \u2014 steer here."],
    ["Filet Mignon", "$55 / person \u00b7 GF", "The classic upsell from the $45 floor."],
-   ["Miso Glazed Seabass", "$50 / person \u00b7 GF", "Coconut risotto \u2014 the Devour build has no fried Brussels sprouts. Miso can still carry wheat, so confirm for a celiac."],
+   ["Miso Glazed Seabass", "$50 / person \u00b7 GF", "Coconut risotto \u2014 no fried Brussels sprouts, so this Devour build is gluten-free."],
    ["Chicken Alfredo Pasta", "$47 / person", "Grilled chicken, creamy Alfredo."],
    ["Chicken Parmesan", "$47 / person", "Fried chicken breast, linguine, tomato diavolo, melted cheese pour-over."],
    ["Vegan Stuffed Tomatoes", "$45 / person \u00b7 GF \u00b7 vegan", "The vegan option and the $45 floor."]

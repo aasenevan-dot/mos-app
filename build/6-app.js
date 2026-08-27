@@ -738,7 +738,7 @@ function search(q){
      letters and looking for the whole phrase fixes that, and helps anywhere else a name
      gets split: "old fashioned", "new york", "creme brulee". */
   const qflat=q.replace(/[^a-z0-9]/g,"");
-  const add=(w,t,d,tab,act)=>{
+  const add=(w,t,d,tab,act,dh)=>{
     const name=(w+" "+t).toLowerCase();
     /* Synonyms already decide WHETHER something matches, so they should decide ranking too.
        Without this "who works today" scored the Schedule row at zero -- works maps to
@@ -763,15 +763,22 @@ function search(q){
       return nameWords.some(wd=>wd===x||(x.length>=2&&wd.startsWith(x))||(syn&&(wd===syn||wd.startsWith(syn))));};
     score += toks.filter(wordHit).length*2;
     score += toks.filter(x=>!wordHit(x)&&x.length>=4&&nameWords.some(wd=>nearWord(wd,x))).length;
-    hits.push({w,t,d,tab,score,act});
+    hits.push({w,t,d,tab,score,act,dh});
   };
   WINES.forEach(x=>{if(matches([x.n,x.r,x.f,x.pair,x.pitch,x.p]))add("Wine",x.n+" — "+x.p,x.pitch,"wine");});
   COCKTAILS.forEach(x=>{if(matches([x.n,x.build,x.garnish,x.desc,x.p,x.grp,"garnish"]))add("Cocktail",x.n+" — "+x.p,"Garnish: "+x.garnish+" · "+x.build,"cocktails");});
   Object.entries(MENU).forEach(([sec,items])=>items.forEach(i=>{if(matches([sec,i[0],i[1],i[2],i[3]]))add(sec,i[0]+" — "+i[1],i[2],"menu");}));
   ENHANCE.forEach(e=>{if(matches([e[0],e[1],e[2],e[3]]))add("Enhancement",e[0]+" — "+e[1],e[2],"menu");});
   ALLERGENS.forEach(r=>{
-    const oldNameAlias=r[0]==="Australian Wagyu"?"tomahawk tomahwak":"";
-    if(matches([r[0],r[2].join(" "),r[3],oldNameAlias]))add("Allergens",r[0],"Contains: "+(r[2].join(", ")||"none listed")+". "+r[3],"allergens");
+    const alias=r[0]==="Australian Wagyu"?"tomahawk tomahwak":r[0]==="Miso Sea Bass"?"seabass":"";
+    if(matches([r[0],r[2].join(" "),r[3],alias])){
+      /* Build the description from separate <span> nodes so Spanish mode can translate each
+         allergen and the note the way the Allergens tab does — a single concatenated string
+         ("Contains: gluten, dairy. note") can never match a dictionary key. */
+      const flags=r[2].length?r[2].map(a=>`<span>${esc(a)}</span>`).join(", "):"none listed";
+      const dh=`<span>Contains:</span> ${flags}. <span>${esc(r[3])}</span>`;
+      add("Allergens",r[0],"Contains: "+(r[2].join(", ")||"none listed")+". "+r[3],"allergens",null,dh);
+    }
   });
   Object.entries(SPIRITS).forEach(([sec,rows])=>rows.forEach(r=>{if(matches([sec,r[0],r[1],r[2]]))add(sec,r[0]+" — "+r[1],r[2],"cocktails");}));
   BEER.forEach(b=>{if(matches([b[0],b[2],b[3]]))add("Beer",b[0]+" — "+b[1],b[2]+". "+b[3],"cocktails");});
@@ -949,7 +956,7 @@ function renderSearch(q){
   box.style.display="block";
   box.innerHTML=`<div class="sechead"><h2>${hits.length} result${hits.length===1?"":"s"} for &ldquo;${esc(q)}&rdquo;</h2><span>clear the box to go back</span></div>
   <div class="hits">${hits.length?hits.map(h=>`<div class="hit" onclick="$('#gsearch').value='';renderSearch('');${h.act||("go('"+h.tab+"')")}" style="cursor:pointer">
-    <div class="w">${esc(h.w)}</div><div class="t">${esc(h.t)}</div><div class="d">${esc(h.d)}</div></div>`).join(""):'<div class="empty">Nothing found. Try fewer or different words.</div>'}</div>`;
+    <div class="w">${esc(h.w)}</div><div class="t">${esc(h.t)}</div><div class="d">${h.dh||esc(h.d)}</div></div>`).join(""):'<div class="empty">Nothing found. Try fewer or different words.</div>'}</div>`;
 }
 
 /* ============================================================

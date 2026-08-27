@@ -38,9 +38,9 @@ async def main():
             if absent in roster: bad.append(f"roster wrongly lists {absent}")
         if "Evan <i>3:30</i>" not in roster: bad.append("Evan time not formatted 3:30")
         # master grid exactness
-        for cell in ['<span class="dw">We</span>8/12','class="off"','class="ro"','Barbie','3 MGR','5 Busser','>15<','colspan="8">Managers','covrow','Covers \u00b7 Sun 8/9']:
+        for cell in ['<span class="dw">We</span>8/19','class="off"','class="ro"','Barbie','4 MGR','5 Busser','>15<','colspan="8">Managers','covrow','Covers \u00b7 Sun 8/16']:
             if cell not in grid: bad.append(f"grid missing {cell}")
-        for gone in ["Jeremiah","Gavin","Lupe","Eleisia","AUDRINA","LUCAS"]:
+        for gone in ["Jeremiah","Gavin","Lupe","LUCAS","Victoria"]:
             if f'"nm">{gone}<' in grid: bad.append(f"{gone} still has a row on current grid")
         if "Not on this week:" in html: bad.append("gone-note is back (Evan removed it 8/6)")
         # ---- merged night forecast: one machine ----

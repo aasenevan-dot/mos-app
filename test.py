@@ -33,6 +33,10 @@ with sync_playwright() as p:
     pg.on("pageerror", lambda e: errs.append(str(e)))
     pg.goto(target.as_uri())
     pg.wait_for_timeout(900)
+    # The Devour study popup shows on load during the event window (Aug 17 – Sep 6) and, being a
+    # full-screen modal, would intercept taps on the nav bar — dismiss it first, like a guest would.
+    pg.evaluate("var x=document.querySelector('.dvwrap .dvx'); if(x)x.click();")
+    pg.wait_for_timeout(120)
 
     if errs:
         fails.append(f"JS errors on load: {errs}")

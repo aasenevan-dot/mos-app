@@ -38,9 +38,11 @@ async def main():
             if absent in roster: bad.append(f"roster wrongly lists {absent}")
         if "Evan <i>3:30</i>" not in roster: bad.append("Evan time not formatted 3:30")
         # master grid exactness
-        for cell in ['<span class="dw">We</span>8/26','class="off"','class="ro"','Barbie','4 MGR','5 Busser','>15<','colspan="8">Managers','covrow','Covers \u00b7 Sun 8/23']:
+        # These pin the POSTED week's grid, so they move every time a new sheet goes up.
+        for cell in ['<span class="dw">We</span>9/9','class="off"','class="ro"','Barbie','4 MGR','430 Busser','>22<','colspan="8">Managers','covrow','Covers \u00b7 Sun 9/6']:
             if cell not in grid: bad.append(f"grid missing {cell}")
-        for gone in ["Jeremiah","Gavin","Lupe","LUCAS","Victoria","Eleisia","AUDRINA"]:
+        # Victoria came back onto the roster on the 9/9 sheet, so she is no longer expected gone.
+        for gone in ["Jeremiah","Gavin","Lupe","LUCAS","Eleisia","AUDRINA"]:
             if f'"nm">{gone}<' in grid: bad.append(f"{gone} still has a row on current grid")
         if "Not on this week:" in html: bad.append("gone-note is back (Evan removed it 8/6)")
         # ---- merged night forecast: one machine ----
@@ -670,9 +672,9 @@ async def main():
             if "Krista <i>" in ros: bad.append("2/28 roster wrongly lists Krista (RO)")
         oldest=await pg.evaluate("SCHEDULE_HISTORY[SCHEDULE_HISTORY.length-1].week")
         if "11/19" not in oldest: bad.append(f"oldest week wrong: {oldest}")
-        # current week reconciled: Hunter 8/10+8/11 now OFF
+        # Hunter's Mon/Tue on the posted sheet — repin when a new week goes up
         hun=await pg.evaluate("SCHEDULE.sections.find(s=>s[0]==='Fronts')[1].find(r=>r[0]==='Hunter').slice(6)")
-        if hun!=["OFF","OFF"]: bad.append(f"Hunter Mo/Tu not reconciled to OFF: {hun}")
+        if hun!=["OFF","345"]: bad.append(f"Hunter Mo/Tu wrong for the 9/9 sheet: {hun}")
         # home button + nav
         if not await pg.evaluate("!!document.querySelector('button[data-qa=\\'sched|\\']')"): bad.append("home Schedule button missing")
         # ---- floor plan: lives on Money now, merges, plotting, section names ----
@@ -928,8 +930,8 @@ async def main():
         if "Chad" not in h2.split("exactly as posted")[0] or "2pm Carmel" not in h2.split("exactly as posted")[0]:
             bad.append("Saturday roster missing Chad 2pm Carmel")
         await ctx.close()
-        # ---- load 2: 9/2/2026 — past the posted week (8/26–9/1), and no history week covers it ----
-        t3=int(datetime.datetime(2026,9,2,15,0).timestamp()*1000)
+        # ---- load 2: 9/16/2026 — past the posted week (9/9–9/15), and no history week covers it ----
+        t3=int(datetime.datetime(2026,9,16,15,0).timestamp()*1000)
         ctx=await b.new_context(viewport={"width":393,"height":852},is_mobile=True,has_touch=True)
         pg=await ctx.new_page()
         await pg.add_init_script(MOCK % t3)

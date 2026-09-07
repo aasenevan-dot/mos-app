@@ -776,3 +776,51 @@ STILL NEEDS EVAN OR A MANAGER — do not guess these:
    A5 Nigiri $35, King Crab Legs MP, Australian Wagyu $140, Filet Duo $47, Filet &
    Lobster $105, Filet & Scallops $82, the Steak 47 **entree** $58 (the $25 topping IS
    printed), and Garlic Butter $6. No lounge or kids menu was photographed at all.
+
+## 9/7 round — two schedule weeks and the September music poster
+
+Posted week is now **9/9 – 9/15, 2026**. The 9/2 – 9/8 week and the old 8/26 – 9/1 week both
+went onto the FRONT of `SCHEDULE_HISTORY` (42 weeks now, oldest still 11/19/2025).
+
+**Roster changes off these two sheets.** Natalie (Host) and Bryson (Expo) appear for the first
+time. Kalie is off the sheet. Victoria is back on it after a blank week — the test that asserted
+she has no row was updated, not the data. Jeremiah is on the 9/2 manager block but gone from the
+9/9 one, so he only exists on the earlier week.
+
+**How these photos were read.** Both sheets were shot at an angle and the rows drift vertically
+across the page — enough that reading straight across the image puts values on the wrong person.
+Two of them were genuinely wrong on a first pass. The method that worked, and the one to use
+next time:
+
+1. Crop the name column and each date column into separate vertical strips.
+2. Read each column top to bottom on its own, counting rows between the **yellow section bands**
+   (Fronts, Backs, Bar, Cktail, Host, Expo, Busser). The bands are unmistakable in every column
+   and the row counts between them are fixed, so they anchor the alignment.
+3. Never trust a straight-across read of the right-hand columns on a skewed photo.
+
+That method caught two real errors on the 9/9 sheet: **236 is the Fronts count for Tuesday, not
+Alexis's cell** (it sits on the yellow band), and **"2 MGR" is Alexis, not Chad**. A flat read of
+the photo put both one row low.
+
+**Cells still marked uncertain** (`?` per this file's convention, verify against the paper):
+Christian and Jennea's Sun/Mon/Tue cells on the 9/9 sheet and Jackson 9/13 are handwritten in
+pen; Rodrigo's 9/11 and 9/13 are pen blobs that could not be read at all. On the 9/2 sheet,
+Morgan W 9/6 and J Fox 9/3 are handwritten over the print. Bryson has no legible cell on 9/2.
+
+**Fronts counts are verbatim and two of them look odd** — 0 on Sunday 9/13 and 236 on Tuesday
+9/15, against 2/2/2 the week before. That is what is printed. Left as-is rather than "corrected".
+
+**A good cross-check.** Nobody is scheduled Monday 9/7 on the 9/2 sheet, and 9/7 is the Mo's
+Staff Labor Day Party in EVENTS. The two agree, which is a decent sign the transcription is right.
+
+**LIVE_MUSIC replaced with the September poster** — 9/4 Shane Rodimel, 9/5 Christina & Frank,
+9/11 Austin Johnson, 9/12 Christina & Frank, 9/18 Nick Lemmonti (poster says "The Nick Lemmonti
+Show"; shortened to fit the column, same as August), 9/19 Tim & Cat, 9/24 Christina & Frank,
+9/25 Steve Q & Bernie, 9/26 Austin Johnson. The 9/24 Thursday is the **Cowgirls & Cosmos** night,
+which went into `EVENTS` — the music map only ever holds who is playing.
+
+**Tests repinned, not weakened.** `test-sched.py` had the posted week's grid hard-coded
+(8/26 header cell, "5 Busser", ">15<", "Covers · Sun 8/23"), Hunter's Mon/Tue, and an off-week
+probe dated 9/2 that a history week now covers. All four moved to the new posted week; the
+off-week probe is 9/16 now. **These four assertions move every time a sheet goes up** — they are
+commented as such in the file.

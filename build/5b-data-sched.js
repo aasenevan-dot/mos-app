@@ -12,21 +12,23 @@
    push the old one onto the FRONT of SCHEDULE_HISTORY.
    ============================================================ */
 /* ============================================================
-   LIVE MUSIC — off the house poster. Every Friday & Saturday.
+   LIVE MUSIC — off the house poster, "LIVE MUSIC IN THE LOUNGE,
+   SEPTEMBER 2026". Every Friday & Saturday, plus one Thursday.
    Keyed "M/D" so schedGrid drops the act onto the right column
    automatically as the posted week rolls over.
-   NOTE: the poster is headed "AUGUST 2027", but Saturday 8/1 only
-   lands in 2026 (8/1/2027 is a Sunday) — treating it as 2026.
-   Only the dates legible on the photo are here; 8/22 onward were
-   cut off, so they are deliberately absent rather than guessed.
+   9/24 is the Thursday act for Cowgirls & Cosmos — the themed
+   night itself is in EVENTS, this is just who is playing.
    ============================================================ */
 const LIVE_MUSIC={
- "8/1":"Austin Johnson",
- "8/7":"Nick Lemmonti", /* poster bills it as "The Nick Lemmonti Show" — shortened to fit the column */
- "8/8":"Austin Johnson",
- "8/14":"Christina & Frank",
- "8/15":"Christina & Frank",
- "8/21":"Tim & Cat"
+ "9/4":"Shane Rodimel",
+ "9/5":"Christina & Frank",
+ "9/11":"Austin Johnson",
+ "9/12":"Christina & Frank",
+ "9/18":"Nick Lemmonti", /* poster bills it as "The Nick Lemmonti Show" — shortened to fit the column */
+ "9/19":"Tim & Cat",
+ "9/24":"Christina & Frank",
+ "9/25":"Steve Q & Bernie",
+ "9/26":"Austin Johnson"
 };
 
 /* MEALS & MOMENTS — the off-site meals we serve for church families and the community,
@@ -49,12 +51,140 @@ const EVENTS=[
   w:"$3,000 per foursome. Breakfast, 18 holes, lunch and drinks, contests and prizes, and a surf & turf dinner by Prime 47. Registration 9:00 am."},
  {d:"9/7", when:"Mon · 12–4 pm · 4812 N 300 E, Greenfield IN 46140", n:"Mo's Staff Labor Day Party",
   w:"Staff party with Prime 47 — kickball, beach volleyball and swimming, with the TKC food truck from 1 to 3. Family and a +1 welcome. RSVP admin@prime47carmel.com; the sign-up sheet is on the wall and confirmations are due by August 20th. Drink responsibly."},
+ {d:"9/24", when:"Thu · the Lounge", n:"Cowgirls & Cosmos",
+  w:"Themed night in the lounge with Christina & Frank playing live. Same lounge setup as any music night — know the cosmo builds and push the dessert cocktails after."},
  {d:"9/17", when:"Thu · 6:30 pm · $150 per person", n:"The Prisoner Wine Dinner",
   w:"Five-course wine dinner presented by The Prisoner Wine Company. RSVP Lillian@mosgreenwood.com. Wine dinners mean banquet money."}
 ];
 const OFFSITE_NOTE="Fellowship, food, and fun — bringing a church family and the community together over a shared meal. Want to serve one? Email or text Yaris at admin@prime47carmel.com or 317.703.4284.";
 
 const SCHEDULE={
+ week:"Week of 9/9 \u2013 9/15, 2026", year:2026, start:"2026-09-09",
+ days:[["9/9","We"],["9/10","Th"],["9/11","Fr"],["9/12","Sa"],["9/13","Su"],["9/14","Mo"],["9/15","Tu"]],
+ sections:[
+  ["Managers",[
+   ["Mike","1","1","1","3","","","1"],
+   ["CJ","","2","3","1","1","1",""]
+  ]],
+  ["BQTs",[
+   ["Gavin","","","","","","",""]
+  ]],
+  ["Fronts",[
+   ["Alexis","345","330","4 MGR","330","","","2 MGR"],
+   ["Chad","OFF","330","330","4 MGR","OFF","OFF","OFF"],
+   ["Hunter","OFF","OFF","330","330","OFF","OFF","345"],
+   ["Diana","345 Cocktailer","","330","330","3","345","345"],
+   ["MorganB","330","330","330","330","3","RO","RO"],
+   ["Calista","RO","330","330","330","","OFF","OFF"],
+   ["Nathan","OFF","OFF","330","330","OFF","345","345"],
+   ["Fabian","OFF","OFF","OFF","330","3","345",""],
+   ["Alex","345","","330","330","3","OFF","345"]
+  ],["22","11","34","75","0","47","236"]],
+  ["Backs",[
+   ["Lupe","","","","","","",""],
+   ["Morgan W","345","","330","RO","3","345","OFF"],
+   ["Evan","OFF","OFF","330","330","3","345","OFF"],
+   ["Erin","345","","RO","330","OFF","345","OFF"],
+   ["J Fox","345","330","330","330","","","345"],
+   ["D","OFF","OFF","330","330","3","OFF","OFF"],
+   ["Meagan","OFF","330","330","330","3","","OFF"],
+   ["Abby","OFF","","330","330","OFF","OFF","345"],
+   ["Barbie","345","330","330","330","","OFF","345"],
+   ["Victoria","","330","330","330","","345","345"]
+  ]],
+  ["Bar",[
+   ["Krista","3","2","5","3","","",""],
+   ["Christian","","4","430","5","3?","3?",""],
+   ["Jennea","","OFF","3","430","","OFF","3?"]
+  ]],
+  ["Cktail",[
+   ["Jenny","RO","","330","330","4","","4"],
+   ["Taylor","OFF","330","330","330","","330",""]
+  ]],
+  ["Host",[
+   ["Mackenzie","4","OFF","4","4","4","","OFF"],
+   ["Leila","","5","4","5","OFF","4","RO"],
+   ["Natalie","OFF","OFF","5","RO","5","OFF","OFF"]
+  ]],
+  ["Expo",[
+   ["CARTER","4","5","OFF","430 Busser","OFF","","4"],
+   ["Jackson","RO","4","4","4","5?","4",""],
+   ["Rodrigo","OFF","OFF","?","5","?","OFF","OFF"],
+   ["Bryson","","","5","5","","",""]
+  ]],
+  ["Busser",[
+   ["Dalton","OFF","","4","430 Polish","4","","OFF"],
+   ["Conner","4","4","430","5","","4","4"],
+   ["Jackson","5","OFF","5","4","OFF","OFF",""]
+  ]]
+ ],
+ note:"Transcribed from the posted sheet photo. Jeremiah is off the manager block on this sheet. The Sun\u2013Tue columns are skewed in the photo and were read column by column against the yellow section bands; the Bar cells written in pen (Christian, Jennea) and Rodrigo\u2019s two cells are pen marks that could not be read \u2014 verify those against the sheet. Fronts counts are verbatim: 0 on Sunday and 236 on Tuesday look odd but that is what is written.", src:"schedule sheet 9/9-9/15"
+};
+const SCHEDULE_HISTORY=[
+{
+ week:"Week of 9/2 \u2013 9/8, 2026", year:2026, start:"2026-09-02",
+ days:[["9/2","We"],["9/3","Th"],["9/4","Fr"],["9/5","Sa"],["9/6","Su"],["9/7","Mo"],["9/8","Tu"]],
+ sections:[
+  ["Managers",[
+   ["Jeremiah","","","","","","","OFF"],
+   ["Mike","1","1","1","3","","",""],
+   ["CJ","","2","3","1","1","",""]
+  ]],
+  ["BQTs",[
+   ["Gavin","","","","","","",""]
+  ]],
+  ["Fronts",[
+   ["Alexis","345","330","4 MGR","330","","",""],
+   ["Chad","OFF","330","330","4 MGR","OFF","OFF","1 MGR"],
+   ["Hunter","345","OFF","330","330","OFF","OFF","OFF"],
+   ["Diana","","330 Cocktail","330","330","3","","345"],
+   ["MorganB","","330","330","330","3","","345"],
+   ["Calista","RO","RO","RO","RO","RO","OFF","OFF"],
+   ["Nathan","OFF","OFF","330","330","OFF","","345"],
+   ["Fabian","345","330","330","330","3","",""],
+   ["Alex","345","","330","330","3","OFF","345"]
+  ],["15","41","39","31","2","2","2"]],
+  ["Backs",[
+   ["Lupe","","","","","","",""],
+   ["Morgan W","345","330","330","330","3?","","OFF"],
+   ["Evan","OFF","OFF","330","330","3","","OFF"],
+   ["Erin","345","330","RO","330","OFF","","OFF"],
+   ["J Fox","345","330?","330","330","3","","345"],
+   ["D","OFF","OFF","330","330","3","OFF",""],
+   ["Meagan","OFF","330","330","330","3","","345"],
+   ["Abby","OFF","","330","330","OFF","","345"],
+   ["Barbie","345","330","330","330","","OFF","345"],
+   ["Victoria","","","","","","",""]
+  ]],
+  ["Bar",[
+   ["Krista","","3","5","3","3","",""],
+   ["Christian","3","4","430","RO","5","",""],
+   ["Jennea","","OFF","3","430","RO","OFF","3"]
+  ]],
+  ["Cktail",[
+   ["Jenny","4","","330","330","4","","4"],
+   ["Taylor","OFF","RO","RO","RO","RO","","RO"]
+  ]],
+  ["Host",[
+   ["Mackenzie","4","OFF","4","4","4","","OFF"],
+   ["Leila","","5","4","5","OFF","OFF","4"],
+   ["Natalie","OFF","OFF","5","5","5","OFF","OFF"]
+  ]],
+  ["Expo",[
+   ["CARTER","RO","RO","OFF","RO","OFF","","RO"],
+   ["Jackson","RO","4","OFF","4","RO","","4"],
+   ["Rodrigo","OFF","OFF","6","5","5","OFF",""],
+   ["Bryson","","","","","","",""]
+  ]],
+  ["Busser",[
+   ["Dalton","OFF","","4","430","4","","OFF"],
+   ["Conner","4","4","430","5","","","4"],
+   ["Jackson","5","OFF","5","4","OFF","OFF",""]
+  ]]
+ ],
+ note:"Transcribed from the posted sheet photo. Natalie (host) and Bryson (expo) show up on the roster for the first time; Kalie is off it. Morgan W 9/6 and J Fox 9/3 are handwritten over the print \u2014 verify. Bryson has no legible cell this week.", src:"schedule sheet 9/2-9/8"
+},
+{
  week:"Week of 8/26 \u2013 9/1, 2026", year:2026, start:"2026-08-26",
  days:[["8/26","We"],["8/27","Th"],["8/28","Fr"],["8/29","Sa"],["8/30","Su"],["8/31","Mo"],["9/1","Tu"]],
  sections:[
@@ -115,8 +245,7 @@ const SCHEDULE={
   ]]
  ],
  note:"Transcribed from Craig's posted sheet; right-side days and a few Bar/Host/Busser cells were hard to read \u2014 verify against the sheet.", src:"schedule sheet 8/26-9/1 (same layout as 8/19-8/25)"
-};
-const SCHEDULE_HISTORY=[
+},
 {
  week:"Week of 8/19 \u2013 8/25, 2026", year:2026, start:"2026-08-19",
  days:[["8/19","We"],["8/20","Th"],["8/21","Fr"],["8/22","Sa"],["8/23","Su"],["8/24","Mo"],["8/25","Tu"]],

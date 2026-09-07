@@ -1385,6 +1385,7 @@ function build(){
 
     <div class="bkcard" onclick="openBook()"><h3>&#128214; The Mo's Book</h3><p>The whole training course, in the order we teach it — every day of the original itinerary, front to back. Tap to read it chapter by chapter.</p></div>
     <div class="bkcard" onclick="openDeck()"><h3>&#128444;&#65039; The Training Slideshow</h3><p>The same ten days as a deck you swipe through one slide at a time. Tap to start, or jump to a day.</p></div>
+    <div class="bkcard" onclick="openTrainer()"><h3>&#9989; The Trainer Program</h3><p>The official trainer manual and four-day certification, as a checklist you tap through on the floor. Timing standards, every utensil and pre-set, the specialty skills, and the final sign-off.</p></div>
 
     ${acc(WOTW.title,"the feature, both bottles",`
       <div class="grid wide">${[WOTW.a,WOTW.b].map(w=>`<div class="card hl">
@@ -2211,6 +2212,161 @@ function closeDeck(){
   const w=$("#bkWrap"), m=$("#houseMain");
   if(!w||!m)return;
   DECKI=null; w.style.display="none"; w.innerHTML=""; m.style.display="block";
+  window.scrollTo(0,0);
+}
+
+/* ---------- THE TRAINER PROGRAM — reader inside How We Work ----------
+   Same rules as the book and the slideshow: TOP-LEVEL declarations, because
+   every checkbox, pill and dot uses inline onclick. TRSTATE has no initializer
+   so a re-run of build() never wipes a trainer mid-shift.
+
+   State is saved per TRAINEE NAME, so one trainer can run two people at once
+   without the checkmarks colliding. Every localStorage touch is wrapped —
+   a locked-down phone browser must degrade to "nothing saves", never to a
+   blank screen. */
+var TRSTATE, TRWHO;
+function trKey(){ return "mos-trainer-v1:"+(TRWHO||"").trim().toLowerCase(); }
+function trLoad(){
+  TRSTATE={};
+  try{ TRSTATE=JSON.parse(localStorage.getItem(trKey())||"{}")||{}; }catch(e){ TRSTATE={}; }
+}
+function trSave(){ try{ localStorage.setItem(trKey(), JSON.stringify(TRSTATE)); }catch(e){} }
+function trSet(k,v){ if(!TRSTATE)TRSTATE={}; if(v===null||v===""||v===false)delete TRSTATE[k]; else TRSTATE[k]=v; trSave(); }
+function trGet(k){ return TRSTATE?TRSTATE[k]:undefined; }
+
+/* every tappable checklist box in the whole program, so the bar means something */
+function trAllBoxes(){
+  const out=[];
+  TRAINER.parts.forEach(p=>{ if(p.k==="check") p.items.forEach((_,i)=>out.push(p.id+":"+i)); });
+  return out;
+}
+function trPct(){
+  const all=trAllBoxes(); if(!all.length) return 0;
+  return Math.round(all.filter(k=>trGet(k)).length/all.length*100);
+}
+function trToggle(k,el){
+  trSet(k, trGet(k)?null:1);
+  if(el) el.classList.toggle("on", !!trGet(k));
+  const b=$("#trBar"), t=$("#trPct");
+  if(b&&t){ const p=trPct(); b.style.width=p+"%"; t.textContent=trTally(); }
+}
+function trTally(){
+  const all=trAllBoxes(), done=all.filter(k=>trGet(k)).length;
+  return done+" of "+all.length+" signed off · "+trPct()+"%";
+}
+function trField(k,el){ trSet(k, el.value); }
+function trPill(k,val,el){
+  const cur=trGet(k)===val?null:val;
+  trSet(k,cur);
+  const row=el.parentElement.parentElement;
+  row.querySelectorAll(".trpill").forEach(x=>x.classList.remove("pass","retrain"));
+  if(cur) el.classList.add(cur);
+}
+function trDot(k,val,el){
+  trSet(k,val);
+  el.parentElement.querySelectorAll(".trdot").forEach(x=>x.classList.remove("on"));
+  for(const d of el.parentElement.querySelectorAll(".trdot")){ d.classList.add("on"); if(d===el)break; }
+}
+function trDecide(k,val,el){
+  trSet(k,val);
+  el.parentElement.querySelectorAll(".trdec").forEach(x=>x.classList.remove("on"));
+  el.classList.add("on");
+}
+function trWhoSet(v){ TRWHO=v; trLoad(); openTrainer(); }
+function trReset(){
+  if(!TRWHO){ return; }
+  TRSTATE={}; trSave(); openTrainer();
+}
+
+function trBlock(p){
+  const on=k=>trGet(k)?" on":"";
+  const val=k=>esc(String(trGet(k)==null?"":trGet(k)));
+  if(p.k==="head")
+    return `<div class="trsec">${esc(p.t)}</div>${p.d?`<p class="trlede">${esc(p.d)}</p>`:""}`;
+  if(p.k==="note")
+    return `<div class="note gold" style="margin:10px 0"><b>${esc(p.t)}</b><br>${esc(p.d)}</div>`;
+  if(p.k==="rows")
+    return `${p.sub?`<div class="trsub">${esc(p.sub)}</div>`:""}<table class="trtbl">${
+      p.items.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td></tr>`).join("")}</table>`;
+  if(p.k==="check")
+    return `${p.sub?`<div class="trsub">${esc(p.sub)}</div>`:""}${p.d?`<p class="trlede">${esc(p.d)}</p>`:""}${
+      p.items.map((t,i)=>{const k=p.id+":"+i;
+        return `<div class="trck${on(k)}" onclick="trToggle('${k}',this)"><div class="bx">&#10003;</div><div class="trlb">${esc(t)}</div></div>`;}).join("")}`;
+  if(p.k==="sign")
+    return `${p.notes?`<div class="trsub">${esc(p.notes)}</div><textarea class="trnotes" placeholder="Notes…" oninput="trField('${p.id}:n',this)">${val(p.id+":n")}</textarea>`:""}
+      <div class="trsign"><span>TRAINER INITIALS</span>
+        <input value="${val(p.id+":i")}" placeholder="initials" oninput="trField('${p.id}:i',this)">
+        <span>DATE</span>
+        <input value="${val(p.id+":d")}" placeholder="mm/dd" oninput="trField('${p.id}:d',this)"></div>`;
+  if(p.k==="ready")
+    return `<div class="trsub">Is the trainee ready for final certification?</div>
+      ${["Yes","Additional training recommended"].map(o=>
+        `<label class="trdec${trGet(p.id+":r")===o?" on":""}" onclick="trDecide('${p.id}:r','${esc(o)}',this)">${esc(o)}</label>`).join("")}
+      <div class="trsub">Additional focus</div>
+      <textarea class="trnotes" placeholder="Notes…" oninput="trField('${p.id}:n',this)">${val(p.id+":n")}</textarea>
+      <div class="trsign"><span>TRAINER INITIALS</span>
+        <input value="${val(p.id+":i")}" placeholder="initials" oninput="trField('${p.id}:i',this)">
+        <span>DATE</span>
+        <input value="${val(p.id+":d")}" placeholder="mm/dd" oninput="trField('${p.id}:d',this)"></div>`;
+  if(p.k==="cert")
+    return `<div class="scroller"><table class="trcert"><tr><th>Certification area</th><th>Pass</th><th>Retrain</th></tr>${
+      p.items.map((t,i)=>{const k=p.id+":"+i, v=trGet(k);
+        return `<tr><td>${esc(t)}</td>
+          <td><span class="trpill${v==="pass"?" pass":""}" onclick="trPill('${k}','pass',this)">PASS</span></td>
+          <td><span class="trpill${v==="retrain"?" retrain":""}" onclick="trPill('${k}','retrain',this)">RETRAIN</span></td></tr>`;
+      }).join("")}</table></div>`;
+  if(p.k==="rate")
+    return `<div class="trsub">Final performance rating — 1 to 5</div>${
+      p.items.map((t,i)=>{const k=p.id+":"+i, v=+trGet(k)||0;
+        return `<div class="trrate"><div class="nm">${esc(t)}</div>${
+          [1,2,3,4,5].map(n=>`<button class="trdot${n<=v?" on":""}" onclick="trDot('${k}',${n},this)">${n}</button>`).join("")}</div>`;
+      }).join("")}`;
+  if(p.k==="decide")
+    return `<div class="trsub">Final decision</div>${
+      p.items.map(o=>`<label class="trdec${trGet(p.id)===o?" on":""}" onclick="trDecide('${p.id}','${esc(o)}',this)">${esc(o)}</label>`).join("")}
+      <div class="trsub">Strengths</div>
+      <textarea class="trnotes" oninput="trField('${p.id}:s',this)">${val(p.id+":s")}</textarea>
+      <div class="trsub">Areas requiring improvement</div>
+      <textarea class="trnotes" oninput="trField('${p.id}:a',this)">${val(p.id+":a")}</textarea>
+      ${["Trainer","Manager","Trainee"].map(who=>
+        `<div class="trsign"><span>${who.toUpperCase()}</span>
+          <input value="${val(p.id+":"+who+"n")}" placeholder="name" oninput="trField('${p.id}:${who}n',this)">
+          <input value="${val(p.id+":"+who+"d")}" placeholder="date" oninput="trField('${p.id}:${who}d',this)"></div>`).join("")}`;
+  return "";
+}
+
+function openTrainer(){
+  const w=$("#bkWrap"), m=$("#houseMain");
+  if(!w||!m)return;
+  m.style.display="none"; w.style.display="block";
+  if(TRSTATE===undefined) trLoad();
+  if(!TRWHO){
+    w.innerHTML=`<div class="sechead"><h2>${esc(TRAINER.title)}</h2><span>${esc(TRAINER.sub)}</span></div>
+      <p class="lede">Whose training is this? The checkmarks save under that name on this phone, so you can run two people at once without them getting mixed up.</p>
+      <div class="trwho"><input id="trName" placeholder="Trainee name" autocapitalize="words">
+        <button onclick="trWhoSet($('#trName').value||'trainee')">Start</button></div>
+      <div class="note" style="margin-top:12px"><b>Nothing here leaves the phone.</b> It saves in this browser only — it is a working checklist, not a record. The signed paper copy is still the record.</div>
+      <div class="bknav"><button onclick="closeTrainer()">&#8592; Back to How We Work</button></div>`;
+    window.scrollTo(0,0); return;
+  }
+  const pct=trPct();
+  w.innerHTML=`<div class="bknav"><button class="bkc" onclick="trWho()">&#9776; Trainee</button>
+      <button onclick="closeTrainer()">Exit the program</button></div>
+    <div class="sechead"><h2>${esc(TRAINER.title)}</h2><span>${esc(TRWHO)}</span></div>
+    <div class="trloop">${TRAINER.loop.map(x=>`<span>${esc(x)}</span>`).join("")}</div>
+    <div class="note warn"><b>${esc(TRAINER.creed)}</b></div>
+    <div class="trbar"><i id="trBar" style="width:${pct}%"></i></div>
+    <p class="trpct" id="trPct">${esc(trTally())}</p>
+    ${TRAINER.parts.map(trBlock).join("")}
+    <div class="bknav"><button onclick="trReset()">Clear ${esc(TRWHO)}</button>
+      <button onclick="closeTrainer()">Exit the program</button></div>`;
+  window.scrollTo(0,0);
+}
+function trWho(){ TRWHO=null; openTrainer(); }
+function closeTrainer(){
+  const w=$("#bkWrap"), m=$("#houseMain");
+  if(!w||!m)return;
+  w.style.display="none"; w.innerHTML=""; m.style.display="block";
   window.scrollTo(0,0);
 }
 

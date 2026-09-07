@@ -86,6 +86,7 @@ Talk the language of the industry. These are the words the original training she
 - **Marking the table** — setting the flatware and glassware the next course needs.
 - **Clearing** — removing dishes in a specific order, from the guest's right side.
 - **Pivot point system** — seat numbering that tracks every order to the right guest without asking.
+- **Captain's Pad** — the order pad. Ladies are ALWAYS circled on it, so whoever reads the ticket knows who gets served first.
 - **Silent service** — non-intrusive serving: discretion and minimal noise.
 - **Coursing** — timing dishes so guests receive each course in sync.
 - **Refire** — re-cooking or remaking a dish that was incorrect or returned.
@@ -227,7 +228,7 @@ Two standing rules. Every steak is **cooked with butter by default, and the kitc
 
 **Filet Mignon — 6 oz $54 / 10 oz $79.** Center cut with almost no marbling — you order it for pure tenderness. At medium rare it practically cuts with a fork. Finished with rosemary Maldon salt.
 
-**Farbuckle Filet — 6 oz $63 / 10 oz $87.** The show filet, seared and finished at the table — the full ritual lives in the tableside section below. Any cut can be Farbuckled for roughly a $9 upcharge.
+**FarBuckle Filet — 6 oz $63 / 10 oz $87.** The show filet, seared and finished at the table — the full ritual lives in the tableside section below. Any cut can be FarBuckled for roughly a $9 upcharge.
 
 **The PD — 15 oz hand-cut filet, $115.** On the printed menu; the house calls it the PD.
 
@@ -267,7 +268,7 @@ Every steak order is an enhancement conversation: Oscar it, 47 it, tail it, butt
 
 ## Tableside service — the shows
 
-**The Farbuckle.** Ring the steak at the guest's temperature. Bring the sizzling skillet, tongs, gloves, tray, rosemary salt, beef tallow, warm butter. At the table: steaks into the skillet, let them work while you talk, butter them, tallow before pulling, finish with rosemary salt, serve. Front and back run it together on big tables.
+**The FarBuckle.** Ring the steak at the guest's temperature. Bring the sizzling skillet, tongs, gloves, tray, rosemary salt, beef tallow, warm butter. At the table: steaks into the skillet, let them work while you talk, butter them, tallow before pulling, finish with rosemary salt, serve. Front and back run it together on big tables.
 
 **A5 and Porterhouse mise en place.** Butcher block, Japanese knife, honing iron, gloves, rosemary salt. The manager slices and tells the story — your job is a flawless setup and the Hanzo knives preset.
 
@@ -315,7 +316,7 @@ Every single side is built to share — it comfortably feeds two to three, and t
 
 ## Desserts
 
-Dessert timing is five to seven minutes, and the approach matters more than the pitch: **walk up with a dessert menu in your hand** — it doubles the yes.
+Dessert timing is within seven minutes, and the approach matters more than the pitch: **walk up with a dessert menu in your hand** — it doubles the yes.
 
 **Mo's Cookie — $10.** Cookie dough pressed into its own bowl, baked to order, pulled half-baked so the center stays gooey. Vanilla ice cream, Hershey's syrup over everything.
 
@@ -353,7 +354,7 @@ The dessert course is also the after-dinner drink course — port, espresso mart
 
 Testing is real here — the house graded menu tests at opening and still expects the knowledge. The real 30-question menu test lives in the app with corrected answers, and the app's Study tab is the practice room: a 150-question bank across every topic, a fresh Today's Ten every day, timed price drills, garnish matching, wine identification, and step-order games. The habit that works: Today's Ten every day before shift, plus one topic lane you feel weak in. Ten minutes a day and the test takes care of itself.
 
-What the test reaches for, in one breath: dish builds and prices, allergen flags, the sixteen Points of Passion, steak temps and cuts, the comp soup system, timing standards — soups, salads, and desserts in five to seven minutes with ten the max, entrees in twenty-two to twenty-seven — the tip-out math, the rooms, the wine list, and the cocktail builds. Every one of those lives in this book and in the app.
+What the test reaches for, in one breath: dish builds and prices, allergen flags, the sixteen Points of Passion, steak temps and cuts, the comp soup system, timing standards — appetizers in seven to twelve minutes with the towers excepted, soups and salads in two to five, entrees at twenty-two with twenty-five the maximum, desserts within seven — the tip-out math, the rooms, the wine list, and the cocktail builds. Every one of those lives in this book and in the app.
 
 The Points of Passion get tested by idea, not by number. If you can explain 1% Less, Customized Service, and They Weren't Ready For Us in your own words, you are ready.
 
@@ -385,7 +386,7 @@ The busser drops the waters. The front server greets — drinks and apps. The BA
 
 ## The steps, front server
 
-**Before you walk up.** Lineup at 4:15 covered teams, floor plan, soup, specials, reviews. Know the soup, the oysters, the 86'd items, the cut specials, the features, and two easy cocktail recommendations. Know the allergy protocol cold. Know the timing: five to seven minutes for soups, salads, desserts — ten max — and twenty-two to twenty-seven for entrees. The kitchen is Chef Miguel Garatachea's; use the name when you pitch.
+**Before you walk up.** Lineup at 4:15 covered teams, floor plan, soup, specials, reviews. Know the soup, the oysters, the 86'd items, the cut specials, the features, and two easy cocktail recommendations. Know the allergy protocol cold. Know the timing: appetizers seven to twelve minutes, towers excepted; soups and salads two to five; entrees twenty-two with twenty-five the maximum; desserts within seven. The kitchen is Chef Miguel Garatachea's; use the name when you pitch.
 
 **The greet.** Your name and your back server's name. First time in? Celebrating anything? Allergies? Would you like the wine list? Point to cocktails, beer, wine, whiskey. Warm and short.
 
@@ -399,7 +400,7 @@ The busser drops the waters. The front server greets — drinks and apps. The BA
 
 **Checkbacks.** Every course. Entree checkback at two to five minutes: "Is everything tasting perfect for us?" A halfhearted answer means something is wrong — pry gently and fix it now. Problems caught at checkback are comps that never happen.
 
-**Work with your back server.** You are the table lead; the back keeps it moving. Write the dinner ticket neatly and hand off the white copy. Help on big tables, Farbuckles, A5s, towers. Salad clear is the moment to ask about a second bottle or another round.
+**Work with your back server.** You are the table lead; the back keeps it moving. Write the dinner ticket neatly and hand off the white copy. Help on big tables, FarBuckles, A5s, towers. Salad clear is the moment to ask about a second bottle or another round.
 
 **Dessert and close.** Menu in hand. After-dinner drinks in the same breath. Busy nights, the check rides with dessert — "this is going down here for your convenience; anything else at all, we will update it." Gift cards live at the BAR TOP, not the host stand. If anything went sideways tonight, fix it before the check. Thank them by name.
 
@@ -409,7 +410,7 @@ Your job: help the front facilitate service, minimize kitchen time, and keep the
 
 ## Bar-top standards — the same religion, faster
 
-Greet within 60 seconds. Water and menus inside two minutes. First drink inside five. Apps in under twelve minutes or you flag it — and you TALK to the guest about a delay, never hope they missed it. Serving order, always: hot lady, hot man, cold lady, cold man. Announce every plate with its full specification and pull the temp picks. Clear within two minutes of a finished course, never rushing, asking before blending courses. Ring soups-and-salads and entrees together — a time gap is how coursing gets confused. Check stands tall in front of the guest, run the card the second it hits the holster, names on the goodbye. Energy is everything behind a bar.
+Greet within 60 seconds. Water and menus inside two minutes. First drink inside five. Apps in seven to twelve minutes or you flag it — and you TALK to the guest about a delay, never hope they missed it. Serving order, always: hot lady, hot man, cold lady, cold man. Announce every plate with its full specification and pull the temp picks. Clear within two minutes of a finished course, never rushing, asking before blending courses. Ring soups-and-salads and entrees together — a time gap is how coursing gets confused. Check stands tall in front of the guest, run the card the second it hits the holster, names on the goodbye. Energy is everything behind a bar.
 
 **STILL TO GET:** the original printed steps-of-service handout, word for word, so this chapter can quote the sheet instead of reconstructing it.
 
@@ -444,6 +445,8 @@ Gift cards sell at the **bar top**, not the host stand — walk the buyer over.
 ## Seat numbers for everything
 
 The original sheet says it in capitals and so will we: seat numbers for EVERYTHING. The pivot point system is how a table of eight gets eight right plates without a single "who had the salmon?" Every position at the table has a number; every item rings to its seat; anyone can run any tray.
+
+The **Captain's Pad** is the other half of it. Ladies are ALWAYS circled on the pad, so whoever picks up that ticket — you, your back server, a runner who has never met the table — knows who gets served first without asking. Table numbers, seat numbers, pivot points and the Captain's Pad are the first four lines on the certification sheet, and they get tested on day one.
 
 **STILL TO GET:** the floor plan with table numbers and seat-number conventions — the pivot point for every table shape. It is already on the ask list, and when it lands, this chapter becomes a map with numbers instead of a promise.
 

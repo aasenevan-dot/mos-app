@@ -753,7 +753,7 @@ placeholder(D3, "each temperature, cut open",
   const s = page("The Prime Cuts", "Filet through Australian Wagyu", D3);
   rows(s, [
     ["•", "Filet Mignon  6 oz $54 / 10 oz $79.  ", "Center cut, almost no marbling — you order it for pure tenderness. At medium rare it practically cuts with a fork. Rosemary Maldon salt to finish."],
-    ["•", "Farbuckle Filet  6 oz $63 / 10 oz $87.  ", "The show filet, seared and finished at the table. Any cut can be Farbuckled for roughly a $9 upcharge."],
+    ["•", "FarBuckle Filet  6 oz $63 / 10 oz $87.  ", "The show filet, seared and finished at the table. Any cut can be FarBuckled for roughly a $9 upcharge."],
     ["•", "The PD  15 oz hand-cut filet, $115.  ", "On the printed menu; the house calls it the PD."],
     ["•", "Filet Duo  $47.  ", "Two 3 oz end-cut medallions — a touch more fat, and really ordered for the toppings: Crab Oscar on one, horseradish bleu cheese crust on the other."],
     ["•", "Dry Aged New York Strip  14 oz $58.  ", "The middle ground between ribeye and filet, with a fat cap that bastes as it renders. Dry aging concentrates a rich, nutty, beefy umami — tell the guest, it is the whole point of the steak."],
@@ -825,7 +825,7 @@ placeholder(D3, "each temperature, cut open",
 {
   const s = page("Tableside service", "The shows", D3);
   cards(s, [
-    ["The Farbuckle", "front and back run it together",
+    ["The FarBuckle", "front and back run it together",
       "Ring the steak at the guest's temperature. Bring the sizzling skillet, tongs, gloves, tray, rosemary salt, beef tallow, warm butter. At the table: steaks into the skillet, let them work while you talk, butter them, tallow before pulling, finish with rosemary salt, serve."],
     ["A5 and Porterhouse", "the manager slices",
       "Butcher block, Japanese knife, honing iron, gloves, rosemary salt. The manager slices and tells the story. Your job is a flawless setup and the Hanzo knives preset. The porterhouse, the spinalis, the Australian Wagyu and the A5 are all manager-cut tableside."],
@@ -837,7 +837,7 @@ placeholder(D3, "each temperature, cut open",
 }
 
 placeholder(D3, "every tableside setup, tray by tray",
-  "Farbuckle tray, A5 board, smoke lid — shot before it goes to the table, so a new hire can copy it exactly.");
+  "FarBuckle tray, A5 board, smoke lid — shot before it goes to the table, so a new hire can copy it exactly.");
 
 {
   const s = page("Off-menu and specials", "The cut board is not on the printed menu — that is why it works", D3);
@@ -962,7 +962,7 @@ divider(5, "The Menu Test and the Points of Passion Test", "Menu review and ques
         "Dish builds and prices. Allergen flags.",
         "The sixteen Points of Passion — by idea, not by number.",
         "Steak temps and cuts. The comp soup system.",
-        "Timing standards: soups, salads and desserts in five to seven minutes with ten the max; entrees in twenty-two to twenty-seven.",
+        "Timing standards: appetizers seven to twelve minutes with towers excepted; soups and salads two to five; entrees twenty-two with twenty-five the maximum; desserts within seven.",
         "The tip-out math, the rooms, the wine list, the cocktail builds."
       ]
     },
@@ -1027,7 +1027,7 @@ divider(6, "Steps of Service", "Isaac's non-negotiables, the steps of service ha
   rows(s, [
     ["•", "The order. ", "Hit the key items, not a speech. Steak temps, butterfly the well-done filet, sides and enhancements. Take the full order and course it out. Features before the full order. Every special request gets confirmed with the chef — every single one."],
     ["•", "Checkbacks. ", "Every course. Entree checkback at two to five minutes: “Is everything tasting perfect for us?” A halfhearted answer means something is wrong — pry gently and fix it now. Problems caught at checkback are comps that never happen."],
-    ["•", "Work with your back server. ", "You are the table lead; the back keeps it moving. Write the dinner ticket neatly and hand off the white copy. Help on big tables, Farbuckles, A5s, towers. Salad clear is the moment to ask about a second bottle."],
+    ["•", "Work with your back server. ", "You are the table lead; the back keeps it moving. Write the dinner ticket neatly and hand off the white copy. Help on big tables, FarBuckles, A5s, towers. Salad clear is the moment to ask about a second bottle."],
     ["•", "Dessert and close. ", "Menu in hand. After-dinner drinks in the same breath. Busy nights the check rides with dessert. Gift cards live at the BAR TOP, not the host stand. If anything went sideways tonight, fix it before the check. Thank them by name."]
   ], { top: 1.62, fs: 12, rowH: 1.05 });
 }
@@ -1065,7 +1065,7 @@ divider(6, "Steps of Service", "Isaac's non-negotiables, the steps of service ha
     ["60 seconds", "greet"],
     ["2 minutes", "water and menus"],
     ["5 minutes", "first drink"],
-    ["12 minutes", "apps, or you flag it"]
+    ["7-12 minutes", "apps, or you flag it"]
   ];
   blk("cards", clocks.map(c => [c[0], "", c[1]]));
   const w = (CW - 0.3 * 3) / 4;

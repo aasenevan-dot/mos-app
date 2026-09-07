@@ -6,10 +6,10 @@ const MC = [
  {q:"Which oyster answer is most complete?",o:["Cocktail, mignonette, Tabasco/hot sauce, raw horseradish","Cocktail and tartar only","Remoulade and kung pao","Hollandaise and Bearnaise"],t:"food"},
  {q:"Calamari is prepared and served how?",o:["Lightly breaded/fried with spicy citrus and kung pao","Grilled with hollandaise and lemon","Blackened with remoulade only","Raw with mignonette"],t:"food"},
  {q:"Which dressing list is correct?",o:["House, Orange, Balsamic, Maple Balsamic, Italian, French, Blue Cheese, Oil & Vinegar, Thousand Island, Caesar, Peppercorn Ranch","House, Ranch, Peppercorn Ranch, Caesar only","French, Italian, Honey Mustard, Ranch, Caesar","Maple, Citrus, Thousand Island, Green Goddess"],t:"food"},
- {q:"Correct ticket timing?",o:["Soups, salads, and desserts 5-7 min (10 max); entrees 22-27 min","Soups/salads 15; entrees 45","Soups/salads 2; entrees 12","Soups/salads 10-15; entrees 30-40"],t:"ops"},
+ {q:"Correct ticket timing?",o:["Apps 7-12; soups/salads 2-5; entrees 22 target/25 max; desserts within 7","Soups/salads 15; entrees 45","Soups/salads 2; entrees 12","Soups/salads 10-15; entrees 30-40"],t:"ops"},
  {q:"Roasted Pear Salad includes:",o:["Arugula, Gorgonzola, candied walnuts, dried cherries, maple balsamic","Bibb, Asian pear, cranberries, Dijon, blue cheese","Romaine, croutons, parmesan, Caesar","Iceberg, bacon, blue cheese, tomatoes"],t:"food"},
  {q:"Mirepoix is pronounced and means:",o:["meer-PWAH: onion, carrot, celery","myer-pox: garlic, tomato, pepper","meer-pwah: cream, butter, flour","mire-pwa: parsley, thyme, bay"],t:"food"},
- {q:"Which filet pricing set is current?",o:["Filet 6 oz $54 / 10 oz $79; Wagyu Filet 6 oz $95 / 10 oz $135; A5 $25/oz","Filet 6 oz $40 / 10 oz $60; A5 $32/oz","All filets are only 8 oz","Farbuckle is only a 15 oz cut"],t:"steak"},
+ {q:"Which filet pricing set is current?",o:["Filet 6 oz $54 / 10 oz $79; Wagyu Filet 6 oz $95 / 10 oz $135; A5 $25/oz","Filet 6 oz $40 / 10 oz $60; A5 $32/oz","All filets are only 8 oz","FarBuckle is only a 15 oz cut"],t:"steak"},
  {q:"Well-done filet note:",o:["Offer or expect to butterfly it so it cooks evenly","Never butterfly any filet","Serve blue rare by default","Only cook in the oven, no sear"],t:"steak"},
  {q:"Which is a strong off-menu / special cut answer?",o:["48 oz Porterhouse, 15 oz Hand-Cut/TMP, 45-day dry-aged bone-in ribeye, spinalis, Australian Wagyu","Only Delmonico and salmon","Only crab Oscar and lobster tail","Only chicken parmesan and primavera"],t:"steak"},
  {q:"Best Japanese A5 sell point:",o:["Kagoshima, $25/oz, extreme marbling, low-stress care, manager slices tableside","Leanest steak with no fat","Best well done with ketchup","Always served ground in tacos"],t:"steak"},
@@ -48,7 +48,7 @@ const MC = [
  {q:"Roasted Mushrooms enhancement service:",o:["$8 — arrives in a small soup bowl with a big spoon; confirm with the guest, then scoop over their steak","$14 side dish served on its own plate","Poured over every steak automatically","Only available on the filet family"],t:"food"},
  {q:"Advice From John facts:",o:["Orin Swift Merlot, $16 glass / $60 bottle — the label is a real photo of bathroom-stall graffiti","A Buehler Estate Cabernet for $105","A Daou red blend from Paso Robles","Retired — no longer poured"],t:"wine"},
  {q:"The Prime 47 Blend story:",o:["A Bardstown single barrel — our Prime 47 Carmel bar manager tasted at the distillery and bought one exclusive barrel for our restaurants","A house infusion built at the bar","A Buffalo Trace private label","A blend of leftover pours"],t:"cocktail"},
- {q:"Who runs the Farbuckle show and what goes on the tray?",o:["You (the back) help run it: sizzling skillet, tongs, gloves, tray, rosemary salt, beef tallow, warm butter — butter while cooking, tallow before pulling, rosemary salt to finish","The bartender: shaker, smoke box, torch","The manager: butcher block and Hanzo knife only","Expo runs it from the window with no tray"],t:"ops"},
+ {q:"Who runs the FarBuckle show and what goes on the tray?",o:["You (the back) help run it: sizzling skillet, tongs, gloves, tray, rosemary salt, beef tallow, warm butter — butter while cooking, tallow before pulling, rosemary salt to finish","The bartender: shaker, smoke box, torch","The manager: butcher block and Hanzo knife only","Expo runs it from the window with no tray"],t:"ops"},
  {q:"A5 or Porterhouse tableside — the mise en place is:",o:["Butcher block, Japanese Kobe knife, honing iron, gloves, rosemary salt","Sizzling skillet and beef tallow","Stacking rack and black linen","Cocktail forks and a butter warmer"],t:"steak"},
  {q:"Halfway through the Roasted Tower you should:",o:["Clear the shells, then stir the pasta setup into the remaining seafood-butter sauce and serve it — never skip it","Clear the whole tower and bring the check","Add more ice to the base","Swap in a fresh diavolo sauce from the kitchen"],t:"ops"},
  {q:"Warm-water vs cold-water oysters:",o:["Warm: larger, sweeter, more tender. Cold: smaller, brinier, firmer","Warm: smaller and brinier. Cold: larger and sweeter","They taste identical — only the shells differ","Cold-water oysters cannot be served raw"],t:"food"},
@@ -161,7 +161,7 @@ const OPEN = [
  ["What sauces are served with the oysters on the half shell?","Cocktail sauce, mignonette, Tabasco/hot sauce, raw horseradish."],
  ["What is the preparation of the calamari and what sauces come with it?","Lightly breaded and flash-fried; kung pao sauce and spicy citrus sauce."],
  ["Name all dressings. Which is the house dressing?","House vinaigrette, orange vinaigrette, balsamic vinaigrette, maple balsamic, Italian, French, blue cheese, oil and vinegar, Thousand Island, Caesar, peppercorn ranch. House dressing: house vinaigrette. Only one ranch."],
- ["What is the time frame for salads and soups? For entrees?","Soups, salads, and desserts 5-7 minutes, 10 minutes max. Entrees 22-27 minutes."],
+ ["What is the time frame for salads and soups? For entrees?","Soups and salads 2 to 5 minutes. Entrees about 22 minutes, 25 minutes maximum. Appetizers 7 to 12 minutes, towers excepted. Desserts within 7 minutes."],
  ["What does the Roasted Pear Salad consist of?","Arugula, roasted pear, Gorgonzola, candied walnuts, dried cherries, maple balsamic."],
  ["How is the Baked French Onion prepared?","Vidalia onions caramelized in veal/beef broth for 48-72 hours, served in a brown crock with an herb crouton, provolone, and parsley, then broiled. Mirepoix is onion, carrot, celery."],
  ["Name all filet cuts and oz, including Australian and Japanese.","Filet mignon 6, 10, 15 oz. Australian Wagyu filet 6 and 10 oz. Japanese A5 by the ounce. Filet Duo: two 3 oz end-cut medallions."],
@@ -185,19 +185,19 @@ const OPEN = [
  ["What is the difference between Bearnaise and Hollandaise?","Both are egg and butter sauces. Bearnaise has a tarragon and shallot reduction; hollandaise does not."],
  ["Which cuts are dry aged and what does dry aging do?","Dry-aged New York strip and the 45-day dry-aged bone-in ribeye. The meat hangs in a controlled room so moisture evaporates and enzymes tenderize it, concentrating rich, nutty, beefy umami."],
  ["Can the risotto be made vegetarian?","No. It is cooked with chicken stock and topped with crispy prosciutto. Removing the prosciutto does not make it vegetarian."],
- ["Which steaks are halal? Add the seed-oil note.","Filet-family cuts and chicken: filet mignon, filet duo/end cuts, Farbuckle filet, Australian Wagyu filet, Japanese A5. Confirm non-filet cuts with a manager. Mo's is seed-oil-free and cooks with beef tallow, olive oil, avocado oil, and butter."]
+ ["Which steaks are halal? Add the seed-oil note.","Filet-family cuts and chicken: filet mignon, filet duo/end cuts, FarBuckle filet, Australian Wagyu filet, Japanese A5. Confirm non-filet cuts with a manager. Mo's is seed-oil-free and cooks with beef tallow, olive oil, avocado oil, and butter."]
 ];
 
 /* ============ OPS ============ */
 const FLOW = [
- ["Before you walk up",["Pre-shift lineup runs about 4:15 every day — the MOD covers teams, floor plan, need-to-knows, soup, today's specials, and recent reviews.","Know soup of the day, oysters, 86'd items, cut specials, and big features.","Know the cocktail menu well enough to give 2 easy recommendations.","Know allergy protocol: ask the allergy, ring it in, tell back server, expo and chef, and a manager.","Know timing: soups, salads, and desserts 5-7 minutes (10 max); entrees 22-27 minutes."]],
+ ["Before you walk up",["Pre-shift lineup runs about 4:15 every day — the MOD covers teams, floor plan, need-to-knows, soup, today's specials, and recent reviews.","Know soup of the day, oysters, 86'd items, cut specials, and big features.","Know the cocktail menu well enough to give 2 easy recommendations.","Know allergy protocol: ask the allergy, ring it in, tell back server, expo and chef, and a manager.","Know timing: appetizers 7 to 12 minutes (towers excepted), soups and salads 2 to 5, entrees 22 with 25 the max, desserts within 7."]],
  ["Greet",["Introduce yourself and your back server.","Ask first time, celebration, allergies, and whether they want the wine list.","Point them to cocktails, beer, wine, and whiskey.","Keep it warm and short."]],
  ["Drinks first",["Get drinks started quickly.","If they are unsure, give two simple choices — light and refreshing: Cactus Flower Mule or Lychee Icee. Sweet and fruity: Ruby & Jade or Golden Hour. Whiskey: Pittsburghed Peach Old Fashioned.","Wine bottles: the front server sets the glasses, and a MANAGER opens and pours the bottle at the table — every time.","If they order a wine bottle over $250, let a manager know and use big Bordeaux glasses."]],
  ["Appetizers",["After drinks, ask about apps.","Recommend 2-3 confidently: shrimp cocktail, calamari, crispy ahi tuna bites, oysters, or a seafood tower.","Send apps quickly and tell the back server.","Apps buy you time, but do not forget to course the rest."]],
  ["Soup, salad & bread",["How a table starts: busser greets with water, front server greets and gets drinks plus apps and soup/salad, then the BACK server drops the soup or salad and introduces themselves right there.","Bread ALWAYS comes with soups and salads — French bread with garlic-salt butter, plus smooth whipped butter.","Offer freshly cracked pepper EVERY time after dropping a soup or salad.","Course order never changes: appetizers (skippable), then soups/salads, then entrees."]],
  ["Menu wrap / order",["Hit the key items, not a speech.","Mention soup and salad protocol if needed.","Mention steak temps and that well-done filets should be butterflied.","Ask sides and enhancements: Oscar, Steak 47, lobster tail, scallops, truffle butter, mushrooms.","Any special request must be confirmed with the chef."]],
  ["Course checkbacks",["Check apps and salads after they land.","After salad or soup clears, ask about another round or a second bottle.","Entree checkback is 2-5 minutes after entrees hit: \"Is everything tasting perfect for us?\"","If the answer sounds weak, fix it immediately."]],
- ["Work with your back server",["You are the table lead; the back server keeps the table moving.","Write the dinner ticket neatly.","Let the back server reset, but help if they are buried.","For large tables, Farbuckle, A5, towers, or tableside items, help run and drop food.","Tableside owners: Bananas Foster AND the tower pasta are the BACK server's shows. The +$3 smoke: bartender builds it, YOU smoke it under the lid on your tray and lift the lid at the table."]],
+ ["Work with your back server",["You are the table lead; the back server keeps the table moving.","Write the dinner ticket neatly.","Let the back server reset, but help if they are buried.","For large tables, FarBuckle, A5, towers, or tableside items, help run and drop food.","Tableside owners: Bananas Foster AND the tower pasta are the BACK server's shows. The +$3 smoke: bartender builds it, YOU smoke it under the lid on your tray and lift the lid at the table."]],
  ["Dessert and close",["Ask about dessert, after-dinner drinks, port, espresso martini style drinks, or cocktails.","On busy nights have the check ready with dessert.","To-go boxing station is back-left in the kitchen — cleaned and swept every night, restocked every morning.","If something went wrong, fix it before dessert and the check.","Gift cards live at the BAR TOP, not the host stand — send buyers to the bar.","Last impression matters — thank them by name when you can."]]
 ];
 
@@ -367,7 +367,7 @@ front:[
 "Checkback every course. Problems caught at checkback mean fewer comps and happier exits.",
 "Write the dinner ticket NEATLY and hand the white copy to your back.",
 "Salad course cleared = the moment to ask about a bottle or another round.",
-"Tables of 6+, Farbuckles, A5: help your back run and drop — there are extra trays on tableside items.",
+"Tables of 6+, FarBuckles, A5: help your back run and drop — there are extra trays on tableside items.",
 "Entree checkback at 2-5 minutes: 'Is everything tasting perfect for us?' A halfhearted answer means something is wrong — pry gently and fix it.",
 "Back gets the dessert order if possible; otherwise you do. Ask about after-dinner drinks.",
 "Busy nights: check printed and in the presenter, dropped with desserts — 'This is going down here for your convenience; anything else at all, we will update it.'",
@@ -378,7 +378,7 @@ open:["Check the book for covers","Make bread for the day (3-5 trays minimum, ba
 mid:["Keep the expo line clear of trash, old food, dirty silverware","Clear trash, loose tickets, and debris off the floor","Keep clean expo silverware stocked and organized","Collect extra legs and trays from the cocktail area"],
 close:["Clean and wipe the expo line","Clean server trays with SaniQuat water","Wipe the expo fridge inside and out","Date, label, wrap, and organize everything in the fridge","Sort expo silverware into racks for wash","Polish all expo silverware with hot water and clean linen","Check out with the closing back, then shake out with the closing manager"]},
 tableside:[
-["Farbuckle — full show","Ring the steak at the guest's temp. Bring: sizzling skillet, tongs, gloves, tray, rosemary salt, beef tallow, warm butter. At the table: steaks into the skillet, let them cook while you talk, butter them, apply beef tallow before pulling, finish with rosemary salt, serve."],
+["FarBuckle — full show","Ring the steak at the guest's temp. Bring: sizzling skillet, tongs, gloves, tray, rosemary salt, beef tallow, warm butter. At the table: steaks into the skillet, let them cook while you talk, butter them, apply beef tallow before pulling, finish with rosemary salt, serve."],
 ["A5 / Porterhouse mise en place","Butcher block, Japanese (Kobe) knife, honing iron, gloves, rosemary salt. A manager slices and tells the story — your job is the setup."],
 ["Roasted Tower service","Black stacking rack goes in the base when it hits the window — stack at the table over a black linen so nothing slides. Cocktail forks preset. Butter warmer with a tealight. HALFWAY through: clear shells, move the rest down, add the pasta setup to the remaining seafood-butter sauce, stir it together, and serve everyone the pasta. It creates a TON of value — do NOT skip it."],
 ["Iced Tower service","Same rack + linen + cocktail forks + butter warmer. Top bowl cleared away when finished to free space. Crackers, brioche, and wontons ride separate — that is why it can go GF."],
@@ -404,12 +404,12 @@ closesheet:[
 "House rules: side work divides equally, the team helps each other so everyone finishes together, and managers give final approval before checkout."],
 barsteps:[
 "Greet within 60 SECONDS of a guest sitting at the bar top. Water + menus inside 2 minutes ('still, sparkling, or regular ice water?'). First drink inside 5 minutes.",
-"Menu wrap must-mentions: soup of the day + the comp/$4 protocol, oysters, cut specials, daily features, 86'd items. Must-knows: the porterhouse, the A5, the daily sorbet, the Farbuckle.",
+"Menu wrap must-mentions: soup of the day + the comp/$4 protocol, oysters, cut specials, daily features, 86'd items. Must-knows: the porterhouse, the A5, the daily sorbet, the FarBuckle.",
 "Apps down in under 12 minutes — past that, flag a runner, then busser, then server, then manager. And TALK to the guest about the delay; never hope they didn't notice.",
 "Checkback 2-4 minutes into every course. Sell the extras: Oscar on the filet, bump a rare ribeye to med-rare so the fat melts, 1-2 family-style sides.",
 "Serving order, always: Hot Lady → Hot Man → Cold Lady → Cold Man. Announce every plate with its full specification, pull the temp picks.",
 "Clears within 2 minutes of a finished course — but NEVER rush; ask before blending courses. Everything unused comes off the top: menus, empty glasses, dead butter.",
-"S&S in under 10 (5-7 ideal; French onion is the exception). Entrees 22-27. Desserts 5-7. Offer pepper EVERY time.",
+"S&S in 2-5 (French onion is the exception). Apps 7-12, towers excepted. Entrees 22, 25 max. Desserts within 7. Offer pepper EVERY time.",
 "Steak looks wrong? Flashlight first — the dim lighting creates illusions of undercooked steaks.",
 "Ring S&S and entrees together — no time gap, that is how coursing gets confused. EVERY special request gets confirmed by a chef, every single time.",
 "Boxing: away from the guest, clear everything first, cold with cold, hot with hot, different sides in different boxes.",
@@ -459,7 +459,7 @@ mise:[
  "Bananas Foster: spoons for everyone, and warn your front you are about to be tied up.",
  "Coffee goes out with a cream and sugar caddy, every time."]],
 ["Tableside shows","the setups that make the night",[
- "<b>Farbuckle:</b> sizzling skillet, tongs, gloves, tray, rosemary salt, beef tallow, warm butter.",
+ "<b>FarBuckle:</b> sizzling skillet, tongs, gloves, tray, rosemary salt, beef tallow, warm butter.",
  "<b>A5 / porterhouse:</b> butcher block, Japanese knife, honing iron, gloves, rosemary salt — a manager slices, you build the setup.",
  "<b>Roasted tower:</b> stacking rack in the base, black linen underneath so nothing slides, cocktail forks preset, butter warmer with a tealight. Halfway through, the pasta goes into the remaining sauce.",
  "<b>Iced tower:</b> same rack, linen, cocktail forks, butter warmer — clear the top bowl once it is finished to free up the table.",
@@ -574,6 +574,10 @@ const VOCAB=[
 [
 "Pivot point system",
 "Seat numbering system to track guest orders accurately."
+],
+[
+"Captain's Pad",
+"The order pad. Ladies are ALWAYS circled on it, so anyone reading the ticket knows who gets served first."
 ],
 [
 "Silent service",

@@ -8,12 +8,13 @@ const ENHANCE = [
   ["Steak 47 topping","$25","Shrimp, scallop, lobster meat, asparagus, hollandaise.",""],
   ["Horseradish-Bleu Cheese Crust","$4","Melted bleu cheese crumbles, horseradish, herbs.",""],
   ["Bearnaise Sauce","$2","Egg and butter sauce with a tarragon and shallot reduction. Tarragon and shallot are what make it bearnaise — hollandaise has neither.","GF"],
-  ["Add 5 oz Lobster Tail","$50","Add to any entree.","GF"],
+  ["Add 5 oz Lobster Tail","$50","Add to any entree. Butter tower pre-set before the entree arrives.","GF"],
   ["Add 2 Scallops","$14","Two scallops added to any entree.",""],
   ["Brandy Peppercorn Sauce","$6","Demi-glace and brandy peppercorns.","GF"],
-  ["Black Truffle Butter","$6","Truffle butter steak finish.","GF"],
-  ["Garlic Butter","$6","Always available even though it is not on the printed enhancements list.",""],
-  ["Roasted Mushrooms","$8","Comes in a small soup bowl with a big spoon — confirm with the guest, then scoop it over their steak.",""]
+  ["Black Truffle Butter","$6","Truffle butter steak finish. A torch is available to melt it onto the steak at the table.","GF"],
+  ["Garlic Butter","$6","Always available even though it is not on the printed enhancements list. A torch is available to melt it onto the steak at the table.",""],
+  ["Roasted Mushrooms","$8","Comes in a small soup bowl with a big spoon — confirm with the guest, then scoop it over their steak.",""],
+  ["Forest Mushrooms","$14","Serving spoon; the mushrooms are distributed tableside onto the steak. The trainer manual lists this as a live enhancement — confirm whether it and the $8 Roasted Mushrooms are two things or one.","VERIFY vs Roasted Mushrooms"]
 ];
 
 /* ============ MISE EN PLACE ============ */
@@ -73,7 +74,7 @@ const MISE = [
  ["Prime Meatballs",["Big spoon"],""],
  ["Wagyu Tacos",["Tongs"],""],
  ["Calamari",["Tongs"],""],
- ["Farbuckle Filet",["Tongs"],"tableside skillet finish"],
+ ["FarBuckle Filet",["Tongs"],"tableside skillet finish"],
  ["Grilled Asparagus",["Tongs","Ramekin"],"hollandaise goes in the ramekin, on the side"],
  ["Truffle Fries",["Tongs","Ketchup"],"house ranch is the pairing to offer"],
  ["All soups",["Soup spoon"],"soup of the day, bisque, French onion"],
@@ -128,7 +129,7 @@ const MENU = {
   ["Chopped Wedge Salad","$15","Blue cheese, bacon, marinated tomatoes.",""]
  ],
  "Entrees":[
-  ["Farbuckle Filet","6 oz $63 / 10 oz $87","THE SHOW: ring at the guest's temp, bring a sizzling skillet + tongs + gloves + tray + rosemary salt + beef tallow + warm butter. Steaks in, butter while they cook, beef tallow before pulling, finish with rosemary salt, serve. You can Farbuckle ANY cut for roughly a $9 upcharge (the $63 minus $54 difference).","Help run this one"],
+  ["FarBuckle Filet","6 oz $63 / 10 oz $87","THE SHOW: ring at the guest's temp, bring a sizzling skillet + tongs + gloves + tray + rosemary salt + beef tallow + warm butter. Steaks in, butter while they cook, beef tallow before pulling, finish with rosemary salt, serve. You can FarBuckle ANY cut for roughly a $9 upcharge (the $63 minus $54 difference).","Help run this one"],
   ["Filet Mignon","6 oz $54 / 10 oz $79","Center cut with almost no marbling — you order it for pure tenderness. At medium rare it practically cuts with a fork. Finished with rosemary Maldon salt. Guest wants it well done? Offer to butterfly it — cooks faster, stays juicier. Butter by default; the kitchen CAN cook any steak butter-free for a dairy allergy.",""],
   ["The PD — 15 oz Hand-Cut Filet","$115","On the printed menu — house calls it the PD.",""],
   ["Delmonico Ribeye","16 oz $80","Named for Delmonico's, the old New York steakhouse that made this style famous. Our most marbled prime cut — rich, buttery, beefy fat renders between the cap and the eye with every bite. If a guest wants an old-school steakhouse ribeye, this is it.",""],
@@ -136,7 +137,7 @@ const MENU = {
   ["Japanese A5 Wagyu","$25/oz — 6 oz is a listed $150","From Kagoshima Prefecture. The show: a manager cut, sliced with a Hanzo steel knife on a butcher's block, torch-finished with rosemary salt at the table. Preset the guests with the special Kobe Hanzo steak knives. House serves wagyu RARE to MED-RARE — nudge gently, never argue.","Manager cut"],
   ["Filet & Lobster","$105","A 6 oz filet off the charbroiler (upgrade to 10 oz) with a 5 oz South African lobster tail, steamed gently so it never turns chewy.","GF"],
   ["Filet & Scallops","$82","A 6 oz filet with two U-10 prosciutto-wrapped scallops, flash-seared hot and fast — about two minutes — so they stay tender.",""],
-  ["Chicken Parmesan","$39","Hand-breaded fried chicken breast, linguine, tomato diavolo sauce, melted provolone, garlic bread.",""],
+  ["Chicken Parmesan","$39","TABLESIDE. Hand-breaded fried chicken breast and linguine go down first, then the provolone and the tomato diavolo are distributed over the chicken and the pasta AT THE TABLE. Clear enough space before it arrives. Garlic bread with it.",""],
   ["Primavera Pasta","$40","Linguine, wild mushrooms, spinach, peeled tomatoes, pesto cream sauce. Add-ons available: chicken, salmon, steak, shrimp (2 scallops are $14 per the enhancements). Add-on PRICES still need a Toast check — do not quote from memory.","Main vegetarian-style entree"],
   ["Miso Seabass","$46","Patagonian toothfish vacuum-sealed with white miso paste, mirin, and sake for 48–72 hours, pan seared and finished in the broiler. Coconut risotto with Brussels sprouts sprinkled over the top — the sweet coconut against the tangy miso is the whole pitch.",""],
   ["Sea Scallops","$48","U-10 scallops seared in a nearly smoking pan for a deep golden crust. The butternut puree leans into the scallop's natural sweetness, crispy prosciutto salts it and cuts through, and the mushrooms ground the whole plate.","GF"],
@@ -149,7 +150,7 @@ const MENU = {
   ["Creamed Corn","$12","Cream, dijon, horseradish, dill. Big spoon.","GF"],
   ["Creamed Spinach with Roasted Butternut Squash","$16","Sauteed spinach in a cream sauce over roasted butternut squash. Big spoon. Marked g on the current menu — it CONTAINS gluten.",""],
   ["Creamy Risotto","$15","Crispy prosciutto and sundried tomatoes. Cooked in chicken stock. Big spoon.",""],
-  ["Baked Potato","$11","Salt-crusted russet, par-baked and finished to order so it comes out light and fluffy. Cut it down the middle at the plate and press it apart to show off the steam — it goes out with a bread knife. Butter and sour cream on it as it comes, and nothing in that has gluten. LOADED upgrade — chives, bacon, cheese — about +$3 (best guess, verify). Loaded adds pork.",""],
+  ["Baked Potato","$11","Salt-crusted russet, par-baked and finished to order so it comes out light and fluffy. Cut it down the middle at the plate and press it apart to show off the steam — it goes out with a butcher knife. Butter and sour cream on it as it comes, and nothing in that has gluten. LOADED upgrade — chives, bacon, cheese — about +$3 (best guess, verify). Loaded adds pork.",""],
   ["White Cheddar Mashed Potatoes","$12","Mashed with nearly equal parts butter — that is the secret — plus cream and white cheddar. Big serving spoon.","GF · upsell truffle or wasabi $3"],
   ["Truffle Cauliflower","$14","Pan-seared with shallots, mixed with Alfredo and truffle oil, topped with Parmesan and parsley. Big spoon.",""],
   ["Lobster Mac N' Cheese","$26","A roux built on lobster stock with onion and garlic, white cheddar and Parmesan, broiled with panko and more cheese on top. Big spoon.",""],
@@ -165,7 +166,7 @@ const MENU = {
   ["NY Style Cheesecake","$10","Dense and rich on a graham cracker crust — that density is what makes it New York style. Fresh whipped cream and strawberry sauce to cut through. Spatula.",""],
   ["Bailey's Creme Brulee","$10","Classic custard spiked with Bailey's Irish Cream, topped with raw demerara sugar torched into a glassy shell you crack with the spoon. Whipped cream and fresh berries. Big spoon.",""],
   ["Colossal Carrot Cake","$14","Layered high with cream cheese icing, moist all the way through from pineapple in the batter — that is where the pineapple flag comes from. Powdered sugar and whipped cream. Spatula.",""],
-  ["Molten Lava Cake","$13","Chocolate dome filled with chocolate cake, strawberries and ice cream, topped with Hershey's chocolate syrup. THE SHOW: light the orange liqueur and chocolate sauce, then pour it flaming over the dome — it melts away to reveal what is underneath. Big spoon. GF-marked and flourless, but it still has eggs, dairy, soy, and that liqueur.","GF"],
+  ["Molten Lava Cake","$13","Chocolate dome filled with chocolate cake and strawberries — no ice cream on this one. THE SHOW: a boat of hot chocolate topped with 99 Oranges gets lit and poured flaming over the dome at the table, melting it away. Large serving spoon. GF-marked and flourless, but it still has eggs, dairy, soy, and that liqueur.","GF"],
   ["Brown Butter Cake","$14","Browned butter and brown sugar are the whole flavor story. Served warm with vanilla ice cream, caramel, and Granny Smith apple slices to cut the richness — and it rolls out with the dry-ice cloud show, hot water poured over dry ice right in the bowl.",""],
   ["Cotton Candy","$12","Spun to order on a light-up stick and set in a black wooden block. Every color of the rainbow, all taste like sugar — tell the table 'pick your color.'","GF"],
   ["Bananas Foster","$12/person — minimum 2 people","Bananas, brown butter, orange, cinnamon, 99 Oranges liqueur, caramel, Nilla wafers and ice cream, flamed tableside. Per person: one scoop of brown butter, half a banana, half an orange, and one scoop of ice cream in its own bowl. The back server runs it. Bring: cinnamon, 99 Oranges liqueur, Nilla wafers, caramel, burner, pan. The show: melt the brown butter, breaking it up with the spatula. Coat the bananas evenly in it. Add the orange citrus so nothing burns. Pour 99 Oranges over the top and light it — big flame. Sprinkle cinnamon into the fire and it sparks up (cinnamon is made of wood, so it burns) — a fantastic show. Pour it all over bowls of ice cream with the caramel and Nilla wafers, serve with spoons. Great upsell: get the whole table in on it.",""]
@@ -234,7 +235,6 @@ const DRESSINGS = ["House Vinaigrette (whole-grain mustard — the house dressin
 const LEADS = {
  "Short Rib Pasta":"Prime short rib braised 12 hours, over orecchiette in a light vermouth cream.",
  "Stuffed Chicken Breast":"Four cheeses inside, thyme-rosemary cream over the top.",
- "Forest Mushrooms":"Cremini, portobello, shiitake and button in garlic herb butter.",
  "Calamari":"Never frozen, flash-fried with peppers. Spicy citrus and kung pao sauces.",
  "Shrimp Cocktail":"U-6 tiger shrimp, boiled in the shell and peeled by hand. Fiery cocktail sauce.",
  "Crab Cake":"Maryland style, 95% crab, over spicy remoulade.",
@@ -244,7 +244,7 @@ const LEADS = {
  "Roasted Seafood Tower":"Two sizes. Crab, scallops, lobster, shrimp and mussels in diavolo — pasta finished tableside.",
  "Baked French Onion":"Caramelized Vidalias in a long-cooked beef stock, crouton and provolone broiled on top.",
  "House Salad":"Romaine mix, carrots, cucumber, cherry tomato, red cabbage, croutons.",
- "Farbuckle Filet":"The tableside show — finished in a sizzling skillet with butter, tallow and rosemary salt.",
+ "FarBuckle Filet":"The tableside show — finished in a sizzling skillet with butter, tallow and rosemary salt.",
  "Filet Duo":"Two 3 oz medallions, one Crab Oscar and one horseradish bleu cheese crust.",
  "Australian Wagyu Filet":"Wagyu crossbred marbling — juicy even at rare. The easy level-up from a filet.",
  "Filet & Lobster":"A 6 oz filet with a 5 oz South African lobster tail.",
@@ -310,7 +310,7 @@ const ALLERGENS = [
  ["Steak 47","$58",["beef","shellfish","allium","dairy","egg"],"Filet, shrimp, scallop, lobster, hollandaise. Topping +$25."],
  ["Filet & Scallops","$82",["beef","shellfish","pork","dairy"],"Prosciutto-wrapped scallops."],
  ["Filet Duo","$47",["beef","crab","shellfish","dairy","egg","allium"],"Crab Oscar and horseradish bleu cheese crust."],
- ["Farbuckle Filet","6/10 oz",["beef","dairy"],"Chef sizzling butter, beef tallow, rosemary salt."],
+ ["FarBuckle Filet","6/10 oz",["beef","dairy"],"Chef sizzling butter, beef tallow, rosemary salt."],
  ["Filet Mignon","6 oz $54 / 10 oz $79",["beef","dairy"],"Plain steak allergen is beef. Cooked with butter by default — but the kitchen CAN cook any steak fully butter-free for a dairy allergy, the guest just has to ask."],
  ["Dry Aged NY Strip","$58",["beef","dairy"],"Cooked with butter by default — but the kitchen CAN cook any steak fully butter-free for a dairy allergy, the guest just has to ask."],
  ["Delmonico Ribeye","$80",["beef","dairy"],"Cooked with butter by default — but the kitchen CAN cook any steak fully butter-free for a dairy allergy, the guest just has to ask."],
@@ -354,7 +354,7 @@ const ALLERGENS = [
  ["Creamed Spinach w/ Butternut Squash","$16",["dairy","gluten"],"Cream sauce over roasted butternut squash. Marked g on the current menu — contains gluten."],
  ["Roasted Green Beans","$14",["sesame","allium","nightshade"],"Off the menu. Sesame oil, red bell pepper, white onion."],
  ["Lobster Mac N' Cheese","$26",["shellfish","gluten","dairy","allium"],"Lobster stock, roux, pasta, cheese, panko."],
- ["Forest Mushrooms","$14",["dairy","allium"],"Off the menu. The $8 Roasted Mushrooms enhancement replaced it in spirit."],
+ ["Forest Mushrooms","$14",["dairy","allium"],"Live enhancement per the trainer manual. Garlic herb butter."],
  ["Jalapeno Potatoes Au Gratin","$15",["dairy","pork","allium","capsaicin","nightshade","egg"],"Bacon is mixed in — it cannot be removed. Mayo in the build is the egg flag. Ask if the cheese sauce starts with flour."],
  ["Creamed Corn","$12",["dairy","allium"],"Cream, dijon, horseradish, dill. GF."],
  ["Brussels Sprouts","$15",["capsaicin","soy","cross-contact"],"Deep fried in the SHARED fryer — cross-contact. Balsamic glaze is the standard finish; if the sriracha hot honey version shows up, that is the capsaicin and soy — ask which is on tonight."],
@@ -412,7 +412,7 @@ const PROTOCOL = [
 
 const DIET = [
  ["Gluten — high risk","Goat cheese spread, crab cake, calamari, prime meatballs, wagyu tacos, roasted tower pasta, iced tower wonton and brioche, lobster bisque, French onion crouton, house and Caesar croutons, chicken parmesan, primavera, short rib pasta, lobster mac, truffle fries, kids pasta/tenders/burger, lounge sliders/egg rolls/chicken parm/tuna poke wontons, most cakes, cookies, and cheesecake. Shared fryer. NO gluten-free bread or crackers in house. LEGEND CHANGE: the current printed menu marks gluten-CONTAINING items with a small g — older menus marked GF instead, so never mix the two up."],
- ["Halal","Filet-family cuts and chicken are halal: filet mignon, filet duo/end cuts, Farbuckle filet, Australian Wagyu filet, Japanese A5. Do not promise non-filet steaks as halal without manager confirmation. Watch bacon and prosciutto sides."],
+ ["Halal","Filet-family cuts and chicken are halal: filet mignon, filet duo/end cuts, FarBuckle filet, Australian Wagyu filet, Japanese A5. Do not promise non-filet steaks as halal without manager confirmation. Watch bacon and prosciutto sides."],
  ["Vegetarian","Primavera Pasta is the main vegetarian-style entree. Risotto is NOT vegetarian — chicken stock and crispy prosciutto. Baked potato, cheddar mashed, asparagus, cauliflower, creamed corn and spinach can often be adjusted, but verify butter, stock, and bacon."],
  ["Vegan","Very limited. A custom salad or vegetable with oil and vinegar only, after chef confirmation. Butter, cheese, honey, stock, and fryer contact are everywhere."],
  ["Seed-oil-free","Steaks and chicken are seed-oil-free. Mo's cooks with beef tallow, olive oil, avocado oil, and butter. The shared FRYER runs avocado oil — not tallow — so fried items stay vegetarian on the oil itself. Cross-contact flags still apply."]
@@ -514,7 +514,6 @@ const SPECIALS_PAST=[
  ["Dry Aged New York Strip","14 oz $58","Still printed on the menu, but we are OUT of it — tell the guest we have the Denver Cut instead, same price. That line is part of the daily spiel. The middle ground between ribeye and filet, with a fat cap down one side that bastes it as it renders.","off the current menu"],
  ["Sorbets — lemon and raspberry","in the freezer","Dairy-free, and they have lived in the freezer for a long time. Archived — ask before promising one.","off the current menu"],
  ["Pistachio Gelato","in the freezer","Dairy and tree nuts. Archived — ask before promising one.","off the current menu"],
- ["Forest Mushrooms","$14","Cremini, portobello, shiitake, and button in garlic herb butter. The $8 Roasted Mushrooms enhancement is the current mushroom play.","off the current menu"],
  ["Short Rib Pasta","$52","Prime short rib braised 12 hours in veal demi-glace, pressed clean, and laid over orecchiette in a light vermouth cream — shallot, fennel, garlic, thyme.","off the current menu"],
  ["Stuffed Chicken Breast","$38","Stuffed with cream cheese, goat cheese, Parmesan, and white cheddar under a creamy thyme-rosemary herb sauce.","off the current menu"],
  ["Ahi Tuna & Wagyu Beef","$68","4 oz Hawaiian ahi crusted in black and white sesame with hoisin glaze, plus a 4 oz Australian wagyu filet, sliced. Eight ounces of surf and turf on one plate.","off the current menu"],

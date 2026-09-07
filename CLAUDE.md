@@ -824,3 +824,70 @@ which went into `EVENTS` — the music map only ever holds who is playing.
 probe dated 9/2 that a history week now covers. All four moved to the new posted week; the
 off-week probe is 9/16 now. **These four assertions move every time a sheet goes up** — they are
 commented as such in the file.
+
+## 9/7 round 2 — the Trainer Manual, and the app lost five arguments to it
+
+Evan handed over **Mo's Trainer Manual & New Server Training Program** (15 pages, printed
+trainer copy). This is the document the book's Get List has been asking for since day one, and
+it is more than the steps-of-service handout we expected — it is a four-day certification
+program with per-section sign-offs. **It is the official document. Where it disagreed with the
+app, it won** (Evan's call).
+
+**NEW: `build/5i-data-trainer.js` + the trainer reader.** Third card under the Book and the
+Slideshow. 119 tappable checkboxes, trainer-initials and date fields, notes boxes, the 23-row
+certification matrix with PASS/RETRAIN pills, the 13-category 1–5 rating grid, and the final
+Certified / Conditional / Not Ready decision.
+- State saves to `localStorage` **per trainee name** (`mos-trainer-v1:<name>`), so a trainer can
+  run two people at once without the checkmarks colliding. Every read and write is wrapped —
+  a locked-down browser degrades to "nothing saves", never to a blank screen.
+- Same top-level-declaration rule as `openBook` and `openDeck`: every box uses inline onclick,
+  so the functions must be global, and `var TRSTATE, TRWHO` have NO initializer.
+- It says plainly on the gate screen that the signed paper copy is still the record. Do not
+  let this drift into pretending to be an HR system.
+
+**A class collision that cost real time — read this before adding CSS.** The checklist label
+was styled `.lb`, which the **photo lightbox already owns** (`position:fixed`). Every label
+collapsed to zero width and the checkboxes rendered as green squares with no text next to them.
+Renamed to `.trlb`. `test-sched.py` now asserts the label is at least 80px wide, so the same
+collision cannot come back quietly. **Grep 1-head.html for a class name before you use it.**
+
+**Timing standards changed everywhere.** The manual is tighter than what the app taught:
+
+| | Was | Now |
+|---|---|---|
+| Appetizers | under 12 (bar-top only) | 7–12, towers excepted |
+| Soup / salad | 5–7, 10 max | **2–5** |
+| Entrées | 22–27 | **22 target, 25 max** |
+| Desserts | 5–7 | within 7 |
+
+Changed in four places in `5-data-quiz.js`, four in `book.md`, two in `mkdeck.js`, and the
+Spanish map. A test now scans the whole built file for the retired numbers, so no source can
+keep teaching them.
+
+**The Spanish map is keyed by the English string.** Change an English string and the translation
+silently falls back to English — no error, no test failure, it just quietly stops being
+translated. `build/5g-data-es.js` and `quiz-es.json` were rekeyed by hand this round.
+`mkes.py` regenerates from a journal that lives on **Evan's Mac**, and that journal still holds
+the old keys — a regen will undo this. Fix the journal or stop regenerating.
+
+**Five content conflicts, manual wins on all of them:**
+- Baked potato: bread knife → **butcher knife**.
+- **Forest Mushrooms is a live enhancement again** ($14, serving spoon, distributed tableside),
+  pulled out of the archive. Flagged `VERIFY vs Roasted Mushrooms` — the manual lists Forest at
+  $14 and the app has Roasted at $8, and nobody has confirmed whether that is one item or two.
+- **Chicken Parmesan is a tableside presentation.** Provolone and tomato diavolo are distributed
+  over the chicken and pasta AT THE TABLE. Clear space before it lands.
+- **Molten Lava Cake:** no ice cream. A boat of hot chocolate topped with 99 Oranges, lit and
+  poured flaming over the dome. Large serving spoon.
+- **FarBuckle**, capital B, 34 replacements across every shipped source plus the Spanish keys
+  and the test.
+
+Also new from the manual: torches available to melt Black Truffle and Garlic Butter onto a steak
+at the table, a butter tower pre-set before an added lobster tail, and the **Captain's Pad**
+(ladies ALWAYS circled) which did not exist anywhere in the app — now in the vocabulary and in
+the book's seat-numbers chapter. "D & M Style A-5" appears in the manual's knife table and
+nowhere else we have ever seen; it is in the trainer data verbatim, unexplained.
+
+Green: qc CLEAN, build 2,436,495 bytes, test.py ALL GOOD, test-sched.py ALL GOOD (now covering
+the trainer reader, per-trainee isolation, the rebuild-survives-progress case, the label-width
+regression, and all five content conflicts).

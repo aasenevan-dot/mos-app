@@ -264,9 +264,9 @@ async def main():
           return hit;})()""")
         if noise: bad.append(f"retired flags came back: {noise}")
         # utensils belong in the description where a server actually reads them
-        for dish,word in [("Lobster Mac N' Cheese","big spoon"),("Baked Potato","bread knife"),
+        for dish,word in [("Lobster Mac N' Cheese","big spoon"),("Baked Potato","butcher knife"),
                           ("White Cheddar Mashed Potatoes","serving spoon"),("Grilled Asparagus","tongs"),
-                          ("NY Style Cheesecake","spatula"),("Molten Lava Cake","big spoon"),
+                          ("NY Style Cheesecake","spatula"),("Molten Lava Cake","large serving spoon"),
                           ("A5 Nigiri","per person")]:
             row=await pg.evaluate("(function(){let r=null;Object.values(MENU).forEach(a=>a.forEach(i=>{if(i[0]===%r)r=i;}));return r?r[2]:'';})()" % dish)
             if word not in row.lower(): bad.append(f"{dish} description missing '{word}'")
@@ -296,6 +296,71 @@ async def main():
         if n < 70: bad.append(f"deck only has {n} slides")
         shots=await pg.evaluate("DECK.filter(d=>d.k==='shot').length")
         if not shots: bad.append("deck has no placeholder slides")
+
+        # ---- 9/7: the trainer program ----
+        cards=await pg.evaluate("[...document.querySelectorAll('.bkcard h3')].map(x=>x.textContent)")
+        if len(cards)<3 or "Trainer Program" not in cards[2]:
+            bad.append(f"trainer card is not the third card under the book: {cards}")
+        gate=await pg.evaluate("(()=>{openTrainer();return !!document.querySelector('#trName');})()")
+        if not gate: bad.append("trainer program did not ask who is being trained")
+        tr=await pg.evaluate("""(function(){
+          trWhoSet('__test__');
+          const boxes=[...document.querySelectorAll('.trck')];
+          const before=document.querySelector('#trPct').textContent;
+          boxes.slice(0,5).forEach(e=>e.click());
+          const after=document.querySelector('#trPct').textContent;
+          const bar=document.querySelector('#trBar').style.width;
+          // a second trainee must not inherit the first one's checkmarks
+          trWho(); trWhoSet('__other__');
+          const other=document.querySelector('#trPct').textContent;
+          return {n:boxes.length, before:before, after:after, bar:bar, other:other,
+                  cert:document.querySelectorAll('.trcert tr').length,
+                  dots:document.querySelectorAll('.trdot').length,
+                  signs:document.querySelectorAll('.trsign input').length};})()""")
+        if tr["n"] < 100: bad.append(f"trainer checklist only has {tr['n']} boxes")
+        if not tr["before"].startswith("0 of"): bad.append(f"fresh trainee not at zero: {tr['before']}")
+        if tr["after"].startswith("0 of"): bad.append("ticking boxes did not move the tally")
+        if tr["bar"] in ("", "0%"): bad.append("progress bar did not move")
+        if not tr["other"].startswith("0 of"):
+            bad.append(f"second trainee inherited progress: {tr['other']}")
+        if tr["cert"] < 20: bad.append(f"certification table only has {tr['cert']} rows")
+        if tr["dots"] < 60: bad.append(f"rating grid has {tr['dots']} dots, expected 13x5")
+        if not tr["signs"]: bad.append("no trainer-initials fields rendered")
+        # .lb was the photo lightbox before the trainer program borrowed it and the labels
+        # collapsed to zero width. Assert real width so a class collision cannot come back.
+        lw=await pg.evaluate("document.querySelector('.trck .trlb').offsetWidth")
+        if lw<80: bad.append(f"checklist labels collapsed to {lw}px — class collision?")
+        # progress must survive a re-render of the whole app
+        keep=await pg.evaluate("""(function(){
+          trWho(); trWhoSet('__test__');
+          const t=document.querySelector('#trPct').textContent;
+          build(); trWho(); trWhoSet('__test__');
+          return [t, document.querySelector('#trPct').textContent];})()""")
+        if keep[0]!=keep[1]: bad.append(f"a rebuild wiped trainer progress: {keep}")
+        await pg.evaluate("""(function(){try{localStorage.removeItem('mos-trainer-v1:__test__');
+          localStorage.removeItem('mos-trainer-v1:__other__');}catch(e){} closeTrainer();})()""")
+
+        # ---- 9/7: the trainer manual won these ----
+        tm=await pg.evaluate("""(function(){
+          const en=ENHANCE.map(e=>e[0]);
+          const dish=n=>{let r=null;Object.values(MENU).forEach(a=>a.forEach(i=>{if(i[0]===n)r=i;}));return r?r[2]:'';};
+          return {forest:en.includes('Forest Mushrooms'),
+                  parm:dish('Chicken Parmesan'), lava:dish('Molten Lava Cake'),
+                  torch:ENHANCE.filter(e=>/torch/i.test(e[2])).length};})()""")
+        if not tm["forest"]: bad.append("Forest Mushrooms is not a live enhancement")
+        if "TABLESIDE" not in tm["parm"]: bad.append("Chicken Parm is not marked tableside")
+        if "99 Oranges" not in tm["lava"]: bad.append("lava cake missing the 99 Oranges build")
+        # the description says "no ice cream on this one" — assert the denial, not the absence
+        if "no ice cream" not in tm["lava"]: bad.append("lava cake no longer rules out ice cream")
+        if tm["torch"] < 2: bad.append("the butter torches did not make it onto the enhancements")
+        vt=await pg.evaluate("VOCAB.flatMap(g=>g[1]).some(v=>/Captain/i.test(v[0]))")
+        if not vt: bad.append("Captain's Pad missing from the vocabulary")
+        # the manual's timing numbers, everywhere they are taught
+        # scan the whole built file — script bodies included — so no source can keep teaching
+        # the retired numbers, whichever const it happens to live in
+        whole=await pg.evaluate("document.documentElement.innerHTML")
+        for oldnum in ["5-7 min (10 max)","22-27","5 to 7 minutes, 10 minutes max","five to seven minutes with ten the max"]:
+            if oldnum in whole: bad.append(f"old timing standard still taught: {oldnum}")
 
         # events moved to the schedule tab
         await pg.evaluate("go('sched')")
@@ -619,7 +684,7 @@ async def main():
         hid=await pg.evaluate("document.querySelector('#houseMain').style.display==='none'")
         if not hid: bad.append("houseMain still visible while book is open")
         ch3=await pg.evaluate("(function(){openBook(3);return document.querySelector('#bkWrap').innerHTML;})()")
-        for cell in ["Delmonico","Farbuckle","chapter 4 of 12"]:
+        for cell in ["Delmonico","FarBuckle","chapter 4 of 12"]:
             if cell not in ch3: bad.append(f"chapter 3 missing {cell}")
         nxt=await pg.evaluate("""(function(){
           const b=[...document.querySelectorAll('#bkWrap .bknav button')].find(x=>x.textContent.includes('Day 4'));

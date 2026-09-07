@@ -4,3 +4,4 @@
 private/
 .DS_Store
 test-rebuild.html
+*.patch

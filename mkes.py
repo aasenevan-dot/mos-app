@@ -273,12 +273,27 @@ LATER = {
     # Spanish reader never sees the wrong ladder either
     "Blue very red and very cold; center rare cold red center; medium rare cool red center; medium warm to hot red center; medium well hot pink center; well hot center with little to no pink. Butterfly well-done filets.":
         "Blue muy rojo y muy frío; center rare centro rojo frío; medium rare centro rojo fresco; medium centro rojo tibio a caliente; medium well centro rosa caliente; well centro caliente con poco o nada de rosa. Mariposear los filetes bien cocidos.",
+    # The Prisoner Wine Dinner (9/17) event card. The "when" line got a guest count, so its old
+    # translation orphaned — re-add it here. The five course rows render wine name, dish name, and a
+    # descriptor as separate text nodes; wine + dish NAMES stay English as printed (same rule as the
+    # Devour menu), only the descriptor lines translate. Keys match build/5b-data-sched.js menu[].
+    "Thu · 6:30 pm · 28 guests · $150 per person": "Jue · 6:30 pm · 28 invitados · $150 por persona",
+    "Seared scallops, watermelon, mint, jalapeño peppers, feta cheese":
+        "Vieiras selladas, sandía, menta, jalapeños, queso feta",
+    "Grilled peaches & mango cream sauce": "Duraznos a la parrilla y salsa cremosa de mango",
+    "Salsa verde, cotija cheese, herb aioli & corn bread":
+        "Salsa verde, queso cotija, alioli de hierbas y pan de maíz",
+    "Steak Diane sauce, double-baked potato & roasted truffled cauliflower":
+        "Salsa Steak Diane, papa doble-horneada y coliflor rostizada con trufa",
 }
 pairs.update(LATER)
 
 # Prune dead keys: the journal captured translations of the OLD one-step steak ladder,
 # whose English no longer appears anywhere in the app, so these keys never match and never
 # render -- but they leave the wrong wording sitting in the file (and trip the qc guard).
+# The old ticket-timing standard is the same story: the app was retimed (entrees now "22
+# target / 25 max", the quiz uses an en-dash "22–27"), but the journal still holds the old
+# ASCII "22-27" phrasings, which never render yet trip the test-sched timing guard.
 _DEAD = (
     "medium warm pink",
     "medium well slight pink",
@@ -286,6 +301,7 @@ _DEAD = (
     "k.d.",
     "australian wagyu tomahawk",
     "tomahawk",
+    "22-27",
 )
 pairs = {k: v for k, v in pairs.items() if not any(d in k.lower() for d in _DEAD)}
 

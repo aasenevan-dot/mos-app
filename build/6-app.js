@@ -2606,10 +2606,12 @@ function eventsBlock(){
   if(!rows.length)return "";
   const devourCard=(typeof DEVOUR!=="undefined"&&devourActive()&&DEVOUR.img)?`
       <button class="btn sec" style="margin-top:8px" onclick="openDevour()">See the Devour menu</button>` : "";
+  const menuBlock=e=>(!e.menu||!e.menu.length)?"":`<ol class="evmenu">${e.menu.map(c=>
+      `<li><span class="evwine">${esc(c[0])}</span><b>${esc(c[1])}</b>${c[2]?`<br><span class="evdish">${esc(c[2])}</span>`:""}</li>`).join("")}</ol>`;
   return `<div class="sechead"><h2>Events coming up</h2><span>${rows.length} on the books</span></div>
     <div class="grid wide">${rows.map(e=>`<div class="card hl">
       <div class="crow"><div class="cname">${esc(e.n)}</div><div class="cprice">${esc(e.d)}</div></div>
-      <div class="cbody"><b>${esc(e.when)}</b><br>${esc(e.w)}</div>${/DEVOUR/i.test(e.n)?devourCard:""}</div>`).join("")}</div>`;
+      <div class="cbody"><b>${esc(e.when)}</b><br>${esc(e.w)}</div>${menuBlock(e)}${/DEVOUR/i.test(e.n)?devourCard:""}</div>`).join("")}</div>`;
 }
 /* Meals & Moments — same idea as the music block: only what is still ahead of us. */
 function offsiteBlock(){

@@ -53,18 +53,88 @@ const EVENTS=[
   w:"Staff party with Prime 47 — kickball, beach volleyball and swimming, with the TKC food truck from 1 to 3. Family and a +1 welcome. RSVP admin@prime47carmel.com; the sign-up sheet is on the wall and confirmations are due by August 20th. Drink responsibly."},
  {d:"9/24", when:"Thu · the Lounge", n:"Cowgirls & Cosmos",
   w:"Themed night in the lounge with Christina & Frank playing live. Same lounge setup as any music night — know the cosmo builds and push the dessert cocktails after."},
- {d:"9/17", when:"Thu · 6:30 pm · $150 per person", n:"The Prisoner Wine Dinner",
-  w:"Five-course wine dinner presented by The Prisoner Wine Company. RSVP Lillian@mosgreenwood.com. Wine dinners mean banquet money."}
+ {d:"9/17", when:"Thu · 6:30 pm · 28 guests · $150 per person", n:"The Prisoner Wine Dinner",
+  w:"Five-course wine dinner presented by The Prisoner Wine Company. RSVP Lillian@mosgreenwood.com. Wine dinners mean banquet money.",
+  menu:[
+   ["Chardonnay","Scallop Salad","Seared scallops, watermelon, mint, jalapeño peppers, feta cheese"],
+   ["Pinot Noir · Sonoma Coast","Blackened Salmon","Grilled peaches & mango cream sauce"],
+   ["Red Blend","Pork Belly","Salsa verde, cotija cheese, herb aioli & corn bread"],
+   ["Cabernet Sauvignon · Special Select","Filet Mignon","Steak Diane sauce, double-baked potato & roasted truffled cauliflower"],
+   ["Unshackled Sparkling Rosé","Chocolate Strawberry Cheesecake",""]
+  ]}
 ];
 const OFFSITE_NOTE="Fellowship, food, and fun — bringing a church family and the community together over a shared meal. Want to serve one? Email or text Yaris at admin@prime47carmel.com or 317.703.4284.";
 
 const SCHEDULE={
+ week:"Week of 9/23 \u2013 9/29, 2026", year:2026, start:"2026-09-23",
+ days:[["9/23","We"],["9/24","Th"],["9/25","Fr"],["9/26","Sa"],["9/27","Su"],["9/28","Mo"],["9/29","Tu"]],
+ sections:[
+  ["Managers",[
+   ["Mike","1","1","1","","","","1"],
+   ["CJ","","","3","1","1","1",""]
+  ]],
+  ["BQTs",[
+   ["Gavin","","","","","","",""]
+  ]],
+  ["Fronts",[
+   ["Alexis","345","330","4 MGR","330","OFF","OFF","2 MGR"],
+   ["Chad","OFF","330","330","4 MGR","OFF","OFF","OFF"],
+   ["Hunter","OFF","OFF","330","330","OFF","OFF","345"],
+   ["Diana","345","","330","330","12","345 cocktail",""],
+   ["MorganB","345","330","330","330","","345","OFF"],
+   ["Calista","RO","RO","RO","RO","RO","OFF","OFF"],
+   ["Nathan","OFF","OFF","330","330","OFF","345","345"],
+   ["Fabian","OFF","OFF","OFF","330","3","345","345"],
+   ["Alex","","330","330","330","3","OFF","345"]
+  ],["42","123","55","72","48","5","61"]],
+  ["Backs",[
+   ["Lupe","","","","","","",""],
+   ["Morgan W","345","OFF","330","330","RO","","OFF"],
+   ["Evan","OFF","OFF","330","3 BBQ","3","345","OFF"],
+   ["Erin","345","RO","RO","330","OFF","345",""],
+   ["J Fox","345","330","330","330","OFF","OFF","345"],
+   ["D","OFF","OFF","330","3 BBQ","3","OFF","OFF"],
+   ["Meagan","OFF","RO","330","330","12","OFF","345"],
+   ["Abby","OFF","330","","330","OFF","OFF","345"],
+   ["Barbie","OFF","330","330","330","3","OFF","345"],
+   ["Victoria","","330","330","330","","345","345"]
+  ]],
+  ["Bar",[
+   ["Krista","3","2","RO","3","","","3"],
+   ["Christian","","4","5","5","3","4",""],
+   ["Jennea","","OFF","3","RO","","OFF","5"]
+  ]],
+  ["Cktail",[
+   ["Jenny","330","","330","330","RO","RO","RO"],
+   ["Taylor","OFF","330","RO","330","3","OFF","345"]
+  ]],
+  ["Host",[
+   ["Mackenzie","4","OFF","4","4","RO","4","OFF"],
+   ["Leila","","5","4","5","OFF","4","4"]
+  ]],
+  ["Expo",[
+   ["CARTER","","5","OFF","RO","OFF","4","4"],
+   ["Jackson","4","RO","4","4","4","",""],
+   ["Rodrigo","OFF","OFF","","5","","OFF",""],
+   ["Bryson","","5","","","","","5"]
+  ]],
+  ["Busser",[
+   ["Dalton","OFF","RO","4","4","4","RO","OFF"],
+   ["Conner","4","4","430","5","","4","4"],
+   ["Jackson","RO","OFF","5","RO","OFF","","4"],
+   ["LUCAS","","","","","","",""]
+  ]]
+ ],
+ note:"Transcribed from the posted sheet photo. The Wed\u2013Sat columns read clean; the Sun\u2013Tue columns (9/27\u20139/29) carry heavy blacked-out boxes \u2014 Chad and Hunter\u2019s closes, MorganB and Nathan\u2019s Sunday, and the Expo/Busser right side were the hardest to read, so verify those against the sheet. Jeremiah is off the manager block; LUCAS is on the sheet but blacked out all week.", src:"schedule sheet 9/23-9/29"
+};
+const SCHEDULE_HISTORY=[
+{
  week:"Week of 9/9 \u2013 9/15, 2026", year:2026, start:"2026-09-09",
  days:[["9/9","We"],["9/10","Th"],["9/11","Fr"],["9/12","Sa"],["9/13","Su"],["9/14","Mo"],["9/15","Tu"]],
  sections:[
   ["Managers",[
-   ["Mike","1","1","1","3","","","1"],
-   ["CJ","","2","3","1","1","1",""]
+   ["Mike","1","1","1","3","","",""],
+   ["CJ","","2","3","1","1","1","1"]
   ]],
   ["BQTs",[
    ["Gavin","","","","","","",""]
@@ -94,8 +164,8 @@ const SCHEDULE={
   ]],
   ["Bar",[
    ["Krista","3","2","5","3","","",""],
-   ["Christian","","4","430","5","3?","3?",""],
-   ["Jennea","","OFF","3","430","","OFF","3?"]
+   ["Christian","","4","430","5","3","3",""],
+   ["Jennea","","OFF","3","430","","OFF","3"]
   ]],
   ["Cktail",[
    ["Jenny","RO","","330","330","4","","4"],
@@ -118,9 +188,8 @@ const SCHEDULE={
    ["Jackson","5","OFF","5","4","OFF","OFF",""]
   ]]
  ],
- note:"Transcribed from the posted sheet photo. Jeremiah is off the manager block on this sheet. The Sun\u2013Tue columns are skewed in the photo and were read column by column against the yellow section bands; the Bar cells written in pen (Christian, Jennea) and Rodrigo\u2019s two cells are pen marks that could not be read \u2014 verify those against the sheet. Fronts counts are verbatim: 0 on Sunday and 236 on Tuesday look odd but that is what is written.", src:"schedule sheet 9/9-9/15"
-};
-const SCHEDULE_HISTORY=[
+ note:"Transcribed from the posted sheet; a clearer re-shot photo confirmed the Fronts covers verbatim (0 on Sunday, 236 on Tuesday) and resolved the pen-written Bar cells (Christian and Jennea both 3). Jeremiah is off the manager block.", src:"schedule sheet 9/9-9/15"
+},
 {
  week:"Week of 9/2 \u2013 9/8, 2026", year:2026, start:"2026-09-02",
  days:[["9/2","We"],["9/3","Th"],["9/4","Fr"],["9/5","Sa"],["9/6","Su"],["9/7","Mo"],["9/8","Tu"]],

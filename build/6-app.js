@@ -888,6 +888,15 @@ function search(q){
     const plain=String(d).replace(/<[^>]+>/g,"");
     if(matches(["mise en place","silverware","utensil",t,plain]))
       add("Mise en place",t,plain.slice(0,140)+(plain.length>140?"…":""),"house");}));
+  /* Captain's pad: how to write a ticket. One section hit on the concept words, plus the
+     abbreviation lines so looking up "what does C mean" or "how do I write medium rare" lands here. */
+  if(typeof CAPTAIN!=="undefined"){
+    if(matches(["captain's pad","captains pad","captain pad","write a ticket","writing a ticket","ticket shorthand","abbreviations","abbreviation","circle the women","ladies first"]))
+      add("Captain's pad","How to write a ticket","Header first, one row per seat, circle the women, then the menu shorthand.","house");
+    [].concat(CAPTAIN.ss,CAPTAIN.temps,CAPTAIN.steaks,CAPTAIN.sides,CAPTAIN.addons,CAPTAIN.mods).forEach(([a,m])=>{
+      if(matches(["captain's pad","ticket shorthand","abbreviation",a,m]))
+        add("Captain's pad shorthand",a,m,"house");});
+  }
   /* everything else the app knows. Before this, searching a pairing, a steak temp, a
      dressing, a private-room capacity, a quiz answer or a coworker's shift came back
      empty even though the app had it on a tab somewhere. */
@@ -1354,6 +1363,34 @@ function build(){
     ${acc("Every item, one at a time","look a single dish up",
       tbl(["Dish","Set with it","Note"],MISE.map(m=>[`<b>${esc(m[0])}</b>`,esc(m[1].join(" + ")),
         `<span style="color:var(--dim)">${esc(m[2]||"")}</span>`])))}
+
+    ${""/* Captain's Pad: how to WRITE the ticket — the pad layout, the ladies-first
+          circle, and the menu shorthand, grounded in the real menu. */}
+    ${(typeof CAPTAIN==="undefined")?"":`
+    <div class="sechead" id="sec-cap"><h2>Captain’s Pad</h2><span>how to write a ticket the kitchen and the runner can read</span></div>
+    <p class="sub" style="margin:0 0 10px">Header first, one row per seat, and <b>circle the women</b>. Anything without a shortcut below, just write it in.</p>
+    <div class="card"><div class="cbody">
+      <div class="cappad">
+        <div class="cphead"><span>TABLE #</span><span># OF GUESTS</span></div>
+        <div class="cpapp">APPETIZERS</div>
+        <table class="cpgrid"><thead><tr><th class="cpseat">#</th><th>S/S</th><th>ENTREES</th><th>BEVERAGE</th></tr></thead>
+        <tbody>${[1,2,3,4,5,6].map(n=>`<tr><td class="cpseat">${n}</td><td></td><td></td><td></td></tr>`).join("")}</tbody></table>
+        <div class="cpsides">SIDES</div>
+      </div>
+      <p class="sub" style="margin:10px 0 0">The rows 1–6 down the black band are the <b>seats</b>. Circle a seat number to mark a woman there — the runner serves ladies first.</p>
+    </div></div>
+    ${acc("The golden rules","five marks that make a pad readable",`<ol class="steps">${CAPTAIN.rules.map(([t,d])=>`<li><b>${esc(t)}.</b> ${esc(d)}</li>`).join("")}</ol>`)}
+    ${acc("S/S box — soup or salad","the small left box",tbl(["Write","Means"],CAPTAIN.ss.map(r=>[`<b class="mono">${esc(r[0])}</b>`,esc(r[1])])))}
+    ${acc("Steak temps","size + cut + temp, e.g. “6 Fil MR”",tbl(["Write","Means"],CAPTAIN.temps.map(r=>[`<b class="mono">${esc(r[0])}</b>`,esc(r[1])])))}
+    ${acc("Entrees","the middle column",tbl(["Write","Means"],CAPTAIN.steaks.map(r=>[`<b class="mono">${esc(r[0])}</b>`,esc(r[1])])))}
+    ${acc("Sides","the SIDES lines at the bottom",tbl(["Write","Means"],CAPTAIN.sides.map(r=>[`<b class="mono">${esc(r[0])}</b>`,esc(r[1])])))}
+    ${acc("Add-ons / enhancements","write them with a +",tbl(["Write","Means"],CAPTAIN.addons.map(r=>[`<b class="mono">${esc(r[0])}</b>`,esc(r[1])])))}
+    ${acc("Modifiers","the grammar that works on everything",tbl(["Write","Means"],CAPTAIN.mods.map(r=>[`<b class="mono">${esc(r[0])}</b>`,esc(r[1])])))}
+    ${acc("A written ticket, read out loud","one table, start to finish",`
+      <div class="cpex"><p class="sub" style="margin:0 0 6px"><b>${esc(CAPTAIN.example.head)}</b></p>
+      <table class="cpgrid cpgrid-ex"><tbody>${CAPTAIN.example.lines.map(([s,l])=>`<tr><td class="cpseat" style="min-width:66px">${esc(s)}</td><td class="mono" style="text-align:left;padding:7px 9px">${esc(l)}</td></tr>`).join("")}</tbody></table>
+      <p class="mono" style="margin:8px 0 0">${esc(CAPTAIN.example.sides)}</p>
+      <p class="sub" style="margin:10px 0 0"><b>Reads as:</b> ${esc(CAPTAIN.example.reads)}</p></div>`)}`}
 
     ${acc("Points of Passion — the 16","the Mo's service philosophy, word for word where it counts",`<ol class="steps">${HOUSE.points.map(([t,d])=>`<li><b>${esc(t)}.</b> ${esc(d)}</li>`).join("")}</ol>`)}
     ${acc("Isaac's Non-Negotiables — the 11","the standards that never bend",`<ol class="steps">${HOUSE.isaacs.map(d=>`<li>${esc(d)}</li>`).join("")}</ol>`)}

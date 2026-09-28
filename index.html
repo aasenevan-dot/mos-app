@@ -145,6 +145,22 @@ html.dark .azbar{background:rgba(28,20,18,.86);border-color:var(--line2)}
 .evmenu .evwine{display:block;color:var(--gold2);font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
 .evmenu b{color:var(--txt);font-weight:600}
 .evmenu .evdish{color:var(--dim)}
+/* Captain's pad diagram — a paper form rendered from tokens so it reads in both themes */
+.cappad{border:2px solid var(--txt);border-radius:6px;overflow:hidden;max-width:520px;background:var(--card)}
+.cphead{display:flex;font-weight:800;font-size:11.5px;letter-spacing:.04em}
+.cphead span{flex:1;padding:8px 10px}
+.cphead span:first-child{border-right:2px solid var(--txt)}
+.cpapp{font-weight:800;font-size:11.5px;letter-spacing:.04em;padding:7px 10px;border-top:2px solid var(--txt)}
+.cpgrid{width:100%;border-collapse:collapse;font-size:12.5px;border-top:2px solid var(--txt)}
+.cpgrid th,.cpgrid td{border:1px solid var(--line);padding:7px 8px;text-align:center;vertical-align:top}
+.cpgrid th{font-size:10.5px;letter-spacing:.04em;text-transform:uppercase;font-weight:800;color:var(--dim);background:var(--card)}
+.cpgrid th.cpseat,.cpgrid td.cpseat{background:var(--txt);color:var(--bg);font-weight:800;width:32px}
+.cpgrid tbody td{height:26px}
+.cpsides{font-weight:800;font-size:11.5px;letter-spacing:.04em;padding:9px 10px;border-top:2px solid var(--txt)}
+.cpsides::after{content:"";display:block;margin-top:9px;border-top:1px solid var(--line)}
+.cpgrid-ex td{text-align:left}
+.cpgrid-ex td.cpseat{text-align:center}
+.cpex .mono{font-size:13px}
 .pitch{
   margin-top:10px;padding:9px 12px;border-left:2px solid var(--gold);
   background:rgba(89,31,28,.055);font-size:13.4px;color:#4A2723;
@@ -1754,6 +1770,109 @@ const A5PITCH = [
  "It is more akin to eating bone marrow or butter than actual steak. Expect an extremely soft texture, juices exploding out with every bite, and a beefy richness unmatched by any cut in the city.",
  "A manager always slices it tableside on a wooden board with a Japanese knife and gloves. They talk about the steak and add value to the moment."
 ];
+
+/* ============ CAPTAIN'S PAD — the shorthand for writing a ticket ============ */
+/* The blank pad: TABLE # top-left, # OF GUESTS top-right, then APPETIZERS, a seat
+   grid (rows 1-6 down the black band) with S/S | ENTREES | BEVERAGE, and SIDES at
+   the bottom. Golden rule: CIRCLE the women's seat numbers so the food runs ladies
+   first and every plate lands on the right guest. Abbreviations below are grounded
+   in the real menu — anything without a shortcut, just write it in. */
+const CAPTAIN = {
+ rules:[
+  ["Fill the header first","TABLE # top-left, # OF GUESTS top-right. Do it before you take a word of the order."],
+  ["Number the seats like the floor plan","Seat 1 usually faces the front door; number clockwise from there. The rows 1-6 down the black band ARE the seats."],
+  ["Circle the women","Circle every woman's seat number. That is how the runner serves ladies first and drops each plate on the right person — the single most important mark on the pad."],
+  ["One row per seat","S/S in the small left box (soup or salad), the entree in the middle with its temp, the drink on the right. Sides go in the SIDES lines at the bottom for the whole table."],
+  ["Allergies get written ON the seat and rung in","Note the allergy right on that seat's row, ring it in, and tell the back server, expo, chef, and a manager. Never let it live only on the pad."]
+ ],
+ ss:[
+  ["C","Caesar (comes with no anchovies unless asked)"],
+  ["C+","Caesar, ADD the white anchovies"],
+  ["C−","Caesar, no anchovies (guest wants it confirmed)"],
+  ["W","Chopped Wedge"],
+  ["H","House Salad"],
+  ["Pear","Roasted Pear Salad"],
+  ["FO","Baked French Onion (the “BFO”)"],
+  ["Bisq","Lobster Bisque ($4 up from the comp soup)"],
+  ["SD","Soup of the Day (the comp soup with entrees)"],
+  ["OS","dressing / sauce ON THE SIDE"],
+  ["sub","substitute — write the dressing in (e.g. W sub ranch)"],
+  ["NC","no croutons (the guest avoiding gluten)"]
+ ],
+ temps:[
+  ["Bl","Blue — very red, very cold"],
+  ["CR","Center Rare — cold red center"],
+  ["MR","Medium Rare — cool red center (where filet eats best)"],
+  ["M","Medium — warm to hot red center"],
+  ["MW","Medium Well — hot pink center"],
+  ["WD","Well Done — hot, little to no pink"],
+  ["bf","butterfly it — offer on any well-done filet"]
+ ],
+ steaks:[
+  ["6 / 10","the size in oz — write it before the cut (6 = 6 oz, 10 = 10 oz)"],
+  ["Fil","Filet Mignon (the default steak — “6 Fil MR”)"],
+  ["FB","FarBuckle Filet (tableside skillet show)"],
+  ["PD","The PD — 15 oz hand-cut filet"],
+  ["Delm","Delmonico Ribeye (16 oz)"],
+  ["AW","Australian Wagyu Filet (serve rare–MR)"],
+  ["A5","Japanese A5 Wagyu (manager cut, by the oz)"],
+  ["F+L","Filet & Lobster"],
+  ["F+Sc","Filet & Scallops"],
+  ["CP","Chicken Parmesan (tableside)"],
+  ["Prim","Primavera Pasta (write add-on: +chk/+salm/+steak/+shrimp)"],
+  ["Miso","Miso Seabass"],
+  ["CSB","Chilean Sea Bass"],
+  ["Scal","Sea Scallops"],
+  ["Salm","Blackened Creole Salmon (say if broiled/plain)"],
+  ["2Lob","Twin South African Lobster Tails"]
+ ],
+ sides:[
+  ["Asp","Grilled Asparagus"],
+  ["Corn","Creamed Corn"],
+  ["Spin","Creamed Spinach & Butternut"],
+  ["Ris","Creamy Risotto"],
+  ["BP","Baked Potato (loaded = “BP load”, +$3)"],
+  ["Mash","White Cheddar Mashed (+truffle / +wasabi $3)"],
+  ["Caul","Truffle Cauliflower"],
+  ["Mac","Lobster Mac N’ Cheese"],
+  ["Grat","Jalapeno Potatoes Au Gratin"],
+  ["Bru","Brussels Sprouts"],
+  ["TF","Truffle Fries (plain = “TF plain”)"]
+ ],
+ addons:[
+  ["+Osc","Crab Oscar ($14)"],
+  ["+47","Steak 47 topping ($25)"],
+  ["+Crust","Horseradish-Bleu Cheese Crust ($4)"],
+  ["+Bear","Bearnaise ($2)"],
+  ["+LT","Add 5 oz Lobster Tail ($50)"],
+  ["+2Sc","Add 2 Scallops ($14)"],
+  ["+Pepp","Brandy Peppercorn Sauce ($6)"],
+  ["+TrufB","Black Truffle Butter ($6)"],
+  ["+GB","Garlic Butter ($6)"],
+  ["+Mush","Roasted Mushrooms ($8)"],
+  ["+Forest","Forest Mushrooms ($14)"]
+ ],
+ mods:[
+  ["+","add / extra (e.g. C+ = extra anchovies, +LT = add lobster tail)"],
+  ["− or “no”","hold it (e.g. Wedge −bacon, W −bleu)"],
+  ["sub","swap one thing for another — write both (Mash sub BP)"],
+  ["OS","on the side — dressings, sauces, hollandaise"],
+  ["bf","butterfly (well-done filets)"],
+  ["◯ seat #","circled = a woman at that seat — ladies served first"],
+  ["ALLERGY","write the allergy on the seat, ring it in, tell BSVR + expo + chef + MOD"]
+ ],
+ example:{
+  head:"Table 12 · 4 guests",
+  lines:[
+   ["Seat ◯1","C− · 6 Fil MR +Osc · Cab"],
+   ["Seat 2","W sub ranch · 10 Delm M +Pepp · Manhattan"],
+   ["Seat ◯3","FO · Salm (broiled) · Chardonnay"],
+   ["Seat 4","H OS · A5 6oz · water — NUT ALLERGY, rung in"]
+  ],
+  sides:"SIDES (table): Asp · Mash +truffle · Bru",
+  reads:"Seat 1 is a woman: Caesar no anchovies, 6 oz filet medium rare with crab Oscar, a Cabernet. Seat 3 is a woman: French onion, salmon broiled not blackened, Chardonnay. Seat 4 has a nut allergy written right on the row and already rung in."
+ }
+};
 
 /* ============ HOUSE RECIPES — straight off the kitchen spec cards ============ */
 /* Card allergen lines are not gospel: the ranch card says dairy only, but it is built on
@@ -7471,6 +7590,15 @@ function search(q){
     const plain=String(d).replace(/<[^>]+>/g,"");
     if(matches(["mise en place","silverware","utensil",t,plain]))
       add("Mise en place",t,plain.slice(0,140)+(plain.length>140?"…":""),"house");}));
+  /* Captain's pad: how to write a ticket. One section hit on the concept words, plus the
+     abbreviation lines so looking up "what does C mean" or "how do I write medium rare" lands here. */
+  if(typeof CAPTAIN!=="undefined"){
+    if(matches(["captain's pad","captains pad","captain pad","write a ticket","writing a ticket","ticket shorthand","abbreviations","abbreviation","circle the women","ladies first"]))
+      add("Captain's pad","How to write a ticket","Header first, one row per seat, circle the women, then the menu shorthand.","house");
+    [].concat(CAPTAIN.ss,CAPTAIN.temps,CAPTAIN.steaks,CAPTAIN.sides,CAPTAIN.addons,CAPTAIN.mods).forEach(([a,m])=>{
+      if(matches(["captain's pad","ticket shorthand","abbreviation",a,m]))
+        add("Captain's pad shorthand",a,m,"house");});
+  }
   /* everything else the app knows. Before this, searching a pairing, a steak temp, a
      dressing, a private-room capacity, a quiz answer or a coworker's shift came back
      empty even though the app had it on a tab somewhere. */
@@ -7937,6 +8065,34 @@ function build(){
     ${acc("Every item, one at a time","look a single dish up",
       tbl(["Dish","Set with it","Note"],MISE.map(m=>[`<b>${esc(m[0])}</b>`,esc(m[1].join(" + ")),
         `<span style="color:var(--dim)">${esc(m[2]||"")}</span>`])))}
+
+    ${""/* Captain's Pad: how to WRITE the ticket — the pad layout, the ladies-first
+          circle, and the menu shorthand, grounded in the real menu. */}
+    ${(typeof CAPTAIN==="undefined")?"":`
+    <div class="sechead" id="sec-cap"><h2>Captain’s Pad</h2><span>how to write a ticket the kitchen and the runner can read</span></div>
+    <p class="sub" style="margin:0 0 10px">Header first, one row per seat, and <b>circle the women</b>. Anything without a shortcut below, just write it in.</p>
+    <div class="card"><div class="cbody">
+      <div class="cappad">
+        <div class="cphead"><span>TABLE #</span><span># OF GUESTS</span></div>
+        <div class="cpapp">APPETIZERS</div>
+        <table class="cpgrid"><thead><tr><th class="cpseat">#</th><th>S/S</th><th>ENTREES</th><th>BEVERAGE</th></tr></thead>
+        <tbody>${[1,2,3,4,5,6].map(n=>`<tr><td class="cpseat">${n}</td><td></td><td></td><td></td></tr>`).join("")}</tbody></table>
+        <div class="cpsides">SIDES</div>
+      </div>
+      <p class="sub" style="margin:10px 0 0">The rows 1–6 down the black band are the <b>seats</b>. Circle a seat number to mark a woman there — the runner serves ladies first.</p>
+    </div></div>
+    ${acc("The golden rules","five marks that make a pad readable",`<ol class="steps">${CAPTAIN.rules.map(([t,d])=>`<li><b>${esc(t)}.</b> ${esc(d)}</li>`).join("")}</ol>`)}
+    ${acc("S/S box — soup or salad","the small left box",tbl(["Write","Means"],CAPTAIN.ss.map(r=>[`<b class="mono">${esc(r[0])}</b>`,esc(r[1])])))}
+    ${acc("Steak temps","size + cut + temp, e.g. “6 Fil MR”",tbl(["Write","Means"],CAPTAIN.temps.map(r=>[`<b class="mono">${esc(r[0])}</b>`,esc(r[1])])))}
+    ${acc("Entrees","the middle column",tbl(["Write","Means"],CAPTAIN.steaks.map(r=>[`<b class="mono">${esc(r[0])}</b>`,esc(r[1])])))}
+    ${acc("Sides","the SIDES lines at the bottom",tbl(["Write","Means"],CAPTAIN.sides.map(r=>[`<b class="mono">${esc(r[0])}</b>`,esc(r[1])])))}
+    ${acc("Add-ons / enhancements","write them with a +",tbl(["Write","Means"],CAPTAIN.addons.map(r=>[`<b class="mono">${esc(r[0])}</b>`,esc(r[1])])))}
+    ${acc("Modifiers","the grammar that works on everything",tbl(["Write","Means"],CAPTAIN.mods.map(r=>[`<b class="mono">${esc(r[0])}</b>`,esc(r[1])])))}
+    ${acc("A written ticket, read out loud","one table, start to finish",`
+      <div class="cpex"><p class="sub" style="margin:0 0 6px"><b>${esc(CAPTAIN.example.head)}</b></p>
+      <table class="cpgrid cpgrid-ex"><tbody>${CAPTAIN.example.lines.map(([s,l])=>`<tr><td class="cpseat" style="min-width:66px">${esc(s)}</td><td class="mono" style="text-align:left;padding:7px 9px">${esc(l)}</td></tr>`).join("")}</tbody></table>
+      <p class="mono" style="margin:8px 0 0">${esc(CAPTAIN.example.sides)}</p>
+      <p class="sub" style="margin:10px 0 0"><b>Reads as:</b> ${esc(CAPTAIN.example.reads)}</p></div>`)}`}
 
     ${acc("Points of Passion — the 16","the Mo's service philosophy, word for word where it counts",`<ol class="steps">${HOUSE.points.map(([t,d])=>`<li><b>${esc(t)}.</b> ${esc(d)}</li>`).join("")}</ol>`)}
     ${acc("Isaac's Non-Negotiables — the 11","the standards that never bend",`<ol class="steps">${HOUSE.isaacs.map(d=>`<li>${esc(d)}</li>`).join("")}</ol>`)}

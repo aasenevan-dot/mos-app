@@ -212,6 +212,109 @@ const A5PITCH = [
  "A manager always slices it tableside on a wooden board with a Japanese knife and gloves. They talk about the steak and add value to the moment."
 ];
 
+/* ============ CAPTAIN'S PAD — the shorthand for writing a ticket ============ */
+/* The blank pad: TABLE # top-left, # OF GUESTS top-right, then APPETIZERS, a seat
+   grid (rows 1-6 down the black band) with S/S | ENTREES | BEVERAGE, and SIDES at
+   the bottom. Golden rule: CIRCLE the women's seat numbers so the food runs ladies
+   first and every plate lands on the right guest. Abbreviations below are grounded
+   in the real menu — anything without a shortcut, just write it in. */
+const CAPTAIN = {
+ rules:[
+  ["Fill the header first","TABLE # top-left, # OF GUESTS top-right. Do it before you take a word of the order."],
+  ["Number the seats like the floor plan","Seat 1 usually faces the front door; number clockwise from there. The rows 1-6 down the black band ARE the seats."],
+  ["Circle the women","Circle every woman's seat number. That is how the runner serves ladies first and drops each plate on the right person — the single most important mark on the pad."],
+  ["One row per seat","S/S in the small left box (soup or salad), the entree in the middle with its temp, the drink on the right. Sides go in the SIDES lines at the bottom for the whole table."],
+  ["Allergies get written ON the seat and rung in","Note the allergy right on that seat's row, ring it in, and tell the back server, expo, chef, and a manager. Never let it live only on the pad."]
+ ],
+ ss:[
+  ["C","Caesar (comes with no anchovies unless asked)"],
+  ["C+","Caesar, ADD the white anchovies"],
+  ["C−","Caesar, no anchovies (guest wants it confirmed)"],
+  ["W","Chopped Wedge"],
+  ["H","House Salad"],
+  ["Pear","Roasted Pear Salad"],
+  ["FO","Baked French Onion (the “BFO”)"],
+  ["Bisq","Lobster Bisque ($4 up from the comp soup)"],
+  ["SD","Soup of the Day (the comp soup with entrees)"],
+  ["OS","dressing / sauce ON THE SIDE"],
+  ["sub","substitute — write the dressing in (e.g. W sub ranch)"],
+  ["NC","no croutons (the guest avoiding gluten)"]
+ ],
+ temps:[
+  ["Bl","Blue — very red, very cold"],
+  ["CR","Center Rare — cold red center"],
+  ["MR","Medium Rare — cool red center (where filet eats best)"],
+  ["M","Medium — warm to hot red center"],
+  ["MW","Medium Well — hot pink center"],
+  ["WD","Well Done — hot, little to no pink"],
+  ["bf","butterfly it — offer on any well-done filet"]
+ ],
+ steaks:[
+  ["6 / 10","the size in oz — write it before the cut (6 = 6 oz, 10 = 10 oz)"],
+  ["Fil","Filet Mignon (the default steak — “6 Fil MR”)"],
+  ["FB","FarBuckle Filet (tableside skillet show)"],
+  ["PD","The PD — 15 oz hand-cut filet"],
+  ["Delm","Delmonico Ribeye (16 oz)"],
+  ["AW","Australian Wagyu Filet (serve rare–MR)"],
+  ["A5","Japanese A5 Wagyu (manager cut, by the oz)"],
+  ["F+L","Filet & Lobster"],
+  ["F+Sc","Filet & Scallops"],
+  ["CP","Chicken Parmesan (tableside)"],
+  ["Prim","Primavera Pasta (write add-on: +chk/+salm/+steak/+shrimp)"],
+  ["Miso","Miso Seabass"],
+  ["CSB","Chilean Sea Bass"],
+  ["Scal","Sea Scallops"],
+  ["Salm","Blackened Creole Salmon (say if broiled/plain)"],
+  ["2Lob","Twin South African Lobster Tails"]
+ ],
+ sides:[
+  ["Asp","Grilled Asparagus"],
+  ["Corn","Creamed Corn"],
+  ["Spin","Creamed Spinach & Butternut"],
+  ["Ris","Creamy Risotto"],
+  ["BP","Baked Potato (loaded = “BP load”, +$3)"],
+  ["Mash","White Cheddar Mashed (+truffle / +wasabi $3)"],
+  ["Caul","Truffle Cauliflower"],
+  ["Mac","Lobster Mac N’ Cheese"],
+  ["Grat","Jalapeno Potatoes Au Gratin"],
+  ["Bru","Brussels Sprouts"],
+  ["TF","Truffle Fries (plain = “TF plain”)"]
+ ],
+ addons:[
+  ["+Osc","Crab Oscar ($14)"],
+  ["+47","Steak 47 topping ($25)"],
+  ["+Crust","Horseradish-Bleu Cheese Crust ($4)"],
+  ["+Bear","Bearnaise ($2)"],
+  ["+LT","Add 5 oz Lobster Tail ($50)"],
+  ["+2Sc","Add 2 Scallops ($14)"],
+  ["+Pepp","Brandy Peppercorn Sauce ($6)"],
+  ["+TrufB","Black Truffle Butter ($6)"],
+  ["+GB","Garlic Butter ($6)"],
+  ["+Mush","Roasted Mushrooms ($8)"],
+  ["+Forest","Forest Mushrooms ($14)"]
+ ],
+ mods:[
+  ["+","add / extra (e.g. C+ = extra anchovies, +LT = add lobster tail)"],
+  ["− or “no”","hold it (e.g. Wedge −bacon, W −bleu)"],
+  ["sub","swap one thing for another — write both (Mash sub BP)"],
+  ["OS","on the side — dressings, sauces, hollandaise"],
+  ["bf","butterfly (well-done filets)"],
+  ["◯ seat #","circled = a woman at that seat — ladies served first"],
+  ["ALLERGY","write the allergy on the seat, ring it in, tell BSVR + expo + chef + MOD"]
+ ],
+ example:{
+  head:"Table 12 · 4 guests",
+  lines:[
+   ["Seat ◯1","C− · 6 Fil MR +Osc · Cab"],
+   ["Seat 2","W sub ranch · 10 Delm M +Pepp · Manhattan"],
+   ["Seat ◯3","FO · Salm (broiled) · Chardonnay"],
+   ["Seat 4","H OS · A5 6oz · water — NUT ALLERGY, rung in"]
+  ],
+  sides:"SIDES (table): Asp · Mash +truffle · Bru",
+  reads:"Seat 1 is a woman: Caesar no anchovies, 6 oz filet medium rare with crab Oscar, a Cabernet. Seat 3 is a woman: French onion, salmon broiled not blackened, Chardonnay. Seat 4 has a nut allergy written right on the row and already rung in."
+ }
+};
+
 /* ============ HOUSE RECIPES — straight off the kitchen spec cards ============ */
 /* Card allergen lines are not gospel: the ranch card says dairy only, but it is built on
    mayo, so egg belongs there too. Flag what the ingredients actually say. */

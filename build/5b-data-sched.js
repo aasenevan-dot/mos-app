@@ -13,22 +13,23 @@
    ============================================================ */
 /* ============================================================
    LIVE MUSIC — off the house poster, "LIVE MUSIC IN THE LOUNGE,
-   SEPTEMBER 2026". Every Friday & Saturday, plus one Thursday.
+   OCTOBER 2026". Every Friday & Saturday in the lounge.
    Keyed "M/D" so schedGrid drops the act onto the right column
-   automatically as the posted week rolls over.
-   9/24 is the Thursday act for Cowgirls & Cosmos — the themed
-   night itself is in EVENTS, this is just who is playing.
+   automatically as the posted week rolls over; past dates drop off
+   the poster block on their own. 10/31 (Greg & Steve) is the live
+   act for the Spooky Soiree — the themed night is in EVENTS.
    ============================================================ */
 const LIVE_MUSIC={
- "9/4":"Shane Rodimel",
- "9/5":"Christina & Frank",
- "9/11":"Austin Johnson",
- "9/12":"Christina & Frank",
- "9/18":"Nick Lemmonti", /* poster bills it as "The Nick Lemmonti Show" — shortened to fit the column */
- "9/19":"Tim & Cat",
- "9/24":"Christina & Frank",
- "9/25":"Steve Q & Bernie",
- "9/26":"Austin Johnson"
+ "10/2":"Christina & Frank",
+ "10/3":"Austin Johnson",
+ "10/9":"Nick Lemmonti", /* poster bills it as "The Nick Lemmonti Show" — shortened to fit the column */
+ "10/10":"Tim Wright",
+ "10/16":"Steve Q & Bernie H",
+ "10/17":"Tim & Cat",
+ "10/23":"Tim & Cat",
+ "10/24":"Austin Johnson",
+ "10/30":"Nick Lemmonti",
+ "10/31":"Greg & Steve"
 };
 
 /* MEALS & MOMENTS — the off-site meals we serve for church families and the community,
@@ -61,7 +62,11 @@ const EVENTS=[
    ["Red Blend","Pork Belly","Salsa verde, cotija cheese, herb aioli & corn bread"],
    ["Cabernet Sauvignon · Special Select","Filet Mignon","Steak Diane sauce, double-baked potato & roasted truffled cauliflower"],
    ["Unshackled Sparkling Rosé","Chocolate Strawberry Cheesecake",""]
-  ]}
+  ]},
+ {d:"10/22", when:"Thu · the Lounge", n:"Chicas, Cheetahs & A Cause",
+  w:"An elevated ladies night benefiting Hands of Hope. $10 martinis and appetizer specials — wear your wildest print. Guests choose a tag to sponsor a foster child, then return the tag with donations for a chance to win a gift card. Push the martinis and know the Hands of Hope tie-in. Reservations 317.641.0720."},
+ {d:"10/31", when:"Sat · the Lounge", n:"Spooky Soirée",
+  w:"An enchanting evening of mystery, music and Halloween revelry in the lounge — live music (Greg & Steve), a costume contest, and sinfully good drink specials. Reservations 317.641.0720."}
 ];
 const OFFSITE_NOTE="Fellowship, food, and fun — bringing a church family and the community together over a shared meal. Want to serve one? Email or text Yaris at admin@prime47carmel.com or 317.703.4284.";
 

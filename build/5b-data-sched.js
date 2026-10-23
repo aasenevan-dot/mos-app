@@ -71,6 +71,129 @@ const EVENTS=[
 const OFFSITE_NOTE="Fellowship, food, and fun — bringing a church family and the community together over a shared meal. Want to serve one? Email or text Yaris at admin@prime47carmel.com or 317.703.4284.";
 
 const SCHEDULE={
+ week:"Week of 10/21 \u2013 10/27, 2026", year:2026, start:"2026-10-21",
+ days:[["10/21","We"],["10/22","Th"],["10/23","Fr"],["10/24","Sa"],["10/25","Su"],["10/26","Mo"],["10/27","Tu"]],
+ sections:[
+  ["Managers",[
+   ["Mike","11","1","1","3","","","4"],
+   ["CJ","3","","3","1","1","1",""]
+  ]],
+  ["BQTs",[
+   ["Gavin","","","","","","",""]
+  ]],
+  ["Fronts",[
+   ["Alexis","1030am","330","330","330","","","1 MGR"],
+   ["Chad","OFF","RO","330","330","OFF","OFF","OFF"],
+   ["Hunter","OFF","OFF","RO","330","OFF","OFF","345"],
+   ["Diana","RO","330","330","RO","RO","345","345"],
+   ["MorganB","345","330","330","330","3","RO","OFF"],
+   ["Nathan","OFF","OFF","RO","RO","OFF","345","345"],
+   ["Fabian","OFF","330","330","330","3","345",""],
+   ["Alex","345","","330","330","3","OFF","345"]
+  ],["51","61","42","62","5","3","10"]],
+  ["Backs",[
+   ["Lupe","","","","","","",""],
+   ["Morgan W","1030am","330","330","330","3","","OFF"],
+   ["Evan","OFF","OFF","RO","","3","345","OFF"],
+   ["Erin","345","","330","330","OFF","345","OFF"],
+   ["J Fox","345","","330","330","","","345"],
+   ["D","OFF","OFF","330","330","3","OFF","OFF"],
+   ["Meagan","OFF","330","330","330","","","345"],
+   ["Abby","OFF","330","330","330 Expo","OFF","","345"],
+   ["Barbie","345","330","330","330","","OFF",""],
+   ["Victoria","","","","330","","345","345"]
+  ]],
+  ["Bar",[
+   ["Krista","3","2","","3","","","3"],
+   ["Christian","11am","4","3","5","","4",""],
+   ["Jennea","","OFF","5","","3","OFF","5"]
+  ]],
+  ["Cktail",[
+   ["Jenny","","","330","330","3","RO","RO"],
+   ["Taylor","345","330","RO","RO","RO","OFF","345"]
+  ]],
+  ["Host",[
+   ["Mackenzie","4","","4","5","4","4",""],
+   ["Leila","RO","5","4","4","OFF","","4"]
+  ]],
+  ["Expo",[
+   ["CARTER","","","OFF","","5","",""],
+   ["Jackson","4","4 Back","4","RO","4","","4"],
+   ["Rodrigo","","4","","4","","4",""],
+   ["Bryson","","5","","","","","5"]
+  ]],
+  ["Busser",[
+   ["Dalton","OFF","4","4","5","4","","OFF"],
+   ["Conner","","4","430","4","OFF","4","4"],
+   ["Jackson","4","OFF","5","5","OFF","","4"],
+   ["LUCAS","","","","","","",""]
+  ]]
+ ],
+ note:"Transcribed from Michael Pavey\u2019s posted sheet (screenshot). 10/21 is a Luncheon banquet \u2014 early shifts (Mike 11, Alexis & Morgan W 1030am, Christian 11am). Thursday 10/22 is the Chicas, Cheetahs & A Cause ladies night. \u201c330 Expo\u201d / \u201c4 Back\u201d are section tags kept as written; Calista is off this sheet. The Sun\u2013Tue columns (10/25\u201310/27) carry heavy blacked-out boxes and were the hardest to read \u2014 verify those against the sheet. Jeremiah is off the manager block; LUCAS is on the sheet but blacked out all week.", src:"schedule screenshot 10/21-10/27"
+};
+const SCHEDULE_HISTORY=[
+{
+ week:"Week of 10/14 \u2013 10/20, 2026", year:2026, start:"2026-10-14",
+ days:[["10/14","We"],["10/15","Th"],["10/16","Fr"],["10/17","Sa"],["10/18","Su"],["10/19","Mo"],["10/20","Tu"]],
+ sections:[
+  ["Managers",[
+   ["Mike","","1","1","1 Wedding","","1","3"],
+   ["CJ","1","","3","1","1","3",""]
+  ]],
+  ["BQTs",[
+   ["Gavin","","","","","","",""]
+  ]],
+  ["Fronts",[
+   ["Alexis","345","RO","330","3 MGR","3","","1 MGR"],
+   ["Chad","OFF","2","330","3 MGR","OFF","OFF","OFF"],
+   ["Hunter","OFF","OFF","330","330","OFF","OFF","345"],
+   ["Diana","345","","330","330","3","345","OFF"],
+   ["MorganB","RO","2","330","330","3","345","OFF"],
+   ["Nathan","OFF","OFF","330","330","OFF","345","345"],
+   ["Fabian","OFF","330","330","330","3","","345"],
+   ["Alex","345","330","330","330","","OFF","345"]
+  ],["100","20","16","37","8","2","10"]],
+  ["Backs",[
+   ["Lupe","","","","","","",""],
+   ["Morgan W","345","","330","330","3","","OFF"],
+   ["Evan","OFF","OFF","330","330","3","345","OFF"],
+   ["Erin","OFF","5 expo","330","330","OFF","345","OFF"],
+   ["J Fox","345","330","OFF","330","","","345"],
+   ["D","OFF","","330","","3","","OFF"],
+   ["Meagan","OFF","330","330","330","3","","345"],
+   ["Abby","OFF","","330","330","OFF","OFF","345"],
+   ["Barbie","345","330","330","","","OFF","345"],
+   ["Victoria","","","330","330","","345","345"]
+  ]],
+  ["Bar",[
+   ["Krista","4","2","","3","","","3"],
+   ["Christian","3","4","3","5","","4",""],
+   ["Jennea","","OFF","5","","3","OFF","5"]
+  ]],
+  ["Cktail",[
+   ["Jenny","345","","330","330 Front","3","345",""],
+   ["Taylor","OFF","330","330","330","","OFF","345"]
+  ]],
+  ["Host",[
+   ["Mackenzie","4","","4","5","4","4",""],
+   ["Leila","","5","4","4","OFF","","4"]
+  ]],
+  ["Expo",[
+   ["CARTER","","","OFF","","5","",""],
+   ["Jackson","4","4 Back","4","4","4","",""],
+   ["Rodrigo","","","","","","",""],
+   ["Bryson","","","5","5","","5","5"]
+  ]],
+  ["Busser",[
+   ["Dalton","OFF","","4","5","4","","OFF"],
+   ["Conner","","4","430","4","","4","4"],
+   ["Jackson","4","OFF","5","5","OFF","OFF","4"],
+   ["LUCAS","","","","","","",""]
+  ]]
+ ],
+ note:"The revised 10/14-10/20 sheet (\u201chad to update the schedule\u201d). 10/17 is a Wedding (Mike), 10/14 had a 16-top in Smockton, Erin ran 5 expo 10/15. Calista is off this sheet. Transcribed best-effort from a story screenshot; the blacked-out Sun\u2013Tue columns and a few mid-week cells (Meagan/Barbie/J Fox/D) should be verified against the sheet. Jeremiah off the manager block; LUCAS blacked out all week.", src:"schedule screenshot 10/14-10/20 (revised)"
+},
+{
  week:"Week of 10/7 \u2013 10/13, 2026", year:2026, start:"2026-10-07",
  days:[["10/7","We"],["10/8","Th"],["10/9","Fr"],["10/10","Sa"],["10/11","Su"],["10/12","Mo"],["10/13","Tu"]],
  sections:[
@@ -131,8 +254,7 @@ const SCHEDULE={
   ]]
  ],
  note:"Transcribed from Michael Pavey\u2019s posted sheet (screenshot). Mike is on at 11am on 10/13. \u201c3 BBQ\u201d (Erin/J Fox, 10/9), \u201c2 Lucas\u201d / \u201c4 Back\u201d / \u201c330 Front\u201d are event, training, and section tags kept as written. The Sun\u2013Tue columns (10/11\u201310/13) carry heavy blacked-out boxes and were the hardest to read \u2014 verify those against the sheet. Jeremiah is off the manager block; LUCAS is on the sheet but blacked out all week.", src:"schedule screenshot 10/7-10/13"
-};
-const SCHEDULE_HISTORY=[
+},
 {
  week:"Week of 9/30 \u2013 10/6, 2026", year:2026, start:"2026-09-30",
  days:[["9/30","We"],["10/1","Th"],["10/2","Fr"],["10/3","Sa"],["10/4","Su"],["10/5","Mo"],["10/6","Tu"]],

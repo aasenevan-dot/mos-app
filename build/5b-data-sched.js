@@ -66,11 +66,75 @@ const EVENTS=[
  {d:"10/22", when:"Thu · the Lounge", n:"Chicas, Cheetahs & A Cause",
   w:"An elevated ladies night benefiting Hands of Hope. $10 martinis and appetizer specials — wear your wildest print. Guests choose a tag to sponsor a foster child, then return the tag with donations for a chance to win a gift card. Push the martinis and know the Hands of Hope tie-in. Reservations 317.641.0720."},
  {d:"10/31", when:"Sat · the Lounge", n:"Spooky Soirée",
-  w:"An enchanting evening of mystery, music and Halloween revelry in the lounge — live music (Greg & Steve), a costume contest, and sinfully good drink specials. Reservations 317.641.0720."}
+  w:"An enchanting evening of mystery, music and Halloween revelry in the lounge — live music (Greg & Steve), a costume contest, and sinfully good drink specials. Reservations 317.641.0720."},
+ {d:"11/22", when:"Sun · 8:00 \u2013 whenever · at Alexis\u2019s house", n:"Friendsgiving (staff)",
+  w:"Alexis Lang is hosting a staff Friendsgiving \u2014 food, friends, good vibes. Everyone is invited; bring a dish if you can (not required, but appreciated). The address is in Alexis\u2019s post."}
 ];
 const OFFSITE_NOTE="Fellowship, food, and fun — bringing a church family and the community together over a shared meal. Want to serve one? Email or text Yaris at admin@prime47carmel.com or 317.703.4284.";
 
 const SCHEDULE={
+ week:"Week of 10/28 \u2013 11/3, 2026", year:2026, start:"2026-10-28",
+ days:[["10/28","We"],["10/29","Th"],["10/30","Fr"],["10/31","Sa"],["11/1","Su"],["11/2","Mo"],["11/3","Tu"]],
+ sections:[
+  ["Managers",[
+   ["Mike","1","1","1","3","","","4"],
+   ["CJ","","2","3","1","1","1",""]
+  ]],
+  ["BQTs",[
+   ["Gavin","","","","","","",""]
+  ]],
+  ["Fronts",[
+   ["Alexis","345","2","330","330","","","1 MGR"],
+   ["Chad","OFF","2","330","330","OFF","OFF","OFF"],
+   ["Hunter","OFF","OFF","330","330","OFF","OFF","345"],
+   ["Diana","330 Cocktail","","RO","330 Cocktail","","345 Cocktail","345"],
+   ["MorganB","","330","330","330","3","RO","OFF"],
+   ["Nathan","OFF","OFF","330","330","OFF","345","345"],
+   ["Fabian","OFF","","330","330","3","345",""],
+   ["Alex","345","","330","330","3","OFF","345"]
+  ],["51","61","42","62","5","3","10"]],
+  ["Backs",[
+   ["Lupe","","","","","","",""],
+   ["Morgan W","","330","330","330","3","","OFF"],
+   ["Evan","OFF","OFF","330","330","3","345","OFF"],
+   ["Erin","345","","330","330","OFF","345","OFF"],
+   ["J Fox","345","","330 Expo","330","","","345"],
+   ["D","OFF","OFF","330","RO","3","OFF","OFF"],
+   ["Meagan","OFF","330","RO","330","","","345"],
+   ["Abby","OFF","","330","RO","OFF","OFF","345"],
+   ["Barbie","345","330","330","330","","OFF",""],
+   ["Victoria","","","330","330","","345","345"]
+  ]],
+  ["Bar",[
+   ["Krista","3","2","3","RO","","","3"],
+   ["Christian","","4","5","3","","3",""],
+   ["Jennea","","OFF","","5","3","OFF","5"]
+  ]],
+  ["Cktail",[
+   ["Jenny","345 Front","330 Front","","330 Front","","345 Front",""],
+   ["Taylor","","330","330","","3","OFF","345"]
+  ]],
+  ["Host",[
+   ["Mackenzie","4","","4","5","4","4",""],
+   ["Leila","RO","5","4","4","OFF","","4"]
+  ]],
+  ["Expo",[
+   ["CARTER","","","OFF","5","5","",""],
+   ["Jackson","4","4 Back","4","RO","4","","4"],
+   ["Rodrigo","","4","5","4","","4",""],
+   ["Bryson","","5","","530","","","5"]
+  ]],
+  ["Busser",[
+   ["Dalton","OFF","4","4","430","4","","OFF"],
+   ["Conner","","4","430","4","","4","4"],
+   ["Jackson","4","OFF","5","5","OFF","OFF",""],
+   ["LUCAS","","","","","","",""]
+  ]]
+ ],
+ note:"Transcribed from Michael Pavey\u2019s posted sheet (screenshot). Saturday 10/31 is the Spooky Soir\u00e9e in the lounge. \u201cCocktail\u201d / \u201cFront\u201d / \u201cExpo\u201d / \u201c4 Back\u201d are section tags kept as written; Calista is off this sheet. The Sun\u2013Tue columns (11/1\u201311/3) carry heavy blacked-out boxes \u2014 verify those against the sheet. Jeremiah is off the manager block; LUCAS is on the sheet but blacked out all week.", src:"schedule screenshot 10/28-11/3"
+};
+const SCHEDULE_HISTORY=[
+{
  week:"Week of 10/21 \u2013 10/27, 2026", year:2026, start:"2026-10-21",
  days:[["10/21","We"],["10/22","Th"],["10/23","Fr"],["10/24","Sa"],["10/25","Su"],["10/26","Mo"],["10/27","Tu"]],
  sections:[
@@ -130,8 +194,7 @@ const SCHEDULE={
   ]]
  ],
  note:"Transcribed from Michael Pavey\u2019s posted sheet (screenshot). 10/21 is a Luncheon banquet \u2014 early shifts (Mike 11, Alexis & Morgan W 1030am, Christian 11am). Thursday 10/22 is the Chicas, Cheetahs & A Cause ladies night. \u201c330 Expo\u201d / \u201c4 Back\u201d are section tags kept as written; Calista is off this sheet. The Sun\u2013Tue columns (10/25\u201310/27) carry heavy blacked-out boxes and were the hardest to read \u2014 verify those against the sheet. Jeremiah is off the manager block; LUCAS is on the sheet but blacked out all week.", src:"schedule screenshot 10/21-10/27"
-};
-const SCHEDULE_HISTORY=[
+},
 {
  week:"Week of 10/14 \u2013 10/20, 2026", year:2026, start:"2026-10-14",
  days:[["10/14","We"],["10/15","Th"],["10/16","Fr"],["10/17","Sa"],["10/18","Su"],["10/19","Mo"],["10/20","Tu"]],

@@ -943,8 +943,9 @@ function search(q){
       if(on)add("Schedule",(full?full[0].toUpperCase()+full.slice(1):"")+" "+d[0]+(isToday?" \u2014 today":""),on.slice(0,150),"sched");
     });
   })();
-  [WOTW.a,WOTW.b].forEach(w=>{if(w&&matches(["wine of the week",w.n,w.tag,w.what,w.flavor,w.why,w.pair,w.pitch,w.p]))
-    add("Wine of the Week",w.n+" — "+w.p,w.what,"wine");});
+  [[WOTW.now,"wine"],[WOTW.last,"wine"]].concat((WOTW.past||[]).flatMap(f=>[[f.a,"extra"],[f.b,"extra"]])).forEach(([w,tab])=>{
+    if(w&&matches(["wine of the week",w.n,w.tag,w.what,w.flavor,w.why,w.pair,w.pitch,w.p]))
+      add("Wine of the Week",w.n+" — "+w.p+(w.tag?" ("+w.tag.toLowerCase()+")":""),w.what,tab);});
   MC.forEach(m=>{if(matches([m.q,m.o[0],m.t]))add("Quiz",m.q,"Answer: "+m.o[0],"study");});
   if(typeof LIVE_MUSIC!=="undefined")Object.entries(LIVE_MUSIC).forEach(([d,act])=>{
     if(matches(["live music",d,act]))add("Live music",act,d+" — live in the lounge","sched");});
@@ -1120,6 +1121,9 @@ function build(){
 
   /* ---------- WINE ---------- */
   $("#p-wine").innerHTML=`
+    ${(typeof WOTW!=="undefined"&&WOTW.now)?`<div class="sechead" id="sec-wotw"><h2>Wine of the Week</h2><span>this week's feature — lead with it</span></div>
+    <div class="grid wide">${wotwCard(WOTW.now,WOTW.last?`<br><span style="color:var(--dim)">Last week: <b>${esc(WOTW.last.n)}</b> (${esc(WOTW.last.p)})</span>`:"")}</div>
+    ${wotwContrast(WOTW.contrast)}`:""}
     <div class="sechead" id="sec-bottles"><h2>Every Bottle</h2><span id="wineCount"></span></div>
     <p class="lede">Filter by price and color when a guest gives you a budget. Good / Better / Best is a selling lane, not a judgment of quality.</p>
     <input class="fsearch" id="wineQ" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="search" placeholder="Search wine, region, flavor, or dish...">
@@ -1424,12 +1428,10 @@ function build(){
     <div class="bkcard" onclick="openDeck()"><h3>&#128444;&#65039; The Training Slideshow</h3><p>The same ten days as a deck you swipe through one slide at a time. Tap to start, or jump to a day.</p></div>
     <div class="bkcard" onclick="openTrainer()"><h3>&#9989; The Trainer Program</h3><p>The official trainer manual and four-day certification, as a checklist you tap through on the floor. Timing standards, every utensil and pre-set, the specialty skills, and the final sign-off.</p></div>
 
-    ${acc(WOTW.title,"the feature, both bottles",`
-      <div class="grid wide">${[WOTW.a,WOTW.b].map(w=>`<div class="card hl">
-        <div class="crow"><div><div class="cname">${esc(w.n)}</div><div class="csub">${esc(w.tag)}</div></div><div class="cprice">${esc(w.p)}</div></div>
-        <div class="cbody"><b>What it is:</b> ${esc(w.what)}<br><b>Flavor:</b> ${esc(w.flavor)}<br><b>Structure:</b> ${esc(w.structure)}<br><b>Why the price:</b> ${esc(w.why)}<br><b>Pair with:</b> ${esc(w.pair)}</div>
-        <div class="pitch">&ldquo;${esc(w.pitch)}&rdquo;</div></div>`).join("")}</div>
-      <div style="margin-top:12px">${tbl(["Guest wants","Recommend","Why"],WOTW.contrast.map(c=>[esc(c[0]),`<b>${esc(c[1])}</b>`,`<span style="color:var(--dim)">${esc(c[2])}</span>`]))}</div>`)}
+    ${acc("Wine of the Week — past features","what we featured before — still worth knowing",`
+      ${WOTW.last?`<p class="sub" style="margin:6px 0"><b>Last week</b></p><div class="grid wide">${wotwCard(WOTW.last)}</div>`:""}
+      ${(WOTW.past||[]).map(f=>`<p class="sub" style="margin:14px 0 6px"><b>${esc(f.title)}</b></p>
+        <div class="grid wide">${[f.a,f.b].filter(Boolean).map(w=>wotwCard(w)).join("")}</div>${wotwContrast(f.contrast)}`).join("")}`)}
 
     ${acc("Archived cocktails","off the printed list — ask the bar before promising one",
       `<div class="grid wide">${COCKTAILS.filter(c=>c.grp==="verify").map(c=>`<div class="card">
@@ -2630,6 +2632,18 @@ function liveMusicBlock(){
     <div class="note">Nothing left on the current poster. When the next month goes up, send a photo and it lands here.</div>`;
   return `<div class="sechead"><h2>Live music coming up</h2><span>every Friday &amp; Saturday, in the lounge</span></div>
     ${tbl(["When","Who"],rows.map(r=>[`<b>${DOW[r.when.getDay()]} ${esc(r.d)}</b>`,esc(r.act)]))}`;
+}
+/* Wine of the Week card — the Wine tab feature and the Reference archive share it. */
+function wotwCard(w,extra){
+  const rows=[["What it is",w.what],["Flavor",w.flavor],["Structure",w.structure],["Why the price",w.why],["Pair with",w.pair]]
+    .filter(x=>x[1]).map(x=>`<b>${x[0]}:</b> ${esc(x[1])}`).join("<br>");
+  return `<div class="card hl">
+    <div class="crow"><div><div class="cname">${esc(w.n)}</div><div class="csub">${esc(w.tag||"")}</div></div><div class="cprice">${esc(w.p)}</div></div>
+    <div class="cbody">${rows}${extra||""}</div>
+    ${w.pitch?`<div class="pitch">&ldquo;${esc(w.pitch)}&rdquo;</div>`:""}</div>`;
+}
+function wotwContrast(rows){
+  return rows&&rows.length?`<div style="margin-top:12px">${tbl(["Guest wants","Recommend","Why"],rows.map(c=>[esc(c[0]),`<b>${esc(c[1])}</b>`,`<span style="color:var(--dim)">${esc(c[2])}</span>`]))}</div>`:"";
 }
 /* House events — dated, drop off once they pass. */
 function eventsBlock(){

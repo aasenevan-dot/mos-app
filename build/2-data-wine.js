@@ -200,8 +200,31 @@ const PAIRINGS = [
  best:["Opus \"Overture\"","PlumpJack Oakville Estate","Quintessa Napa Valley"]}
 ];
 
+/* WINE OF THE WEEK — one featured bottle a week. `now` leads the Wine tab, `last` is the
+   week before, and `past` keeps the older features in Reference & Archive. Every line is
+   pulled from the bottle list above (no outside tasting notes). */
 const WOTW = {
- title:"Wine of the Week (paused — not running right now) — Power vs Precision",
+ title:"Wine of the Week",
+ now:{n:"Justin \u201cIsosceles\u201d 2021",p:"$180",tag:"THIS WEEK",
+ what:"Paso Robles Bordeaux-style California blend \u2014 warm, bold, and ripe. Structured and dark without being another standard Napa Cab.",
+ flavor:"Black cherry, cassis, plum, dried herbs, vanilla spice.",
+ structure:"Full body, medium-plus tannin, medium acid. A structured Bordeaux-style finish with dark fruit.",
+ why:"Better-tier bottle on our list \u2014 the bold red for the guest who wants something other than Napa.",
+ pair:"Delmonico Ribeye and the bigger steaks \u2014 our list pairs it with NY strip, short rib, and the Delmonico.",
+ pitch:"If you want something bold that isn\u2019t another Napa Cab, Justin Isosceles is our wine of the week \u2014 a Paso Robles Bordeaux-style blend with black cherry, cassis, dried herbs, and vanilla spice, and enough structure to stand up to the Delmonico."},
+ last:{n:"Groth Oakville Estate 2022",p:"$150",tag:"LAST WEEK",
+ what:"Oakville, Napa \u2014 classic Cabernet power.",
+ flavor:"Blackberry, cassis, dark plum, cocoa, cedar, baking spice.",
+ structure:"Full body, high tannin, medium acid. Structured, classic Oakville steak finish.",
+ why:"Better-tier Oakville Cabernet \u2014 the classic steakhouse Napa bottle.",
+ pair:"Ribeye, Australian Wagyu, and the dry-aged cuts \u2014 the tannin is built for marbling.",
+ pitch:"Classic Oakville Cabernet: dark fruit, cocoa, cedar, and tannin for marbling. Power with polish \u2014 Oakville depth that stays smooth and approachable."},
+ contrast:[
+ ["Bold red, but not another Napa Cab","Justin Isosceles","Paso Robles Bordeaux-style blend \u2014 black cherry, dried herbs, vanilla spice."],
+ ["Classic Napa steakhouse Cab","Groth Oakville Estate","Oakville dark fruit, cocoa, cedar, and tannin for marbling."],
+ ["Ribeye or Australian Wagyu","Groth Oakville Estate","High tannin cuts through the fat."]
+ ],
+ past:[{title:"Power vs Precision",
  a:{n:"Caymus Special Selection Cabernet 2019",p:"$525",tag:"POWER",
  what:"Napa Valley Cabernet. The flagship from Caymus and the top expression of the Wagner family style. Only made when vineyard lots meet the winery's highest standards.",
  flavor:"Blackberry, cassis, dark cherry, cocoa, rich Napa fruit. With age it picks up cedar, tobacco, graphite, and baking spice.",
@@ -223,7 +246,7 @@ const WOTW = {
  ["Red wine with seafood or lighter entrees","Gary Farrell","Higher acidity and lighter body work with fish, salmon, mushrooms."],
  ["Power","Caymus Special Selection","Concentration, richness, long finish."],
  ["Precision","Gary Farrell","Balance, aromatics, texture, vineyard expression."]
- ]
+ ]}]
 };
 
 const REGIONS = [

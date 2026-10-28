@@ -733,7 +733,7 @@ footer{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
   .flip .back{display:block}
   details.acc{display:block}
   details.acc>.accbody{display:block}
-  .panel.on::after{content:"Mo's — updated 10/23/2026 — study copy, verify in Toast";display:block;margin-top:16px;padding-top:8px;border-top:1px solid #999;font-size:10px;color:#444}
+  .panel.on::after{content:"Mo's — updated 10/28/2026 — study copy, verify in Toast";display:block;margin-top:16px;padding-top:8px;border-top:1px solid #999;font-size:10px;color:#444}
 }
 .qprog{height:5px;background:var(--bg2);border-radius:99px;overflow:hidden;margin:2px 0 12px}
 .qprog i{display:block;height:100%;background:var(--gold);border-radius:99px;transition:width .25s ease}
@@ -1109,8 +1109,31 @@ const PAIRINGS = [
  best:["Opus \"Overture\"","PlumpJack Oakville Estate","Quintessa Napa Valley"]}
 ];
 
+/* WINE OF THE WEEK — one featured bottle a week. `now` leads the Wine tab, `last` is the
+   week before, and `past` keeps the older features in Reference & Archive. Every line is
+   pulled from the bottle list above (no outside tasting notes). */
 const WOTW = {
- title:"Wine of the Week (paused — not running right now) — Power vs Precision",
+ title:"Wine of the Week",
+ now:{n:"Justin \u201cIsosceles\u201d 2021",p:"$180",tag:"THIS WEEK",
+ what:"Paso Robles Bordeaux-style California blend \u2014 warm, bold, and ripe. Structured and dark without being another standard Napa Cab.",
+ flavor:"Black cherry, cassis, plum, dried herbs, vanilla spice.",
+ structure:"Full body, medium-plus tannin, medium acid. A structured Bordeaux-style finish with dark fruit.",
+ why:"Better-tier bottle on our list \u2014 the bold red for the guest who wants something other than Napa.",
+ pair:"Delmonico Ribeye and the bigger steaks \u2014 our list pairs it with NY strip, short rib, and the Delmonico.",
+ pitch:"If you want something bold that isn\u2019t another Napa Cab, Justin Isosceles is our wine of the week \u2014 a Paso Robles Bordeaux-style blend with black cherry, cassis, dried herbs, and vanilla spice, and enough structure to stand up to the Delmonico."},
+ last:{n:"Groth Oakville Estate 2022",p:"$150",tag:"LAST WEEK",
+ what:"Oakville, Napa \u2014 classic Cabernet power.",
+ flavor:"Blackberry, cassis, dark plum, cocoa, cedar, baking spice.",
+ structure:"Full body, high tannin, medium acid. Structured, classic Oakville steak finish.",
+ why:"Better-tier Oakville Cabernet \u2014 the classic steakhouse Napa bottle.",
+ pair:"Ribeye, Australian Wagyu, and the dry-aged cuts \u2014 the tannin is built for marbling.",
+ pitch:"Classic Oakville Cabernet: dark fruit, cocoa, cedar, and tannin for marbling. Power with polish \u2014 Oakville depth that stays smooth and approachable."},
+ contrast:[
+ ["Bold red, but not another Napa Cab","Justin Isosceles","Paso Robles Bordeaux-style blend \u2014 black cherry, dried herbs, vanilla spice."],
+ ["Classic Napa steakhouse Cab","Groth Oakville Estate","Oakville dark fruit, cocoa, cedar, and tannin for marbling."],
+ ["Ribeye or Australian Wagyu","Groth Oakville Estate","High tannin cuts through the fat."]
+ ],
+ past:[{title:"Power vs Precision",
  a:{n:"Caymus Special Selection Cabernet 2019",p:"$525",tag:"POWER",
  what:"Napa Valley Cabernet. The flagship from Caymus and the top expression of the Wagner family style. Only made when vineyard lots meet the winery's highest standards.",
  flavor:"Blackberry, cassis, dark cherry, cocoa, rich Napa fruit. With age it picks up cedar, tobacco, graphite, and baking spice.",
@@ -1132,7 +1155,7 @@ const WOTW = {
  ["Red wine with seafood or lighter entrees","Gary Farrell","Higher acidity and lighter body work with fish, salmon, mushrooms."],
  ["Power","Caymus Special Selection","Concentration, richness, long finish."],
  ["Precision","Gary Farrell","Balance, aromatics, texture, vineyard expression."]
- ]
+ ]}]
 };
 
 const REGIONS = [
@@ -3048,11 +3071,75 @@ const EVENTS=[
  {d:"10/22", when:"Thu · the Lounge", n:"Chicas, Cheetahs & A Cause",
   w:"An elevated ladies night benefiting Hands of Hope. $10 martinis and appetizer specials — wear your wildest print. Guests choose a tag to sponsor a foster child, then return the tag with donations for a chance to win a gift card. Push the martinis and know the Hands of Hope tie-in. Reservations 317.641.0720."},
  {d:"10/31", when:"Sat · the Lounge", n:"Spooky Soirée",
-  w:"An enchanting evening of mystery, music and Halloween revelry in the lounge — live music (Greg & Steve), a costume contest, and sinfully good drink specials. Reservations 317.641.0720."}
+  w:"An enchanting evening of mystery, music and Halloween revelry in the lounge — live music (Greg & Steve), a costume contest, and sinfully good drink specials. Reservations 317.641.0720."},
+ {d:"11/22", when:"Sun · 8:00 \u2013 whenever · at Alexis\u2019s house", n:"Friendsgiving (staff)",
+  w:"Alexis Lang is hosting a staff Friendsgiving \u2014 food, friends, good vibes. Everyone is invited; bring a dish if you can (not required, but appreciated). The address is in Alexis\u2019s post."}
 ];
 const OFFSITE_NOTE="Fellowship, food, and fun — bringing a church family and the community together over a shared meal. Want to serve one? Email or text Yaris at admin@prime47carmel.com or 317.703.4284.";
 
 const SCHEDULE={
+ week:"Week of 10/28 \u2013 11/3, 2026", year:2026, start:"2026-10-28",
+ days:[["10/28","We"],["10/29","Th"],["10/30","Fr"],["10/31","Sa"],["11/1","Su"],["11/2","Mo"],["11/3","Tu"]],
+ sections:[
+  ["Managers",[
+   ["Mike","1","1","1","3","","","4"],
+   ["CJ","","2","3","1","1","1",""]
+  ]],
+  ["BQTs",[
+   ["Gavin","","","","","","",""]
+  ]],
+  ["Fronts",[
+   ["Alexis","345","2","330","330","","","1 MGR"],
+   ["Chad","OFF","2","330","330","OFF","OFF","OFF"],
+   ["Hunter","OFF","OFF","330","330","OFF","OFF","345"],
+   ["Diana","330 Cocktail","","RO","330 Cocktail","","345 Cocktail","345"],
+   ["MorganB","","330","330","330","3","RO","OFF"],
+   ["Nathan","OFF","OFF","330","330","OFF","345","345"],
+   ["Fabian","OFF","","330","330","3","345",""],
+   ["Alex","345","","330","330","3","OFF","345"]
+  ],["51","61","42","62","5","3","10"]],
+  ["Backs",[
+   ["Lupe","","","","","","",""],
+   ["Morgan W","","330","330","330","3","","OFF"],
+   ["Evan","OFF","OFF","330","330","3","345","OFF"],
+   ["Erin","345","","330","330","OFF","345","OFF"],
+   ["J Fox","345","","330 Expo","330","","","345"],
+   ["D","OFF","OFF","330","RO","3","OFF","OFF"],
+   ["Meagan","OFF","330","RO","330","","","345"],
+   ["Abby","OFF","","330","RO","OFF","OFF","345"],
+   ["Barbie","345","330","330","330","","OFF",""],
+   ["Victoria","","","330","330","","345","345"]
+  ]],
+  ["Bar",[
+   ["Krista","3","2","3","RO","","","3"],
+   ["Christian","","4","5","3","","3",""],
+   ["Jennea","","OFF","","5","3","OFF","5"]
+  ]],
+  ["Cktail",[
+   ["Jenny","345 Front","330 Front","","330 Front","","345 Front",""],
+   ["Taylor","","330","330","","3","OFF","345"]
+  ]],
+  ["Host",[
+   ["Mackenzie","4","","4","5","4","4",""],
+   ["Leila","RO","5","4","4","OFF","","4"]
+  ]],
+  ["Expo",[
+   ["CARTER","","","OFF","5","5","",""],
+   ["Jackson","4","4 Back","4","RO","4","","4"],
+   ["Rodrigo","","4","5","4","","4",""],
+   ["Bryson","","5","","530","","","5"]
+  ]],
+  ["Busser",[
+   ["Dalton","OFF","4","4","430","4","","OFF"],
+   ["Conner","","4","430","4","","4","4"],
+   ["Jackson","4","OFF","5","5","OFF","OFF",""],
+   ["LUCAS","","","","","","",""]
+  ]]
+ ],
+ note:"Transcribed from Michael Pavey\u2019s posted sheet (screenshot). Saturday 10/31 is the Spooky Soir\u00e9e in the lounge. \u201cCocktail\u201d / \u201cFront\u201d / \u201cExpo\u201d / \u201c4 Back\u201d are section tags kept as written; Calista is off this sheet. The Sun\u2013Tue columns (11/1\u201311/3) carry heavy blacked-out boxes \u2014 verify those against the sheet. Jeremiah is off the manager block; LUCAS is on the sheet but blacked out all week.", src:"schedule screenshot 10/28-11/3"
+};
+const SCHEDULE_HISTORY=[
+{
  week:"Week of 10/21 \u2013 10/27, 2026", year:2026, start:"2026-10-21",
  days:[["10/21","We"],["10/22","Th"],["10/23","Fr"],["10/24","Sa"],["10/25","Su"],["10/26","Mo"],["10/27","Tu"]],
  sections:[
@@ -3112,8 +3199,7 @@ const SCHEDULE={
   ]]
  ],
  note:"Transcribed from Michael Pavey\u2019s posted sheet (screenshot). 10/21 is a Luncheon banquet \u2014 early shifts (Mike 11, Alexis & Morgan W 1030am, Christian 11am). Thursday 10/22 is the Chicas, Cheetahs & A Cause ladies night. \u201c330 Expo\u201d / \u201c4 Back\u201d are section tags kept as written; Calista is off this sheet. The Sun\u2013Tue columns (10/25\u201310/27) carry heavy blacked-out boxes and were the hardest to read \u2014 verify those against the sheet. Jeremiah is off the manager block; LUCAS is on the sheet but blacked out all week.", src:"schedule screenshot 10/21-10/27"
-};
-const SCHEDULE_HISTORY=[
+},
 {
  week:"Week of 10/14 \u2013 10/20, 2026", year:2026, start:"2026-10-14",
  days:[["10/14","We"],["10/15","Th"],["10/16","Fr"],["10/17","Sa"],["10/18","Su"],["10/19","Mo"],["10/20","Tu"]],
@@ -7896,8 +7982,9 @@ function search(q){
       if(on)add("Schedule",(full?full[0].toUpperCase()+full.slice(1):"")+" "+d[0]+(isToday?" \u2014 today":""),on.slice(0,150),"sched");
     });
   })();
-  [WOTW.a,WOTW.b].forEach(w=>{if(w&&matches(["wine of the week",w.n,w.tag,w.what,w.flavor,w.why,w.pair,w.pitch,w.p]))
-    add("Wine of the Week",w.n+" — "+w.p,w.what,"wine");});
+  [[WOTW.now,"wine"],[WOTW.last,"wine"]].concat((WOTW.past||[]).flatMap(f=>[[f.a,"extra"],[f.b,"extra"]])).forEach(([w,tab])=>{
+    if(w&&matches(["wine of the week",w.n,w.tag,w.what,w.flavor,w.why,w.pair,w.pitch,w.p]))
+      add("Wine of the Week",w.n+" — "+w.p+(w.tag?" ("+w.tag.toLowerCase()+")":""),w.what,tab);});
   MC.forEach(m=>{if(matches([m.q,m.o[0],m.t]))add("Quiz",m.q,"Answer: "+m.o[0],"study");});
   if(typeof LIVE_MUSIC!=="undefined")Object.entries(LIVE_MUSIC).forEach(([d,act])=>{
     if(matches(["live music",d,act]))add("Live music",act,d+" — live in the lounge","sched");});
@@ -8073,6 +8160,9 @@ function build(){
 
   /* ---------- WINE ---------- */
   $("#p-wine").innerHTML=`
+    ${(typeof WOTW!=="undefined"&&WOTW.now)?`<div class="sechead" id="sec-wotw"><h2>Wine of the Week</h2><span>this week's feature — lead with it</span></div>
+    <div class="grid wide">${wotwCard(WOTW.now,WOTW.last?`<br><span style="color:var(--dim)">Last week: <b>${esc(WOTW.last.n)}</b> (${esc(WOTW.last.p)})</span>`:"")}</div>
+    ${wotwContrast(WOTW.contrast)}`:""}
     <div class="sechead" id="sec-bottles"><h2>Every Bottle</h2><span id="wineCount"></span></div>
     <p class="lede">Filter by price and color when a guest gives you a budget. Good / Better / Best is a selling lane, not a judgment of quality.</p>
     <input class="fsearch" id="wineQ" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="search" placeholder="Search wine, region, flavor, or dish...">
@@ -8377,12 +8467,10 @@ function build(){
     <div class="bkcard" onclick="openDeck()"><h3>&#128444;&#65039; The Training Slideshow</h3><p>The same ten days as a deck you swipe through one slide at a time. Tap to start, or jump to a day.</p></div>
     <div class="bkcard" onclick="openTrainer()"><h3>&#9989; The Trainer Program</h3><p>The official trainer manual and four-day certification, as a checklist you tap through on the floor. Timing standards, every utensil and pre-set, the specialty skills, and the final sign-off.</p></div>
 
-    ${acc(WOTW.title,"the feature, both bottles",`
-      <div class="grid wide">${[WOTW.a,WOTW.b].map(w=>`<div class="card hl">
-        <div class="crow"><div><div class="cname">${esc(w.n)}</div><div class="csub">${esc(w.tag)}</div></div><div class="cprice">${esc(w.p)}</div></div>
-        <div class="cbody"><b>What it is:</b> ${esc(w.what)}<br><b>Flavor:</b> ${esc(w.flavor)}<br><b>Structure:</b> ${esc(w.structure)}<br><b>Why the price:</b> ${esc(w.why)}<br><b>Pair with:</b> ${esc(w.pair)}</div>
-        <div class="pitch">&ldquo;${esc(w.pitch)}&rdquo;</div></div>`).join("")}</div>
-      <div style="margin-top:12px">${tbl(["Guest wants","Recommend","Why"],WOTW.contrast.map(c=>[esc(c[0]),`<b>${esc(c[1])}</b>`,`<span style="color:var(--dim)">${esc(c[2])}</span>`]))}</div>`)}
+    ${acc("Wine of the Week — past features","what we featured before — still worth knowing",`
+      ${WOTW.last?`<p class="sub" style="margin:6px 0"><b>Last week</b></p><div class="grid wide">${wotwCard(WOTW.last)}</div>`:""}
+      ${(WOTW.past||[]).map(f=>`<p class="sub" style="margin:14px 0 6px"><b>${esc(f.title)}</b></p>
+        <div class="grid wide">${[f.a,f.b].filter(Boolean).map(w=>wotwCard(w)).join("")}</div>${wotwContrast(f.contrast)}`).join("")}`)}
 
     ${acc("Archived cocktails","off the printed list — ask the bar before promising one",
       `<div class="grid wide">${COCKTAILS.filter(c=>c.grp==="verify").map(c=>`<div class="card">
@@ -8401,7 +8489,7 @@ function build(){
       <li>The old Kristen Sundae was named for a former owner's wife.</li></ul>`)}
 
     <div class="sechead"><h2>About this app</h2><span>read once</span></div>
-    <div class="note">Mo's Server Command Center — built by Evan (back server) as a training and money tool for the team. It is a STUDY COPY, not official house policy: menus, prices, and rules change, so when a dollar matters, verify in Toast or with a manager. The checkout math is proven against real graded checkouts. Spot something wrong or outdated? Tell Evan — corrections go in same-day. Updated <b>10/23/2026</b>.</div>
+    <div class="note">Mo's Server Command Center — built by Evan (back server) as a training and money tool for the team. It is a STUDY COPY, not official house policy: menus, prices, and rules change, so when a dollar matters, verify in Toast or with a manager. The checkout math is proven against real graded checkouts. Spot something wrong or outdated? Tell Evan — corrections go in same-day. Updated <b>10/28/2026</b>.</div>
     </div>`;
 
   /* ---------- VOCABULARY ---------- */
@@ -9583,6 +9671,18 @@ function liveMusicBlock(){
     <div class="note">Nothing left on the current poster. When the next month goes up, send a photo and it lands here.</div>`;
   return `<div class="sechead"><h2>Live music coming up</h2><span>every Friday &amp; Saturday, in the lounge</span></div>
     ${tbl(["When","Who"],rows.map(r=>[`<b>${DOW[r.when.getDay()]} ${esc(r.d)}</b>`,esc(r.act)]))}`;
+}
+/* Wine of the Week card — the Wine tab feature and the Reference archive share it. */
+function wotwCard(w,extra){
+  const rows=[["What it is",w.what],["Flavor",w.flavor],["Structure",w.structure],["Why the price",w.why],["Pair with",w.pair]]
+    .filter(x=>x[1]).map(x=>`<b>${x[0]}:</b> ${esc(x[1])}`).join("<br>");
+  return `<div class="card hl">
+    <div class="crow"><div><div class="cname">${esc(w.n)}</div><div class="csub">${esc(w.tag||"")}</div></div><div class="cprice">${esc(w.p)}</div></div>
+    <div class="cbody">${rows}${extra||""}</div>
+    ${w.pitch?`<div class="pitch">&ldquo;${esc(w.pitch)}&rdquo;</div>`:""}</div>`;
+}
+function wotwContrast(rows){
+  return rows&&rows.length?`<div style="margin-top:12px">${tbl(["Guest wants","Recommend","Why"],rows.map(c=>[esc(c[0]),`<b>${esc(c[1])}</b>`,`<span style="color:var(--dim)">${esc(c[2])}</span>`]))}</div>`:"";
 }
 /* House events — dated, drop off once they pass. */
 function eventsBlock(){

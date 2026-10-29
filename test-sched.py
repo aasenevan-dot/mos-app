@@ -167,7 +167,8 @@ async def main():
         if await pg.evaluate("HOUSE.points.length")!=16: bad.append("Points count changed - quiz Q wrong")
         if await pg.evaluate("HOUSE.isaacs.length")!=11: bad.append("Isaac count changed - quiz Q wrong")
         nch=await pg.evaluate("[document.querySelectorAll('#quizTopics button').length,document.querySelectorAll('#quizLens button').length]")
-        if nch!=[10,3]: bad.append(f"chip rows wrong: {nch}")
+        # 15 lanes since the Floor IQ rebuild (10/29): Everything + 14 topics
+        if nch!=[15,3]: bad.append(f"chip rows wrong: {nch}")
         ok=await pg.evaluate("(function(){QTOPIC='money';document.querySelector('#quizStart').click();return quiz.order.every(i=>QBANK[i].t==='money')&&quiz.order.length===10;})()")
         if not ok: bad.append("money-lane quiz wrong (leak or length)")
         ok=await pg.evaluate("(function(){QTOPIC='all';QLEN=0;document.querySelector('#quizStart').click();const n=quiz.order.length;QLEN=10;return n===QBANK.length&&n>=145;})()")
@@ -535,7 +536,7 @@ async def main():
         if await pg.evaluate("/VERIFY/i.test(JSON.stringify(SPECIALS_ROTATION))"):
             bad.append("a salmon special still carries a VERIFY flag")
         # the three prices the 8/10 note corrected — pinned so a sync cannot walk them back
-        for cut, price in [("48 oz USDA Choice Porterhouse","$170"),
+        for cut, price in [("48 oz USDA Choice Porterhouse","$180"),   # 10/29 Evan: porterhouse is $180
                            ("Australian Wagyu","$140"),
                            ("45-Day 22 oz Dry-Aged Bone-In Ribeye","$110")]:
             if not await pg.evaluate(f"SPECIALS_ON.some(s=>s[0]==={cut!r}&&s[1].indexOf({price!r})===0)"):

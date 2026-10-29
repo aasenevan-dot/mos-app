@@ -151,7 +151,6 @@
  "Only the A5 can go butter-free": "Solo el A5 puede ir sin mantequilla",
  "Butter only touches steaks at the table, so nothing changes": "La mantequilla solo toca el steak en la mesa, así que nada cambia",
  "How does the 48 oz Porterhouse break down?": "¿Cómo se divide el Porterhouse de 48 oz?",
- "USDA Choice: about a 22 oz NY strip + a 12 oz filet + a 10 oz bone, $170 — built for two to split": "USDA Choice: aproximadamente un NY strip de 22 oz + un filete de 12 oz + un hueso de 10 oz, $170 — pensado para compartir entre dos",
  "A 26 oz NY strip + a 14 oz filet + a 12 oz bone": "Un NY strip de 26 oz + un filete de 14 oz + un hueso de 12 oz",
  "An 18 oz NY strip + a 10 oz filet + a 14 oz bone": "Un NY strip de 18 oz + un filete de 10 oz + un hueso de 14 oz",
  "A 24 oz NY strip + an 8 oz filet + a 14 oz bone": "Un NY strip de 24 oz + un filete de 8 oz + un hueso de 14 oz",
@@ -770,5 +769,6 @@
  "steak": "carne",
  "wine": "vino",
  "Apps 7-12; soups/salads 2-5; entrees 22 target/25 max; desserts within 7": "Entradas 7-12; sopas/ensaladas 2-5; platos fuertes 22 objetivo/25 máx; postres antes de 7",
- "Soups and salads 2 to 5 minutes. Entrees about 22 minutes, 25 minutes maximum. Appetizers 7 to 12 minutes, towers excepted. Desserts within 7 minutes.": "Sopas y ensaladas de 2 a 5 minutos. Platos fuertes unos 22 minutos, 25 minutos máximo. Entradas de 7 a 12 minutos, salvo las torres. Postres antes de 7 minutos."
+ "Soups and salads 2 to 5 minutes. Entrees about 22 minutes, 25 minutes maximum. Appetizers 7 to 12 minutes, towers excepted. Desserts within 7 minutes.": "Sopas y ensaladas de 2 a 5 minutos. Platos fuertes unos 22 minutos, 25 minutos máximo. Entradas de 7 a 12 minutos, salvo las torres. Postres antes de 7 minutos.",
+ "USDA Choice: about a 22 oz NY strip + a 12 oz filet + a 10 oz bone, $180 — built for two to split": "USDA Choice: aproximadamente un NY strip de 22 oz + un filete de 12 oz + un hueso de 10 oz, $180 — pensado para compartir entre dos"
 }

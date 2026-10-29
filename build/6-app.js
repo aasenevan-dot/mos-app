@@ -268,8 +268,8 @@ function renderAllergens(){
     : `<div class="note">Tap an allergen below and the list cuts to only the dishes that HAVE it. ${ALLERGENS.length} dishes in the matrix.</div>`;
 }
 
-/* ---------- QUIZ ---------- */
-let quiz={i:0,score:0,answered:0,order:[],opts:[],missed:[],topics:{}};
+/* ---------- QUIZ — "Floor IQ" ---------- */
+let quiz={i:0,score:0,answered:0,order:[],opts:[],missed:[],topics:{},combo:0,best:0,xp:0};
 var QBANK=null, QTOPIC="all", QLEN=10, QMODE="";
 var QTIME=null;
 function clearQTimer(){if(QTIME){clearInterval(QTIME.iv);QTIME=null;}}
@@ -287,57 +287,113 @@ function shuffled(arr){
   for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}
   return a;
 }
-function startQuiz(subset,bank,review){
-  clearQTimer(); if(!review)QMODE=bank?QMODE:""; if(QMODE==="blitz"&&review)QMODE="game";
+/* Memory per phone. Leitner boxes: a right answer moves a question up a box and pushes it
+   further out (0/1/3/7/14/30 days); a miss drops it to box 0 so it comes straight back.
+   Keyed by a hash of the question text, so reordering or adding questions never scrambles it.
+   localStorage only — nothing leaves the phone. */
+const IQ_KEY="mos-floor-iq-v1", IQ_GAP=[0,1,3,7,14,30];
+function iqLoad(){try{const s=JSON.parse(localStorage.getItem(IQ_KEY));return s&&typeof s==="object"?s:{};}catch(e){return {};}}
+function iqSave(s){try{localStorage.setItem(IQ_KEY,JSON.stringify(s));}catch(e){}}
+function iqDay(d){d=d||new Date();return Math.floor((d.getTime()-d.getTimezoneOffset()*60000)/864e5);}
+function qid(m){let h=0;const s=String(m.q);for(let i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))|0;return (h>>>0).toString(36);}
+function iqRecord(m,ok){const s=iqLoad(),id=qid(m),d=iqDay();
+  s.box=s.box||{};s.due=s.due||{};s.seen=s.seen||{};
+  const b=ok?Math.min(5,(s.box[id]||0)+1):0; s.box[id]=b; s.due[id]=d+(ok?IQ_GAP[b]:0); s.seen[id]=d; iqSave(s);}
+function iqAddXP(xp){const s=iqLoad(),d=iqDay();s.days=s.days||{};s.days[d]=(s.days[d]||0)+xp;iqSave(s);}
+function iqStats(){const s=iqLoad(),d=iqDay(),box=s.box||{},due=s.due||{},days=s.days||{};
+  let streak=0;for(let k=(days[d]?d:d-1);days[k];k--)streak++;
+  const ids=MC.map(qid);
+  return {streak,today:days[d]||0,mastered:ids.filter(id=>(box[id]||0)>=3).length,
+    due:ids.filter(id=>id in due&&due[id]<=d&&(box[id]||0)<3).length};}
+/* Smart Mix: what you missed and is due comes first, then questions you have never seen
+   (weighted by floor value), then due reviews. Anything you already saw today almost never
+   repeats — that was the "same questions again" problem with the old plain shuffle. */
+function smartPick(src,n){
+  const s=iqLoad(),d=iqDay(),box=s.box||{},due=s.due||{},seen=s.seen||{};
+  const pool=src.map(i=>{const m=MC[i],id=qid(m),u=m.use||3;let k;
+    if(id in due&&due[id]<=d&&(box[id]||0)<2&&seen[id]!==d)k=8*u;
+    else if(!(id in seen))k=u*u;
+    else if(seen[id]===d)k=0.04;
+    else if(due[id]<=d)k=2.5*u;
+    else k=0.3*u;
+    return {i,k};});
+  const out=[];
+  while(out.length<n&&pool.length){
+    const tot=pool.reduce((a,x)=>a+x.k,0);let r=Math.random()*tot,j=0;
+    for(;j<pool.length-1;j++){r-=pool[j].k;if(r<=0)break;}
+    out.push(pool[j].i);pool.splice(j,1);}
+  return out;}
+const TOPIC_LABEL={seasonal:"Fall cocktails",filet:"Filet",ribeye:"Ribeye & big cuts",temps:"Temps & toppings",allergen:"Allergens",cocktail:"Signatures",wine:"Wine",food:"Food",sides:"Sides",dessert:"Desserts",spirits:"Spirits & beer",service:"Service",money:"Money",house:"The House",vocab:"Vocab",garnish:"Garnish",price:"Price"};
+function startQuiz(subset,bank,review,picked){
+  clearQTimer(); if(!review&&!picked)QMODE=bank?QMODE:""; if(QMODE==="blitz"&&review)QMODE="game";
   QBANK=bank||MC;
   let src = subset && subset.length ? subset : QBANK.map((_,i)=>i);
-  src=shuffled(src);
-  if(!bank&&!review&&QLEN>0&&src.length>QLEN)src=src.slice(0,QLEN);
+  if(!picked){
+    src=shuffled(src);
+    if(!bank&&!review&&QLEN>0&&src.length>QLEN)src=smartPick(src,QLEN);
+  }
   quiz.order=src;
   quiz.opts=quiz.order.map(i=>shuffled(QBANK[i].o.map((txt,k)=>({txt,ok:k===0}))));
-  quiz.i=0;quiz.score=0;quiz.answered=0;quiz.missed=[];quiz.topics={};
+  quiz.i=0;quiz.score=0;quiz.answered=0;quiz.missed=[];quiz.topics={};quiz.combo=0;quiz.best=0;quiz.xp=0;
   renderQuiz();
 }
 function renderQuiz(){
   const box=$("#quizBox");
   if(quiz.i>=quiz.order.length){
     clearQTimer();
+    if(quiz.xp){iqAddXP(quiz.xp);quiz.xpBanked=quiz.xp;}
     const denom=QMODE==="blitz"?Math.max(quiz.answered,1):quiz.order.length;
     const pct=denom?Math.round(quiz.score/denom*100):0;
     const grade=pct===100?"Perfect run — floor royalty":pct>=90?"Floor ready":pct>=75?"Close — run the review round":pct>=50?"Getting there":"Rookie numbers — run it again";
-    const topics=Object.entries(quiz.topics).map(([t,v])=>`<span class="tag${v.ok===v.n?" good":v.ok/v.n<.7?" warn":""}" style="font-size:12px;padding:4px 9px">${t}: ${v.ok}/${v.n}</span>`).join(" ");
-    box.innerHTML=`<div class="q" style="text-align:center;padding:28px">
-      <div style="font-size:40px;font-weight:800;color:${pct>=90?"var(--green2)":pct>=70?"var(--gold2)":"#A33C35"}">${pct}%</div>
-      <div style="margin:2px 0 4px;font-weight:700;color:var(--gold)">${grade}</div>
-      <div style="margin:0 0 12px;color:var(--dim)">${quiz.score} of ${QMODE==="blitz"?quiz.answered+" answered in the minute":quiz.order.length+" correct"}${QMODE==="daily"?" · Today's 10 — same ten for everyone, compare at pre-shift":""}</div>
-      <div class="tags" style="justify-content:center;margin-bottom:16px">${topics}</div>
-      <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+    const topics=Object.entries(quiz.topics).map(([t,v])=>`<span class="iqchip${v.ok===v.n?" good":v.ok/v.n<.7?" warn":""}">${esc(TOPIC_LABEL[t]||t)} ${v.ok}/${v.n}</span>`).join(" ");
+    const st=iqStats();
+    box.innerHTML=`<div class="q iqend">
+      <div class="iqbig ${pct>=90?"hi":pct>=70?"mid":"lo"}">${pct}%</div>
+      <div class="iqgrade">${grade}</div>
+      <div class="iqline">${quiz.score} of ${QMODE==="blitz"?quiz.answered+" answered in the minute":quiz.order.length+" correct"}${QMODE==="daily"?" · Today's 10 — same ten for everyone, compare at pre-shift":""}</div>
+      <div class="iqstats"><div><b>+${quiz.xp}</b><span>XP</span></div><div><b>${quiz.best}</b><span>best streak</span></div><div><b>${st.streak}</b><span>day streak</span></div></div>
+      <div class="iqchips">${topics}</div>
+      <div class="iqbtns">
         <button class="btn" onclick="startQuiz()">New quiz</button>
         ${quiz.missed.length?`<button class="btn sec" onclick="startQuiz(quiz.missed.slice(),QBANK===MC?null:QBANK,true)">Review the ${quiz.missed.length} missed</button>`:""}
       </div></div>`;
     $("#quizScore").innerHTML=`<b>${pct}%</b> final`;
+    iqHero();
     return;
   }
   const qi=quiz.order[quiz.i], m=QBANK[qi], opts=quiz.opts[quiz.i];
-  $("#quizScore").innerHTML=`<b>${quiz.score}</b> / ${quiz.answered}  ·  question ${quiz.i+1} of ${quiz.order.length}`;
-  box.innerHTML=`<div class="q">
+  const head=()=>`<b>${quiz.score}</b> / ${quiz.answered}  ·  question ${quiz.i+1} of ${quiz.order.length}`;
+  $("#quizScore").innerHTML=head();
+  box.innerHTML=`<div class="q iqcard">
     <div class="qprog"><i style="width:${Math.round(quiz.i/quiz.order.length*100)}%"></i></div>
-    <div class="qq"><span>${quiz.i+1}.</span>${esc(m.q)} <span class="tag" style="margin-left:6px">${m.t}</span></div>
+    <div class="iqtop"><span class="iqtag">${esc(TOPIC_LABEL[m.t]||m.t)}</span>${quiz.combo>=2?`<span class="iqfire">\u{1F525} ${quiz.combo}</span>`:""}<span class="iqxp">${quiz.xp} XP</span></div>
+    <div class="qq"><span>${quiz.i+1}.</span>${esc(m.q)}</div>
     ${opts.map((o,k)=>`<button class="opt" data-k="${k}">${esc(o.txt)}</button>`).join("")}
     <div id="qfb"></div></div>`;
   box.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{
     const k=+b.dataset.k, ok=opts[k].ok;
-    quiz.answered++; if(ok)quiz.score++; else quiz.missed.push(qi);
+    quiz.answered++;
+    if(ok){quiz.score++;quiz.combo++;quiz.best=Math.max(quiz.best,quiz.combo);quiz.xp+=10*Math.min(3,1+Math.floor(quiz.combo/3));}
+    else{quiz.missed.push(qi);quiz.combo=0;}
+    if(QBANK===MC)iqRecord(m,ok);
     (quiz.topics[m.t]=quiz.topics[m.t]||{ok:0,n:0}).n++; if(ok)quiz.topics[m.t].ok++;
     box.querySelectorAll(".opt").forEach((x,j)=>{x.disabled=true;if(opts[j].ok)x.classList.add("right");});
     if(!ok)b.classList.add("wrong");
-    $("#qfb").innerHTML=`<div style="margin-top:11px;display:flex;gap:10px;align-items:center;flex-wrap:wrap">
-      <span style="color:${ok?'var(--green2)':'var(--red)'};font-weight:650;font-size:13.5px">${ok?'Correct':'Not quite'}</span>
-      <button class="btn sec" id="qnext">${quiz.i+1>=quiz.order.length?"Finish":"Next question"}</button></div>`;
+    const mult=Math.min(3,1+Math.floor(quiz.combo/3));
+    const pop=ok&&quiz.combo>=3&&quiz.combo%3===0?`<span class="iqpop">\u{1F525} ${quiz.combo} in a row · ×${mult} XP</span>`:"";
+    $("#qfb").innerHTML=`<div class="iqfb ${ok?"ok":"no"}">
+      <div class="iqfbrow"><span class="iqword">${ok?'Correct':'Not quite'}</span>${pop}</div>
+      ${m.why&&QMODE!=="blitz"?`<div class="iqwhy">${esc(m.why)}</div>`:""}
+      <button class="btn" id="qnext">${quiz.i+1>=quiz.order.length?"Finish":"Next question"}</button></div>`;
     $("#qnext").onclick=()=>{quiz.i++;renderQuiz();};
-    $("#quizScore").innerHTML=`<b>${quiz.score}</b> / ${quiz.answered}  ·  question ${quiz.i+1} of ${quiz.order.length}`;
+    $("#quizScore").innerHTML=head();
+    /* the 60-second rounds move on by themselves — tapping Next would eat the clock */
+    if(QMODE==="blitz")setTimeout(()=>{if(QTIME&&quiz.order[quiz.i]===qi){quiz.i++;renderQuiz();}},ok?450:1300);
   });
 }
+/* the strip at the top of the tab — day streak, XP today, mastered, due */
+function iqHero(){const el=$("#iqHero");if(!el)return;const s=iqStats();
+  el.innerHTML=`<div><b>\u{1F525} ${s.streak}</b><span>day streak</span></div><div><b>${s.today}</b><span>XP today</span></div><div><b>${s.mastered}</b><span>mastered</span></div><div><b>${s.due}</b><span>due for review</span></div>`;}
 
 /* ---------- QUIZ GAMES — generated fresh from live app data every run ---------- */
 function vocabQuiz(){
@@ -348,11 +404,40 @@ function vocabQuiz(){
   });
   QMODE="game"; startQuiz(qs.map((_,i)=>i),qs);
 }
+/* Today's 10 — the SAME ten on every phone all day (seeded by the date, never by your own
+   history), built to hit what matters most: the fall cocktails, the steaks, allergens, temps,
+   and the current Wine of the Week, all from the highest floor-value questions. */
 function todaysTen(){
   const t=new Date(), seed=t.getFullYear()*10000+(t.getMonth()+1)*100+t.getDate();
+  const r=mulberry(seed), shuf=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
+  const idx=f=>MC.map((m,i)=>f(m)?i:-1).filter(i=>i>=0);
+  const hi=m=>(m.use||3)>=4;
+  const wotw=(typeof WOTW!=="undefined"&&WOTW.now)?String(WOTW.now.n).split(/\s+/)[0].toLowerCase():"";
+  const plan=[[m=>m.t==="seasonal"&&hi(m),3],[m=>(m.t==="filet"||m.t==="ribeye")&&hi(m),2],[m=>m.t==="allergen"&&hi(m),2],
+    [m=>m.t==="wine"&&!!wotw&&(m.q+" "+m.o[0]).toLowerCase().includes(wotw),1],[m=>m.t==="temps"&&hi(m),1]];
+  const pick=[];
+  plan.forEach(([f,n])=>{shuf(idx(f)).filter(i=>!pick.includes(i)).slice(0,n).forEach(i=>pick.push(i));});
+  shuf(idx(hi)).forEach(i=>{if(pick.length<10&&!pick.includes(i))pick.push(i);});
   QMODE="daily";
-  startQuiz(seededPick(MC.length,10,seed),MC);
+  startQuiz(shuf(pick).slice(0,10),MC,true,true);
   QMODE="daily";
+}
+/* Lanes — a smart mix inside one topic group (respects the length chips). */
+function laneQuiz(keys,mode){
+  const sub=MC.map((m,i)=>keys.includes(m.t)?i:-1).filter(i=>i>=0);
+  QMODE=mode||"lane";
+  startQuiz(QLEN>0?smartPick(sub,Math.min(QLEN,sub.length)):shuffled(sub),MC,true,true);
+}
+/* Lightning — 60 seconds across every topic; streaks multiply the XP. */
+function lightning(){
+  QMODE="blitz";
+  startQuiz(smartPick(MC.map((_,i)=>i),40),MC,true,true);
+  QMODE="blitz";
+  QTIME={left:60,iv:setInterval(()=>{
+    if(!QTIME)return; QTIME.left--;
+    if(QTIME.left<=0){clearQTimer();quiz.i=quiz.order.length;renderQuiz();return;}
+    const sc=$("#quizScore"); if(sc&&quiz.i<quiz.order.length)sc.innerHTML=`<b>${quiz.score}</b> / ${quiz.answered} · 0:${String(QTIME.left).padStart(2,"0")} left`;
+  },1000)};
 }
 function garnishMatch(){
   const pool=COCKTAILS.filter(c=>c.grp!=="verify"&&c.garnish&&c.garnish!=="\u2014"&&c.garnish!=="-");
@@ -1317,19 +1402,30 @@ function build(){
     <p class="sub" style="margin:0 0 10px">Straight off the sheet taped up front. Two crossed-out rows are not here, and the asterisk is printed on the original — nobody has told us what it marks.</p>
     ${tbl(["Front","POS #"],FRONT_POS.map(r=>[`<b>${esc(r[0])}</b>`,`<span class="mono">${esc(r[1])}</span>`]))}`;
 
-  /* ---------- STUDY ---------- */
-  const QT=[["all","Everything"],["steak","Steaks"],["food","Food"],["wine","Wine"],["cocktail","Cocktails"],["allergen","Allergens"],["service","Service"],["money","Money"],["house","The House"],["ops","Ops"]];
+  /* ---------- STUDY — "Floor IQ" ---------- */
+  const QT=[["all","Everything"],["seasonal","Fall cocktails"],["filet","Filet"],["ribeye","Ribeye & big cuts"],["temps","Temps & toppings"],["allergen","Allergens"],["cocktail","Signatures"],["wine","Wine"],["food","Food"],["sides","Sides"],["dessert","Desserts"],["spirits","Spirits & beer"],["service","Service"],["money","Money"],["house","The House"]];
   const qtCount=t=>t==="all"?MC.length:MC.filter(m=>m.t===t).length;
-  $("#p-study").innerHTML=`
-    <div class="sechead" id="sec-quiz"><h2>Generate a quiz</h2><span>${MC.length} questions in the bank — fresh shuffle every run</span></div>
-    <p class="lede">Pick a lane or take everything. Question and answer order shuffle every time, so nobody can memorize positions — and missed questions come back as a review round.</p>
+  const lc=keys=>MC.filter(m=>keys.includes(m.t)).length;
+  $("#p-study").innerHTML=`<div class="iqwrap">
+    <div class="iqhead" id="sec-quiz">
+      <div class="iqbrand"><span class="iqlogo">\u{1F9E0}</span><div><h2>Floor IQ</h2><p>${MC.length} questions, all straight from this app · about two minutes a round</p></div></div>
+      <div class="iqhero" id="iqHero"></div>
+    </div>
+    <div class="iqmodes">
+      <button class="iqmode m1" id="quizDaily"><div class="t">⚡ Today's 10</div><div class="s">Same ten for the whole crew today — compare at pre-shift</div></button>
+      <button class="iqmode m2" id="quizStart"><div class="t">\u{1F9E0} Smart Mix</div><div class="s">Your misses come back, new questions first, no repeats today</div></button>
+      <button class="iqmode m3" id="gSeasonal"><div class="t">\u{1F342} Seasonal Sprint</div><div class="s">${lc(["seasonal"])} on the fall cocktails — builds, glass, garnish, the pitch</div></button>
+      <button class="iqmode m4" id="gSteak"><div class="t">\u{1F969} Steak School</div><div class="s">${lc(["filet","ribeye","temps"])} on filets, ribeyes, the big cuts and temps</div></button>
+      <button class="iqmode m5" id="gAllergyQ"><div class="t">\u{1F6A8} Allergy Alarm</div><div class="s">${lc(["allergen"])} on what is really in it and how you ring it in</div></button>
+      <button class="iqmode m6" id="gLightning"><div class="t">⏱️ Lightning</div><div class="s">60 seconds, every topic — streaks multiply your XP</div></button>
+    </div>
+    <div class="iqlabel">Smart Mix lane</div>
     <div class="filters" id="quizTopics">${QT.map(([k,l])=>`<button data-t="${k}"${k==="all"?' class="on"':''}>${l} (${qtCount(k)})</button>`).join("")}</div>
     <div class="filters" id="quizLens"><button data-n="10" class="on">10 questions</button><button data-n="25">25</button><button data-n="0">The whole bank</button></div>
-    <div class="qbar"><button class="btn" id="quizStart">Generate quiz</button><button class="btn sec" id="quizDaily">Today's 10</button><div class="score" id="quizScore">ready when you are</div></div>
-    <p class="sub" style="margin:2px 0 12px;color:var(--dim2);font-size:12px">Today's 10 is the SAME ten questions for everyone all day — compare scores at pre-shift.</p>
-    <div id="quizBox"><div class="empty">Hit generate, take Today's 10, or grab a game below.</div></div>
+    <div class="qbar"><div class="score" id="quizScore">ready when you are</div></div>
+    <div id="quizBox"><div class="empty">Tap Today's 10 or Smart Mix to start — or grab a game below.</div></div>
 
-    <div class="sechead"><h2>Games</h2><span>they build themselves from the live data — always current</span></div>
+    <div class="sechead"><h2>Games</h2><span>they build themselves from the live menu — always current</span></div>
     <div class="qa">
       <button id="gVocab"><div class="t">Vocab quiz</div><div class="s">10 terms — the wrong answers are other real definitions</div></button>
       <button id="gPrice"><div class="t">Price blitz</div><div class="s">10 prices, 60 seconds on the clock</div></button>
@@ -1339,9 +1435,11 @@ function build(){
       <button id="gAllergy"><div class="t">Order the allergy protocol</div><div class="s">The ${PROTOCOL.length} steps, in the only acceptable order</div></button>
     </div>
 
-    <div class="sechead"><h2>The real menu test</h2><span>all 30 questions with the corrected answers</span></div>
+    <div class="sechead"><h2>The real menu test</h2><span>all ${OPEN.length} questions with the corrected answers</span></div>
     <div class="qbar"><button class="btn sec" id="ansToggle">Show all answers</button><div class="score">say each answer out loud before revealing</div></div>
-    <div class="anslist" id="ansList">${OPEN.map((o,i)=>`<div class="q"><div class="qq"><span>${i+1}.</span>${esc(o[0])}</div><div class="ans">${esc(o[1])}</div></div>`).join("")}</div>`;
+    <div class="anslist" id="ansList">${OPEN.map((o,i)=>`<div class="q"><div class="qq"><span>${i+1}.</span>${esc(o[0])}</div><div class="ans">${esc(o[1])}</div></div>`).join("")}</div>
+  </div>`;
+
 
   /* ---------- SALES CALCULATOR ---------- */
   $("#p-house").innerHTML=`
@@ -1578,6 +1676,7 @@ function build(){
   $("#quizStart").onclick=()=>{
     const sub=QTOPIC==="all"?null:MC.map((m,i)=>m.t===QTOPIC?i:-1).filter(i=>i>=0);
     startQuiz(sub&&sub.length?sub:null);
+    document.querySelector("#quizBox").scrollIntoView({behavior:"smooth",block:"start"});
   };
   $("#quizTopics").onclick=e=>{const b=e.target.closest("button");if(!b)return;
     $("#quizTopics").querySelectorAll("button").forEach(x=>x.classList.toggle("on",x===b));
@@ -1585,11 +1684,16 @@ function build(){
   $("#quizLens").onclick=e=>{const b=e.target.closest("button");if(!b)return;
     $("#quizLens").querySelectorAll("button").forEach(x=>x.classList.toggle("on",x===b));
     QLEN=+b.dataset.n;};
-  $("#quizDaily").onclick=todaysTen;
+  $("#quizDaily").onclick=()=>{todaysTen();document.querySelector("#quizBox").scrollIntoView({behavior:"smooth",block:"start"});};
   const toArena=f=>()=>{f();document.querySelector("#quizBox").scrollIntoView({behavior:"smooth",block:"start"});};
   $("#gVocab").onclick=toArena(vocabQuiz); $("#gPrice").onclick=toArena(priceBlitz);
   $("#gGarnish").onclick=toArena(garnishMatch); $("#gBottle").onclick=toArena(nameBottle);
   $("#gOrder").onclick=toArena(()=>orderGame("greet")); $("#gAllergy").onclick=toArena(()=>orderGame("allergy"));
+  $("#gSeasonal").onclick=toArena(()=>laneQuiz(["seasonal"],"seasonal"));
+  $("#gSteak").onclick=toArena(()=>laneQuiz(["filet","ribeye","temps"],"steak"));
+  $("#gAllergyQ").onclick=toArena(()=>laneQuiz(["allergen"],"allergy"));
+  $("#gLightning").onclick=toArena(lightning);
+  iqHero();
   $("#ansToggle").onclick=()=>{
     const on=$("#ansList").classList.toggle("show");
     $("#ansToggle").textContent=on?"Hide all answers":"Show all answers";

@@ -161,6 +161,86 @@ html.dark .azbar{background:rgba(28,20,18,.86);border-color:var(--line2)}
 .cpgrid-ex td{text-align:left}
 .cpgrid-ex td.cpseat{text-align:center}
 .cpex .mono{font-size:13px}
+/* ===== Floor IQ (Study & Quiz) — its own loud, high-energy look, scoped to the tab.
+   It paints its own dark panel, so it reads the same in the app's light and dark modes. ===== */
+#p-study{--iq-bg:#140A26;--iq-card:#1E1338;--iq-card2:#2A1B4C;--iq-ink:#F7F2FF;--iq-dim:#BDB2DE;
+  --iq-pink:#FF3D8B;--iq-lime:#B8FF3B;--iq-cyan:#2EE6FF;--iq-violet:#8B5CF6;--iq-gold:#FFC83D;--iq-line:rgba(255,255,255,.09)}
+#p-study .iqwrap{background:radial-gradient(110% 70% at 0% 0%,#2C1460 0%,transparent 62%),radial-gradient(110% 70% at 100% 0%,#43103F 0%,transparent 58%),var(--iq-bg);
+  color:var(--iq-ink);border-radius:22px;padding:16px 13px 22px}
+#p-study .iqhead{display:flex;flex-direction:column;gap:12px;margin-bottom:14px}
+#p-study .iqbrand{display:flex;align-items:center;gap:11px}
+#p-study .iqlogo{font-size:34px;filter:drop-shadow(0 0 12px rgba(139,92,246,.7))}
+#p-study .iqbrand h2{margin:0;font-size:26px;font-weight:900;letter-spacing:-.02em;
+  background:linear-gradient(90deg,var(--iq-lime),var(--iq-cyan) 45%,var(--iq-pink));-webkit-background-clip:text;background-clip:text;color:transparent}
+#p-study .iqbrand p{margin:2px 0 0;font-size:12.5px;color:var(--iq-dim)}
+#p-study .iqhero{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
+#p-study .iqhero div,#p-study .iqstats div{background:var(--iq-card);border:1px solid var(--iq-line);border-radius:14px;padding:8px 6px;text-align:center}
+#p-study .iqhero b,#p-study .iqstats b{display:block;font-size:17px;font-weight:900;color:var(--iq-ink)}
+#p-study .iqhero span,#p-study .iqstats span{display:block;font-size:10.5px;color:var(--iq-dim);margin-top:1px}
+#p-study .iqmodes{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin-bottom:16px}
+#p-study .iqmode{border:0;border-radius:18px;padding:13px 12px;text-align:left;cursor:pointer;color:#150A2A;
+  box-shadow:0 6px 18px rgba(0,0,0,.35);transition:transform .12s ease,box-shadow .12s ease;min-height:96px}
+#p-study .iqmode:active{transform:scale(.97)}
+#p-study .iqmode:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(0,0,0,.45)}
+#p-study .iqmode .t{font-weight:900;font-size:15.5px;letter-spacing:-.01em}
+#p-study .iqmode .s{font-size:11.5px;margin-top:4px;line-height:1.35;opacity:.86;font-weight:600}
+#p-study .iqmode.m1{background:linear-gradient(135deg,var(--iq-lime),var(--iq-cyan))}
+#p-study .iqmode.m2{background:linear-gradient(135deg,var(--iq-violet),var(--iq-pink));color:#fff}
+#p-study .iqmode.m3{background:linear-gradient(135deg,#FFB13D,#FF5E5E)}
+#p-study .iqmode.m4{background:linear-gradient(135deg,#FF6A3D,#C2185B);color:#fff}
+#p-study .iqmode.m5{background:linear-gradient(135deg,var(--iq-pink),#FF8A3D)}
+#p-study .iqmode.m6{background:linear-gradient(135deg,var(--iq-cyan),var(--iq-violet));color:#fff}
+#p-study .iqlabel{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--iq-dim);margin:4px 2px 6px}
+#p-study .filters button{background:var(--iq-card);border-color:var(--iq-line);color:var(--iq-dim)}
+#p-study .filters button.on{background:linear-gradient(135deg,var(--iq-violet),var(--iq-pink));border-color:transparent;color:#fff}
+#p-study .score{color:var(--iq-dim)} #p-study .score b{color:var(--iq-lime)}
+#p-study .empty{background:var(--iq-card);border:1px dashed var(--iq-line);color:var(--iq-dim);border-radius:16px}
+#p-study .sechead h2{color:var(--iq-ink)} #p-study .sechead span{color:var(--iq-dim)}
+#p-study .q{background:var(--iq-card);border:1px solid var(--iq-line);border-radius:18px;color:var(--iq-ink)}
+#p-study .qq{color:var(--iq-ink);font-size:16px;font-weight:750;line-height:1.35}
+#p-study .qq span{color:var(--iq-cyan)}
+#p-study .qprog{background:rgba(255,255,255,.08)} #p-study .qprog i{background:linear-gradient(90deg,var(--iq-lime),var(--iq-cyan))}
+#p-study .iqtop{display:flex;align-items:center;gap:7px;margin:9px 0 8px}
+#p-study .iqtag{font-size:10.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#150A2A;background:var(--iq-lime);border-radius:999px;padding:3px 9px}
+#p-study .iqfire{font-size:12.5px;font-weight:900;color:var(--iq-gold);animation:iqPulse 1s ease-in-out infinite}
+#p-study .iqxp{margin-left:auto;font-size:12px;font-weight:800;color:var(--iq-cyan)}
+#p-study .opt{background:var(--iq-card2);border:2px solid var(--iq-line);color:var(--iq-ink);border-radius:14px;font-weight:600;transition:transform .1s ease,border-color .1s ease}
+#p-study .opt:hover:not(:disabled){border-color:var(--iq-cyan);background:var(--iq-card2)}
+#p-study .opt:active:not(:disabled){transform:scale(.98)}
+#p-study .opt.right{background:rgba(184,255,59,.26);border-color:var(--iq-lime);color:#F3FFE3;box-shadow:0 0 0 3px rgba(184,255,59,.22),0 0 18px rgba(184,255,59,.25)}
+#p-study .opt.right::after{content:"  \2713";font-weight:900;color:var(--iq-lime)}
+#p-study .opt.wrong{background:rgba(255,61,139,.24);border-color:var(--iq-pink);color:#FFE6F1;box-shadow:0 0 0 3px rgba(255,61,139,.2);animation:iqShake .35s ease}
+#p-study .opt.wrong::after{content:"  \2715";font-weight:900;color:var(--iq-pink)}
+#p-study .opt:disabled:not(.right):not(.wrong){opacity:.55}
+#p-study .iqfb{margin-top:12px;border-radius:14px;padding:11px 12px;background:rgba(255,255,255,.04);border-left:4px solid var(--iq-lime)}
+#p-study .iqfb.no{border-left-color:var(--iq-pink)}
+#p-study .iqfbrow{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+#p-study .iqword{font-size:17px;font-weight:900;color:var(--iq-lime)} #p-study .iqfb.no .iqword{color:var(--iq-pink)}
+#p-study .iqpop{font-size:12px;font-weight:900;color:#150A2A;background:var(--iq-gold);border-radius:999px;padding:3px 9px;animation:iqPop .4s cubic-bezier(.2,1.6,.4,1)}
+#p-study .iqwhy{margin:7px 0 10px;font-size:13.5px;line-height:1.45;color:var(--iq-dim)}
+#p-study .btn{background:linear-gradient(135deg,var(--iq-violet),var(--iq-pink));border:0;color:#fff;font-weight:800}
+#p-study .btn.sec{background:var(--iq-card2);border:1px solid var(--iq-line);color:var(--iq-ink)}
+#p-study .iqend{text-align:center;padding:22px 14px}
+#p-study .iqbig{font-size:58px;font-weight:900;line-height:1;background:linear-gradient(90deg,var(--iq-lime),var(--iq-cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
+#p-study .iqbig.mid{background:linear-gradient(90deg,var(--iq-gold),#FF8A3D);-webkit-background-clip:text;background-clip:text}
+#p-study .iqbig.lo{background:linear-gradient(90deg,var(--iq-pink),#FF8A3D);-webkit-background-clip:text;background-clip:text}
+#p-study .iqgrade{font-weight:900;font-size:16px;margin:6px 0 2px}
+#p-study .iqline{color:var(--iq-dim);font-size:12.5px;margin-bottom:12px}
+#p-study .iqstats{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:0 auto 12px;max-width:360px}
+#p-study .iqchips{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:14px}
+#p-study .iqchip{font-size:11.5px;font-weight:700;border-radius:999px;padding:4px 10px;background:var(--iq-card2);color:var(--iq-dim)}
+#p-study .iqchip.good{background:rgba(184,255,59,.15);color:var(--iq-lime)} #p-study .iqchip.warn{background:rgba(255,61,139,.15);color:var(--iq-pink)}
+#p-study .iqbtns{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+#p-study .qa button{background:var(--iq-card);border-color:var(--iq-line)} #p-study .qa button:hover{border-color:var(--iq-cyan)}
+#p-study .qa .t{color:var(--iq-ink)} #p-study .qa .s{color:var(--iq-dim)}
+#p-study .anslist .q .ans{border-top-color:var(--iq-line);color:var(--iq-dim)}
+#p-study .note{background:var(--iq-card2);color:var(--iq-ink);border-color:var(--iq-line)}
+@keyframes iqShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+@keyframes iqPop{0%{transform:scale(.4);opacity:0}100%{transform:scale(1);opacity:1}}
+@keyframes iqPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
+@media (prefers-reduced-motion:reduce){#p-study *{animation:none!important;transition:none!important}}
+@media (min-width:720px){#p-study .iqmodes{grid-template-columns:repeat(3,1fr)}#p-study .iqhead{flex-direction:row;align-items:center;justify-content:space-between}#p-study .iqhero{min-width:380px}}
+
 .pitch{
   margin-top:10px;padding:9px 12px;border-left:2px solid var(--gold);
   background:rgba(89,31,28,.055);font-size:13.4px;color:#4A2723;

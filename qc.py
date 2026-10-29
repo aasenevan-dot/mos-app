@@ -130,7 +130,7 @@ _AGREE = [
     #   Porterhouse break down?",o:["USDA Choice: ... a 10 oz bone, $150
     # so the run between the name and the price contains quotes and brackets, and a class
     # that excluded them matched nothing while looking like it worked.
-    ("48 oz Porterhouse price", r"Porterhouse.{0,160}?\$(1\d\d)", "170",
+    ("48 oz Porterhouse price", r"Porterhouse.{0,160}?\$(1\d\d)", "180",   # 10/29 Evan: porterhouse is $180
      {"4-data-food.js"}),          # food.js also carries the archive note about the old $180 name
     # food.js is exempt on both: it is the file that carries the history -- the retired
     # "Australian Wagyu Tuesday" $180 package, and the old "Australian Wagyu Porterhouse at $180"

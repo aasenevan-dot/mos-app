@@ -67,8 +67,28 @@ const EVENTS=[
   w:"An elevated ladies night benefiting Hands of Hope. $10 martinis and appetizer specials — wear your wildest print. Guests choose a tag to sponsor a foster child, then return the tag with donations for a chance to win a gift card. Push the martinis and know the Hands of Hope tie-in. Reservations 317.641.0720."},
  {d:"10/31", when:"Sat · the Lounge", n:"Spooky Soirée",
   w:"An enchanting evening of mystery, music and Halloween revelry in the lounge — live music (Greg & Steve), a costume contest, and sinfully good drink specials. Reservations 317.641.0720."},
+ {d:"10/29", when:"Thu · the Lounge", n:"Ghouls Night",
+  w:"Ladies night with a spooky twist \u2014 $10 martinis and wine plus appetizer specials in the lounge. Reservations recommended."},
+ {d:"11/19", when:"Thu · 6:30 pm · $150 per person", n:"Dine in Red \u2014 Bourbon Dinner",
+  w:"Five courses paired with Buffalo Trace, Blanton\u2019s, Four Roses and more \u2014 an evening supporting women\u2019s heart health. Proceeds benefit the Franciscan Health Cardiac Service Line Fund and the American Heart Association\u2019s Go Red for Women. RSVP Lillian@mosgreenwood.com."},
+ {d:"11/26", when:"Thu · 3\u20138 pm · reservations required", n:"Thanksgiving Dinner",
+  w:"Thanksgiving dinner at Mo\u2019s, 3 to 8 pm. Reservations are required \u2014 send guests to 317.641.0720."},
+ {d:"12/13", when:"Sun · 10 am\u20132 pm · $59.95 adults · $22 kids 12 & under", n:"Breakfast with Santa",
+  w:"Our annual Breakfast with Santa \u2014 self-serve food stations. Reservations 317.641.0720. (The menu card says $22 for kids 12 and under; the flyer said $25 under 10 \u2014 confirm with a manager before quoting.)",
+  menu:[["Stations","Omelet station \u00b7 Prime rib",""],["Breakfast","Eggs Benedict \u00b7 French toast \u00b7 Scrambled eggs \u00b7 Biscuits & gravy","Bacon, sausage, honey ham, smoked salmon"],
+   ["Lunch side","Salmon piccata \u00b7 Chicken teriyaki","American potatoes, green beans, mashed potatoes, mac n cheese"],
+   ["Cold","Shrimp cocktail \u00b7 Cheese & charcuterie","Mixed green salad, caprese, fresh fruit"],["Sweet","Mini desserts \u00b7 Pastries & mini muffins",""]]},
+ {d:"12/24", when:"Thu · 3\u20138 pm", n:"Christmas Eve Dinner",
+  w:"Our annual Christmas Eve dinner, three until eight. Reservations 317.641.0720."},
  {d:"11/22", when:"Sun · 8:00 \u2013 whenever · at Alexis\u2019s house", n:"Friendsgiving (staff)",
   w:"Alexis Lang is hosting a staff Friendsgiving \u2014 food, friends, good vibes. Everyone is invited; bring a dish if you can (not required, but appreciated). The address is in Alexis\u2019s post."}
+];
+/* Weekly features \u2014 recurring, so they live here instead of EVENTS (which drop off once dated). */
+const WEEKLY=[
+ ["Tue","Tomahawk Tuesday","32 oz wagyu tomahawk dinner for two \u2014 two soups or salads, a side to share, Brown Butter Cake \u2014 $150. (Other nights: $150 on its own.)"],
+ ["Thu","Ladies Night","$10 martinis & wine, appetizer specials, in the lounge"],
+ ["Fri & Sat","Live music","in the lounge"],
+ ["Sun","Spinalis Sunday","the ribeye cap at $10 an ounce (min 6 oz)"]
 ];
 const OFFSITE_NOTE="Fellowship, food, and fun — bringing a church family and the community together over a shared meal. Want to serve one? Email or text Yaris at admin@prime47carmel.com or 317.703.4284.";
 

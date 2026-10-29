@@ -537,7 +537,7 @@ async def main():
             bad.append("a salmon special still carries a VERIFY flag")
         # the three prices the 8/10 note corrected — pinned so a sync cannot walk them back
         for cut, price in [("48 oz USDA Choice Porterhouse","$180"),   # 10/29 Evan: porterhouse is $180
-                           ("Australian Wagyu","$140"),
+                           ("Australian Wagyu","$150"),   # 10/29 Evan: tomahawk $150
                            ("45-Day 22 oz Dry-Aged Bone-In Ribeye","$110")]:
             if not await pg.evaluate(f"SPECIALS_ON.some(s=>s[0]==={cut!r}&&s[1].indexOf({price!r})===0)"):
                 bad.append(f"{cut} is not {price} (8/10 note)")
@@ -923,12 +923,12 @@ async def main():
         # the search changes that made that work must not have moved anything else
         for q,expect in [("mise en place","Vocabulary"),("old fashioned","Cocktail"),
                          ("carajillo","Cocktail"),("jury duty","Handbook"),("caymus","Wine"),
-                         ("tomahawk","Allergens"),("table 23","Floor plan")]:
+                         ("tomahawk","Ongoing special"),("table 23","Floor plan")]:
             r=await pg.evaluate("q=>search(q).map(h=>h.w+' | '+h.t).slice(0,1)", q)
             if not r or not r[0].startswith(expect):
                 bad.append(f"search moved: {q!r} -> {r[0] if r else '(none)'}, wanted {expect}")
         # word-boundary ranking: a partial-substring must not beat the real word match
-        for q,want in [("86","Vocabulary"),("evan","Front POS"),("tomahwak","Allergens"),
+        for q,want in [("86","Vocabulary"),("evan","Front POS"),("tomahwak","Ongoing special"),
                        ("wine of the week","Wine of the Week"),("evan schedule","Schedule")]:
             r=await pg.evaluate("q=>search(q).map(h=>h.w).slice(0,1)", q)
             if not r or not r[0].startswith(want):

@@ -2849,6 +2849,8 @@ function fillSched(){
   p.innerHTML=`${roster}
     <div class="sechead"><h2>${esc(SCHEDULE.week)}</h2><span>exactly as posted</span></div>
     ${schedGrid(SCHEDULE,idx,true)}
+    ${(typeof WEEKLY!=="undefined")?`<div class="sechead"><h2>Every week</h2><span>the standing features</span></div>
+    ${tbl(["When","What"],WEEKLY.map(w=>[`<b>${esc(w[0])}</b>`,`<b>${esc(w[1])}</b><br><span style="color:var(--dim)">${esc(w[2])}</span>`]))}`:""}
     ${eventsBlock()}
     ${liveMusicBlock()}
     ${offsiteBlock()}

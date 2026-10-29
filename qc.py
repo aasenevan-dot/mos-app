@@ -135,7 +135,7 @@ _AGREE = [
     # food.js is exempt on both: it is the file that carries the history -- the retired
     # "Australian Wagyu Tuesday" $180 package, and the old "Australian Wagyu Porterhouse at $180"
     # name. Those are deliberate archive entries, not stale copies.
-    ("Australian Wagyu price", r"Australian Wagyu(?! Filet).{0,160}?\$(1\d\d)", "140",
+    ("Australian Wagyu price", r"Australian Wagyu(?! Filet).{0,160}?\$(1\d\d)", "150",   # 10/29 Evan: tomahawk $150
      {"4-data-food.js"}),
 ]
 for label, rx, want, skip in _AGREE:

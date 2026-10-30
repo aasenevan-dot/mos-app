@@ -962,12 +962,17 @@ function search(q){
       if(matches([label,r[0],r[1]]))add(label,r[0],r[1],"house");}));
   Object.entries({isaacs:"Non-negotiables",back:"Back server steps",front:"Front server steps",
                   expo:"Expo side work",backclose:"Back-of-house close",closesheet:"Close sheet",
-                  barsteps:"Bar steps"})
+                  signout:"Server sign-out",cleaning:"Weekly cleaning log",recook:"Steak recook ticket",
+                  emphasis:"Pre-shift",barsteps:"Bar steps"})
     .forEach(([k,label])=>{
       const v=HOUSE[k]; if(!v)return;
       const flat=(Array.isArray(v)?v:Object.values(v)).flat(Infinity);
       flat.forEach(t=>{if(typeof t==="string"&&matches([label,t]))add(label,label,t,"house");});
     });
+  if(HOUSE.signoutRule&&matches(["Server sign-out","sign out","clock out",HOUSE.signoutRule]))
+    add("Server sign-out","Who can leave",HOUSE.signoutRule,"house");
+  if(typeof BANQUET_MENU!=="undefined")BANQUET_MENU.courses.forEach(([c,items])=>items.forEach(([n,w])=>{
+    if(matches(["banquet","banquet menu",c,n,w]))add("Banquet menu",c+": "+n,w||BANQUET_MENU.rules.join(" "),"menu");}));
   /* mise en place is [title, subtitle, [lines]] — search the lines, show the group */
   (HOUSE.mise||[]).forEach(([t,s,rows])=>rows.forEach(d=>{
     const plain=String(d).replace(/<[^>]+>/g,"");
@@ -1370,6 +1375,11 @@ function build(){
       ${r.note?`<div class="note" style="margin-top:10px">${esc(r.note)}</div>`:""}
       ${r.tip?`<div class="note gold" style="margin-top:8px"><b>${esc(r.tip)}</b></div>`:""}`)).join("")}
 
+    ${(typeof BANQUET_MENU==="undefined")?"":acc(esc(BANQUET_MENU.title),"one of the set banquet menus",`
+      ${BANQUET_MENU.courses.map(([c,items])=>`<p class="sub" style="margin:10px 0 4px"><b>${esc(c)}</b></p>
+        <ul class="steps">${items.map(([n,w])=>`<li>${esc(n)}${w?` <span style="color:var(--dim)">${esc(w)}</span>`:""}</li>`).join("")}</ul>`).join("")}
+      <div class="note" style="margin-top:10px">${BANQUET_MENU.rules.map(esc).join(" ")}</div>`)}
+
     <div class="sechead" id="ms-archive"><h2>Archives</h2><span>everything that is not on the menu tonight</span></div>
     ${acc("Soup of the day — the full archive",`${SOTD.length} logged`,
       tbl(["Soup","What's in it","Allergen notes"],SOTD.map(s=>[`<b>${esc(s[0])}</b>`,esc(s[1]),`<span style="color:var(--dim)">${esc(s[2])}</span>`])))}
@@ -1445,6 +1455,10 @@ function build(){
   $("#p-house").innerHTML=`
     <div class="sechead"><h2>How we work</h2><span>Points of Passion, steps of service, and the house playbook</span></div>
     <div class="note gold"><b>Mission:</b> ${esc(HOUSE.mission)}</div>
+    ${HOUSE.emphasis?acc("This week at pre-shift","points of emphasis off the pre-shift guide sheet",`
+      <p class="sub" style="margin:2px 0 6px"><b>${esc(HOUSE.emphasis.motto)}</b></p>
+      <p class="sub" style="margin:0 0 8px">Point of Passion for the week: <b>${esc(HOUSE.emphasis.passion)}</b></p>
+      <ol class="steps">${HOUSE.emphasis.points.map(([t,d])=>`<li><b>${esc(t)}.</b> ${esc(d)}</li>`).join("")}</ol>`):""}
     ${(typeof HOUSE_INFO==="undefined")?"":`
       <div class="sechead" id="sec-wifi"><h2>At the table</h2><span>what guests ask for that is on no menu</span></div>
       ${tbl(["What","It is"],HOUSE_INFO.map(h=>[`<b>${esc(h[0])}</b><br><span style="color:var(--dim);font-size:12.5px">${esc(h[2])}</span>`,
@@ -1501,13 +1515,33 @@ function build(){
     ${acc("Expo / runner side work","opening, mid-shift, closing",`
       <p class="sub" style="margin:4px 0"><b>Opening</b></p><ul class="steps">${HOUSE.expo.open.map(d=>`<li>${esc(d)}</li>`).join("")}</ul>
       <p class="sub" style="margin:10px 0 4px"><b>Mid-shift</b></p><ul class="steps">${HOUSE.expo.mid.map(d=>`<li>${esc(d)}</li>`).join("")}</ul>
-      <p class="sub" style="margin:10px 0 4px"><b>Closing</b></p><ul class="steps">${HOUSE.expo.close.map(d=>`<li>${esc(d)}</li>`).join("")}</ul>`)}
+      <p class="sub" style="margin:10px 0 4px"><b>Closing — the expo sign-out checklist</b></p>
+      ${tbl(["Duty","Closing requirement"],HOUSE.expo.close.map(([d,r])=>[`<b>${esc(d)}</b>`,esc(r)]))}
+      <div class="note warn" style="margin-top:8px">${esc(HOUSE.expo.closeRule)}</div>`)}
+    ${acc("Steak recook ticket","what goes on the ticket when a steak goes back",`
+      <p class="sub" style="margin:2px 0 6px"><b>Fill in</b></p>
+      <ul class="steps">${HOUSE.recook.fields.map(f=>`<li>${esc(f)}</li>`).join("")}</ul>
+      <p class="sub" style="margin:10px 0 4px"><b>Recook reason</b> — mark one</p>
+      <div class="tags">${HOUSE.recook.reasons.map(r=>`<span class="tag">${esc(r)}</span>`).join("")}</div>`)}
     ${acc("Mise en place — what goes down with what","every utensil, course by course",`
       <p class="sub" style="margin:2px 0 10px">Everything in its place: all the items the guest needs and none they do not. The cocktail fork is the one that gets forgotten — it goes down <b>before</b> the food, never after.</p>
       ${HOUSE.mise.map(([t,s,rows])=>`<p class="sub" style="margin:12px 0 4px"><b>${esc(t)}</b> — ${esc(s)}</p><ul class="steps">${rows.map(d=>`<li>${d}</li>`).join("")}</ul>`).join("")}`)}
     ${acc("Tableside shows + setups","every setup, every show, one list",`<ul class="steps">${HOUSE.tableside.map(([t,d])=>`<li><b>${esc(t)}:</b> ${esc(d)}</li>`).join("")}</ul>`)}
     ${acc("Back server closing tasks","the full close-down, from the official checklist",`<ul class="steps">${HOUSE.backclose.map(d=>`<li>${esc(d)}</li>`).join("")}</ul>`)}
-    ${acc("Closing side work — front, back, closer","the posted sheet with slow-night and busy-night quantities",`<ul class="steps">${HOUSE.closesheet.map(d=>`<li>${esc(d)}</li>`).join("")}</ul>`)}
+    ${(()=>{const c=HOUSE.closesheet, sb=rows=>tbl(["Task",esc(c.slow),esc(c.busy)],rows.map(([t,a,b])=>[`<b>${esc(t)}</b>`,esc(a),esc(b)]));
+      return acc("Closing side work — front, back, closer","the posted sheet with slow-night and busy-night quantities",`
+      <p class="sub" style="margin:2px 0 4px"><b>Front of house servers</b></p>${sb(c.front)}
+      <p class="sub" style="margin:12px 0 4px"><b>Back servers</b> — team responsibilities, divide evenly</p>
+      <ul class="steps">${c.backTeam.map(t=>`<li>${esc(t)}</li>`).join("")}</ul>${sb(c.back)}
+      <p class="sub" style="margin:12px 0 4px"><b>Back closer</b></p>
+      <ul class="steps">${c.closer.map(t=>`<li>${esc(t)}</li>`).join("")}</ul>
+      <p class="sub" style="margin:12px 0 4px"><b>Closing expectations</b></p>
+      <ul class="steps">${c.rules.map(t=>`<li>${esc(t)}</li>`).join("")}</ul>`);})()}
+    ${acc("Server sign-out checklist","what every server, cocktailer and closer signs before leaving",`
+      ${HOUSE.signout.map(([t,rows])=>`<p class="sub" style="margin:10px 0 4px"><b>${esc(t)}</b></p><ul class="steps">${rows.map(d=>`<li>${esc(d)}</li>`).join("")}</ul>`).join("")}
+      <div class="note warn" style="margin-top:10px">${esc(HOUSE.signoutRule)}</div>`)}
+    ${acc("Weekly cleaning log","one deep-clean job a day, initialed and signed off by a manager",
+      tbl(["Day","Cleaning tasks"],HOUSE.cleaning.map(([d,t])=>[`<b>${esc(d)}</b>`,esc(t)])))}
     ${acc("Bar steps + timing standards","the 20-step bar bible — the timing rules apply everywhere",`<ul class="steps">${HOUSE.barsteps.map(d=>`<li>${esc(d)}</li>`).join("")}</ul>`)}
     ${acc("House facts","uniform, trivia, and the little rules",`<ul class="steps">${HOUSE.facts.map(([t,d])=>`<li><b>${esc(t)}:</b> ${esc(d)}</li>`).join("")}</ul>`)}
     <div class="sechead"><h2>Employee Handbook</h2><span>staff only</span></div>

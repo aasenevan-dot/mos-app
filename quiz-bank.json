@@ -2236,13 +2236,13 @@
  },
  {
   "q": "Which bottle is this week's wine of the week?",
-  "a": "Justin Isosceles — $180",
+  "a": "Justin Cabernet — $105",
   "w": [
+   "Justin Isosceles — $180",
    "Groth Oakville Estate — $150",
-   "Cade Estate Howell Mountain — $180",
    "Caymus Napa Valley — $155"
   ],
-  "why": "If a Delmonico guest wants something bold that isn't another Napa Cab: Justin Isosceles, a Paso Robles Bordeaux-style blend. Groth was last week.",
+  "why": "Justin Cabernet from Paso Robles is this week's feature at $105. Justin Isosceles was last week.",
   "t": "ribeye",
   "kind": "pairing",
   "use": 5,
@@ -2911,13 +2911,13 @@
  },
  {
   "q": "Which bottle was LAST week's wine of the week?",
-  "a": "Groth Oakville Estate",
+  "a": "Justin Isosceles",
   "w": [
-   "Justin Isosceles",
-   "Caymus Special Selection",
+   "Justin Cabernet",
+   "Groth Oakville Estate",
    "Gary Farrell"
   ],
-  "why": "Groth is classic Oakville — high tannin built for marbling, so it was the ribeye pick. Justin is this week; Caymus and Gary Farrell were an earlier feature.",
+  "why": "Justin Isosceles was last week. Justin Cabernet is this week, and Groth ran before that.",
   "t": "ribeye",
   "kind": "pairing",
   "use": 3,
@@ -5431,13 +5431,13 @@
  },
  {
   "q": "Which bottle is THIS week's Wine of the Week?",
-  "a": "Justin \"Isosceles\" 2021",
+  "a": "Justin Cabernet, Paso Robles",
   "w": [
+   "Justin \"Isosceles\" 2021",
    "Groth Oakville Estate 2022",
-   "Caymus Special Selection Cabernet 2019",
-   "Gary Farrell Russian River Valley Pinot Noir 2022"
+   "Caymus Special Selection Cabernet 2019"
   ],
-  "why": "Justin Isosceles is the current feature; Groth was last week and the Caymus/Gary Farrell pair is the old Power vs Precision feature.",
+  "why": "Justin Cabernet is the current feature. Justin Isosceles was last week and Groth the week before.",
   "t": "wine",
   "kind": "spec",
   "use": 5,
@@ -5460,14 +5460,14 @@
   "src": "build/2-data-wine.js WINES[Justin \"Isosceles\" 2021].r: \"Paso Robles — warm, bold, ripe\"; Groth .r \"Oakville, Napa\"; Gary Farrell .r \"Russian River, CA\"; Cade .r \"Howell Mountain, Napa\""
  },
  {
-  "q": "Bottle price on Justin Isosceles, the wine of the week?",
-  "a": "$180",
+  "q": "Bottle price on Justin Cabernet, the wine of the week?",
+  "a": "$105",
   "w": [
+   "$180",
    "$150",
-   "$120",
-   "$225"
+   "$120"
   ],
-  "why": "Justin Isosceles is $180. Groth is $150, Gary Farrell is $120, Far Niente Napa is $225 — know the number before you pitch it.",
+  "why": "Justin Cabernet is $105. Justin Isosceles is $180, Groth is $150, Gary Farrell is $120. Know the number before you pitch it.",
   "t": "wine",
   "kind": "price",
   "use": 5,
@@ -5482,7 +5482,7 @@
    "Caymus Napa Valley 2023 — plush Wagner style",
    "Cade Estate Howell Mountain — mountain Cabernet"
   ],
-  "why": "Say: If you want something bold that isn't another Napa Cab, Justin Isosceles is our wine of the week — structured and dark without being standard Napa.",
+  "why": "Say: If you want something bold that isn't another Napa Cab, Justin Isosceles is the one — structured and dark without being standard Napa.",
   "t": "wine",
   "kind": "pairing",
   "use": 5,
@@ -5580,14 +5580,14 @@
   "src": "WINES[Ghost Pines Cabernet Sauvignon].p: \"$14 / $53\"; PAIRINGS[Four people ordering glasses].line: \"For four glasses, a bottle is usually the better value. Move them up the ladder.\""
  },
  {
-  "q": "A guest wants a bold red that isn't another Napa Cab. This week's wine of the week?",
+  "q": "A guest wants a bold red that isn't another Napa Cab. Which bottle?",
   "a": "Justin \"Isosceles\" 2021 — $180",
   "w": [
    "Groth Oakville Estate 2022 — $150",
    "Cade Estate Howell Mountain — $180",
    "Mt. Veeder Napa Valley — $150"
   ],
-  "why": "Justin is a Paso Robles Bordeaux-style blend — black cherry, cassis, dried herbs, vanilla spice. Groth was last week's.",
+  "why": "Justin Isosceles is a Paso Robles Bordeaux-style blend — black cherry, cassis, dried herbs, vanilla spice. Groth is the classic Napa pick.",
   "t": "wine",
   "kind": "spiel",
   "use": 5,
@@ -5716,13 +5716,13 @@
  },
  {
   "q": "Which bottle is this week's Wine of the Week?",
-  "a": "Justin \"Isosceles\" 2021 — $180",
+  "a": "Justin Cabernet — $105",
   "w": [
+   "Justin \"Isosceles\" 2021 — $180",
    "Groth Oakville Estate 2022 — $150",
-   "Cade Estate Howell Mountain 2022 — $180",
-   "Caymus Special Select 2019 — $525"
+   "Cade Estate Howell Mountain 2022 — $180"
   ],
-  "why": "Justin Isosceles is the Paso Robles Bordeaux-style blend — the bold red for the guest who wants something other than Napa. Groth was last week.",
+  "why": "Justin Cabernet from Paso Robles is this week's feature. Justin Isosceles was last week.",
   "t": "wine",
   "kind": "spec",
   "use": 5,
@@ -5761,13 +5761,13 @@
  },
  {
   "q": "Which bottle was LAST week's Wine of the Week?",
-  "a": "Groth Oakville Estate 2022",
+  "a": "Justin \"Isosceles\" 2021",
   "w": [
-   "Justin \"Isosceles\" 2021",
-   "Cade Estate Howell Mountain 2022",
+   "Justin Cabernet Sauvignon",
+   "Groth Oakville Estate 2022",
    "Caymus Special Selection Cabernet 2019"
   ],
-  "why": "Groth Oakville Estate was last week; Justin Isosceles is this week. Guests who liked last week's pour may still ask for it.",
+  "why": "Justin Isosceles was last week; Justin Cabernet is this week. Guests who liked last week's bottle may still ask for it.",
   "t": "wine",
   "kind": "spec",
   "use": 4,

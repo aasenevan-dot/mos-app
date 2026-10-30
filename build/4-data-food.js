@@ -330,6 +330,17 @@ const RECIPES = [
   tip:"Our ranch is almost necessary on our fries — it may be the best combination in the restaurant."}
 ];
 
+/* BANQUET MENU — one of the set banquet menus (there are others). Transcribed off the
+   printed banquet sheet. Rendered as a closed accordion on the Food Menu tab. */
+const BANQUET_MENU={
+ title:"Banquet menu option",
+ courses:[
+  ["Salad",[["House Salad","with Peppercorn Ranch"]]],
+  ["Entree choices",[["6 oz Filet Mignon",""],["Salmon Filet","with Remoulade & Trinity Relish"],["Grilled Chicken Breast","with Harissa BBQ Sauce"]]],
+  ["Served with",[["Mashed Potatoes",""],["Grilled Asparagus",""]]],
+  ["Dessert platter",[["Seasonal selections of chef's favorites",""]]]],
+ rules:["Vegetarian options always available.","All steaks will be prepared medium rare."]
+};
 const DRESSINGS = ["House Vinaigrette (whole-grain mustard — the house dressing)","Orange Vinaigrette","Balsamic Vinaigrette","Maple Balsamic","Italian","French","Blue Cheese","Oil & Vinegar","Thousand Island","Caesar","Peppercorn Ranch"];
 
 
@@ -421,6 +432,8 @@ const ALLERGENS = [
  ["Japanese A5 Wagyu","$25/oz",["beef","dairy"],"Manager slices tableside. Cooked with butter by default — but the kitchen CAN cook any steak fully butter-free for a dairy allergy, the guest just has to ask."],
  ["Denver Cut","$58",["beef","dairy"],"Chuck cut. Cooked with butter by default — the kitchen can go butter-free for a dairy allergy if the guest asks."],
  ["48 oz USDA Choice Porterhouse","$180",["beef","dairy"],"NOT wagyu. Board service, manager slices."],
+ ["Grass-Fed NY Strip","$75",["beef","dairy"],"Off-menu cut. Cooked with butter by default, like every steak, unless the guest asks for butter-free. VERIFY the full build with the kitchen."],
+ ["16 oz French Bone-In Pork Chop","$65",["pork"],"Off-menu cut. VERIFY the full build and any butter or glaze with the kitchen."],
  ["The PD — 15 oz Hand-Cut Filet","$115",["beef","dairy"],"Cooked with butter by default — but the kitchen CAN cook any steak fully butter-free for a dairy allergy, the guest just has to ask."],
  ["4 oz Filet Mignon","$30",["beef","dairy"],"Cooked with butter by default — but the kitchen CAN cook any steak fully butter-free for a dairy allergy, the guest just has to ask."],
  ["Spinalis / Ribeye Cap","$14/oz",["beef","dairy"],"Cooked with butter by default — but the kitchen CAN cook any steak fully butter-free for a dairy allergy, the guest just has to ask."],
@@ -601,9 +614,11 @@ const SPECIALS_ON=[
  ["Australian Wagyu","$150","32 oz wagyu tomahawk — ribeye on the whole rib bone — cut tableside by a manager. $150 any night on its own; on Tuesdays it is Tomahawk Tuesday (dinner for two, same $150). The bone lets marrow render during cooking, and the heavy marbling makes it the richest cut after Japanese A5. Wagyu rule: serve rare to med-rare — nudge, don't argue.","Manager cut"],
  ["Denver Cut","$58","Running in place of the Dry Aged New York Strip, at the same price. A chuck cut — prime, fattier and heartier through the belly, with less marbling than the strip. Serve it rare, medium-rare or medium; past that it turns gamey.",""],
  ["48 oz USDA Choice Porterhouse","$180 when it runs","NOT wagyu — USDA Choice. 48 oz total: roughly a 22 oz NY strip, a 12 oz filet, and about a 10 oz bone — it varies a little with the cut. A manager slices it tableside off the board. The pitch: two people split it for a high-class manager-cut steak experience at a serious value — and there's no split-plate charge.","Manager cut"],
+ ["Grass-Fed NY Strip","$75","Off the printed menu. A grass-fed New York strip. Ask a manager for the ounces and the plate before you pitch it.","Off menu"],
+ ["16 oz French Bone-In Pork Chop","$65","Off the printed menu. A 16 oz bone-in pork chop, French cut. Cooked medium and up.","Off menu"],
  ["Spinalis / Ribeye Cap","$14/oz","Minimum 6 oz. The cap of the ribeye — it rivals filet tenderness while keeping ribeye richness. A manager cuts it tableside.","Manager cut"],
  ["Spinalis Sunday","$10/oz every Sunday","The same ribeye cap, four dollars an ounce cheaper, one day a week. Minimum 6 oz. It is on the restaurant's own weekly-features page — the easiest upsell we have on a Sunday.","weekly feature"],
- ["45-Day 22 oz Dry-Aged Bone-In Ribeye","$110","Forty-five days of cold, moving air pulls the moisture out and concentrates the beef, while the meat's own enzymes break proteins down into amino acids and soften the connective tissue. That is where the deep, nutty, brown-butter richness comes from — savory and profound rather than just beefy, with the bone adding even more depth.",""],
+ ["45-Day 22 oz Dry-Aged Bone-In Ribeye","$110","Menu item of the week. Know the preparation, the portion, the presentation and what goes with it. Forty-five days of cold, moving air pulls the moisture out and concentrates the beef, while the meat's own enzymes break proteins down into amino acids and soften the connective tissue. That is where the deep, nutty, brown-butter richness comes from — savory and profound rather than just beefy, with the bone adding even more depth.",""],
  ["Tomahawk Tuesday","$150 dinner for two","Every Tuesday: the 32 oz Australian Wagyu tomahawk for two with two soups or salads, one side to share, and our signature Brown Butter Cake — $150. Any other night the same 32 oz tomahawk is $150 on its own, with no sides or cake. Mo's is seed-oil free — cooked with 100% beef tallow and grass-fed butter.","weekly feature"],
  ["Ladies Night — every Thursday","$10 martinis + \u00bd-off apps","Ladies get $10 martinis and half-price appetizers in the lounge, every Thursday night.","weekly feature"],
  ["DEVOUR Indy — 3-course prix-fixe","Aug 24 – Sep 6 · from $45/pp","Menu picture, the deal in plain terms, and the upsell blueprint are in the Devour section at the top of this tab — and you can open the picture from Events too. Per-person price is the entrée — steer to Spinalis $65 / Filet $55, and always add an enhancement.","Limited time"],
@@ -648,7 +663,7 @@ const SOTD=[
  ["Chicken Pot Pie Soup","Creamy chicken pot pie in soup form. VERIFY full build with the kitchen.","VERIFY allergens"],
  ["Chicken Noodle","Classic chicken noodle. VERIFY build.","gluten (noodles) — VERIFY rest"],
  ["Clam Chowder","Clam chowder. VERIFY build.","shellfish + dairy — VERIFY rest"],
- ["Pasta e Fagioli","Beef, noodles, celery, carrot — Italian bean-and-pasta soup. House just calls it 'fagioli.'","gluten + beef — VERIFY rest"],
+ ["Pasta e Fagioli","Beef pasta fagioli. Carrots, beef, celery, beans, garlic, onion, basil, oregano, thyme, sugar and chicken stock, with potato-stuffed tortellini. House just calls it 'fagioli.'","beef + chicken + legumes + allium, gluten in the tortellini — VERIFY egg"],
  ["Italian Wedding","Cream, sausage, and noodles. Very good — an easy sell.","gluten + dairy + pork — VERIFY rest"],
  ["Chicken Gnocchi","Creamy chicken with gnocchi — dumpling-style potato pasta.","gluten + dairy — VERIFY rest"],
  ["Roasted Poblano","Roasted poblano pepper soup, served with croutons.","nightshade + gluten (croutons) — VERIFY rest"],
@@ -664,5 +679,5 @@ const SOTD=[
  ["Corn Chowder","Sweet corn chowder.","dairy — VERIFY rest"]
 ];
 const OFFMENU=[
- ["Nothing hidden right now","—","The PD (15 oz hand-cut filet, $115) moved onto the printed menu, and the 14 oz bone-in filet is retired to the past-specials archive. The cut specials above are today's off-menu steaks."]
+ ["This week's off-menu cuts","see Specials","Grass-Fed NY Strip $75, the 48 oz Porterhouse $180 and the 16 oz French Bone-In Pork Chop $65. Their cards sit with the specials above. The PD (15 oz hand-cut filet, $115) lives on the printed menu now."]
 ];

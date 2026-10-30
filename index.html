@@ -813,7 +813,7 @@ footer{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
   .flip .back{display:block}
   details.acc{display:block}
   details.acc>.accbody{display:block}
-  .panel.on::after{content:"Mo's — updated 10/29/2026 — study copy, verify in Toast";display:block;margin-top:16px;padding-top:8px;border-top:1px solid #999;font-size:10px;color:#444}
+  .panel.on::after{content:"Mo's — updated 10/30/2026 — study copy, verify in Toast";display:block;margin-top:16px;padding-top:8px;border-top:1px solid #999;font-size:10px;color:#444}
 }
 .qprog{height:5px;background:var(--bg2);border-radius:99px;overflow:hidden;margin:2px 0 12px}
 .qprog i{display:block;height:100%;background:var(--gold);border-radius:99px;transition:width .25s ease}
@@ -1194,26 +1194,26 @@ const PAIRINGS = [
    pulled from the bottle list above (no outside tasting notes). */
 const WOTW = {
  title:"Wine of the Week",
- now:{n:"Justin \u201cIsosceles\u201d 2021",p:"$180",tag:"THIS WEEK",
+ now:{n:"Justin Cabernet Sauvignon",p:"$105",tag:"THIS WEEK",
+ what:"Cabernet from Paso Robles, the same warm, bold, ripe California region as Justin Isosceles.",
+ flavor:"VERIFY \u2014 get the tasting notes from a manager or the bottle. Be ready to describe the flavor profile and make thoughtful pairing recommendations."},
+ last:{n:"Justin \u201cIsosceles\u201d 2021",p:"$180",tag:"LAST WEEK",
  what:"Paso Robles Bordeaux-style California blend \u2014 warm, bold, and ripe. Structured and dark without being another standard Napa Cab.",
  flavor:"Black cherry, cassis, plum, dried herbs, vanilla spice.",
  structure:"Full body, medium-plus tannin, medium acid. A structured Bordeaux-style finish with dark fruit.",
  why:"Better-tier bottle on our list \u2014 the bold red for the guest who wants something other than Napa.",
  pair:"Delmonico Ribeye and the bigger steaks \u2014 our list pairs it with NY strip, short rib, and the Delmonico.",
- pitch:"If you want something bold that isn\u2019t another Napa Cab, Justin Isosceles is our wine of the week \u2014 a Paso Robles Bordeaux-style blend with black cherry, cassis, dried herbs, and vanilla spice, and enough structure to stand up to the Delmonico."},
- last:{n:"Groth Oakville Estate 2022",p:"$150",tag:"LAST WEEK",
+ pitch:"If you want something bold that isn\u2019t another Napa Cab, Justin Isosceles is the one \u2014 a Paso Robles Bordeaux-style blend with black cherry, cassis, dried herbs, and vanilla spice, and enough structure to stand up to the Delmonico."},
+ contrast:[],
+ past:[{title:"Groth Oakville Estate",
+ a:{n:"Groth Oakville Estate 2022",p:"$150",tag:"EARLIER",
  what:"Oakville, Napa \u2014 classic Cabernet power.",
  flavor:"Blackberry, cassis, dark plum, cocoa, cedar, baking spice.",
  structure:"Full body, high tannin, medium acid. Structured, classic Oakville steak finish.",
  why:"Better-tier Oakville Cabernet \u2014 the classic steakhouse Napa bottle.",
  pair:"Ribeye, Australian Wagyu, and the dry-aged cuts \u2014 the tannin is built for marbling.",
- pitch:"Classic Oakville Cabernet: dark fruit, cocoa, cedar, and tannin for marbling. Power with polish \u2014 Oakville depth that stays smooth and approachable."},
- contrast:[
- ["Bold red, but not another Napa Cab","Justin Isosceles","Paso Robles Bordeaux-style blend \u2014 black cherry, dried herbs, vanilla spice."],
- ["Classic Napa steakhouse Cab","Groth Oakville Estate","Oakville dark fruit, cocoa, cedar, and tannin for marbling."],
- ["Ribeye or Australian Wagyu","Groth Oakville Estate","High tannin cuts through the fat."]
- ],
- past:[{title:"Power vs Precision",
+ pitch:"Classic Oakville Cabernet: dark fruit, cocoa, cedar, and tannin for marbling. Power with polish \u2014 Oakville depth that stays smooth and approachable."}},
+ {title:"Power vs Precision",
  a:{n:"Caymus Special Selection Cabernet 2019",p:"$525",tag:"POWER",
  what:"Napa Valley Cabernet. The flagship from Caymus and the top expression of the Wagner family style. Only made when vineyard lots meet the winery's highest standards.",
  flavor:"Blackberry, cassis, dark cherry, cocoa, rich Napa fruit. With age it picks up cedar, tobacco, graphite, and baking spice.",
@@ -1992,6 +1992,17 @@ const RECIPES = [
   tip:"Our ranch is almost necessary on our fries — it may be the best combination in the restaurant."}
 ];
 
+/* BANQUET MENU — one of the set banquet menus (there are others). Transcribed off the
+   printed banquet sheet. Rendered as a closed accordion on the Food Menu tab. */
+const BANQUET_MENU={
+ title:"Banquet menu option",
+ courses:[
+  ["Salad",[["House Salad","with Peppercorn Ranch"]]],
+  ["Entree choices",[["6 oz Filet Mignon",""],["Salmon Filet","with Remoulade & Trinity Relish"],["Grilled Chicken Breast","with Harissa BBQ Sauce"]]],
+  ["Served with",[["Mashed Potatoes",""],["Grilled Asparagus",""]]],
+  ["Dessert platter",[["Seasonal selections of chef's favorites",""]]]],
+ rules:["Vegetarian options always available.","All steaks will be prepared medium rare."]
+};
 const DRESSINGS = ["House Vinaigrette (whole-grain mustard — the house dressing)","Orange Vinaigrette","Balsamic Vinaigrette","Maple Balsamic","Italian","French","Blue Cheese","Oil & Vinegar","Thousand Island","Caesar","Peppercorn Ranch"];
 
 
@@ -2083,6 +2094,8 @@ const ALLERGENS = [
  ["Japanese A5 Wagyu","$25/oz",["beef","dairy"],"Manager slices tableside. Cooked with butter by default — but the kitchen CAN cook any steak fully butter-free for a dairy allergy, the guest just has to ask."],
  ["Denver Cut","$58",["beef","dairy"],"Chuck cut. Cooked with butter by default — the kitchen can go butter-free for a dairy allergy if the guest asks."],
  ["48 oz USDA Choice Porterhouse","$180",["beef","dairy"],"NOT wagyu. Board service, manager slices."],
+ ["Grass-Fed NY Strip","$75",["beef","dairy"],"Off-menu cut. Cooked with butter by default, like every steak, unless the guest asks for butter-free. VERIFY the full build with the kitchen."],
+ ["16 oz French Bone-In Pork Chop","$65",["pork"],"Off-menu cut. VERIFY the full build and any butter or glaze with the kitchen."],
  ["The PD — 15 oz Hand-Cut Filet","$115",["beef","dairy"],"Cooked with butter by default — but the kitchen CAN cook any steak fully butter-free for a dairy allergy, the guest just has to ask."],
  ["4 oz Filet Mignon","$30",["beef","dairy"],"Cooked with butter by default — but the kitchen CAN cook any steak fully butter-free for a dairy allergy, the guest just has to ask."],
  ["Spinalis / Ribeye Cap","$14/oz",["beef","dairy"],"Cooked with butter by default — but the kitchen CAN cook any steak fully butter-free for a dairy allergy, the guest just has to ask."],
@@ -2263,9 +2276,11 @@ const SPECIALS_ON=[
  ["Australian Wagyu","$150","32 oz wagyu tomahawk — ribeye on the whole rib bone — cut tableside by a manager. $150 any night on its own; on Tuesdays it is Tomahawk Tuesday (dinner for two, same $150). The bone lets marrow render during cooking, and the heavy marbling makes it the richest cut after Japanese A5. Wagyu rule: serve rare to med-rare — nudge, don't argue.","Manager cut"],
  ["Denver Cut","$58","Running in place of the Dry Aged New York Strip, at the same price. A chuck cut — prime, fattier and heartier through the belly, with less marbling than the strip. Serve it rare, medium-rare or medium; past that it turns gamey.",""],
  ["48 oz USDA Choice Porterhouse","$180 when it runs","NOT wagyu — USDA Choice. 48 oz total: roughly a 22 oz NY strip, a 12 oz filet, and about a 10 oz bone — it varies a little with the cut. A manager slices it tableside off the board. The pitch: two people split it for a high-class manager-cut steak experience at a serious value — and there's no split-plate charge.","Manager cut"],
+ ["Grass-Fed NY Strip","$75","Off the printed menu. A grass-fed New York strip. Ask a manager for the ounces and the plate before you pitch it.","Off menu"],
+ ["16 oz French Bone-In Pork Chop","$65","Off the printed menu. A 16 oz bone-in pork chop, French cut. Cooked medium and up.","Off menu"],
  ["Spinalis / Ribeye Cap","$14/oz","Minimum 6 oz. The cap of the ribeye — it rivals filet tenderness while keeping ribeye richness. A manager cuts it tableside.","Manager cut"],
  ["Spinalis Sunday","$10/oz every Sunday","The same ribeye cap, four dollars an ounce cheaper, one day a week. Minimum 6 oz. It is on the restaurant's own weekly-features page — the easiest upsell we have on a Sunday.","weekly feature"],
- ["45-Day 22 oz Dry-Aged Bone-In Ribeye","$110","Forty-five days of cold, moving air pulls the moisture out and concentrates the beef, while the meat's own enzymes break proteins down into amino acids and soften the connective tissue. That is where the deep, nutty, brown-butter richness comes from — savory and profound rather than just beefy, with the bone adding even more depth.",""],
+ ["45-Day 22 oz Dry-Aged Bone-In Ribeye","$110","Menu item of the week. Know the preparation, the portion, the presentation and what goes with it. Forty-five days of cold, moving air pulls the moisture out and concentrates the beef, while the meat's own enzymes break proteins down into amino acids and soften the connective tissue. That is where the deep, nutty, brown-butter richness comes from — savory and profound rather than just beefy, with the bone adding even more depth.",""],
  ["Tomahawk Tuesday","$150 dinner for two","Every Tuesday: the 32 oz Australian Wagyu tomahawk for two with two soups or salads, one side to share, and our signature Brown Butter Cake — $150. Any other night the same 32 oz tomahawk is $150 on its own, with no sides or cake. Mo's is seed-oil free — cooked with 100% beef tallow and grass-fed butter.","weekly feature"],
  ["Ladies Night — every Thursday","$10 martinis + \u00bd-off apps","Ladies get $10 martinis and half-price appetizers in the lounge, every Thursday night.","weekly feature"],
  ["DEVOUR Indy — 3-course prix-fixe","Aug 24 – Sep 6 · from $45/pp","Menu picture, the deal in plain terms, and the upsell blueprint are in the Devour section at the top of this tab — and you can open the picture from Events too. Per-person price is the entrée — steer to Spinalis $65 / Filet $55, and always add an enhancement.","Limited time"],
@@ -2310,7 +2325,7 @@ const SOTD=[
  ["Chicken Pot Pie Soup","Creamy chicken pot pie in soup form. VERIFY full build with the kitchen.","VERIFY allergens"],
  ["Chicken Noodle","Classic chicken noodle. VERIFY build.","gluten (noodles) — VERIFY rest"],
  ["Clam Chowder","Clam chowder. VERIFY build.","shellfish + dairy — VERIFY rest"],
- ["Pasta e Fagioli","Beef, noodles, celery, carrot — Italian bean-and-pasta soup. House just calls it 'fagioli.'","gluten + beef — VERIFY rest"],
+ ["Pasta e Fagioli","Beef pasta fagioli. Carrots, beef, celery, beans, garlic, onion, basil, oregano, thyme, sugar and chicken stock, with potato-stuffed tortellini. House just calls it 'fagioli.'","beef + chicken + legumes + allium, gluten in the tortellini — VERIFY egg"],
  ["Italian Wedding","Cream, sausage, and noodles. Very good — an easy sell.","gluten + dairy + pork — VERIFY rest"],
  ["Chicken Gnocchi","Creamy chicken with gnocchi — dumpling-style potato pasta.","gluten + dairy — VERIFY rest"],
  ["Roasted Poblano","Roasted poblano pepper soup, served with croutons.","nightshade + gluten (croutons) — VERIFY rest"],
@@ -2326,7 +2341,7 @@ const SOTD=[
  ["Corn Chowder","Sweet corn chowder.","dairy — VERIFY rest"]
 ];
 const OFFMENU=[
- ["Nothing hidden right now","—","The PD (15 oz hand-cut filet, $115) moved onto the printed menu, and the 14 oz bone-in filet is retired to the past-specials archive. The cut specials above are today's off-menu steaks."]
+ ["This week's off-menu cuts","see Specials","Grass-Fed NY Strip $75, the 48 oz Porterhouse $180 and the 16 oz French Bone-In Pork Chop $65. Their cards sit with the specials above. The PD (15 oz hand-cut filet, $115) lives on the printed menu now."]
 ];
 
 /* ============ QUIZ — multiple choice. o[0] is always the correct option; shuffled at render. ============ */
@@ -2485,7 +2500,7 @@ const MC = [
  {"q": "What does the Spinalis ring at on a Saturday?", "o": ["$14 an ounce, 6 oz minimum", "$10 an ounce, 6 oz minimum", "$25 an ounce, 6 oz minimum", "$80 flat for 16 oz"], "t": "ribeye", "why": "Fourteen an ounce with a 6 oz floor every day but Sunday.", "use": 5, "kind": "price"},
  {"q": "How does Spinalis Sunday change the price?", "o": ["$10/oz — four dollars an ounce cheaper", "$10/oz — half the usual price", "$12/oz — two dollars an ounce cheaper", "Still $14/oz, but no 6 oz minimum"], "t": "ribeye", "why": "Same ribeye cap, $4 an ounce off, one day a week. The 6 oz minimum still applies.", "use": 5, "kind": "money"},
  {"q": "The one-line pairing rule for the Delmonico?", "o": ["Cabernet cuts through the marbling and fat.", "Pinot Noir is lighter and complements the tenderness.", "Champagne for celebration, or polished power.", "Big shared cut wants a big shared bottle."], "t": "ribeye", "why": "Tannin against fat — that is why the whole Delmonico chart is Cabernet.", "use": 5, "kind": "pairing"},
- {"q": "Which bottle is this week's wine of the week?", "o": ["Justin Isosceles — $180", "Groth Oakville Estate — $150", "Cade Estate Howell Mountain — $180", "Caymus Napa Valley — $155"], "t": "ribeye", "why": "If a Delmonico guest wants something bold that isn't another Napa Cab: Justin Isosceles, a Paso Robles Bordeaux-style blend. Groth was last week.", "use": 5, "kind": "pairing"},
+ {"q": "Which bottle is this week's wine of the week?", "o": ["Justin Cabernet — $105", "Justin Isosceles — $180", "Groth Oakville Estate — $150", "Caymus Napa Valley — $155"], "t": "ribeye", "why": "Justin Cabernet from Paso Robles is this week's feature at $105. Justin Isosceles was last week.", "use": 5, "kind": "pairing"},
  {"q": "Delmonico for a guest with a dairy allergy — what do you tell them?", "o": ["The kitchen can cook it fully butter-free — just ask.", "It's finished in beef tallow, so it's already dairy-free.", "Only the filet can be cooked without butter.", "It has to be ordered FarBuckle-style to skip the butter."], "t": "ribeye", "why": "Every steak is buttered by default, and every steak can go butter-free. Flag it on the ticket.", "use": 5, "kind": "allergen"},
  {"q": "What does the 45-Day Dry-Aged Bone-In Ribeye run?", "o": ["$110", "$115", "$140", "$80"], "t": "ribeye", "why": "$110 for 22 oz on the bone. The 16 oz Delmonico is the $80 one.", "use": 5, "kind": "price"},
  {"q": "What does the 32 oz Australian Wagyu manager cut cost?", "o": ["$150", "$170", "$110", "$180"], "t": "ribeye", "why": "$150 on its own any night. On Tuesdays the same $150 makes it Tomahawk Tuesday — dinner for two with soups or salads, a side, and Brown Butter Cake.", "use": 5, "kind": "price"},
@@ -2530,7 +2545,7 @@ const MC = [
  {"q": "The 45-Day is…", "o": ["A 22 oz bone-in ribeye, dry-aged 45 days, $110", "A 16 oz Delmonico ribeye, $80", "A 32 oz bone-in wagyu ribeye, $140", "A 14 oz dry-aged NY strip, $58"], "t": "ribeye", "why": "Forty-five days of cold moving air concentrates the beef — deep, nutty, brown-butter richness on the bone.", "use": 4, "kind": "spec"},
  {"q": "On the Delmonico, where does the fat render?", "o": ["Between the cap and the eye", "Down one side, as a fat cap", "Around the rib bone", "Through the belly of the chuck"], "t": "ribeye", "why": "Cap and eye with fat between them — that is why it eats rich and buttery bite after bite.", "use": 3, "kind": "spec"},
  {"q": "Which of these specials is NOT a manager cut?", "o": ["45-Day 22 oz Dry-Aged Bone-In Ribeye", "Spinalis / Ribeye Cap", "Australian Wagyu (32 oz)", "48 oz USDA Choice Porterhouse"], "t": "ribeye", "why": "The 45-Day comes out of the kitchen like any steak. Spinalis, the 32 oz Wagyu and the Porterhouse all get a manager at the table.", "use": 3, "kind": "service"},
- {"q": "Which bottle was LAST week's wine of the week?", "o": ["Groth Oakville Estate", "Justin Isosceles", "Caymus Special Selection", "Gary Farrell"], "t": "ribeye", "why": "Groth is classic Oakville — high tannin built for marbling, so it was the ribeye pick. Justin is this week; Caymus and Gary Farrell were an earlier feature.", "use": 3, "kind": "pairing"},
+ {"q": "Which bottle was LAST week's wine of the week?", "o": ["Justin Isosceles", "Justin Cabernet", "Groth Oakville Estate", "Gary Farrell"], "t": "ribeye", "why": "Justin Isosceles was last week. Justin Cabernet is this week, and Groth ran before that.", "use": 3, "kind": "pairing"},
  {"q": "Ribeye guest wants the driest, firmest Cab bottle we pour. First call?", "o": ["Cade Estate Howell Mountain", "Caymus Napa Valley", "Faust Napa Valley", "The Prisoner California"], "t": "ribeye", "why": "Mountain structure, graphite, high tannin — Cade first, then Mt. Veeder. Caymus is the plush end of the list.", "use": 3, "kind": "pairing"},
  {"q": "Guest wants the Delmonico finished FarBuckle-style. Roughly what's the upcharge?", "o": ["About $9", "About $25", "About $14", "About $6"], "t": "ribeye", "why": "Any cut can be FarBuckled for roughly $9 — the $63 FarBuckle minus the $54 filet. $25 is the Steak 47 topping.", "use": 3, "kind": "money"},
  {"q": "Which ribeye item is archived — never pitch it as current?", "o": ["Heart of Ribeye Skewers", "Spinalis / Ribeye Cap", "45-Day Dry-Aged Bone-In Ribeye", "Delmonico Ribeye"], "t": "ribeye", "why": "The bourbon-glazed skewers are not running. If a regular asks, say so — do not promise them.", "use": 3, "kind": "history"},
@@ -2698,17 +2713,17 @@ const MC = [
  {"q": "Which bitters go in the Smoked Draft Old Fashioned?", "o": ["Vanilla and orange bitters", "Angostura and orange bitters", "Peychaud's bitters", "Toasted almond bitters"], "t": "cocktail", "why": "Draft OF = Buffalo Trace, vanilla and orange bitters, slight bubbles. Angostura + orange is Mo's Signature OF, Peychaud's is HMFIC, almond is Newton's Law.", "use": 3, "kind": "build"},
  {"q": "After dinner a guest asks for a cappuccino. What's the honest answer?", "o": ["We pour straight espresso, but no cappuccino", "Yes — the bar makes cappuccino", "We only have drip coffee, no espresso", "Only inside the Esso Affo"], "t": "cocktail", "why": "Offer a straight espresso or Hubbard & Cravens coffee instead — and bring the cream and sugar caddy with coffee.", "use": 3, "kind": "service"},
  {"q": "Which is NOT in the HMFIC?", "o": ["Angostura bitters", "Peychaud's bitters", "Absinthe rinse", "Simple"], "t": "cocktail", "why": "HMFIC uses Peychaud's, not Angostura. Angostura is in the Signature OF and the Manhattan.", "use": 2, "kind": "build"},
- {"q": "Which bottle is THIS week's Wine of the Week?", "o": ["Justin \"Isosceles\" 2021", "Groth Oakville Estate 2022", "Caymus Special Selection Cabernet 2019", "Gary Farrell Russian River Valley Pinot Noir 2022"], "t": "wine", "why": "Justin Isosceles is the current feature; Groth was last week and the Caymus/Gary Farrell pair is the old Power vs Precision feature.", "use": 5, "kind": "spec"},
+ {"q": "Which bottle is THIS week's Wine of the Week?", "o": ["Justin Cabernet, Paso Robles", "Justin \"Isosceles\" 2021", "Groth Oakville Estate 2022", "Caymus Special Selection Cabernet 2019"], "t": "wine", "why": "Justin Cabernet is the current feature. Justin Isosceles was last week and Groth the week before.", "use": 5, "kind": "spec"},
  {"q": "A guest asks where Justin Isosceles is from. What do you say?", "o": ["Paso Robles", "Oakville, Napa", "Russian River Valley", "Howell Mountain, Napa"], "t": "wine", "why": "Say: Paso Robles — warm, bold, and ripe. That is the whole point of it: bold red, but not another Napa Cab.", "use": 5, "kind": "spiel"},
- {"q": "Bottle price on Justin Isosceles, the wine of the week?", "o": ["$180", "$150", "$120", "$225"], "t": "wine", "why": "Justin Isosceles is $180. Groth is $150, Gary Farrell is $120, Far Niente Napa is $225 — know the number before you pitch it.", "use": 5, "kind": "price"},
- {"q": "Guest wants something bold that isn't another Napa Cab. Which bottle do you steer to?", "o": ["Justin Isosceles — Paso Robles Bordeaux-style blend", "Groth Oakville Estate — Oakville Cabernet", "Caymus Napa Valley 2023 — plush Wagner style", "Cade Estate Howell Mountain — mountain Cabernet"], "t": "wine", "why": "Say: If you want something bold that isn't another Napa Cab, Justin Isosceles is our wine of the week — structured and dark without being standard Napa.", "use": 5, "kind": "pairing"},
+ {"q": "Bottle price on Justin Cabernet, the wine of the week?", "o": ["$105", "$180", "$150", "$120"], "t": "wine", "why": "Justin Cabernet is $105. Justin Isosceles is $180, Groth is $150, Gary Farrell is $120. Know the number before you pitch it.", "use": 5, "kind": "price"},
+ {"q": "Guest wants something bold that isn't another Napa Cab. Which bottle do you steer to?", "o": ["Justin Isosceles — Paso Robles Bordeaux-style blend", "Groth Oakville Estate — Oakville Cabernet", "Caymus Napa Valley 2023 — plush Wagner style", "Cade Estate Howell Mountain — mountain Cabernet"], "t": "wine", "why": "Say: If you want something bold that isn't another Napa Cab, Justin Isosceles is the one — structured and dark without being standard Napa.", "use": 5, "kind": "pairing"},
  {"q": "Why does the list send a Ribeye or Australian Wagyu table to Groth instead of Justin?", "o": ["High tannin cuts through the fat and marbling", "Higher acid keeps it fresh with richer dishes", "Lower tannin keeps it soft for guests who find Cab dry", "Bottle age gives harmony instead of raw power"], "t": "wine", "why": "Groth is high tannin — built for marbling. Say: the tannin cuts through the fat on the ribeye or the Australian Wagyu.", "use": 5, "kind": "pairing"},
  {"q": "Which guest gets Gary Farrell instead of Caymus Special Selection?", "o": ["Wants an elegant red that won't overpower lighter entrees", "Wants a steakhouse statement bottle", "Wants a big, rich luxury red", "Wants a flagship Napa Cab they can cellar"], "t": "wine", "why": "Say: Gary Farrell is the precision bottle — silky, bright, food friendly, more finesse than weight. The big-rich, statement, and collectible asks all go to Caymus Special Selection.", "use": 5, "kind": "pairing"},
  {"q": "Why does the pairing finder push Pinot Noir with the Filet Mignon?", "o": ["It's lighter than Cabernet and complements the tenderness", "It cuts through the marbling and fat", "It matches the savory, nutty dry-age flavor", "Its acid and bubbles keep everything fresh"], "t": "wine", "why": "Say it at the table: \"Pinot is lighter than a Cab and it lets the tenderness of the filet show.\"", "use": 5, "kind": "pairing"},
  {"q": "What's the one-line reason Cabernet goes with the Delmonico Ribeye or Australian Wagyu?", "o": ["It cuts through the marbling and fat", "It complements the tenderness of the cut", "It stays crisp against the richness", "It gives the red-wine feel with a softer finish"], "t": "wine", "why": "The tannin in Cabernet scrubs the fat off your palate — that's the whole pitch for a marbled steak.", "use": 5, "kind": "pairing"},
  {"q": "Four guests each want a glass of Cab. Which Good-tier bottle does the four-glass finder list?", "o": ["Faust Napa Valley — $100", "Buehler Estate Cabernet — $105", "Ghost Pines Cabernet — $53", "The Critic Cabernet — $62"], "t": "wine", "why": "Faust is the clear step up from glass Cabernet — its own note says \"table moving from glasses to bottle.\"", "use": 5, "kind": "money"},
  {"q": "Four glasses of Ghost Pines Cab at $14 each come to what, versus its $53 bottle?", "o": ["$56 — more than the bottle", "$42 — less than the bottle", "$53 — the same as the bottle", "$70 — more than the bottle"], "t": "wine", "why": "That's the math behind the rule: for four glasses, a bottle is usually the better value. Say so and move them up the ladder.", "use": 5, "kind": "money"},
- {"q": "A guest wants a bold red that isn't another Napa Cab. This week's wine of the week?", "o": ["Justin \"Isosceles\" 2021 — $180", "Groth Oakville Estate 2022 — $150", "Cade Estate Howell Mountain — $180", "Mt. Veeder Napa Valley — $150"], "t": "wine", "why": "Justin is a Paso Robles Bordeaux-style blend — black cherry, cassis, dried herbs, vanilla spice. Groth was last week's.", "use": 5, "kind": "spiel"},
+ {"q": "A guest wants a bold red that isn't another Napa Cab. Which bottle?", "o": ["Justin \"Isosceles\" 2021 — $180", "Groth Oakville Estate 2022 — $150", "Cade Estate Howell Mountain — $180", "Mt. Veeder Napa Valley — $150"], "t": "wine", "why": "Justin Isosceles is a Paso Robles Bordeaux-style blend — black cherry, cassis, dried herbs, vanilla spice. Groth is the classic Napa pick.", "use": 5, "kind": "spiel"},
  {"q": "The wine move's three by-the-glass picks are Post & Beam Chardonnay, Caymus Cabernet and which Pinot?", "o": ["Belle Glos \"Las Alturas\" Pinot Noir", "Cloudline Pinot Noir", "Hilt Estate Pinot Noir", "Gary Farrell Russian River Pinot Noir"], "t": "wine", "why": "Lead with these three glasses every shift: Post & Beam, Belle Glos Las Alturas, Caymus Cab. Belle Glos is the Pinot with real weight to it.", "use": 5, "kind": "spec"},
  {"q": "A guest asks what the Post & Beam Chardonnay runs by the glass. Answer?", "o": ["$20 glass / $78 bottle", "$13 glass / $50 bottle", "$14 glass / $53 bottle", "$25 glass / $95 bottle"], "t": "wine", "why": "$20 a glass, $78 the bottle. It is the premium polished Chardonnay by the glass, made by Far Niente.", "use": 5, "kind": "price"},
  {"q": "Caymus Cabernet by the glass — glass and bottle price?", "o": ["$32 / $155", "$17 / $62", "$14 / $53", "$18 / $62"], "t": "wine", "why": "$32 a glass, $155 the bottle. For a table of four on Caymus glasses, that bottle is the easy move.", "use": 5, "kind": "price"},
@@ -2717,10 +2732,10 @@ const MC = [
  {"q": "Guest asks for the sweetest white on the list. Pour?", "o": ["Ruffino Moscato d'Asti", "Dr. L Riesling", "La Marca Prosecco", "Mionetto Rose"], "t": "wine", "why": "Ruffino Moscato d'Asti is the sweetest, softest white on the list — floral and lightly bubbly. $13 glass.", "use": 5, "kind": "pairing"},
  {"q": "Which glass pour is pitched 'softer than Cabernet, still red-wine enough for steak'?", "o": ["Advice From John Merlot", "The Critic Cabernet Sauvignon", "Ghost Pines Cabernet Sauvignon", "Pessimist Red Blend"], "t": "wine", "why": "Advice From John, $16 glass — the pour for the guest who says Cab is too dry. Table story: the label is real bathroom-wall graffiti.", "use": 5, "kind": "spiel"},
  {"q": "Guest likes Kim Crawford but asks for the nicer version. Pour?", "o": ["Auntsfield Single Vineyard Sauvignon Blanc", "Beviamo Pinot Grigio", "Dr. L Riesling", "Buehler Chardonnay"], "t": "wine", "why": "Auntsfield is the single-vineyard step up from Kim Crawford — $14 glass, $53 bottle, one dollar more a glass.", "use": 5, "kind": "pairing"},
- {"q": "Which bottle is this week's Wine of the Week?", "o": ["Justin \"Isosceles\" 2021 — $180", "Groth Oakville Estate 2022 — $150", "Cade Estate Howell Mountain 2022 — $180", "Caymus Special Select 2019 — $525"], "t": "wine", "why": "Justin Isosceles is the Paso Robles Bordeaux-style blend — the bold red for the guest who wants something other than Napa. Groth was last week.", "use": 5, "kind": "spec"},
+ {"q": "Which bottle is this week's Wine of the Week?", "o": ["Justin Cabernet — $105", "Justin \"Isosceles\" 2021 — $180", "Groth Oakville Estate 2022 — $150", "Cade Estate Howell Mountain 2022 — $180"], "t": "wine", "why": "Justin Cabernet from Paso Robles is this week's feature. Justin Isosceles was last week.", "use": 5, "kind": "spec"},
  {"q": "Which flavor line belongs to Justin Isosceles?", "o": ["Black cherry, cassis, plum, dried herbs, vanilla spice", "Blackberry, cassis, dark plum, cocoa, cedar, baking spice", "Luxardo cherry, rose petal, fennel, wild raspberry, blood orange", "Black fruit, cassis, mocha, sweet oak, dark chocolate"], "t": "wine", "why": "Dried herbs and vanilla spice are the Justin tell. Cocoa/cedar is Groth, rose petal/blood orange is Gary Farrell, mocha/sweet oak is Caymus Special Selection.", "use": 4, "kind": "spiel"},
  {"q": "Which dish is NOT one of the list's pairings for Justin Isosceles?", "o": ["Stuffed Chicken", "NY Strip", "Short Rib Pasta", "Delmonico Ribeye"], "t": "wine", "why": "Justin is built for the bigger steaks and the short rib — NY Strip, Short Rib Pasta, Delmonico. Stuffed Chicken wants a lighter red like Gary Farrell.", "use": 4, "kind": "pairing"},
- {"q": "Which bottle was LAST week's Wine of the Week?", "o": ["Groth Oakville Estate 2022", "Justin \"Isosceles\" 2021", "Cade Estate Howell Mountain 2022", "Caymus Special Selection Cabernet 2019"], "t": "wine", "why": "Groth Oakville Estate was last week; Justin Isosceles is this week. Guests who liked last week's pour may still ask for it.", "use": 4, "kind": "spec"},
+ {"q": "Which bottle was LAST week's Wine of the Week?", "o": ["Justin \"Isosceles\" 2021", "Justin Cabernet Sauvignon", "Groth Oakville Estate 2022", "Caymus Special Selection Cabernet 2019"], "t": "wine", "why": "Justin Isosceles was last week; Justin Cabernet is this week. Guests who liked last week's bottle may still ask for it.", "use": 4, "kind": "spec"},
  {"q": "Bottle price on Groth Oakville Estate 2022?", "o": ["$150", "$180", "$155", "$186"], "t": "wine", "why": "Groth is $150. Justin Isosceles is $180, Caymus Napa is $155, Silver Oak Alexander Valley is $186.", "use": 4, "kind": "price"},
  {"q": "Which is the wine-of-the-week pitch line for Groth Oakville Estate?", "o": ["Power with polish — Oakville depth that stays smooth and approachable", "High elevation means smaller, more concentrated grapes — bolder structure than valley-floor Cabs", "Bottle-age and harmony, not just raw Napa power", "Elegance and refinement, not just being a huge Napa Cab"], "t": "wine", "why": "Say: Classic Oakville Cabernet — dark fruit, cocoa, cedar, and tannin for marbling. Power with polish. The other lines are Cade, Cain 5, and Opus Overture.", "use": 4, "kind": "spiel"},
  {"q": "Filet table wants a Good-tier bottle. Which one is on the finder's Filet list?", "o": ["Landmark \"Overlook\" Pinot Noir — $55", "Buehler Estate Cabernet — $105", "Bodegas Penafiel Ribera del Duero — $75", "Groth Oakville Estate — $150"], "t": "wine", "why": "Good-tier Filet picks are Landmark Overlook, Belle Glos Dairyman, Duckhorn Merlot and Emmolo — all soft reds, no big Cabs.", "use": 4, "kind": "pairing"},
@@ -3268,7 +3283,18 @@ front:[
 expo:{
 open:["Check the book for covers","Make bread for the day (3-5 trays minimum, baking so it is ready by 4:30)","Polish metal ramekins and expo silver from last night","Chop parsley if needed","Stock + label to-go butter and sour cream in the expo fridge","Stock all entree garnishes","Check to-go boxes and deli containers","Melt drawn butter into containers","Stock take-out boxes under the cold line","Get the night's team list from the MOD"],
 mid:["Keep the expo line clear of trash, old food, dirty silverware","Clear trash, loose tickets, and debris off the floor","Keep clean expo silverware stocked and organized","Collect extra legs and trays from the cocktail area"],
-close:["Clean and wipe the expo line","Clean server trays with SaniQuat water","Wipe the expo fridge inside and out","Date, label, wrap, and organize everything in the fridge","Sort expo silverware into racks for wash","Polish all expo silverware with hot water and clean linen","Check out with the closing back, then shake out with the closing manager"]},
+close:[
+ ["Sauces","All sauces are properly wrapped or disposed of. Remaining sauces are dated and labeled with fresh labels and stored correctly."],
+ ["Expo trays","All trays are cleared and thoroughly wiped down."],
+ ["Silverware","All silverware at expo is sorted and polished. No unsorted or unpolished silverware remains at the station."],
+ ["Ramekins","All ramekins are collected, polished, and properly stocked or put away."],
+ ["Expo workstation","Entire expo station is cleaned and fully sanitized, including counters, shelves, surfaces, and surrounding work areas."],
+ ["Sanitizer","Sanitizer buckets and containers are emptied and put away. No used sanitizer water remains at the station."],
+ ["Tickets","All excess, completed, and unnecessary tickets are removed from the expo line and discarded."],
+ ["Trash","All expo trash is taken out and new liners are placed in trash cans."],
+ ["Miscellaneous items","All remaining food, product, and miscellaneous expo items are properly wrapped, labeled, dated, and put away in the correct locations."],
+ ["Final station check","Expo is completely clean, organized, stocked, and ready for the next shift."]],
+closeRule:"Do not clock out until expo has been checked and approved by a manager. The closing expo and a manager both sign the sheet."},
 tableside:[
 ["FarBuckle — full show","Ring the steak at the guest's temp. Bring: sizzling skillet, tongs, gloves, tray, rosemary salt, beef tallow, warm butter. At the table: steaks into the skillet, let them cook while you talk, butter them, apply beef tallow before pulling, finish with rosemary salt, serve."],
 ["A5 / Porterhouse mise en place","Butcher block, Japanese (Kobe) knife, honing iron, gloves, rosemary salt. A manager slices and tells the story — your job is the setup."],
@@ -3288,12 +3314,63 @@ backclose:[
 "Chocolate, ketchup, caramel, clarified butter, honey → deli containers, DATED, into the fridge. Used containers through dish.",
 "Wipe all remaining countertops and under silverware bins. Wipe the window edges on the service side.",
 "All silverware polished and sorted, wipe the station, clear debris. Then the manager walkthrough — nobody clocks out until side work is approved."],
-closesheet:[
-"FRONT (slow night / busy night): reset your section — sets + glassware. Polish 5-10 / 15 wine glasses. 25 / 40 napkin folds. Oyster napkins daily. Salt + pepper your section. Final table reset for tomorrow. Weekly side work every shift. Manager walkthrough required.",
-"BACK team stations, divided evenly: bread station, soup station, soda machine breakdown, tea station, to-go station, expo/service trays wiped.",
-"Silverware: rack, polish, store — 1 full rack slow / 2 busy.",
-"BACK CLOSER: all trash out, sweep, mop, clean + stock the dessert station, clean the chocolate, final closing walkthrough.",
-"House rules: side work divides equally, the team helps each other so everyone finishes together, and managers give final approval before checkout."],
+closesheet:{
+ slow:"Slow night (2–3 teams)", busy:"Busy night (6 teams or a weekend)",
+ front:[
+  ["Reset assigned section","Sets and glassware","Sets and glassware"],
+  ["Polish wine glasses","5–10 glasses","15 glasses"],
+  ["Fold napkins","25 folds","40 folds"],
+  ["Fold oyster napkins","Complete daily","Complete daily"],
+  ["Fill salt & pepper shakers","Assigned section","Assigned section"],
+  ["Final table reset","Ready for next day","Ready for next day"],
+  ["Weekly side work","Complete before leaving","Complete before leaving"],
+  ["Manager walkthrough","Required","Required"]],
+ backTeam:["Bread station","Soup station","Soda machine breakdown","Tea station","To-go station","Wipe down expo and service trays"],
+ back:[
+  ["Rack, polish & store silverware","1 full rack","2 full racks"],
+  ["Weekly side work","Complete before leaving","Complete before leaving"]],
+ closer:["Take out all trash","Sweep floors","Mop floors","Clean & stock dessert station","Clean chocolate machine","Final closing walkthrough"],
+ rules:["Side work is divided equally among all scheduled employees.","Weekly side work must be completed every shift.",
+  "No employee may clock out until side work is complete and approved by a manager.",
+  "Team members should help one another so the entire team finishes together.","Managers have final approval before checkout."]},
+/* SERVER SIGN-OUT CHECKLIST — the paper every server, cocktailer and closer signs. */
+signout:[
+ ["Front of house servers",["Tables completely reset","Salt & pepper shakers filled","Chairs wiped down",
+   "10–12 wine glasses polished on weekdays, 15–20 on weekends","25 folds completed","Lamps plugged in and wiped down","Assigned FOH side work completed"]],
+ ["Back of house servers",["1–2 racks of silverware completed","Assigned BOH portion completed","Assigned BOH side work completed","Area clean and organized"]],
+ ["Cocktailers",["Tables completely reset, salt & pepper shakers filled","Chairs wiped down","7–8 wine glasses polished",
+   "30 folds on weekdays, 50 on weekends","Lamps plugged in and wiped down","Assigned cocktail and FOH side work completed"]],
+ ["Front of house closer — final house shutdown",["Cotton candy machine cleaned and shut down","All sticks wiped down and boards wiped down",
+   "Tables reset, salt & peppers filled","Wine glasses covered with tablecloths","Check all server and cocktail sections",
+   "Complete anything missed by servers and cocktailers","Final FOH walkthrough completed"]],
+ ["Back of house closer — final house shutdown",["BOH swept and mopped","BOH wiped down, labeled and wrapped","Check all BOH server side work",
+   "Complete anything missed by servers","All remaining house shutdown duties completed","Final BOH walkthrough completed"]],
+ ["Manager final approval",["FOH checked","BOH checked","Cocktail area checked","Closing duties verified"]]],
+signoutRule:"Servers and cocktailers may leave only after all assigned duties are completed and signed off. Closing servers are responsible for completing anything that was missed or left undone.",
+/* WEEKLY CLEANING LOG — one deep-clean job a day, initialed by the employee, signed by the
+   manager. Stored Wed → Tue because the week starts Wednesday. */
+cleaning:[
+ ["Wednesday","Wipe the storage shelves. Wipe the busser shelves and run coffee mugs through dish."],
+ ["Thursday","Throw out expired or old containers in the expo fridge. Wipe all stainless steel counters, including underneath. Clean the expo fridge: shelves, doors, gaskets, handles."],
+ ["Friday","Clean the ice cream freezer. Spot-check the expo fridge and server stations."],
+ ["Saturday","Tea urn scrub, inside and outside. Declutter the tea and soup station."],
+ ["Sunday","Burn ice in all wells. Clean out the bar cooler. All salt & peppers get dumped and run through dish."],
+ ["Monday","Wipe server stations top to bottom. Wipe tray jacks. Run all server trays through dish."],
+ ["Tuesday","Pull out the expo counters, sweep and mop underneath. Clean the drain under the ice cream freezer."]],
+/* STEAK RECOOK TICKET — the form that goes with any steak sent back. */
+recook:{
+ fields:["Table #","Ticket #","Time","Team name","Entrée","Steak cut","Ordered temp","Cooked temp","Accessories / mods","Recook fired at","Manager / expo initials","Notes"],
+ reasons:["Undercooked","Overcooked","Incorrect temp","Cold","Guest change","Other"]},
+/* PRE-SHIFT GUIDE SHEET — the weekly points of emphasis. Replace these when a new sheet goes up. */
+emphasis:{
+ motto:"Prepare with purpose. Lead with knowledge. Deliver exceptional service.",
+ passion:"Every Table, Every Time",
+ points:[
+  ["Take care of your health","Stay hydrated, eat when appropriate, and take care of yourself throughout the shift. A healthy team is better prepared to care for guests."],
+  ["Limited requests off in November and December","Requests off will be limited during November and December. No requests off will be approved in December. Please plan accordingly."],
+  ["Stay focused throughout the shift","No phones. Remain present, attentive, and engaged with your guests, your team, and your responsibilities."],
+  ["You are the guide","Lead the guest through the experience. Know the menu, answer questions confidently, offer thoughtful recommendations, and help each guest make an informed choice."],
+  ["Smile","A genuine smile sets the tone for warm, welcoming, and memorable service."]]},
 barsteps:[
 "Greet within 60 SECONDS of a guest sitting at the bar top. Water + menus inside 2 minutes ('still, sparkling, or regular ice water?'). First drink inside 5 minutes.",
 "Menu wrap must-mentions: soup of the day + the comp/$4 protocol, oysters, cut specials, daily features, 86'd items. Must-knows: the porterhouse, the A5, the daily sorbet, the FarBuckle.",
@@ -8664,12 +8741,17 @@ function search(q){
       if(matches([label,r[0],r[1]]))add(label,r[0],r[1],"house");}));
   Object.entries({isaacs:"Non-negotiables",back:"Back server steps",front:"Front server steps",
                   expo:"Expo side work",backclose:"Back-of-house close",closesheet:"Close sheet",
-                  barsteps:"Bar steps"})
+                  signout:"Server sign-out",cleaning:"Weekly cleaning log",recook:"Steak recook ticket",
+                  emphasis:"Pre-shift",barsteps:"Bar steps"})
     .forEach(([k,label])=>{
       const v=HOUSE[k]; if(!v)return;
       const flat=(Array.isArray(v)?v:Object.values(v)).flat(Infinity);
       flat.forEach(t=>{if(typeof t==="string"&&matches([label,t]))add(label,label,t,"house");});
     });
+  if(HOUSE.signoutRule&&matches(["Server sign-out","sign out","clock out",HOUSE.signoutRule]))
+    add("Server sign-out","Who can leave",HOUSE.signoutRule,"house");
+  if(typeof BANQUET_MENU!=="undefined")BANQUET_MENU.courses.forEach(([c,items])=>items.forEach(([n,w])=>{
+    if(matches(["banquet","banquet menu",c,n,w]))add("Banquet menu",c+": "+n,w||BANQUET_MENU.rules.join(" "),"menu");}));
   /* mise en place is [title, subtitle, [lines]] — search the lines, show the group */
   (HOUSE.mise||[]).forEach(([t,s,rows])=>rows.forEach(d=>{
     const plain=String(d).replace(/<[^>]+>/g,"");
@@ -9072,6 +9154,11 @@ function build(){
       ${r.note?`<div class="note" style="margin-top:10px">${esc(r.note)}</div>`:""}
       ${r.tip?`<div class="note gold" style="margin-top:8px"><b>${esc(r.tip)}</b></div>`:""}`)).join("")}
 
+    ${(typeof BANQUET_MENU==="undefined")?"":acc(esc(BANQUET_MENU.title),"one of the set banquet menus",`
+      ${BANQUET_MENU.courses.map(([c,items])=>`<p class="sub" style="margin:10px 0 4px"><b>${esc(c)}</b></p>
+        <ul class="steps">${items.map(([n,w])=>`<li>${esc(n)}${w?` <span style="color:var(--dim)">${esc(w)}</span>`:""}</li>`).join("")}</ul>`).join("")}
+      <div class="note" style="margin-top:10px">${BANQUET_MENU.rules.map(esc).join(" ")}</div>`)}
+
     <div class="sechead" id="ms-archive"><h2>Archives</h2><span>everything that is not on the menu tonight</span></div>
     ${acc("Soup of the day — the full archive",`${SOTD.length} logged`,
       tbl(["Soup","What's in it","Allergen notes"],SOTD.map(s=>[`<b>${esc(s[0])}</b>`,esc(s[1]),`<span style="color:var(--dim)">${esc(s[2])}</span>`])))}
@@ -9147,6 +9234,10 @@ function build(){
   $("#p-house").innerHTML=`
     <div class="sechead"><h2>How we work</h2><span>Points of Passion, steps of service, and the house playbook</span></div>
     <div class="note gold"><b>Mission:</b> ${esc(HOUSE.mission)}</div>
+    ${HOUSE.emphasis?acc("This week at pre-shift","points of emphasis off the pre-shift guide sheet",`
+      <p class="sub" style="margin:2px 0 6px"><b>${esc(HOUSE.emphasis.motto)}</b></p>
+      <p class="sub" style="margin:0 0 8px">Point of Passion for the week: <b>${esc(HOUSE.emphasis.passion)}</b></p>
+      <ol class="steps">${HOUSE.emphasis.points.map(([t,d])=>`<li><b>${esc(t)}.</b> ${esc(d)}</li>`).join("")}</ol>`):""}
     ${(typeof HOUSE_INFO==="undefined")?"":`
       <div class="sechead" id="sec-wifi"><h2>At the table</h2><span>what guests ask for that is on no menu</span></div>
       ${tbl(["What","It is"],HOUSE_INFO.map(h=>[`<b>${esc(h[0])}</b><br><span style="color:var(--dim);font-size:12.5px">${esc(h[2])}</span>`,
@@ -9203,13 +9294,33 @@ function build(){
     ${acc("Expo / runner side work","opening, mid-shift, closing",`
       <p class="sub" style="margin:4px 0"><b>Opening</b></p><ul class="steps">${HOUSE.expo.open.map(d=>`<li>${esc(d)}</li>`).join("")}</ul>
       <p class="sub" style="margin:10px 0 4px"><b>Mid-shift</b></p><ul class="steps">${HOUSE.expo.mid.map(d=>`<li>${esc(d)}</li>`).join("")}</ul>
-      <p class="sub" style="margin:10px 0 4px"><b>Closing</b></p><ul class="steps">${HOUSE.expo.close.map(d=>`<li>${esc(d)}</li>`).join("")}</ul>`)}
+      <p class="sub" style="margin:10px 0 4px"><b>Closing — the expo sign-out checklist</b></p>
+      ${tbl(["Duty","Closing requirement"],HOUSE.expo.close.map(([d,r])=>[`<b>${esc(d)}</b>`,esc(r)]))}
+      <div class="note warn" style="margin-top:8px">${esc(HOUSE.expo.closeRule)}</div>`)}
+    ${acc("Steak recook ticket","what goes on the ticket when a steak goes back",`
+      <p class="sub" style="margin:2px 0 6px"><b>Fill in</b></p>
+      <ul class="steps">${HOUSE.recook.fields.map(f=>`<li>${esc(f)}</li>`).join("")}</ul>
+      <p class="sub" style="margin:10px 0 4px"><b>Recook reason</b> — mark one</p>
+      <div class="tags">${HOUSE.recook.reasons.map(r=>`<span class="tag">${esc(r)}</span>`).join("")}</div>`)}
     ${acc("Mise en place — what goes down with what","every utensil, course by course",`
       <p class="sub" style="margin:2px 0 10px">Everything in its place: all the items the guest needs and none they do not. The cocktail fork is the one that gets forgotten — it goes down <b>before</b> the food, never after.</p>
       ${HOUSE.mise.map(([t,s,rows])=>`<p class="sub" style="margin:12px 0 4px"><b>${esc(t)}</b> — ${esc(s)}</p><ul class="steps">${rows.map(d=>`<li>${d}</li>`).join("")}</ul>`).join("")}`)}
     ${acc("Tableside shows + setups","every setup, every show, one list",`<ul class="steps">${HOUSE.tableside.map(([t,d])=>`<li><b>${esc(t)}:</b> ${esc(d)}</li>`).join("")}</ul>`)}
     ${acc("Back server closing tasks","the full close-down, from the official checklist",`<ul class="steps">${HOUSE.backclose.map(d=>`<li>${esc(d)}</li>`).join("")}</ul>`)}
-    ${acc("Closing side work — front, back, closer","the posted sheet with slow-night and busy-night quantities",`<ul class="steps">${HOUSE.closesheet.map(d=>`<li>${esc(d)}</li>`).join("")}</ul>`)}
+    ${(()=>{const c=HOUSE.closesheet, sb=rows=>tbl(["Task",esc(c.slow),esc(c.busy)],rows.map(([t,a,b])=>[`<b>${esc(t)}</b>`,esc(a),esc(b)]));
+      return acc("Closing side work — front, back, closer","the posted sheet with slow-night and busy-night quantities",`
+      <p class="sub" style="margin:2px 0 4px"><b>Front of house servers</b></p>${sb(c.front)}
+      <p class="sub" style="margin:12px 0 4px"><b>Back servers</b> — team responsibilities, divide evenly</p>
+      <ul class="steps">${c.backTeam.map(t=>`<li>${esc(t)}</li>`).join("")}</ul>${sb(c.back)}
+      <p class="sub" style="margin:12px 0 4px"><b>Back closer</b></p>
+      <ul class="steps">${c.closer.map(t=>`<li>${esc(t)}</li>`).join("")}</ul>
+      <p class="sub" style="margin:12px 0 4px"><b>Closing expectations</b></p>
+      <ul class="steps">${c.rules.map(t=>`<li>${esc(t)}</li>`).join("")}</ul>`);})()}
+    ${acc("Server sign-out checklist","what every server, cocktailer and closer signs before leaving",`
+      ${HOUSE.signout.map(([t,rows])=>`<p class="sub" style="margin:10px 0 4px"><b>${esc(t)}</b></p><ul class="steps">${rows.map(d=>`<li>${esc(d)}</li>`).join("")}</ul>`).join("")}
+      <div class="note warn" style="margin-top:10px">${esc(HOUSE.signoutRule)}</div>`)}
+    ${acc("Weekly cleaning log","one deep-clean job a day, initialed and signed off by a manager",
+      tbl(["Day","Cleaning tasks"],HOUSE.cleaning.map(([d,t])=>[`<b>${esc(d)}</b>`,esc(t)])))}
     ${acc("Bar steps + timing standards","the 20-step bar bible — the timing rules apply everywhere",`<ul class="steps">${HOUSE.barsteps.map(d=>`<li>${esc(d)}</li>`).join("")}</ul>`)}
     ${acc("House facts","uniform, trivia, and the little rules",`<ul class="steps">${HOUSE.facts.map(([t,d])=>`<li><b>${esc(t)}:</b> ${esc(d)}</li>`).join("")}</ul>`)}
     <div class="sechead"><h2>Employee Handbook</h2><span>staff only</span></div>
@@ -9250,7 +9361,7 @@ function build(){
       <li>The old Kristen Sundae was named for a former owner's wife.</li></ul>`)}
 
     <div class="sechead"><h2>About this app</h2><span>read once</span></div>
-    <div class="note">Mo's Server Command Center — built by Evan (back server) as a training and money tool for the team. It is a STUDY COPY, not official house policy: menus, prices, and rules change, so when a dollar matters, verify in Toast or with a manager. The checkout math is proven against real graded checkouts. Spot something wrong or outdated? Tell Evan — corrections go in same-day. Updated <b>10/29/2026</b>.</div>
+    <div class="note">Mo's Server Command Center — built by Evan (back server) as a training and money tool for the team. It is a STUDY COPY, not official house policy: menus, prices, and rules change, so when a dollar matters, verify in Toast or with a manager. The checkout math is proven against real graded checkouts. Spot something wrong or outdated? Tell Evan — corrections go in same-day. Updated <b>10/30/2026</b>.</div>
     </div>`;
 
   /* ---------- VOCABULARY ---------- */

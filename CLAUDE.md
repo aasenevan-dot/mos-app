@@ -891,3 +891,26 @@ nowhere else we have ever seen; it is in the trainer data verbatim, unexplained.
 Green: qc CLEAN, build 2,436,495 bytes, test.py ALL GOOD, test-sched.py ALL GOOD (now covering
 the trainer reader, per-trainee isolation, the rebuild-survives-progress case, the label-width
 regression, and all five content conflicts).
+
+## 10/30 round — eight paper sheets (pre-shift, closing, sign-out, cleaning, recook, banquet)
+
+Evan sent eight photos from a phone thread. What went where:
+- **Pre-shift emphasis sheet** → `HOUSE.emphasis`, rendered as "This week at pre-shift" right
+  under the Mission in How We Work. MOD names and the date were left off on purpose.
+- **Off-menu cuts this week** → `SPECIALS_ON`: Grass-Fed NY Strip $75 and 16 oz French Bone-In
+  Pork Chop $65, both flagged "Off menu", both with allergen rows marked VERIFY. The 45-Day
+  ribeye is the menu item of the week (text only, still NO flag — the test requires that).
+  "Preparation: medium and up" is attached to the pork chop only; ask Evan if it covers the strip.
+- **Soup of the day** → the existing Pasta e Fagioli SOTD entry got the sheet's ingredients
+  (tortellini, so gluten; egg VERIFY). No duplicate soup.
+- **Wine of the week** → Justin Cabernet $105 is now; Justin Isosceles moved to last; Groth to
+  past. Tasting notes are VERIFY. Justin Cab is NOT on the full bottle list yet. Eight quiz
+  questions changed in both `5-data-quiz.js` MC and `quiz-bank.json` — they must stay paired.
+- **Expo sign-out sheet** → `HOUSE.expo.close` is now [duty, requirement] pairs + `closeRule`.
+- **Server closing sheet** → `HOUSE.closesheet` is an object now (slow vs busy columns, back
+  team stations, closer tasks, rules). **Server sign-out** → `HOUSE.signout`.
+- **Weekly cleaning log** → `HOUSE.cleaning`, Wed → Tue. Initials left off.
+- **Steak recook ticket** → `HOUSE.recook` (fields + reasons).
+- **Banquet menu option** → new `BANQUET_MENU` in 4-data-food.js, an accordion just above the
+  Archives on the Food Menu tab.
+Spanish for all the new strings is NOT done; it falls back to English.

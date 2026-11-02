@@ -78,6 +78,8 @@ const EVENTS=[
   w:"An enchanting evening of mystery, music and Halloween revelry in the lounge — live music (Greg & Steve), a costume contest, and sinfully good drink specials. Reservations 317.641.0720."},
  {d:"10/29", when:"Thu · the Lounge", n:"Ghouls Night",
   w:"Ladies night with a spooky twist \u2014 $10 martinis and wine plus appetizer specials in the lounge. Reservations recommended."},
+ {d:"11/3", when:"Tue · 11 am\u20132 pm · Wheeler Mission, 520 E Market St, Indianapolis 46204", n:"Wheeler Mission Volunteer Day (staff)",
+  w:"Join the Mo\u2019s and Prime 47 team serving food to people in need at Wheeler Mission and help bring some holiday cheer. Sign up on the sheet posted at the restaurant."},
  {d:"11/19", when:"Thu · 6:30 pm · $150 per person", n:"Dine in Red \u2014 Bourbon Dinner",
   w:"Five courses paired with Buffalo Trace, Blanton\u2019s, Four Roses and more \u2014 an evening supporting women\u2019s heart health. Proceeds benefit the Franciscan Health Cardiac Service Line Fund and the American Heart Association\u2019s Go Red for Women. RSVP Lillian@mosgreenwood.com."},
  {d:"11/26", when:"Thu · 3\u20138 pm · reservations required", n:"Thanksgiving Dinner",

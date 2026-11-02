@@ -12,8 +12,9 @@
    push the old one onto the FRONT of SCHEDULE_HISTORY.
    ============================================================ */
 /* ============================================================
-   LIVE MUSIC — off the house poster, "LIVE MUSIC IN THE LOUNGE,
-   OCTOBER 2026". Every Friday & Saturday in the lounge.
+   LIVE MUSIC — off the house posters for OCTOBER and NOVEMBER 2026
+   ("Don't miss our live music in the lounge, every Friday & Saturday").
+   October stays so the 10/28 week still shows its acts on the grid.
    Keyed "M/D" so schedGrid drops the act onto the right column
    automatically as the posted week rolls over; past dates drop off
    the poster block on their own. 10/31 (Greg & Steve) is the live
@@ -29,7 +30,15 @@ const LIVE_MUSIC={
  "10/23":"Tim & Cat",
  "10/24":"Austin Johnson",
  "10/30":"Nick Lemmonti",
- "10/31":"Greg & Steve"
+ "10/31":"Greg & Steve",
+ "11/6":"Christina & Frank",
+ "11/7":"Tim & Cat",
+ "11/13":"Nick Lemmonti",
+ "11/14":"Honeycutt",
+ "11/20":"Nick Lemmonti",
+ "11/21":"Christina & Frank",
+ "11/27":"Honeycutt",
+ "11/28":"Austin Johnson"
 };
 
 /* MEALS & MOMENTS — the off-site meals we serve for church families and the community,

@@ -95,6 +95,41 @@ with sync_playwright() as p:
     if errs:
         fails.append(f"uncaught JS while driving the calculators: {errs[:2]}")
 
+    # Small Android phones (11/3): main has overflow-x:clip, so a card that grew wider than
+    # the screen never showed up as sideways scroll — its right edge was just cut off.
+    # A nowrap price or a long flag chip inside a 1fr grid did exactly that on 360px phones.
+    # Walk every tab with every accordion open and fail on any text box poking past the
+    # screen, unless it sits inside a deliberate sideways scroller (wide tables in .tw).
+    clipped_js = """() => {
+      const vw = document.documentElement.clientWidth, bad = [];
+      const inScroller = el => { for (let p = el.parentElement; p && p !== document.body; p = p.parentElement) {
+        const o = getComputedStyle(p).overflowX; if ((o === 'auto' || o === 'scroll') && p.scrollWidth > p.clientWidth + 1) return true; }
+        return false; };
+      for (const el of document.querySelectorAll('#main *')) {
+        const r = el.getBoundingClientRect(); if (!r.width || !r.height || r.right <= vw + 1) continue;
+        if (![...el.childNodes].some(n => n.nodeType === 3 && n.textContent.trim())) continue;
+        if (getComputedStyle(el).position === 'fixed' || inScroller(el)) continue;
+        bad.push(el.className + ': ' + el.textContent.trim().slice(0, 40));
+      }
+      return bad;
+    }"""
+    for w, h in [(320, 568), (360, 640)]:
+        ap = b.new_page(viewport={"width": w, "height": h}, is_mobile=True, has_touch=True,
+                        device_scale_factor=2.75,
+                        user_agent="Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 "
+                                   "(KHTML, like Gecko) Chrome/120.0 Mobile Safari/537.36")
+        ap.goto(target.as_uri())
+        ap.wait_for_timeout(700)
+        ap.evaluate("var x=document.querySelector('.dvwrap .dvx'); if(x)x.click();")
+        for t in ap.evaluate("TABS.map(t=>t[0])"):
+            ap.evaluate(f"go('{t}')")
+            ap.wait_for_timeout(120)
+            ap.evaluate("document.querySelectorAll('#main details').forEach(d=>d.open=true)")
+            bad = ap.evaluate(clipped_js)
+            if bad:
+                fails.append(f"{w}px Android: {len(bad)} text boxes cut off on '{t}', e.g. {bad[:2]}")
+        ap.close()
+
     b.close()
 
 if fails:

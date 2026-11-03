@@ -891,3 +891,21 @@ nowhere else we have ever seen; it is in the trainer data verbatim, unexplained.
 Green: qc CLEAN, build 2,436,495 bytes, test.py ALL GOOD, test-sched.py ALL GOOD (now covering
 the trainer reader, per-trainee isolation, the rebuild-survives-progress case, the label-width
 regression, and all five content conflicts).
+
+## 11/3 — Android phones (Chrome, home screen)
+
+A coworker on an older Android phone saw text cut off. Cause: `.grid` went to plain `1fr` on
+phones, and grid/flex children default to `min-width:auto`, so one unbreakable line (a nowrap
+price like "6 oz $63 / 10 oz $87", a region tag, a long flag chip) stretched the whole card past
+the screen. `main{overflow-x:clip}` hid the sideways scroll, so the right edge was just CUT OFF
+and the old sideways test never saw it. It hit 360px phones hard and even 412px ones a little.
+- Fix lives in the "small phones" block in 1-head.html: grid columns `minmax(0,1fr)` /
+  `minmax(min(100%,290px),1fr)`, `min-width:0` on grid children, prices may wrap (balanced,
+  right-aligned), the name gives up room first (flex-shrink 3 — keep factors at 1 or more, below
+  1 the flex algorithm hands out only part of the space and the row overflows again), flag chips
+  may wrap, selects capped at 100%. Nothing changes where nothing needed to wrap.
+- `vh` sheets/lightbox got a `dvh` line after them so Chrome's address bar cannot hide the bottom.
+- `manifest.webmanifest` + `icons/` at the repo root: Chrome installs the app full screen with a
+  real icon. Anyone who added it to the home screen before should remove it and add it again.
+- `test.py` now walks every tab at 320 and 360 wide with every accordion open and fails on any
+  text box past the screen edge (outside deliberate `.tw` scrollers). It fails on the old build.

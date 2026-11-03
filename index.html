@@ -14,6 +14,10 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self' https://*.workers.dev wss://*.workers.dev; base-uri 'none'; form-action 'none'; object-src 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="theme-color" content="#59201C">
+<!-- Android home screen: Chrome reads this to install the app full screen (no address bar)
+     with a proper icon. The file sits next to index.html on GitHub Pages; when the file is
+     opened anywhere else the link just fails quietly and nothing breaks. -->
+<link rel="manifest" href="manifest.webmanifest">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -106,8 +110,8 @@ main{max-width:1180px;margin:0 auto;padding:20px 16px 40px;overflow-x:clip}
 .lede{color:var(--dim);font-size:13.5px;margin:0 0 14px;max-width:70ch}
 
 /* ---------- cards / grid ---------- */
-.grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(290px,1fr))}
-.grid.wide{grid-template-columns:repeat(auto-fill,minmax(340px,1fr))}
+.grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));grid-template-columns:repeat(auto-fill,minmax(min(100%,290px),1fr))}
+.grid.wide{grid-template-columns:repeat(auto-fill,minmax(340px,1fr));grid-template-columns:repeat(auto-fill,minmax(min(100%,340px),1fr))}
 /* Alphabetised wine list: full-width letter dividers + a right-edge A-Z index (iOS-style). */
 .wlhdr{grid-column:1/-1;font-family:Georgia,serif;font-size:15px;font-weight:750;color:var(--gold);
   padding:8px 2px 3px;border-bottom:1px solid var(--line);margin:6px 0 -2px;scroll-margin-top:78px}
@@ -384,7 +388,7 @@ body.dark .trpill.retrain{color:#e0aa5e;border-color:rgba(214,158,74,.5);backgro
 
 /* ---------- the training slideshow: one slide at a time, thumb-friendly ---------- */
 .dkstage{border:1.5px solid var(--line);border-radius:18px;background:var(--card);
-  padding:20px 18px 24px;margin:10px 0 4px;min-height:58vh}
+  padding:20px 18px 24px;margin:10px 0 4px;min-height:58vh;min-height:58dvh}
 .dkstage.day,.dkstage.cover{background:var(--brand);border-color:var(--brand);color:var(--cream)}
 .dkstage.day h2,.dkstage.cover h2{color:var(--cream)}
 .dkstage.day .dkkick,.dkstage.cover .dkkick{color:#E8D6C8}
@@ -597,7 +601,7 @@ html.dark .floorimg{filter:invert(1) hue-rotate(180deg) brightness(.92);border-c
 .picwrap{position:fixed;inset:0;z-index:9500;background:rgba(15,9,8,.93);display:flex;flex-direction:column;
   align-items:center;justify-content:center;cursor:zoom-out;overflow:auto;
   padding:calc(14px + env(safe-area-inset-top,0px)) calc(14px + env(safe-area-inset-right,0px)) calc(14px + env(safe-area-inset-bottom,0px)) calc(14px + env(safe-area-inset-left,0px))}
-.picwrap img{max-width:100%;max-height:86vh;border-radius:8px;box-shadow:0 12px 44px rgba(0,0,0,.55)}
+.picwrap img{max-width:100%;max-height:86vh;max-height:86dvh;border-radius:8px;box-shadow:0 12px 44px rgba(0,0,0,.55)}
 .piccap{color:#e8dccb;font-size:13px;margin-top:12px;text-align:center}
 /* Devour TEXT menu — the same prix-fixe as a clean, scannable read (courses, choices, prices),
    opened from search or the section. Scrolls, unlike the picture lightbox, because it is a list. */
@@ -756,7 +760,7 @@ body{padding-bottom:calc(88px + env(safe-area-inset-bottom,0px))}
 .totop{bottom:calc(78px + env(safe-area-inset-bottom,0px))}
 footer{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
 .sheet.open{display:block;position:fixed;inset:0;z-index:80;background:rgba(41,37,37,.5)}
-.sheetin{position:absolute;left:0;right:0;bottom:0;background:var(--bg2);border-radius:20px 20px 0 0;border-top:1px solid var(--line2);padding:16px 14px calc(22px + env(safe-area-inset-bottom,0px));max-height:78vh;overflow:auto}
+.sheetin{position:absolute;left:0;right:0;bottom:0;background:var(--bg2);border-radius:20px 20px 0 0;border-top:1px solid var(--line2);padding:16px 14px calc(22px + env(safe-area-inset-bottom,0px));max-height:78vh;max-height:78dvh;overflow:auto}
 .sheetin h3{font-size:12px;color:var(--dim2);text-transform:uppercase;letter-spacing:.06em;margin:12px 2px 8px}
 .sheetin .row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .sheetin button.item{background:var(--card);border:1px solid var(--line2);border-radius:12px;color:var(--txt);padding:13px 12px;font-size:13.5px;font-weight:600;cursor:pointer;text-align:left;touch-action:manipulation}
@@ -769,9 +773,27 @@ footer{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
   main{padding:16px 12px 30px}
   .hwrap{padding:10px 12px 0}
   .navbar .hwrap{padding:0 8px}
-  .grid,.grid.wide{grid-template-columns:1fr}
+  .grid,.grid.wide{grid-template-columns:minmax(0,1fr)}
   .sechead h2{font-size:17.5px}
 }
+/* ---------- small phones (older Android in Chrome, big display/text settings) ----------
+   Grid and flex children default to min-width:auto, so ONE unbreakable line (a nowrap
+   price like "6 oz $63 / 10 oz $87", a region tag, a long flag chip) stretched the whole
+   card past the screen, and main's overflow-x:clip silently cut the right edge off.
+   These rules let the line wrap instead. On a roomy screen nothing changes, because
+   nothing needed to wrap there. */
+.grid>*,.kpis>*,.qa>*,.frow>*{min-width:0}
+body{overflow-wrap:break-word}
+.crow>.cprice,.mtext>.cprice,.ctext>.cprice{white-space:normal;text-align:right;text-wrap:balance}
+/* the name gives up room before the price does (factors stay at 1 or more: below 1 the
+   flex algorithm only hands out part of the space and the row overflows again) */
+.crow>:first-child,.mtext>:first-child,.ctext>:first-child{flex-shrink:3}
+.mflag{max-width:100%;white-space:normal}
+.f{max-width:100%}
+.f select,.f input{max-width:100%}
+#gsearch{text-overflow:ellipsis}
+.cpgrid th{overflow-wrap:anywhere}
+@media(max-width:340px){.cpgrid th,.cpgrid td{padding:6px 4px}.cpgrid th{letter-spacing:0}}
 @media(max-width:768px){
   .navbar{display:none}
 }
@@ -813,7 +835,7 @@ footer{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
   .flip .back{display:block}
   details.acc{display:block}
   details.acc>.accbody{display:block}
-  .panel.on::after{content:"Mo's — updated 11/2/2026 — study copy, verify in Toast";display:block;margin-top:16px;padding-top:8px;border-top:1px solid #999;font-size:10px;color:#444}
+  .panel.on::after{content:"Mo's — updated 11/3/2026 — study copy, verify in Toast";display:block;margin-top:16px;padding-top:8px;border-top:1px solid #999;font-size:10px;color:#444}
 }
 .qprog{height:5px;background:var(--bg2);border-radius:99px;overflow:hidden;margin:2px 0 12px}
 .qprog i{display:block;height:100%;background:var(--gold);border-radius:99px;transition:width .25s ease}
@@ -9324,7 +9346,7 @@ function build(){
       <li>The old Kristen Sundae was named for a former owner's wife.</li></ul>`)}
 
     <div class="sechead"><h2>About this app</h2><span>read once</span></div>
-    <div class="note">Mo's Server Command Center — built by Evan (back server) as a training and money tool for the team. It is a STUDY COPY, not official house policy: menus, prices, and rules change, so when a dollar matters, verify in Toast or with a manager. The checkout math is proven against real graded checkouts. Spot something wrong or outdated? Tell Evan — corrections go in same-day. Updated <b>11/2/2026</b>.</div>
+    <div class="note">Mo's Server Command Center — built by Evan (back server) as a training and money tool for the team. It is a STUDY COPY, not official house policy: menus, prices, and rules change, so when a dollar matters, verify in Toast or with a manager. The checkout math is proven against real graded checkouts. Spot something wrong or outdated? Tell Evan — corrections go in same-day. Updated <b>11/3/2026</b>.</div>
     </div>`;
 
   /* ---------- VOCABULARY ---------- */

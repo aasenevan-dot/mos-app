@@ -5017,12 +5017,12 @@
    "Lemon twist",
    "Two Luxardo cherries"
   ],
-  "why": "Cherry and orange over the big cube. Orange twist only is the Draft OF; lemon twist is the HMFIC.",
+  "why": "Cherry and orange muddled in, over the big cube. The Draft OF is different. You drop its orange slice and Luxardo cherry in the glass and never muddle them. Lemon twist is the HMFIC.",
   "t": "cocktail",
   "kind": "spec",
   "use": 4,
   "diff": 2,
-  "src": "COCKTAILS[Mo's Signature OF].garnish: \"Large cube, cherry and orange\" (3-data-drinks.js:51); Smoked Draft OF garnish: \"Orange twist and large cube\"; HMFIC garnish: \"Lemon twist\""
+  "src": "COCKTAILS[Mo's Signature OF].garnish: \"Large cube, cherry and orange\" (3-data-drinks.js:51); Smoked Draft OF garnish: \"Orange slice and a Luxardo cherry in the glass, not muddled\"; HMFIC garnish: \"Lemon twist\""
  },
  {
   "q": "Draft OF with the tableside smoke added — what's the total?",
@@ -5398,6 +5398,21 @@
   "use": 3,
   "diff": 3,
   "src": "COCKTAILS_OTHER.signature[Smoked Draft Old Fashioned].build: \"Buffalo Trace Bourbon, vanilla & orange bitters, on draft — refreshing with slight bubbles.\""
+ },
+ {
+  "q": "Who garnishes the Smoked Draft Old Fashioned, and how?",
+  "a": "You do. Orange slice and a Luxardo cherry dropped in the glass, never muddled",
+  "w": [
+   "The bar muddles a cherry and orange into it before it pours",
+   "The bar adds an orange twist on the rim and that's it",
+   "You do. Two Luxardo cherries on a pick across the rim"
+  ],
+  "why": "It pours off the tap, so the garnish is on you. Drop in the orange slice and the Luxardo cherry and leave them whole. Muddled cherry and orange is Mo's Signature OF.",
+  "t": "cocktail",
+  "kind": "spec",
+  "use": 4,
+  "diff": 2,
+  "src": "COCKTAILS[Smoked Draft Old Fashioned].garnish: \"Orange slice and a Luxardo cherry in the glass, not muddled\"; Evan, Nov 6: servers add the Luxardo cherry with the orange slice, not muddled"
  },
  {
   "q": "After dinner a guest asks for a cappuccino. What's the honest answer?",

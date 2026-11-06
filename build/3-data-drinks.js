@@ -44,8 +44,8 @@ const COCKTAILS = [
 
  {n:"Smoked Draft Old Fashioned",p:"$17",grp:"signature",base:"Bourbon",
  build:"Buffalo Trace Bourbon, vanilla & orange bitters, on draft — refreshing with slight bubbles.",
- glass:"Rocks glass, large cube",garnish:"Orange twist and large cube",
- desc:"Vanilla, oak, smoke, citrus.",note:"Smoked tableside for +$3: bartender builds it and hands everything off at the station — you smoke it under the lid on your tray, then lift the lid at the table for the show."},
+ glass:"Rocks glass, large cube",garnish:"Orange slice and a Luxardo cherry in the glass, not muddled",
+ desc:"Vanilla, oak, smoke, citrus.",note:"You add the orange slice and the Luxardo cherry yourself, right in the glass. Never muddle them. Smoked tableside for +$3: bartender builds it and hands everything off at the station — you smoke it under the lid on your tray, then lift the lid at the table for the show."},
  {n:"Mo's Signature OF",p:"$16",grp:"signature",base:"Bourbon",
  build:"Buffalo Trace, Angostura & orange bitters, simple syrup, muddled cherry & orange.",
  glass:"Rocks glass",garnish:"Large cube, cherry and orange",

@@ -104,6 +104,71 @@ const WEEKLY=[
 const OFFSITE_NOTE="Fellowship, food, and fun — bringing a church family and the community together over a shared meal. Want to serve one? Email or text Yaris at admin@prime47carmel.com or 317.703.4284.";
 
 const SCHEDULE={
+ week:"Week of 11/11 \u2013 11/17, 2026", year:2026, start:"2026-11-11",
+ days:[["11/11","We"],["11/12","Th"],["11/13","Fr"],["11/14","Sa"],["11/15","Su"],["11/16","Mo"],["11/17","Tu"]],
+ sections:[
+  ["Managers",[
+   ["Mike","1","1","1","3","","","4"],
+   ["CJ","","2","3","1","1","1",""]
+  ]],
+  ["BQTs",[
+   ["Gavin","","","","","","",""]
+  ]],
+  ["Fronts",[
+   ["Alexis","345","2","330","330","","","1 MGR"],
+   ["Chad","OFF","2","330","3 MGR","OFF","OFF","OFF"],
+   ["Hunter","OFF","OFF","330","330","OFF","OFF","345"],
+   ["Diana","330 Cocktail","330","330","330 Cocktail","3","","345"],
+   ["MorganB","OFF","OFF","330","330","3","345","OFF"],
+   ["Nathan","OFF","OFF","","330","OFF","345","345"],
+   ["Fabian","OFF","330","330","330","3","345",""],
+   ["Alex","345","","330","330","3","OFF","345"]
+  ],["51","61","42","62","5","3","10"]],
+  ["Backs",[
+   ["Lupe","","","","","","",""],
+   ["Morgan W","RO","330","330","330","","","OFF"],
+   ["Evan","OFF","OFF","330","RO","","345","OFF"],
+   ["Meagan","OFF","330","330","330","3","","345"],
+   ["D","OFF","OFF","330","330","3","OFF","OFF"],
+   ["Barbie","345","330","330","330","3","OFF","345"],
+   ["Erin","345","","330","330","OFF","345","OFF"],
+   ["J Fox","OFF","OFF","OFF","OFF","OFF","OFF","OFF"],
+   ["Abby","OFF","","330","330","OFF","OFF","345"],
+   ["Victoria","","","","330","3","345","345"],
+   ["Eric","","","","","","",""]
+  ]],
+  ["Bar",[
+   ["Krista","3","2","RO","RO","RO","RO","RO"],
+   ["Christian","","4","3","3","","3",""],
+   ["Jennea","OFF","OFF","5","5","3","OFF","3"]
+  ]],
+  ["Cktail",[
+   ["Jenny","345 Front","","","330 Front","3 Front","345 Front",""],
+   ["Taylor","","330","330","RO","3","OFF","345"]
+  ]],
+  ["Host",[
+   ["Mackenzie","4","","4","5","4 Busser","4",""],
+   ["Leila","RO","4","4","4","4","","4"],
+   ["Bella","5","5","OFF","5","","","5"]
+  ]],
+  ["Expo",[
+   ["CARTER","","4 Busser","OFF","5","4","",""],
+   ["Jackson","345 Back","345 Back","4","4","","","4"],
+   ["Rodrigo","4","4","","","","4",""],
+   ["Nick","4","4","5","4","","",""],
+   ["Bryson","","","","530","","5","5"]
+  ]],
+  ["Busser",[
+   ["Conner","4","4","430","4","","4","4"],
+   ["Dalton","OFF","4","4","430","4","","OFF"],
+   ["Jackson","","OFF","","","OFF","OFF",""],
+   ["LUCAS","OFF","OFF","OFF","OFF","OFF","OFF","OFF"]
+  ]]
+ ],
+ note:"Transcribed from the printed sheet (photo). New name this week: Nick (Expo). \u201cCocktail\u201d / \u201cFront\u201d / \u201cBack\u201d / \u201cBusser\u201d / \u201cMGR\u201d are section tags kept as written (Chad\u2019s Saturday cell is printed \u201c3 MRG\u201d, a typo for MGR). Bryson\u2019s Monday 5 sits off to the right edge of its box on the sheet. The BQTs row has no name on the sheet. J Fox and LUCAS are on the sheet but blacked out all week.", src:"schedule photo 11/11-11/17"
+};
+const SCHEDULE_HISTORY=[
+{
  week:"Week of 11/4 \u2013 11/10, 2026", year:2026, start:"2026-11-04",
  days:[["11/4","We"],["11/5","Th"],["11/6","Fr"],["11/7","Sa"],["11/8","Su"],["11/9","Mo"],["11/10","Tu"]],
  sections:[
@@ -165,8 +230,7 @@ const SCHEDULE={
   ]]
  ],
  note:"Transcribed from the printed sheet (photo). New names this week: Eric (Backs, blank all week) and Bella (Host). \u201cCocktail\u201d / \u201cFront\u201d / \u201cBack\u201d / \u201cBusser\u201d / \u201cMGR\u201d are section tags kept as written. Meagan, D and Barbie now sit above Erin on the Backs list, as printed. The BQTs row has no name on the sheet. LUCAS is on the sheet but blacked out all week.", src:"schedule photo 11/4-11/10"
-};
-const SCHEDULE_HISTORY=[
+},
 {
  week:"Week of 10/28 \u2013 11/3, 2026", year:2026, start:"2026-10-28",
  days:[["10/28","We"],["10/29","Th"],["10/30","Fr"],["10/31","Sa"],["11/1","Su"],["11/2","Mo"],["11/3","Tu"]],

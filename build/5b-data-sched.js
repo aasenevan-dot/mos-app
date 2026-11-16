@@ -104,6 +104,70 @@ const WEEKLY=[
 const OFFSITE_NOTE="Fellowship, food, and fun — bringing a church family and the community together over a shared meal. Want to serve one? Email or text Yaris at admin@prime47carmel.com or 317.703.4284.";
 
 const SCHEDULE={
+ week:"Week of 11/18 \u2013 11/24, 2026", year:2026, start:"2026-11-18",
+ days:[["11/18","We"],["11/19","Th"],["11/20","Fr"],["11/21","Sa"],["11/22","Su"],["11/23","Mo"],["11/24","Tu"]],
+ sections:[
+  ["Managers",[
+   ["Mike","1","2","1","3","","","4"],
+   ["CJ","","1","3","1","1","1",""]
+  ]],
+  ["BQTs",[
+   ["","","Bourbon Dinner","","","","",""]
+  ]],
+  ["Fronts",[
+   ["Alexis","345","2 BD","330","330","","","1 MGR"],
+   ["Chad","OFF","2 BD","3 MGR","3 MGR","OFF","OFF","OFF"],
+   ["Hunter","OFF","330 BD","330","330","OFF","OFF","345"],
+   ["Diana","330 Cocktail","330","330","330 Cocktail","","345 Cocktail",""],
+   ["MorganB","OFF","OFF","330","330","3","345","OFF"],
+   ["Nathan","OFF","OFF","330","330","OFF","345","345"],
+   ["Fabian","OFF","330","330","330","3","345","345"],
+   ["Alex","345","","330","330","3","OFF","345"]
+  ],["7","51","9","45","59","","11"]],
+  ["Backs",[
+   ["Lupe","","","","","","",""],
+   ["Morgan W","345","330 BD","RO","330","RO","","OFF"],
+   ["Evan","OFF","330","330","330","","345","OFF"],
+   ["Meagan","OFF","330 BD","RO","330","3","","345"],
+   ["D","OFF","OFF","330","330","3","OFF","OFF"],
+   ["Barbie","345","330 BD","330","330","RO","OFF","345"],
+   ["Erin","345","330","330","330","OFF","345","OFF"],
+   ["Abby","OFF","","330","330","OFF","OFF","345"],
+   ["Victoria","","","330","","3","345","345"],
+   ["Josh","","330","330","330","","",""],
+   ["Sarah","","","","","","",""],
+   ["Evah","","","","","","",""]
+  ]],
+  ["Bar",[
+   ["Krista","3","2","","3","","","4"],
+   ["Christian","","4","3","4","3","3",""],
+   ["Jennea","OFF","OFF","5","5","","OFF","3"]
+  ]],
+  ["Cktail",[
+   ["Jenny","345 Front","330 Front","","330 Front","3 Front","",""],
+   ["Taylor","","330","330","","3","OFF","345"]
+  ]],
+  ["Host",[
+   ["Mackenzie","","4 Busser","4","12","","4 Busser","4"],
+   ["Leila","4","4","4","4","4","4",""],
+   ["Bella","5","5","OFF","5","","","5"]
+  ]],
+  ["Expo",[
+   ["CARTER","5","RO","OFF","RO","RO","RO","RO"],
+   ["Jackson","RO","4","4","4","RO","RO","RO"],
+   ["Nick","4","","5","430","4","","4"],
+   ["Bryson","","","5 Busser","530","","4",""]
+  ]],
+  ["Busser",[
+   ["Conner","4","","430","4","4","","4"],
+   ["Dalton","OFF","4","4","430","4","","OFF"],
+   ["LUCAS","OFF","OFF","OFF","OFF","OFF","OFF","OFF"]
+  ]]
+ ],
+ note:"Transcribed from the printed sheet (photo). New names this week: Josh, Sarah and \u201cEvah\u201d (Backs; Sarah and Evah are blank all week, and Evah is spelled that way on the sheet). J Fox, Eric and Rodrigo are off the sheet. \u201cBD\u201d marks Thursday\u2019s Bourbon Dinner, which sits in the BQTs row with no name. \u201cCocktail\u201d / \u201cFront\u201d / \u201cBusser\u201d / \u201cMGR\u201d are section tags kept as written. Mackenzie\u2019s Saturday cell is printed \u201c12\u201d. Nick\u2019s Sunday 4 and Bryson\u2019s Monday 4 sit at the right edge of their boxes. LUCAS is on the sheet but blacked out all week.", src:"schedule photo 11/18-11/24"
+};
+const SCHEDULE_HISTORY=[
+{
  week:"Week of 11/11 \u2013 11/17, 2026", year:2026, start:"2026-11-11",
  days:[["11/11","We"],["11/12","Th"],["11/13","Fr"],["11/14","Sa"],["11/15","Su"],["11/16","Mo"],["11/17","Tu"]],
  sections:[
@@ -166,8 +230,7 @@ const SCHEDULE={
   ]]
  ],
  note:"Transcribed from the printed sheet (photo). New name this week: Nick (Expo). \u201cCocktail\u201d / \u201cFront\u201d / \u201cBack\u201d / \u201cBusser\u201d / \u201cMGR\u201d are section tags kept as written (Chad\u2019s Saturday cell is printed \u201c3 MRG\u201d, a typo for MGR). Bryson\u2019s Monday 5 sits off to the right edge of its box on the sheet. The BQTs row has no name on the sheet. J Fox and LUCAS are on the sheet but blacked out all week.", src:"schedule photo 11/11-11/17"
-};
-const SCHEDULE_HISTORY=[
+},
 {
  week:"Week of 11/4 \u2013 11/10, 2026", year:2026, start:"2026-11-04",
  days:[["11/4","We"],["11/5","Th"],["11/6","Fr"],["11/7","Sa"],["11/8","Su"],["11/9","Mo"],["11/10","Tu"]],

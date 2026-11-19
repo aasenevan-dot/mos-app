@@ -945,6 +945,14 @@ function search(q){
       if(matches([e.n,e.when,e.w,e.d,"event","party"]))
         add("Event · "+e.d,e.n,e.when+" — "+e.w,"sched");});
   }
+  if(typeof BOURBON_DINNER!=="undefined"&&bourbonState()!=="soon"){
+    const live=bourbonState()==="live", BD=BOURBON_DINNER;
+    const tab=live?"shift":"extra", lab=live?"Bourbon dinner · tonight":"Past event · bourbon dinner";
+    if(matches([BD.title,"bourbon dinner","franciscan","pairing","event"]))add(lab,BD.title,BD.blurb,tab);
+    BD.courses.forEach(c=>{
+      if(matches([c.pour,c.dish,c.menu,c.desc,"bourbon dinner","franciscan"]))
+        add(lab,"Course "+c.n+" · "+c.dish,c.pour+" — "+c.menu,tab);});
+  }
   if(typeof MISE!=="undefined") MISE.forEach(m=>{
     const tools=m[1].join(", ");
     if(matches([m[0],tools,m[2],"mise en place","silverware","set with"]))
@@ -1139,6 +1147,74 @@ function openDevourMenu(){
   document.body.appendChild(w);
   if(LANG==="es")applyLang(w);
 }
+/* ============ FRANCISCAN HEALTH BOURBON DINNER (one night) ============
+   Lives at the very top of the home tab on BOURBON_DINNER.date only, judged in Indianapolis
+   time so a phone set to another zone still flips at OUR midnight. After that it moves to
+   Reference & Archive as a closed accordion. bourbonGate() runs at boot and every minute, so
+   a phone left open through close still drops it at midnight without a reload. */
+function bdToday(){
+  try{
+    const p=new Intl.DateTimeFormat("en-US",{timeZone:"America/Indiana/Indianapolis",year:"numeric",month:"2-digit",day:"2-digit"}).formatToParts(new Date());
+    const g=t=>p.find(x=>x.type===t).value;
+    return g("year")+"-"+g("month")+"-"+g("day");
+  }catch(e){
+    const d=new Date(); return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+  }
+}
+function bourbonState(){
+  if(typeof BOURBON_DINNER==="undefined")return "none";
+  const t=bdToday(), d=BOURBON_DINNER.date;
+  return t===d?"live":(t>d?"past":"soon");
+}
+function bdPic(k){ return (typeof BOURBON_IMG!=="undefined"&&BOURBON_IMG[k])||""; }
+function openBourbonPic(k,cap){
+  const src=bdPic(k); if(!src)return;
+  const w=document.createElement("div"); w.className="picwrap"; w.onclick=()=>w.remove();
+  w.innerHTML=`<img src="${src}" alt="${esc(cap)}"><div class="piccap">${esc(cap)} — tap anywhere to close</div>`;
+  document.body.appendChild(w);
+}
+function bourbonCourses(){
+  const B=BOURBON_DINNER;
+  return `<div class="grid wide bdgrid">${B.courses.map(c=>{
+    const src=bdPic(c.img);
+    return `<div class="card bdcard">
+      ${src?`<img class="bdimg" src="${src}" alt="${esc(c.dish)}" loading="lazy" onclick="openBourbonPic('${c.img}','${esc(c.dish).replace(/'/g,"&#39;")}')">`:""}
+      <div class="bdnum">Course ${c.n}</div>
+      <div class="bdpour">&#129347; ${esc(c.pour)}</div>
+      <div class="bdpn">${esc(c.pourNote)}</div>
+      <div class="cname bddish">${esc(c.dish)}</div>
+      <div class="bdmenu">${esc(c.menu)}</div>
+      <div class="cbody">${esc(c.desc)}</div>
+    </div>`;}).join("")}</div>`;
+}
+function bourbonBlock(){
+  if(typeof BOURBON_DINNER==="undefined")return "";
+  const B=BOURBON_DINNER;
+  return `
+    <div class="sechead" id="sec-bourbon"><h2>&#129347; ${esc(B.title)}</h2><span>${esc(B.when)} — five courses, five pours</span></div>
+    <div class="note gold"><b>${esc(B.when)}.</b> ${esc(B.blurb)}</div>
+    ${bdPic("overview")?`<img class="menupic bdhero" src="${bdPic("overview")}" alt="All five courses plated" onclick="openBourbonPic('overview','All five courses plated')">`:""}
+    ${bourbonCourses()}
+    <div class="note" style="margin-top:12px"><b>Allergies:</b> ${esc(B.allergy)}</div>
+    ${acc("The printed menu","what the guest has in front of them",
+      bdPic("menu")?`<img class="menupic" src="${bdPic("menu")}" alt="Franciscan Health bourbon dinner menu" loading="lazy" onclick="openBourbonPic('menu','The printed menu')">`:"")}
+    ${bdPic("prep")?acc("The kitchen setup","garnishes and mise for tonight",
+      `<img class="menupic" src="${bdPic("prep")}" alt="Garnishes and mise for the dinner" loading="lazy" onclick="openBourbonPic('prep','Garnishes and mise')">`):""}
+    <div style="height:10px"></div>`;
+}
+function bourbonArchive(){
+  if(typeof BOURBON_DINNER==="undefined")return "";
+  const B=BOURBON_DINNER, [y,m,d]=B.date.split("-").map(Number);
+  return acc(`&#129347; ${esc(B.title)}`,`past event · ${m}/${d}/${y}`,`
+    <p class="sub" style="margin:6px 0">${esc(B.blurb)}</p>
+    ${bourbonCourses()}
+    ${bdPic("menu")?`<img class="menupic" style="margin-top:12px" src="${bdPic("menu")}" alt="Franciscan Health bourbon dinner menu" loading="lazy" onclick="openBourbonPic('menu','The printed menu')">`:""}`);
+}
+function bourbonGate(){
+  const s=bourbonState(), h=document.getElementById("bdHome"), a=document.getElementById("bdArch");
+  if(h)h.hidden=s!=="live";
+  if(a)a.hidden=s!=="past";
+}
 /* The Devour picture IS the menu (clearer than a re-typed table). Under it: the deal in
    plain terms, and the upsell blueprint. Both open by default so the floor actually reads
    them. The course/enhancement data still feeds search; it is just not dumped as a table. */
@@ -1163,6 +1239,7 @@ function build(){
 
   /* ---------- HOME ---------- */
   $("#p-shift").innerHTML=`
+    <div id="bdHome" hidden>${bourbonBlock()}</div>
     <div class="sechead"><h2>What do you need?</h2><span>one tap</span></div>
     <div class="qa">
       <button data-qa="sched|">${QAICONS["sched|"]||""}<div class="t">Schedule</div><div class="s">Who works today + the whole posted week</div></button>
@@ -1525,6 +1602,7 @@ function build(){
     <div class="bkcard" onclick="openBook()"><h3>&#128214; The Mo's Book</h3><p>The whole training course, in the order we teach it — every day of the original itinerary, front to back. Tap to read it chapter by chapter.</p></div>
     <div class="bkcard" onclick="openDeck()"><h3>&#128444;&#65039; The Training Slideshow</h3><p>The same ten days as a deck you swipe through one slide at a time. Tap to start, or jump to a day.</p></div>
     <div class="bkcard" onclick="openTrainer()"><h3>&#9989; The Trainer Program</h3><p>The official trainer manual and four-day certification, as a checklist you tap through on the floor. Timing standards, every utensil and pre-set, the specialty skills, and the final sign-off.</p></div>
+    <div id="bdArch" hidden>${bourbonArchive()}</div>
 
     ${acc("Wine of the Week — past features","what we featured before — still worth knowing",`
       ${WOTW.last?`<p class="sub" style="margin:6px 0"><b>Last week</b></p><div class="grid wide">${wotwCard(WOTW.last)}</div>`:""}
@@ -1646,6 +1724,7 @@ function build(){
   applyLang();
   startLangObserver();
   devourPopup();
+  bourbonGate(); if(!window.BDTICK)window.BDTICK=setInterval(bourbonGate,60000);
 
   $("#p-shift").querySelector(".qa").onclick=e=>{
     const b=e.target.closest("button[data-qa]"); if(!b)return;

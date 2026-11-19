@@ -721,6 +721,10 @@ details.acc>summary::after{content:"\25BE";color:var(--gold);transition:transfor
 details.acc[open]>summary::after{transform:rotate(180deg)}
 details.acc>.accbody{padding:2px 16px 16px}
 details.acc>.accbody .sechead{margin-top:18px}
+/* Bottle guides on the Wine tab: small section labels inside the accordion, and the link on a wine card */
+.wgh{font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--gold);margin:18px 0 6px}
+.wgh:first-child{margin-top:6px}
+.wglink{display:inline-block;margin-top:10px;background:none;border:1px solid var(--line2);color:var(--gold);border-radius:999px;padding:6px 12px;font-size:12.5px;font-weight:700;cursor:pointer}
 .totop{position:fixed;right:14px;bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:60;width:42px;height:42px;border-radius:50%;background:var(--brand);color:var(--cream);border:0;font-size:17px;font-weight:800;cursor:pointer;display:none;box-shadow:0 4px 14px rgba(41,37,37,.35)}
 .totop.show{display:block}
 .textbtn{background:var(--card);border:1px solid var(--line2);color:var(--dim);border-radius:9px;padding:7px 11px;font-size:12.5px;font-weight:700;cursor:pointer;white-space:nowrap}
@@ -1399,6 +1403,46 @@ const WINE_V={
 };
 /* ports are poured by the glass even though they sit in their own category */
 WINES.forEach(w=>{w.v=WINE_V[w.n]; w.btg=(w.c==="gred"||w.c==="gwhite"||w.c==="port");});
+
+/* Bottle guides: the printed server wine training handouts, one deep guide per bottle.
+   wine = the exact WINES name the guide belongs to (its card gets a link down to it).
+   Page 2 of the Sea Smoke handout has not been transcribed yet. */
+const WINE_GUIDES=[
+ {id:"seasmoke",wine:"Sea Smoke Estate \"TEN\" 2023",
+  title:"Sea Smoke Ten Pinot Noir",sub:"Server wine guide · Sta. Rita Hills, California",
+  quick:"Sea Smoke Ten is a more powerful, structured style of California Pinot Noir. It has concentrated dark-berry fruit, savory spice and a smooth, velvety finish. It’s a great choice for someone who enjoys Pinot Noir but wants a little more depth and presence with dinner.",
+  story:"Sea Smoke is a highly regarded estate winery in California’s Sta. Rita Hills, north of Santa Barbara. The winery was founded in 1999, and its first vintage was released in 2001. The estate focuses on Pinot Noir and Chardonnay, farming organically and using biodynamic practices on parts of the property. Ten is named for the ten Pinot Noir clones planted on the estate vineyard; the wine is blended to express the character of that site.",
+  region:"AVA stands for American Viticultural Area, a federally recognized, geographically defined wine-growing region in the United States. It is an appellation of origin, not a quality grade. Sta. Rita Hills sits near the Pacific coast, where cool ocean air and marine fog help preserve acidity while the growing season allows grapes to develop ripe flavors. Sea Smoke describes the evening marine fog moving through the Santa Ynez River canyon as an important cooling influence on its estate vineyard.",
+  describe:[
+   ["Appearance","Deep ruby to garnet; color can vary with vintage and bottle age."],
+   ["Aromas","Dark berries, blueberry and cassis, with floral lavender and savory notes of herbs and spice."],
+   ["Palate","Concentrated fruit, noticeable structure, firm but polished tannins, and a rounded texture."],
+   ["Finish","Long and velvety, with lingering dark fruit and spice."],
+   ["Style","A deeper, more structured expression of Pinot Noir. Not the lightest or most delicate style."]],
+  pairings:[
+   ["Filet mignon","The tender texture and restrained richness let the wine’s fruit and silky texture shine.","A lovely match if you want a refined red with your filet."],
+   ["New York strip","Beef flavor and moderate marbling stand up to the wine’s concentration and tannin.","The wine has enough structure for the strip without overpowering it."],
+   ["Ribeye","Rich marbling softens the wine’s tannins; savory char echoes its spice and earthy notes.","For a richer steak, the ribeye is a strong pairing with this fuller Pinot."],
+   ["Lamb","Herbal, savory flavors complement the wine’s dark fruit and spice.","Try it with lamb. The savory notes in the wine work beautifully."]],
+  serving:[
+   ["Temperature","Serve slightly cool, around 58–62°F. If the bottle is at room temperature, a brief chill can help the fruit and freshness show."],
+   ["Glassware","Use a large-bowled red-wine glass to give the aromas room to open."],
+   ["Opening","Present the label, confirm the vintage, open cleanly, and offer the host a taste."],
+   ["Air","A young or initially reserved bottle may benefit from 20–30 minutes of air. Taste first; older vintages may need gentler handling rather than extended decanting."],
+   ["Vintage awareness","Sea Smoke’s blend, oak percentage, alcohol and tasting details can vary by vintage. Do not quote technical figures unless they match the bottle being served."]],
+  script:"If you’re in the mood for Pinot Noir but would like something with a little more richness and structure, I’d recommend the Sea Smoke Ten. It comes from California’s Sta. Rita Hills and is known for its dark-berry character, savory spice and polished tannins. It pairs especially well with our strip or ribeye.",
+  lighterQ:"Isn’t Pinot Noir usually lighter?",
+  lighterA:"Many Pinot Noirs are lighter and more delicate, but the style can vary by site and winemaking. Sea Smoke Ten is intentionally one of the winery’s deeper, more structured Pinot Noirs. You still get Pinot’s aromatic character and freshness, with more concentration and grip.",
+  check:[
+   ["What does AVA mean?","A defined American wine-growing region; it identifies origin, not a quality ranking."],
+   ["Why is it called Ten?","It refers to the ten Pinot Noir clones planted on the Sea Smoke estate."],
+   ["What makes the site distinctive?","Cool Pacific influence and marine fog help retain natural acidity while fruit ripens."],
+   ["How would you describe the style?","Dark-fruited, savory, concentrated and structured, with firm polished tannins."]],
+  vintage:{year:"2024",text:"The winery’s published 2024 technical information lists 14.6% alcohol and 16 months in French oak, with 56% new oak. Its tasting notes include blueberry, cassis, lavender, exotic spice, hazelnut, thyme and licorice, followed by firm mature tannins and a long, velvety finish. These figures and notes apply to the 2024 vintage only; check the bottle label before using them at the table."},
+  sources:[
+   "Sea Smoke, “Estate Vineyards”: winery history, Sta. Rita Hills AVA, estate farming, marine influence and ten Pinot Noir clones. seasmoke.com/pages/estate-vineyards",
+   "Sea Smoke, “2024 ‘Ten’ Pinot Noir”: vintage-specific technical details and tasting notes. seasmoke.com/products/2024-sea-smoke-ten-pinot-noir-750ml"]}
+];
 
 /* ============ COCKTAILS ============ */
 const COCKTAILS = [
@@ -8119,11 +8163,45 @@ function wineColor(w){
   return /Chablis|Macon|Chardonnay|Rose\b|Riesling|Grigio|Moscato|Sauvignon/i.test(w.n)?"white":"red";
 }
 const BUDGETS=[["all","Any price"],["0-75","Under $75"],["75-125","$75–125"],["125-200","$125–200"],["200-350","$200–350"],["350-9999","$350+"]];
+/* Bottle guides (WINE_GUIDES in 2-data-wine.js): one closed accordion per bottle on the Wine tab.
+   Top level because the card link uses inline onclick. */
+const wineGuideIdx=n=>(typeof WINE_GUIDES==="undefined")?-1:WINE_GUIDES.findIndex(g=>g.wine===n);
+function wineGuide(g){
+  const sub=t=>`<div class="wgh">${t}</div>`;
+  return `<details class="acc" id="wg-${g.id}"><summary>${esc(g.title)}<span class="hint">${esc(g.sub)}</span></summary><div class="accbody">
+    ${sub("The 15-second guest description")}
+    <div class="pitch">&ldquo;${esc(g.quick)}&rdquo;</div>
+    ${sub("The story behind the wine")}<div class="cbody">${esc(g.story)}</div>
+    ${sub("Why the region matters: Sta. Rita Hills AVA")}<div class="cbody">${esc(g.region)}</div>
+    ${sub("How to describe the wine")}
+    <div class="cbody">${g.describe.map(r=>`<div style="padding:3px 0"><b>${esc(r[0])}:</b> ${esc(r[1])}</div>`).join("")}</div>
+    ${sub("Pairing it with the steakhouse menu")}
+    ${tbl(["Menu item","Why it works","How to recommend it"],g.pairings.map(r=>[`<b>${esc(r[0])}</b>`,esc(r[1]),`&ldquo;${esc(r[2])}&rdquo;`]))}
+    ${sub("Serving pointers")}
+    <div class="cbody">${g.serving.map(r=>`<div style="padding:3px 0"><b>${esc(r[0])}:</b> ${esc(r[1])}</div>`).join("")}</div>
+    ${sub("A simple tableside script")}
+    <div class="pitch">&ldquo;${esc(g.script)}&rdquo;</div>
+    ${sub(`If a guest asks: &ldquo;${esc(g.lighterQ)}&rdquo;`)}
+    <div class="pitch">&ldquo;${esc(g.lighterA)}&rdquo;</div>
+    ${sub("Quick knowledge check")}
+    <div class="cbody">${g.check.map(c=>`<div style="padding:3px 0"><b>${esc(c[0])}</b> ${esc(c[1])}</div>`).join("")}</div>
+    ${sub(`Vintage reference: ${esc(g.vintage.year)} only`)}
+    <div class="note gold">${esc(g.vintage.text)}</div>
+    ${sub("Sources")}
+    <div class="cbody" style="font-size:12px">${g.sources.map((x,i)=>`<div style="padding:2px 0">[${i+1}] ${esc(x)}</div>`).join("")}</div>
+  </div></details>`;
+}
+function openWineGuide(i){
+  const g=WINE_GUIDES[i]; if(!g)return;
+  go("wine");
+  const d=document.getElementById("wg-"+g.id); if(d){d.open=true; setTimeout(()=>d.scrollIntoView({behavior:"smooth"}),80);}
+}
 function wineCard(w){
   return `<div class="card">
     <div class="crow"><div><div class="cname">${esc(w.n)}</div><div class="csub">${esc(w.r)}</div></div><div class="cprice">${esc(w.p)}</div></div>
     <div class="cbody"><b>Tastes like:</b> ${esc(w.f)}<br><b>Structure:</b> tannin ${esc(w.T)} &middot; acid ${esc(w.A)} &middot; body ${esc(w.B)}<br><b>Finish:</b> ${esc(w.fin)}<br><b>Pair with:</b> ${esc(w.pair)}</div>
     <div class="pitch">&ldquo;${esc(w.pitch)}&rdquo;</div>
+    ${wineGuideIdx(w.n)>=0?`<button type="button" class="wglink" onclick="openWineGuide(${wineGuideIdx(w.n)})">Read the full server guide &rsaquo;</button>`:""}
     <div class="tags"><span class="tag ${w.t.toLowerCase()}">${w.t}</span><span class="tag">${(WINE_TYPES.find(c=>c[0]===w.v)||[,w.v])[1]}</span>${w.btg?`<span class="tag good">BY THE GLASS</span>`:""}${w.c==="old"?`<span class="tag">Old World</span>`:""}</div>
   </div>`;
 }
@@ -8996,6 +9074,10 @@ function search(q){
   DRINK_PITCH.forEach(r=>{if(matches([r[0],r[1]]))add("Guest says / you say",r[0],r[1],"cocktails");});
   FASTANSWERS.forEach(r=>{if(matches([r[0],r[1],r[2]]))add("Fast guest answer",r[0],r[1]+" — "+r[2],"wine");});
   REGIONS.forEach(r=>{if(matches([r[0],r[1],r[2]]))add("Wine region",r[0],r[1]+" — "+r[2],"wine");});
+  if(typeof WINE_GUIDES!=="undefined")WINE_GUIDES.forEach((g,i)=>{
+    const body=[g.title,g.sub,g.wine,g.quick,g.story,g.region,g.script,g.lighterQ,g.lighterA,g.vintage.text,"server wine guide bottle guide training"]
+      .concat(g.describe.flat(),g.pairings.flat(),g.serving.flat(),g.check.flat());
+    if(matches(body))add("Bottle guide",g.title,g.quick,"wine","openWineGuide("+i+")");});
   TEMPS.forEach(r=>{if(matches(["steak temperature doneness ribeye filet strip tomahawk porterhouse cut",r[0],r[1]]))add("Steak temp",r[0],r[1],"menu");});
   A5PITCH.forEach(t=>{if(matches(["A5 wagyu pitch",t]))add("A5 pitch","The A5 pitch",t,"menu");});
   DRESSINGS.forEach(t=>{if(matches(["salad dressing",t]))add("Dressing",t,"One of the 11 dressings — the house dressing is the vinaigrette.","menu");});
@@ -9304,6 +9386,9 @@ function build(){
 
     <div class="sechead"><h2>Go-To Pitches</h2><span>when they ask you to pick</span></div>
     ${tbl(["Question","Answer","Why"],FASTANSWERS.map(f=>[esc(f[0]),`<b>${esc(f[1])}</b>`,`<span style="color:var(--dim)">${esc(f[2])}</span>`]))}
+
+    ${(typeof WINE_GUIDES!=="undefined"&&WINE_GUIDES.length)?`<div class="sechead" id="sec-guides"><h2>Bottle Guides</h2><span>the full server guide for a bottle</span></div>
+    ${WINE_GUIDES.map(wineGuide).join("")}`:""}
 
     <div class="sechead"><h2>Regions</h2><span>why the place changes the taste</span></div>
     <div class="grid wide">${REGIONS.map(r=>`<div class="card">

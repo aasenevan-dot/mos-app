@@ -721,6 +721,10 @@ details.acc>summary::after{content:"\25BE";color:var(--gold);transition:transfor
 details.acc[open]>summary::after{transform:rotate(180deg)}
 details.acc>.accbody{padding:2px 16px 16px}
 details.acc>.accbody .sechead{margin-top:18px}
+/* Bottle guides on the Wine tab: small section labels inside the accordion, and the link on a wine card */
+.wgh{font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--gold);margin:18px 0 6px}
+.wgh:first-child{margin-top:6px}
+.wglink{display:inline-block;margin-top:10px;background:none;border:1px solid var(--line2);color:var(--gold);border-radius:999px;padding:6px 12px;font-size:12.5px;font-weight:700;cursor:pointer}
 .totop{position:fixed;right:14px;bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:60;width:42px;height:42px;border-radius:50%;background:var(--brand);color:var(--cream);border:0;font-size:17px;font-weight:800;cursor:pointer;display:none;box-shadow:0 4px 14px rgba(41,37,37,.35)}
 .totop.show{display:block}
 .textbtn{background:var(--card);border:1px solid var(--line2);color:var(--dim);border-radius:9px;padding:7px 11px;font-size:12.5px;font-weight:700;cursor:pointer;white-space:nowrap}

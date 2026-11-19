@@ -121,11 +121,45 @@ function wineColor(w){
   return /Chablis|Macon|Chardonnay|Rose\b|Riesling|Grigio|Moscato|Sauvignon/i.test(w.n)?"white":"red";
 }
 const BUDGETS=[["all","Any price"],["0-75","Under $75"],["75-125","$75–125"],["125-200","$125–200"],["200-350","$200–350"],["350-9999","$350+"]];
+/* Bottle guides (WINE_GUIDES in 2-data-wine.js): one closed accordion per bottle on the Wine tab.
+   Top level because the card link uses inline onclick. */
+const wineGuideIdx=n=>(typeof WINE_GUIDES==="undefined")?-1:WINE_GUIDES.findIndex(g=>g.wine===n);
+function wineGuide(g){
+  const sub=t=>`<div class="wgh">${t}</div>`;
+  return `<details class="acc" id="wg-${g.id}"><summary>${esc(g.title)}<span class="hint">${esc(g.sub)}</span></summary><div class="accbody">
+    ${sub("The 15-second guest description")}
+    <div class="pitch">&ldquo;${esc(g.quick)}&rdquo;</div>
+    ${sub("The story behind the wine")}<div class="cbody">${esc(g.story)}</div>
+    ${sub("Why the region matters: Sta. Rita Hills AVA")}<div class="cbody">${esc(g.region)}</div>
+    ${sub("How to describe the wine")}
+    <div class="cbody">${g.describe.map(r=>`<div style="padding:3px 0"><b>${esc(r[0])}:</b> ${esc(r[1])}</div>`).join("")}</div>
+    ${sub("Pairing it with the steakhouse menu")}
+    ${tbl(["Menu item","Why it works","How to recommend it"],g.pairings.map(r=>[`<b>${esc(r[0])}</b>`,esc(r[1]),`&ldquo;${esc(r[2])}&rdquo;`]))}
+    ${sub("Serving pointers")}
+    <div class="cbody">${g.serving.map(r=>`<div style="padding:3px 0"><b>${esc(r[0])}:</b> ${esc(r[1])}</div>`).join("")}</div>
+    ${sub("A simple tableside script")}
+    <div class="pitch">&ldquo;${esc(g.script)}&rdquo;</div>
+    ${sub(`If a guest asks: &ldquo;${esc(g.lighterQ)}&rdquo;`)}
+    <div class="pitch">&ldquo;${esc(g.lighterA)}&rdquo;</div>
+    ${sub("Quick knowledge check")}
+    <div class="cbody">${g.check.map(c=>`<div style="padding:3px 0"><b>${esc(c[0])}</b> ${esc(c[1])}</div>`).join("")}</div>
+    ${sub(`Vintage reference: ${esc(g.vintage.year)} only`)}
+    <div class="note gold">${esc(g.vintage.text)}</div>
+    ${sub("Sources")}
+    <div class="cbody" style="font-size:12px">${g.sources.map((x,i)=>`<div style="padding:2px 0">[${i+1}] ${esc(x)}</div>`).join("")}</div>
+  </div></details>`;
+}
+function openWineGuide(i){
+  const g=WINE_GUIDES[i]; if(!g)return;
+  go("wine");
+  const d=document.getElementById("wg-"+g.id); if(d){d.open=true; setTimeout(()=>d.scrollIntoView({behavior:"smooth"}),80);}
+}
 function wineCard(w){
   return `<div class="card">
     <div class="crow"><div><div class="cname">${esc(w.n)}</div><div class="csub">${esc(w.r)}</div></div><div class="cprice">${esc(w.p)}</div></div>
     <div class="cbody"><b>Tastes like:</b> ${esc(w.f)}<br><b>Structure:</b> tannin ${esc(w.T)} &middot; acid ${esc(w.A)} &middot; body ${esc(w.B)}<br><b>Finish:</b> ${esc(w.fin)}<br><b>Pair with:</b> ${esc(w.pair)}</div>
     <div class="pitch">&ldquo;${esc(w.pitch)}&rdquo;</div>
+    ${wineGuideIdx(w.n)>=0?`<button type="button" class="wglink" onclick="openWineGuide(${wineGuideIdx(w.n)})">Read the full server guide &rsaquo;</button>`:""}
     <div class="tags"><span class="tag ${w.t.toLowerCase()}">${w.t}</span><span class="tag">${(WINE_TYPES.find(c=>c[0]===w.v)||[,w.v])[1]}</span>${w.btg?`<span class="tag good">BY THE GLASS</span>`:""}${w.c==="old"?`<span class="tag">Old World</span>`:""}</div>
   </div>`;
 }
@@ -998,6 +1032,10 @@ function search(q){
   DRINK_PITCH.forEach(r=>{if(matches([r[0],r[1]]))add("Guest says / you say",r[0],r[1],"cocktails");});
   FASTANSWERS.forEach(r=>{if(matches([r[0],r[1],r[2]]))add("Fast guest answer",r[0],r[1]+" — "+r[2],"wine");});
   REGIONS.forEach(r=>{if(matches([r[0],r[1],r[2]]))add("Wine region",r[0],r[1]+" — "+r[2],"wine");});
+  if(typeof WINE_GUIDES!=="undefined")WINE_GUIDES.forEach((g,i)=>{
+    const body=[g.title,g.sub,g.wine,g.quick,g.story,g.region,g.script,g.lighterQ,g.lighterA,g.vintage.text,"server wine guide bottle guide training"]
+      .concat(g.describe.flat(),g.pairings.flat(),g.serving.flat(),g.check.flat());
+    if(matches(body))add("Bottle guide",g.title,g.quick,"wine","openWineGuide("+i+")");});
   TEMPS.forEach(r=>{if(matches(["steak temperature doneness ribeye filet strip tomahawk porterhouse cut",r[0],r[1]]))add("Steak temp",r[0],r[1],"menu");});
   A5PITCH.forEach(t=>{if(matches(["A5 wagyu pitch",t]))add("A5 pitch","The A5 pitch",t,"menu");});
   DRESSINGS.forEach(t=>{if(matches(["salad dressing",t]))add("Dressing",t,"One of the 11 dressings — the house dressing is the vinaigrette.","menu");});
@@ -1306,6 +1344,9 @@ function build(){
 
     <div class="sechead"><h2>Go-To Pitches</h2><span>when they ask you to pick</span></div>
     ${tbl(["Question","Answer","Why"],FASTANSWERS.map(f=>[esc(f[0]),`<b>${esc(f[1])}</b>`,`<span style="color:var(--dim)">${esc(f[2])}</span>`]))}
+
+    ${(typeof WINE_GUIDES!=="undefined"&&WINE_GUIDES.length)?`<div class="sechead" id="sec-guides"><h2>Bottle Guides</h2><span>the full server guide for a bottle</span></div>
+    ${WINE_GUIDES.map(wineGuide).join("")}`:""}
 
     <div class="sechead"><h2>Regions</h2><span>why the place changes the taste</span></div>
     <div class="grid wide">${REGIONS.map(r=>`<div class="card">

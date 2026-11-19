@@ -39,7 +39,8 @@ for f in ["2-data-wine.js", "3-data-drinks.js", "4-data-food.js",
           "5f-data-floor.js",
           "5h-data-floormap.js",
           "5g-data-es.js",
-          "5i-data-trainer.js"]:
+          "5i-data-trainer.js",
+          "5j-data-bourbon.js", "5j-data-bourbon-img.js"]:
     _part = (B / f).read_text().replace("__BUILDDATE__", f"{d.month}/{d.day}/{d.year}")
     if "__DEVOURIMG__" in _part:
         _part = _part.replace("__DEVOURIMG__", (B / "devour.b64").read_text().strip())

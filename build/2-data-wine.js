@@ -376,3 +376,43 @@ const WINE_V={
 };
 /* ports are poured by the glass even though they sit in their own category */
 WINES.forEach(w=>{w.v=WINE_V[w.n]; w.btg=(w.c==="gred"||w.c==="gwhite"||w.c==="port");});
+
+/* Bottle guides: the printed server wine training handouts, one deep guide per bottle.
+   wine = the exact WINES name the guide belongs to (its card gets a link down to it).
+   Page 2 of the Sea Smoke handout has not been transcribed yet. */
+const WINE_GUIDES=[
+ {id:"seasmoke",wine:"Sea Smoke Estate \"TEN\" 2023",
+  title:"Sea Smoke Ten Pinot Noir",sub:"Server wine guide · Sta. Rita Hills, California",
+  quick:"Sea Smoke Ten is a more powerful, structured style of California Pinot Noir. It has concentrated dark-berry fruit, savory spice and a smooth, velvety finish. It’s a great choice for someone who enjoys Pinot Noir but wants a little more depth and presence with dinner.",
+  story:"Sea Smoke is a highly regarded estate winery in California’s Sta. Rita Hills, north of Santa Barbara. The winery was founded in 1999, and its first vintage was released in 2001. The estate focuses on Pinot Noir and Chardonnay, farming organically and using biodynamic practices on parts of the property. Ten is named for the ten Pinot Noir clones planted on the estate vineyard; the wine is blended to express the character of that site.",
+  region:"AVA stands for American Viticultural Area, a federally recognized, geographically defined wine-growing region in the United States. It is an appellation of origin, not a quality grade. Sta. Rita Hills sits near the Pacific coast, where cool ocean air and marine fog help preserve acidity while the growing season allows grapes to develop ripe flavors. Sea Smoke describes the evening marine fog moving through the Santa Ynez River canyon as an important cooling influence on its estate vineyard.",
+  describe:[
+   ["Appearance","Deep ruby to garnet; color can vary with vintage and bottle age."],
+   ["Aromas","Dark berries, blueberry and cassis, with floral lavender and savory notes of herbs and spice."],
+   ["Palate","Concentrated fruit, noticeable structure, firm but polished tannins, and a rounded texture."],
+   ["Finish","Long and velvety, with lingering dark fruit and spice."],
+   ["Style","A deeper, more structured expression of Pinot Noir. Not the lightest or most delicate style."]],
+  pairings:[
+   ["Filet mignon","The tender texture and restrained richness let the wine’s fruit and silky texture shine.","A lovely match if you want a refined red with your filet."],
+   ["New York strip","Beef flavor and moderate marbling stand up to the wine’s concentration and tannin.","The wine has enough structure for the strip without overpowering it."],
+   ["Ribeye","Rich marbling softens the wine’s tannins; savory char echoes its spice and earthy notes.","For a richer steak, the ribeye is a strong pairing with this fuller Pinot."],
+   ["Lamb","Herbal, savory flavors complement the wine’s dark fruit and spice.","Try it with lamb. The savory notes in the wine work beautifully."]],
+  serving:[
+   ["Temperature","Serve slightly cool, around 58–62°F. If the bottle is at room temperature, a brief chill can help the fruit and freshness show."],
+   ["Glassware","Use a large-bowled red-wine glass to give the aromas room to open."],
+   ["Opening","Present the label, confirm the vintage, open cleanly, and offer the host a taste."],
+   ["Air","A young or initially reserved bottle may benefit from 20–30 minutes of air. Taste first; older vintages may need gentler handling rather than extended decanting."],
+   ["Vintage awareness","Sea Smoke’s blend, oak percentage, alcohol and tasting details can vary by vintage. Do not quote technical figures unless they match the bottle being served."]],
+  script:"If you’re in the mood for Pinot Noir but would like something with a little more richness and structure, I’d recommend the Sea Smoke Ten. It comes from California’s Sta. Rita Hills and is known for its dark-berry character, savory spice and polished tannins. It pairs especially well with our strip or ribeye.",
+  lighterQ:"Isn’t Pinot Noir usually lighter?",
+  lighterA:"Many Pinot Noirs are lighter and more delicate, but the style can vary by site and winemaking. Sea Smoke Ten is intentionally one of the winery’s deeper, more structured Pinot Noirs. You still get Pinot’s aromatic character and freshness, with more concentration and grip.",
+  check:[
+   ["What does AVA mean?","A defined American wine-growing region; it identifies origin, not a quality ranking."],
+   ["Why is it called Ten?","It refers to the ten Pinot Noir clones planted on the Sea Smoke estate."],
+   ["What makes the site distinctive?","Cool Pacific influence and marine fog help retain natural acidity while fruit ripens."],
+   ["How would you describe the style?","Dark-fruited, savory, concentrated and structured, with firm polished tannins."]],
+  vintage:{year:"2024",text:"The winery’s published 2024 technical information lists 14.6% alcohol and 16 months in French oak, with 56% new oak. Its tasting notes include blueberry, cassis, lavender, exotic spice, hazelnut, thyme and licorice, followed by firm mature tannins and a long, velvety finish. These figures and notes apply to the 2024 vintage only; check the bottle label before using them at the table."},
+  sources:[
+   "Sea Smoke, “Estate Vineyards”: winery history, Sta. Rita Hills AVA, estate farming, marine influence and ten Pinot Noir clones. seasmoke.com/pages/estate-vineyards",
+   "Sea Smoke, “2024 ‘Ten’ Pinot Noir”: vintage-specific technical details and tasting notes. seasmoke.com/products/2024-sea-smoke-ten-pinot-noir-750ml"]}
+];

@@ -516,6 +516,16 @@ async def main():
         wt=await pg.evaluate("document.querySelector('#p-wine').innerText")
         if "fog-cooled" not in wt: bad.append("wine tab missing the region cards")
         if await pg.evaluate("WINES.some(w=>/7\\/3 sheet/.test(w.r))"): bad.append("a wine still cites the 7/3 sheet")
+        # 11/19: bottle guides (Sea Smoke Ten) live on the Wine tab as closed accordions,
+        # and the bottle's card links down to its guide
+        wg=await pg.evaluate("""(()=>{const g=WINE_GUIDES.map(x=>x.id),d=document.getElementById('wg-seasmoke');
+          return {orph:WINE_GUIDES.filter(x=>!WINES.some(w=>w.n===x.wine)).map(x=>x.id),has:!!d,open:d&&d.open,
+            txt:d?d.textContent:'',links:document.querySelectorAll('#p-wine .wglink').length};})()""")
+        if wg["orph"]: bad.append(f"bottle guide points at a wine not on the list: {wg['orph']}")
+        if not wg["has"] or wg["open"]: bad.append("Sea Smoke guide missing or starts open")
+        for cell in ["58–62°F","14.6% alcohol","2024 vintage only","ten Pinot Noir clones"]:
+            if cell not in wg["txt"]: bad.append(f"Sea Smoke guide missing {cell}")
+        if wg["links"]<1: bad.append("Sea Smoke card has no link to its guide")
         # spinalis split + manager cuts + salmon verify
         if not await pg.evaluate("SPECIALS_ON.some(s=>s[0]==='Spinalis Sunday'&&s[3]==='weekly feature')"):
             bad.append("Spinalis Sunday is not a weekly feature")

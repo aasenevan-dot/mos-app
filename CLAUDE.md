@@ -926,3 +926,17 @@ description of every course plus the printed menu, gone from home at midnight an
 - No Playwright browser in the cloud container (downloads blocked), so test.py/test-sched.py
   were NOT run for this round; the gate was tested in jsdom with frozen clocks
   (11:59 PM live, 12:01 AM archived, minute tick flips it). Run both suites on the Mac.
+
+## 11/19 — Bottle Guides on the Wine tab (Sea Smoke Ten)
+
+Evan sent pages 1 and 3 of the printed "Server Wine Training" handout for Sea Smoke Ten.
+It lives as `WINE_GUIDES` in 2-data-wine.js and renders as a **Bottle Guides** section on the
+Wine tab (between Go-To Pitches and Regions), one CLOSED accordion per bottle. `wine` must be
+the exact WINES name; that bottle's card then shows a "Read the full server guide" pill
+(`openWineGuide(i)`, top level for inline onclick). Guides are searchable.
+- **Page 2 was never sent.** Nothing from it is in the app; add it when he sends it.
+- The list carries the **2023** Ten; the handout's technical figures are for **2024 only** and
+  the guide says so. Do not copy the 14.6% / 56% new oak numbers onto the wine card.
+- New guides: one more object in WINE_GUIDES, same shape. test-sched.py checks no guide points
+  at a wine that is not on the list.
+- Tests: no Playwright browser in the cloud container again; verified in jsdom. Run both suites on the Mac.

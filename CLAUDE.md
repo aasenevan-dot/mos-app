@@ -940,3 +940,20 @@ the exact WINES name; that bottle's card then shows a "Read the full server guid
 - New guides: one more object in WINE_GUIDES, same shape. test-sched.py checks no guide points
   at a wine that is not on the list.
 - Tests: no Playwright browser in the cloud container again; verified in jsdom. Run both suites on the Mac.
+
+## 11/20 — pre-shift sheet (Wine of the Week, item of the week, off menu)
+
+Evan sent the 11/20 pre-shift sheet. New `HOUSE.emphasis` in 5-data-quiz.js holds the sheet's
+lines verbatim (Point of Passion, wine, item, off-menu cuts, soup, the five points of emphasis)
+and renders as a "This week at pre-shift" accordion in How We Work under the mission. Replace the
+whole object for each new sheet; no date or MOD name on purpose (style rule).
+- WOTW.now is Sea Smoke Ten ($250). `WOTW.now.wine` links the card to its server guide;
+  `WOTW.now.key` is what the daily quiz matches. Isosceles and Groth moved to `past`; `last` is
+  null because the previous sheet's wine is unknown.
+- The sheet's "22oz Bone-in Ribeye" was matched to the 45-Day 22 oz Dry-Aged Bone-In Ribeye. The
+  sheet does not say dry-aged; ask Evan.
+- New off-menu special "MS10 Diamonte Ribeye" $167, spelled as the sheet. Ounces, grade and build
+  are unknown and flagged VERIFY; its allergen row is beef + dairy (butter default) only.
+- 48 oz Porterhouse $180 already matched. Chicken Pot Pie already in SOTD.
+- PR #1 (Oct 30 pre-shift, branch claude/project-thread-fyuces) was never merged and conflicts
+  with this round; close it or rebase it, don't merge both blind.

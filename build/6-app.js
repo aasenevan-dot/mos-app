@@ -446,7 +446,7 @@ function todaysTen(){
   const r=mulberry(seed), shuf=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
   const idx=f=>MC.map((m,i)=>f(m)?i:-1).filter(i=>i>=0);
   const hi=m=>(m.use||3)>=4;
-  const wotw=(typeof WOTW!=="undefined"&&WOTW.now)?String(WOTW.now.n).split(/\s+/)[0].toLowerCase():"";
+  const wotw=(typeof WOTW!=="undefined"&&WOTW.now)?String(WOTW.now.key||String(WOTW.now.n).split(/\s+/)[0]).toLowerCase():"";
   const plan=[[m=>m.t==="seasonal"&&hi(m),3],[m=>(m.t==="filet"||m.t==="ribeye")&&hi(m),2],[m=>m.t==="allergen"&&hi(m),2],
     [m=>m.t==="wine"&&!!wotw&&(m.q+" "+m.o[0]).toLowerCase().includes(wotw),1],[m=>m.t==="temps"&&hi(m),1]];
   const pick=[];
@@ -999,6 +999,11 @@ function search(q){
      non-negotiables, every steps-of-service list, the side work and the house facts
      were all invisible to search. "uniform", "boxing station", the chef's name: nothing. */
   if(matches(["Mission",HOUSE.mission]))add("How we work","Mission",HOUSE.mission,"house");
+  if(HOUSE.emphasis){const e=HOUSE.emphasis;
+    [["Point of Passion",e.popnn]].concat(e.points.map(t=>["Point of emphasis",t]),
+      [["Wine of the week",e.wine],["Menu item of the week",e.item],["Soup on the latest sheet",e.soup]],
+      e.offmenu.map(t=>["Off menu",t])).forEach(([k,t])=>{
+      if(matches(["pre-shift preshift lineup sheet emphasis",k,t]))add("Pre-shift",k,t,"house");});}
   Object.entries({points:"Points of Passion",facts:"House facts",tableside:"Tableside show"})
     .forEach(([k,label])=>(HOUSE[k]||[]).forEach(r=>{
       if(matches([label,r[0],r[1]]))add(label,r[0],r[1],"house");}));
@@ -1563,6 +1568,19 @@ function build(){
   $("#p-house").innerHTML=`
     <div class="sechead"><h2>How we work</h2><span>Points of Passion, steps of service, and the house playbook</span></div>
     <div class="note gold"><b>Mission:</b> ${esc(HOUSE.mission)}</div>
+    ${(()=>{const e=HOUSE.emphasis; if(!e)return "";
+      const pp=(HOUSE.points||[]).find(x=>x[0].toLowerCase()===e.popnn.toLowerCase());
+      return acc("This week at pre-shift","off the latest pre-shift sheet",`
+      <p class="sub" style="margin:2px 0 4px">Point of Passion: <b>${esc(e.popnn)}</b></p>
+      ${pp?`<p class="sub" style="margin:0 0 10px;color:var(--dim)">${esc(pp[1])}</p>`:""}
+      <p class="sub" style="margin:10px 0 4px"><b>Points of emphasis</b></p>
+      <ol class="steps">${e.points.map(t=>`<li>${esc(t)}</li>`).join("")}</ol>
+      <ul class="steps" style="margin-top:10px">
+        <li><b class="inl">Wine of the week:</b> ${esc(e.wine)}</li>
+        <li><b class="inl">Menu item of the week:</b> ${esc(e.item)}</li>
+        <li><b class="inl">Off menu:</b> ${e.offmenu.map(esc).join(" · ")}</li>
+        <li><b class="inl">Soup on the latest sheet:</b> ${esc(e.soup)}. The soup changes every day, so confirm it at lineup.</li>
+      </ul>`);})()}
     ${(typeof HOUSE_INFO==="undefined")?"":`
       <div class="sechead" id="sec-wifi"><h2>At the table</h2><span>what guests ask for that is on no menu</span></div>
       ${tbl(["What","It is"],HOUSE_INFO.map(h=>[`<b>${esc(h[0])}</b><br><span style="color:var(--dim);font-size:12.5px">${esc(h[2])}</span>`,
@@ -2864,7 +2882,8 @@ function wotwCard(w,extra){
   return `<div class="card hl">
     <div class="crow"><div><div class="cname">${esc(w.n)}</div><div class="csub">${esc(w.tag||"")}</div></div><div class="cprice">${esc(w.p)}</div></div>
     <div class="cbody">${rows}${extra||""}</div>
-    ${w.pitch?`<div class="pitch">&ldquo;${esc(w.pitch)}&rdquo;</div>`:""}</div>`;
+    ${w.pitch?`<div class="pitch">&ldquo;${esc(w.pitch)}&rdquo;</div>`:""}
+    ${w.wine&&wineGuideIdx(w.wine)>=0?`<button type="button" class="wglink" onclick="openWineGuide(${wineGuideIdx(w.wine)})">Read the full server guide &rsaquo;</button>`:""}</div>`;
 }
 function wotwContrast(rows){
   return rows&&rows.length?`<div style="margin-top:12px">${tbl(["Guest wants","Recommend","Why"],rows.map(c=>[esc(c[0]),`<b>${esc(c[1])}</b>`,`<span style="color:var(--dim)">${esc(c[2])}</span>`]))}</div>`:"";

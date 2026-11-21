@@ -648,6 +648,7 @@ const SOUPS_STANDING=[
 const SOTD=[
  ["Chicken Tortilla","Chicken tortilla soup with crispy tortilla strips dropped in right before it goes out.","nightshade + capsaicin + gluten (strips) — VERIFY rest"],
  ["Chicken Pot Pie Soup","Creamy chicken pot pie in soup form. VERIFY full build with the kitchen.","VERIFY allergens"],
+ ["Butternut Squash Soup","Smooth, slightly sweet butternut squash soup. VERIFY full build and garnish with the kitchen.","VERIFY allergens"],
  ["Chicken Noodle","Classic chicken noodle. VERIFY build.","gluten (noodles) — VERIFY rest"],
  ["Clam Chowder","Clam chowder. VERIFY build.","shellfish + dairy — VERIFY rest"],
  ["Pasta e Fagioli","Beef, noodles, celery, carrot — Italian bean-and-pasta soup. House just calls it 'fagioli.'","gluten + beef — VERIFY rest"],

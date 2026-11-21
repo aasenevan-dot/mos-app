@@ -213,7 +213,9 @@ const WOTW = {
  structure:"Full for a Pinot, medium tannin, medium acid. Long, plush, velvety finish.",
  why:"Best-tier bottle on our list \u2014 the special Pinot for the guest who wants Pinot with more depth and presence.",
  pair:"Filet, the strip, the ribeye and the wagyu \u2014 enough structure for a steak without overpowering it.",
- pitch:"If you\u2019re in the mood for Pinot Noir but would like something with a little more richness and structure, I\u2019d recommend the Sea Smoke Ten. It comes from California\u2019s Sta. Rita Hills and is known for its dark-berry character, savory spice and polished tannins. It pairs especially well with our strip or ribeye."},
+ pitch:"If you like Pinot Noir, our wine of the week is a special one. It’s the Sea Smoke Ten from the Sta. Rita Hills, just north of Santa Barbara. Every evening a marine fog the winery calls sea smoke rolls in from the Pacific and cools the vines. Ten is for the ten different Pinot Noir clones planted on the estate, all in one bottle. It’s their deepest, most structured Pinot, with dark berries, a little spice and a long, velvety finish. It’s beautiful with our 22 ounce bone-in ribeye.",
+ short:"Our wine of the week is the Sea Smoke Ten, a deeper, bolder Pinot Noir from the Sta. Rita Hills, and it’s great with the bone-in ribeye.",
+ qa:[["What makes it special?","It’s named for the ten Pinot Noir clones on the estate, and it’s the winery’s deepest, most structured Pinot. Cool fog off the Pacific keeps it fresh while the fruit gets ripe."],["Isn’t Pinot usually light?","A lot of Pinot is. This one is fuller on purpose. You still get Pinot’s smoothness, with more depth and grip."],["What should I eat with it?","The 22 ounce bone-in ribeye. The marbling softens the tannins. It also works with the filet or the strip."],["How much is it?","$250 a bottle. A manager opens and pours it, in Bordeaux glasses."]]},
  last:null,
  contrast:[
  ["Pinot drinker who wants more weight","Sea Smoke Ten","Dark cherry, blackberry, cola, spice \u2014 full for a Pinot."],

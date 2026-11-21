@@ -2883,6 +2883,8 @@ function wotwCard(w,extra){
     <div class="crow"><div><div class="cname">${esc(w.n)}</div><div class="csub">${esc(w.tag||"")}</div></div><div class="cprice">${esc(w.p)}</div></div>
     <div class="cbody">${rows}${extra||""}</div>
     ${w.pitch?`<div class="pitch">&ldquo;${esc(w.pitch)}&rdquo;</div>`:""}
+    ${w.short?`<div class="cbody" style="margin-top:8px"><b>Short version:</b> &ldquo;${esc(w.short)}&rdquo;</div>`:""}
+    ${w.qa&&w.qa.length?`<div class="cbody" style="margin-top:8px"><b>If they ask</b><ul class="steps">${w.qa.map(q=>`<li><b class="inl">${esc(q[0])}</b> ${esc(q[1])}</li>`).join("")}</ul></div>`:""}
     ${w.wine&&wineGuideIdx(w.wine)>=0?`<button type="button" class="wglink" onclick="openWineGuide(${wineGuideIdx(w.wine)})">Read the full server guide &rsaquo;</button>`:""}</div>`;
 }
 function wotwContrast(rows){

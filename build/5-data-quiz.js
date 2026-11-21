@@ -884,8 +884,8 @@ emphasis:{
  popnn:"1% less is the new standard",
  wine:"Sea Smoke Ten Pinot Noir",
  item:"22oz Bone-in Ribeye",
- offmenu:["48 Oz Porterhouse $180","MS10 Diamonte Ribeye $167"],
- soup:"Chicken Pot Pie",
+ offmenu:["48 Oz Porterhouse $180","MS10 Diamonte Ribeye $167 (9 left)"],
+ soup:"Butternut Squash Soup",
  points:["Take care of your health","November/ December Limited/No RO\u2019S","Focus Through the SHIFT, NO PHONES!!","You are the Guide","Smile"]},
 points:[
 ["1% Less Is The New Standard","Every time you settle for less than 100%, you operate at a lesser percent. Give only 1% less each week for a year and you are running a restaurant at 48% of expectations."],

@@ -957,3 +957,18 @@ whole object for each new sheet; no date or MOD name on purpose (style rule).
 - 48 oz Porterhouse $180 already matched. Chicken Pot Pie already in SOTD.
 - PR #1 (Oct 30 pre-shift, branch claude/project-thread-fyuces) was never merged and conflicts
   with this round; close it or rebase it, don't merge both blind.
+
+## 11/21 — pre-shift sheet + the Sea Smoke Ten table spiel
+
+Same sheet as 11/20 except the soup (Butternut Squash Soup, added to SOTD with VERIFY) and
+"MS10 Diamonte Ribeye $167 (9) Left". The count lives only in `HOUSE.emphasis.offmenu`, never
+on the special's card, because it is stale by tomorrow.
+- `WOTW.now.pitch` is now the full table spiel; new `WOTW.now.short` (one line) and
+  `WOTW.now.qa` ([question, answer] pairs) render on the wine of the week card under it.
+- Every fact in the spiel was checked against Sea Smoke's own pages (estate-vineyards and the
+  2024 Ten product page): Sta. Rita Hills north of Santa Barbara, evening marine fog the
+  winery calls "sea smoke" coming up the Santa Ynez River canyon, Ten = ten Pinot Noir clones
+  on the estate, "our deepest and most structured expression", long velvety finish. The site
+  does NOT say the winery is named after the fog, so the spiel does not claim it. The site
+  gives no pairing; the ribeye pairing comes from the server guide. Our list carries the
+  2023, so no 2024-only tasting notes or figures went into the spiel.

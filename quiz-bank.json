@@ -2236,18 +2236,18 @@
  },
  {
   "q": "Which bottle is this week's wine of the week?",
-  "a": "Justin Isosceles — $180",
+  "a": "Sea Smoke Ten — $250",
   "w": [
+   "Justin Isosceles — $180",
    "Groth Oakville Estate — $150",
-   "Cade Estate Howell Mountain — $180",
    "Caymus Napa Valley — $155"
   ],
-  "why": "If a Delmonico guest wants something bold that isn't another Napa Cab: Justin Isosceles, a Paso Robles Bordeaux-style blend. Groth was last week.",
+  "why": "Sea Smoke Ten is the wine of the week, a fuller, structured Pinot from the Sta. Rita Hills. Its server guide pairs it with the strip and the ribeye.",
   "t": "ribeye",
   "kind": "pairing",
   "use": 5,
   "diff": 1,
-  "src": "WINE.wine_of_the_week.now: Justin \"Isosceles\" 2021, $180, tag \"THIS WEEK\" — pitch: \"If you want something bold that isn't another Napa Cab, Justin Isosceles is our wine of the week — a Paso Robles Bordeaux-style blend\" (2-data-wine.js L208-214)"
+  "src": "build/2-data-wine.js WOTW.now: Sea Smoke \"TEN\" $250; WINE_GUIDES[seasmoke].pairings: NY strip, ribeye"
  },
  {
   "q": "Delmonico for a guest with a dairy allergy — what do you tell them?",
@@ -2910,19 +2910,19 @@
   "src": "STEAK.specials_on: tag \"Manager cut\" on Spinalis / Ribeye Cap (L603), Australian Wagyu (L600), 48 oz USDA Choice Porterhouse (L602); 45-Day 22 oz Dry-Aged Bone-In Ribeye tag is empty (L605) (4-data-food.js)"
  },
  {
-  "q": "Which bottle was LAST week's wine of the week?",
+  "q": "Ribeye guest wants a classic, high-tannin Oakville Cab. Which bottle?",
   "a": "Groth Oakville Estate",
   "w": [
    "Justin Isosceles",
    "Caymus Special Selection",
    "Gary Farrell"
   ],
-  "why": "Groth is classic Oakville — high tannin built for marbling, so it was the ribeye pick. Justin is this week; Caymus and Gary Farrell were an earlier feature.",
+  "why": "Groth is classic Oakville, high tannin built for marbling. Justin Isosceles is the Paso Robles blend, Caymus Special Selection is the plush luxury bottle, and Gary Farrell is a lighter Pinot.",
   "t": "ribeye",
   "kind": "pairing",
   "use": 3,
   "diff": 2,
-  "src": "WINE.wine_of_the_week.last: Groth Oakville Estate 2022, $150, tag \"LAST WEEK\" — pair: \"the tannin is built for marbling\"; contrast: [\"Ribeye or Australian Wagyu\", \"Groth Oakville Estate\", \"High tannin cuts through the fat.\"]; past: \"Power vs Precision\" (Caymus Special Selection / Gary Farrell) (2-data-wine.js L215-248)"
+  "src": "build/2-data-wine.js WOTW.past[0].b (Groth): \"tannin is built for marbling\""
  },
  {
   "q": "Ribeye guest wants the driest, firmest Cab bottle we pour. First call?",
@@ -5446,18 +5446,18 @@
  },
  {
   "q": "Which bottle is THIS week's Wine of the Week?",
-  "a": "Justin \"Isosceles\" 2021",
+  "a": "Sea Smoke Estate \"TEN\" 2023",
   "w": [
+   "Justin \"Isosceles\" 2021",
    "Groth Oakville Estate 2022",
-   "Caymus Special Selection Cabernet 2019",
    "Gary Farrell Russian River Valley Pinot Noir 2022"
   ],
-  "why": "Justin Isosceles is the current feature; Groth was last week and the Caymus/Gary Farrell pair is the old Power vs Precision feature.",
+  "why": "Sea Smoke Ten is the current feature. Justin Isosceles and Groth were earlier features, and Gary Farrell is the lighter Pinot from the old Power vs Precision pair.",
   "t": "wine",
   "kind": "spec",
   "use": 5,
   "diff": 1,
-  "src": "build/2-data-wine.js WOTW.now: n \"Justin “Isosceles” 2021\", tag \"THIS WEEK\"; WOTW.last: \"Groth Oakville Estate 2022\", tag \"LAST WEEK\"; WOTW.past[0] = Power vs Precision (Caymus Special Selection / Gary Farrell)"
+  "src": "build/2-data-wine.js WOTW.now.n"
  },
  {
   "q": "A guest asks where Justin Isosceles is from. What do you say?",
@@ -5475,7 +5475,7 @@
   "src": "build/2-data-wine.js WINES[Justin \"Isosceles\" 2021].r: \"Paso Robles — warm, bold, ripe\"; Groth .r \"Oakville, Napa\"; Gary Farrell .r \"Russian River, CA\"; Cade .r \"Howell Mountain, Napa\""
  },
  {
-  "q": "Bottle price on Justin Isosceles, the wine of the week?",
+  "q": "Bottle price on Justin Isosceles?",
   "a": "$180",
   "w": [
    "$150",
@@ -5497,7 +5497,7 @@
    "Caymus Napa Valley 2023 — plush Wagner style",
    "Cade Estate Howell Mountain — mountain Cabernet"
   ],
-  "why": "Say: If you want something bold that isn't another Napa Cab, Justin Isosceles is our wine of the week — structured and dark without being standard Napa.",
+  "why": "Say: If you want something bold that isn't another Napa Cab, Justin Isosceles is the one — structured and dark without being standard Napa.",
   "t": "wine",
   "kind": "pairing",
   "use": 5,
@@ -5595,14 +5595,14 @@
   "src": "WINES[Ghost Pines Cabernet Sauvignon].p: \"$14 / $53\"; PAIRINGS[Four people ordering glasses].line: \"For four glasses, a bottle is usually the better value. Move them up the ladder.\""
  },
  {
-  "q": "A guest wants a bold red that isn't another Napa Cab. This week's wine of the week?",
+  "q": "A guest wants a bold red that isn't another Napa Cab. Which bottle?",
   "a": "Justin \"Isosceles\" 2021 — $180",
   "w": [
    "Groth Oakville Estate 2022 — $150",
    "Cade Estate Howell Mountain — $180",
    "Mt. Veeder Napa Valley — $150"
   ],
-  "why": "Justin is a Paso Robles Bordeaux-style blend — black cherry, cassis, dried herbs, vanilla spice. Groth was last week's.",
+  "why": "Justin is a Paso Robles Bordeaux-style blend — black cherry, cassis, dried herbs, vanilla spice.",
   "t": "wine",
   "kind": "spiel",
   "use": 5,
@@ -5731,18 +5731,18 @@
  },
  {
   "q": "Which bottle is this week's Wine of the Week?",
-  "a": "Justin \"Isosceles\" 2021 — $180",
+  "a": "Sea Smoke Ten Pinot Noir — $250",
   "w": [
-   "Groth Oakville Estate 2022 — $150",
-   "Cade Estate Howell Mountain 2022 — $180",
+   "Justin \"Isosceles\" 2021 — $180",
+   "Gary Farrell Pinot Noir 2022 — $120",
    "Caymus Special Select 2019 — $525"
   ],
-  "why": "Justin Isosceles is the Paso Robles Bordeaux-style blend — the bold red for the guest who wants something other than Napa. Groth was last week.",
+  "why": "Sea Smoke Ten is the Sta. Rita Hills Pinot: dark cherry, blackberry, cola and spice. It is the special Pinot for a guest who wants more depth.",
   "t": "wine",
   "kind": "spec",
   "use": 5,
   "diff": 1,
-  "src": "WOTW.now: {n: \"Justin “Isosceles” 2021\", p: \"$180\", tag: \"THIS WEEK\", why: \"the bold red for the guest who wants something other than Napa.\"}; WOTW.last: {n: \"Groth Oakville Estate 2022\", p: \"$150\", tag: \"LAST WEEK\"}"
+  "src": "build/2-data-wine.js WOTW.now; WINES Sea Smoke \"TEN\" .f"
  },
  {
   "q": "Which flavor line belongs to Justin Isosceles?",
@@ -5775,19 +5775,19 @@
   "src": "build/2-data-wine.js WINES[Justin \"Isosceles\" 2021].pair: \"NY Strip, Short Rib Pasta, Delmonico\"; WOTW.now.pair: \"our list pairs it with NY strip, short rib, and the Delmonico\"; PAIRINGS[Stuffed Chicken / Primavera Pasta].better includes \"Gary Farrell Russian River Valley\""
  },
  {
-  "q": "Which bottle was LAST week's Wine of the Week?",
-  "a": "Groth Oakville Estate 2022",
+  "q": "Bottle price on Sea Smoke Ten, the wine of the week?",
+  "a": "$250",
   "w": [
-   "Justin \"Isosceles\" 2021",
-   "Cade Estate Howell Mountain 2022",
-   "Caymus Special Selection Cabernet 2019"
+   "$180",
+   "$150",
+   "$120"
   ],
-  "why": "Groth Oakville Estate was last week; Justin Isosceles is this week. Guests who liked last week's pour may still ask for it.",
+  "why": "Sea Smoke Ten is $250. Justin Isosceles is $180, Groth is $150 and Gary Farrell is $120.",
   "t": "wine",
-  "kind": "spec",
+  "kind": "price",
   "use": 4,
   "diff": 1,
-  "src": "build/2-data-wine.js WOTW.last: n \"Groth Oakville Estate 2022\", tag \"LAST WEEK\"; WOTW.now = Justin (THIS WEEK); WOTW.past[0].a = Caymus Special Selection (older feature)"
+  "src": "build/2-data-wine.js WINES[Sea Smoke Estate \"TEN\" 2023].p \"$250\""
  },
  {
   "q": "Bottle price on Groth Oakville Estate 2022?",

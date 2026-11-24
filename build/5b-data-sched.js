@@ -110,6 +110,72 @@ const WEEKLY=[
 const OFFSITE_NOTE="Fellowship, food, and fun — bringing a church family and the community together over a shared meal. Want to serve one? Email or text Yaris at admin@prime47carmel.com or 317.703.4284.";
 
 const SCHEDULE={
+ week:"Week of 11/25 \u2013 12/1, 2026", year:2026, start:"2026-11-25",
+ days:[["11/25","We"],["11/26","Th"],["11/27","Fr"],["11/28","Sa"],["11/29","Su"],["11/30","Mo"],["12/1","Tu"]],
+ sections:[
+  ["Managers",[
+   ["Mike","1","2","1","3","","","4"],
+   ["CJ","","1","3","1","1","1",""]
+  ]],
+  ["BQTs",[
+   ["","Lunch Banquet","Thanksgiving","","","","",""]
+  ]],
+  ["Fronts",[
+   ["Alexis","930 Lunch","2","3 MGR","330","","","1 MGR"],
+   ["Chad","OFF","2 MGR","330","3 MGR","OFF","OFF","OFF"],
+   ["Hunter","OFF","2","330","330","OFF","OFF","345"],
+   ["Diana","930 Lunch","2","330","330","3","",""],
+   ["MorganB","OFF","2","330","330","3","345","OFF"],
+   ["Nathan","OFF","2","330","330","OFF","345","345"],
+   ["Fabian","OFF","2","330","RO","3","345","345"],
+   ["Alex","345","2","330","330","3","OFF","345"]
+  ],["95","238","9","32","","17","37"]],
+  ["Backs",[
+   ["Lupe","","","","","","",""],
+   ["Morgan W","930 Lunch","2","330","330","","","OFF"],
+   ["Evan","OFF","2","330","330","","345","OFF"],
+   ["Meagan","OFF","2","","330","3","","345"],
+   ["D","OFF","OFF","330","330","3","OFF","OFF"],
+   ["Barbie","930 Lunch","2","330","330","","OFF","345"],
+   ["Erin","345","2","","330","OFF","345","OFF"],
+   ["Abby","OFF","2","330","RO","OFF","OFF","345"],
+   ["Victoria","","2","330","330","3","345","345 FR Follow"],
+   ["Josh","","2","330","330","3","","345"],
+   ["Sarah","","","","","","",""],
+   ["Evah","345","3 Expo","","","","",""]
+  ]],
+  ["Bar",[
+   ["Krista","930 Lunch","2","3","3","","","4"],
+   ["Christian","3","3","","4","3","3",""],
+   ["Jennea","OFF","OFF","5","5","","OFF","3"]
+  ]],
+  ["Cktail",[
+   ["Jenny","345 Front","330 Front","","330","","345",""],
+   ["Taylor","","330","330","","3","OFF","345"]
+  ]],
+  ["Host",[
+   ["Mackenzie","4","230 Busser","RO","12","4","4 Busser","4"],
+   ["Leila","","230","4","4","?","4",""],
+   ["Bella","4","3","OFF","5","","","5"],
+   ["Maria","","3","5","5","","",""]
+  ]],
+  ["Expo",[
+   ["CARTER","OFF","OFF","OFF","OFF","OFF","OFF","OFF"],
+   ["Jackson","RO","3","4","4","","4","4"],
+   ["Nick","4","3","5","430","4","",""],
+   ["Bryson","OFF","OFF","OFF","OFF","OFF","OFF","OFF"]
+  ]],
+  ["Busser",[
+   ["Conner","4","230","430","4","4","","4"],
+   ["Dalton","OFF","230 polish/Bar","4","430","4","4","OFF"],
+   ["Mikey","4","230","430","5","","",""],
+   ["LUCAS","OFF","OFF","OFF","OFF","OFF","OFF","OFF"]
+  ]]
+ ],
+ note:"Transcribed from the printed sheet (photo). Thanksgiving week: Wednesday has a Lunch Banquet and Thursday is Thanksgiving, both in the BQTs row with no name; the \u201c930 Lunch\u201d cells are Wednesday\u2019s lunch. New names this week: Maria (Host) and Mikey (Busser). Nobody dropped off the sheet. \u201cMGR\u201d / \u201cFront\u201d / \u201cBusser\u201d / \u201cExpo\u201d / \u201cpolish/Bar\u201d / \u201cFR Follow\u201d are tags kept as written. Mackenzie\u2019s Sunday 4 is handwritten; Leila\u2019s Sunday cell has a handwritten mark that can\u2019t be read (shown as ?). Mackenzie\u2019s Saturday cell is printed \u201c12\u201d. Jennea\u2019s Friday 5 and Nick\u2019s Sunday 4 sit at the right edge of their boxes. CARTER, Bryson and LUCAS are on the sheet but blacked out all week.", src:"schedule photo 11/25-12/1"
+};
+const SCHEDULE_HISTORY=[
+{
  week:"Week of 11/18 \u2013 11/24, 2026", year:2026, start:"2026-11-18",
  days:[["11/18","We"],["11/19","Th"],["11/20","Fr"],["11/21","Sa"],["11/22","Su"],["11/23","Mo"],["11/24","Tu"]],
  sections:[
@@ -171,8 +237,7 @@ const SCHEDULE={
   ]]
  ],
  note:"Transcribed from the printed sheet (photo). New names this week: Josh, Sarah and \u201cEvah\u201d (Backs; Sarah and Evah are blank all week, and Evah is spelled that way on the sheet). J Fox, Eric and Rodrigo are off the sheet. \u201cBD\u201d marks Thursday\u2019s Bourbon Dinner, which sits in the BQTs row with no name. \u201cCocktail\u201d / \u201cFront\u201d / \u201cBusser\u201d / \u201cMGR\u201d are section tags kept as written. Mackenzie\u2019s Saturday cell is printed \u201c12\u201d. Nick\u2019s Sunday 4 and Bryson\u2019s Monday 4 sit at the right edge of their boxes. LUCAS is on the sheet but blacked out all week.", src:"schedule photo 11/18-11/24"
-};
-const SCHEDULE_HISTORY=[
+},
 {
  week:"Week of 11/11 \u2013 11/17, 2026", year:2026, start:"2026-11-11",
  days:[["11/11","We"],["11/12","Th"],["11/13","Fr"],["11/14","Sa"],["11/15","Su"],["11/16","Mo"],["11/17","Tu"]],

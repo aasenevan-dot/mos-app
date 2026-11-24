@@ -39,7 +39,7 @@ async def main():
         if "Evan <i>3:30</i>" not in roster: bad.append("Evan time not formatted 3:30")
         # master grid exactness
         # These pin the POSTED week's grid, so they move every time a new sheet goes up.
-        for cell in ['<span class="dw">We</span>11/18','class="off"','class="ro"','Barbie','1 MGR','3 MGR','330 Cocktail','4 Busser','>51<','colspan="8">Managers','covrow','Covers \u00b7 Sun 11/15']:
+        for cell in ['<span class="dw">We</span>11/25','class="off"','class="ro"','Barbie','1 MGR','3 MGR','930 Lunch','4 Busser','>238<','colspan="8">Managers','covrow','Covers \u00b7 Sun 11/22']:
             if cell not in grid: bad.append(f"grid missing {cell}")
         # Victoria came back onto the roster on the 9/9 sheet, so she is no longer expected gone.
         for gone in ["Jeremiah","Gavin","Lupe","LUCAS","Eleisia","AUDRINA"]:
@@ -750,7 +750,7 @@ async def main():
         if "11/19" not in oldest: bad.append(f"oldest week wrong: {oldest}")
         # Hunter's Mon/Tue on the posted sheet — repin when a new week goes up
         hun=await pg.evaluate("SCHEDULE.sections.find(s=>s[0]==='Fronts')[1].find(r=>r[0]==='Hunter').slice(6)")
-        if hun!=["OFF","345"]: bad.append(f"Hunter Mo/Tu wrong for the 11/18 sheet: {hun}")
+        if hun!=["OFF","345"]: bad.append(f"Hunter Mo/Tu wrong for the 11/25 sheet: {hun}")
         # home button + nav
         if not await pg.evaluate("!!document.querySelector('button[data-qa=\\'sched|\\']')"): bad.append("home Schedule button missing")
         # ---- floor plan: lives on Money now, merges, plotting, section names ----
@@ -1006,8 +1006,8 @@ async def main():
         if "Chad" not in h2.split("exactly as posted")[0] or "2pm Carmel" not in h2.split("exactly as posted")[0]:
             bad.append("Saturday roster missing Chad 2pm Carmel")
         await ctx.close()
-        # ---- load 2: 11/25/2026 — past the posted week (11/18–11/24), and no history week covers it ----
-        t3=int(datetime.datetime(2026,11,25,15,0).timestamp()*1000)
+        # ---- load 2: 12/2/2026 — past the posted week (11/25–12/1), and no history week covers it ----
+        t3=int(datetime.datetime(2026,12,2,15,0).timestamp()*1000)
         ctx=await b.new_context(viewport={"width":393,"height":852},is_mobile=True,has_touch=True)
         pg=await ctx.new_page()
         await pg.add_init_script(MOCK % t3)

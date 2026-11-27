@@ -397,7 +397,8 @@ WINES.forEach(w=>{w.v=WINE_V[w.n]; w.btg=(w.c==="gred"||w.c==="gwhite"||w.c==="p
 
 /* Bottle guides: the printed server wine training handouts, one deep guide per bottle.
    wine = the exact WINES name the guide belongs to (its card gets a link down to it).
-   Page 2 of the Sea Smoke handout has not been transcribed yet. */
+   Page 2 of the Sea Smoke handout has not been transcribed yet.
+   Robert Craig Affinity: only page 3 (Service & Tableside Selling) has been sent; add pages 1 and 2 when they come. */
 const WINE_GUIDES=[
  {id:"seasmoke",wine:"Sea Smoke Estate \"TEN\" 2023",
   title:"Sea Smoke Ten Pinot Noir",sub:"Server wine guide · Sta. Rita Hills, California",
@@ -432,5 +433,27 @@ const WINE_GUIDES=[
   vintage:{year:"2024",text:"The winery’s published 2024 technical information lists 14.6% alcohol and 16 months in French oak, with 56% new oak. Its tasting notes include blueberry, cassis, lavender, exotic spice, hazelnut, thyme and licorice, followed by firm mature tannins and a long, velvety finish. These figures and notes apply to the 2024 vintage only; check the bottle label before using them at the table."},
   sources:[
    "Sea Smoke, “Estate Vineyards”: winery history, Sta. Rita Hills AVA, estate farming, marine influence and ten Pinot Noir clones. seasmoke.com/pages/estate-vineyards",
-   "Sea Smoke, “2024 ‘Ten’ Pinot Noir”: vintage-specific technical details and tasting notes. seasmoke.com/products/2024-sea-smoke-ten-pinot-noir-750ml"]}
+   "Sea Smoke, “2024 ‘Ten’ Pinot Noir”: vintage-specific technical details and tasting notes. seasmoke.com/products/2024-sea-smoke-ten-pinot-noir-750ml"]},
+ {id:"robertcraig",wine:"Robert Craig \"Affinity\" 2021",
+  title:"Robert Craig Affinity 2021",sub:"Server wine guide · Service & tableside selling",
+  note:"From page 3 of the server wine training handout. Pages 1 and 2 are not in the app yet and get added when they come in.",
+  serving:[
+   ["Temperature","Serve slightly cool for a full-bodied red, around 60–65°F. Avoid serving overly warm, which can emphasize alcohol and mute freshness."],
+   ["Glassware","Use a large-bowled Bordeaux-style red-wine glass to give the Cabernet blend room to open."],
+   ["Decanting","The 2021 is notably structured and can benefit from air. Decant about 45–60 minutes before service when practical; taste as it opens. For a guest ordering by the glass, allow time in the glass."],
+   ["Opening","Present the label and confirm the 2021 vintage, open cleanly, and offer the host a taste."],
+   ["Vintage details","The winery’s 2021 technical sheet lists 14.8% alcohol and 18 months in French oak, with 55% new oak. Use these figures only for the 2021 vintage."]],
+  script:"If you’re looking for a substantial Napa Valley red to go with your steak, I’d recommend the 2021 Robert Craig Affinity. It’s Cabernet Sauvignon-led, with mountain-grown fruit that gives it extra depth and structure. You’ll find dark cassis, spice, lavender and a touch of tobacco and graphite. It’s especially good with our ribeye or New York strip.",
+  askQ:"Is this a Cabernet or a blend?",
+  askA:"It’s a Cabernet Sauvignon-based Bordeaux-style blend. Cabernet is the main grape, with smaller amounts of Merlot, Malbec and Petit Verdot. Those supporting grapes add layers of texture, fruit and complexity.",
+  check:[
+   ["What does AVA mean?","American Viticultural Area—a defined wine-growing region that identifies origin, not a quality ranking."],
+   ["Where does the 2021 fruit come from?","Primarily the winery’s mountain estate vineyards on Howell Mountain and Mount Veeder, supplemented by longtime Napa Valley grower partners."],
+   ["What grapes are in the official winery blend?","75% Cabernet Sauvignon, 18% Merlot, 4% Malbec and 3% Petit Verdot."],
+   ["How would you describe the style?","Full-bodied, dark-fruited, savory and structured, with a broad mouthfeel."]],
+  vintage:{year:"2021",head:"2021 vintage technical details",text:"Robert Craig’s official 2021 wine note lists the blend as 75% Cabernet Sauvignon, 18% Merlot, 4% Malbec and 3% Petit Verdot; 18 months in French oak (55% new); 14.8% alcohol; pH 3.72; and total acidity 6.0 g/L. The wine was bottled May 24–25, 2023, and 1,332 cases were produced. [1]"},
+  sources:[
+   "Robert Craig Winery, “2021 Affinity Cabernet Sauvignon” official wine note / technical sheet. robertcraigwine.com/wp-content/uploads/2024/02/2021_Affinity_Cabernet-Sauvignon_WineNote.pdf",
+   "Robert Craig Winery, Spring 2024 release notes. robertcraigwine.com/spring-2024-release-elton-slone/",
+   "Antonio Galloni, Vinous, December 2023 tasting note, reproduced in Robert Craig Winery’s 2021 review PDF."]}
 ];

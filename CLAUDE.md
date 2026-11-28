@@ -972,3 +972,14 @@ on the special's card, because it is stale by tomorrow.
   does NOT say the winery is named after the fog, so the spiel does not claim it. The site
   gives no pairing; the ribeye pairing comes from the server guide. Our list carries the
   2023, so no 2024-only tasting notes or figures went into the spiel.
+
+## 11/27 — Robert Craig Affinity 2021 bottle guide
+
+Evan sent page 3 only ("Service & Tableside Selling") of the Robert Craig Affinity 2021 handout.
+Second object in WINE_GUIDES (`robertcraig`), transcribed word for word from the photo: serving
+pointers, tableside script, "Cabernet or a blend?" answer (`askQ`/`askA`), knowledge check, 2021
+technical details, sources. The guide carries a `note` saying pages 1 and 2 are not in yet.
+- `wineGuide()` now skips any section a guide lacks, so partial handouts render. When pages 1
+  and 2 come, add `quick`, `story`, `region` (+ `regionHead`), `describe`, `pairings` as they appear.
+- The 2021 figures match the 2021 bottle on the list, but leave the wine card as is.
+- No Playwright browser in the cloud container; verified in jsdom. Run both suites on the Mac.

@@ -526,6 +526,13 @@ async def main():
         for cell in ["58–62°F","14.6% alcohol","2024 vintage only","ten Pinot Noir clones"]:
             if cell not in wg["txt"]: bad.append(f"Sea Smoke guide missing {cell}")
         if wg["links"]<1: bad.append("Sea Smoke card has no link to its guide")
+        # 11/27: Robert Craig Affinity guide from page 3 of its handout (pages 1 and 2 not sent yet)
+        rc=await pg.evaluate("(()=>{const d=document.getElementById('wg-robertcraig');return d?{open:d.open,txt:d.textContent}:null})()")
+        if not rc or rc["open"]: bad.append("Robert Craig guide missing or starts open")
+        else:
+            for cell in ["60–65°F","45–60 minutes","Cabernet or a blend","Howell Mountain","1,332 cases","Pages 1 and 2"]:
+                if cell not in rc["txt"]: bad.append(f"Robert Craig guide missing {cell}")
+        if wg["links"]<2: bad.append("Robert Craig card has no link to its guide")
         # spinalis split + manager cuts + salmon verify
         if not await pg.evaluate("SPECIALS_ON.some(s=>s[0]==='Spinalis Sunday'&&s[3]==='weekly feature')"):
             bad.append("Spinalis Sunday is not a weekly feature")

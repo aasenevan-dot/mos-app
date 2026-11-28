@@ -125,28 +125,26 @@ const BUDGETS=[["all","Any price"],["0-75","Under $75"],["75-125","$75–125"],[
    Top level because the card link uses inline onclick. */
 const wineGuideIdx=n=>(typeof WINE_GUIDES==="undefined")?-1:WINE_GUIDES.findIndex(g=>g.wine===n);
 function wineGuide(g){
-  const sub=t=>`<div class="wgh">${t}</div>`;
+  /* Every section is optional, so a guide built from only some pages of a handout still draws.
+     askQ/askA is the "If a guest asks" box (Sea Smoke keeps its older lighterQ/lighterA names). */
+  const sub=t=>`<div class="wgh">${t}</div>`, rows=a=>`<div class="cbody">${a.map(r=>`<div style="padding:3px 0"><b>${esc(r[0])}:</b> ${esc(r[1])}</div>`).join("")}</div>`;
+  const aQ=g.askQ||g.lighterQ, aA=g.askA||g.lighterA;
   return `<details class="acc" id="wg-${g.id}"><summary>${esc(g.title)}<span class="hint">${esc(g.sub)}</span></summary><div class="accbody">
-    ${sub("The 15-second guest description")}
-    <div class="pitch">&ldquo;${esc(g.quick)}&rdquo;</div>
-    ${sub("The story behind the wine")}<div class="cbody">${esc(g.story)}</div>
-    ${sub("Why the region matters: Sta. Rita Hills AVA")}<div class="cbody">${esc(g.region)}</div>
-    ${sub("How to describe the wine")}
-    <div class="cbody">${g.describe.map(r=>`<div style="padding:3px 0"><b>${esc(r[0])}:</b> ${esc(r[1])}</div>`).join("")}</div>
-    ${sub("Pairing it with the steakhouse menu")}
-    ${tbl(["Menu item","Why it works","How to recommend it"],g.pairings.map(r=>[`<b>${esc(r[0])}</b>`,esc(r[1]),`&ldquo;${esc(r[2])}&rdquo;`]))}
-    ${sub("Serving pointers")}
-    <div class="cbody">${g.serving.map(r=>`<div style="padding:3px 0"><b>${esc(r[0])}:</b> ${esc(r[1])}</div>`).join("")}</div>
-    ${sub("A simple tableside script")}
-    <div class="pitch">&ldquo;${esc(g.script)}&rdquo;</div>
-    ${sub(`If a guest asks: &ldquo;${esc(g.lighterQ)}&rdquo;`)}
-    <div class="pitch">&ldquo;${esc(g.lighterA)}&rdquo;</div>
-    ${sub("Quick knowledge check")}
-    <div class="cbody">${g.check.map(c=>`<div style="padding:3px 0"><b>${esc(c[0])}</b> ${esc(c[1])}</div>`).join("")}</div>
-    ${sub(`Vintage reference: ${esc(g.vintage.year)} only`)}
-    <div class="note gold">${esc(g.vintage.text)}</div>
-    ${sub("Sources")}
-    <div class="cbody" style="font-size:12px">${g.sources.map((x,i)=>`<div style="padding:2px 0">[${i+1}] ${esc(x)}</div>`).join("")}</div>
+    ${g.note?`<div class="note">${esc(g.note)}</div>`:""}
+    ${g.quick?`${sub("The 15-second guest description")}<div class="pitch">&ldquo;${esc(g.quick)}&rdquo;</div>`:""}
+    ${g.story?`${sub("The story behind the wine")}<div class="cbody">${esc(g.story)}</div>`:""}
+    ${g.region?`${sub(esc(g.regionHead||"Why the region matters: Sta. Rita Hills AVA"))}<div class="cbody">${esc(g.region)}</div>`:""}
+    ${g.describe?`${sub("How to describe the wine")}${rows(g.describe)}`:""}
+    ${g.pairings?`${sub("Pairing it with the steakhouse menu")}
+    ${tbl(["Menu item","Why it works","How to recommend it"],g.pairings.map(r=>[`<b>${esc(r[0])}</b>`,esc(r[1]),`&ldquo;${esc(r[2])}&rdquo;`]))}`:""}
+    ${g.serving?`${sub("Serving pointers")}${rows(g.serving)}`:""}
+    ${g.script?`${sub("A simple tableside script")}<div class="pitch">&ldquo;${esc(g.script)}&rdquo;</div>`:""}
+    ${aQ?`${sub(`If a guest asks: &ldquo;${esc(aQ)}&rdquo;`)}<div class="pitch">&ldquo;${esc(aA)}&rdquo;</div>`:""}
+    ${g.check?`${sub("Quick knowledge check")}
+    <div class="cbody">${g.check.map(c=>`<div style="padding:3px 0"><b>${esc(c[0])}</b> ${esc(c[1])}</div>`).join("")}</div>`:""}
+    ${g.vintage?`${sub(g.vintage.head?esc(g.vintage.head):`Vintage reference: ${esc(g.vintage.year)} only`)}<div class="note gold">${esc(g.vintage.text)}</div>`:""}
+    ${g.sources?`${sub("Sources")}
+    <div class="cbody" style="font-size:12px">${g.sources.map((x,i)=>`<div style="padding:2px 0">[${i+1}] ${esc(x)}</div>`).join("")}</div>`:""}
   </div></details>`;
 }
 function openWineGuide(i){
@@ -1038,9 +1036,9 @@ function search(q){
   FASTANSWERS.forEach(r=>{if(matches([r[0],r[1],r[2]]))add("Fast guest answer",r[0],r[1]+" — "+r[2],"wine");});
   REGIONS.forEach(r=>{if(matches([r[0],r[1],r[2]]))add("Wine region",r[0],r[1]+" — "+r[2],"wine");});
   if(typeof WINE_GUIDES!=="undefined")WINE_GUIDES.forEach((g,i)=>{
-    const body=[g.title,g.sub,g.wine,g.quick,g.story,g.region,g.script,g.lighterQ,g.lighterA,g.vintage.text,"server wine guide bottle guide training"]
-      .concat(g.describe.flat(),g.pairings.flat(),g.serving.flat(),g.check.flat());
-    if(matches(body))add("Bottle guide",g.title,g.quick,"wine","openWineGuide("+i+")");});
+    const body=[g.title,g.sub,g.wine,g.note,g.quick,g.story,g.region,g.script,g.lighterQ,g.lighterA,g.askQ,g.askA,g.vintage&&g.vintage.text,"server wine guide bottle guide training"]
+      .concat(...["describe","pairings","serving","check"].map(k=>(g[k]||[]).flat())).filter(Boolean);
+    if(matches(body))add("Bottle guide",g.title,g.quick||g.script||g.sub,"wine","openWineGuide("+i+")");});
   TEMPS.forEach(r=>{if(matches(["steak temperature doneness ribeye filet strip tomahawk porterhouse cut",r[0],r[1]]))add("Steak temp",r[0],r[1],"menu");});
   A5PITCH.forEach(t=>{if(matches(["A5 wagyu pitch",t]))add("A5 pitch","The A5 pitch",t,"menu");});
   DRESSINGS.forEach(t=>{if(matches(["salad dressing",t]))add("Dressing",t,"One of the 11 dressings — the house dressing is the vinaigrette.","menu");});

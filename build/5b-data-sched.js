@@ -110,6 +110,70 @@ const WEEKLY=[
 const OFFSITE_NOTE="Fellowship, food, and fun — bringing a church family and the community together over a shared meal. Want to serve one? Email or text Yaris at admin@prime47carmel.com or 317.703.4284.";
 
 const SCHEDULE={
+ week:"Week of 12/2 \u2013 12/8, 2026", year:2026, start:"2026-12-02",
+ days:[["12/2","We"],["12/3","Th"],["12/4","Fr"],["12/5","Sa"],["12/6","Su"],["12/7","Mo"],["12/8","Tu"]],
+ sections:[
+  ["Managers",[
+   ["Mike","1","2","1","3","","","4"],
+   ["CJ","","1","3","1","1","1",""]
+  ]],
+  ["BQTs",[
+   ["","","","","","","",""]
+  ]],
+  ["Fronts",[
+   ["Alexis","345","2","3 MGR","330","","","1 MGR"],
+   ["Chad","OFF","2","330","3 MGR","OFF","OFF","OFF"],
+   ["Hunter","OFF","OFF","330","330","OFF","OFF","345"],
+   ["Diana","345","330","330","RO","RO","RO",""],
+   ["MorganB","OFF","","330","330","3","345","OFF"],
+   ["Nathan","OFF","330","330 OS","330","OFF","345","345"],
+   ["Fabian","OFF","330","330","330","3","345","345"],
+   ["Alex","345","","330","330","3","OFF","345"]
+  ],["42","100","62","130","27","31","59"]],
+  ["Backs",[
+   ["Lupe","","","","","","",""],
+   ["Morgan W","345","330","330","330","3","","OFF"],
+   ["Evan","OFF","OFF","330 OS","330","","345","OFF"],
+   ["Meagan","OFF","330","330","330","","","345"],
+   ["D","OFF","OFF","330","330","3","OFF","OFF"],
+   ["Barbie","345","330","330","330","","OFF","345"],
+   ["Erin","345","","330 OS","330","OFF","345","OFF"],
+   ["Abby","OFF","330","330","330","OFF","OFF","345"],
+   ["Victoria","","330 FR Follow","330","330","","345","345 FR Follow"],
+   ["Josh","","330","330","330","3","","345"],
+   ["Sarah","","","","","","",""],
+   ["Evah","","","330","330","","",""]
+  ]],
+  ["Bar",[
+   ["Krista","3","2","3","5","","",""],
+   ["Christian","","3","4","3","3","3",""],
+   ["Jennea","OFF","OFF","5","4","","OFF","3"]
+  ]],
+  ["Cktail",[
+   ["Jenny","345 Front","330","330","330","","345",""],
+   ["Taylor","345","","330 Front","","3","OFF","345"]
+  ]],
+  ["Host",[
+   ["Mackenzie","4","330 Busser","4","12","","4 Busser",""],
+   ["Leila","RO","3","","4","4","4","4"],
+   ["Bella","4","430","OFF","5","","","5"],
+   ["Maria","","RO","5","RO","","4 Busser",""]
+  ]],
+  ["Expo",[
+   ["Jackson","345 Back","3","4","4","","4","4"],
+   ["Nick","4","3","5","430","4","",""]
+  ]],
+  ["Busser",[
+   ["Conner","4","","430","4","","","4"],
+   ["Dalton","OFF","","4","430","4","","OFF"],
+   ["Mikey","4","430","430","5","","",""],
+   ["LUCAS","OFF","OFF","OFF","OFF","OFF","OFF","OFF"]
+  ]]
+ ],
+ note:"Transcribed from the printed sheet (photo). The BQTs and Sales Goals rows are empty this week. CARTER and Bryson are off the sheet, so Expo is just Jackson and Nick. No new names. \u201cOS\u201d is a new tag this week (Nathan, Evan and Erin on Friday); \u201cMGR\u201d / \u201cFront\u201d / \u201cBack\u201d / \u201cBusser\u201d / \u201cFR Follow\u201d are tags kept as written. Mackenzie\u2019s Saturday cell is printed \u201c12\u201d. Jennea\u2019s Friday 5 and Nick\u2019s Sunday 4 sit at the right edge of their boxes. LUCAS is on the sheet but blacked out all week.", src:"schedule photo 12/2-12/8"
+};
+const SCHEDULE_HISTORY=[
+{
  week:"Week of 11/25 \u2013 12/1, 2026", year:2026, start:"2026-11-25",
  days:[["11/25","We"],["11/26","Th"],["11/27","Fr"],["11/28","Sa"],["11/29","Su"],["11/30","Mo"],["12/1","Tu"]],
  sections:[
@@ -173,8 +237,7 @@ const SCHEDULE={
   ]]
  ],
  note:"Transcribed from the printed sheet (photo). Thanksgiving week: Wednesday has a Lunch Banquet and Thursday is Thanksgiving, both in the BQTs row with no name; the \u201c930 Lunch\u201d cells are Wednesday\u2019s lunch. New names this week: Maria (Host) and Mikey (Busser). Nobody dropped off the sheet. \u201cMGR\u201d / \u201cFront\u201d / \u201cBusser\u201d / \u201cExpo\u201d / \u201cpolish/Bar\u201d / \u201cFR Follow\u201d are tags kept as written. Mackenzie\u2019s Sunday 4 is handwritten; Leila\u2019s Sunday cell has a handwritten mark that can\u2019t be read (shown as ?). Mackenzie\u2019s Saturday cell is printed \u201c12\u201d. Jennea\u2019s Friday 5 and Nick\u2019s Sunday 4 sit at the right edge of their boxes. CARTER, Bryson and LUCAS are on the sheet but blacked out all week.", src:"schedule photo 11/25-12/1"
-};
-const SCHEDULE_HISTORY=[
+},
 {
  week:"Week of 11/18 \u2013 11/24, 2026", year:2026, start:"2026-11-18",
  days:[["11/18","We"],["11/19","Th"],["11/20","Fr"],["11/21","Sa"],["11/22","Su"],["11/23","Mo"],["11/24","Tu"]],
